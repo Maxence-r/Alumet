@@ -21,35 +21,88 @@
     <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
     <meta name="twitter:image" content="https://i.imgur.com/WZO8U8s.png">
 
-    <link href="../style/dash.css" rel="stylesheet" type="text/css">
+    <link href="../style/dashboard.css" rel="stylesheet" type="text/css">
     <link href="../style/global.css" rel="stylesheet" type="text/css">
 
     <title>Alumet: Dashboard</title>
 </head>
 <body>
-    <div class="box">
-        <div class="logo">
-            <img class="logo-alumet" src="../assets/app/alumet.png" alt="logo d'Alumet">
-            <h1>Alumet</h1>
+    <div class="dots"></div>
+    <div class="gradient"></div>
+    <div class="menu">
+        <div class="menu-infos">
+            <img src="../assets/app/alumet.png" alt="Alumet Logo">
+            <h3>Alumet</h3>
         </div>
-        <div class="ligne"></div>
-        <div class="menu">
-            <button class="button-box" onclick=""><img class="maison"src="../assets/app/home.svg" alt="icone de l'accueil">Accueil</button>
-            <button class="button-box" onclick=""><img class="maison"src="../assets/app/files-manager.svg" alt="icone de l'accueil">File manager</button>
-            <button class="button-box" onclick=""><img class="maison"src="../assets/app/infos.svg" alt="icone de l'accueil">Infos</button>
-        </div>
-        <div class="account">
-            <img class="photo-profil" src="../assets/app/default.png" alt="photo de profil">
-            <div class="info-user">
-                <h1>Utilisateur</h1>
-                <p>Pro subcription</p>
+        <div class="divider"></div>
+        <div class="options">
+            <div id="acceuil" class="option">
+                <img src="../assets/app/home.svg" alt="Dashboard">
+                <h3>Accueil</h3>
             </div>
-            <img class="logout" src="../assets/app/logout.svg" alt="petite-flèche">
+            <div id="fileM" class="option">
+                <img src="../assets/app/files-manager.svg" alt="Dashboard">
+                <h3>Gestionnaire de fichiers</h3>
+            </div>
+            <div id="infos" class="option">
+                <img src="../assets/app/infos.svg" alt="Dashboard">
+                <h3>Informations</h3>
+            </div>
+        </div>
+        <div class="selector"></div>
+        <div class="user-infos">
+            <img class="user-avatar" src="../assets/app/default.png" alt="User">
+            <div class="user-infos-column">
+                <h3 id="username">Landry</h3>
+                <h4 id="status">Lifetime Premium User</h4>
+            </div>
+            <img class="logout" src="../assets/app/logout.svg" alt="Logout">
         </div>
     </div>
-    <div class="alumets">
-        <button class="create">Create new</button>
+    <section class="section alumets active-section">
+        <div class="under-section">
+            <h1 class="section-title">Alumets<button class="main-button">Crée un Alumet<img src="../assets/app/plus.svg"></button></h1>
+            <div class="alumet-container">
+                <div class="alumet">
+                    <div class="alumet-infos">
+                        <h3 class="alumet-title">Première 5 n°3 -- Citizenship and Virtual Worlds</h3>
+                        <h4 class="alumet-last-use">1h ago</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="under-section">
+            <h1 class="section-title">Archivées</h1>
+            <div class="alumet-container">
+                <div class="alumet">
+                    <div id="archived" class="alumet-infos">
+                        <h3 class="alumet-title">Première 5 n°3 -- Citizenship and Virtual Worlds</h3>
+                        <h4 class="alumet-last-use">1h ago</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="under-section">
+            <h1 class="section-title">Notifications</h1>
+            <div class="notifications-container">
+                <div class="notification">
+                    <div class="info"><img src="../assets/app/action.svg">Created a post</div>
+                    <div class="info"><img src="../assets/app/path.svg">Spé 2. From visionary Imagination To scar...</div>
+                    <div class="info"><img src="../assets/app/time.svg">1h ago</div>
+                    <div id="user" class="info"><img src="../assets/app/user.svg">Gabriel.L</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section file-manager">
+            
+    </section>
+    <section class="section informations">
+
+    </section>
+    <div class="open-menu">
+        <img src="../assets/app/open-menu.svg" alt="Menu">
     </div>
 </body>
-<script src="../script/dash.js"></script>
+<script src="../script/dashboard.js"></script>
 </html>

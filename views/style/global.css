@@ -20,6 +20,11 @@
     border: 2px solid transparent;
 }
 
+
+::-webkit-scrollbar {
+  height: 4px;              /* height of horizontal scrollbar ← You're missing this */
+  width: 4px;  
+}
 .button__text {
     display: flex;
     justify-content: center;
