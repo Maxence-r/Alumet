@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="../assets/public/alumet.ico" />
+
+    <meta name="description" content="Alumet, explorer d'une nouvelle façon.">
+    <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers">
+    <meta property="og:title" content="Alumet: Explorer d'une nouvelle façon.">
+    <meta property="og:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alumet.io">
+    <meta property="og:image" content="https://i.imgur.com/O9RdHj1.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:domain" content="alumet.io">
+    <meta name="twitter:url" content="https://alumet.io/">
+    <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes.">
+    <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
+    <meta name="twitter:image" content="https://i.imgur.com/O9RdHj1.png">
+
+    <link rel="stylesheet" href="../style/signup.css"/>
+    <link rel="stylesheet" type="text/css" href="../style/global.css">
+
+    <title>Alumet: Inscription</title>
+</head>
+<body>
+    <div class="header">
+        <img class="logo" src="../assets/app/alumet.png" alt="logo">
+        <h1 class="title">Alumet</h1>
+    </div>
+    <div class="positon">
+        <div class="signup">
+            <div class="first">
+                <div class="header-infos">
+                    <img class="warn" src="../assets/app/warning.svg" alt="warn">
+                    <h2 class="title-info">Merci de lire attentivement</h2>
+                </div>
+                <p class="infos-desc">Cette application a été créée comme projet de fin d'année de la classe NSI. Elle n'a été réalisée que en quelques mois (2 mois). Elle est réservée exclusivement aux professeurs, c'est pourquoi nous vous demanderons bientôt votre adresse email académique. Cette adresse servira uniquement à confirmer que vous êtes bien un professeur. Vous disposez d'un espace de stockage "illimité" sur l'application, cependant il est important de noter que nos serveurs ont une capacité limitée.</p>
+            </div>
+            <div class="second">
+                <div class="header-infos">
+                    <img class="warn" src="../assets/app/user.svg" alt="warn">
+                    <h2 class="title-info">Création de votre profil</h2>
+                </div>
+                <div class="f-column">
+                    <input id="nom" type="text" placeholder="Nom" required>
+                    <input id="prenom" type="text" placeholder="Prénom" required>
+                    <input id="mail" type="text" placeholder="Adresse email académique" required>
+                    <input id="mdp" type="password" placeholder="Mot de passe" required>
+                    <textarea id="large" class="input" type="text" placeholder="Pouvez vous nous laissez un message pour nous expliquer l’utilisation que vous allez faire de l’application..."></textarea>
+                </div>
+            </div>
+            <div class="third">
+                <div class="header-infos">
+                    <img class="warn" src="../assets/app/warning.svg" alt="warn">
+                    <h2 class="title-info">Tous est prêt ! Cependant...</h2>
+                </div>
+                <p class="infos-desc">Un email de confirmation vous sera envoyé sous 48h, a compter de celui vous devrez confirmé votre compte, ce processus permet de nous confirmé que vous êtes bien un professeur. Dans le cas contraire votre compte sera définitivement supprimé après un temps de 1 semaine. Vous pouvez vous connecter et commencer a utiliser alumet a l'aide du bouton ci dessous, votre classe n'attend que vous !</p>
+            </div>
+        </div>
+        <button class="continue" onclick="progress()">Continue<img class="continue-img" src="../assets/app/open.svg" ></button>
+    </div>
+
+    <div class="dots"></div>
+</body>
+<script src="../script/auth.js"></script>
+</html>

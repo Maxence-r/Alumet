@@ -1,0 +1,128 @@
+body {
+    margin: 20px;
+    background-color: #131313;
+    background-image: linear-gradient(180deg, rgba(19, 19, 19, 0)0%, rgba(19, 19, 19, 1)25%),
+                        url("../assets/app/dots.svg");
+    background-position: top;
+    height: calc(100vh - 40px);
+    display: flex;
+}
+
+
+.box {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    /* Note: backdrop-filter has minimal browser support */
+    border-radius: 10px;
+    flex-direction: column;
+    width: 20%;
+    height: 100%;
+    min-width: 300px;
+    padding-inline: 15px;
+    display: flex;
+}
+.logo {
+    height: 55px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.logo-alumet {
+    width: 20px;
+    height: 29px;
+}
+.logo > h1 {
+    width: 74px;
+    height: 28px;
+    margin-left: 10px;
+    margin: 0;
+    color: white;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: center;
+
+}
+.ligne {
+    background-color: #414141;
+    width: 100%;
+    height: 1px;
+    margin-bottom: 15px;
+}
+.button-box {
+    background: rgba(88, 88, 88, 0.5);
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    color: white;
+    align-items: center;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.maison  {
+    margin-right: 8px;
+}
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+
+
+
+.alumets {
+    display: flex;
+    flex-direction: column;
+    height: 60%;
+    width: 80%;
+    background-color: rgba(0, 0, 0, 0.3);
+    float: right;
+    margin: 20px;
+}
+.create {
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-left: auto;
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+
+.account {
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.info-user > h1 {
+    color: white;
+    font-size: 17px;
+    text-align: center;
+    margin: 0;
+}
+.logout {
+    margin-left: auto;
+}
+.info-user > p {
+    font-size: 12px;
+    margin-top: auto;
+    color: #D4D4D4;
+    font-weight: 400;
+}
+.info-user {
+    display: flex;
+    flex-direction: column;
+    color: white;
+}

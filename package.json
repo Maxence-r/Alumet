@@ -1,0 +1,34 @@
+{
+  "name": "alumet",
+  "version": "1.0.0",
+  "description": "The best way to manage your classes",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaxenceLearn/Alumet.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaxenceLearn/Alumet.git/issues"
+  },
+  "homepage": "https://github.com/MaxenceLearn/Alumet.git#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "json-web-token": "^3.2.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.0",
+    "mongoose-unique-validator": "^3.1.0",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^3.3.0",
+    "socket.io": "^4.6.0"
+  }
+}
