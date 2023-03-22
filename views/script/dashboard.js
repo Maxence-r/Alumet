@@ -24,34 +24,43 @@ document.querySelectorAll('.option').forEach(option => {
     })
 })
 
-const slider = document.querySelector('.alumet-container');
+const slider = document.querySelectorAll('.alumet-container');
 let isDown = false;
 let startX;
 let scrollLeft;
 
-slider.addEventListener('mousedown', (e) => {
+slider.forEach(slider => {
+    slider.addEventListener('mousedown', (e) => {
     isDown = true;
     startX = e.pageX - slider.offsetLeft;
     scrollLeft = slider.scrollLeft;
+    });
 });
-slider.addEventListener('mouseleave', () => {
+slider.forEach(slider => {
+    slider.addEventListener('mouseleave', () => {
     isDown = false;
+    });
 });
-slider.addEventListener('mouseup', () => {
+slider.forEach(slider => {
+    slider.addEventListener('mouseup', () => {
     isDown = false;
-
+    });
 });
-slider.addEventListener('mousemove', (e) => {
-    if(!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - slider.offsetLeft;
-    const walk = (x - startX) * 3; //scroll-fast
-    slider.scrollLeft = scrollLeft - walk;
+slider.forEach(slider => {
+    slider.addEventListener('mousemove', (e) => {
+        if(!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 3; //scroll-fast
+        slider.scrollLeft = scrollLeft - walk;
+    });
 });
 
-slider.addEventListener('mousewheel', (e) => {
-    e.preventDefault();
-    slider.scrollLeft += e.deltaY;
+slider.forEach(slider => {
+        slider.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        slider.scrollLeft += e.deltaY;
+    });
 });
 
 isOpen = false
@@ -66,3 +75,10 @@ document.querySelector('.open-menu').addEventListener('click', () => {
         document.querySelector('.open-menu > img').style.transform = 'rotate(0deg)'
     }
 })
+
+window.onload = () => {
+    document.querySelector('.loading-screen').classList.add('end-loading')
+    setTimeout(() => {
+        document.querySelector('.loading-screen').style.display = 'none'
+    }, 500)
+}
