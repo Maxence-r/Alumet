@@ -23,7 +23,7 @@
   <title>Alumet: Dashboard</title>
 </head>
 <body>
-  <div style="display: none;" class="loading-screen">
+  <div class="loading-screen">
     <div class="loading-infos">
       <img src="../assets/app/alumet.png" alt="Alumet Logo">
       <h3>Alumet</h3>
@@ -34,6 +34,9 @@
   </div>
   <div class="dots"></div>
   <div class="gradient"></div>
+
+  
+
   <div class="menu">
     <div class="menu-infos">
       <img src="../assets/app/alumet.png" alt="Alumet Logo">
@@ -63,60 +66,165 @@
   </div>
   <section class="section alumets active-section">
     <div id="alumet-setup" class="view-modal">
-        <h1 class="section-title">Crée un nouveau Alumet</h1>
+        <h1 class="section-title">Crée un nouveau Alumet <div id="close-modal-setup" class="action"><img src="../assets/app/close.svg" alt="Close"></div></h1>
+        <div class="setup-container">
+          <div class="step1 step">
+            <h2 class="setup-title">Commencons a crée un endroit magnifique</h2>
+            <h3 class="setup-description">Donner lui un nom</h3>
+            <input placeholder="Entrer un nom" class="setup-input">
+            <h3 class="setup-description">Quel usage allez vous en faire</h3>
+            <input placeholder="Ecriver une description" class="setup-input">
+          </div>
+          <div class="step2 step">
+            <h2 class="setup-title">Donnons lui un peu de style !</h2>
+            <button id="upload-alumet" class="setup-button">Charger un arrière plan<div class="action"><img src="../assets/app/upload.svg" alt="Upload"></div></button>
+            <input type="file" id="file" accept="image/png, image/gif, image/jpeg" style="display: none;">
+            <h3 class="setup-description">Aperçue</h3>
+            <img class="setup-preview" src="../assets/app/alumet_preview.png" alt="Preview">
+            <h3 class="setup-description">Thème du Alumet (Automatique)</h3>
+            <div class="option-selector">
+              <p id="white" class="selected">Blanc</p>
+              <p id="black">Noir</p>
+            </div>
+          </div>
+          <div class="step3 step">
+            <h2 class="setup-title">Les finitions</h2>
+            <h3 class="setup-description">Mot de passe<label class="switch"><input id="pssw" type="checkbox"><span class="slider round"></span></label></h3>
+            <input id="pssw-input" style="display: none;" placeholder="Entrer un mot de passe" class="setup-input">
+            <h3 class="setup-description">Police d'écriture</h3>
+            <div class="option-selector">
+              <p id="white" class="selected">Classique</p>
+            </div>
+            <h3 class="setup-description">Modules à activer</h3>
+            <div class="module-selector">
+              <div class="module">
+                <h1>Messagerie en direct</h1>
+                <label class="switch"><input id="dm" type="checkbox"><span class="slider round"></span></label>
+              </div>
+              <div class="module">
+                <h1>Devoirs</h1>
+                <label class="switch"><input id="hw" type="checkbox"><span class="slider round"></span></label>
+              </div>
+              <div class="module">
+                <h1>Flashcards</h1>
+                <label class="switch"><input id="fc" type="checkbox"><span class="slider round"></span></label>
+              </div>
+            </div>
+            <button id="1" class="setup-button">Continuer<div class="action"><img src="../assets/app/open.svg" alt="Continue"></div></button>
+          </div>
+      </div>
     </div>
-    <div class="under-section">
-      <h1 class="section-title">Alumets<button class="main-button">Crée un Alumet<img src="../assets/app/plus.svg" alt="plus"></button></h1>
-      <div class="alumet-container">
-        <div class="alumet">
-          <div class="alumet-infos">
-            <h3 class="alumet-title">Première 5 n°3 -- Citizenship and Virtual Worlds</h3>
-            <h4 class="alumet-last-use">1h ago</h4>
+    <h1 class="section-title">Alumets<button id="create-new-alumet" class="main-button">Crée un Alumet<img src="../assets/app/plus.svg" alt="plus"></button></h1>
+    <section class="scroll">
+      <div class="under-section">
+        <div class="alumet-container">
+          <div class="alumet">
+            <div class="alumet-infos">
+              <h3 class="alumet-title">Première 5 n°3 -- Citizenship and Virtual Worlds</h3>
+              <h4 class="alumet-last-use">1h ago</h4>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="under-section">
-      <h1 class="section-title">Archivées</h1>
-      <div class="alumet-container">
-        <div class="alumet">
-          <div id="archived" class="alumet-infos">
-            <h3 class="alumet-title">Première 5 n°3 -- Citizenship and Virtual Worlds</h3>
-            <h4 class="alumet-last-use">1h ago</h4>
+      <div class="under-section">
+        <h1 class="section-title">Archivées</h1>
+        <div class="alumet-container">
+          <div class="alumet">
+            <div id="archived" class="alumet-infos">
+              <h3 class="alumet-title">Première 5 n°3 -- Citizenship and Virtual Worlds</h3>
+              <h4 class="alumet-last-use">1h ago</h4>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="under-section">
-      <h1 class="section-title">Notifications</h1>
-      <div class="notifications-container">
-        <div class="notification">
-          <div class="info">
-            <img src="../assets/app/action.svg" alt="action">Created a post
+      <div class="under-section">
+        <h1 class="section-title">Notifications</h1>
+        <div class="notifications-container">
+          <div class="notification">
+            <div class="info">
+              <img src="../assets/app/action.svg" alt="action">Created a post
+            </div>
+            <div class="info responsive">
+              <img src="../assets/app/path.svg" alt="path">Spé 2. From visionary Imagination To scar...
+            </div>
+            <div class="info">
+              <img src="../assets/app/time.svg" alt="time">1h ago
+            </div>
+            <div id="user" class="info">
+              <img src="../assets/app/user.svg" alt="user">Gabriel.L
+            </div>
           </div>
-          <div class="info responsive">
-            <img src="../assets/app/path.svg" alt="path">Spé 2. From visionary Imagination To scar...
+          <div class="notification">
+            <div class="info">
+              <img src="../assets/app/action.svg" alt="action">Created a post
+            </div>
+            <div class="info responsive">
+              <img src="../assets/app/path.svg" alt="path">Spé 2. From visionary Imagination To scar...
+            </div>
+            <div class="info">
+              <img src="../assets/app/time.svg" alt="time">1h ago
+            </div>
+            <div id="user" class="info">
+              <img src="../assets/app/user.svg" alt="user">Gabriel.L
+            </div>
           </div>
-          <div class="info">
-            <img src="../assets/app/time.svg" alt="time">1h ago
+          <div class="notification">
+            <div class="info">
+              <img src="../assets/app/action.svg" alt="action">Created a post
+            </div>
+            <div class="info responsive">
+              <img src="../assets/app/path.svg" alt="path">Spé 2. From visionary Imagination To scar...
+            </div>
+            <div class="info">
+              <img src="../assets/app/time.svg" alt="time">1h ago
+            </div>
+            <div id="user" class="info">
+              <img src="../assets/app/user.svg" alt="user">Gabriel.L
+            </div>
           </div>
-          <div id="user" class="info">
-            <img src="../assets/app/user.svg" alt="user">Gabriel.L
+          <div class="notification">
+            <div class="info">
+              <img src="../assets/app/action.svg" alt="action">Created a post
+            </div>
+            <div class="info responsive">
+              <img src="../assets/app/path.svg" alt="path">Spé 2. From visionary Imagination To scar...
+            </div>
+            <div class="info">
+              <img src="../assets/app/time.svg" alt="time">1h ago
+            </div>
+            <div id="user" class="info">
+              <img src="../assets/app/user.svg" alt="user">Gabriel.L
+            </div>
           </div>
+          <div class="notification">
+            <div class="info">
+              <img src="../assets/app/action.svg" alt="action">Created a post
+            </div>
+            <div class="info responsive">
+              <img src="../assets/app/path.svg" alt="path">Spé 2. From visionary Imagination To scar...
+            </div>
+            <div class="info">
+              <img src="../assets/app/time.svg" alt="time">1h ago
+            </div>
+            <div id="user" class="info">
+              <img src="../assets/app/user.svg" alt="user">Gabriel.L
+            </div>
+          </div>
+
         </div>
       </div>
-    </div>
+    </section>
   </section>
   <section class="section file-manager">
-    <div class="view-modal">
+    <div id="file-viewer" class="view-modal">
         <div class="file-header">
             <h1 class="file-title"><img src="../assets/app/label.svg">I_am_goter_ipsum_dolor_horror_story.odt</h1>
             <div class="quick-actions">
                 <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
-                <div style="margin-right: 10px;" class="action"><img src="../assets/app/close.svg" alt="Close"></div>
+                <div id="close-file-viewer" style="margin-right: 10px;" class="action"><img src="../assets/app/close.svg" alt="Close"></div>
             </div>
         </div>
-        
+       <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=https://mathsciences.ac-versailles.fr/IMG/docx/chimie_1_cap_molecules.docx' width='1366px' height='623px' frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>
     </div>
     <h1 class="section-title">Vos fichiers<input placeholder="Chercher dans vos fichiers" class="main-input"><button class="main-button">Ajouter<img src="../assets/app/plus.svg" alt="plus"></button></h1>
     <div class="file-container">
@@ -130,7 +238,202 @@
         <div class="quick-actions">
           <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
           <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
-          <div class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+          <div class="action open-document"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div class="action  open-document"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+        </div>
+      </div>
+      <div class="file">
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label">keywords_tell_te_heart.pdf
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">1.22mb
+        </div>
+        <div class="quick-actions">
+          <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+          <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+          <div id="open-document" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
         </div>
       </div>
     </div>
@@ -140,5 +443,6 @@
   </section>
   <div class="open-menu"><img src="../assets/app/open-menu.svg" alt="Menu"></div>
   <script src="../script/dashboard.js"></script>
+  <script src="../script/interactions.js"></script>
 </body>
 </html>

@@ -82,3 +82,77 @@ window.onload = () => {
         document.querySelector('.loading-screen').style.display = 'none'
     }, 500)
 }
+
+document.getElementById('upload-alumet').addEventListener('click', () => {
+    document.getElementById('file').click()
+})
+
+document.getElementById('file').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        const img = new Image();
+        img.src = reader.result;
+
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            let brightness = 0;
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                const gray = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                brightness += gray;
+            }
+            brightness /= (data.length / 4);
+
+            if (brightness < 128) {
+                document.querySelectorAll('.option-selector > p').forEach(p => {
+                    p.classList.remove('selected')
+                })
+                document.querySelector('.option-selector > p:nth-child(2)').classList.add('selected')
+            } else {
+                document.querySelectorAll('.option-selector > p').forEach(p => {
+                    p.classList.remove('selected')
+                })
+                document.querySelector('.option-selector > p:nth-child(1)').classList.add('selected')
+            }
+
+            document.querySelector('.setup-preview').style.backgroundImage = `url('${reader.result}')`;
+        }
+    }
+
+    reader.readAsDataURL(file);
+});
+
+
+const checkbox = document.getElementById('pssw')
+
+checkbox.addEventListener('change', () => {
+  if (checkbox.checked) {
+    document.getElementById('pssw-input').style.display = 'flex'
+  } else {
+    document.getElementById('pssw-input').style.display = 'none'
+  }
+});
+
+fetch('/auths/info') 
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('username').innerHTML = data.nom + ' ' + data.prenom
+        document.getElementById('status').innerHTML = data.status
+    })  
+    .catch(err => console.log(err))
+
+document.querySelector('.logout').addEventListener('click', () => {
+    window.location.href = '/auths/logout'
+})

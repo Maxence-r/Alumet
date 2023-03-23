@@ -4,7 +4,7 @@ const path = require('path');
 const Account = require('../models/account');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { saltKey } = require('../config.json');
+const { tokenC } = require('../config.json');
 
 router.get('/signin', async (req, res) => {
     const filePath = path.join(__dirname, '../views/pages/signin.html');
@@ -16,9 +16,29 @@ router.get('/signup', async (req, res) => {
     res.sendFile(filePath);
 });
 
+router.get('/logout', async (req, res) => {
+    res.clearCookie('token').redirect('/');
+});
+
+router.get('/info', async (req, res) => {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ error: 'Utilisateur non connecté !' });
+    const decodedToken = jwt.verify(token, tokenC);
+    const userId = decodedToken.userId;
+    Account.findOne({ _id: userId })
+        .then(user => {
+            if (!user) return res.status(401).json({ error: 'Utilisateur non connecté !' });
+            res.status(200).json({
+                nom: user.nom,
+                prenom: user.prenom,
+                mail: user.mail,
+                status: user.status
+            });
+        })
+        .catch(error => res.status(500).json({ error }));
+});
 
 router.post('/signin', (req, res) => {
-    console.log(req.body);
     Account.findOne({
         mail: req.body.mail
     })
@@ -39,7 +59,7 @@ router.post('/signin', (req, res) => {
                         userId: user._id,
                         mail: user.mail
                     },
-                    'TOKEN', {
+                    tokenC, {
                         expiresIn: '24h'
                     }
                 )

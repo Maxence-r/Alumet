@@ -37,7 +37,7 @@ function progress() {
             }
         })
     } else {
-        window.location = "../pages/signin.html"
+        window.location = "../auths/signin"
     }
 }
 

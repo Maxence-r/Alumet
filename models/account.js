@@ -21,6 +21,11 @@ const AccountSchema = mongoose.Schema({
         required: true,
         default: "default"
     },
+    status: {
+        type: String,
+        required: true,
+        default: "Professeur"
+    },
 });
 
 

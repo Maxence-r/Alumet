@@ -19,7 +19,7 @@ document.getElementById('signin').addEventListener('click', () => {
             alert(data.error)
             document.getElementById('signin').classList.toggle('button--loading')
         } else {
-            window.location = "../pages/dashboard.html"
+            window.location = "../dashboard"
         }
     })
 })
