@@ -45,6 +45,11 @@ const AlumetSchema = mongoose.Schema({
         required: true,
         default: Date.now()
     },
+    archived: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 });
 
 const Alumet = mongoose.model("Alumet", AlumetSchema);

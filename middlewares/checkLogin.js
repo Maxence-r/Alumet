@@ -12,6 +12,7 @@ const checkLogin = (req, res, next) => {
                 req.logged = false;
                 next();
             }
+            req.user = user;
             req.logged = true;
             next();
         })

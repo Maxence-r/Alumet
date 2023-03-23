@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
 app.use('/dashboard', dashboard);
 app.use('/alumet', alumet);
 app.use('/auths', auth);
-app.use('/upload', uploader)
+app.use('/cdn', uploader)
 
 module.exports = app;
 
