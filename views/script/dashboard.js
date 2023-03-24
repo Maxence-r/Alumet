@@ -158,6 +158,7 @@ document.querySelector('.logout').addEventListener('click', () => {
 })
 
 document.querySelector('.file-drop').addEventListener('click', () => {
+    document.getElementById('file-input').value = '';
     document.getElementById('file-input').click()
 })
 let files = [];
@@ -188,3 +189,56 @@ function removeFile(name) {
     document.getElementById(name).remove();
 }
 
+document.getElementById('upload-files-b').addEventListener('click', () => {
+    if (files.length === 0) {
+        alert('Please select a file');
+        return;
+    }
+    document.querySelector('.upload-s-1').style.display = 'none'
+    document.querySelector('.upload-s-2').style.display = 'flex'
+    const formData = new FormData();
+    files.forEach(file => {
+        formData.append('files', file);
+    });
+    fetch('/cdn/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+            document.querySelector('.upload-s-2').style.display = 'none'
+            document.querySelector('.upload-s-1').style.display = 'flex'
+        } else {
+            document.querySelector('.upload-s-2').style.display = 'none'
+            document.querySelector('.upload-s-1').style.display = 'flex'
+            document.getElementById('close-modal-upload').click()
+        }
+    })
+    .catch(err => console.log(err));
+});
+
+fetch('/cdn/files')
+    .then(res => res.json())
+    .then(data => {
+        document.querySelector('.file-container').innerHTML = '';
+        data.uploads.forEach(file => {
+            fileDiv = document.createElement('div');
+            fileDiv.classList.add('file');
+            fileDiv.innerHTML = `
+            <div class="info">
+                <img src="../assets/app/label.svg" alt="label">${file.displayname}
+            </div>
+                <div class="info">
+            <img src="../assets/app/size.svg" alt="size">${file.filesize / 10000} MB
+                </div>
+            <div class="quick-actions">
+            <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+            <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+            <div onclick="openDocument('${file._id}')" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+            </div>`;
+            document.querySelector('.file-container').appendChild(fileDiv);
+        });
+    })
+    .catch(err => console.log(err));

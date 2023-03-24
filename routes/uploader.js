@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 });
 
 
-router.get('/:id', (req, res) => {
+router.get('/u/:id', (req, res) => {
     console.log(req.params.id);
     Upload.find( { _id: req.params.id } )
     .then(upload => {
@@ -41,7 +41,7 @@ router.post('/upload/guest', upload.array('files', 10), (req, res) => {
       const files = req.files.map(file => {
         return {
           fieldname: file.fieldname,
-          originalname: file.originalname,
+          displayname: file.displayname,
           encoding: file.encoding,
           mimetype: file.mimetype,
           filename: file.filename,
@@ -59,6 +59,16 @@ router.post('/upload/guest', upload.array('files', 10), (req, res) => {
 });
 
 
+router.get('/files', auth, (req, res) => {
+    if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
+    Upload.find( { owner: req.user.id } )
+    .then(uploads => {
+        res.json({ uploads });
+    })
+});
+
+
+
 const sanitizeFilename = (filename) => {
     return filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
 }
@@ -70,7 +80,7 @@ router.post('/upload', auth, accountUpload.array('files', 50), (req, res) => {
         const sanitizedFilename = sanitizeFilename(file.originalname);
         return {
           fieldname: file.fieldname,
-          originalname: sanitizedFilename,
+          displayname: sanitizedFilename,
           encoding: file.encoding,
           mimetype: file.mimetype,
           filename: file.filename,
@@ -80,7 +90,7 @@ router.post('/upload', auth, accountUpload.array('files', 50), (req, res) => {
       files.forEach(file => {
         const upload = new Upload({
             filename: file.filename,
-            originalname: file.originalname,
+            displayname: file.displayname,
             mimetype: file.mimetype,
             filesize: file.size,
             owner: req.user.id

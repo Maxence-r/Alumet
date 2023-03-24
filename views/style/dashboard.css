@@ -808,7 +808,7 @@ input:checked + .slider + .menu {
 }
 
 #file-uploader {
-    display: flex;
+    display: none;
     flex-direction: column;
     padding-inline: 20px;
     width: calc(100% - 480px);
@@ -820,6 +820,20 @@ input:checked + .slider + .menu {
     background-color: #161616;
 }
 
+.upload-s-1 {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 80px);
+}
+
+.upload-s-2 {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 80px);
+}
+
 .files {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -828,6 +842,30 @@ input:checked + .slider + .menu {
     gap: 10px;
     overflow-y: auto;
 }
+
+.loader-upload {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 30px;
+  }
+  
+  .loader-upload:before , .loader-upload:after{
+    content: '';
+    border-radius: 50%;
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3) inset;
+  }
+  .loader-upload:after {
+    box-shadow: 0 2px 0 #FF3D00 inset;
+    animation: rotate 1s linear infinite;
+  }
+  
+  @keyframes rotate {
+    0% {  transform: rotate(0)}
+    100% { transform: rotate(360deg)}
+  }
 
 @media screen and (max-width: 1200px) {
     .menu {
