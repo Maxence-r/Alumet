@@ -328,6 +328,8 @@ body {
     color: white;
     font-size: 14px;
     font-weight: 300;
+    overflow-wrap: anywhere;
+    min-width: 80px;
 }
 
 .info img {
@@ -657,6 +659,73 @@ iframe {
     transition: .4s;
   }
   
+.file-drop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    width: 100%;
+    border: 1px dashed #4A4A4A;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.footer-upload {
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.serveur {
+    padding: 5px;
+    background: #313131;
+    border-radius: 10px;
+}
+
+.infos-upload {
+    font-weight: 300;
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding-inline: 10px;
+    height: 50px;
+    background-color: #161616;
+    color: white;
+    border-radius: 5px;
+}
+
+#upload-files-b {
+    margin: 0;
+    width: 300px;
+}
+
+.file-drop > h3 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 300;
+    color: #818181;
+    margin: 0;
+}
+
+.file-drop > h3 > img {
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+}
+
+#file-input {
+    display: none;
+} 
 .slider:before {
     position: absolute;
     content: "";
@@ -738,6 +807,28 @@ input:checked + .slider + .menu {
     }
 }
 
+#file-uploader {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 20px;
+    width: calc(100% - 480px);
+    border: 1px solid #4A4A4A;
+    backdrop-filter: blur(20px);
+}
+
+.file-uplading-prev {
+    background-color: #161616;
+}
+
+.files {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
 @media screen and (max-width: 1200px) {
     .menu {
         position: absolute;
@@ -778,6 +869,11 @@ input:checked + .slider + .menu {
     #alumet-setup {
         padding-inline: 10px;
         width: calc(100% - 20px);
+        border: none;
+    }
+    #file-uploader {
+        width: calc(100% - 20px);
+        padding-inline: 10px;
         border: none;
     }
     .setup-container {

@@ -156,3 +156,35 @@ fetch('/auths/info')
 document.querySelector('.logout').addEventListener('click', () => {
     window.location.href = '/auths/logout'
 })
+
+document.querySelector('.file-drop').addEventListener('click', () => {
+    document.getElementById('file-input').click()
+})
+let files = [];
+document.getElementById('file-input').addEventListener('change', (e) => {
+    files = Array.from(e.target.files);
+    document.querySelector('.files').innerHTML = '';
+    files.forEach(file => {
+        let fileDiv = document.createElement('div');
+        fileDiv.setAttribute('id', file.name);
+        fileDiv.classList.add('file-uplading-prev', 'file');
+        fileDiv.innerHTML = `
+        <div class="info">
+          <img src="../assets/app/label.svg" alt="label"><span>${file.name}</span>
+        </div>
+        <div class="info">
+          <img src="../assets/app/size.svg" alt="size">${file.size / 1000} MB
+        </div>
+        <div class="quick-actions">
+            <div onclick="removeFile('${file.name}', '${files}')" class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+        </div>`;
+        document.querySelector('.files').appendChild(fileDiv);
+    });
+});
+
+function removeFile(name) {
+    console.log(name, files);
+    files = files.filter(file => file.name !== name);
+    document.getElementById(name).remove();
+}
+

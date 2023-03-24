@@ -14,3 +14,5 @@ function toHide(toget, tohide) {
 toHide('close-modal-setup', 'alumet-setup')
 toDisplay('create-new-alumet', 'alumet-setup')
 toHide('close-file-viewer', 'file-viewer')
+toDisplay('load-files', 'file-uploader')
+toHide('close-modal-upload', 'file-uploader')

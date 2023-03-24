@@ -226,7 +226,21 @@
         </div>
        <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=https://mathsciences.ac-versailles.fr/IMG/docx/chimie_1_cap_molecules.docx' width='1366px' height='623px' frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>
     </div>
-    <h1 class="section-title">Vos fichiers<input placeholder="Chercher dans vos fichiers" class="main-input"><button class="main-button">Ajouter<img src="../assets/app/plus.svg" alt="plus"></button></h1>
+    <div id="file-uploader" class="view-modal">
+      <h1 class="section-title">Charger de nouveaux fichiers<div id="close-modal-upload" class="action"><img src="../assets/app/close.svg" alt="Close"></div></h1>
+      <input id="file-input" type="file" name="file" multiple>
+      <div class="file-drop">
+        <h3>Cliquer ici pour charger des fichiers<img src="../assets/app/upload-box.svg"</h3>
+      </div>
+      <div class="files">
+
+      </div>
+      <div class="footer-upload">
+        <div class="infos-upload">Les fichiers vont être envoyés sur <span class="serveur">serveur-1-OracleParis</span></div>
+        <button id="upload-files-b" class="setup-button">Envoyez les fichers<div class="action"><img src="../assets/app/open.svg" alt="Continue"></div></button>
+      </div>
+    </div>
+    <h1 class="section-title">Vos fichiers<input placeholder="Chercher dans vos fichiers" class="main-input"><button id="load-files" class="main-button">Ajouter<img src="../assets/app/plus.svg" alt="plus"></button></h1>
     <div class="file-container">
       <div class="file">
         <div class="info">
