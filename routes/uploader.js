@@ -5,7 +5,7 @@ const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const auth = require('../middlewares/checkLogin');
 const Upload = require('../models/upload');
-
+const fs = require('fs');
 // Set storage engine
 const storage = multer.diskStorage({
     destination: './cdn',
@@ -16,7 +16,6 @@ const storage = multer.diskStorage({
 
 
 router.get('/u/:id', (req, res) => {
-    console.log(req.params.id);
     Upload.find( { _id: req.params.id } )
     .then(upload => {
         if (!upload) return res.status(404).json({ error: 'Upload not found' });
@@ -73,7 +72,7 @@ const sanitizeFilename = (filename) => {
     return filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
 }
   
-router.post('/upload', auth, accountUpload.array('files', 50), (req, res) => {
+router.post('/upload', auth, accountUpload.array('files', 5000), (req, res) => {
     if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
     if (req.files && req.files.length > 0) {
       const files = req.files.map(file => {
@@ -109,16 +108,6 @@ router.post('/upload', auth, accountUpload.array('files', 50), (req, res) => {
       }
     }
 });
-  
-router.get('/download/:id', auth, (req, res) => {
-    if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
-    Upload.find( { _id: req.params.id } )
-    .then(upload => {
-        if (!upload) return res.status(404).json({ error: 'Upload not found' });
-        res.sendFile("./cdn/" + upload[0].filename, {root: './'});
-    })
-    .catch(error => res.json({ error }));
-});
 
 router.get('/info/:id', auth, (req, res) => {
     if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
@@ -130,5 +119,27 @@ router.get('/info/:id', auth, (req, res) => {
     })
     .catch(error => res.json({ error }));
 });
+
+router.get('/delete/:id', auth, (req, res) => {
+    if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
+    Upload.find( { _id: req.params.id } )
+    .then(upload => {
+        if (!upload) return res.status(404).json({ error: 'Upload not found' });
+        if (upload[0].owner != req.user.id) return res.status(401).json({ error: 'Unauthorized' });
+        Upload.deleteOne( { _id: req.params.id } )
+        .then(() => 
+          res.json({ success: 'Upload deleted' }),
+          fs.unlink("./cdn/" + upload[0].filename, (err) => {
+            if (err) {
+              console.error(err)
+              return
+            }
+          })
+        )
+        .catch(error => res.json({ error }));
+    })
+    .catch(error => res.json({ error }));
+});
+
 
 module.exports = router;

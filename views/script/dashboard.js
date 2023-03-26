@@ -19,7 +19,6 @@ document.querySelectorAll('.option').forEach(option => {
             section.classList.remove('active-section')
         })
         let section = sectionReference[utility]
-        console.log(section)
         document.querySelector(`.${section}`).classList.add('active-section')
     })
 })
@@ -184,7 +183,6 @@ document.getElementById('file-input').addEventListener('change', (e) => {
 });
 
 function removeFile(name) {
-    console.log(name, files);
     files = files.filter(file => file.name !== name);
     document.getElementById(name).remove();
 }
@@ -204,7 +202,12 @@ document.getElementById('upload-files-b').addEventListener('click', () => {
         method: 'POST',
         body: formData
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return res.json();
+    })
     .then(data => {
         if (data.error) {
             alert(data.error);
@@ -214,35 +217,39 @@ document.getElementById('upload-files-b').addEventListener('click', () => {
             document.querySelector('.upload-s-2').style.display = 'none'
             document.querySelector('.upload-s-1').style.display = 'flex'
             document.getElementById('close-modal-upload').click()
+            getFiles();
         }
     })
     .catch(err => console.log(err));
 });
 
-fetch('/cdn/files')
-    .then(res => res.json())
-    .then(data => {
-        document.querySelector('.file-container').innerHTML = '';
-        data.uploads.forEach(file => {
-            fileDiv = document.createElement('div');
-            fileDiv.classList.add('file');
-            fileDiv.innerHTML = `
-            <div class="info">
-                <img src="../assets/app/label.svg" alt="label">${file.displayname}
-            </div>
-                <div class="info">
-            <img src="../assets/app/size.svg" alt="size">${file.filesize / 10000} MB
-                </div>
-            <div class="quick-actions">
-            <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
-            <div class="action"><img src="../assets/app/download.svg" alt="Download"></div>
-            <div onclick="openDocument('${file._id}')" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
-            </div>`;
-            document.querySelector('.file-container').appendChild(fileDiv);
-        });
-    })
-    .catch(err => console.log(err));
 
+function getFiles() {
+    fetch('/cdn/files')
+        .then(res => res.json())
+        .then(data => {
+            document.querySelector('.file-container').innerHTML = '';
+            data.uploads.forEach(file => {
+                fileDiv = document.createElement('div');
+                fileDiv.classList.add('file');
+                fileDiv.innerHTML = `
+                <div class="info">
+                    <img src="../assets/app/label.svg" alt="label">${file.displayname}
+                </div>
+                    <div class="info">
+                <img src="../assets/app/size.svg" alt="size">${file.filesize / 10000} MB
+                    </div>
+                <div class="quick-actions">
+                <div onclick="deleteFile('${file._id}')" class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+                <div onclick="downloadDocument('${file._id}')" class="action"><img src="../assets/app/download.svg" alt="Download"></div>
+                <div onclick="openDocument('${file._id}')" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
+                </div>`;
+                document.querySelector('.file-container').appendChild(fileDiv);
+            });
+        })
+        .catch(err => console.log(err));
+}
+getFiles();
 document.getElementById('search-input').addEventListener('input', (e) => {
     document.querySelectorAll('.file').forEach(file => {
         if (file.querySelector('.info').innerText.toLowerCase().includes(e.target.value.toLowerCase())) {
@@ -254,7 +261,7 @@ document.getElementById('search-input').addEventListener('input', (e) => {
 });
 
 const supported = {
-    'pdf': '<iframe src="?#toolbar=0&navpanes=0" frameBorder="0">?</iframe>',
+    'pdf': '<iframe src="*?#toolbar=0" frameBorder="0"></iframe>',
     'png': '<img class="image-view" src="*">',
     'jpg': '<img class="image-view" src="*">',
     'jpeg': '<img class="image-view" src="*">',
@@ -269,14 +276,13 @@ const supported = {
     'wav': '<audio class="audio-view" controls><source src="*" type="audio/wav"></audio>',
     'flac': '<audio class="audio-view" controls><source src="*" type="audio/flac"></audio>',
     'youtube': '<iframe src="https://www.youtube.com/embed/*" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
-    'pptx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'ppt': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'docx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'doc': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'xlsx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'xls': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'txt': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'csv': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'pptx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'ppt': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'docx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'doc': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'xlsx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'xls': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'csv': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
 }
 
 function openDocument(id) {
@@ -285,12 +291,10 @@ function openDocument(id) {
     fetch(`/cdn/info/${id}`)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             document.getElementById('delete-file').setAttribute('onclick', `deleteFile('${id}')`);
             document.querySelector('.file-title > span').innerHTML = data.response.displayname;
             document.getElementById('file-loading').style.display = 'none';
             if (supported[data.response.mimetype]) {
-                console.log(supported[data.response.mimetype]);
                 let x = supported[data.response.mimetype].replace('*', `/cdn/u/${id}#toolbar=0&navpanes=0`);
                 document.getElementById('file-viewer').innerHTML += x
             } else {
@@ -312,9 +316,16 @@ function closeViewer() {
 }
 
 function deleteFile(id) {
+    if (!confirm('Are you sure you want to delete this file?')) return;
     fetch(`/cdn/delete/${id}`)
         .then(res => res.json())
         .then(data => {
             closeViewer();
+            getFiles();
         })
+}
+
+
+function downloadDocument(id) {
+    window.open(`/cdn/u/${id}`, '_blank');
 }
