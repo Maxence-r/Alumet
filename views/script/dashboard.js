@@ -242,3 +242,79 @@ fetch('/cdn/files')
         });
     })
     .catch(err => console.log(err));
+
+document.getElementById('search-input').addEventListener('input', (e) => {
+    document.querySelectorAll('.file').forEach(file => {
+        if (file.querySelector('.info').innerText.toLowerCase().includes(e.target.value.toLowerCase())) {
+            file.style.display = 'flex';
+        } else {
+            file.style.display = 'none';
+        }
+    });
+});
+
+const supported = {
+    'pdf': '<iframe src="?#toolbar=0&navpanes=0" frameBorder="0">?</iframe>',
+    'png': '<img class="image-view" src="*">',
+    'jpg': '<img class="image-view" src="*">',
+    'jpeg': '<img class="image-view" src="*">',
+    'gif': '<img class="image-view" src="*">',
+    'apng': '<img class="image-view" src="*">',
+    'avif': '<img class="image-view" src="*">',
+    'webp': '<img class="image-view" src="*">',
+    'mp4': '<video class="video-view" controls><source src="*" type="video/mp4"></video>',
+    'webm': '<video class="video-view" controls><source src="*" type="video/webm"></video>',
+    'ogg': '<video class="video-view" controls><source src="*" type="video/ogg"></video>',
+    'mp3': '<audio class="audio-view" controls><source src="*" type="audio/mpeg"></audio>',
+    'wav': '<audio class="audio-view" controls><source src="*" type="audio/wav"></audio>',
+    'flac': '<audio class="audio-view" controls><source src="*" type="audio/flac"></audio>',
+    'youtube': '<iframe src="https://www.youtube.com/embed/*" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+    'pptx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'ppt': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'docx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'doc': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'xlsx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'xls': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'txt': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'csv': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+}
+
+function openDocument(id) {
+    document.getElementById('file-loading').style.display = 'flex';
+    document.getElementById('file-viewer').classList.add('isDisplayed');
+    fetch(`/cdn/info/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            document.getElementById('delete-file').setAttribute('onclick', `deleteFile('${id}')`);
+            document.querySelector('.file-title > span').innerHTML = data.response.displayname;
+            document.getElementById('file-loading').style.display = 'none';
+            if (supported[data.response.mimetype]) {
+                console.log(supported[data.response.mimetype]);
+                let x = supported[data.response.mimetype].replace('*', `/cdn/u/${id}#toolbar=0&navpanes=0`);
+                document.getElementById('file-viewer').innerHTML += x
+            } else {
+                document.getElementById('file-viewer').innerHTML += `<h1>File type not supported</h1>`;
+            }
+        })
+}
+
+function closeViewer() {
+    document.getElementById('file-viewer').classList.remove('isDisplayed');
+    const elementToRemoveAfter = document.getElementById("file-loading"); // replace "example" with the ID of the element after which you want to remove all elements
+
+    let nextElement = elementToRemoveAfter.nextElementSibling;
+    while (nextElement !== null) {
+    nextElement.remove();
+    nextElement = elementToRemoveAfter.nextElementSibling;
+    }
+
+}
+
+function deleteFile(id) {
+    fetch(`/cdn/delete/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            closeViewer();
+        })
+}

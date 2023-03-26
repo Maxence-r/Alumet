@@ -218,13 +218,13 @@
   <section class="section file-manager">
     <div id="file-viewer" class="view-modal">
         <div class="file-header">
-            <h1 class="file-title"><img src="../assets/app/label.svg">I_am_goter_ipsum_dolor_horror_story.odt</h1>
+            <h1 class="file-title"><img src="../assets/app/label.svg"><span>Loading...</span></h1>
             <div class="quick-actions">
-                <div class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
-                <div id="close-file-viewer" style="margin-right: 10px;" class="action"><img src="../assets/app/close.svg" alt="Close"></div>
+                <div id="delete-file" class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+                <div onclick="closeViewer()" id="close-viewer" style="margin-right: 10px;" class="action close-viewer"><img src="../assets/app/close.svg" alt="Close"></div>
             </div>
         </div>
-       <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=https://mathsciences.ac-versailles.fr/IMG/docx/chimie_1_cap_molecules.docx' width='1366px' height='623px' frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>
+        <span id="file-loading" class="loader-upload"></span>
     </div>
     <div id="file-uploader" class="view-modal">
       <h1 class="section-title">Charger de nouveaux fichiers<div id="close-modal-upload" class="action"><img src="../assets/app/close.svg" alt="Close"></div></h1>
@@ -246,7 +246,7 @@
         <div class="infos-upload">Les fichiers sont en cours d'envoie vers<span class="serveur">serveur-1-OracleParis</span></div>
       </div>
     </div>
-    <h1 class="section-title">Vos fichiers<input placeholder="Chercher dans vos fichiers" class="main-input"><button id="load-files" class="main-button">Ajouter<img src="../assets/app/plus.svg" alt="plus"></button></h1>
+    <h1 class="section-title">Vos fichiers<input id="search-input" placeholder="Chercher dans vos fichiers" class="main-input"><button id="load-files" class="main-button">Ajouter<img src="../assets/app/plus.svg" alt="plus"></button></h1>
     <div class="file-container">
      
       </div>

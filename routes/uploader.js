@@ -19,7 +19,6 @@ router.get('/u/:id', (req, res) => {
     console.log(req.params.id);
     Upload.find( { _id: req.params.id } )
     .then(upload => {
-        console.log(upload);
         if (!upload) return res.status(404).json({ error: 'Upload not found' });
         res.sendFile("./cdn/" + upload[0].filename, {root: './'});
     })
@@ -39,11 +38,12 @@ const accountUpload = multer({ storage: storage});
 router.post('/upload/guest', upload.array('files', 10), (req, res) => {
     if (req.files && req.files.length > 0) {
       const files = req.files.map(file => {
+        const ext = file.originalname.split('.').pop()
         return {
           fieldname: file.fieldname,
           displayname: file.displayname,
           encoding: file.encoding,
-          mimetype: file.mimetype,
+          mimetype: ext,
           filename: file.filename,
           size: file.size
         }
@@ -77,12 +77,13 @@ router.post('/upload', auth, accountUpload.array('files', 50), (req, res) => {
     if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
     if (req.files && req.files.length > 0) {
       const files = req.files.map(file => {
+        const ext = file.originalname.split('.').pop()
         const sanitizedFilename = sanitizeFilename(file.originalname);
         return {
           fieldname: file.fieldname,
           displayname: sanitizedFilename,
           encoding: file.encoding,
-          mimetype: file.mimetype,
+          mimetype: ext,
           filename: file.filename,
           size: file.size
         }
@@ -109,4 +110,25 @@ router.post('/upload', auth, accountUpload.array('files', 50), (req, res) => {
     }
 });
   
+router.get('/download/:id', auth, (req, res) => {
+    if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
+    Upload.find( { _id: req.params.id } )
+    .then(upload => {
+        if (!upload) return res.status(404).json({ error: 'Upload not found' });
+        res.sendFile("./cdn/" + upload[0].filename, {root: './'});
+    })
+    .catch(error => res.json({ error }));
+});
+
+router.get('/info/:id', auth, (req, res) => {
+    if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
+    Upload.find( { _id: req.params.id } )
+    .then(upload => {
+        if (!upload) return res.status(404).json({ error: 'Upload not found' });
+        response = upload[0];
+        res.json({ response });
+    })
+    .catch(error => res.json({ error }));
+});
+
 module.exports = router;

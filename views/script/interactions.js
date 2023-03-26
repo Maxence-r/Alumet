@@ -6,6 +6,7 @@ function toDisplay(toget, toshow) {
 
 function toHide(toget, tohide) {
     document.getElementById(toget).addEventListener('click', () => {
+        console.log(toget, tohide)
         document.getElementById(tohide).classList.remove('isDisplayed')
         document.getElementById(tohide).style.display = 'none'
     })
@@ -13,6 +14,5 @@ function toHide(toget, tohide) {
 
 toHide('close-modal-setup', 'alumet-setup')
 toDisplay('create-new-alumet', 'alumet-setup')
-toHide('close-file-viewer', 'file-viewer')
 toDisplay('load-files', 'file-uploader')
 toHide('close-modal-upload', 'file-uploader')
