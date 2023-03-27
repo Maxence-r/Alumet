@@ -213,11 +213,17 @@ document.getElementById('upload-files-b').addEventListener('click', () => {
             alert(data.error);
             document.querySelector('.upload-s-2').style.display = 'none'
             document.querySelector('.upload-s-1').style.display = 'flex'
+            document.getElementById('file-input').value = '';
+            files = [];
+            document.querySelector('.files').innerHTML = '';
+
         } else {
             document.querySelector('.upload-s-2').style.display = 'none'
             document.querySelector('.upload-s-1').style.display = 'flex'
             document.getElementById('close-modal-upload').click()
             getFiles();
+            files = [];
+            document.querySelector('.files').innerHTML = '';
         }
     })
     .catch(err => console.log(err));
@@ -271,12 +277,13 @@ const supported = {
     'webp': '<img class="image-view" src="*">',
     'mp4': '<video class="video-view" controls><source src="*" type="video/mp4"></video>',
     'webm': '<video class="video-view" controls><source src="*" type="video/webm"></video>',
-    'ogg': '<video class="video-view" controls><source src="*" type="video/ogg"></video>',
+    'ogg': '<audio class="audio-view" controls><source src="*" type="audio/ogg"></audio>',
     'mp3': '<audio class="audio-view" controls><source src="*" type="audio/mpeg"></audio>',
     'wav': '<audio class="audio-view" controls><source src="*" type="audio/wav"></audio>',
     'flac': '<audio class="audio-view" controls><source src="*" type="audio/flac"></audio>',
     'youtube': '<iframe src="https://www.youtube.com/embed/*" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
     'pptx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
+    'odt': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
     'ppt': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
     'docx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
     'doc': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
@@ -298,7 +305,7 @@ function openDocument(id) {
                 let x = supported[data.response.mimetype].replace('*', `/cdn/u/${id}#toolbar=0&navpanes=0`);
                 document.getElementById('file-viewer').innerHTML += x
             } else {
-                document.getElementById('file-viewer').innerHTML += `<h1>File type not supported</h1>`;
+                document.getElementById('file-viewer').innerHTML += `<div class="not-supported"><img src="./assets/app/uto.svg"><h3>Impossible d'ouvrir ce fichier, tentez de le télécharger</h3></div>`;
             }
         })
 }
