@@ -187,6 +187,14 @@ function removeFile(name) {
     document.getElementById(name).remove();
 }
 
+function resetFiles() {
+    document.querySelector('.upload-s-2').style.display = 'none'
+    document.querySelector('.upload-s-1').style.display = 'flex'
+    document.getElementById('file-input').value = '';
+    files = [];
+    document.querySelector('.files').innerHTML = '';
+}
+
 document.getElementById('upload-files-b').addEventListener('click', () => {
     if (files.length === 0) {
         alert('Please select a file');
@@ -211,23 +219,19 @@ document.getElementById('upload-files-b').addEventListener('click', () => {
     .then(data => {
         if (data.error) {
             alert(data.error);
-            document.querySelector('.upload-s-2').style.display = 'none'
-            document.querySelector('.upload-s-1').style.display = 'flex'
-            document.getElementById('file-input').value = '';
-            files = [];
-            document.querySelector('.files').innerHTML = '';
-
+            resetFiles();
         } else {
-            document.querySelector('.upload-s-2').style.display = 'none'
-            document.querySelector('.upload-s-1').style.display = 'flex'
             document.getElementById('close-modal-upload').click()
             getFiles();
-            files = [];
-            document.querySelector('.files').innerHTML = '';
+            resetFiles();
         }
     })
-    .catch(err => console.log(err));
+    .catch(() => {
+        alert('Impossible d\'envoyez vos fichiers, assurez vous que vous envoyez moins de 50 fichiers. Si le problème persite, les administrateurs seront prévenus.');
+        resetFiles();
+    });
 });
+
 
 
 function getFiles() {
@@ -247,6 +251,7 @@ function getFiles() {
                     </div>
                 <div class="quick-actions">
                 <div onclick="deleteFile('${file._id}')" class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+                <div onclick="editDocument('${file._id}')" class="action"><img src="../assets/app/edit.svg" alt="Edit name"></div>
                 <div onclick="downloadDocument('${file._id}')" class="action"><img src="../assets/app/download.svg" alt="Download"></div>
                 <div onclick="openDocument('${file._id}')" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
                 </div>`;
@@ -281,7 +286,6 @@ const supported = {
     'mp3': '<audio class="audio-view" controls><source src="*" type="audio/mpeg"></audio>',
     'wav': '<audio class="audio-view" controls><source src="*" type="audio/wav"></audio>',
     'flac': '<audio class="audio-view" controls><source src="*" type="audio/flac"></audio>',
-    'youtube': '<iframe src="https://www.youtube.com/embed/*" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
     'pptx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
     'odt': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
     'ods': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
@@ -291,7 +295,6 @@ const supported = {
     'doc': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
     'xlsx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
     'xls': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'csv': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
 }
 
 function openDocument(id) {
@@ -337,4 +340,45 @@ function deleteFile(id) {
 
 function downloadDocument(id) {
     window.open(`/cdn/u/${id}`, '_blank');
+}
+
+let step = 0;
+document.getElementById('alumet-setup-continue').addEventListener('click', () => {
+    switch (step) {
+        case 0:
+            document.querySelector('.step1').style.display = 'none';
+            document.querySelector('.step2').style.display = 'flex';
+            break;
+        case 1:
+            document.querySelector('.step2').style.display = 'none';
+            document.querySelector('.step3').style.display = 'flex';
+            break;
+        case 2:
+            document.querySelector('.step3').style.display = 'none';
+            document.getElementById('new-alumet-loading').style.display = 'flex';
+            document.getElementById('alumet-setup-continue').style.display = 'none';
+            document.getElementById('new-alumet-tracker').style.display = 'flex';
+            break;
+    }
+    step++;
+    console.log(step);
+})
+
+function editDocument(id) {
+   let newname = prompt('Nouveau nom');
+    if (!newname) return;
+    fetch(`/cdn/update/${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            displayname: newname
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) return alert(data.error);
+        getFiles();
+    })
 }

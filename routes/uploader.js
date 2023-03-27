@@ -14,7 +14,6 @@ const storage = multer.diskStorage({
     }
 });
 
-
 router.get('/u/:id', (req, res) => {
     Upload.find( { _id: req.params.id } )
     .then(upload => {
@@ -24,23 +23,33 @@ router.get('/u/:id', (req, res) => {
     .catch(error => res.json({ error }));
 });
 
-// Initialize multer upload object
+const sanitizeFilename = (filename) => {
+  return filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
+}
+
 const upload = multer({ 
     storage: storage, 
     limits: {
-      fileSize: 50 * 1024 * 1024 
+      fileSize: 50 * 1024 * 1024,
+      files: 10
     }
 });
   
-const accountUpload = multer({ storage: storage});
+const accountUpload = multer({ 
+  storage: storage, 
+  limits: {
+    files: 50
+  }
+});
 
-router.post('/upload/guest', upload.array('files', 10), (req, res) => {
+router.post('/upload/guest', upload.array('files'), (req, res) => {
     if (req.files && req.files.length > 0) {
       const files = req.files.map(file => {
         const ext = file.originalname.split('.').pop()
+        const sanitizedFilename = sanitizeFilename(file.originalname);
         return {
           fieldname: file.fieldname,
-          displayname: file.displayname,
+          displayname: sanitizedFilename,
           encoding: file.encoding,
           mimetype: ext,
           filename: file.filename,
@@ -58,9 +67,33 @@ router.post('/upload/guest', upload.array('files', 10), (req, res) => {
 });
 
 
+router.patch('/update/:id', auth, (req, res) => {
+  if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
+  if (!req.body.displayname) return res.status(400).json({ error: 'Veuillez spéficier un nouveau nom' });
+  if (req.body.displayname.length > 100) return res.status(400).json({ error: 'Nom trop long' });
+  Upload.find( { _id: req.params.id } )
+    .then(upload => {
+        if (!upload) return res.status(404).json({ error: 'Upload not found' });
+        upload[0].displayname = sanitizeFilename(req.body.displayname)+ "." + upload[0].mimetype;
+        upload[0].save()
+            .then(() => res.json({ upload }))
+            .catch(error => {
+              console.error(error);
+              res.status(500).json({ error });
+            });
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).json({ error });
+    });
+});
+
+
+
+
 router.get('/files', auth, (req, res) => {
     if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
-    Upload.find( { owner: req.user.id } )
+    Upload.find( { owner: req.user.id } ).sort({ date: -1 })
     .then(uploads => {
         res.json({ uploads });
     })
@@ -68,11 +101,9 @@ router.get('/files', auth, (req, res) => {
 
 
 
-const sanitizeFilename = (filename) => {
-    return filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
-}
+
   
-router.post('/upload', auth, accountUpload.array('files', 5000), (req, res) => {
+router.post('/upload', auth, accountUpload.array('files'), (req, res) => {
     if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
     if (req.files && req.files.length > 0) {
       const files = req.files.map(file => {
@@ -102,15 +133,14 @@ router.post('/upload', auth, accountUpload.array('files', 5000), (req, res) => {
       res.json({ files: files })
     } else {
       if (req.fileValidationError) {
-        res.status(400).json({ error: req.fileValidationError })
+        res.status(400).json({ error: "Erreur inconnue: Trop de fichiers"})
       } else {
         res.status(400).json({ error: 'Please select at least one file to upload' })
       }
     }
 });
 
-router.get('/info/:id', auth, (req, res) => {
-    if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
+router.get('/info/:id', (req, res) => {
     Upload.find( { _id: req.params.id } )
     .then(upload => {
         if (!upload) return res.status(404).json({ error: 'Upload not found' });

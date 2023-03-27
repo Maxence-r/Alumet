@@ -634,17 +634,21 @@ iframe {
 }
 
 .step {
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
 .step2 {
+    flex-direction: column;
+    gap: 10px;
     display: none;
 }
 
 .step3 {
-    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    display: none;
 }
 
 .switch {
@@ -693,6 +697,23 @@ iframe {
     justify-content: flex-end;
     gap: 10px;
     margin-bottom: 20px;
+}
+
+#new-alumet-loading {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    display: none;
+}
+
+.setup-tracker {
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 18px;
+    font-weight: 300;
+    color: rgb(185, 185, 185);
+    margin-top: 20px;
 }
 
 .serveur {
