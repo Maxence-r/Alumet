@@ -75,14 +75,15 @@
           <div class="step1 step">
             <h2 class="setup-title">Commencons a crée un endroit magnifique</h2>
             <h3 class="setup-description">Donner lui un nom</h3>
-            <input placeholder="Entrer un nom" class="setup-input">
+            <input id="alumet-name" placeholder="Entrer un nom" class="setup-input">
             <h3 class="setup-description">Quel usage allez vous en faire</h3>
-            <input placeholder="Ecriver une description" class="setup-input">
+            <input id="alumet-description" placeholder="Ecriver une description" class="setup-input">
           </div>
           <div class="step2 step">
             <h2 class="setup-title">Donnons lui un peu de style !</h2>
             <button id="upload-alumet" class="setup-button">Charger un arrière plan<div class="action"><img src="../assets/app/upload.svg" alt="Upload"></div></button>
-            <input type="file" id="file" accept="image/png, image/gif, image/jpeg" style="display: none;">
+            <button id="template-alumet" class="setup-button">Choisir parmis les modèles<div class="action"><img src="../assets/app/paint.svg" alt="Template"></div></button>
+            <input type="file" id="file-background" accept="image/png, image/gif, image/jpeg" style="display: none;">
             <h3 class="setup-description">Aperçue</h3>
             <img class="setup-preview" src="../assets/app/alumet_preview.png" alt="Preview">
             <h3 class="setup-description">Thème du Alumet (Automatique)</h3>

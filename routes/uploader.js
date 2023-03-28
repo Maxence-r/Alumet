@@ -104,6 +104,7 @@ router.get('/files', auth, (req, res) => {
 
   
 router.post('/upload', auth, accountUpload.array('files'), (req, res) => {
+  console.log(req.body);
     if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
     if (req.files && req.files.length > 0) {
       const files = req.files.map(file => {

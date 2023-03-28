@@ -1,7 +1,7 @@
 const translateReference = {
     'acceuil': -198,
-    'fileM': -150,
-    'infos': -94,
+    'fileM': -148,
+    'infos': -96,
     'parametres': -46
 }
 
@@ -85,10 +85,10 @@ window.onload = () => {
 }
 
 document.getElementById('upload-alumet').addEventListener('click', () => {
-    document.getElementById('file').click()
+    document.getElementById('file-background').click()
 })
 
-document.getElementById('file').addEventListener('change', (e) => {
+document.getElementById('file-background').addEventListener('change', (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
 
@@ -115,17 +115,18 @@ document.getElementById('file').addEventListener('change', (e) => {
                 brightness += gray;
             }
             brightness /= (data.length / 4);
-
             if (brightness < 128) {
-                document.querySelectorAll('.option-selector > p').forEach(p => {
-                    p.classList.remove('selected')
-                })
-                document.querySelector('.option-selector > p:nth-child(2)').classList.add('selected')
-            } else {
+                localStorage.setItem('theme', 'dark')
                 document.querySelectorAll('.option-selector > p').forEach(p => {
                     p.classList.remove('selected')
                 })
                 document.querySelector('.option-selector > p:nth-child(1)').classList.add('selected')
+            } else {
+                localStorage.setItem('theme', 'light')
+                document.querySelectorAll('.option-selector > p').forEach(p => {
+                    p.classList.remove('selected')
+                })
+                document.querySelector('.option-selector > p:nth-child(2)').classList.add('selected')
             }
 
             document.querySelector('.setup-preview').style.backgroundImage = `url('${reader.result}')`;
@@ -348,27 +349,59 @@ function downloadDocument(id) {
     window.open(`/cdn/u/${id}`, '_blank');
 }
 
-let step = 0;
+let activeStep = 1;
+let requestBody = {
+    modules: []
+};
+
 document.getElementById('alumet-setup-continue').addEventListener('click', () => {
-    switch (step) {
-        case 0:
-            document.querySelector('.step1').style.display = 'none';
-            document.querySelector('.step2').style.display = 'flex';
-            break;
+    switch (activeStep) {
         case 1:
-            document.querySelector('.step2').style.display = 'none';
-            document.querySelector('.step3').style.display = 'flex';
+            if (document.getElementById('alumet-name').value.length < 1) {
+                return alert('Veuillez entrer un nom');
+            } else {
+                document.querySelector('.step1').style.display = 'none';
+                document.querySelector('.step2').style.display = 'flex';
+                requestBody.name = document.getElementById('alumet-name').value;
+                requestBody.description = document.getElementById('alumet-description').value;
+                activeStep++;
+            }
             break;
         case 2:
+            if (document.getElementById('file-background').files.length < 1) {
+                return alert('Veuillez choisir un fond');
+            } else {
+                document.querySelector('.step2').style.display = 'none';
+                document.querySelector('.step3').style.display = 'flex';
+                requestBody.background = document.getElementById('file-background').files[0];
+                activeStep++;
+            }
+            break;
+        case 3:
+            if (document.getElementById('pssw').checked) {
+                requestBody.password = document.getElementById('pssw-input').value;
+            }
+            document.getElementById('dm').checked ? requestBody.modules.push('dm') : null;
+            document.getElementById('hw').checked ? requestBody.modules.push('hw') : null;
+            document.getElementById('fc').checked ? requestBody.modules.push('fc') : null;
             document.querySelector('.step3').style.display = 'none';
             document.getElementById('new-alumet-loading').style.display = 'flex';
-            document.getElementById('alumet-setup-continue').style.display = 'none';
             document.getElementById('new-alumet-tracker').style.display = 'flex';
+            document.getElementById('alumet-setup-continue').style.display = 'none';
+            fetch('/alumet/new', {
+                method: 'POST',
+                body: requestBody
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                });
             break;
     }
-    step++;
-    console.log(step);
 })
+
+
+
 
 function editDocument(id) {
    let newname = prompt('Nouveau nom');

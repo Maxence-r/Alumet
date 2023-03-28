@@ -6,6 +6,11 @@ const AlumetSchema = mongoose.Schema({
         required: true,
         minLength: 2
     },
+    owner: {
+        type: String,
+        required: true,
+        minLength: 1
+    },
     description: {
         type: String,
         default: "Un endroit, pour tous !"
@@ -28,7 +33,6 @@ const AlumetSchema = mongoose.Schema({
     background: {
         type: String,
         required: true,
-        default: "../assets/public/official-background.png"
     },
     theme: {
         type: String,
