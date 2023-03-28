@@ -5,25 +5,22 @@
     scrollbar-color: #656565 transparent;
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
-
 *::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 *::-webkit-scrollbar-track {
-    background: transparent;
+  background: transparent;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: #656565;
-    border-radius: 8px;
-    border: 2px solid transparent;
+  background-color: #656565;
+  border-radius: 8px;
+  border: 2px solid transparent;
 }
-
-
 ::-webkit-scrollbar {
-  height: 4px;              /* height of horizontal scrollbar ← You're missing this */
-  width: 4px;  
+height: 4px;              /* height of horizontal scrollbar ← You're missing this */
+width: 4px;  
 }
 .button__text {
     display: flex;

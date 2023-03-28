@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const { tokenC } = require('../config.json');
 
 router.get('/signin', async (req, res) => {
+    if (req.cookies.token) return res.redirect('/dashboard');
     const filePath = path.join(__dirname, '../views/pages/signin.html');
     res.sendFile(filePath);
 });

@@ -102,7 +102,7 @@ body {
     background: rgba(88, 88, 88, 0.5);
     box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    transform: translateY(-147px);
+    transform: translateY(-198px);
     transition: transform 0.3s ease-in-out;
 }
 
@@ -126,21 +126,21 @@ body {
 
 .user-infos-column h3 {
     font-weight: 400;
-    font-size: 20px;
+    font-size: 18px;
     color: white;
     font-weight: 400;
     margin: 0;
 }
 
 .user-infos-column h4 {
-    font-size: 15px;
+    font-size: 12px;
     color: #939393;
     font-weight: 400;
     margin: 0;
 }
 
 .logout {
-    width: 22px;
+    width: 20px;
     margin-left: auto;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
@@ -169,7 +169,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .informations {
@@ -317,7 +317,7 @@ body {
 }
 
 .scroll {
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .info {

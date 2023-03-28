@@ -1,13 +1,15 @@
 const translateReference = {
-    'acceuil': -147,
-    'fileM': -97,
-    'infos': -46
+    'acceuil': -198,
+    'fileM': -150,
+    'infos': -94,
+    'parametres': -46
 }
 
 const sectionReference = {
     'acceuil': 'alumets',
     'fileM': 'file-manager',
-    'infos': 'informations'
+    'infos': 'informations',
+    'parametres': 'parametres'
 }
 
 document.querySelectorAll('.option').forEach(option => {
@@ -237,7 +239,10 @@ document.getElementById('upload-files-b').addEventListener('click', () => {
 function getFiles() {
     fetch('/cdn/files')
         .then(res => res.json())
-        .then(data => {
+        .then(data => { 
+            if (data.uploads.length == 0) {  
+                document.querySelector('.file-container').innerHTML = '<div class="not-supported"><img src="./assets/app/uto.svg"><h3>Vos fichiers seront affichés ici</h3></div>'; 
+            } else {
             document.querySelector('.file-container').innerHTML = '';
             data.uploads.forEach(file => {
                 fileDiv = document.createElement('div');
@@ -257,6 +262,7 @@ function getFiles() {
                 </div>`;
                 document.querySelector('.file-container').appendChild(fileDiv);
             });
+        }
         })
         .catch(err => console.log(err));
 }
