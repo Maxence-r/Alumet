@@ -73,6 +73,7 @@ router.patch('/update/:id', auth, (req, res) => {
   if (req.body.displayname.length > 100) return res.status(400).json({ error: 'Nom trop long' });
   Upload.find( { _id: req.params.id } )
     .then(upload => {
+        if (upload[0].modifiable == false) return res.status(401).json({ error: 'Ce fichiers est utilisé par un de vos Alumets, impossible de le modifié' });
         if (!upload) return res.status(404).json({ error: 'Upload not found' });
         upload[0].displayname = sanitizeFilename(req.body.displayname)+ "." + upload[0].mimetype;
         upload[0].save()
@@ -155,6 +156,7 @@ router.get('/delete/:id', auth, (req, res) => {
     if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
     Upload.find( { _id: req.params.id } )
     .then(upload => {
+        if (upload[0].modifiable == false) return res.status(401).json({ error: 'Ce fichiers est utilisé par un de vos Alumets, impossible de le supprimé' });
         if (!upload) return res.status(404).json({ error: 'Upload not found' });
         if (upload[0].owner != req.user.id) return res.status(401).json({ error: 'Unauthorized' });
         Upload.deleteOne( { _id: req.params.id } )

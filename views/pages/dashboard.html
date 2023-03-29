@@ -20,6 +20,7 @@
   <meta name="twitter:image" content="https://i.imgur.com/WZO8U8s.png">
   <link href="../style/dashboard.css" rel="stylesheet" type="text/css">
   <link href="../style/global.css" rel="stylesheet" type="text/css">
+  <link rel="manifest" href="../assets/public/manifest.json" />
   <title>Alumet: Dashboard</title>
 </head>
 <body>
@@ -123,25 +124,15 @@
     </div>
     <h1 class="section-title">Alumets<button id="create-new-alumet" class="main-button">Crée un Alumet<img src="../assets/app/plus.svg" alt="plus"></button></h1>
     <section class="scroll">
-      <div class="under-section">
-        <div class="alumet-container">
-          <div class="alumet">
-            <div class="alumet-infos">
-              <h3 class="alumet-title">Première 5 n°3 -- Citizenship and Virtual Worlds</h3>
-              <h4 class="alumet-last-use">1h ago</h4>
-            </div>
-          </div>
+      <div class="under-section scroll-x">
+        <div id="open-alumet" class="alumet-container">
+          
         </div>
       </div>
-      <div class="under-section">
+      <div class="under-section scroll-x">
         <h1 class="section-title">Archivées</h1>
-        <div class="alumet-container">
-          <div class="alumet">
-            <div id="archived" class="alumet-infos">
-              <h3 class="alumet-title">Première 5 n°3 -- Citizenship and Virtual Worlds</h3>
-              <h4 class="alumet-last-use">1h ago</h4>
-            </div>
-          </div>
+        <div id="archived-alumet" class="alumet-container">
+         
         </div>
       </div>
       <div class="under-section">
@@ -260,6 +251,9 @@
   </section>
   <section class="section informations">
     <h1 class="section-title">Gratuit, pour toujours<button class="main-button">Faire un don<img src="../assets/app/plus.svg" alt="plus"></button></h1>
+  </section>
+  <section class="section parametres">
+    <h1 class="section-title">Paramètres</h1>
   </section>
   <div class="open-menu"><img src="../assets/app/open-menu.svg" alt="Menu"></div>
   <script src="../script/dashboard.js"></script>

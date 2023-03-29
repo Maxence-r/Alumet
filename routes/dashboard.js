@@ -8,6 +8,4 @@ router.get('/', async (req, res) => {
     res.sendFile(filePath);
 });
 
-
-
 module.exports = router;

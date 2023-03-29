@@ -22,10 +22,13 @@ document.querySelectorAll('.option').forEach(option => {
         })
         let section = sectionReference[utility]
         document.querySelector(`.${section}`).classList.add('active-section')
+        if (window.innerWidth < 1000) {
+            document.querySelector('.open-menu').click()
+        }
     })
 })
 
-const slider = document.querySelectorAll('.alumet-container');
+const slider = document.querySelectorAll('.scroll-x');
 let isDown = false;
 let startX;
 let scrollLeft;
@@ -57,12 +60,7 @@ slider.forEach(slider => {
     });
 });
 
-slider.forEach(slider => {
-        slider.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        slider.scrollLeft += e.deltaY;
-    });
-});
+
 
 isOpen = false
 document.querySelector('.open-menu').addEventListener('click', () => {
@@ -339,6 +337,7 @@ function deleteFile(id) {
     fetch(`/cdn/delete/${id}`)
         .then(res => res.json())
         .then(data => {
+            if (data.error) return alert(data.error);
             closeViewer();
             getFiles();
         })
@@ -353,12 +352,13 @@ let activeStep = 1;
 let requestBody = {
     modules: []
 };
+let imgData = new FormData();
 
 document.getElementById('alumet-setup-continue').addEventListener('click', () => {
     switch (activeStep) {
         case 1:
-            if (document.getElementById('alumet-name').value.length < 1) {
-                return alert('Veuillez entrer un nom');
+            if (document.getElementById('alumet-name').value.length < 2) {
+                return alert('Veuillez entrer un nom assez long.');
             } else {
                 document.querySelector('.step1').style.display = 'none';
                 document.querySelector('.step2').style.display = 'flex';
@@ -371,14 +371,20 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
             if (document.getElementById('file-background').files.length < 1) {
                 return alert('Veuillez choisir un fond');
             } else {
-                document.querySelector('.step2').style.display = 'none';
-                document.querySelector('.step3').style.display = 'flex';
-                requestBody.background = document.getElementById('file-background').files[0];
-                activeStep++;
+                if (!document.getElementById('file-background').files[0]) {
+                    return alert('Veuillez choisir un fond');
+                } else if (document.getElementById('file-background').files[0].size > 3000000) {
+                    return alert('Le fichier est trop volumineux');
+                } else {
+                    imgData.append('background', document.getElementById('file-background').files[0]);
+                    document.querySelector('.step2').style.display = 'none';
+                    document.querySelector('.step3').style.display = 'flex';
+                    activeStep++;
+                }
             }
             break;
         case 3:
-            if (document.getElementById('pssw').checked) {
+            if (document.getElementById('pssw').checked && document.getElementById('pssw-input').value.length > 0) {
                 requestBody.password = document.getElementById('pssw-input').value;
             }
             document.getElementById('dm').checked ? requestBody.modules.push('dm') : null;
@@ -388,17 +394,48 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
             document.getElementById('new-alumet-loading').style.display = 'flex';
             document.getElementById('new-alumet-tracker').style.display = 'flex';
             document.getElementById('alumet-setup-continue').style.display = 'none';
-            fetch('/alumet/new', {
-                method: 'POST',
-                body: requestBody
-            })
-                .then(res => res.json())
+            fetch('/alumet/new/background', {
+                    method: 'POST',
+                    body: imgData
+                })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Une erreur est survenue');
+                    } else {
+                        return res.json();
+                    }
+                })
                 .then(data => {
-                    console.log(data);
+                    let dataU = data.uploaded
+                    requestBody.background = dataU._id;
+                    fetch('/alumet/new', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(requestBody)
+                        })
+                        .then(res => {
+                            if (!res.ok) {
+                                throw new Error('Une erreur est survenue');
+                            } else {
+                                return res.json();
+                            }
+                        })
+                        .then(data => {
+                            window.location.href = `/alumet/${data.saved._id}`;
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                })
+                .catch(err => {
+                    console.log(err);
                 });
             break;
+
     }
-})
+});
 
 
 
@@ -421,3 +458,62 @@ function editDocument(id) {
         getFiles();
     })
 }
+
+function getAlumets() {
+    fetch('/alumet/all')
+      .then(res => res.json())
+      .then(data => {
+        const sortedData = sortAlumetsByLastUsage(data.alumets);
+        sortedData.forEach(alumet => {
+          if (alumet.archived == false) {
+            let alumetDiv = document.createElement('div');
+            alumetDiv.classList.add('alumet');
+            alumetDiv.style.backgroundImage = `url(/cdn/u/${alumet.background})`;
+  
+            const lastUsage = new Date(alumet.lastUsage);
+            const timeDiff = new Date() - lastUsage;
+            const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+            const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
+            const timeAgo = hoursDiff > 0 ? `${hoursDiff}h ago` : `${minutesDiff}m ago`;
+  
+            alumetDiv.innerHTML = `
+              <div class="alumet-infos">
+                <h3 class="alumet-title">${alumet.name}</h3>
+                <h4 class="alumet-last-use">${timeAgo}</h4>
+              </div>
+            `;
+            document.getElementById('open-alumet').appendChild(alumetDiv);
+          } else {
+            let alumetDiv = document.createElement('div');
+            alumetDiv.classList.add('alumet');
+            alumetDiv.style.backgroundImage = `url(/cdn/u/${alumet.background})`;
+  
+            const lastUsage = new Date(alumet.lastUsage);
+            const timeDiff = new Date() - lastUsage;
+            const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+            const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
+            const timeAgo = hoursDiff > 0 ? `${hoursDiff}h ago` : `${minutesDiff}m ago`;
+  
+            alumetDiv.innerHTML = `
+              <div id="archived" class="alumet-infos">
+                <h3 class="alumet-title">${alumet.name}</h3>
+                <h4 class="alumet-last-use">${timeAgo}</h4>
+              </div>
+            `;
+            document.getElementById('archived-alumet').appendChild(alumetDiv);
+          }
+        });
+      })  
+  }
+  
+  function sortAlumetsByLastUsage(alumets) {
+    return alumets.sort((a, b) => {
+      const aTime = new Date(a.lastUsage);
+      const bTime = new Date(b.lastUsage);
+      return bTime - aTime;
+    });
+  }
+  
+  
+
+getAlumets();

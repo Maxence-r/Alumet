@@ -3,6 +3,11 @@ const router = express.Router();
 const Alumet = require('../models/alumet');
 const auth = require('../middlewares/auth');
 const multer = require('multer');
+const {v4: uuidv4} = require('uuid');
+const path = require('path');
+const Upload = require('../models/upload');
+const { authorizedModules } = require('../config.json');
+const mongoose = require('mongoose');
 
 const storage = multer.diskStorage({
     destination: './cdn',
@@ -11,30 +16,139 @@ const storage = multer.diskStorage({
     }
 });
 
+const sanitizeFilename = (filename) => {
+    return filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
+}
+
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 50 * 1024 * 1024,
+        fileSize: 3 * 1024 * 1024,
         files: 1,
     },
-    fileFilter: function (req, file, callback) {
-      var ext = path.extname(file.originalname);
-      if(ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-          return callback(new Error('Only images are allowed'))
-      }
-      callback(null, true)
+    fileFilter: function(req, file, callback) {
+        var ext = path.extname(file.originalname);
+        if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+            return callback(new Error('Only images are allowed'))
+        }
+        callback(null, true)
     }
 });
+
+router.post('/new/background', auth, upload.single('background'), async (req, res) => {
+    if (!req.logged) {
+        return res.status(401).json({
+            error: 'Unauthorized'
+        });
+    }
+    if (req.file) {
+        const file = req.file;
+        const ext = file.originalname.split('.').pop()
+        const sanitizedFilename = sanitizeFilename(file.originalname);
+
+        const upload = new Upload({
+            filename: file.filename,
+            displayname: sanitizedFilename,
+            mimetype: ext,
+            filesize: file.size,
+            owner: req.user._id,
+            modifiable: false
+        });
+        try {
+            let uploaded = await upload.save();
+            res.json({
+                uploaded
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                error: 'Failed to save file'
+            });
+        }
+    } else {
+        if (req.fileValidationError) {
+            res.status(400).json({
+                error: "Invalid file format"
+            })
+        } else {
+            res.status(400).json({
+                error: 'Please select a file to upload'
+            })
+        }
+    }
+});
+
+
 
 
 router.post('/new', auth, async (req, res) => {
-  console.log(req.body);
-    upload.single('background');
-    if (req.fileValidationError) {
-        return res.status(400).send({ error: req.fileValidationError });
-    } else {
-      res.status(200).json({ success: true });
+    if (!req.logged) {
+        return res.status(401).json({
+            error: 'Unauthorized'
+        });
+    }
+    if (!req.body.modules) {
+        return res.status(400).json({
+            error: 'Missing modules'
+        });
+    }
+    const unauthorizedModules = req.body.modules.filter(module => !authorizedModules.includes(module));
+    if (unauthorizedModules.length > 0) {
+        return res.status(400).json({
+            error: 'Invalid module'
+        });
+    }
+    if (req.body.background && !mongoose.Types.ObjectId.isValid(req.body.background)) {
+        return res.status(400).json({
+            error: 'Invalid background'
+        });
+    }
+    try {
+        const upload = await Upload.findOne({
+            _id: req.body.background
+        });
+        if (!upload || upload.owner != req.user.id ||upload.mimetype != 'png' && upload.mimetype != 'jpg' && upload.mimetype != 'jpeg' || upload.filesize > 3 * 1024 * 1024 ) {
+            return res.status(404).json({error: 'Upload isn\'t valid'});
+        }
+        const alumet = new Alumet({
+            ...req.body,
+            owner: req.user.id
+        });
+        let saved = await alumet.save();
+        res.json({
+            saved
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            error: 'Failed to save alumet'
+        });
     }
 });
+
+router.get('/all', auth, async (req, res) => {
+    if (!req.logged) {
+        return res.status(401).json({
+            error: 'Unauthorized'
+        });
+    }
+    try {
+        const alumets = await Alumet.find({
+            owner: req.user.id,
+        }).sort({ createdAt: -1 });
+        res.json({
+            alumets
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            error: 'Failed to get alumets'
+        });
+    }
+});
+
+
+
+
 
 module.exports = router;

@@ -29,6 +29,10 @@ const UploadSchema = mongoose.Schema({
         type: String,
         required: true,
         minLength: 1
+    },
+    modifiable: {
+        type: Boolean,
+        default: true
     }
 });
 

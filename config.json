@@ -1,3 +1,4 @@
 {
-   "tokenC": "AACklm72ydk2qP2GMXEpOPue7uabJlE82jCpnYtYc2rd4EeQzl"
+   "tokenC": "AACklm72ydk2qP2GMXEpOPue7uabJlE82jCpnYtYc2rd4EeQzl",
+   "authorizedModules": ["hw", "fc", "dm"]
 }

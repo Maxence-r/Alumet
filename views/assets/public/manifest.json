@@ -1,0 +1,15 @@
+{
+    "background_color": "#131313",
+    "description": "Alumet: Une place pour tous le monde",
+    "display": "fullscreen",
+    "icons": [
+      {
+        "src": "../assets/alumet.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ],
+    "name": "Alumet",
+    "short_name": "Alumet",
+    "start_url": "../../pages/dashboard.html"
+  }

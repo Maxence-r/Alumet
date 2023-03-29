@@ -118,6 +118,7 @@ body {
 }
 
 .user-avatar {
+    border-radius: 5px;
     width: 55px;
     margin-right: 10px;
 }
@@ -175,6 +176,8 @@ body {
     overflow-y: scroll;
 }
 
+
+
 .informations {
     flex-direction: column;
     width: 100%;
@@ -182,8 +185,17 @@ body {
     display: none;
 }
 
+.parametres {
+    flex-direction: column;
+    width: 100%;
+    margin: 20px;
+    display: none;
+}
+
+
 .active-section {
     display: flex;
+    width: calc(100% - 480px);
     animation: active-section 0.7s ease-in-out !important;
 }
 
@@ -227,15 +239,15 @@ body {
     display: flex;
     flex-direction: row;
     gap: 20px;
-    overflow-x: scroll;
     padding-bottom: 8px;
 }
 
 .alumet {
     min-width: 350px;
+    max-width: 350px;
     cursor: pointer;
     height: 200px;
-    background-color: #ffffff;
+    background-color: #363636;
     border-radius: 5px;
     box-shadow: 0px 0px 17px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -250,28 +262,36 @@ body {
     height: 100%;
 }
 
+.scroll-x {
+    overflow-x: scroll;
+}
+
 .alumet-infos {
     margin-top: auto;
     width: 100%;
-    padding: 15px;
-    background: rgba(19, 19, 19, 0.01);
+    background: rgba(0, 0, 0, 0.40);
     backdrop-filter: blur(5px);
     transition: all 0.3s ease-in-out;
 }
 
+
 .alumet-infos h3 {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 0;
     font-weight: 600;
     font-size: 16px;
     color: #ffffff;
     font-weight: 400;
-    margin: 0;
 }
 
 .alumet-infos h4 {
+    margin-left: 10px;
     font-size: 14px;
     color: #adadad;
     font-weight: 400;
-    margin: 0;
+    margin-bottom: 10px;
+    margin-top: 0;
 }
 
 .open-menu {
@@ -936,15 +956,13 @@ input:checked + .slider + .menu {
         margin: 0;
         height: 100%;
     }
-    .alumet {
-        min-width: 0;
-    }
     .open-menu {
         display: flex;
     }
-    .alumets {
-        margin: 10px;
+    .active-section {
+        width: calc(100% - 20px);
         height: calc(100% - 80px);
+        margin: 10px;
     }
     .responsive {
         display: none;
