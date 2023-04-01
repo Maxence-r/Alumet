@@ -22,7 +22,7 @@ router.post('/authorize', async (req, res) => {
         if (alumet.password === req.body.password || !alumet.password) {
             const token = jwt.sign({
                 id: alumet._id,
-                username: alumet.name || "Anonyme",
+                username: req.body.username || "Anonyme",
             }, tokenC, {
                 expiresIn: '6h'
             });

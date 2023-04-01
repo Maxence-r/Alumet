@@ -22,6 +22,13 @@ fetch(`/alumet/info/${path}`, {
     const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
     const timeAgo = hoursDiff > 0 ? `${hoursDiff}h ago` : `${minutesDiff}m ago`;
     document.getElementById('time').innerHTML = timeAgo;
+    if (data.finalAlumet.theme == 'dark') {
+        document.querySelector('.alumet-infos h1').style.color = 'dark';
+        document.querySelector('.alumet-infos h3').style.color = 'dark';
+    } else {
+        document.querySelector('.alumet-infos h1').style.color = 'white';
+        document.querySelector('.alumet-infos h3').style.color = 'white';
+    }
     fetch('/auth/u/' + data.finalAlumet.owner, {
         method: 'GET',
         headers: {
@@ -31,7 +38,7 @@ fetch(`/alumet/info/${path}`, {
     .then(response => response.json())
     .then(data => {
         document.getElementById('owner').innerHTML = data.prenom + ' ' + data.nom;
-    })          
+    })
 })
 .catch(error => {
     console.log(error);
@@ -49,6 +56,7 @@ document.addEventListener('keyup', (event) => {
 
 function enter() {
     const password = document.getElementById('password').value;
+    const username = document.getElementById('username').value;
     fetch('/portal/authorize', {
         method: 'POST',
         headers: {
@@ -56,17 +64,23 @@ function enter() {
             },
             body: JSON.stringify({
                 id: path,
-                password: password
+                password: password,
+                username: username
             })
         })
         .then(response => response.json())
         .then(data => {
-            window.location.href = "/a/" + path;
             if (data.error) {
-                console.log(data.error);
+                alert(data.error);
+            } else {
+                window.location.href = "/a/" + path;
             }
         })
         .catch(error => {
             console.log(error);
         });
+}
+
+document.getElementById('img').onload = () => {
+    document.querySelector('.loading').classList.add('hidden');
 }

@@ -141,7 +141,8 @@ router.post('/new', auth, async (req, res) => {
         }
         const alumet = new Alumet({
             ...req.body,
-            owner: req.user.id
+            owner: req.user.id,
+            lastUsage: Date.now()
         });
         let saved = await alumet.save();
         res.json({
