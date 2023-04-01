@@ -12,6 +12,7 @@ const dashboard = require('./routes/dashboard');
 const uploader = require('./routes/uploader');
 const alumet = require('./routes/alumet')
 const auth = require('./routes/auth');
+const portal = require('./routes/portal');
 // Definition des outils
 app.use(cookieParser());
 app.use(express.json());
@@ -31,6 +32,7 @@ app.use(checkLogin);
 app.get('/', (req, res) => {
     res.sendFile('main.html', {root: './views/pages'});
 });
+app.use('/portal', portal);
 app.use('/dashboard', dashboard);
 app.use('/alumet', alumet);
 app.use('/auth', auth);

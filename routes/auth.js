@@ -11,6 +11,19 @@ router.get('/signin', async (req, res) => {
     res.sendFile(filePath);
 });
 
+router.get('/u/:id', (req, res) => {
+    Account.findOne( { _id: req.params.id } )
+    .then(user => {
+        if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé !' });
+        res.status(200).json({
+            nom: user.nom,
+            prenom: user.prenom,
+        });
+    })
+    .catch(error => res.status(500).json({ error }));
+});
+
+
 router.get('/signup', async (req, res) => {
     if (req.logged) return res.redirect('/dashboard');
     const filePath = path.join(__dirname, '../views/pages/signup.html');

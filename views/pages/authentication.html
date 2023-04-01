@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="../assets/public/alumet.ico" />
+
+    <meta name="description" content="Alumet, explorer d'une nouvelle façon.">
+    <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers">
+    <meta property="og:title" content="Alumet: Explorer d'une nouvelle façon.">
+    <meta property="og:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alumet.io">
+    <meta property="og:image" content="https://i.imgur.com/O9RdHj1.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:domain" content="alumet.io">
+    <meta name="twitter:url" content="https://alumet.io/">
+    <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes.">
+    <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
+    <meta name="twitter:image" content="https://i.imgur.com/O9RdHj1.png">
+
+    <link href="../style/authentication.css" rel="stylesheet" type="text/css">
+    <link href="../style/global.css" rel="stylesheet" type="text/css">
+
+    <title>Alumet: Auth Portal</title>
+</head>
+<body>
+    <div class="log-container">
+       <h1>Authentification</h1>
+       <h3>Cet Alumet demande un mot de passe</h3>
+        <div class="input">
+            <div class="logo"><img src="../assets/app/lock.svg"></div>
+            <input id="password" type="password" placeholder="Mot de passe">
+        </div>
+        <div class="input">
+            <div class="logo"><img src="../assets/app/username.svg"></div>
+            <input id="username" type="text" placeholder="Rejoindre en tant que">
+        </div>
+        <p>En cliquant sur "Acceder" vous accepter les <span id="link">conditions général</span> d'utilisation</p>
+        <button id="enter" class="btn">Acceder</button>
+    </div>
+    <div class="alumet-info">
+        <div class="alumet-infos">
+            <h1>Alumet: Un endroit pour tous.</h1>
+            <h3>Crée par <span id="owner">un profresseur</span> - <span id="time">1h ago</span></h3>
+        </div>
+        <img id="img" src="">
+    </div>
+</body>
+<script src="../script/authentification.js"></script>
+</html>

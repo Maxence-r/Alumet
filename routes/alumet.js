@@ -35,6 +35,35 @@ const upload = multer({
     }
 });
 
+router.patch('/update/lastUsage', async (req, res) => {
+    if (!req.body.id) {
+        return res.status(400).json({
+            error: 'Missing id'
+        });
+    }
+    try {
+        const alumet = await Alumet.findOne({
+            _id: req.body.id
+        });
+        if (!alumet) {
+            return res.status(404).json({
+                error: 'Alumet not found'
+            });
+        }
+        alumet.lastUsage = Date.now();
+        await alumet.save();
+        res.json({
+            message: 'Updated'
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            error: 'Failed to update alumet'
+        });
+    }
+});
+
+
 router.post('/new/background', auth, upload.single('background'), async (req, res) => {
     if (!req.logged) {
         return res.status(401).json({
@@ -147,6 +176,32 @@ router.get('/all', auth, async (req, res) => {
     }
 });
 
+
+router.get('/info/:id', async (req, res) => {
+    Alumet.findOne({
+        _id: req.params.id
+    }).then(alumet => {
+        if (!alumet) {
+            return res.status(404).json({
+                error: 'Alumet not found'
+            });
+        }
+        let finalAlumet = alumet.toObject();
+        if (alumet.password) {
+            finalAlumet.hasPassword = true;
+        } else {
+            finalAlumet.hasPassword = false;
+        }
+        res.json({
+            finalAlumet
+        });
+    }).catch(error => {
+        console.log(error);
+        res.status(500).json({
+            error: 'Failed to get alumet'
+        });
+    });
+});
 
 
 

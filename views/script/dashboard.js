@@ -474,7 +474,7 @@ function getAlumets() {
             let alumetDiv = document.createElement('div');
             alumetDiv.classList.add('alumet');
             alumetDiv.style.backgroundImage = `url(/cdn/u/${alumet.background})`;
-  
+            alumetDiv.setAttribute('onclick', `openAlumet('${alumet._id}')`);
             const lastUsage = new Date(alumet.lastUsage);
             const timeDiff = new Date() - lastUsage;
             const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
@@ -483,14 +483,14 @@ function getAlumets() {
             if (alumet.archived === false) {
                 alumetDiv.innerHTML = `
                 <div class="alumet-infos">
-                    <h3 class="alumet-title">${alumet.name}</h3>
+                    <h3 class="alumet-title">${alumet.name.substring(0, 75)}</h3>
                     <h4 class="alumet-last-use">${timeAgo}</h4>
                 </div>
                 `;
             } else {
                 alumetDiv.innerHTML = `
                 <div id="archived" class="alumet-infos">
-                    <h3 class="alumet-title">${alumet.name}</h3>
+                    <h3 class="alumet-title">${alumet.name.substring(0, 75)}</h3>
                     <h4 class="alumet-last-use">Archivé</h4>
                 </div>
                 `;
@@ -508,6 +508,26 @@ function getAlumets() {
     });
   }
   
-  
-
 getAlumets();
+
+function openAlumet(id) {
+    console.log(id);
+    fetch('/alumet/update/lastUsage', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: id
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) return alert(data.error);
+            window.open(`/portal/${id}`);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+}

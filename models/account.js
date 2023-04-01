@@ -4,12 +4,14 @@ const AccountSchema = mongoose.Schema({
     nom: {
         type: String,
         required: true,
-        minLength: 2
+        minLength: 2,
+        maxLength: 50
     },
     prenom: {
         type: String,
         required: true,
-        minLength: 2
+        minLength: 2,
+        maxLength: 50
     },
     mail : {
         type: String,

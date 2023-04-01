@@ -4,7 +4,8 @@ const AlumetSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
-        minLength: 2
+        minLength: 2,
+        maxLength: 150
     },
     owner: {
         type: String,
@@ -13,12 +14,14 @@ const AlumetSchema = mongoose.Schema({
     },
     description: {
         type: String,
-        default: "Un endroit, pour tous !"
+        default: "Un endroit, pour tous !",
+        maxLength: 2000
     },
     password : {
         type: String,
         required: false,
-        minLength: 1
+        minLength: 1,
+        maxLength: 150
     }, 
     modules: {
         type: Array,
