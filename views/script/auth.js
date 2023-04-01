@@ -11,7 +11,7 @@ function progress() {
         let ae = document.getElementById("mail").value
         let mdp = document.getElementById("mdp").value
         let message = document.getElementById("large").value
-        let requete = fetch("/auths/signup", {
+        let requete = fetch("/auth/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -37,7 +37,7 @@ function progress() {
             }
         })
     } else {
-        window.location = "../auths/signin"
+        window.location = "../auth/signin"
     }
 }
 

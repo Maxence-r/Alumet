@@ -1,7 +1,7 @@
 function signin() {
     let mail = document.getElementById("mail").value
     let mdp = document.getElementById("password").value
-    let requete = fetch("/auths/signin", {
+    let requete = fetch("/auth/signin", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

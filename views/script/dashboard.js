@@ -145,16 +145,20 @@ checkbox.addEventListener('change', () => {
   }
 });
 
-fetch('/auths/info') 
+fetch('/auth/info') 
     .then(res => res.json())
     .then(data => {
+        
+        if (data.prenom == 'undefined' || data.nom == 'undefined' || !data) {
+            window.location.href = '/auth/logout'
+        }
         document.getElementById('username').innerHTML = data.nom + ' ' + data.prenom
         document.getElementById('status').innerHTML = data.status
     })  
     .catch(err => console.log(err))
 
 document.querySelector('.logout').addEventListener('click', () => {
-    window.location.href = '/auths/logout'
+    window.location.href = '/auth/logout'
 })
 
 document.querySelector('.file-drop').addEventListener('click', () => {
@@ -423,7 +427,8 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
                             }
                         })
                         .then(data => {
-                            window.location.href = `/alumet/${data.saved._id}`;
+                            if (data.error) return alert(data.error);
+                            getAlumets();
                         })
                         .catch(err => {
                             console.log(err);
@@ -460,12 +465,12 @@ function editDocument(id) {
 }
 
 function getAlumets() {
+    document.getElementById('open-alumet').innerHTML = '';
     fetch('/alumet/all')
       .then(res => res.json())
       .then(data => {
         const sortedData = sortAlumetsByLastUsage(data.alumets);
         sortedData.forEach(alumet => {
-          if (alumet.archived == false) {
             let alumetDiv = document.createElement('div');
             alumetDiv.classList.add('alumet');
             alumetDiv.style.backgroundImage = `url(/cdn/u/${alumet.background})`;
@@ -475,33 +480,22 @@ function getAlumets() {
             const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
             const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
             const timeAgo = hoursDiff > 0 ? `${hoursDiff}h ago` : `${minutesDiff}m ago`;
-  
-            alumetDiv.innerHTML = `
-              <div class="alumet-infos">
-                <h3 class="alumet-title">${alumet.name}</h3>
-                <h4 class="alumet-last-use">${timeAgo}</h4>
-              </div>
-            `;
+            if (alumet.archived === false) {
+                alumetDiv.innerHTML = `
+                <div class="alumet-infos">
+                    <h3 class="alumet-title">${alumet.name}</h3>
+                    <h4 class="alumet-last-use">${timeAgo}</h4>
+                </div>
+                `;
+            } else {
+                alumetDiv.innerHTML = `
+                <div id="archived" class="alumet-infos">
+                    <h3 class="alumet-title">${alumet.name}</h3>
+                    <h4 class="alumet-last-use">Archivé</h4>
+                </div>
+                `;
+            }
             document.getElementById('open-alumet').appendChild(alumetDiv);
-          } else {
-            let alumetDiv = document.createElement('div');
-            alumetDiv.classList.add('alumet');
-            alumetDiv.style.backgroundImage = `url(/cdn/u/${alumet.background})`;
-  
-            const lastUsage = new Date(alumet.lastUsage);
-            const timeDiff = new Date() - lastUsage;
-            const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
-            const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
-            const timeAgo = hoursDiff > 0 ? `${hoursDiff}h ago` : `${minutesDiff}m ago`;
-  
-            alumetDiv.innerHTML = `
-              <div id="archived" class="alumet-infos">
-                <h3 class="alumet-title">${alumet.name}</h3>
-                <h4 class="alumet-last-use">${timeAgo}</h4>
-              </div>
-            `;
-            document.getElementById('archived-alumet').appendChild(alumetDiv);
-          }
         });
       })  
   }

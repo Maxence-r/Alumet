@@ -4,7 +4,7 @@ const { tokenC } = require('../config.json');
 
 const checkLogin = (req, res, next) => {
     const token = req.cookies.token;
-    if (!token) {
+    if (!token || token == 'undefined') {
         req.logged = false;
         return next();
     }
@@ -15,7 +15,7 @@ const checkLogin = (req, res, next) => {
             .then(user => {
                 if (!user) {
                     req.logged = false;
-                    res.clearCookie('token'); // <-- delete the token
+                    res.clearCookie('token');
                     return next();
                 }
                 req.user = user;
@@ -25,7 +25,7 @@ const checkLogin = (req, res, next) => {
             .catch(error => res.json({ error }));
     } catch (error) {
         req.logged = false;
-        res.clearCookie('token'); // <-- delete the token
+        res.clearCookie('token'); 
         return next();
     }
 };

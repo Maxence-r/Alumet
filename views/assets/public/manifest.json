@@ -4,8 +4,8 @@
     "display": "fullscreen",
     "icons": [
       {
-        "src": "../assets/alumet.png",
-        "sizes": "192x192",
+        "src": "../app/alumet.png",
+        "sizes": "96x141",
         "type": "image/png"
       }
     ],

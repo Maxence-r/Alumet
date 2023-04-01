@@ -53,7 +53,12 @@ const AlumetSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: false
-    }
+    },
+    brightness: {
+        type: Number,
+        required: true,
+        default: 0
+    },
 });
 
 const Alumet = mongoose.model("Alumet", AlumetSchema);

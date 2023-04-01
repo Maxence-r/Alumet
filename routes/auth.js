@@ -5,14 +5,14 @@ const Account = require('../models/account');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { tokenC } = require('../config.json');
-
 router.get('/signin', async (req, res) => {
-    if (req.cookies.token) return res.redirect('/dashboard');
+    if (req.logged) return res.redirect('/dashboard');
     const filePath = path.join(__dirname, '../views/pages/signin.html');
     res.sendFile(filePath);
 });
 
 router.get('/signup', async (req, res) => {
+    if (req.logged) return res.redirect('/dashboard');
     const filePath = path.join(__dirname, '../views/pages/signup.html');
     res.sendFile(filePath);
 });
@@ -23,12 +23,13 @@ router.get('/logout', async (req, res) => {
 
 router.get('/info', async (req, res) => {
     const token = req.cookies.token;
-    if (!token) return res.status(401).json({ error: 'Utilisateur non connecté !' });
+    console.log(token);
+    if (!token) return res.redirect('/auth/signin');
     const decodedToken = jwt.verify(token, tokenC);
     const userId = decodedToken.userId;
     Account.findOne({ _id: userId })
         .then(user => {
-            if (!user) return res.status(401).json({ error: 'Utilisateur non connecté !' });
+            if (!user) return res.redirect('/auth/signin');
             res.status(200).json({
                 nom: user.nom,
                 prenom: user.prenom,

@@ -29,13 +29,13 @@ mongoose.connect('mongodb+srv://admin:OHdI4vfXbgNy1ZAV@alumet.knhvwib.mongodb.ne
 // Routes
 app.use(checkLogin);
 app.get('/', (req, res) => {
-    if(req.logged) return res.redirect('/dashboard');
     res.sendFile('main.html', {root: './views/pages'});
 });
 app.use('/dashboard', dashboard);
 app.use('/alumet', alumet);
-app.use('/auths', auth);
+app.use('/auth', auth);
 app.use('/cdn', uploader)
+
 
 module.exports = app;
 

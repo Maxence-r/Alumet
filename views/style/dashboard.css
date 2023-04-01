@@ -39,7 +39,7 @@ body {
     padding-inline: 15px;
     margin: 20px;
     width: 18%;
-    min-width: 350px;
+    width: 350px;
     background: rgba(255, 255, 255, 0.1);
     box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(3px);
@@ -47,6 +47,8 @@ body {
     transition: all 0.3s ease-in-out;
     z-index: 50;
 }
+
+
 
 .menu-infos {
     display: flex;
@@ -256,6 +258,11 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    transition: all 0.3s ease-in-out;
+}
+
+.alumet:hover {
+    filter: brightness(1.3);
 }
 
 #archived {
@@ -272,6 +279,7 @@ body {
     background: rgba(0, 0, 0, 0.40);
     backdrop-filter: blur(5px);
     transition: all 0.3s ease-in-out;
+    border-radius: 0px 0px 5px 5px;
 }
 
 
@@ -469,7 +477,13 @@ iframe {
 
 .image-view {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 60px);
+    object-fit: contain;
+}
+
+.video-view {
+    width: 100%;
+    height: calc(100% - 60px);
     object-fit: contain;
 }
 
