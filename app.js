@@ -33,6 +33,9 @@ app.use(checkLogin);
 app.get('/', (req, res) => {
     res.sendFile('main.html', {root: './views/pages'});
 });
+app.use('/404', (req, res) => {
+    res.sendFile('404.html', {root: './views/pages'});
+});
 app.use('/a', a)
 app.use('/portal', portal);
 app.use('/dashboard', dashboard);

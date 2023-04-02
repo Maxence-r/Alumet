@@ -84,3 +84,7 @@ function enter() {
 document.getElementById('img').onload = () => {
     document.querySelector('.loading').classList.add('hidden');
 }
+
+setTimeout(() => {
+    document.querySelector('.loading').classList.add('hidden');
+}, 5000);

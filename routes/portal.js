@@ -4,13 +4,41 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const Alumet = require('../models/alumet');
 const { tokenC } = require('../config.json');
+const alumetAuth = require('../middlewares/alumetAuth');
+const checkLogin = require('../middlewares/checkLogin');
+const validateObjectId = require('../middlewares/validateObjectId');
 
-router.get('/:id', async (req, res) => {
-    const filePath = path.join(__dirname, '../views/pages/authentication.html');
-    res.sendFile(filePath);
+
+router.get('/:id', validateObjectId, alumetAuth, checkLogin, async (req, res) => {
+    try {
+        if (req.logged) {
+            const alumet = await Alumet.findOne({
+                _id: req.params.id
+            });
+            if (!alumet) {
+                return res.status(404).json({
+                    error: 'Alumet not found'
+                });
+            }
+            if (alumet.owner.toString() === req.user.id) {
+                return res.redirect('/a/edit/' + req.params.id);
+            }
+        }
+        if (req.auth && req.alumet.id.toString() === req.params.id) {
+            return res.redirect('/a/' + req.params.id);
+        }
+        const filePath = path.join(__dirname, '../views/pages/authentication.html');
+        return res.sendFile(filePath);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            error: 'Internal Server Error'
+        });
+    }
 });
 
-router.post('/authorize', async (req, res) => {
+
+router.post('/authorize', validateObjectId, async (req, res) => {
     Alumet.findOne({
         _id: req.body.id
     }).then(alumet => {
@@ -24,7 +52,7 @@ router.post('/authorize', async (req, res) => {
                 id: alumet._id,
                 username: req.body.username || "Anonyme",
             }, tokenC, {
-                expiresIn: '6h'
+                expiresIn: '24h'
             });
             res.cookie('alumetToken', token).status(200).json({
                 message: 'Connexion réussie !'

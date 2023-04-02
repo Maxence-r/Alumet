@@ -54,9 +54,7 @@ router.get('/info', async (req, res) => {
 });
 
 router.post('/signin', (req, res) => {
-    Account.findOne({
-        mail: req.body.mail
-    })
+    Account.findOne({ $or: [ { mail: req.body.mail }, { nom: req.body.mail }, { prenom: req.body.mail } ] })
     .then(user => {
         if (!user) {
             return res.status(401).json({

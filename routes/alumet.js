@@ -8,6 +8,7 @@ const path = require('path');
 const Upload = require('../models/upload');
 const { authorizedModules } = require('../config.json');
 const mongoose = require('mongoose');
+const validateObjectId = require('../middlewares/validateObjectId');
 
 const storage = multer.diskStorage({
     destination: './cdn',
@@ -35,7 +36,7 @@ const upload = multer({
     }
 });
 
-router.patch('/update/lastUsage', async (req, res) => {
+router.patch('/update/lastUsage', validateObjectId, async (req, res) => {
     if (!req.body.id) {
         return res.status(400).json({
             error: 'Missing id'
@@ -178,7 +179,7 @@ router.get('/all', auth, async (req, res) => {
 });
 
 
-router.get('/info/:id', async (req, res) => {
+router.get('/info/:id', validateObjectId, async (req, res) => {
     Alumet.findOne({
         _id: req.params.id
     }).then(alumet => {

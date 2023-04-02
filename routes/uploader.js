@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const auth = require('../middlewares/checkLogin');
 const Upload = require('../models/upload');
 const fs = require('fs');
+const validateObjectId = require('../middlewares/validateObjectId');
 // Set storage engine
 const storage = multer.diskStorage({
     destination: './cdn',
@@ -14,7 +15,7 @@ const storage = multer.diskStorage({
     }
 });
 
-router.get('/u/:id', (req, res) => {
+router.get('/u/:id', validateObjectId, (req, res) => {
     Upload.find( { _id: req.params.id } )
     .then(upload => {
         if (!upload) return res.status(404).json({ error: 'Upload not found' });
@@ -67,7 +68,7 @@ router.post('/upload/guest', upload.array('files'), (req, res) => {
 });
 
 
-router.patch('/update/:id', auth, (req, res) => {
+router.patch('/update/:id', validateObjectId, auth, (req, res) => {
   if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
   if (!req.body.displayname) return res.status(400).json({ error: 'Veuillez spéficier un nouveau nom' });
   if (req.body.displayname.length > 100) return res.status(400).json({ error: 'Nom trop long' });
@@ -93,7 +94,7 @@ router.patch('/update/:id', auth, (req, res) => {
 
 
 router.get('/files', auth, (req, res) => {
-    if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
+    if (!req.logged) return res.status(401).json({ error: 'Unauthorized' });
     Upload.find( { owner: req.user.id } ).sort({ date: -1 })
     .then(uploads => {
         res.json({ uploads });
@@ -141,7 +142,7 @@ router.post('/upload', auth, accountUpload.array('files'), (req, res) => {
     }
 });
 
-router.get('/info/:id', (req, res) => {
+router.get('/info/:id', validateObjectId, (req, res) => {
     Upload.find( { _id: req.params.id } )
     .then(upload => {
         if (!upload) return res.status(404).json({ error: 'Upload not found' });
@@ -151,7 +152,7 @@ router.get('/info/:id', (req, res) => {
     .catch(error => res.json({ error }));
 });
 
-router.get('/delete/:id', auth, (req, res) => {
+router.get('/delete/:id', validateObjectId, auth, (req, res) => {
     if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
     Upload.find( { _id: req.params.id } )
     .then(upload => {
