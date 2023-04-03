@@ -27,10 +27,12 @@ const upload = multer({
         fileSize: 3 * 1024 * 1024,
         files: 1,
     },
-    fileFilter: function(req, file, callback) {
+    fileFilter: function(req, res, file, callback) {
         var ext = path.extname(file.originalname);
         if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-            return callback(new Error('Only images are allowed'))
+            return res.status(400).json({
+                error: 'Invalid file format'
+            });
         }
         callback(null, true)
     }

@@ -126,6 +126,8 @@ body {
     border: 0.5px solid #3D3D3D;
     border-radius: 6px;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center; 
 }
 .feature-title {
     color: #FFFFFF;
@@ -197,6 +199,14 @@ body {
 @media screen and (max-width: 768px) {
     .high-container {
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .low-container {
+        width: 100%;
+    }
+    .features {
+        min-width: 100%;
     }
 }
     

@@ -1,0 +1,28 @@
+body {
+    font-family: 'Plus Jakarta Sans';
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #F2F2F2;
+    height: 100vh;
+    margin: 0;
+}
+h1 {
+    display: flex;
+    font-weight: 400;
+    font-size: 36px;
+    margin: 0;
+}
+
+p {
+    display: flex;
+    font-weight: 200;
+    font-size: 16px;
+    margin: 2px 0;
+}
+
+img {
+    margin-top: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
