@@ -10,9 +10,8 @@ function init() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(document.getElementsByTagName('body'));
         document.querySelector('.background-image').style.backgroundImage = `url("/cdn/u/${data.finalAlumet.background}")`;
-        document.querySelector('.layer-filter').style.backdropFilter = `blur(${data.finalAlumet.blur}px) brightness(${data.finalAlumet.brightness})`;
+        document.querySelector('.layer-filter').style.backdropFilter = `blur(${data.finalAlumet.blur.$numberDecimal}px) brightness(${data.finalAlumet.brightness.$numberDecimal})`;
     })
 }
 

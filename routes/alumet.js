@@ -3,111 +3,104 @@ const router = express.Router();
 const Alumet = require('../models/alumet');
 const auth = require('../middlewares/auth');
 const multer = require('multer');
-const {v4: uuidv4} = require('uuid');
-const path = require('path');
+const { v4: uuidv4 } = require('uuid');
 const Upload = require('../models/upload');
 const { authorizedModules } = require('../config.json');
 const mongoose = require('mongoose');
 const validateObjectId = require('../middlewares/validateObjectId');
+const path = require('path');
 
 const storage = multer.diskStorage({
-    destination: './cdn',
-    filename: (req, file, cb) => {
-        cb(null, uuidv4() + path.extname(file.originalname));
-    }
+  destination: './cdn',
+  filename: (req, file, cb) => {
+    cb(null, uuidv4() + path.extname(file.originalname));
+  }
 });
 
 const sanitizeFilename = (filename) => {
-    return filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
+  return filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
 }
 
 const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 3 * 1024 * 1024,
-        files: 1,
-    },
-    fileFilter: function(req, res, file, callback) {
-        var ext = path.extname(file.originalname);
-        if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-            return res.status(400).json({
-                error: 'Invalid file format'
-            });
-        }
-        callback(null, true)
+  storage: storage,
+  limits: {
+    fileSize: 3 * 1024 * 1024,
+    files: 1,
+  },
+  fileFilter: function (req, file, callback) {
+    let ext = path.extname(file.originalname);
+    if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+      return callback(new Error('Invalid file format'));
     }
+    callback(null, true)
+  }
 });
 
+
 router.patch('/update/lastUsage', validateObjectId, async (req, res) => {
-    if (!req.body.id) {
-        return res.status(400).json({
-            error: 'Missing id'
-        });
+  if (!req.body.id) {
+    return res.status(400).json({
+      error: 'Missing id'
+    });
+  }
+  try {
+    const alumet = await Alumet.findOne({
+      _id: req.body.id
+    });
+    if (!alumet) {
+      return res.status(404).json({
+        error: 'Alumet not found'
+      });
     }
-    try {
-        const alumet = await Alumet.findOne({
-            _id: req.body.id
-        });
-        if (!alumet) {
-            return res.status(404).json({
-                error: 'Alumet not found'
-            });
-        }
-        alumet.lastUsage = Date.now();
-        await alumet.save();
-        res.json({
-            message: 'Updated'
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            error: 'Failed to update alumet'
-        });
-    }
+    alumet.lastUsage = Date.now();
+    await alumet.save();
+    res.json({
+      message: 'Updated'
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: 'Failed to update alumet'
+    });
+  }
 });
 
 
 router.post('/new/background', auth, upload.single('background'), async (req, res) => {
-    if (!req.logged) {
-        return res.status(401).json({
-            error: 'Unauthorized'
-        });
-    }
-    if (req.file) {
-        const file = req.file;
-        const ext = file.originalname.split('.').pop()
-        const sanitizedFilename = sanitizeFilename(file.originalname);
+  if (!req.logged) {
+    return res.status(401).json({
+      error: 'Unauthorized'
+    });
+  }
+  if (req.file) {
+    const file = req.file;
+    const ext = file.originalname.split('.').pop()
+    const sanitizedFilename = sanitizeFilename(file.originalname);
 
-        const upload = new Upload({
-            filename: file.filename,
-            displayname: sanitizedFilename,
-            mimetype: ext,
-            filesize: file.size,
-            owner: req.user._id,
-            modifiable: false
-        });
-        try {
-            let uploaded = await upload.save();
-            res.json({
-                uploaded
-            });
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                error: 'Failed to save file'
-            });
-        }
-    } else {
-        if (req.fileValidationError) {
-            res.status(400).json({
-                error: "Invalid file format"
-            })
-        } else {
-            res.status(400).json({
-                error: 'Please select a file to upload'
-            })
-        }
+    const upload = new Upload({
+      filename: file.filename,
+      displayname: sanitizedFilename,
+      mimetype: ext,
+      filesize: file.size,
+      owner: req.user._id,
+      modifiable: false
+    });
+    try {
+      let uploaded = await upload.save();
+      res.json({
+        uploaded
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        error: 'Failed to save file'
+      });
     }
+  } else {
+    res.status(400).json({
+      error: req.fileValidationError ? "Invalid file format" : 'Please select a file to upload'
+    })
+  }
 });
 
 
