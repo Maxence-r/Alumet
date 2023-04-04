@@ -1,0 +1,31 @@
+body {
+    background-color: #131313;
+
+    margin: 0;
+}
+
+:root {
+    --main-color: white;
+    --secondary-color: #000000;
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.layer-filter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 10;
+}
+

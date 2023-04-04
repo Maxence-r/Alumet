@@ -28,6 +28,7 @@ fetch(`/alumet/info/${path}`, {
     } else {
         document.querySelector('.alumet-infos h1').style.color = 'white';
         document.querySelector('.alumet-infos h3').style.color = 'white';
+        document.querySelector('.alumet-info').style.backgroundColor = '#131313';
     }
     fetch('/auth/u/' + data.finalAlumet.owner, {
         method: 'GET',
