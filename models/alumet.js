@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { Decimal128 } = mongoose.Types;
 
 const AlumetSchema = mongoose.Schema({
     name: {
@@ -58,9 +59,14 @@ const AlumetSchema = mongoose.Schema({
         default: false
     },
     brightness: {
-        type: Number,
+        type: Decimal128,
         required: true,
         default: 0.80
+    },
+    blur: {
+        type: Decimal128,
+        required: true,
+        default: 5
     },
 });
 
