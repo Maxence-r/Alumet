@@ -21,11 +21,162 @@
     <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
     <meta name="twitter:image" content="https://i.imgur.com/O9RdHj1.png">
 
+    <link rel="stylesheet" type="text/css" href="../../style/editor_alumet.css">
+    <link rel="stylesheet" type="text/css" href="../../style/global_alumet.css">
+    <link rel="stylesheet" type="text/css" href="../../style/global.css">
+
 
 
     <title>Alumet</title>
 </head>
 <body>
+    <div id="patch-post" class="modal">
+        <div class="modal-container">
+            <h1>Modifier le post</h1>
+            <p>Selectionner une couleur:</p>
+            <div class="color-selector">
+                <div id="blue"></div>
+                <div id="red"></div>
+                <div class="selected-color" id="green"></div>
+                <div id="yellow"></div>
+                <div id="purple"></div>
+                <div id="orange"></div>
+            </div>
+            <p>Modifier le titre</p>
+            <input type="text" placeholder="Titre">
+            <p>Modifier le contenu</p>
+            <textarea placeholder="Contenu"></textarea>
+            <div class="edit-buttons">
+                <button onclick="closeModal('patch-post')" id="cancel-patch">Annuler</button>
+                <button id="patch" type="button" onclick="this.classList.add('button--loading')">
+                    <span class="button__text">Modifier</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
+    <div id="cs" class="modal">
+        <div class="modal-container">
+            <h1>Crée un post</h1>
+            <p>Selectionner une couleur:</p>
+            <div class="color-selector">
+                <div class="selected-color" id="current-theme"></div>
+                <div id="blue"></div>
+                <div id="red"></div>
+                <div id="green"></div>
+                <div id="yellow"></div>
+                <div id="purple"></div>
+                <div id="orange"></div>
+            </div>
+            <p>Titre</p>
+            <input type="text" placeholder="Titre">
+            <p>Contenu</p>
+            <textarea placeholder="Contenu"></textarea>
+            <p>En plus</p>
+            <div class="items">
+                <div title="Charger un fichier"><img src="../../assets/app/upload_alumet.svg"></div>
+                <div title="Ajouter un lien"><img src="../../assets/app/link_alumet.svg"></div>
+                <div title="S'enregistrer"><img src="../../assets/app/record_alumet.svg"></div>
+                <div title="Vidéo youtube"><img src="../../assets/app/youtube_alumet.svg"></div>
+            </div>
+            <div class="edit-buttons">
+                <button onclick="closeModal('cs')" id="cancel-patch">Annuler</button>
+                <button id="patch" type="button" onclick="this.classList.add('button--loading')">
+                    <span class="button__text">Poster</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="wall-container">
+        <div class="wall">
+            <div class="wall-header">
+                <p class="wall-title">Exercices de maths +++ la folie vraiment ++++ la folie</p>
+                <div class="dots"><div></div><div></div><div></div></div>
+            </div>
+            <div class="post-scroll">
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-user-infos">
+                            <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
+                            <p class="post-user-username">John Doe</p>
+                            <pre class="post-user-date">12/12/2021</pre>
+                        </div>
+                        <div onclick="editPost()" class="dots"><div></div><div></div><div></div></div>
+                    </div>
+                    <div class="post-title">Une bonne idée on est bien d'accord</div>
+                    <div class="file-preview"><p class="file-type">PDF</p></div>
+                    <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
+                </div>
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-user-infos">
+                            <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
+                            <p class="post-user-username">John Doe</p>
+                            <pre class="post-user-date">12/12/2021</pre>
+                        </div>
+                        <div class="dots"><div></div><div></div><div></div></div>
+                    </div>
+                    <div class="post-title">Une bonne idée on est bien d'accord</div>
+                    <div class="file-preview"><p class="file-type">PDF</p></div>
+                    <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
+                </div>
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-user-infos">
+                            <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
+                            <p class="post-user-username">John Doe</p>
+                            <pre class="post-user-date">12/12/2021</pre>
+                        </div>
+                        <div class="dots"><div></div><div></div><div></div></div>
+                    </div>
+                    <div class="post-title">Une bonne idée on est bien d'accord</div>
+                    <div class="file-preview"><p class="file-type">PDF</p></div>
+                    <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
+                </div>
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-user-infos">
+                            <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
+                            <p class="post-user-username">John Doe</p>
+                            <pre class="post-user-date">12/12/2021</pre>
+                        </div>
+                        <div class="dots"><div></div><div></div><div></div></div>
+                    </div>
+                    <div class="post-title">Une bonne idée on est bien d'accord</div>
+                    <div class="file-preview"><p class="file-type">PDF</p></div>
+                    <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
+                </div>
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-user-infos">
+                            <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
+                            <p class="post-user-username">John Doe</p>
+                            <pre class="post-user-date">12/12/2021</pre>
+                        </div>
+                        <div class="dots"><div></div><div></div><div></div></div>
+                    </div>
+                    <div class="post-title">Une bonne idée on est bien d'accord</div>
+                    <div class="file-preview"><p class="file-type">PDF</p></div>
+                    <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
+                </div>
+            </div>
+        </div>
+        <div class="wall">
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-user-infos">
+                        <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
+                        <p class="post-user-username">John Doe</p>
+                    </div>
+                    <div class="dots"></div>
+                </div>
+            </div>
+        </div>
+        <button onclick="createSection()" class="main-button" id="add-wall">Ajouter un mur</button>
+    </div>
+
+<div class="layer-filter"></div>
+<div class="background-image"></div>
 </body>
+<script src="../../script/alumetGlobal.js"></script>
 </html>
