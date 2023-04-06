@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
 //Import middlewares
-const checkLogin = require('./middlewares/checkLogin');
+const authentication = require('./middlewares/authentication');
 
 // Import routes
 const dashboard = require('./routes/dashboard');
@@ -14,6 +14,7 @@ const alumet = require('./routes/alumet')
 const auth = require('./routes/auth');
 const portal = require('./routes/portal');
 const a = require('./routes/a');
+const api = require('./routes/contentApi');
 // Definition des outils
 app.use(cookieParser());
 app.use(express.json());
@@ -29,13 +30,15 @@ mongoose.connect('mongodb+srv://admin:OHdI4vfXbgNy1ZAV@alumet.knhvwib.mongodb.ne
 
 
 // Routes
-app.use(checkLogin);
+app.use(authentication);
 app.get('/', (req, res) => {
     res.sendFile('main.html', {root: './views/pages'});
 });
 app.use('/404', (req, res) => {
     res.sendFile('404.html', {root: './views/pages'});
 });
+
+app.use('/api', api)
 app.use('/a', a)
 app.use('/portal', portal);
 app.use('/dashboard', dashboard);

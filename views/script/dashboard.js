@@ -280,31 +280,14 @@ document.getElementById('search-input').addEventListener('input', (e) => {
     });
 });
 
-const supported = {
-    'pdf': '<iframe src="*?#toolbar=0" frameBorder="0"></iframe>',
-    'png': '<img class="image-view" src="*">',
-    'jpg': '<img class="image-view" src="*">',
-    'jpeg': '<img class="image-view" src="*">',
-    'gif': '<img class="image-view" src="*">',
-    'apng': '<img class="image-view" src="*">',
-    'avif': '<img class="image-view" src="*">',
-    'webp': '<img class="image-view" src="*">',
-    'mp4': '<video class="video-view" controls><source src="*" type="video/mp4"></video>',
-    'webm': '<video class="video-view" controls><source src="*" type="video/webm"></video>',
-    'ogg': '<audio class="audio-view" controls><source src="*" type="audio/ogg"></audio>',
-    'mp3': '<audio class="audio-view" controls><source src="*" type="audio/mpeg"></audio>',
-    'wav': '<audio class="audio-view" controls><source src="*" type="audio/wav"></audio>',
-    'flac': '<audio class="audio-view" controls><source src="*" type="audio/flac"></audio>',
-    'pptx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'odt': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'ods': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'ppt': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'odp': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'docx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'doc': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'xlsx': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-    'xls': `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${window.location.protocol}//${window.location.host}*" frameborder='0'>This is an embedded <a target='_blank' href='http://office.com'>Microsoft Office</a> document, powered by <a target='_blank' href='http://office.com/webapps'>Office Online</a>.</iframe>`,
-}
+let supported = {};
+fetch('/cdn/supported')
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+        supported = data;
+    })
+    .catch(err => console.log(err));
 
 function openDocument(id) {
     document.getElementById('file-loading').style.display = 'flex';

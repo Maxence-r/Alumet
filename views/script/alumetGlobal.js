@@ -78,6 +78,13 @@ function createSection() {
     document.getElementById('cs').classList.add('active-modal');
 }
 
+// get all post scroll containers
+function createPost(id) {
+    document.getElementById('cp').style.display = 'flex';
+    document.getElementById('cp').classList.add('active-modal');
+}
+
+
 
 
 

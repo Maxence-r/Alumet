@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Alumet = require('../models/alumet');
-const auth = require('../middlewares/auth');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const Upload = require('../models/upload');
@@ -66,7 +65,7 @@ router.patch('/update/lastUsage', validateObjectId, async (req, res) => {
 });
 
 
-router.post('/new/background', auth, upload.single('background'), async (req, res) => {
+router.post('/new/background', upload.single('background'), async (req, res) => {
   if (!req.logged) {
     return res.status(401).json({
       error: 'Unauthorized'
@@ -106,7 +105,7 @@ router.post('/new/background', auth, upload.single('background'), async (req, re
 
 
 
-router.post('/new', auth, async (req, res) => {
+router.post('/new', async (req, res) => {
     if (!req.logged) {
         return res.status(401).json({
             error: 'Unauthorized'
@@ -152,7 +151,7 @@ router.post('/new', auth, async (req, res) => {
     }
 });
 
-router.get('/all', auth, async (req, res) => {
+router.get('/all', async (req, res) => {
     if (!req.logged) {
         return res.status(401).json({
             error: 'Unauthorized'

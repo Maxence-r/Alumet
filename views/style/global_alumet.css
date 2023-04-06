@@ -6,7 +6,9 @@ body {
     background-color: #131313;
     margin: 0;
     padding: 20px;
-    height: calc(100vh - 40px);
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 :root {
@@ -62,9 +64,14 @@ body {
     font-size: 14px;
     font-weight: 600;
     height: 35px;
+    width: 100%;
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.3s ease;
+}
+
+#add-post {
+    margin-bottom: 20px;
 }
 
 .main-button:hover {
@@ -84,11 +91,8 @@ body {
     margin-bottom: 15px;
     width: 254px;
     min-width: 254px;
+    transition: transform 0.5s ease;
 }
-
-.post:hover + .post-user-date {
-    display: block;
-} 
 
 .post-header {
     color: var(--secondary-color);
@@ -157,7 +161,6 @@ pre {
 }
 
 .wall-header {
-    width: 254px;
     min-width: 254px;
     background-color: var(--main-color);
     border-radius: 5px;
@@ -309,14 +312,14 @@ pre {
     height: calc(100vh - 100px);
 }
 
-.modal-container h1 {
+.modal-container > h1 {
     color: var(--secondary-color);
     font-size: 30px;
     font-weight: 600;
     margin: 0;
 }
 
-.modal-container p {
+.modal-container > p {
     color: var(--secondary-color);
     font-size: 16px;
     font-weight: 400;
@@ -325,7 +328,7 @@ pre {
     margin-top: 15px;
 }
 
-.modal-container input {
+.modal-container > input {
     width: calc(100% - 20px);
     height: 26px;
     border-radius: 5px;
@@ -338,11 +341,11 @@ pre {
     transition: all 0.3s ease;
 }
 
-.modal-container input:focus {
+.modal-container > input:focus {
     box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.05)
 }
 
-.modal-container textarea {
+.modal-container > textarea {
     width: calc(100% - 20px);
     height: 100px;
     border-radius: 5px;
@@ -354,6 +357,22 @@ pre {
     resize: none;
     margin-bottom: 10px;
     transition: all 0.3s ease;
+}
+
+.option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.option > p {
+    color: var(--secondary-color);
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
 }
 
 .edit-buttons {
@@ -490,6 +509,54 @@ pre {
     animation: button-loading-spinner 1s ease infinite;
   }
   
+
+  .toggle {
+    cursor: pointer;
+    display: inline-block;
+  }
+  
+  .toggle-switch {
+    display: inline-block;
+    background: #ccc;
+    border-radius: 16px;
+    width: 51px;
+    height: 25px;
+    position: relative;
+    vertical-align: middle;
+    transition: background 0.25s;
+  }
+  .toggle-switch:before, .toggle-switch:after {
+    content: "";
+  }
+  .toggle-switch:before {
+    display: block;
+    background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    transition: left 0.25s;
+  }
+  .toggle:hover .toggle-switch:before {
+    background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+  }
+  .toggle-checkbox:checked + .toggle-switch {
+    background: var(--teranga-color);
+  }
+  .toggle-checkbox:checked + .toggle-switch:before {
+    left: 30px;
+  }
+  
+  .toggle-checkbox {
+    position: absolute;
+    visibility: hidden;
+  }
+  
+  
+ 
+
   @keyframes button-loading-spinner {
     from {
       transform: rotate(0turn);
@@ -504,7 +571,7 @@ pre {
 @media  (max-width: 768px) {
     body {
         padding: 10px;
-        height: calc(100vh - 20px);
+        height: 100vh;      
     }
     .post-scroll {
         height: calc(100vh - 80px);

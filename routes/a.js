@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const alumetAuth = require('../middlewares/alumetAuth');
-const checkLogin = require('../middlewares/checkLogin');
+const alumetAuth = require('../middlewares/api/alumetAuth');
+
 const Alumet = require('../models/alumet');
 const validateObjectId = require('../middlewares/validateObjectId');
 
@@ -12,7 +12,7 @@ router.get('/:id', alumetAuth, validateObjectId, (req, res) => {
     res.sendFile(filePath);
 });
 
-router.get('/edit/:id', checkLogin, validateObjectId, (req, res) => {
+router.get('/edit/:id', validateObjectId, (req, res) => {
     if (!req.logged) return res.redirect(`/portal/${req.params.id}`);
     Alumet.findOne({
         _id: req.params.id

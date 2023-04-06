@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const Account = require('../models/account');
 const { tokenC } = require('../config.json');
 
-const checkLogin = (req, res, next) => {
+const authentication = (req, res, next) => {
     const token = req.cookies.token;
     if (!token || token == 'undefined') {
         req.logged = false;
@@ -30,4 +30,4 @@ const checkLogin = (req, res, next) => {
     }
 };
 
-module.exports = checkLogin;
+module.exports = authentication;

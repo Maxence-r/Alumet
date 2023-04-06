@@ -3,10 +3,10 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const auth = require('../middlewares/checkLogin');
 const Upload = require('../models/upload');
 const fs = require('fs');
 const validateObjectId = require('../middlewares/validateObjectId');
+const { supported } = require('../config.json');
 // Set storage engine
 const storage = multer.diskStorage({
     destination: './cdn',
@@ -14,6 +14,11 @@ const storage = multer.diskStorage({
         cb(null, uuidv4() + path.extname(file.originalname));
     }
 });
+
+router.get('/supported', (req, res) => {
+    res.json(supported);
+});
+  
 
 router.get('/u/:id', validateObjectId, (req, res) => {
     Upload.find( { _id: req.params.id } )
@@ -68,7 +73,7 @@ router.post('/upload/guest', upload.array('files'), (req, res) => {
 });
 
 
-router.patch('/update/:id', validateObjectId, auth, (req, res) => {
+router.patch('/update/:id', validateObjectId, (req, res) => {
   if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
   if (!req.body.displayname) return res.status(400).json({ error: 'Veuillez spéficier un nouveau nom' });
   if (req.body.displayname.length > 100) return res.status(400).json({ error: 'Nom trop long' });
@@ -93,7 +98,7 @@ router.patch('/update/:id', validateObjectId, auth, (req, res) => {
 
 
 
-router.get('/files', auth, (req, res) => {
+router.get('/files', (req, res) => {
     if (!req.logged) return res.status(401).json({ error: 'Unauthorized' });
     Upload.find( { owner: req.user.id } ).sort({ date: -1 })
     .then(uploads => {
@@ -105,7 +110,7 @@ router.get('/files', auth, (req, res) => {
 
 
   
-router.post('/upload', auth, accountUpload.array('files'), (req, res) => {
+router.post('/upload', accountUpload.array('files'), (req, res) => {
     if (req.logged == false || req.user === undefined) return res.status(401).json({ error: 'Unauthorized' });
     if (req.files && req.files.length > 0) {
       const files = req.files.map(file => {
@@ -121,6 +126,7 @@ router.post('/upload', auth, accountUpload.array('files'), (req, res) => {
         }
       });
       files.forEach(file => {
+        console.log(file);
         const upload = new Upload({
             filename: file.filename,
             displayname: file.displayname,
@@ -152,7 +158,7 @@ router.get('/info/:id', validateObjectId, (req, res) => {
     .catch(error => res.json({ error }));
 });
 
-router.get('/delete/:id', validateObjectId, auth, (req, res) => {
+router.get('/delete/:id', validateObjectId, (req, res) => {
     if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
     Upload.find( { _id: req.params.id } )
     .then(upload => {

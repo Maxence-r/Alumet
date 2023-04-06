@@ -61,7 +61,10 @@
             <p>Titre</p>
             <input type="text" placeholder="Titre">
             <p>Paramètres</p>
-            <div class="option"><p>Autoriser les commentaires</p></div>
+            <div class="option"><p>Autoriser les commentaires</p><label class="toggle">
+                <input class="toggle-checkbox" type="checkbox">
+                <div class="toggle-switch"></div>
+              </label></div>
             <div class="edit-buttons">
                 <button onclick="closeModal('cs')" id="cancel-patch">Annuler</button>
                 <button id="patch" type="button" onclick="this.classList.add('button--loading')">
@@ -109,6 +112,80 @@
                 <p class="wall-title">Exercices de maths +++ la folie vraiment ++++ la folie</p>
                 <div class="dots"><div></div><div></div><div></div></div>
             </div>
+            <button onclick="createPost()" id="add-post" class="main-button">Add post</button>
+            <div class="post-scroll">
+                <div data-position="1" class="post">
+                    <div class="post-header">
+                        <div class="post-user-infos">
+                            <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
+                            <p class="post-user-username">John Doe</p>
+                            <pre class="post-user-date">12/12/2021</pre>
+                        </div>
+                        <div onclick="editPost()" class="dots"><div></div><div></div><div></div></div>
+                    </div>
+                    <div class="post-title">1</div>
+                    <div class="file-preview"><p class="file-type">PDF</p></div>
+                    <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
+                </div>
+                <div data-position="2" class="post">
+                    <div class="post-header">
+                        <div class="post-user-infos">
+                            <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
+                            <p class="post-user-username">John Doe</p>
+                            <pre class="post-user-date">12/12/2021</pre>
+                        </div>
+                        <div class="dots"><div></div><div></div><div></div></div>
+                    </div>
+                    <div class="post-title">2</div>
+                    <div class="file-preview"><p class="file-type">PDF</p></div>
+                    <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
+                </div>
+                <div data-position="3" class="post">
+                    <div class="post-header">
+                        <div class="post-user-infos">
+                            <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
+                            <p class="post-user-username">John Doe</p>
+                            <pre class="post-user-date">12/12/2021</pre>
+                        </div>
+                        <div class="dots"><div></div><div></div><div></div></div>
+                    </div>
+                    <div class="post-title">3</div>
+                    <div class="file-preview"><p class="file-type">PDF</p></div>
+                    <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
+                </div>
+                <div data-position="4" class="post">
+                    <div class="post-header">
+                        <div class="post-user-infos">
+                            <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
+                            <p class="post-user-username">John Doe</p>
+                            <pre class="post-user-date">12/12/2021</pre>
+                        </div>
+                        <div class="dots"><div></div><div></div><div></div></div>
+                    </div>
+                    <div class="post-title">4</div>
+                    <div class="file-preview"><p class="file-type">PDF</p></div>
+                    <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
+                </div>
+                <div data-position="5" class="post">
+                    <div class="post-header">
+                        <div class="post-user-infos">
+                            <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
+                            <p class="post-user-username">John Doe</p>
+                            <pre class="post-user-date">12/12/2021</pre>
+                        </div>
+                        <div class="dots"><div></div><div></div><div></div></div>
+                    </div>
+                    <div class="post-title">5</div>
+                    <div class="file-preview"><p class="file-type">PDF</p></div>
+                    <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
+                </div>
+            </div>
+        </div>
+        <div class="wall">
+            <div class="wall-header">
+                <p class="wall-title">Exercices de maths +++ la folie vraiment ++++ la folie</p>
+                <div class="dots"><div></div><div></div><div></div></div>
+            </div>
             <div class="post-scroll">
                 <div class="post">
                     <div class="post-header">
@@ -119,7 +196,7 @@
                         </div>
                         <div onclick="editPost()" class="dots"><div></div><div></div><div></div></div>
                     </div>
-                    <div class="post-title">Une bonne idée on est bien d'accord</div>
+                    <div class="post-title">1</div>
                     <div class="file-preview"><p class="file-type">PDF</p></div>
                     <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
                 </div>
@@ -132,7 +209,7 @@
                         </div>
                         <div class="dots"><div></div><div></div><div></div></div>
                     </div>
-                    <div class="post-title">Une bonne idée on est bien d'accord</div>
+                    <div class="post-title">2</div>
                     <div class="file-preview"><p class="file-type">PDF</p></div>
                     <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
                 </div>
@@ -145,7 +222,7 @@
                         </div>
                         <div class="dots"><div></div><div></div><div></div></div>
                     </div>
-                    <div class="post-title">Une bonne idée on est bien d'accord</div>
+                    <div class="post-title">3</div>
                     <div class="file-preview"><p class="file-type">PDF</p></div>
                     <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
                 </div>
@@ -158,7 +235,7 @@
                         </div>
                         <div class="dots"><div></div><div></div><div></div></div>
                     </div>
-                    <div class="post-title">Une bonne idée on est bien d'accord</div>
+                    <div class="post-title">4</div>
                     <div class="file-preview"><p class="file-type">PDF</p></div>
                     <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
                 </div>
@@ -171,20 +248,9 @@
                         </div>
                         <div class="dots"><div></div><div></div><div></div></div>
                     </div>
-                    <div class="post-title">Une bonne idée on est bien d'accord</div>
+                    <div class="post-title">5</div>
                     <div class="file-preview"><p class="file-type">PDF</p></div>
                     <p class="post-content">Lorem ipsum dolor sit amet cogizgaagzihgihazgioazogihazogihazgohiazgioagziohazgoihagziazgi</p>
-                </div>
-            </div>
-        </div>
-        <div class="wall">
-            <div class="post">
-                <div class="post-header">
-                    <div class="post-user-infos">
-                        <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
-                        <p class="post-user-username">John Doe</p>
-                    </div>
-                    <div class="dots"></div>
                 </div>
             </div>
         </div>
@@ -195,4 +261,5 @@
 <div class="background-image"></div>
 </body>
 <script src="../../script/alumetGlobal.js"></script>
+<script src="../../script/alumetEditor.js"></script>
 </html>
