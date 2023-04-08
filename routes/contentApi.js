@@ -23,15 +23,28 @@ router.post('/post', validateObjectId, teacherAuth, (req, res) => {
 
 
 router.post('/wall', validateObjectId, teacherAuth, (req, res) => {
-    Wall.find({ alumet: req.body.id })
-    const wall = new Wall({
-        title: req.body.title,
-        post: req.body.post,
-        position: req.body.position,
-        alumet: req.body.id
+    Wall.find({ alumet: req.body.id }).sort({ position: -1 }).limit(1)
+    .then(wall => {
+        if (wall.length === 0) {
+            position = 0;
+        } else {
+            position = wall[0].position + 1;
+        }
+        const wallObject = new Wall({
+            title: req.body.title,
+            post: req.body.post,
+            position: position,
+            alumet: req.body.id
+        });
+        wallObject.save()
+        .then(wall => res.json(wall))
+        .catch(error => res.json({ error }));
     });
-    wall.save()
-    .then(wall => res.json(wall))
+});
+
+router.get('/walls', validateObjectId, studentAuth, (req, res) => {
+    Wall.find({ alumet: req.query.id }).sort({ position: 1 })
+    .then(walls => res.json(walls))
     .catch(error => res.json({ error }));
 });
     

@@ -1,11 +1,11 @@
 const Alumet = require('../models/alumet');
 
-const studentAuth = (req, res, next) => {
+const multiAuth = (req, res, next) => {
     Alumet.findOne({
             _id: req.body.id
         })
         .then(alumet => {
-            if (!req.cookies.alumetToken) {
+            if (!req.cookies.alumetToken || (!req.logged && req.user._id == alumet.owner)) {
                 req.auth = false;
                 return res.status(401).json({
                     error: 'Unauthorized'
@@ -38,4 +38,4 @@ const studentAuth = (req, res, next) => {
         }));
 }
 
-module.exports = studentAuth;
+module.exports = multiAuth;

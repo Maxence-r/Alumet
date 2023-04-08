@@ -59,15 +59,15 @@
         <div class="modal-container">
             <h1>Crée une section</h1>
             <p>Titre</p>
-            <input type="text" placeholder="Titre">
+            <input id="s-title" type="text" placeholder="Titre">
             <p>Paramètres</p>
             <div class="option"><p>Autoriser les commentaires</p><label class="toggle">
-                <input class="toggle-checkbox" type="checkbox">
+                <input id="s-checked" class="toggle-checkbox" type="checkbox">
                 <div class="toggle-switch"></div>
               </label></div>
             <div class="edit-buttons">
                 <button onclick="closeModal('cs')" id="cancel-patch">Annuler</button>
-                <button id="patch" type="button" onclick="this.classList.add('button--loading')">
+                <button class="s-create" id="accent" type="button" onclick="this.classList.add('button--loading')">
                     <span class="button__text">Poster</span>
                 </button>
             </div>
@@ -100,7 +100,7 @@
             </div>
             <div class="edit-buttons">
                 <button onclick="closeModal('cp')" id="cancel-patch">Annuler</button>
-                <button id="patch" type="button" onclick="this.classList.add('button--loading')">
+                <button id="accent" type="button" onclick="this.classList.add('button--loading')">
                     <span class="button__text">Poster</span>
                 </button>
             </div>

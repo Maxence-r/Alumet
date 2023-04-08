@@ -1,6 +1,5 @@
 const postContainers = document.querySelectorAll('.post-scroll');
 
-// loop through all post scroll containers and attach event listeners
 postContainers.forEach(postContainer => {
   let isDragging = false;
   let currentPost;
@@ -67,4 +66,31 @@ postContainers.forEach(postContainer => {
         }
     }
   });
+});
+
+document.querySelector('.s-create').addEventListener('click', function(event) {
+    const title = document.getElementById('s-title').value;
+    const checked = document.getElementById('s-checked').checked;
+    if (title === '') {
+        return alert('Please enter a title');
+    }
+    fetch('/api/wall', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            title: title,
+            post: checked,
+            id: localStorage.getItem('currentAlumet')
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.querySelector('.s-create').classList.remove('button--loading');
+        if (!data.error) {
+            console.log(data);
+            closeModal('cs')
+        }
+    })
 });

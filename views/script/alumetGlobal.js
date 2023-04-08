@@ -10,6 +10,7 @@ function init() {
     })
     .then(response => response.json())
     .then(data => {
+        localStorage.setItem('currentAlumet', data.finalAlumet._id);
         document.querySelector('.background-image').style.backgroundImage = `url("/cdn/u/${data.finalAlumet.background}")`;
         document.querySelector('.layer-filter').style.backdropFilter = `blur(${data.finalAlumet.blur.$numberDecimal}px) brightness(${data.finalAlumet.brightness.$numberDecimal})`;
         if (data.finalAlumet.theme == 'dark') {
@@ -82,6 +83,10 @@ function createSection() {
 function createPost(id) {
     document.getElementById('cp').style.display = 'flex';
     document.getElementById('cp').classList.add('active-modal');
+}
+
+function getWalls() {
+    
 }
 
 
