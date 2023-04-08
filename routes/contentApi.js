@@ -23,6 +23,7 @@ router.post('/post', validateObjectId, teacherAuth, (req, res) => {
 
 
 router.post('/wall', validateObjectId, teacherAuth, (req, res) => {
+    Wall.find({ alumet: req.body.id })
     const wall = new Wall({
         title: req.body.title,
         post: req.body.post,
