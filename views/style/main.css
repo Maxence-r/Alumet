@@ -81,6 +81,7 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 88px;
+    align-items: center;
 }
 .button-video {
     background: rgba(217, 217, 217, 0.1);
@@ -127,4 +128,156 @@ body {
     margin-left: 13px;
     width: 7px;
     height: 15px;
+}
+.apercu {
+    width: 1585px;
+    height: 891px;
+    margin-top: 62px;
+    align-items: center;
+}
+.border{
+    width: 1100px;
+    height: 150px;
+    border: 0px;
+    border-top: 1px solid red;
+    border-radius: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    margin-top: 200px;
+    align-items: center;
+}
+.second-slogan {
+    color: white;
+    font-size: 64px;
+    margin-top: 350px;
+    margin: auto;
+}
+.second-sous-titre-slogan {
+    color: #BBBBBB;
+    font-size: 24px;
+    margin-top: 0px;
+    margin: auto;
+}
+.some-boxes{
+    display: flex;
+    flex-direction: row;
+}
+.first-box {
+    margin-top: 27px;
+    width: 494px;
+    height: 281px;
+    margin-left: 184px;
+    background-color: #4E4E4E;
+    border-radius: 15px;
+    flex-direction: column;
+    display: flex;
+    cursor: pointer;
+}
+.first-titre {
+    color: white;
+    margin-top: 209px;
+    font-size: 20px;
+    margin: auto;
+}
+.first-sous-titre {
+    color: #BBBBBB;
+    font-size: 14px;
+    margin-top: 25px;
+    margin: auto;
+}
+.second-box {
+    width: 494px;
+    height: 281px;
+    background-color: #4E4E4E;
+    border-radius: 15px;
+    flex-direction: column;
+    display: flex;
+    margin-left: 35px;
+    margin-top: 27px;
+    cursor: pointer;
+}
+.third-box {
+    margin-top: 421px;
+    width: 494px;
+    height: 281px;
+    margin-left: 184px;
+    background-color: #4E4E4E;
+    border-radius: 15px;
+    flex-direction: column;
+    display: flex;
+    cursor: pointer;
+}
+.fourth-box {
+    width: 1023px;
+    height: 281px;
+    background-color: #4E4E4E;
+    margin-top: 27px;
+    border-radius: 15px;
+    margin-left: 35px;
+    cursor: pointer;
+}
+.argument {
+    margin-top: 215px;
+    display: flex;
+    flex-direction: column;
+    height: 518px;
+}
+.raison {
+    color: white;
+    font-size: 80px;
+}
+.ligne {
+    width: 1101px;
+    border: 1px solid #4D4D4D;;
+}
+.arguments-2 {
+    flex-direction: row;
+    display: flex;
+}
+.synchro {
+    margin-top: 71px;
+    margin-left: 456px;
+    width: 18px;
+    height: 17px;
+}
+.synchro-titre {
+    margin-top: 66px;
+    color: #BBBBBB;
+    font-size: 14px;
+    margin-left: 17px;
+}
+.eclair {
+    width: 14.55px;
+    height: 20px;
+    margin-left: 105px;
+    margin-top: 68px;
+}
+.cube {
+    width: 17px;
+    height: 18px;
+    margin-top: 71px;
+    margin-left: 105px;
+}
+.arguments-3 {
+    display: flex;
+    flex-direction: row;
+}
+.ondes {
+    width: 18px;
+    height: 11px;
+    margin-left: 456px;
+    margin-top: 18px;
+}
+.ondes-titre {
+    color: #BBBBBB;
+    margin-left: 17px;
+    font-size: 14px;
+}
+.camera {
+    width: 18px;
+    height: 14px;
+    margin-top: 18px; 
+    margin-left: 105px;
 }
