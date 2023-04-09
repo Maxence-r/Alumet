@@ -86,8 +86,43 @@ function createPost(id) {
 }
 
 function getWalls() {
-    
+    fetch(`/api/walls/${localStorage.getItem('currentAlumet')}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }, 
+    })
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(wall => {
+            div = document.createElement('div');
+            div.classList.add('wall');
+            div.setAttribute('data-position', wall.position);
+            div.innerHTML = `
+            <div class="wall-header">
+                <p class="wall-title">${wall.title}</p>
+                <div class="dots"><div></div><div></div><div></div></div>
+            </div>
+            <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Add post</button>
+            <div class="post-scroll">
+                
+            </div>`;
+            document.querySelector('.wall-container').insertBefore(div, document.querySelector('.wall-container').childNodes[0]);
+        })
+    })
 }
+let color = 'white';
+document.querySelectorAll('.color-selector > div').forEach(color => {
+    color.addEventListener('click', () => {
+        color = color.id
+        document.querySelectorAll('.color-selector > div').forEach(selectedcolor => {
+            selectedcolor.classList.remove('selected-color');
+        })
+        color.classList.add('selected-color');
+    })
+})
+
+getWalls();
 
 
 
