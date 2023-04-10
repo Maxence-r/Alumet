@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../../models/post');
 const validateObjectId = require('../../middlewares/validateObjectId');
-const paramValidator = require('../../middlewares/api/paramValidator');
+const paramValidator = require('../../middlewares/api/alumetItemsAuth');
 
 router.post('/', validateObjectId, (req, res) => {
     const post = new Post({

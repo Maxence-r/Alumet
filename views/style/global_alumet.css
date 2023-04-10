@@ -162,6 +162,7 @@ pre {
 
 .wall-header {
     min-width: 254px;
+    max-width: 254px;
     background-color: var(--main-color);
     border-radius: 5px;
     padding: 8px;
@@ -192,6 +193,10 @@ pre {
     flex-direction: column;
     align-items: end;
     overflow: hidden;
+}
+
+#delete {
+    border: 1px solid var(--teranga-color);
 }
 
 .active-modal {

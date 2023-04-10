@@ -4,7 +4,8 @@ const WallSchema = mongoose.Schema({
     title: {
         type: String,
         required: true,
-        minLength: 1
+        minLength: 1,
+        maxLength: 150
     },
     post: {
         type: Boolean,

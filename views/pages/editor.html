@@ -55,6 +55,26 @@
         </div>
     </div>
 
+    <div id="ms" class="modal">
+        <div class="modal-container">
+            <h1>Modifier la section</h1>
+            <p>Titre</p>
+            <input id="s-m-title" type="text" placeholder="Titre">
+            <p>Paramètres</p>
+            <div class="option"><p>Autoriser les commentaires</p><label class="toggle">
+                <input id="s-m-checked" class="toggle-checkbox" type="checkbox">
+                <div class="toggle-switch"></div>
+              </label></div>
+            <div class="edit-buttons">
+                <button onclick="closeModal('ms')" id="cancel">Annuler</button>
+                <button onclick="deleteWall('ms')" id="delete">Supprimer</button>
+                <button class="s-modify" id="accent" type="button" onclick="this.classList.add('button--loading')">
+                    <span class="button__text">Modifier</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="cs" class="modal">
         <div class="modal-container">
             <h1>Crée une section</h1>
@@ -73,6 +93,8 @@
             </div>
         </div>
     </div>
+
+    
 
     <div id="cp" class="modal">
         <div class="modal-container">
@@ -115,6 +137,8 @@
 <div class="layer-filter"></div>
 <div class="background-image"></div>
 </body>
+<script src="../../script/utils/utils.js"></script>
+<script src="../../script/utils/drag.js"></script>
 <script src="../../script/alumetGlobal.js"></script>
 <script src="../../script/alumetEditor.js"></script>
 </html>

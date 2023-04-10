@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Wall = require('../../models/wall');
 const validateObjectId = require('../../middlewares/validateObjectId');
-const paramValidator = require('../../middlewares/api/paramValidator');
+const alumetItemsAuth = require('../../middlewares/api/alumetItemsAuth');
 
-router.post('/', validateObjectId, (req, res) => {
+router.post('/:alumet', validateObjectId, alumetItemsAuth, (req, res) => {
+    if (!req.logged || req.alumet.owner.toString() !== req.user.id) return res.status(401).json({ error: 'Unauthorized' });
     Wall.find({ alumet: req.body.id }).sort({ position: -1 }).limit(1)
     .then(wall => {
         if (wall.length === 0) {
@@ -24,20 +25,22 @@ router.post('/', validateObjectId, (req, res) => {
     });
 });
 
-router.get('/:alumet', paramValidator, validateObjectId, (req, res) => {
+router.get('/:alumet', alumetItemsAuth, validateObjectId, (req, res) => {
     Wall.find({ alumet: req.params.alumet }).sort({ position: -1 })
     .then(walls => res.json(walls))
     .catch(error => res.json({ error }));
 });
 
-router.delete('/:alumet/:id', validateObjectId, (req, res) => {
-    Wall.findOneAndDelete({ _id: req.params.id })
+router.delete('/:alumet/:wall', validateObjectId, alumetItemsAuth, (req, res) => {
+    if (!req.logged || req.alumet.owner.toString() !== req.user.id) return res.status(401).json({ error: 'Unauthorized' });
+    Wall.findOneAndDelete({ _id: req.params.wall })
     .then(wall => res.status(200).json({ message: 'Wall deleted' }))
     .catch(error => res.json({ error }));
 });
 
-router.patch('/:alumet/:id', validateObjectId, (req, res) => {
-    Wall.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }) 
+router.patch('/:alumet/:wall', validateObjectId, alumetItemsAuth, (req, res) => {
+    if (!req.logged || req.alumet.owner.toString() !== req.user.id) return res.status(401).json({ error: 'Unauthorized' });
+    Wall.findOneAndUpdate({ _id: req.params.wall }, { $set: req.body }) 
     .then(wall => res.status(200).json({ message: 'Wall updated' }))
     .catch(error => res.json({ error }));
 });
