@@ -1,7 +1,8 @@
 const Alumet = require('../../models/alumet');
 
 const accountAuth = (req, res, next) => {
-    Alumet.findOne({ _id: req.params.alumet})
+    
+    Alumet.findOne({ _id: req.params.alumet || req.params.id})
     .then(alumet => {
         if (!alumet) return res.json({ error: 'Alumet not found' });
         if (req.logged && req.user._id == alumet.owner) {
