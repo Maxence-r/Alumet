@@ -20,7 +20,7 @@ body {
     align-items: center;
     height: 88px;
     border-bottom: 1px solid white;
-    backdrop-filter: blur(4px);
+    background: linear-gradient(178.31deg, rgba(22, 22, 22, 0.0) 1.43%, rgb(19, 19, 19, 1.0) 90%);
 }
 .button-statut {
     float: left;
@@ -30,6 +30,9 @@ body {
     font-size: 14px;
     cursor: pointer;
 }
+.button-statut:hover {
+    text-decoration: underline;
+}
 .button-project {
     float: left;
     color: white;
@@ -37,6 +40,9 @@ body {
     margin-left: 53px;
     font-size: 14px;
     cursor: pointer;
+}
+.button-project:hover {
+    text-decoration: underline;
 }
 .button-adopt {
     float: left;
@@ -46,6 +52,9 @@ body {
     font-size: 14px;
     cursor: pointer;
 }
+.button-adopt:hover {
+    text-decoration: underline;
+}
 .button-update {
     float: left;
     color: white;
@@ -53,6 +62,9 @@ body {
     margin-left: 53px;
     font-size: 14px;
     cursor: pointer;
+}
+.button-update:hover {
+    text-decoration: underline;
 }
 .button-signin {
     border: none;
@@ -62,6 +74,9 @@ body {
     margin-left: 793px;
     font-size: 14px;
     cursor: pointer;
+}
+.button-signin:hover {
+    text-decoration: underline;
 }
 .button-signup {
     float: left;
@@ -218,27 +233,34 @@ body {
     margin-left: 35px;
     cursor: pointer;
 }
-.argument {
-    margin-top: 215px;
+.arguments {
+    margin-top: 100px;
     display: flex;
     flex-direction: column;
-    height: 518px;
+    width: 798px;
+    border-top: 1px solid rgba(255, 61, 0, 0.5);
+    margin-left: 573px;
+    background: linear-gradient(rgba(255, 61, 0, 0.5), #131313);
+    backdrop-filter: blur(34,5px);
 }
 .raison {
     color: white;
     font-size: 80px;
+    margin-top: 60px;
 }
 .ligne {
     width: 1101px;
-    border: 1px solid #4D4D4D;;
+    border: 1px solid #4D4D4D;
 }
 .arguments-2 {
     flex-direction: row;
     display: flex;
+    width: 1101px;
+    border-top: 1px solid #4D4D4D;
+    margin-left: 422px;
 }
 .synchro {
     margin-top: 71px;
-    margin-left: 456px;
     width: 18px;
     height: 17px;
 }
@@ -267,7 +289,7 @@ body {
 .ondes {
     width: 18px;
     height: 11px;
-    margin-left: 456px;
+    margin-left: 422px;
     margin-top: 18px;
 }
 .ondes-titre {
