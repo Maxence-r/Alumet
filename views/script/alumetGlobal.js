@@ -114,12 +114,11 @@ function getWalls() {
 }
 let color = 'white';
 document.querySelectorAll('.color-selector > div').forEach(color => {
-    color.addEventListener('click', () => {
-        color = color.id
+    color.addEventListener('click', (a) => {
         document.querySelectorAll('.color-selector > div').forEach(selectedcolor => {
             selectedcolor.classList.remove('selected-color');
         })
-        color.classList.add('selected-color');
+        a.target.classList.add('selected-color');
     })
 })
 
