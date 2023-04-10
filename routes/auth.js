@@ -97,7 +97,6 @@ router.post('/signin', (req, res) => {
 
 
 router.post('/signup', async (req, res) => {
-    console.log(req.body);
     const account = new Account({
         nom: req.body.nom,
         prenom: req.body.prenom,

@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
 function validateObjectId(req, res, next) {
-  console.log(req.body);
-    const id = req.params.id || req.body.id;
+    const id = req.params.id || req.body.id || req.params.alumet;
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.redirect('/404');
     }

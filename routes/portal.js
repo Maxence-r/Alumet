@@ -4,11 +4,10 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const Alumet = require('../models/alumet');
 const { tokenC } = require('../config.json');
-const alumetAuth = require('../middlewares/api/alumetAuth');
 const validateObjectId = require('../middlewares/validateObjectId');
 
 
-router.get('/:id', validateObjectId, alumetAuth, async (req, res) => {
+router.get('/:id', validateObjectId, async (req, res) => {
     try {
         if (req.logged) {
             const alumet = await Alumet.findOne({
@@ -62,7 +61,6 @@ router.post('/authorize', validateObjectId, async (req, res) => {
             });
         }
     }).catch(error => {
-        console.log(error);
         res.status(500).json({
             error
         });

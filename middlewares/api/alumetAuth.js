@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { tokenC } = require('../../config.json');
 
+
 const alumetAuth = (req, res, next) => {
    if (!req.cookies.alumetToken) {
        req.auth = false;
@@ -16,6 +17,7 @@ const alumetAuth = (req, res, next) => {
               return next();
          }
     }
+    
 };
 
 module.exports = alumetAuth;

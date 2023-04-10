@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 
 //Import middlewares
 const authentication = require('./middlewares/authentication');
-
+const alumetAuth = require('./middlewares/api/alumetAuth');
 // Import routes
 const dashboard = require('./routes/dashboard');
 const uploader = require('./routes/uploader');
@@ -14,7 +14,9 @@ const alumet = require('./routes/alumet')
 const auth = require('./routes/auth');
 const portal = require('./routes/portal');
 const a = require('./routes/a');
-const api = require('./routes/contentApi');
+
+const wall = require('./routes/api/wall');
+const post = require('./routes/api/post');
 // Definition des outils
 app.use(cookieParser());
 app.use(express.json());
@@ -29,7 +31,7 @@ mongoose.connect('mongodb+srv://admin:OHdI4vfXbgNy1ZAV@alumet.knhvwib.mongodb.ne
 .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 
-// Routes
+// Routes global
 app.use(authentication);
 app.get('/', (req, res) => {
     res.sendFile('main.html', {root: './views/pages'});
@@ -38,14 +40,19 @@ app.use('/404', (req, res) => {
     res.sendFile('404.html', {root: './views/pages'});
 });
 
-app.use('/api', api)
-app.use('/a', a)
-app.use('/portal', portal);
+// Routes spécifiques
+
+
+app.use('/a', alumetAuth, a)
+app.use('/portal', alumetAuth, portal);
 app.use('/dashboard', dashboard);
 app.use('/alumet', alumet);
 app.use('/auth', auth);
 app.use('/cdn', uploader)
 
+// routes api
+app.use('/api/wall', wall);
+app.use('/api/post', post);
 
 module.exports = app;
 

@@ -1,6 +1,5 @@
 let progresse = 1
 function progress() {
-    console.log(progresse)
     if (progresse == 1) {
         document.querySelector(".first").style.display = "none"
         document.querySelector(".second").style.display = "flex"

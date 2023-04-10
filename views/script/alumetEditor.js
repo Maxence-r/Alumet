@@ -91,6 +91,7 @@ document.querySelector('.s-create').addEventListener('click', function(event) {
         if (!data.error) {
             console.log(data);
             closeModal('cs')
+            getWalls();
         }
     })
 });

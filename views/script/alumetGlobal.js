@@ -87,7 +87,7 @@ function createPost(id) {
 
 function getWalls() {
     document.querySelectorAll('.wall').forEach(wall => wall.remove());
-    fetch(`/api/walls/${localStorage.getItem('currentAlumet')}`, {
+    fetch(`/api/wall/${localStorage.getItem('currentAlumet')}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
