@@ -61,3 +61,14 @@ function createPost(id) {
     document.getElementById('cp').classList.add('active-modal');
 }
 
+const items = document.querySelector('.items');
+
+items.addEventListener('click', (event) => {
+  let target = event.target;
+
+  if (target.tagName.toLowerCase() === 'img') {
+    target = target.parentNode;
+  }
+
+  console.log(target.id);
+});
