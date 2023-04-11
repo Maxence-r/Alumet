@@ -72,7 +72,7 @@ body {
     color: white;
     float: left;
     margin-top: 2%;
-    margin-left: 19%;
+    margin-left: 29%;
     font-size: 14px;
     cursor: pointer;
 }
@@ -109,6 +109,10 @@ body {
     font-size: 12px;
     margin: auto;
     cursor: pointer;
+    animation: 1s ease-in-out;
+}
+.button-video:hover {
+    background: rgba(217, 217, 217, 0.5);
 }
 .petite-flèche {
     margin-left: 9px;
