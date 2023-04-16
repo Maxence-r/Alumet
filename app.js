@@ -41,8 +41,6 @@ app.use('/404', (req, res) => {
 });
 
 // Routes spécifiques
-
-
 app.use('/a', alumetAuth, a)
 app.use('/portal', alumetAuth, portal);
 app.use('/dashboard', dashboard);

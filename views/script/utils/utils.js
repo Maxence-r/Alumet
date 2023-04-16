@@ -80,8 +80,8 @@ function getWalls() {
             div.setAttribute('data-position', wall.position);
             div.innerHTML = `
             <div class="wall-header">
-                <p class="wall-title">${wall.title}</p>
-                <div onclick="modifySection('${wall._id}', '${wall.title}', '${wall.post}')" class="dots"><div></div><div></div><div></div></div>
+                <p id="${wall._id}" class="wall-title">${wall.title}</p>
+                <div onclick="modifySection('${wall._id}', '${wall.post}')" class="dots"><div></div><div></div><div></div></div>
             </div>
             <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Add post</button>
             <div class="post-scroll">
@@ -89,7 +89,9 @@ function getWalls() {
             </div>`;
             document.querySelector('.wall-container').insertBefore(div, document.querySelector('.wall-container').childNodes[0]);
         })
+        document.querySelector('.loading').classList.add('hidden');
     })
+    
 }
 
 getWalls();

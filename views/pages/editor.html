@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-    <link rel="icon" href="../assets/public/alumet.ico" />
+    <link rel="icon" href="../../assets/public/alumet.ico" />
 
     <meta name="description" content="Alumet, explorer d'une nouvelle façon.">
     <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers">
@@ -30,6 +30,9 @@
     <title>Alumet: Editor</title>
 </head>
 <body>
+    <section class="loading">
+        <span class="loader-upload"></span>
+    </section>
     <div id="patch-post" class="modal">
         <div class="modal-container">
             <h1>Modifier le post</h1>
@@ -59,7 +62,7 @@
         <div class="modal-container">
             <h1>Modifier la section</h1>
             <p>Titre</p>
-            <input id="s-m-title" type="text" placeholder="Titre">
+            <input maxlength="150" id="s-m-title" type="text" placeholder="Titre">
             <p>Paramètres</p>
             <div class="option"><p>Autoriser les commentaires</p><label class="toggle">
                 <input id="s-m-checked" class="toggle-checkbox" type="checkbox">
@@ -79,7 +82,7 @@
         <div class="modal-container">
             <h1>Crée une section</h1>
             <p>Titre</p>
-            <input id="s-title" type="text" placeholder="Titre">
+            <input maxlength="150" id="s-title" type="text" placeholder="Titre">
             <p>Paramètres</p>
             <div class="option"><p>Autoriser les commentaires</p><label class="toggle">
                 <input id="s-checked" class="toggle-checkbox" type="checkbox">
@@ -110,15 +113,27 @@
                 <div id="orange"></div>
             </div>
             <p>Titre</p>
-            <input type="text" placeholder="Titre">
+            <textarea maxlength="300" type="text" placeholder="Titre"></textarea>
             <p>Contenu</p>
-            <textarea placeholder="Contenu"></textarea>
+            <textarea maxlength="800" placeholder="Contenu"></textarea>
             <p>En plus</p>
             <div class="items">
-                <div id="file" title="Charger un fichier"><img src="../../assets/app/upload_alumet.svg"></div>
-                <div id="link" title="Ajouter un lien"><img src="../../assets/app/link_alumet.svg"></div>
-                <div id="record" title="S'enregistrer"><img src="../../assets/app/record_alumet.svg"></div>
-                <div id="youtube" title="Vidéo youtube"><img src="../../assets/app/youtube_alumet.svg"></div>
+                <div id="file" title="Charger un fichier">
+                    <p>Charger un fichier</p>
+                    <img src="../../assets/app/upload_alumet.svg">
+                </div>
+                <div id="link" title="Ajouter un lien">
+                    <p>Ajouter un lien</p>
+                    <img src="../../assets/app/link_alumet.svg">
+                </div>
+                <div id="record" title="S'enregistrer">
+                    <p>S'enregistrer</p>
+                    <img src="../../assets/app/record_alumet.svg">
+                </div>
+                <div id="youtube" title="Vidéo youtube">
+                    <p>Vidéo youtube</p>
+                    <img src="../../assets/app/youtube_alumet.svg">
+                </div>
             </div>
             <div class="edit-buttons">
                 <button onclick="closeModal('cp')" id="cancel-patch">Annuler</button>

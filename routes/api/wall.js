@@ -40,7 +40,7 @@ router.delete('/:alumet/:wall', validateObjectId, alumetItemsAuth, (req, res) =>
 
 router.patch('/:alumet/:wall', validateObjectId, alumetItemsAuth, (req, res) => {
     if (!req.logged || req.alumet.owner.toString() !== req.user.id) return res.status(401).json({ error: 'Unauthorized' });
-    Wall.findOneAndUpdate({ _id: req.params.wall }, { $set: req.body }) 
+    Wall.findOneAndUpdate({ _id: req.params.wall }, { $set: req.body }, { runValidators: true }) 
     .then(wall => res.status(200).json({ message: 'Wall updated' }))
     .catch(error => res.json({ error }));
 });

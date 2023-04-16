@@ -3,11 +3,13 @@ const mongoose = require("mongoose");
 const PostSchema = mongoose.Schema({
     title: {
         type: String,
-        minLength: 1
+        minLength: 1,
+        maxLength: 300
     },
     content: {
         type: String,
-        minLength: 1
+        minLength: 1,
+        maxLength: 800
     },
     type: {
         type: String,

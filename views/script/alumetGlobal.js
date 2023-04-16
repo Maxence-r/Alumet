@@ -31,7 +31,8 @@ document.querySelectorAll('.color-selector > div').forEach(color => {
 
 // Modifier function
 
-function modifySection(id, title, post) {
+function modifySection(id, post) {
+    title = document.getElementById(id).innerHTML;
     localStorage.setItem('currentItem', id);
     document.getElementById("ms").classList.add('active-modal');
     document.getElementById("ms").style.display = 'flex';
@@ -66,7 +67,7 @@ const items = document.querySelector('.items');
 items.addEventListener('click', (event) => {
   let target = event.target;
 
-  if (target.tagName.toLowerCase() === 'img') {
+  if (target.tagName.toLowerCase() === 'img' || target.tagName.toLowerCase() === 'p') {
     target = target.parentNode;
   }
 

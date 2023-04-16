@@ -336,7 +336,7 @@ pre {
 
 .modal-container > input {
     width: calc(100% - 20px);
-    height: 26px;
+    min-height: 26px;
     border-radius: 5px;
     outline: none;
     border: none;
@@ -383,10 +383,13 @@ pre {
 
 .edit-buttons {
     display: flex;
+    position: sticky;
     flex-direction: row;
     gap: 10px;
     align-items: center;
     margin-top: auto;
+    bottom: 0;
+    box-shadow: 0px 20px 11px rgba(0, 0, 0, 0.05);
 }
 
 .edit-buttons button {
@@ -407,6 +410,10 @@ pre {
     background-color: var(--true-color);
 }
 
+.edit-buttons button:hover {
+    filter: brightness(0.8);
+}
+
 #accent {
     color: white;
     background-color: var(--teranga-color);
@@ -418,22 +425,30 @@ pre {
 
 .items {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 10px;
 }
 .items div {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;    
-    width: 50px;
+    justify-content: space-between;
+    padding-inline: 15px;    
+    width: calc(100% - 30px);
     height: 50px;
     border-radius: 5px;
     background-color: var(--true-color);
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+.items div p {
+    color: var(--secondary-color);
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
 }
 
 .items div:hover {
@@ -458,13 +473,58 @@ pre {
 .color-selector div {
     width: 28px;
     height: 28px;
+    outline: #ffffff;
     border-radius: 50%;
     cursor: pointer;
+    transition: all 0.7s ease;
 }
 
 .selected-color {
-    border: 0.3px solid #FFFFFF;
+    outline: 0.7px solid #FFFFFF !important;
     box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.25);
+}
+
+.loading {
+    position: absolute;
+    z-index: 10000;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #f1f1f1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.loader-upload {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 30px;
+  }
+  
+.loader-upload:before , .loader-upload:after{
+    content: '';
+    border-radius: 50%;
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1) inset;
+}
+.loader-upload:after {
+    box-shadow: 0 2px 0 #FF3D00 inset;
+    animation: rotate 0.5s linear infinite;
+}
+
+@keyframes rotate {
+    0% {  transform: rotate(0)}
+    100% { transform: rotate(360deg)}
+}
+
+.hidden {
+    display: none !important;
 }
 
 #current-theme {
