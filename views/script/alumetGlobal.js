@@ -9,6 +9,7 @@ function closeModal(id) {
     setTimeout(() => {
         document.getElementById(`${id}`).style.display = 'none';
         document.getElementById(`${id}`).classList.remove('idle-modal');
+        resetItems();
     }, 500);
 }
 
@@ -62,14 +63,14 @@ function createPost(id) {
     document.getElementById('cp').classList.add('active-modal');
 }
 
-const items = document.querySelector('.items');
+document.querySelector('.back-option').addEventListener('click', () => {
+    resetItems();
+})
 
-items.addEventListener('click', (event) => {
-  let target = event.target;
+function resetItems() {
+    document.querySelector('.items').style.display = 'flex';
+    document.querySelector('.back-option').style.display = 'none';
 
-  if (target.tagName.toLowerCase() === 'img' || target.tagName.toLowerCase() === 'p') {
-    target = target.parentNode;
-  }
-
-  console.log(target.id);
-});
+    document.querySelector('.file-modal').style.display = 'none';
+    document.querySelector('.link-modal').style.display = 'none';
+}

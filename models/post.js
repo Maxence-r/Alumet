@@ -30,6 +30,11 @@ const PostSchema = mongoose.Schema({
     wallId: {
         type: String,
         required: true,
+    },
+    visible: {
+        type: Boolean,
+        required: true,
+        default: true
     }
 });
 

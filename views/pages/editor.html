@@ -50,7 +50,7 @@
             <p>Modifier le contenu</p>
             <textarea placeholder="Contenu"></textarea>
             <div class="edit-buttons">
-                <button onclick="closeModal('patch-post')" id="cancel-patch">Annuler</button>
+                <button onclick="closeModal('patch-post')" id="cancel">Annuler</button>
                 <button id="patch" type="button" onclick="this.classList.add('button--loading')">
                     <span class="button__text">Modifier</span>
                 </button>
@@ -89,7 +89,7 @@
                 <div class="toggle-switch"></div>
               </label></div>
             <div class="edit-buttons">
-                <button onclick="closeModal('cs')" id="cancel-patch">Annuler</button>
+                <button onclick="closeModal('cs')" id="cancel">Annuler</button>
                 <button class="s-create" id="accent" type="button" onclick="this.classList.add('button--loading')">
                     <span class="button__text">Poster</span>
                 </button>
@@ -113,10 +113,30 @@
                 <div id="orange"></div>
             </div>
             <p>Titre</p>
-            <textarea maxlength="300" type="text" placeholder="Titre"></textarea>
+            <textarea id="p-title" maxlength="300" type="text" placeholder="Titre"></textarea>
             <p>Contenu</p>
-            <textarea maxlength="800" placeholder="Contenu"></textarea>
-            <p>En plus</p>
+            <textarea id="p-content" maxlength="800" placeholder="Contenu"></textarea>
+            <p>En plus <img class="back-option" src="../../assets/app/back-option.svg"</p>
+            <input type="file" id="file-input">
+
+
+            <div class="file-modal option-modal">
+                <h3>Aucun fichier sélectionné</h3>
+                <p>Cliquer pour changer de fichier</p>
+            </div>
+
+            <div class="link-modal option-modal">
+                <div class="website-preview">
+                    <input class="option-input" type="text" placeholder="Coller ici un lien">
+                    <img id="preview-image" src="../../assets/app/no-preview.png">
+                    <div id="preview-text">
+                        <h3 id="preview-title">Aucun titre</h3>
+                        <p id="preview-description">Aucune description</p>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="items">
                 <div id="file" title="Charger un fichier">
                     <p>Charger un fichier</p>
@@ -126,18 +146,19 @@
                     <p>Ajouter un lien</p>
                     <img src="../../assets/app/link_alumet.svg">
                 </div>
-                <div id="record" title="S'enregistrer">
-                    <p>S'enregistrer</p>
-                    <img src="../../assets/app/record_alumet.svg">
-                </div>
                 <div id="youtube" title="Vidéo youtube">
                     <p>Vidéo youtube</p>
                     <img src="../../assets/app/youtube_alumet.svg">
                 </div>
             </div>
+            <p>Option</p>
+            <div class="option"><p>Seulement le professeur peut voir</p><label class="toggle">
+                <input id="p-checked" class="toggle-checkbox" type="checkbox">
+                <div class="toggle-switch"></div>
+              </label></div>
             <div class="edit-buttons">
-                <button onclick="closeModal('cp')" id="cancel-patch">Annuler</button>
-                <button id="accent" type="button" onclick="this.classList.add('button--loading')">
+                <button onclick="closeModal('cp')" id="cancel">Annuler</button>
+                <button class="p-post" id="accent" type="button" onclick="this.classList.add('button--loading')">
                     <span class="button__text">Poster</span>
                 </button>
             </div>
@@ -154,6 +175,7 @@
 </body>
 <script src="../../script/utils/utils.js"></script>
 <script src="../../script/utils/drag.js"></script>
+<script src="../../script/utils/teacherPostHandler.js"></script>
 <script src="../../script/alumetGlobal.js"></script>
 <script src="../../script/alumetEditor.js"></script>
 </html>
