@@ -659,27 +659,27 @@ pre {
     background-color: var(--true-color);
 }
 
-#blue {
+.blue {
     background-color: #1e90ff;
 }
 
-#red {
+.red {
     background-color: #ff6347;
 }
 
-#green {
+.green {
     background-color: #32cd32;
 }
 
-#yellow {
+.yellow {
     background-color: #ffd700;
 }
 
-#purple {
+.purple {
     background-color: #9370db;
 }
 
-#orange {
+.orange {
     background-color: #ffa500;
 }
 
