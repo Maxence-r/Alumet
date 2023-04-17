@@ -1,92 +1,96 @@
 body {
     background-color: #131313;
+    background-image: url(../assets/app/dots.svg);
     font-family: 'Plus Jakarta Sans';
     width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: scroll;
+
+}
+.blur-orange-background {
+    background: linear-gradient(180deg, rgba(255, 61, 0, 0.5) 0%, rgba(255, 61, 0, 0) 89.06%);
+    filter: blur(148.5px);
+    width: 100%;
+    height: 9.8125em;
+    z-index: -100;
+
+}
+.main-header {
+    background: rgba(217, 217, 217, 0.01);
+    top: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 5.5em;
+    width: 100%;
+    position: sticky;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    display: flex;
+    border-width: 0px  0px 1px;
+    border-style: solid;
+    border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
+}
+.header-logo-navigation-container {
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    height: auto;
 }
 .logo-alumet {
-    width: 19px;
-    height: 28px;
+    width: 1.1875em;
+    height: 1.75em;
     margin-left: 5%;
-    margin-top: 2%;
-    position: absolute;
+    position: relative;
 }
 .name-logo {
-    float: left;
-    color: white;
-    margin-top: 2%;
-    margin-left: 6.5%;
+    color: #FFFFFF;
     font-size: 24px;
+    float: left;
 }
-.Top {
-    align-items: center;
-    height: 15%;
-    border-bottom: 1px solid white;
-    width: 100%;
-}
-.button-statut {
+
+.button-header-navigation {
     float: left;
     color: white;
-    margin-top: 39px;
     margin-left: 5%;
     font-size: 14px;
     cursor: pointer;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-in-out;
 }
-.button-statut:hover {
-    text-decoration: underline;
+.button-header-navigation:hover {
+    color: #FF3D00;
 }
-.button-project {
-    float: left;
-    color: white;
-    margin-top: 39px;
-    margin-left: 53px;
-    font-size: 14px;
-    cursor: pointer;
+.header-connexion-buttons-container {
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+    align-items: center;
+    height: auto;
 }
-.button-project:hover {
-    text-decoration: underline;
-}
-.button-adopt {
-    float: left;
-    color: white;
-    margin-top: 39px;
-    margin-left: 53px;
-    font-size: 14px;
-    cursor: pointer;
-}
-.button-adopt:hover {
-    text-decoration: underline;
-}
-.button-update {
-    float: left;
-    color: white;
-    margin-top: 39px;
-    margin-left: 53px;
-    font-size: 14px;
-    cursor: pointer;
-}
-.button-update:hover {
-    text-decoration: underline;
-}
-.button-signin {
+.button-signup-header {
+    background: rgba(217, 217, 217, 0);
+    color: #FFFFFF;
     border: none;
-    color: white;
     float: left;
-    margin-top: 2%;
-    margin-left: 29%;
     font-size: 14px;
     cursor: pointer;
+    margin-right: 2em;
 }
-.button-signin:hover {
+.button-signup:hover {
     text-decoration: underline;
 }
-.button-signup {
+.button-signin-header {
     float: left;
     background-color: #FF3D00;
     border-radius: 7px;
-    margin-top: 26px;
-    margin-left: 32px;
-    width: 148px;
-    height: 37px;
+    width: 9.25em;
+    height: 2.3125em;
     align-items: center;
     cursor: pointer;
     border: none;
