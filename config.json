@@ -6,7 +6,7 @@
       "pdf": "<iframe src=\"*?#toolbar=0\" frameBorder=\"0\"></iframe>",
       "png": "<img class=\"image-view\" src=\"*\">",
       "jpg": "<img class=\"image-view\" src=\"*\">",
-      "peg": "<img class=\"image-view\" src=\"*\">",
+      "jpeg": "<img class=\"image-view\" src=\"*\">",
       "gif": "<img class=\"image-view\" src=\"*\">",
       "apng": "<img class=\"image-view\" src=\"*\">",
       "avif": "<img class=\"image-view\" src=\"*\">",
