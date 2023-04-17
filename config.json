@@ -1,6 +1,7 @@
 {
    "tokenC": "AACklm72ydk2qP2GMXEpOPue7uabJlE82jCpnYtYc2rd4EeQzl",
    "authorizedModules": ["hw", "fc", "dm"],
+   "mongodbConnectString": "mongodb+srv://admin:OHdI4vfXbgNy1ZAV@alumet.knhvwib.mongodb.net/?retryWrites=true&w=majority",
    "supported": {
       "pdf": "<iframe src=\"*?#toolbar=0\" frameBorder=\"0\"></iframe>",
       "png": "<img class=\"image-view\" src=\"*\">",

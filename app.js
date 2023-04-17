@@ -4,6 +4,7 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
+const { mongodbConnectString} = require('./config.json');
 //Import middlewares
 const authentication = require('./middlewares/authentication');
 const alumetAuth = require('./middlewares/api/alumetAuth');
@@ -25,7 +26,7 @@ app.use(express.static('./cdn'));
 
 // Connexion à la base de données
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb+srv://admin:OHdI4vfXbgNy1ZAV@alumet.knhvwib.mongodb.net/?retryWrites=true&w=majority', 
+mongoose.connect(`${mongodbConnectString}`, 
 { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => console.log('Connexion à MongoDB réussie !'))
 .catch(() => console.log('Connexion à MongoDB échouée !'));
