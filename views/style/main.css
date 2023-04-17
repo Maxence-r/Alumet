@@ -1,21 +1,50 @@
 body {
     background-color: #131313;
-    background-image: url(../assets/app/dots.svg);
     font-family: 'Plus Jakarta Sans';
     width: 100%;
+    height: calc(100vh - 60px);
     margin: 0;
-    padding: 0;
     overflow: scroll;
-
+    overflow-x: hidden;
 }
+
+
+/* TOP BACKGROUND  */
+
+
 .blur-orange-background {
     background: linear-gradient(180deg, rgba(255, 61, 0, 0.5) 0%, rgba(255, 61, 0, 0) 89.06%);
     filter: blur(148.5px);
     width: 100%;
     height: 9.8125em;
-    z-index: -100;
-
+    position: absolute;
+    z-index: -9;
 }
+.high-background-dots {
+    position: absolute;
+    width: 100%;
+    height: 16.625em;
+    top: -0.625em;
+    left: -0.625em;
+    background-image: radial-gradient(#54503F 2px, transparent 0, #131313 100%), linear-gradient(to bottom, #13131300 0%, #131313 100%);
+    background-size: 35px 35px;
+    background-position: -19px -19px;
+    z-index: -11;
+}
+.high-background-gradient {
+    position: absolute;
+    width: 100%;
+    height: 16.625em;
+    left: 0px;
+    top: 0px;
+    background: linear-gradient(178.31deg, rgba(22, 22, 22, 0.0) 1.43%, rgb(19, 19, 19, 1.0) 90%);
+    z-index: -10;
+}
+
+
+/* HEADER */
+
+
 .main-header {
     background: rgba(217, 217, 217, 0.01);
     top: 0;
@@ -23,7 +52,7 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: stretch;
-    height: 5.5em;
+    height:auto;
     width: 100%;
     position: sticky;
     overflow: hidden;
@@ -49,7 +78,7 @@ body {
 }
 .name-logo {
     color: #FFFFFF;
-    font-size: 24px;
+    font-size: 1.7vw;
     float: left;
 }
 
@@ -57,7 +86,7 @@ body {
     float: left;
     color: white;
     margin-left: 5%;
-    font-size: 14px;
+    font-size: 1.2vw;
     cursor: pointer;
     transition-duration: 0.1s;
     transition-timing-function: ease-in-out;
@@ -66,7 +95,7 @@ body {
     color: #FF3D00;
 }
 .header-connexion-buttons-container {
-    width: 50%;
+    width: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: end;
@@ -78,7 +107,7 @@ body {
     color: #FFFFFF;
     border: none;
     float: left;
-    font-size: 14px;
+    font-size: 1.2vw;
     cursor: pointer;
     margin-right: 2em;
 }
@@ -87,6 +116,7 @@ body {
 }
 .button-signin-header {
     float: left;
+    font-size: 1.2vw;
     background-color: #FF3D00;
     border-radius: 7px;
     width: 9.25em;
@@ -95,49 +125,55 @@ body {
     cursor: pointer;
     border: none;
     color: white;
+    margin-right: 2em;
 }
-.presentation {
+
+
+
+/* PRESENTATION */
+
+
+.presentation-container {
     flex-direction: column;
     display: flex;
     justify-content: center;
-    margin-top: 10%;
+    margin-top: 5%;
     align-items: center;
+    text-align: center;
 }
-.button-video {
+.presentation-button-video {
     background: rgba(217, 217, 217, 0.1);
     color: #BBBBBB;
     border-radius: 40px;
-    width: 232px;
-    height: 32px;
+    width: auto;
+    height: 2.6em;
     border: 0.5px solid #484848;
-    font-size: 12px;
-    margin: auto;
+    font-size: 1vw;
     cursor: pointer;
-    animation: 1s ease-in-out;
+    transition: 0.3s ease-out;
 }
-.button-video:hover {
+.presentation-button-video:hover {
+    color: #131313;
     background: rgba(217, 217, 217, 0.5);
 }
-.petite-flèche {
-    margin-left: 9px;
+.presentation-button-arrow {
+    margin-top: auto;
+    margin-left: 0.3em;
 }
-.slogan {
+.presentation-slogan {
     color: white;
-    font-size: 96px;
-    margin: auto;
-    margin-top: 19px;
+    font-size: 5vw;
+    margin-top: 1.1875em;
 }
-.sous-titre-slogan {
-    margin-top: 8px;
+.presentation-slogan-details {
     color: #BBBBBB;
     margin: auto;
-    font-size: 28px;
+    font-size: 1.9vw;
 }
-.button-join {
-    width: 158px;
-    height: 51px;
-    margin: auto;
-    margin-top: 39px;
+.incentive-join-button {
+    width: 9.875em;
+    height: 3.1875em;
+    margin-top: 2.4375em;
     border-radius: 63px;
     background-color: #FF3D00;
     border: none;
@@ -145,40 +181,67 @@ body {
     align-items: center;
     flex-direction: row;
     display: block;
-    font-size: 15px;
+    font-size: 1vw;
+    font-weight: 600;
     cursor: pointer;
+    transition: 0.2s ease-out;
 }
-.moyenne-flèche {
-    margin-left: 13px;
-    width: 7px;
-    height: 15px;
+.incentive-join-button:hover {
+    box-shadow: 1px 1px 50px #9c240036;
 }
-.apercu {
-    width: 1585px;
-    height: 891px;
-    margin-top: 62px;
-    align-items: center;
+.incentive-join-button-arrow {
+    margin-left: 0.8125em;
+    width: 0.4375em;
+    height: 0.9375em;
 }
-.border{
-    width: 1100px;
-    height: 150px;
-    border: 0px;
-    border-top: 1px solid red;
-    border-radius: 80%;
+
+.presentation-alumet-preview {
+    width: 75em;
+    max-width: 75%;
+    height: 42.1875em;
+    max-height: 100%;
+    margin: auto;
+    margin-top: 4em;
+    display: block;
+    border: 0.5px solid #FF3D00;
+    filter: drop-shadow(0px 0px 64px rgba(255, 61, 0, 0.1));
+    border-radius: 9px;
+}
+
+
+/* DESCRIPTION */
+
+
+.description-orange-round-border{
+    background: #131313;
+    max-width: 100%;
+    height: 20em;
+    border-radius: 80% 80% 0% 0%;
+    border-width: 1px 0px 0px 0px;
+    border-color: #FF3D00;
+    border-style: solid;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin: auto;
-    margin-top: 200px;
+    margin-top: 12.5em;
+    align-items: center;
+    position: relative;
+    z-index: -5;
+}
+.description-container {
+    background-color: #131313;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
-.second-slogan {
+.description-slogan {
     color: white;
-    font-size: 64px;
-    margin-top: 350px;
+    font-size: 5vw;
     margin: auto;
 }
-.second-sous-titre-slogan {
+.description-slogan-details {
     color: #BBBBBB;
     font-size: 24px;
     margin-top: 0px;
