@@ -90,6 +90,7 @@ body {
     cursor: pointer;
     transition-duration: 0.1s;
     transition-timing-function: ease-in-out;
+    text-decoration: none;
 }
 .button-header-navigation:hover {
     color: #FF3D00;
@@ -374,4 +375,36 @@ body {
     height: 14px;
     margin-top: 18px; 
     margin-left: 105px;
+}
+
+    /*POURQUOI ADOPTER ? */
+
+.adopt {
+    position: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.adopt > p {
+    color: white;
+    margin-left: 15em;
+}
+.professor-choices {
+    margin-left: 15em;
+    flex-direction: column;
+    width: 15%;
+    height: 20em;
+}    
+.subject {
+    width: 100%;
+    background: rgba(217, 217, 217, 0.1);
+    border: none;
+    border-radius: 5px;
+    height: 35px;
+    color: #BBBBBB;
+    cursor: pointer;
+    margin-top: 5px;
+}
+.image {
+    margin-left: 40em;
 }

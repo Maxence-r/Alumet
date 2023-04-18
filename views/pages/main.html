@@ -33,10 +33,10 @@
     <div class="header-logo-navigation-container">
         <img src="../assets/app/alumet.png" alt="Alumet's logo" class="logo-alumet">
         <p class="name-logo">Alumet</p>
-        <h2 class="button-header-navigation">Statut</h2>
-        <h2 class="button-header-navigation">Le projet</h2>
-        <h2 class="button-header-navigation">Pourquoi adopter ?</h2>
-        <h2 class="button-header-navigation">Mise à jour</h2>
+        <a class="button-header-navigation">Statut</a>
+        <a class="button-header-navigation">Le projet</a>
+        <a href=".adopt" class="button-header-navigation">Pourquoi adopter ?</a>
+        <a class="button-header-navigation">Mise à jour</a>
       </div>
       <div class="header-connexion-buttons-container">
         <button class="button-signup-header" onclick="document.location.href='/views/pages/signin.html'">Se connecter</button>
@@ -117,6 +117,21 @@
     </div>
     <div class="high-background-gradient"></div>
     <div class="high-background-dots"></div>
+   <div class="adopt">
+    <p>Je suis professeur de...</p>
+    <div class="professor-choices">
+      <button onclick="changer_image('../assets/app/mathematiques.jpg')" class="subject">Mathématiques</button>
+      <button onclick="changer_image('../assets/app/français.jpg')" class="subject">Français</button>
+      <button onclick="changer_image('../assets/app/NSI.jpeg')" class="subject">NSI</button>
+      <button onclick="changer_image('../assets/app/histoire-géographie.jpg')" class="subject">Histoire-géographie</button>
+      <button onclick="changer_image('../assets/app/SVT.png')" class="subject">SVT</button>
+      <button onclick="changer_image('../assets/app/langues-anciennes.jpg')" class="subject">Langues Anciennes</button>
+      <button onclick="changer_image('../assets/app/langues.png')" class="subject">Langues</button>
+      <button onclick="changer_image('../assets/app/physique-chimie.png')" class="subject">Physique-Chimie</button>
+      <button onclick="changer_image('../assets/app/philosophie.jpg')" class="subject">Philosophie</button>
+    </div> 
+    <img src="../assets/app/mathematiques.jpg" class="image"></img>
+   </div>
 </body>
 <script src="../script/main.js"></script>
 </html>
