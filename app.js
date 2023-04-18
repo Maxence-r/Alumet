@@ -51,45 +51,7 @@ app.use('/cdn', uploader)
 
 // routes api
 app.use('/api/wall', wall);
-app.use('/api/post', post);
-
-
-
-const pdf = require('pdf-thumbnail');
-const axios = require('axios');
-
-async function fetchPdf(url) {
-    const response = await axios.get(url, {
-      responseType: 'arraybuffer'
-    });
-    return Buffer.from(response.data);
-  }
-  
-  app.get('/pdf', async (req, res) => {
-    try {
-      const pdfUrl = 'https://clg-casals-cabestany.ac-montpellier.fr/sites/clg-casals-cabestany/files/2_les_molecules_de_lair_modele_moleculaire_avec_correction.pdf';
-  
-      pdf.generateThumbnail(pdfUrl, {
-        compress: {
-          type: 'JPEG',
-          quality: 70
-        }
-      }, (err, data) => {
-        if (err) {
-          console.log(err);
-          res.status(500).send('An error occurred');
-        } else {
-          res.set('Content-Type', 'image/jpeg');
-          res.send(data);
-        }
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(500).send('An error occurred');
-    }
-  });
-
-
+app.use('/api/post', post); 
 
 
 module.exports = app;
