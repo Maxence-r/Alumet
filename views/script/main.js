@@ -9,3 +9,8 @@ box.onmousemove = e => {
     }
   };
 });
+
+function changer_image(lien) {
+  const image = document.querySelector(".image");
+  image.setAttribute("src", lien);
+}
