@@ -15,6 +15,8 @@ const alumet = require('./routes/alumet')
 const auth = require('./routes/auth');
 const portal = require('./routes/portal');
 const a = require('./routes/a');
+const preview = require('./routes/preview');
+
 
 const wall = require('./routes/api/wall');
 const post = require('./routes/api/post');
@@ -47,6 +49,11 @@ app.use('/portal', alumetAuth, portal);
 app.use('/dashboard', dashboard);
 app.use('/alumet', alumet);
 app.use('/auth', auth);
+
+// preview processing 
+app.use('/preview', preview)
+
+// content delivery network
 app.use('/cdn', uploader)
 
 // routes api
