@@ -127,7 +127,12 @@
 
             <div class="link-modal option-modal">
                 <div class="website-preview">
-                    <input class="option-input" type="text" placeholder="Coller ici un lien">
+                    <div class="link-row">
+                        <input class="link-input" type="text" placeholder="Coller ici un lien">
+                        <button class="l-preview" id="accent" type="button" onclick="this.classList.add('button--loading')">
+                            <span class="button__text"><img class="img-preview" src="../../assets/app/open.svg"></span>
+                        </button>
+                    </div>
                     <img id="preview-image" src="../../assets/app/no-preview.png">
                     <div id="preview-text">
                         <h3 id="preview-title">Aucun titre</h3>
@@ -145,10 +150,6 @@
                 <div id="link" title="Ajouter un lien">
                     <p>Ajouter un lien</p>
                     <img src="../../assets/app/link_alumet.svg">
-                </div>
-                <div id="youtube" title="Vidéo youtube">
-                    <p>Vidéo youtube</p>
-                    <img src="../../assets/app/youtube_alumet.svg">
                 </div>
             </div>
             <p>Option</p>

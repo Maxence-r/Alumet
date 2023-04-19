@@ -15,7 +15,27 @@ function closeModal(id) {
 
 
 
-
+document.querySelector('.l-preview').addEventListener('click', async (e) => {
+    const linkInputValue = document.querySelector('.link-input').value;
+    if (!linkInputValue) {
+      document.querySelector('.l-preview').classList.remove('button--loading');
+      return;
+    }
+  
+    try {
+      const res = await fetch(`/preview/meta?url=${linkInputValue}`);
+      const data = await res.json();
+      const replaceAll = (str, search, replace) => str.split(search).join(replace);
+      document.getElementById('preview-title').innerHTML = data.title ? replaceAll(data.title, "<", "") : 'No title found';
+      document.getElementById('preview-description').innerHTML = data.description ? replaceAll(data.description, "<", "") : 'No description found';
+      document.getElementById('preview-image').src = data.image ? data.image : '../../assets/app/no-preview.png';
+    } catch (error) {
+      console.error(error);
+    }
+  
+    document.querySelector('.l-preview').classList.remove('button--loading');
+  });
+  
 
 
 // Utils functions

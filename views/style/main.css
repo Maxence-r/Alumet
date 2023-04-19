@@ -26,6 +26,14 @@ body {
     position: absolute;
     z-index: -9;
 }
+.light-blur-orange-background {
+    background: linear-gradient(180deg, rgba(255, 61, 0, 0.3) 0%, rgba(255, 61, 0, 0) 89.06%);
+    filter: blur(148.5px);
+    width: 1000%;
+    height: 9em;
+    position: absolute;
+    z-index: -9;
+}
 .high-background-dots {
     position: absolute;
     width: 100%;
@@ -240,6 +248,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 6em;
+    margin-top: -10em;
     text-align: center;
 }
 .description-slogan {
@@ -267,7 +276,6 @@ body {
     height: auto;
     max-height: 10em;
     width: auto;
-    max-width: 17em;
     margin-right: auto;
     margin-left: auto;
     margin-top: 1.6875em;
@@ -277,17 +285,50 @@ body {
     border-radius: 15px;
     text-align: center;
 }
-.first-titre {
+.description-box-title {
     color: white;
     font-size: 1.3vw;
     margin: auto;
 }
-.first-sous-titre {
+.description-box-details {
     color: #BBBBBB;
     font-size: 1vw;
     margin: auto;
 }
 
+
+
+/* ARGUMENTS */
+
+
+
+
+
+.orange-led-light-container {
+    width: 1000%;
+    height: auto;
+    border-top: 3px solid #FF3D00;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-self: center;
+    margin: auto;
+    margin-top: 10em;
+}
+.orange-blur-left-elipse {
+    width: 10em;
+    height: 50em;
+    background: conic-gradient(from 180deg at 50% 50%, rgba(255, 61, 0, 0.18) -2.47deg, #FF3D00 1.81deg, #962400 76.1deg, rgba(24, 19, 26, 0.131006) 121.11deg, rgba(7, 22, 18, 0) 300.72deg, rgba(0, 0, 0, 0) 357.5deg, rgba(255, 61, 0, 0.18) 357.53deg, #FF3D00 361.81deg);
+    transform: rotate(-90deg);
+    display: block;
+}
+.orange-blur-right-elipse {
+    width: 10em;
+    height: 50em;
+    background: conic-gradient(from 180deg at 50% 50%, rgba(255, 61, 0, 0.18) -2.47deg, #FF3D00 1.81deg, #962400 76.1deg, rgba(24, 19, 26, 0.131006) 121.11deg, rgba(7, 22, 18, 0) 300.72deg, rgba(0, 0, 0, 0) 357.5deg, rgba(255, 61, 0, 0.18) 357.53deg, #FF3D00 361.81deg);
+    transform: matrix(0, -1, -1, 0, 0, 0);
+    display: block;
+}
 .arguments {
     margin-top: 100px;
     display: flex;

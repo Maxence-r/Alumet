@@ -7,6 +7,8 @@ items.addEventListener('click', (event) => {
     target = target.parentNode;
   }
   if (target.id == 'file') {
+    document.querySelector('.file-modal').style.display = 'flex';
+    hideItems();
     document.getElementById('file-input').click();
   } else if (target.id == 'link') {
     hideItems();
@@ -19,3 +21,7 @@ function hideItems() {
     document.querySelector('.back-option').style.display = 'flex';
 }
 
+document.getElementById('file-input').addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  document.querySelector('.file-modal > h3').innerHTML = file.name;
+});
