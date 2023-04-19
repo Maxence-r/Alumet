@@ -21,10 +21,13 @@ const preview = require('./routes/preview');
 const wall = require('./routes/api/wall');
 const post = require('./routes/api/post');
 // Definition des outils
+
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); 
 app.use(express.static('./views'));
 app.use(express.static('./cdn'));
+
 
 // Connexion à la base de données
 mongoose.set('strictQuery', true);

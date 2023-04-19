@@ -11,6 +11,14 @@ const PostSchema = mongoose.Schema({
         minLength: 1,
         maxLength: 800
     },
+    owner: {
+        type: String,
+        required: true,
+    },
+    ownerType: {
+        type: String,
+        required: true,
+    },
     type: {
         type: String,
     },

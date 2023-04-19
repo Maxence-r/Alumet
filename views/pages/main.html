@@ -39,8 +39,8 @@
         <a class="button-header-navigation">Mise à jour</a>
       </div>
       <div class="header-connexion-buttons-container">
-        <button class="button-signup-header" onclick="document.location.href='/views/pages/signin.html'">Se connecter</button>
-        <button class="button-signin-header" onclick="document.location.href='/views/pages/signup.html'" >S'incrire</button>
+        <button class="button-signup-header" onclick="document.location.href='/auth/signin'">Se connecter</button>
+        <button class="button-signin-header" onclick="document.location.href='/auth/signup'" >S'incrire</button>
       </div>
    </header>
 
@@ -126,6 +126,7 @@
     <div class="high-background-dots"></div>
    <div class="adopt">
     <p>Je suis professeur de...</p>
+    <img src="../assets/app/mathematiques.jpg" class="image"></img>
     <div class="professor-choices">
       <button onclick="changer_image('../assets/app/mathematiques.jpg')" class="subject">Mathématiques</button>
       <button onclick="changer_image('../assets/app/français.jpg')" class="subject">Français</button>
@@ -137,7 +138,6 @@
       <button onclick="changer_image('../assets/app/physique-chimie.png')" class="subject">Physique-Chimie</button>
       <button onclick="changer_image('../assets/app/philosophie.jpg')" class="subject">Philosophie</button>
     </div> 
-    <img src="../assets/app/mathematiques.jpg" class="image"></img>
    </div>
 </body>
 <script src="../script/main.js"></script>

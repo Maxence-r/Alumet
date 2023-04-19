@@ -305,7 +305,7 @@ body {
 
 
 .orange-led-light-container {
-    width: 1000%;
+    width: 70.5%;
     height: auto;
     border-top: 3px solid #FF3D00;
     display: flex;
@@ -314,18 +314,21 @@ body {
     align-self: center;
     margin: auto;
     margin-top: 10em;
+    overflow: hidden;
 }
-.orange-blur-left-elipse {
+.orange-blur-right-elipse {
+    border-right: 3px solid #FF3D00;
     width: 10em;
     height: 50em;
-    background: conic-gradient(from 180deg at 50% 50%, rgba(255, 61, 0, 0.18) -2.47deg, #FF3D00 1.81deg, #962400 76.1deg, rgba(24, 19, 26, 0.131006) 121.11deg, rgba(7, 22, 18, 0) 300.72deg, rgba(0, 0, 0, 0) 357.5deg, rgba(255, 61, 0, 0.18) 357.53deg, #FF3D00 361.81deg);
+    background: conic-gradient(from 0deg at 50% 50%, rgba(255, 61, 0, 0.18) -2.47deg, #FF3D00 1.81deg, #962400 76.1deg, rgba(24, 19, 26, 0.131006) 121.11deg, rgba(7, 22, 18, 0) 300.72deg, rgba(0, 0, 0, 0) 357.5deg, rgba(255, 61, 0, 0.18) 357.53deg, #FF3D00 361.81deg);
     transform: rotate(-90deg);
     display: block;
 }
-.orange-blur-right-elipse {
+.orange-blur-left-elipse {
+    border-right: 3px solid #FF3D00;
     width: 10em;
     height: 50em;
-    background: conic-gradient(from 180deg at 50% 50%, rgba(255, 61, 0, 0.18) -2.47deg, #FF3D00 1.81deg, #962400 76.1deg, rgba(24, 19, 26, 0.131006) 121.11deg, rgba(7, 22, 18, 0) 300.72deg, rgba(0, 0, 0, 0) 357.5deg, rgba(255, 61, 0, 0.18) 357.53deg, #FF3D00 361.81deg);
+    background: conic-gradient(from 0deg at 50% 50%, rgba(255, 61, 0, 0.18) -2.47deg, #FF3D00 1.81deg, #962400 76.1deg, rgba(24, 19, 26, 0.131006) 121.11deg, rgba(7, 22, 18, 0) 300.72deg, rgba(0, 0, 0, 0) 357.5deg, rgba(255, 61, 0, 0.18) 357.53deg, #FF3D00 361.81deg);
     transform: matrix(0, -1, -1, 0, 0, 0);
     display: block;
 }
@@ -403,9 +406,6 @@ body {
     /*POURQUOI ADOPTER ? */
 
 .adopt {
-    position: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: row;
 }
 .adopt > p {
@@ -416,18 +416,25 @@ body {
     margin-left: 15em;
     flex-direction: column;
     width: 15%;
-    height: 20em;
+    height: 23em;
+    margin-top: 2px;
+    border: 0.5px solid #484848;
 }    
 .subject {
-    width: 100%;
+    width: 90%;
     background: rgba(217, 217, 217, 0.1);
-    border: none;
     border-radius: 5px;
     height: 35px;
     color: #BBBBBB;
     cursor: pointer;
+    border: 0.5px solid #484848;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
     margin-top: 5px;
 }
 .image {
-    margin-left: 40em;
+    position: absolute;
+    margin-left: 30em;
+    width: 30%;
 }
