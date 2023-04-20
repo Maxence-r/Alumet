@@ -305,47 +305,20 @@ body {
 
 
 .orange-led-light-container {
-    width: 70.5%;
-    height: auto;
-    border-top: 3px solid #FF3D00;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-self: center;
+    width: 100%;
+    height: 30%;
+    background-image: url(../assets/app/orange_ellipse_led.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
     margin: auto;
     margin-top: 10em;
-    overflow: hidden;
 }
-.orange-blur-right-elipse {
-    border-right: 3px solid #FF3D00;
-    width: 10em;
-    height: 50em;
-    background: conic-gradient(from 0deg at 50% 50%, rgba(255, 61, 0, 0.18) -2.47deg, #FF3D00 1.81deg, #962400 76.1deg, rgba(24, 19, 26, 0.131006) 121.11deg, rgba(7, 22, 18, 0) 300.72deg, rgba(0, 0, 0, 0) 357.5deg, rgba(255, 61, 0, 0.18) 357.53deg, #FF3D00 361.81deg);
-    transform: rotate(-90deg);
-    display: block;
-}
-.orange-blur-left-elipse {
-    border-right: 3px solid #FF3D00;
-    width: 10em;
-    height: 50em;
-    background: conic-gradient(from 0deg at 50% 50%, rgba(255, 61, 0, 0.18) -2.47deg, #FF3D00 1.81deg, #962400 76.1deg, rgba(24, 19, 26, 0.131006) 121.11deg, rgba(7, 22, 18, 0) 300.72deg, rgba(0, 0, 0, 0) 357.5deg, rgba(255, 61, 0, 0.18) 357.53deg, #FF3D00 361.81deg);
-    transform: matrix(0, -1, -1, 0, 0, 0);
-    display: block;
-}
-.arguments {
-    margin-top: 100px;
-    display: flex;
-    flex-direction: column;
-    width: 798px;
-    border-top: 1px solid rgba(255, 61, 0, 0.5);
-    margin-left: 573px;
-    background: linear-gradient(rgba(255, 61, 0, 0.5), #131313);
-    backdrop-filter: blur(34,5px);
-}
-.raison {
-    color: white;
-    font-size: 80px;
-    margin-top: 60px;
+.argument-big-title {
+    color: #FFFFFF;
+    font-weight: 100;
+    font-size: 0vw;
 }
 .ligne {
     width: 1101px;
