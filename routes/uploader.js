@@ -7,6 +7,8 @@ const Upload = require('../models/upload');
 const fs = require('fs');
 const validateObjectId = require('../middlewares/validateObjectId');
 const { supported } = require('../config.json');
+const alumetAuth = require('../middlewares/api/alumetAuth');
+const previewHandler = require('../middlewares/preview');
 // Set storage engine
 const storage = multer.diskStorage({
     destination: './cdn',
@@ -48,29 +50,31 @@ const accountUpload = multer({
   }
 });
 
-router.post('/upload/guest', upload.array('files'), (req, res) => {
-    if (req.files && req.files.length > 0) {
-      const files = req.files.map(file => {
-        const ext = file.originalname.split('.').pop()
-        const sanitizedFilename = sanitizeFilename(file.originalname);
-        return {
-          fieldname: file.fieldname,
-          displayname: sanitizedFilename,
-          encoding: file.encoding,
-          mimetype: ext,
-          filename: file.filename,
-          size: file.size
-        }
-      })
-      res.json({ files: files })
+router.post('/upload/guest', alumetAuth, upload.single('file'), previewHandler, (req, res) => {
+  if (!req.auth) return res.status(401).json({ error: 'Unauthorized' });
+  if (req.file) {
+    const file = req.file;
+    const ext = file.originalname.split('.').pop()
+    const sanitizedFilename = sanitizeFilename(file.originalname);
+    const upload = new Upload({
+        filename: sanitizedFilename,
+        displayname: sanitizedFilename,
+        mimetype: ext,
+        filesize: file.size,
+        owner: req.alumet.id,
+    });
+    upload.save()
+        .then((file) => res.json({ file: file }))
+        .catch(error => console.log(error));
+  } else {
+    if (req.fileValidationError) {
+      res.status(400).json({ error: req.fileValidationError });
     } else {
-      if (req.fileValidationError) {
-        res.status(400).json({ error: req.fileValidationError })
-      } else {
-        res.status(400).json({ error: 'Please select at least one file to upload' })
-      }
+      res.status(400).json({ error: 'Please select a file to upload' });
     }
+  }
 });
+
 
 
 router.patch('/update/:id', validateObjectId, (req, res) => {

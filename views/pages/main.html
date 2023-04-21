@@ -31,12 +31,12 @@
   <div class="blur-orange-background"></div>
   <header class="main-header">
     <div class="header-logo-navigation-container">
-        <img src="../assets/app/alumet.png" alt="Alumet's logo" class="logo-alumet">
-        <p class="name-logo">Alumet</p>
-        <a class="button-header-navigation">Statut</a>
-        <a class="button-header-navigation">Le projet</a>
-        <a href=".adopt" class="button-header-navigation">Pourquoi adopter ?</a>
-        <a class="button-header-navigation">Mise à jour</a>
+        <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Alumet's logo" class="logo-alumet">
+        <a onclick="document.location.href='/auth/main'" class="name-logo">Alumet</a>
+        <a onclick="document.location.href='/auth/statut'" class="button-header-navigation">Statut</a>
+        <a onclick="document.location.href='/auth/project'" class="button-header-navigation">Le projet</a>
+        <a href="#adopt" class="button-header-navigation">Pourquoi adopter ?</a>
+        <a onclick="document.location.href='/auth/update'" class="button-header-navigation">Mise à jour</a>
       </div>
       <div class="header-connexion-buttons-container">
         <button class="button-signup-header" onclick="document.location.href='/auth/signin'">Se connecter</button>
@@ -51,7 +51,7 @@
    <div class="presentation-container">
         <button class="presentation-button-video" onclick="window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=PLjiRLNE8yAtBnaVDtlB1W0-jQ0nbHPtqq&index=5&ab_channel=RickAstley', '_blank');"">Visionner la vidéo de présentation <img src="../assets/app/Vector.png" alt="petite flèche" class="presentation-button-arrow"></button>
           <h1 class="presentation-slogan">Alumet, la révolution des environnements de travaux numériques</h1>
-          <p class="presentation-slogan-details">Découvrez enfin un environnement de travail moderne pour vos élèves, simple a <br> utiliser et tellement plus efficace</p>
+          <p class="presentation-slogan-details">Découvrez enfin un environnement de travail moderne pour vos élèves, simple à <br> utiliser et tellement plus efficace</p>
         <button class="incentive-join-button" onclick="document.location.href='/views/pages/signup.html'">Rejoindre<img src="../assets/app/Vector.png" alt="petite-flèche" class="incentive-join-button-arrow"></button>
 
    </div>
@@ -71,27 +71,27 @@
    <div class="description-boxes-container">
       <div class="description-box">
         <p class="description-box-title">Un tableau de bord moderne</p>
-        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord <br> vous permet de gerer vos alumets pour vos classes</p>
+        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord vous permet de gerer vos alumets pour vos classes</p>
       </div>
       <div class="description-box">
         <p class="description-box-title">Un tableau de bord moderne</p>
-        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord <br> vous permet de gerer vos alumets pour vos classes</p>
+        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord vous permet de gerer vos alumets pour vos classes</p>
       </div>
       <div class="description-box">
         <p class="description-box-title">Un tableau de bord moderne</p>
-        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord <br> vous permet de gerer vos alumets pour vos classes</p>
+        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord vous permet de gerer vos alumets pour vos classes</p>
       </div>
       <div class="description-box">
         <p class="description-box-title">Un tableau de bord moderne</p>
-        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord <br> vous permet de gerer vos alumets pour vos classes</p>
+        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord vous permet de gerer vos alumets pour vos classes</p>
       </div>
       <div class="description-box">
         <p class="description-box-title">Un tableau de bord moderne</p>
-        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord <br> vous permet de gerer vos alumets pour vos classes</p>
+        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord vous permet de gerer vos alumets pour vos classes</p>
       </div>
       <div class="description-box">
         <p class="description-box-title">Un tableau de bord moderne</p>
-        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord <br> vous permet de gerer vos alumets pour vos classes</p>
+        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord vous permet de gerer vos alumets pour vos classes</p>
       </div>
    </div>
 
@@ -101,40 +101,60 @@
   <div class="orange-led-light-container">
       <h1 class="argument-big-title">C'est vos élèves qui vous diront merci !</h1>
   </div>
-  <div class="arguments-2">
-      <img class="synchro" alt="flèche de syncrhonisation" src="../assets/app/files-manager.svg">
-      <p class="synchro-titre">Synchronisé. Partout ou que <br> vous soyez profiter de vos fichiers</p>
-      <img class="eclair" alt="petit éclair" src="../assets/app/eclair.png">
-      <p class="synchro-titre">Rapide. Créé pour gagner un <br> maximum de temps, profiter de <br> lorep ipsum</p>
-      <img class="cube" alt="petit cube" src="../assets/app/cube.png">
-      <p class="synchro-titre">Modulable. Profiter de nombreux mobile, <br> pour faire de votre Alumet l’endroit le plus <br> adapté a votre discipline</p>
-   </div>
-   <div class="arguments-3">
-      <img class="ondes" alt="petites ondes" src="../assets/app/ondes.png">
-      <p class="ondes-titre">Synchronisé. Partout ou que <br> vous soyez profiter de vos fichiers</p>
-      <img class="camera" alt="petite camera" src="../assets/app/camera.png">
-      <p class="ondes-titre">Synchronisé. Partout ou que <br> vous soyez profiter de vos fichiers, <br> même ne voyage aux Bahamas</p>
-   </div>
-   <div class="arguments">
-      <h1 class="raison">Je suis sûr qu'on a <br> pensé à vous !</h1>
+  <div class="separation-line"></div>
+
+  <div class="arguments-global-container">
+
+    <div class="argument-container">
+        <img class="argument-illustration" alt="flèche de syncrhonisation" src="../assets/app/files-manager.svg">
+        <h2 class="argument-details"><span class="argument-title">Synchronisé.</span>
+       Accédez à vos fichiers où que vous soyez</h2>
     </div>
-    <div class="high-background-gradient"></div>
-    <div class="high-background-dots"></div>
-   <div class="adopt">
-    <p>Je suis professeur de...</p>
-    <img src="../assets/app/mathematiques.jpg" class="image"></img>
-    <div class="professor-choices">
-      <button onclick="changer_image('../assets/app/mathematiques.jpg')" class="subject">Mathématiques</button>
-      <button onclick="changer_image('../assets/app/français.jpg')" class="subject">Français</button>
-      <button onclick="changer_image('../assets/app/NSI.jpeg')" class="subject">NSI</button>
-      <button onclick="changer_image('../assets/app/histoire-géographie.jpg')" class="subject">Histoire-géographie</button>
-      <button onclick="changer_image('../assets/app/SVT.png')" class="subject">SVT</button>
-      <button onclick="changer_image('../assets/app/langues-anciennes.jpg')" class="subject">Langues Anciennes</button>
-      <button onclick="changer_image('../assets/app/langues.png')" class="subject">Langues</button>
-      <button onclick="changer_image('../assets/app/physique-chimie.png')" class="subject">Physique-Chimie</button>
-      <button onclick="changer_image('../assets/app/philosophie.jpg')" class="subject">Philosophie</button>
-    </div> 
-   </div>
+
+    <div class="argument-container">
+      <img class="argument-illustration" alt="flèche de syncrhonisation" src="../assets/app/eclair.png">
+      <h2 class="argument-details"><span class="argument-title">Rapide.</span>
+      Créé pour gagner un maximum de temps</h2>
+    </div>
+
+    <div class="argument-container">
+      <img class="argument-illustration" alt="flèche de syncrhonisation" src="../assets/app/ondes.png">
+      <h2 class="argument-details"><span class="argument-title">Modulable.</span>
+      Utilisez les nombreux modules pour faire de votre Alumet l'endroit le plus adapté pour votre discipline</h2>
+    </div>
+
+    <div class="argument-container">
+      <img class="argument-illustration" alt="flèche de syncrhonisation" src="../assets/app/cube.png">
+      <h2 class="argument-details"><span class="argument-title">Accessible.</span>
+      Sur mobile, tablette & ordinateur, profitez d'une interface simple et instinctive</h2>
+    </div>
+    <div class="argument-container">
+      <img class="argument-illustration" alt="flèche de syncrhonisation" src="../assets/app/camera.png">
+      <h2 class="argument-details"><span class="argument-title">Adapté.</span>
+      Conçu en collaboration avec des professeurs, Alumet est l'outil idéal pour enseigner</h2>
+    </div>
+  </div>
+
+  <div class="light-blur-orange-background"></div>
+  <div class="orange-led-light-container">
+    <h1 class="argument-big-title">Je suis sûr qu'on a pensé à vous !</h1>
+  </div>
+  <div class="class-argument-container">
+    <div class="class-selector-container">
+      <p class="class-selector-title">Vous êtes professeur de...</p>
+      <div class="class-selector-choices-container">
+        <button onclick="changer_image('../assets/app/mathematiques.jpg')" class="class-choices">Mathématiques</button>
+        <button onclick="changer_image('../assets/app/français.jpg')" class="class-choices">Français</button>
+        <button onclick="changer_image('../assets/app/NSI.jpeg')" class="class-choices">NSI</button>
+        <button onclick="changer_image('../assets/app/histoire-géographie.jpg')" class="class-choices">Histoire-géographie</button>
+        <button onclick="changer_image('../assets/app/SVT.png')" class="class-choices">SVT</button>
+        <button onclick="changer_image('../assets/app/langues-anciennes.jpg')" class="class-choices">Langues Anciennes</button>
+        <button onclick="changer_image('../assets/app/langues.png')" class="class-choices">Langues</button>
+        <button onclick="changer_image('../assets/app/physique-chimie.png')" class="class-choices">Physique-Chimie</button>
+        <button onclick="changer_image('../assets/app/philosophie.jpg')" class="class-choices">Philosophie</button>
+      </div> 
+    </div>
+  </div>
 </body>
 <script src="../script/main.js"></script>
 </html>

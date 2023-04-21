@@ -7,15 +7,8 @@ body {
     overflow: scroll;
     overflow-x: hidden;
 }
-@media screen and (max-width: 600px) {
-    body {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-}
 
-/* TOP BACKGROUND  */
+/* BACKGROUNDS  */
 
 
 .blur-orange-background {
@@ -55,23 +48,33 @@ body {
     z-index: -10;
 }
 
-
+.orange-led-light-container {
+    width: 100%;
+    height: 30%;
+    background-image: url(../assets/app/orange_ellipse_led.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    margin: auto;
+    padding-top: 15em;
+}
 /* HEADER */
 
 
 .main-header {
-    background: rgba(217, 217, 217, 0.01);
-    top: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: stretch;
-    height:auto;
+    height: auto;
     width: 100%;
     position: sticky;
+    top: 0em;
+    padding-top: 1.3em;
+    padding-bottom: 1.3em;
     overflow: hidden;
     backdrop-filter: blur(8px);
-    display: flex;
     border-width: 0px  0px 1px;
     border-style: solid;
     border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
@@ -89,11 +92,17 @@ body {
     height: 1.75em;
     margin-left: 5%;
     position: relative;
+    cursor: pointer;
 }
 .name-logo {
     color: #FFFFFF;
     font-size: 1.7vw;
     float: left;
+    cursor: pointer;
+    transition: 0.1s ease-out;
+}
+.name-logo:hover {
+    color: #FF3D00;
 }
 
 .button-header-navigation {
@@ -102,8 +111,7 @@ body {
     margin-left: 5%;
     font-size: 1.2vw;
     cursor: pointer;
-    transition-duration: 0.1s;
-    transition-timing-function: ease-in-out;
+    transition: 0.1s ease-out;
     text-decoration: none;
 }
 .button-header-navigation:hover {
@@ -125,6 +133,7 @@ body {
     font-size: 1.2vw;
     cursor: pointer;
     margin-right: 2em;
+    text-decoration: none;
 }
 .button-signup:hover {
     text-decoration: underline;
@@ -159,8 +168,8 @@ body {
 .presentation-button-video {
     background: rgba(217, 217, 217, 0.1);
     color: #BBBBBB;
-    border-radius: 40px;
     width: auto;
+    border-radius: 40px;
     height: 2.6em;
     border: 0.5px solid #484848;
     font-size: 1vw;
@@ -195,7 +204,6 @@ body {
     color: white;
     align-items: center;
     flex-direction: row;
-    display: block;
     font-size: 1vw;
     font-weight: 600;
     cursor: pointer;
@@ -216,11 +224,13 @@ body {
     height: 42.1875em;
     max-height: 100%;
     margin: auto;
-    margin-top: 4em;
     display: block;
+    margin-top: 4em;
     border: 0.5px solid #FF3D00;
     filter: drop-shadow(0px 0px 64px rgba(255, 61, 0, 0.1));
     border-radius: 9px;
+    z-index: -1;
+
 }
 
 
@@ -263,28 +273,31 @@ body {
 
 }
 .description-boxes-container{
+    width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content:center;
-    align-self: auto;
+    justify-content:space-around;
     margin-top: 3em;
-    padding-left: 2em;
-    padding-right: 2em;
+    margin: auto;
 }
 .description-box {
     height: auto;
     max-height: 10em;
     width: auto;
-    margin-right: auto;
-    margin-left: auto;
+    max-width: 25%;
     margin-top: 1.6875em;
     padding: 10em 3em 3em 3em;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 100%);
     border: 0.5px solid #4E4E4E;
     border-radius: 15px;
     text-align: center;
+    cursor: pointer;
+    transition: 0.4s ease-out;
 }
+.description-box:hover{
+    transform: scale(1.03);
+    }
 .description-box-title {
     color: white;
     font-size: 1.3vw;
@@ -304,96 +317,87 @@ body {
 
 
 
-.orange-led-light-container {
-    width: 100%;
-    height: 30%;
-    background-image: url(../assets/app/orange_ellipse_led.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    text-align: center;
-    margin: auto;
-    margin-top: 10em;
-}
+
 .argument-big-title {
     color: #FFFFFF;
-    font-weight: 100;
-    font-size: 0vw;
+    max-width: 50%;
+    font-weight: 500;
+    font-size: 4vw;
+    margin: auto;
 }
-.ligne {
-    width: 1101px;
-    border: 1px solid #4D4D4D;
+.separation-line {
+    width: 60%;
+    height: 1px;
+    background-color: #4D4D4D;
+    margin: auto;
+    margin-top: 5em;
 }
-.arguments-2 {
-    flex-direction: row;
-    display: flex;
-    width: 1101px;
-    border-top: 1px solid #4D4D4D;
-    margin-left: 422px;
-}
-.synchro {
-    margin-top: 71px;
-    width: 18px;
-    height: 17px;
-}
-.synchro-titre {
-    margin-top: 66px;
-    color: #BBBBBB;
-    font-size: 14px;
-    margin-left: 17px;
-}
-.eclair {
-    width: 14.55px;
-    height: 20px;
-    margin-left: 105px;
-    margin-top: 68px;
-}
-.cube {
-    width: 17px;
-    height: 18px;
-    margin-top: 71px;
-    margin-left: 105px;
-}
-.arguments-3 {
+.arguments-global-container {
+    width: 70%;
+    margin: auto;
     display: flex;
     flex-direction: row;
-}
-.ondes {
-    width: 18px;
-    height: 11px;
-    margin-left: 422px;
-    margin-top: 18px;
-}
-.ondes-titre {
-    color: #BBBBBB;
-    margin-left: 17px;
-    font-size: 14px;
-}
-.camera {
-    width: 18px;
-    height: 14px;
-    margin-top: 18px; 
-    margin-left: 105px;
-}
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
 
-    /*POURQUOI ADOPTER ? */
-
-.adopt {
+}
+.argument-container {
+    width: auto;
+    max-width: 30%;
+    height: auto;
+    display: flex;
     flex-direction: row;
+    align-items: baseline;
+    justify-content: start;
+    margin-top: 2em;
 }
-.adopt > p {
-    color: white;
-    margin-left: 15em;
+.argument-title {
+    color: #BBBBBB;
+    font-size: 1.1vw;
+    font-weight: 500;
 }
-.professor-choices {
-    margin-left: 15em;
-    flex-direction: column;
-    width: 15%;
-    height: 23em;
-    margin-top: 2px;
-    border: 0.5px solid #484848;
-}    
-.subject {
+.argument-details {
+    font-size: 1vw;
+    color: #BBBBBB;
+    float: left;
+    font-weight: 300;
+}
+.argument-illustration {
+    height: auto;
+    width: auto;
+    margin-right: 1em;
+}
+
+
+
+/* WHY ADOPT */
+
+.class-argument-container {
+    width: 75%;
+    height: auto;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 3px solid white;
+}
+.class-selector-container {
+    width: auto;
+    min-width: 30%;
+    height: auto;
+    border: 3px solid blue;
+}
+.class-selector-title {
+    color: #FFFFFF;
+    font-size: 1.5vw;
+}
+.class-selector-choices-container {
+    width: 100% inherit;
+    height: auto;
+}  
+.class-choices {
     width: 90%;
     background: rgba(217, 217, 217, 0.1);
     border-radius: 5px;
@@ -401,13 +405,47 @@ body {
     color: #BBBBBB;
     cursor: pointer;
     border: 0.5px solid #484848;
-    margin-right: auto;
-    margin-left: auto;
+    margin: auto;
     display: block;
-    margin-top: 5px;
+    margin-top: 0.3125em;
+    transition: 0.2s cubic-bezier(.16,.93,.79,.9);
+}
+.class-choices:hover {
+    background: rgba(217, 217, 217, 0.5);
 }
 .image {
     position: absolute;
     margin-left: 30em;
     width: 30%;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .logo-alumet {
+        width: 0.475em;
+        height: 0.68em;
+    }
+    .presentation-button-video {
+        font-size: 0.39vw;
+    }
+    .presentation-alumet-preview {
+        width: 29.2682em;
+        height: auto;
+        display: flex;
+        margin-left: calc(50% - (29.2682em / 2));
+    }
+    .description-container {
+        padding: 2.3414em;
+    }
+    .description-boxes-container {
+        margin-top: 1.1707em;
+    }
+    .orange-led-light-container {
+        margin-top: -3.9024em;
+        padding-top: 5.8536em;
+    }
 }
