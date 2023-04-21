@@ -29,13 +29,17 @@
 <body>
   <!--Header-->
   <div class="blur-orange-background"></div>
+  <div class="high-background-dots"></div>
+  <div class="high-background-gradient"></div>
+
+  <button class="burger-button-open-menu"></button>
   <header class="main-header">
     <div class="header-logo-navigation-container">
         <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Alumet's logo" class="logo-alumet">
         <a onclick="document.location.href='/auth/main'" class="name-logo">Alumet</a>
         <a onclick="document.location.href='/auth/statut'" class="button-header-navigation">Statut</a>
         <a onclick="document.location.href='/auth/project'" class="button-header-navigation">Le projet</a>
-        <a href="#adopt" class="button-header-navigation">Pourquoi adopter ?</a>
+        <a onclick="document.location.href='/auth/main#adopt'" class="button-header-navigation">Pourquoi adopter ?</a>
         <a onclick="document.location.href='/auth/update'" class="button-header-navigation">Mise à jour</a>
       </div>
       <div class="header-connexion-buttons-container">
@@ -140,7 +144,8 @@
     <h1 class="argument-big-title">Je suis sûr qu'on a pensé à vous !</h1>
   </div>
   <div class="class-argument-container">
-    <div class="class-selector-container">
+    
+    <div class="class-selector-container" id="adopt">
       <p class="class-selector-title">Vous êtes professeur de...</p>
       <div class="class-selector-choices-container">
         <button onclick="changer_image('../assets/app/mathematiques.jpg')" class="class-choices">Mathématiques</button>
@@ -154,7 +159,18 @@
         <button onclick="changer_image('../assets/app/philosophie.jpg')" class="class-choices">Philosophie</button>
       </div> 
     </div>
+    <div class="class-argument-preview-container">
+      <img class="class-argument-preview" src="../assets/app/alumet.png">
+    </div>
   </div>
+
+  <!--Footer-->
+  <footer>
+    <div class="footer-links-container">
+      <p class="footer-paragraph"><a onclick="document.location.href='/auth/terms-of-service'" class="terms-of-service">Conditions d'utilisation</a></p>
+      <p class="footer-paragraph"><a onclick="document.location.href='/auth/report'" class="report-bug">Signaler un bug</a></p>
+    </div>
+  </footer>
 </body>
 <script src="../script/main.js"></script>
 </html>

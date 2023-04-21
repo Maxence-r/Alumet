@@ -8,7 +8,7 @@ const fs = require('fs');
 const validateObjectId = require('../middlewares/validateObjectId');
 const { supported } = require('../config.json');
 const alumetAuth = require('../middlewares/api/alumetAuth');
-const previewHandler = require('../middlewares/preview');
+
 // Set storage engine
 const storage = multer.diskStorage({
     destination: './cdn',
@@ -50,18 +50,18 @@ const accountUpload = multer({
   }
 });
 
-router.post('/upload/guest', alumetAuth, upload.single('file'), previewHandler, (req, res) => {
+router.post('/upload/guest', alumetAuth, upload.single('file'), (req, res) => {
   if (!req.auth) return res.status(401).json({ error: 'Unauthorized' });
   if (req.file) {
     const file = req.file;
     const ext = file.originalname.split('.').pop()
     const sanitizedFilename = sanitizeFilename(file.originalname);
     const upload = new Upload({
-        filename: sanitizedFilename,
+        filename: file.filename,
         displayname: sanitizedFilename,
         mimetype: ext,
         filesize: file.size,
-        owner: req.alumet.id,
+        owner: req.cookies.alumetToken,
     });
     upload.save()
         .then((file) => res.json({ file: file }))

@@ -1,8 +1,7 @@
 body {
     background-color: #131313;
     font-family: 'Plus Jakarta Sans';
-    width: 100%;
-    height: calc(100vh - 60px);
+    height: auto;
     margin: 0;
     overflow: scroll;
     overflow-x: hidden;
@@ -59,6 +58,17 @@ body {
     margin: auto;
     padding-top: 15em;
 }
+
+
+.burger-button-open-menu {
+    display: none;
+    position: sticky;
+    width: 100%;
+    height: 50%;
+    background: #FF3D00;
+}
+
+
 /* HEADER */
 
 
@@ -78,6 +88,7 @@ body {
     border-width: 0px  0px 1px;
     border-style: solid;
     border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
+    z-index: 100000;
 }
 .header-logo-navigation-container {
     width: 50%;
@@ -88,8 +99,8 @@ body {
     height: auto;
 }
 .logo-alumet {
-    width: 1.1875em;
-    height: 1.75em;
+    width: 4%;
+    height: auto;
     margin-left: 5%;
     position: relative;
     cursor: pointer;
@@ -221,8 +232,7 @@ body {
 .presentation-alumet-preview {
     width: 75em;
     max-width: 75%;
-    height: 42.1875em;
-    max-height: 100%;
+    height: auto;
     margin: auto;
     display: block;
     margin-top: 4em;
@@ -374,20 +384,23 @@ body {
 /* WHY ADOPT */
 
 .class-argument-container {
-    width: 75%;
-    height: auto;
+    max-width: 75%;
+    height: 30em;
     margin: auto;
+    margin-top: 5em;
+    padding: 0em 2em 0em 2em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border: 3px solid white;
+    overflow: hidden;
+    border: 1px dashed #bbbbbb5a;
+    border-radius: 20px;
 }
 .class-selector-container {
     width: auto;
     min-width: 30%;
     height: auto;
-    border: 3px solid blue;
 }
 .class-selector-title {
     color: #FFFFFF;
@@ -395,7 +408,7 @@ body {
 }
 .class-selector-choices-container {
     width: 100% inherit;
-    height: auto;
+    max-height: 100%;
 }  
 .class-choices {
     width: 90%;
@@ -413,10 +426,60 @@ body {
 .class-choices:hover {
     background: rgba(217, 217, 217, 0.5);
 }
+.class-argument-preview-container {
+    width: 60%;
+    max-height: 80%;
+    text-align: center;
+    color: #BBBBBB;
+}
 .image {
     position: absolute;
     margin-left: 30em;
     width: 30%;
+}
+
+/* FOOTER  */
+
+footer {
+    color: white;
+    background: linear-gradient(-105deg, #131313, #461000);
+    border-width: 1px  0px 0px;
+    border-style: solid;
+    border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
+    width: 100%;
+    margin-top: 2em;
+    height: auto;
+    max-height: 5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: baseline;
+
+}
+.footer-links-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: baseline;
+    margin-left: 2em;
+    width: auto;
+    margin-top: 1em;
+}
+.footer-paragraph {
+    justify-content: center;
+    margin-left: 2em;
+}
+.terms-of-service {
+    cursor: pointer;
+}
+.terms-of-service:hover {
+    color: #131313;
+}
+.report-bug {
+    cursor: pointer;
+}
+.report-bug:hover {
+    color: #131313;
 }
 
 @media screen and (max-width: 768px) {
@@ -425,27 +488,172 @@ body {
         flex-direction: row;
         flex-wrap: wrap;
     }
+    .blur-orange-background {
+        position: relative;
+    }
+    .main-header {
+        position: absolute;
+        flex-direction: row;
+        transform: translateY(-110%);
+        background-color: #1c1c1c;
+        min-width: 0;
+        width: 100%;
+        margin: 0;
+        height: auto;
+        border-bottom: 2px solid #BBBBBB;
+        z-index: 100000;
+    }
     .logo-alumet {
-        width: 0.475em;
-        height: 0.68em;
+        width: 20%;
+        height: auto;
+    }
+    .name-logo {
+        font-size: 6vw;
+    }
+    .header-logo-navigation-container {
+        max-width: 30%;
+    }
+    .button-header-navigation {
+        font-size: 4vw;
+        margin-top: 2em;
+    }
+    .header-connexion-buttons-container {
+        display: block;
+        max-height: 20%;
+        max-width: 50%;
+        flex-direction: row;
+        margin-top: auto;
+    }
+    .button-signin-header {
+        font-size: 5vw;
+        margin-right: none;
+    }
+    .button-signup-header {
+        font-size: 5vw;
+    }
+    .burger-button-open-menu {
+        display: flex;
+        position: absolute;
+        right: 0;
+        width: 10%;
+        height: 10%;
+        background: #FF3D00;
+        z-index: 4000000;
+        border: none;
+        border-radius: 0px 0px 0px 50px;
     }
     .presentation-button-video {
-        font-size: 0.39vw;
+        width: auto;
+        max-height: 20%;
+        font-size: 4vw;
+        position: relative;
+        margin-top: -5em;
+    }
+    .presentation-slogan {
+        font-size: 7vw;
+    }
+    .presentation-slogan-details {
+        font-size: 4vw;
+    }
+    .incentive-join-button {
+        max-width: 60%;
+        font-size: 4vw;
     }
     .presentation-alumet-preview {
-        width: 29.2682em;
-        height: auto;
-        display: flex;
-        margin-left: calc(50% - (29.2682em / 2));
+        display: none;
+    }
+    .description-orange-round-border {
+        width: 100%;
+        position: relative;
+        margin-top: -6em;
     }
     .description-container {
-        padding: 2.3414em;
+        padding: 0em;
+    }
+    .description-slogan {
+        font-size: 7vw;
+        font-weight: 700;
+        width: 100%;
+    }
+    .description-slogan-details {
+        font-size: 4vw;
+        margin-top: 1em;
+        padding: 0em 1em 0em 1em;
     }
     .description-boxes-container {
         margin-top: 1.1707em;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        padding: 1em;
+
+    }
+    .description-box {
+        max-width: 100%;
+    }
+    .description-box-title {
+        font-size: 6vw;
+    }
+    .description-box-details {
+        font-size: 4vw;
     }
     .orange-led-light-container {
-        margin-top: -3.9024em;
-        padding-top: 5.8536em;
+        width: 100%;
+        background-image: url(../assets/app/orange_ellipse_led.png);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        padding: 5em 1em 0em 1em;
+    }
+    .argument-big-title {
+        font-size: 7vw;
+        max-width: 100%;
+        margin: auto;
+
+    }
+    .separation-line {
+        margin: auto;
+        display: block;
+        margin-top: 3em;
+    }
+    .arguments-global-container {
+        max-width: 100%;
+        position: relative;
+    }
+    .argument-container {
+        max-width: calc(100em - 4em);
+        margin-left: 2em;
+    }
+    .argument-title {
+        font-size: 3vw;
+    }
+    .argument-details {
+        font-size: 2.7vw;
+    }
+    .argument-illustration {
+        max-width: 15%;
+        height: auto;
+    }
+    .class-argument-container {
+        margin-top: 2em;
+        display: flex;
+        flex-direction: column;
+    }
+    .class-selector-title {
+        font-size: 6vw;
+        width: 90%;
+    }
+    .class-selector-choices-container {
+        max-height: 8em;
+        overflow: scroll;
+    }
+    .class-argument-preview {
+        max-width: 100%;
+        height: auto;
+    }
+    .footer-links-container {
+        width: 20%;
     }
 }
+

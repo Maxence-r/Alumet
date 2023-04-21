@@ -11,6 +11,18 @@ box.onmousemove = e => {
 });
 
 function changer_image(lien) {
-  const image = document.querySelector(".image");
+  const image = document.querySelector(".class-argument-preview");
   image.setAttribute("src", lien);
 }
+
+let closed = true;
+
+document.querySelector('.burger-button-open-menu').addEventListener("click", e => {
+    if (closed == true) {
+      document.querySelector('.main-header').style.transform = 'translateY(0%)'
+      closed = false;
+    } else {
+      document.querySelector('.main-header').style.transform = 'translateY(-110%)'
+      closed = true;
+    }
+});

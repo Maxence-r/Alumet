@@ -1,18 +1,10 @@
 body {
     background-color: #131313;
     font-family: 'Plus Jakarta Sans';
-    width: 100%;
-    height: calc(100vh - 60px);
+    height: auto;
     margin: 0;
     overflow: scroll;
     overflow-x: hidden;
-}
-@media screen and (max-width: 768px) {
-    body {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
 }
 
 /* TOP BACKGROUND  */
@@ -75,6 +67,14 @@ body {
     border-width: 0px  0px 1px;
     border-style: solid;
     border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
+    z-index: 400000;
+}
+.burger-button-open-menu {
+    display: none;
+    position: sticky;
+    width: 100%;
+    height: 50%;
+    background: #FF3D00;
 }
 .header-logo-navigation-container {
     width: 50%;
@@ -96,6 +96,7 @@ body {
     font-size: 1.7vw;
     float: left;
     cursor: pointer;
+    transition: 0.1s ease-out;
 }
 .name-logo:hover {
     color: #FF3D00;
@@ -147,4 +148,239 @@ body {
     border: none;
     color: white;
     margin-right: 2em;
+}
+
+
+
+/* BIG TITLE */
+
+.big-project-title-container {
+    width: 75%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin: auto;
+    margin-top: 5em;
+    backdrop-filter: blur(1px);
+}
+.big-project-logo {
+    width: 20%;
+    height: auto;
+}
+.big-project-text-container {
+    line-height: 1;
+}
+.big-project-title {
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 15vw;
+}
+.big-project-title-details {
+    color: #BBBBBB;
+    font-weight: 300;
+    font-size: 2vw;
+}
+.global-presentation-container {
+    width: 90%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.separation-line {
+    width: 70%;
+    height: 1px;
+    background: linear-gradient(to right, #131313, #FF3D00, #131313);
+    margin: auto;
+    margin-top: 5em;
+    position: relative;
+}
+
+
+
+
+/* INTRODUCTION */
+
+
+.introduction-global-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    border-width: 1px 0px 0px 0px;
+    border-style: solid;
+    border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, #FF3D00 50%, rgba(0,212,255,0) 100%) 1;
+    margin-top: 5em;
+    backdrop-filter: blur(100000000000px);
+    background: #131313;
+}
+.introduction-box-container {
+    height: 16em;
+    width: auto;
+    max-width: 40%;
+    margin-top: 1.6875em;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 100%);
+    border: 0.5px solid #4E4E4E;
+    border-radius: 15px;
+    text-align: center;
+    transition: 0.4s ease-out;
+}
+.introduction-box-title-container {
+    margin: auto;
+    width: 60%;
+    text-align: center;
+}
+
+.introduction-box-title {
+    font-size: 2vw;
+    color: #FFFFFF;
+    margin: auto;
+    margin-top: 1em;
+    position: relative;
+}
+.introduction-details {
+    color: #FFFFFF;
+    font-size: 1.1vw;
+    font-weight: 300;
+}
+
+/* FOOTER  */
+
+footer {
+    color: white;
+    background: linear-gradient(-105deg, #131313, #461000);
+    border-width: 1px  0px 0px;
+    border-style: solid;
+    border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
+    width: 100%;
+    margin-top: 2em;
+    height: auto;
+    max-height: 5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: baseline;
+
+}
+.footer-links-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: baseline;
+    margin-left: 2em;
+    width: auto;
+    margin-top: 1em;
+}
+.footer-paragraph {
+    justify-content: center;
+    margin-left: 2em;
+}
+.terms-of-service {
+    cursor: pointer;
+}
+.terms-of-service:hover {
+    color: #131313;
+}
+.report-bug {
+    cursor: pointer;
+}
+.report-bug:hover {
+    color: #131313;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .main-header {
+        position: absolute;
+        flex-direction: row;
+        transform: translateY(-110%);
+        background-color: #1c1c1c;
+        min-width: 0;
+        width: 100%;
+        margin: 0;
+        height: auto;
+        border-bottom: 2px solid #BBBBBB;
+        z-index: 100000;
+    }
+    .logo-alumet {
+        width: 20%;
+        height: auto;
+    }
+    .name-logo {
+        font-size: 6vw;
+    }
+    .header-logo-navigation-container {
+        max-width: 30%;
+    }
+    .button-header-navigation {
+        font-size: 4vw;
+        margin-top: 2em;
+    }
+    .header-connexion-buttons-container {
+        display: block;
+        max-height: 20%;
+        max-width: 50%;
+        flex-direction: row;
+        margin-top: auto;
+    }
+    .button-signin-header {
+        font-size: 5vw;
+        margin-right: none;
+    }
+    .button-signup-header {
+        font-size: 5vw;
+    }
+    .burger-button-open-menu {
+        display: flex;
+        position: absolute;
+        right: 0;
+        width: 10%;
+        height: 10%;
+        background: #FF3D00;
+        z-index: 4000000;
+        border: none;
+        border-radius: 0px 0px 0px 50px;
+    }
+    .big-project-title {
+        font-size: 18vw;
+        margin-left: 1vh;
+    }
+    .big-project-title-details {
+        font-size: 5vw;
+        margin-left: 1vh;
+    }
+    .introduction-global-container {
+        margin-top: 1.1707em;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        padding: 1em;
+    }
+    .introduction-box-container {
+        max-width: 100%;
+    }
+    .introduction-box-title-container {
+        width: 90%;
+    }
+    .introduction-box-title {
+        font-size: 6vw;
+    }
+    .introduction-details {
+        font-size: 3vw;
+    }
+    .footer-links-container {
+        width: 20%;
+    }
 }

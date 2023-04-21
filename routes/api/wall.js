@@ -26,6 +26,8 @@ router.post('/:alumet', validateObjectId, alumetItemsAuth, (req, res) => {
 });
 
 router.get('/:alumet', alumetItemsAuth, validateObjectId, (req, res) => {
+    // FAILLE DE SÉCURITÉ
+    if (!req.logged || req.alumet.owner.toString() !== req.user.id) return res.status(401).json({ error: 'Unauthorized' });
     Wall.find({ alumet: req.params.alumet }).sort({ position: -1 })
     .then(walls => res.json(walls))
     .catch(error => res.json({ error }));

@@ -24,11 +24,17 @@
     <link rel="stylesheet" href="../style/projet.css"/>
     <link rel="stylesheet" type="text/css" href="../style/global.css">
 
-    <title>Alumet: Le projet</title>
+    <title>Alumet</title>
 </head>
 <body>
+
+
+
     <!--Header-->
+    <button class="burger-button-open-menu"></button>
     <div class="blur-orange-background"></div>
+    <div class="high-background-dots"></div>
+    <div class="high-background-gradient"></div>
     <header class="main-header">
       <div class="header-logo-navigation-container">
         <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Alumet's logo" class="logo-alumet">
@@ -37,10 +43,63 @@
         <a onclick="document.location.href='/auth/project'" class="button-header-navigation"><span style="color:#FF3D00">Le projet</span></a>
         <a href="#adopt" class="button-header-navigation">Pourquoi adopter ?</a>
         <a onclick="document.location.href='/auth/update'" class="button-header-navigation">Mise à jour</a>
-        </div>
-        <div class="header-connexion-buttons-container">
+      </div>
+      <div class="header-connexion-buttons-container">
           <button class="button-signup-header" onclick="document.location.href='/auth/signin'">Se connecter</button>
           <button class="button-signin-header" onclick="document.location.href='/auth/signup'" >S'incrire</button>
+      </div>
+    </header>
+
+
+
+
+     <!-- Big Title-->
+    <div class="big-project-title-container">
+      <img class="big-project-logo" src="../assets/app/wide_alumet.png">
+      <div class="big-project-text-container">
+        <span class="big-project-title">Alumet</span>
+        <p class="big-project-title-details">La scolarité simplifiée au service des professeurs</p>
+      </div>
+    </div>
+
+    <div class="light-blur-orange-background"></div>
+
+
+
+
+    <!-- Introduction-->
+    <div class="introduction-global-container">
+      <div class="introduction-box-container">
+        <div class="introduction-box-title-container">
+          <p class="introduction-box-title">Une mission engagée pour faciliter le travail des professeurs</p>
         </div>
-     </header>
-</body>
+        <p class="introduction-details">
+        Alumet est né d'une problématique fréquente chez les professeurs et les élèves : la difficulté à retrouver les fichiers et devoirs sur l'ENT scolaire. 
+        Après une recherche approfondie et des entretiens avec des professeurs, nous avons créé Alumet pour remédier à ce problème.
+        </p>
+      </div>
+      <div class="introduction-box-container">
+        <div class="introduction-box-title-container">
+          <p class="introduction-box-title">Une organisation efficace pour un projet ambitieux</p>
+        </div>
+        <p class="introduction-details">Malgré le projet de grande envergure, nous avons opté pour une collaboration à trois, ce qui a permis une organisation efficace.
+           Pour ce faire, nous avons défini des horaires dédiés au projet en dehors des heures de cours et utilisé des outils tels que Figma et Github pour communiquer et partager notre travail.</p>
+      </div>
+      <div class="introduction-box-container">
+        <div class="introduction-box-title-container">
+          <p class="introduction-box-title">Des compétences apportées par la NSI</p>
+        </div>
+        <p class="introduction-details">La NSI est une matière essentielle pour comprendre le monde numérique dans lequel nous vivons et développer des compétences clés en programmation et en algorithmique.
+           Elle encourage la résolution de problèmes de manière logique et créative tout en sensibilisant aux enjeux éthiques liés aux technologies numériques. En somme, la NSI est une matière riche et stimulante offrant de nombreuses opportunités de développement personnel et professionnel.</p>
+      </div>
+    </div>
+
+    <!--Footer-->
+    <footer>
+      <div class="footer-links-container">
+        <p class="footer-paragraph"><a onclick="document.location.href='/auth/terms-of-service'" class="terms-of-service">Conditions d'utilisation</a></p>
+        <p class="footer-paragraph"><a onclick="document.location.href='/auth/report'" class="report-bug">Signaler un bug</a></p>
+      </div>
+    </footer>
+  </body>
+</html>

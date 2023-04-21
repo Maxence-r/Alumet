@@ -1,19 +1,12 @@
 body {
     background-color: #131313;
     font-family: 'Plus Jakarta Sans';
-    width: 100%;
-    height: calc(100vh - 60px);
     margin: 0;
+    height: auto;
     overflow: scroll;
     overflow-x: hidden;
 }
-@media screen and (max-width: 768px) {
-    body {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-}
+
 
 /* TOP BACKGROUND  */
 
@@ -29,7 +22,7 @@ body {
 .light-blur-orange-background {
     background: linear-gradient(180deg, rgba(255, 61, 0, 0.3) 0%, rgba(255, 61, 0, 0) 89.06%);
     filter: blur(148.5px);
-    width: 1000%;
+    width: 100%;
     height: 9em;
     position: absolute;
     z-index: -9;
@@ -151,13 +144,213 @@ body {
 
 
 /* PAGE */
-
+.global {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    margin-top: 40px;
+}
 .date {
     flex-direction: column;
-    width: 30%;
+    width: 15em;
     height: 100%;
+    border-right: 2px solid #BBBBBB;
+    overflow: scroll;
 }
 .title-date {
-    color: #FFFFFF;
-    margin-left: 4.2em;
+    color: #FF3D00;
+    margin-left: 4.7em;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.update-date {
+    font-size: 15px;
+    margin-left: 7.5em;
+    color: #BBBBBB;
+    cursor: pointer;
+}
+.update-date:hover {
+    color: #FF3D00;
+}
+.presentation {
+    position: absolute;
+    margin-left: 15em;
+    width: 90%;
+    text-align: center;
+    height: 85%;
+    display: block;
+}
+.text-presentation {
+    color: #BBBBBB;
+    border: none;
+}
+.changes {
+    position: absolute;
+    margin-left: 15em;
+    width: 90%;
+    text-align: center;
+    height: 85%;
+    display: none;
+}
+.title-changes {
+    color: #FF3D00;
+}
+.presentation-alumet-preview {
+    width: 60em;
+    max-width: 75%;
+    height: 33.75em;
+    max-height: 100%;
+    margin: auto;
+    display: block;
+    border: 0.5px solid #FF3D00;
+    filter: drop-shadow(0px 0px 64px rgba(255, 61, 0, 0.1));
+    border-radius: 9px;
+    z-index: -1;
+}
+.recap-changes {
+    color: #BBBBBB;
+}
+.burger-menu {
+    display: none;
+}
+.main-title {
+    display: none;
+}
+.burger-button-open-menu {
+    display: none;
+}
+
+/* FOOTER  */
+
+footer {
+    background-color: #FF3D00;
+    color: white;
+    width: 100%;
+    margin-top: 2em;
+    height: 4em;
+    align-items: center;
+    display: flex;
+}
+p {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.terms-of-service {
+    cursor: pointer;
+}
+.terms-of-service:hover {
+    color: #131313;
+}
+.report-bug {
+    cursor: pointer;
+}
+.report-bug:hover {
+    color: #131313;
+}
+
+
+@media screen and (max-width: 768px) {
+    body {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .blur-orange-background {
+        position: relative;
+    }
+    .main-header {
+        position: absolute;
+        flex-direction: row;
+        transform: translateY(-110%);
+        background-color: #1c1c1c;
+        min-width: 0;
+        width: 100%;
+        margin: 0;
+        height: auto;
+        border-bottom: 2px solid #BBBBBB;
+        z-index: 100000;
+    }
+    .logo-alumet {
+        width: 20%;
+        height: auto;
+    }
+    .name-logo {
+        font-size: 6vw;
+    }
+    .header-logo-navigation-container {
+        max-width: 30%;
+    }
+    .button-header-navigation {
+        font-size: 4vw;
+        margin-top: 2em;
+    }
+    .header-connexion-buttons-container {
+        display: block;
+        max-height: 20%;
+        max-width: 50%;
+        flex-direction: row;
+        margin-top: auto;
+    }
+    .button-signin-header {
+        font-size: 5vw;
+        margin-right: none;
+    }
+    .button-signup-header {
+        font-size: 5vw;
+    }
+    .burger-button-open-menu {
+        display: flex;
+        position: absolute;
+        right: 0;
+        width: 10%;
+        height: 10%;
+        background: #FF3D00;
+        z-index: 4000000;
+        border: none;
+        border-radius: 0px 0px 0px 50px;
+    }
+    .burger-menu {
+        display: flex;
+        position: absolute;
+        left: 0;
+        margin-top: 1em;
+        margin-left: 1em;
+    }
+    .main-title {
+        color: white;
+        margin-left: 40%;
+        position: absolute;
+        display: flex;
+    }
+    .date {
+        position: absolute;
+        flex-direction: column;
+        transform: translateY(-110%);
+        background-color: #1c1c1c;
+        min-width: 0;
+        width: 50%;
+        margin: 0;
+        height: auto;
+        border-bottom: 2px solid #BBBBBB;
+        z-index: 100000; 
+    }
+    .title-date {
+        font-size: 16.7073px;
+        margin-left: 50%;
+    }
+    .update-date {
+        font-size: 10.35px;
+        margin-left: 50%;
+    }
+    .presentation {
+        margin-left: 0;
+        width: 100%;
+    }
+    .changes {
+        width: 100%;
+        margin-left: 0;
+    }
 }

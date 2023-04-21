@@ -69,27 +69,52 @@ document.querySelector('.p-post').addEventListener('click', () => {
   if (title) body.title = title;
   if (content) body.content = content;
   if (option) body.option = option;
-  if (tcs) body.tcs = tcs;
   if (link) body.link = link;
+  body.tcs = tcs;
 
   if (file) {
     formData.append('file', file);
-   
+    fetch('/cdn/upload/guest', {
+      method: 'POST',
+      body: formData
+    }).then(res => res.json()).then(data => {
+      if (data.error) {
+        return abortPost(data.error);
+      }
+      console.log(data);
+      body.fileID = data.file._id;
+
+      fetch(`/api/post/${localStorage.getItem('currentAlumet')}/${wall}/`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(res => res.json()).then(data => {
+        if (data.error) {
+          return abortPost(data.error);
+        }
+        document.querySelector('.p-post').classList.remove('button--loading');
+        createPostHtml(data, data.wallId, true);
+        closeModal('cp')
+      });
+    });
+  } else {
+    fetch(`/api/post/${localStorage.getItem('currentAlumet')}/${wall}/`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(res => res.json()).then(data => {
+      if (data.error) {
+        return abortPost(data.error);
+      }
+      document.querySelector('.p-post').classList.remove('button--loading');
+      createPostHtml(data, data.wallId, true);
+      closeModal('cp')
+    });
   }
-
-
-  fetch(`/api/post/${localStorage.getItem('currentAlumet')}/${wall}/`, {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  }).then(res => res.json()).then(data => {
-    if (data.error) {
-      return abortPost(data.error);
-    }
-    console.log(data);
-  });
 });
 
 

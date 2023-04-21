@@ -4,8 +4,8 @@ const { tokenC } = require('../../config.json');
 
 const alumetAuth = (req, res, next) => {
    if (!req.cookies.alumetToken) {
-       req.auth = false;
-       return next();
+          req.auth = false;
+          return next();
    } else {
          try {
               const decodedToken = jwt.verify(req.cookies.alumetToken, tokenC);

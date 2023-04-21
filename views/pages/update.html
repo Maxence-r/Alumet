@@ -24,11 +24,18 @@
     <link rel="stylesheet" href="../style/update.css"/>
     <link rel="stylesheet" type="text/css" href="../style/global.css">
 
-    <title>Alumet: Le projet</title>
+    <title>Alumet: Mise à jour</title>
 </head>
 <body>
     <!--Header-->
     <div class="blur-orange-background"></div>
+    <div class="high-background-dots"></div>
+    <div class="high-background-gradient"></div>
+
+    <div class="blur-orange-background"></div>
+    <img class="burger-menu" src="../assets/app/menu.svg" alt="menu déroulant">
+    <h1 class="main-title">Mise à jour</h1>
+    <button class="burger-button-open-menu"></button>
     <header class="main-header">
       <div class="header-logo-navigation-container">
         <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Alumet's logo" class="logo-alumet">
@@ -43,8 +50,28 @@
           <button class="button-signin-header" onclick="document.location.href='/auth/signup'" >S'incrire</button>
         </div>
      </header>
+
     <!--Page-->
-    <div class="date">
-        <h1 class="title-date">Date :<h1>
+    
+    <div class="global">
+      <div class="date">
+        <a onclick="affichage_1()"class="title-date">Date</a><br><br>
+        <a onclick="affichage_2()" class="update-date">Apr 21st, 2023</a>
+      </div>
+      <div class="presentation">
+        <p class="text-presentation">Ici je ne sais pas encore quoi mettre</p>
+      </div>
+      <div class="changes">
+        <h1 class="title-changes">Titre</h1>
+        <img src="../assets/app/AcceuilConnected.png" alt="apercu-accueil" class="presentation-alumet-preview">
+        <p class="recap-changes">paragraphe avec explication</p>
+      </div>
     </div>
+
+  <!--Footer-->
+  <footer>
+    <p><a onclick="document.location.href='/auth/terms-of-service'" class="terms-of-service">Conditions d'utilisation</a>-<a onclick="document.location.href='/auth/report'" class="report-bug">Vous avez trouvé un bug ?</a></p>
+  </footer>
 </body>
+<script src="../script/update.js"></script>
+</html>

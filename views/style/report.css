@@ -1,0 +1,117 @@
+body {
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #131313;
+    margin: 0;
+    padding: 30px;
+    text-align: center;
+}
+
+.dots {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: radial-gradient(#54503F 2px, transparent 0);
+    background-size: 40px 40px;
+    background-position: -19px -19px;
+    z-index: -10;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 55px;
+}
+
+.logo {
+    height: 100%;
+    cursor: pointer;
+}
+
+.title {
+    color: white;
+    margin-left: 15px;
+    font-size: 26px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.low-container {
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: rgba(12, 12, 12, 0.5);
+    border: 0.5px solid #3D3D3D;
+    border-radius: 6px;
+    outline: none;
+    height: 48px;
+    padding: 0 20px;
+    color: white;
+    margin-bottom: 15px;
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: 0.4s ease-in-out;
+}
+.thin-title {
+    color: white;
+    font-size: 40px;
+    font-weight: 200;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+.mail {
+    background: rgba(217, 217, 217, 0.2);
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    height: 48px;
+    padding: 0 20px;
+    color: white;
+    margin-bottom: 15px;
+    transition: all 0.5s ease-in-out;
+}
+.thin-title {
+    color: white;
+    font-size: 40px;
+    font-weight: 200;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+.report-area {
+    background: rgba(217, 217, 217, 0.2);
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    height: 100px;
+    padding: 0 20px;
+    color: white;
+    margin-bottom: 15px;
+    transition: all 0.5s ease-in-out;
+    overflow: scroll;
+    outline: none;
+    line-height: 1.7;
+}
+p {
+    color: white;
+}
+
+@media screen and (max-width: 800px) {
+    body {
+        padding: 10px;
+    }
+    .positon {
+        width: 100%;
+    }
+}

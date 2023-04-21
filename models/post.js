@@ -21,6 +21,8 @@ const PostSchema = mongoose.Schema({
     },
     type: {
         type: String,
+        required: true,
+        default: "default"
     },
     typeContent: {
         type: String,

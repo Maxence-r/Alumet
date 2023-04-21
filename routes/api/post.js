@@ -2,22 +2,143 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../../models/post');
 const validateObjectId = require('../../middlewares/validateObjectId');
-const paramValidator = require('../../middlewares/api/alumetItemsAuth');
 const postLayer = require('../../middlewares/postLayer');
+const alumetAuth = require('../../middlewares/api/alumetAuth');
+const Alumet = require('../../models/alumet');
+const { tokenC } = require('../../config.json');
+const jwt = require('jsonwebtoken');
+const Upload = require('../../models/upload');
 
-router.post('/:alumet/:wall', postLayer, validateObjectId, (req, res) => {
-    const post = new Post({
+router.post('/:alumet/:wall', validateObjectId, alumetAuth, postLayer, async (req, res) => {
+  const post = new Post({
+      title: req.body.title,
+      content: req.body.content,
+      owner: req.ownerId,
+      ownerType: req.ownerType,
+      type: req.body.type,
+      typeContent: req.contentType,
+      color: req.body.color,
+      position: req.position,
+      wallId: req.params.wall,
+      visible: req.body.tcs
+  });
+  post.save()
+  .then(async (post) => {
+    let editedPost = { ...post._doc };
+
+    if (post.ownerType !== 'teacher') {
+      const decodedToken = jwt.verify(post.owner, tokenC);
+      editedPost.owner = decodedToken.username;
+    }
+
+    if (post.type === 'file') {
+      const upload = await Upload.findById(post.typeContent);
+      
+      if (upload) {
+        editedPost.fileName = upload.displayname;
+        editedPost.fileExt = upload.mimetype;
+      }
+    }
+
+    res.json(editedPost);
+  })
+  .catch(error => res.json({ error }));
+});
+
+
+router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
+    try {
+      const alumet = await Alumet.findById(req.params.alumet);
+  
+      if (!alumet) {
+        return res.status(404).json({ error: 'Unable to proceed your requests' });
+      }
+  
+      if (!req.logged && !req.auth) {
+        return res.status(404).json({ error: 'Unauthorized x000' });
+      }
+  
+      if (req.logged && alumet.owner !== req.user.id) {
+        return res.status(404).json({ error: 'Unauthorized' });
+      }
+  
+      if (req.auth && alumet._id.toString() !== req.alumet.id) {
+        return res.status(404).json({ error: 'Unauthorized x002' });
+      }
+  
+      const posts = await Post.find({ wallId: req.params.wall }).sort({ position: -1 });
+  
+      const sendPosts = await Promise.all(posts.map(async (post) => {
+        let editedPost = { ...post._doc };
+  
+        if (post.ownerType === 'student') {
+          const decodedToken = jwt.verify(post.owner, tokenC);
+          editedPost.owner = decodedToken.username;
+        }
+  
+        if (post.type === 'file') {
+          const upload = await Upload.findById(post.typeContent);
+  
+          if (upload) {
+            editedPost.fileName = upload.displayname;
+            editedPost.fileExt = upload.mimetype;
+          }
+        }
+  
+        return editedPost;
+      }));
+      res.json(sendPosts);
+    } catch (error) {
+      res.json({ error });
+    }
+  });
+  
+  router.patch('/:alumet/:wall/:post', validateObjectId, alumetAuth, postLayer, (req, res) => {
+    Post.findOneAndUpdate({ _id: req.params.post }, {
         title: req.body.title,
         content: req.body.content,
         type: req.body.type,
-        typeContent: req.body.typeContent,
+        typeContent: req.contentType,
         color: req.body.color,
-        position: req.body.position,
-        wallId: req.body.id
-    });
-    post.save()
+        position: req.position,
+        visible: req.body.tcs
+    }, { runValidators: true})
     .then(post => res.json(post))
     .catch(error => res.json({ error }));
-});
+    });
+
+    
+      
+      router.put('/move/:postId', async (req, res) => {
+        try {
+          const { postId } = req.params;
+          const { min, max } = req.body;
+          
+          const post = await Post.findById(postId);
+          if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+          }
+      
+          if (min === max) {
+            return res.status(400).json({ error: 'No changes' });
+          }
+      
+          if (min > max) {
+            await Post.updateMany({ position: { $gte: max, $lte: min }}, { $inc: { position: 1 }});
+          } else {
+            await Post.updateMany({ position: { $gte: min, $lte: max }}, { $inc: { position: -1 }});
+          }
+      
+          post.position = max;
+          await post.save();
+          
+          res.json({ message: 'Post positions updated' });
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Internal server error' });
+        }
+      });
+      
+        
 
 module.exports = router;

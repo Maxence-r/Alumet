@@ -19,7 +19,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
                 });
             }
             if (alumet.owner.toString() === req.user.id) {
-                return res.redirect('/a/edit/' + req.params.id);
+                return res.redirect('/a/edit/' + req.params.id)
             }
         }
         if (req.auth && req.alumet.id.toString() === req.params.id) {

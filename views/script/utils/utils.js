@@ -24,45 +24,30 @@ function init() {
             document.documentElement.style.setProperty('--secondary-color', '#131313');
             document.documentElement.style.setProperty('--accent-color', '#555555');
         }
+        localStorage.setItem('modules', JSON.stringify(data.finalAlumet.modules));
+        localStorage.setItem('name', data.finalAlumet.name);
     })
 }
 
 init();
 
 
-// Allow to drag the wall
-const slider = document.querySelectorAll('.wall-container');
-let isDown = false;
-let startX;
-let scrollLeft;
 
-slider.forEach(slider => {
-    slider.addEventListener('mousedown', (e) => {
-    isDown = true;
-    startX = e.pageX - slider.offsetLeft;
-    scrollLeft = slider.scrollLeft;
-    });
-});
-slider.forEach(slider => {
-    slider.addEventListener('mouseleave', () => {
-    isDown = false;
-    });
-});
-slider.forEach(slider => {
-    slider.addEventListener('mouseup', () => {
-    isDown = false;
-    });
-});
-slider.forEach(slider => {
-    slider.addEventListener('mousemove', (e) => {
-        if(!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 3; //scroll-fast
-        slider.scrollLeft = scrollLeft - walk;
-    });
-});
-
+function initModules() {
+    JSON.parse(localStorage.getItem('modules')).forEach(module => {
+        switch (module) {
+            case 'dm':
+               const script = document.createElement('script');
+                script.src = '../../script/modules/direct_messages.js';
+                document.body.appendChild(script);
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = '../../style/modules/direct_messages.css';
+                document.head.appendChild(link);
+                break;
+        }
+    }) 
+}
 
 function getWalls() {
     document.querySelectorAll('.wall').forEach(wall => wall.remove());
@@ -84,14 +69,76 @@ function getWalls() {
                 <div onclick="modifySection('${wall._id}', '${wall.post}')" class="dots"><div></div><div></div><div></div></div>
             </div>
             <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Add post</button>
-            <div class="post-scroll">
+            <div class="post-scroll post-${wall._id}">
                 
             </div>`;
             document.querySelector('.wall-container').insertBefore(div, document.querySelector('.wall-container').childNodes[0]);
+            fetch(`/api/post/${localStorage.getItem('currentAlumet')}/${wall._id}/`, {	
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                data.forEach(post => {
+                    createPostHtml(post, wall._id, false);
+                })
+            })
         })
         document.querySelector('.loading').classList.add('hidden');
+        enableDrag();
+        initModules();
     })
     
+}
+
+
+
+function createPostHtml(post, wallId, postFirst) {
+    let postDiv = document.createElement('div');
+                    postDiv.setAttribute('data-id', post._id);
+                    postDiv.setAttribute('data-position', post.position);
+                    postDiv.classList.add('post');
+                    if (post.ownerType === "student") {
+                        let postheader = document.createElement('div');
+                        postheader.classList.add('post-header');
+                        postheader.innerHTML = `
+                        <div class="post-user-infos">
+                        <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
+                        <p class="post-user-username">${post.owner}</p>
+                        <pre class="post-user-date">12/12/2021</pre>
+                        </div>
+                        <div onclick="editPost()" class="dots"><div></div><div></div><div></div></div>`
+                        postDiv.appendChild(postheader);
+                    }
+                    if (post.title) {
+                        let postTitle = document.createElement('div');
+                        postTitle.classList.add('post-title');
+                        postTitle.innerText = `${post.title}`;
+                        postDiv.appendChild(postTitle);
+                    }
+                    if (post.type !== "default") {
+                        if (post.type === "file") {
+                            let filePreview = document.createElement('div');
+                            filePreview.classList.add('file-preview');
+                            filePreview.innerHTML = `<img loading="lazy" src="../../assets/app/AcceuilConnected.png"><p class="file-type">${post.fileExt.toUpperCase()}</p><p class="file-name">${post.fileName.substring(0, 36)}</p>`;
+                            postDiv.appendChild(filePreview);
+                        }
+                    }
+                    if (post.content) {
+                        let postContent = document.createElement('p');
+                        postContent.classList.add('post-content');
+                        postContent.innerText = `${post.content}`;
+                        postDiv.appendChild(postContent);
+                    }
+                    if (postFirst) {
+                        document.querySelector(`.post-${wallId}`).insertBefore(postDiv, document.querySelector(`.post-${wallId}`).childNodes[0]);
+                    } else {
+
+                    document.querySelector(`.post-${wallId}`).appendChild(postDiv);
+                    }
 }
 
 getWalls();

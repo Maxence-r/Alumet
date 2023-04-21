@@ -97,3 +97,4 @@ function resetItems() {
     document.querySelector('.file-modal').style.display = 'none';
     document.querySelector('.link-modal').style.display = 'none';
 }
+

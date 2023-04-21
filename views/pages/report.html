@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="../assets/public/alumet.ico" />
+
+    <meta name="description" content="Alumet, explorer d'une nouvelle façon.">
+    <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers">
+    <meta property="og:title" content="Alumet: Explorer d'une nouvelle façon.">
+    <meta property="og:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alumet.io">
+    <meta property="og:image" content="https://i.imgur.com/O9RdHj1.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:domain" content="alumet.io">
+    <meta name="twitter:url" content="https://alumet.io/">
+    <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes.">
+    <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
+    <meta name="twitter:image" content="https://i.imgur.com/O9RdHj1.png">
+
+    <link rel="stylesheet" href="../style/report.css"/>
+    <link rel="stylesheet" type="text/css" href="../style/global.css">
+
+    <title>Alumet: report bug</title>
+</head>
+<body>
+    <div class="header">
+        <img onclick="document.location.href='/auth/main'" class="logo" src="../assets/app/alumet.png" alt="logo">
+        <h1 onclick="document.location.href='/auth/main'" class="title">Alumet</h1>
+    </div>
+    <div class="low-container">
+        <h1 class="thin-title">Reporter un bug</h1>
+        <input class="mail" type="text" placeholder="Adresse e-mail" required="required">
+        <textarea class="report-area" type="text" placeholder="Veuillez décrire le bug" required="required"></textarea>
+        <button id="signin" class="button" type="button" onclick="afficher()">
+            <span class="button__text">Reporter<img class="button-img" src="../assets/app/open.svg"></span>
+        </button>
+    </div>
+    <div class="dots"></div>
+</body>
+<script src="../script/report.js"></script>
+</html>
