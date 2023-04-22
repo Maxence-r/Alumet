@@ -45,7 +45,8 @@ document.querySelector('.p-post').addEventListener('click', () => {
   let tcs = document.getElementById('p-tcs').checked; // TCS: Teacher Can See
   let file = document.getElementById('file-input').files[0];
   let link = document.querySelector('.link-input').value;
-
+  let color = localStorage.getItem('postColor');
+  
   let wall = localStorage.getItem('currentWall');
   if (title == '' && content == '' && !option) {
     return abortPost('Vous n\'avez pas spécifié de titre, de contenu ou d\'option');
@@ -70,6 +71,7 @@ document.querySelector('.p-post').addEventListener('click', () => {
   if (content) body.content = content;
   if (option) body.option = option;
   if (link) body.link = link;
+  if (color) body.color = color;
   body.tcs = tcs;
 
   if (file) {
@@ -113,6 +115,7 @@ document.querySelector('.p-post').addEventListener('click', () => {
       document.querySelector('.p-post').classList.remove('button--loading');
       createPostHtml(data, data.wallId, true);
       closeModal('cp')
+      localStorage.removeItem('postColor');
     });
   }
 });

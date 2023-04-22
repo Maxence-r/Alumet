@@ -27,8 +27,11 @@
     <title>Alumet: connexion</title>
 </head>
 <body>
+    <div class="blur-orange-background"></div>
+    <div class="high-background-dots"></div>
+    <div class="high-background-gradient"></div>
     <div class="header">
-        <img onclick="document.location.href='/auth/main'" class="logo" src="../assets/app/alumet.png" alt="logo">
+        <img onclick="document.location.href='/auth/main'" class="logo" src="../assets/app/alumet.png" alt="logo d'Alumet">
         <a onclick="document.location.href='/auth/main'" class="title">Alumet</a>
     </div>
     <div class="high-container">
@@ -36,26 +39,9 @@
             <h1 class="thin-title">Portail de connexion</h1>
             <input id="mail" class="input" type="text" placeholder="Adresse e-mail">
             <input id="password" class="input" type="password" placeholder="Mot de passe">
-            <button id="signin" class="button" type="button" onclick="this.classList.add('button--loading')">
-                <span class="button__text">Se connecter<img class="button-img" src="../assets/app/open.svg"></span>
+            <button id="signin" class="connect-button" type="button" onclick="this.classList.add('button--loading')">
+                <span class="button-text">Se connecter<img class="button-img" src="../assets/app/open.svg" alt="flèche pour se connecter"></span>
             </button>
-        </div>
-        <div class="features">
-            <div class="feature">
-                <h2 class="feature-title">Mise à jour</h2>
-                <div class="new-feature">
-                    <img src="../assets/app/feature_password.svg" class="feature-img">
-                <p class="feature-text">File Manager</p>
-                <p class="feature-description">Cet nouvelle mise a jour vous permettra désormais d’ajouter un mot de passe a vos fichier</p>
-                </div>
-            <div class="feature">
-                <div class="new-feature" class="feature-img">
-                    <img src="../assets/app/feature_password.svg">
-                    <p class="feature-text">Sécurité globale</p>
-                    <p class="feature-description">Amelioration global de la sécurité, il n’est plus possible de faire lorep ipsum dolor asit amet </p>
-                </div>
-            </div>
-            <span class="feature-button">See other features</span>
         </div>
     </div>
     <div class="gradient"></div>

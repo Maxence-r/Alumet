@@ -2,9 +2,8 @@ const express = require('express');
 const router = express.Router();
 const getMetaData = require('metadata-scraper')
 const pdf2img = require('pdf-img-convert');
-const path = require('path');
-const fs = require('fs');
-
+const axios = require('axios');
+const sharp = require('sharp');
 
 router.get('/meta', (req, res) => {
     const url = req.query.url;
@@ -41,6 +40,26 @@ router.get('/pdf', async (req, res) => {
         res.status(500).send('Error generating image');
     }
 });
+
+router.get('/image', async (req, res) => {
+    try {
+      const { url } = req.query;
+  
+      
+      const { data: imageData } = await axios.get(url, { responseType: 'arraybuffer' });
+  
+     
+      const previewImage = await sharp(imageData)
+        .resize(200)
+        .toBuffer();
+  
+      res.set('Content-Type', 'image/png');
+      res.send(previewImage);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal server error');
+    }
+  });
 
 
 module.exports = router;

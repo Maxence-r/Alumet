@@ -8,21 +8,6 @@ io.on('connection', (socket) => {
   console.log('a user connected' + socket.id);
 });
 global.io = io;
-global.io.on('connection', (socket) => {
-  socket.on('join', (room) => {
-    socket.join(room);
-    console.log('joined room ' + room);
-  });
-  socket.on('leave', (room) => {
-    socket.leave(room);
-    console.log('left room ' + room);
-  });
-  socket.on('message', (room, message) => {
-    socket.to(room).emit('message', message);
-    console.log('message sent to room ' + room);
-  });
-});
-
 
 const normalizePort = val => {
   const port = parseInt(val, 10);

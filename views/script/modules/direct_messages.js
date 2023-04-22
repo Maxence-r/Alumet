@@ -17,7 +17,7 @@ socket.on(`message-${localStorage.getItem('currentAlumet')}`, data => {
 
 
 document.querySelector('.modules-container').innerHTML = `
-<div class="conversation-container">
+<div id="dm" class="conversation-container module">
     <div class="conversation-header">
         <p>${localStorage.getItem('name').substring(0, 20)}</p>
         <span class="loader"></span>
@@ -33,7 +33,7 @@ document.querySelector('.modules-container').innerHTML = `
 </div>`;
 
 function getMessages() {
-     fetch(`http://localhost:3000/api/dm/get/${localStorage.getItem('currentAlumet')}`, {
+     fetch(`/api/dm/get/${localStorage.getItem('currentAlumet')}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -58,13 +58,12 @@ function getMessages() {
         elem.scrollTop = elem.scrollHeight;
     })
 }
-
 getMessages();
 
 function sendMessage() {
     let message = document.querySelector('.conversation-footer > input').value;
     if (message.length === 0) return;
-    fetch(`http://localhost:3000/api/dm/send/${localStorage.getItem('currentAlumet')}`, {
+    fetch(`/api/dm/send/${localStorage.getItem('currentAlumet')}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

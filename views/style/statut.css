@@ -29,7 +29,7 @@ body {
 .light-blur-orange-background {
     background: linear-gradient(180deg, rgba(255, 61, 0, 0.3) 0%, rgba(255, 61, 0, 0) 89.06%);
     filter: blur(148.5px);
-    width: 1000%;
+    width: 100%;
     height: 9em;
     position: absolute;
     z-index: -9;
@@ -149,15 +149,15 @@ body {
     margin-right: 2em;
 }
 
-/* HEADER */
+/* PAGE */
 
 .box-statut {
     display: flex;
     width: 80%;
-    border: 1px solid white;
+    border: 0.5px solid #6D6D6D;
     border-radius: 7px;
     margin: auto;
-    height: 300px;
+    height: auto;
     flex-direction: column;
 }
 .title-statut{
@@ -177,39 +177,111 @@ body {
     width: 100%;
     overflow: hidden;
     flex-direction: row;
+    display: flex;
+    justify-content: center;
+}
+.little-barre1 {
+    height: 2em;
+    width: 0.8em;
+    background-color: #FF3D00;
+    margin-left: 1em;
 }
 .little-barre {
     height: 2em;
-    width: 0.2em;
+    width: 0.8em;
     background-color: #FF3D00;
-    margin-left: 1em;
+    margin-left: 0.5em;
+}
+.little-barre2 {
+    height: 2em;
+    width: 0.8em;
+    background-color: #FF3D00;
+    margin-left: 0.5em;
+    margin-right: 1em;
+}
+.graphique {
+    margin: auto;
+    width: 80%;
+    height: auto;
+    display: flex;
 }
 /* FOOTER  */
 
 footer {
-    background-color: #FF3D00;
     color: white;
+    background: linear-gradient(-105deg, #131313, #461000);
+    border-width: 1px  0px 0px;
+    border-style: solid;
+    border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
     width: 100%;
-    margin-top: 2em;
-    height: 4em;
-    align-items: center;
+    margin-top: 3em;
+    height: auto;
+    max-height: 10em;
     display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: center;
 }
-p {
+.footer-logo {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1em;
+    border-bottom: 1px solid #BBBBBB;
+    height: 8em;
     justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
+}
+.logo-alumet-footer {
+    width: 20%;
+    height: auto;
+    cursor: pointer; 
+    margin-bottom: 1em;   
+}
+.name-logo-footer {
+    font-size: 1.7vw;
+    margin-left: 0.4em;
+    margin-top: 0.6em;
+    cursor: pointer;
+}
+.name-logo-footer:hover {
+    color: #FF3D00;
+}
+.footer-links-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+    width: auto;
+    margin-top: 1em;
+}
+.footer-paragraph {
+    justify-content: center;
 }
 .terms-of-service {
     cursor: pointer;
 }
 .terms-of-service:hover {
-    color: #131313;
+    color: #FF3D00;
 }
 .report-bug {
     cursor: pointer;
 }
 .report-bug:hover {
-    color: #131313;
+    color: #FF3D00;
+}
+
+
+@media screen and (max-width: 768px) {
+    footer {
+        height: 5%;
+        max-height: 10em;
+    }
+    .name-logo-footer {
+        font-size: 3vw;
+        margin-top: 1em;
+    }
+    .footer-links-container {
+        width: 100%;
+        align-items: center;
+    }
 }
 

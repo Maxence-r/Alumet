@@ -37,25 +37,26 @@
     <div class="high-background-gradient"></div>
     <header class="main-header">
       <div class="header-logo-navigation-container">
-        <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Alumet's logo" class="logo-alumet">
-        <a onclick="document.location.href='/auth/main'" class="name-logo">Alumet</a>
-        <a onclick="document.location.href='/auth/statut'" class="button-header-navigation">Statut</a>
-        <a onclick="document.location.href='/auth/project'" class="button-header-navigation"><span style="color:#FF3D00">Le projet</span></a>
-        <a href="#adopt" class="button-header-navigation">Pourquoi adopter ?</a>
-        <a onclick="document.location.href='/auth/update'" class="button-header-navigation">Mise à jour</a>
-      </div>
-      <div class="header-connexion-buttons-container">
+          <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Logo d'Alumet" class="logo-alumet">
+          <a onclick="document.location.href='/auth/main'" class="name-logo">Alumet</a>
+          <!--<a onclick="document.location.href='/auth/statut'" class="button-header-navigation">Statut</a>-->
+          <a onclick="document.location.href='/auth/project'" class="button-header-navigation">Le projet</a>
+          <a onclick="document.location.href='/auth/main#adopt'" class="button-header-navigation">Pourquoi adopter ?</a>
+          <!--<a onclick="document.location.href='/auth/update'" class="button-header-navigation">Mise à jour</a>-->
+        </div>
+        <div class="header-connexion-buttons-container">
           <button class="button-signup-header" onclick="document.location.href='/auth/signin'">Se connecter</button>
           <button class="button-signin-header" onclick="document.location.href='/auth/signup'" >S'incrire</button>
-      </div>
-    </header>
+        </div>
+     </header>
+  
 
 
 
 
      <!-- Big Title-->
     <div class="big-project-title-container">
-      <img class="big-project-logo" src="../assets/app/wide_alumet.png">
+      <img class="big-project-logo" src="../assets/app/wide_alumet.png" alt="gros logo d'Alumet">
       <div class="big-project-text-container">
         <span class="big-project-title">Alumet</span>
         <p class="big-project-title-details">La scolarité simplifiée au service des professeurs</p>
@@ -94,12 +95,19 @@
       </div>
     </div>
 
-    <!--Footer-->
-    <footer>
-      <div class="footer-links-container">
-        <p class="footer-paragraph"><a onclick="document.location.href='/auth/terms-of-service'" class="terms-of-service">Conditions d'utilisation</a></p>
-        <p class="footer-paragraph"><a onclick="document.location.href='/auth/report'" class="report-bug">Signaler un bug</a></p>
-      </div>
-    </footer>
+  <!--Footer-->
+  <footer class="footer-container">
+    <div class="footer-logo">
+      <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Logo d'Alumet" class="logo-alumet-footer">
+      <a onclick="document.location.href='/auth/main'" class="title-alumet-footer">Alumet</a>
+    </div>
+    <div class="footer-links-container">
+      <p class="footer-paragraph"><a onclick="document.location.href='/auth/contacts'" class="terms-of-service">Contacts</a></p>
+      <p>-</p>
+      <p class="footer-paragraph"><a onclick="document.location.href='/auth/terms-of-service'" class="terms-of-service">Conditions d'utilisation</a></p>
+      <p>-</p>
+      <p class="footer-paragraph"><a onclick="document.location.href='/auth/report'" class="terms-of-service">Signaler un bug</a></p>
+    </div>
+  </footer>
   </body>
 </html>

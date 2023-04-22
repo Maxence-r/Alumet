@@ -68,7 +68,7 @@ function enableDrag() {
             postContainer.insertBefore(currentPost, targetPost.nextSibling);
           }
           
-          fetch(`/api/post/move/${currentPost.dataset.id}`, {
+          fetch(`/api/post/move/${localStorage.getItem('currentAlumet')}/${currentPost.dataset.id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'
@@ -107,36 +107,5 @@ function resetDrag() {
   enableDrag();
 }
 
-// Allow to drag the wall
-const slider = document.querySelectorAll('.wall-container');
-let isDown = false;
-let startX;
-let scrollLeft;
 
-slider.forEach(slider => {
-    slider.addEventListener('mousedown', (e) => {
-    isDown = true;
-    startX = e.pageX - slider.offsetLeft;
-    scrollLeft = slider.scrollLeft;
-    });
-});
-slider.forEach(slider => {
-    slider.addEventListener('mouseleave', () => {
-    isDown = false;
-    });
-});
-slider.forEach(slider => {
-    slider.addEventListener('mouseup', () => {
-    isDown = false;
-    });
-});
-slider.forEach(slider => {
-    slider.addEventListener('mousemove', (e) => {
-        if(!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 3; //scroll-fast
-        slider.scrollLeft = scrollLeft - walk;
-    });
-});
 

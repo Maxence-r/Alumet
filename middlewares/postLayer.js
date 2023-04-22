@@ -2,7 +2,7 @@ const Alumet = require('../models/alumet');
 const Post = require('../models/post');
 const Upload = require('../models/upload');
 const Wall = require('../models/wall');
-
+const { supportedColor } = require('../config.json');
 const postLayer = async (req, res, next) => {
     try {
         const alumet = await Alumet.findOne({ _id: req.params.alumet });
@@ -17,9 +17,10 @@ const postLayer = async (req, res, next) => {
             if (wall.alumet !== alumet._id.toString()) return res.status(404).json({ error: 'Unauthorized x001' });
         }
 
-        if (req.auth) {
+        if (req.auth && !req.logged) {
             req.ownerId = req.cookies.alumetToken;
             req.ownerType = 'student';
+            
             if (alumet._id.toString() !== req.alumet.id) return res.status(404).json({ error: 'Unauthorized x002' });
             if (wall.alumet !== req.alumet.id) return res.status(404).json({ error: 'Unauthorized x003' });
             if (wall.post === false) return res.status(404).json({ error: 'Unauthorized x004' });
@@ -28,7 +29,9 @@ const postLayer = async (req, res, next) => {
         if (req.body.title === '' && req.body.content === '' && !req.body.option) {
             return res.status(400).json({ error: 'Unable to proceed your requests' });
         }
-        
+        if (req.body.color) {
+            if (!supportedColor.includes(req.body.color)) return res.status(404).json({ error: 'Unable to proceed your requests' });
+        }
 
         if (req.body.option === 'file') {
             req.body.type = 'file';

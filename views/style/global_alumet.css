@@ -572,6 +572,7 @@ p.file-name {
 
 .modules-container {
     display: flex;
+    margin-left: auto;
     flex-direction: column;
     z-index: 500;
 }
@@ -663,7 +664,7 @@ p.file-name {
 }
 
 .selected-color {
-    outline: 0.7px solid #FFFFFF !important;
+    outline: 0.5px solid #000000 !important;
     box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.25);
 }
 
@@ -711,7 +712,7 @@ p.file-name {
 }
 
 #current-theme {
-    background-color: var(--true-color);
+    background-color: #ffffff;
 }
 
 .blue {
@@ -742,7 +743,52 @@ p.file-name {
     color: #ffffff;
     transition: all 0.2s;
   }
+
+.nav-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+    padding: 0 20px;
+    width: 100%;
+    height: 70px;
+    background-color: var(--main-color);
+    box-shadow:  0px -1px 11px rgba(0, 0, 0, 0.25);
+    z-index: 500;
+}
   
+#selected-item > img {
+    filter: brightness(1);
+}
+
+#selected-item > p {
+    color: #000000
+}
+
+.item {
+    display: none;
+    width: 45px;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.item > img {
+    width: 23px;
+    height: 23px;
+    filter: invert(0.5);
+}
+
+.item > p {
+    font-size: 11px;
+    color: #6e6e6e;
+    margin: 0;
+    margin-top: 5px;
+}
+
   .button--loading .button__text {
     display: none;
   }
@@ -834,8 +880,39 @@ p.file-name {
     }
 }
 
+.active-module {
+    display: flex;
+    animation: fadeTop 0.7s ease-in-out;
+}
+
+@keyframes fadeTop {
+    from {
+        opacity: 0;
+        transform: scale(0.9)
+    }
+    to {
+        opacity: 1;
+        transform: scale(1)
+    }
+}
+
+
 @media screen and (max-width: 1200px) {
     .modules-container {
         display: none;
+        position: absolute;
+        width: 100%;
+        height: calc(100% - 70px);
+        top: 0;
+        left: 0;
+    }
+    .nav-bar {
+        display: flex;
+    }
+    .module {
+        display: none;
+    }
+    .wall-container {
+        height: calc(100vh - 120px);
     }
 }

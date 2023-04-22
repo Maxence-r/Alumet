@@ -36,7 +36,6 @@ router.get('/logout', async (req, res) => {
 
 router.get('/info', async (req, res) => {
     const token = req.cookies.token;
-    console.log(token);
     if (!token) return res.redirect('/auth/signin');
     const decodedToken = jwt.verify(token, tokenC);
     const userId = decodedToken.userId;

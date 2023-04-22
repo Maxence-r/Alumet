@@ -19,6 +19,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
                 });
             }
             if (alumet.owner.toString() === req.user.id) {
+                res.clearCookie('alumetToken');
                 return res.redirect('/a/edit/' + req.params.id)
             }
         }
@@ -49,9 +50,7 @@ router.post('/authorize', validateObjectId, async (req, res) => {
             const token = jwt.sign({
                 id: alumet._id,
                 username: req.body.username || "Anonyme",
-            }, tokenC, {
-                expiresIn: '24h'
-            });
+            }, tokenC);
             res.cookie('alumetToken', token).status(200).json({
                 message: 'Connexion réussie !'
             });

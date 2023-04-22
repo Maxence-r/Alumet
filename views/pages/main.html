@@ -32,15 +32,24 @@
   <div class="high-background-dots"></div>
   <div class="high-background-gradient"></div>
 
+  <!--
+  <div class="banner">
+    <h1 class="title-banner">Alumet est en béta, si vous trouvez un bug n'hésiter pas à le raporter à cette <a onclick="document.location.href='/auth/report'">page</a></h1>
+    <img onclick="close()" src="../assets/app/close.svg" alt="petite croix" class="close">
+  </div>
+  -->
+
   <button class="burger-button-open-menu"></button>
   <header class="main-header">
-    <div class="header-logo-navigation-container">
-        <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Alumet's logo" class="logo-alumet">
+      <div class="header-logo-container">
+        <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Logo d'Alumet" class="logo-alumet">
         <a onclick="document.location.href='/auth/main'" class="name-logo">Alumet</a>
-        <a onclick="document.location.href='/auth/statut'" class="button-header-navigation">Statut</a>
+      </div>
+      <div class="header-navigation-container">
+        <!--<a onclick="document.location.href='/auth/statut'" class="button-header-navigation">Statut</a>-->
         <a onclick="document.location.href='/auth/project'" class="button-header-navigation">Le projet</a>
         <a onclick="document.location.href='/auth/main#adopt'" class="button-header-navigation">Pourquoi adopter ?</a>
-        <a onclick="document.location.href='/auth/update'" class="button-header-navigation">Mise à jour</a>
+        <!--<a onclick="document.location.href='/auth/update'" class="button-header-navigation">Mise à jour</a>-->
       </div>
       <div class="header-connexion-buttons-container">
         <button class="button-signup-header" onclick="document.location.href='/auth/signin'">Se connecter</button>
@@ -53,16 +62,16 @@
 
    <!--Presentation-->
    <div class="presentation-container">
-        <button class="presentation-button-video" onclick="window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=PLjiRLNE8yAtBnaVDtlB1W0-jQ0nbHPtqq&index=5&ab_channel=RickAstley', '_blank');"">Visionner la vidéo de présentation <img src="../assets/app/Vector.png" alt="petite flèche" class="presentation-button-arrow"></button>
-          <h1 class="presentation-slogan">Alumet, la révolution des environnements de travaux numériques</h1>
+        <button class="presentation-button-video">Visionner la vidéo de présentation <img src="../assets/app/Vector.png" alt="petite flèche" class="presentation-button-arrow"></button>
+          <h1 class="presentation-slogan">Alumet, la flamme de l’innovation au service de l’éducation</h1>
           <p class="presentation-slogan-details">Découvrez enfin un environnement de travail moderne pour vos élèves, simple à <br> utiliser et tellement plus efficace</p>
-        <button class="incentive-join-button" onclick="document.location.href='/views/pages/signup.html'">Rejoindre<img src="../assets/app/Vector.png" alt="petite-flèche" class="incentive-join-button-arrow"></button>
+        <button class="incentive-join-button" onclick="document.location.href='/views/pages/signup.html'">Rejoindre<img src="../assets/app/Vector.png" alt="petite flèche" class="incentive-join-button-arrow"></button>
 
    </div>
 
 
    <!--Preview-->
-   <img src="../assets/app/AcceuilConnected.png" alt="apercu-accueil" class="presentation-alumet-preview">
+   <img src="../assets/app/AcceuilConnected.png" alt="aperçu accueil" class="presentation-alumet-preview">
 
 
    <!--Description-->
@@ -78,24 +87,24 @@
         <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord vous permet de gerer vos alumets pour vos classes</p>
       </div>
       <div class="description-box">
-        <p class="description-box-title">Un tableau de bord moderne</p>
-        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord vous permet de gerer vos alumets pour vos classes</p>
+        <p class="description-box-title">Une messagerie instantannée</p>
+        <p class="description-box-details">Une messagerie en direct pour faciliter la communication avec vos élèves sur Alumet</p>
       </div>
       <div class="description-box">
-        <p class="description-box-title">Un tableau de bord moderne</p>
-        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord vous permet de gerer vos alumets pour vos classes</p>
+        <p class="description-box-title">Un module devoir</p>
+        <p class="description-box-details">Ce module peut permettre au professeur de demander et recevoir les devoirs demandés</p>
       </div>
       <div class="description-box">
-        <p class="description-box-title">Un tableau de bord moderne</p>
-        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord vous permet de gerer vos alumets pour vos classes</p>
+        <p class="description-box-title">Un gestionnaire de fichier</p>
+        <p class="description-box-details">Un accès facile et rapide à tous vos fichiers et devoirs grâce à Alumet</p>
       </div>
       <div class="description-box">
-        <p class="description-box-title">Un tableau de bord moderne</p>
-        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord vous permet de gerer vos alumets pour vos classes</p>
+        <p class="description-box-title">Un scribbr</p>
+        <p class="description-box-details">Un espace de travail collaboratif pour partager toutes vos idées en toute simplicité !</p>
       </div>
       <div class="description-box">
-        <p class="description-box-title">Un tableau de bord moderne</p>
-        <p class="description-box-details">Epuré et simple a utiliser, le tableau de bord vous permet de gerer vos alumets pour vos classes</p>
+        <p class="description-box-title">Flashcard</p>
+        <p class="description-box-details">Des flashcards intuitives et adaptées à l'apprentissage des élèves pour une meilleure mémorisation !</p>
       </div>
    </div>
 
@@ -103,7 +112,7 @@
   <!--Arguments-->
   <div class="light-blur-orange-background"></div>
   <div class="orange-led-light-container">
-      <h1 class="argument-big-title">C'est vos élèves qui vous diront merci !</h1>
+      <h1 class="argument-big-title">Ce sont vos élèves qui vous diront merci !</h1>
   </div>
   <div class="separation-line"></div>
 
@@ -160,15 +169,22 @@
       </div> 
     </div>
     <div class="class-argument-preview-container">
-      <img class="class-argument-preview" src="../assets/app/alumet.png">
+      <img class="class-argument-preview" src="../assets/app/alumet.png" alt="logo d'Alumet">
     </div>
   </div>
 
   <!--Footer-->
-  <footer>
+  <footer class="footer-container">
+    <div class="footer-logo">
+      <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Logo d'Alumet" class="logo-alumet-footer">
+      <a onclick="document.location.href='/auth/main'" class="title-alumet-footer">Alumet</a>
+    </div>
     <div class="footer-links-container">
+      <p class="footer-paragraph"><a onclick="document.location.href='/auth/contacts'" class="terms-of-service">Contacts</a></p>
+      <p>-</p>
       <p class="footer-paragraph"><a onclick="document.location.href='/auth/terms-of-service'" class="terms-of-service">Conditions d'utilisation</a></p>
-      <p class="footer-paragraph"><a onclick="document.location.href='/auth/report'" class="report-bug">Signaler un bug</a></p>
+      <p>-</p>
+      <p class="footer-paragraph"><a onclick="document.location.href='/auth/report'" class="terms-of-service">Signaler un bug</a></p>
     </div>
   </footer>
 </body>

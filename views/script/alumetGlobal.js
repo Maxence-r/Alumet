@@ -45,6 +45,8 @@ document.querySelectorAll('.color-selector > div').forEach(color => {
             selectedcolor.classList.remove('selected-color');
         })
         a.target.classList.add('selected-color');
+        console.log(a.target);
+        localStorage.setItem('postColor', a.target.classList[0]);
     })
 })
 
@@ -98,3 +100,55 @@ function resetItems() {
     document.querySelector('.link-modal').style.display = 'none';
 }
 
+function enableModule(id) {
+    JSON.parse(localStorage.getItem('modules')).forEach(module => {
+        document.querySelector(`.${module}`).id = ''
+        document.querySelector(`.home`).id = ''
+        document.getElementById(module).classList.remove('active-module');
+    });
+    document.querySelector(`.${id}`).id = 'selected-item'
+    document.querySelector('.modules-container').style.display = 'flex';
+    document.getElementById(id).classList.add('active-module');
+    
+}
+
+function home() {
+    document.querySelector('.modules-container').style.display = 'none';
+    document.querySelector(`.home`).id = 'selected-item'
+    JSON.parse(localStorage.getItem('modules')).forEach(module => {
+        document.querySelector(`.${module}`).id = ''
+        document.getElementById(module).classList.remove('active-module');
+    });
+}
+
+const slider = document.querySelectorAll('.wall-container');
+let isDown = false;
+let startX;
+let scrollLeft;
+
+slider.forEach(slider => {
+    slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+    });
+});
+slider.forEach(slider => {
+    slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    });
+});
+slider.forEach(slider => {
+    slider.addEventListener('mouseup', () => {
+    isDown = false;
+    });
+});
+slider.forEach(slider => {
+    slider.addEventListener('mousemove', (e) => {
+        if(!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 3; //scroll-fast
+        slider.scrollLeft = scrollLeft - walk;
+    });
+});

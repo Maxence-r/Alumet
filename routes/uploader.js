@@ -130,7 +130,6 @@ router.post('/upload', accountUpload.array('files'), (req, res) => {
         }
       });
       files.forEach(file => {
-        console.log(file);
         const upload = new Upload({
             filename: file.filename,
             displayname: file.displayname,

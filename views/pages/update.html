@@ -38,7 +38,7 @@
     <button class="burger-button-open-menu"></button>
     <header class="main-header">
       <div class="header-logo-navigation-container">
-        <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Alumet's logo" class="logo-alumet">
+        <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Alumet's logo" class="logo d'Alumet">
         <a onclick="document.location.href='/auth/main'" class="name-logo">Alumet</a>
         <a onclick="document.location.href='/auth/statut'" class="button-header-navigation">Statut</a>
         <a onclick="document.location.href='/auth/project'" class="button-header-navigation">Le projet</a>
@@ -63,14 +63,24 @@
       </div>
       <div class="changes">
         <h1 class="title-changes">Titre</h1>
-        <img src="../assets/app/AcceuilConnected.png" alt="apercu-accueil" class="presentation-alumet-preview">
+        <img src="../assets/app/AcceuilConnected.png" alt="aperçu accueil" class="presentation-alumet-preview">
         <p class="recap-changes">paragraphe avec explication</p>
       </div>
     </div>
 
   <!--Footer-->
-  <footer>
-    <p><a onclick="document.location.href='/auth/terms-of-service'" class="terms-of-service">Conditions d'utilisation</a>-<a onclick="document.location.href='/auth/report'" class="report-bug">Vous avez trouvé un bug ?</a></p>
+  <footer class="footer-container">
+    <div class="footer-logo">
+      <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Logo d'Alumet" class="logo-alumet-footer">
+      <a onclick="document.location.href='/auth/main'" class="title-alumet-footer">Alumet</a>
+    </div>
+    <div class="footer-links-container">
+      <p class="footer-paragraph"><a onclick="document.location.href='/auth/contacts'" class="terms-of-service">Contacts</a></p>
+      <p>-</p>
+      <p class="footer-paragraph"><a onclick="document.location.href='/auth/terms-of-service'" class="terms-of-service">Conditions d'utilisation</a></p>
+      <p>-</p>
+      <p class="footer-paragraph"><a onclick="document.location.href='/auth/report'" class="terms-of-service">Signaler un bug</a></p>
+    </div>
   </footer>
 </body>
 <script src="../script/update.js"></script>

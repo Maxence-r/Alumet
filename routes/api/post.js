@@ -61,21 +61,21 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
       if (req.logged && alumet.owner !== req.user.id) {
         return res.status(404).json({ error: 'Unauthorized' });
       }
-  
-      if (req.auth && alumet._id.toString() !== req.alumet.id) {
+      
+      if (req.auth && !req.logged && alumet._id.toString() !== req.alumet.id) {
         return res.status(404).json({ error: 'Unauthorized x002' });
       }
-  
+      
       const posts = await Post.find({ wallId: req.params.wall }).sort({ position: -1 });
-  
+      
       const sendPosts = await Promise.all(posts.map(async (post) => {
         let editedPost = { ...post._doc };
   
         if (post.ownerType === 'student') {
           const decodedToken = jwt.verify(post.owner, tokenC);
           editedPost.owner = decodedToken.username;
-        }
-  
+        } 
+        editedPost.ownerId = post.owner;
         if (post.type === 'file') {
           const upload = await Upload.findById(post.typeContent);
   
@@ -89,7 +89,7 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
       }));
       res.json(sendPosts);
     } catch (error) {
-      res.json({ error });
+      console.error(error);
     }
   });
   
@@ -109,7 +109,22 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
 
     
       
-      router.put('/move/:postId', async (req, res) => {
+      router.put('/move/:alumet/:postId', alumetAuth, async (req, res) => {
+        console.log(req.auth);
+        const alumet = await Alumet.findById(req.params.alumet);
+    
+        if (!alumet) {
+          return res.status(404).json({ error: 'Unable to proceed your requests' });
+        }
+    
+        if (!req.logged && !req.auth) {
+          return res.status(404).json({ error: 'Unauthorized x000' });
+        }
+    
+        if (req.logged && alumet.owner !== req.user.id) {
+          return res.status(404).json({ error: 'Unauthorized' });
+        }
+      
         try {
           const { postId } = req.params;
           const { min, max } = req.body;

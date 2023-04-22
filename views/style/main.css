@@ -21,7 +21,7 @@ body {
 .light-blur-orange-background {
     background: linear-gradient(180deg, rgba(255, 61, 0, 0.3) 0%, rgba(255, 61, 0, 0) 89.06%);
     filter: blur(148.5px);
-    width: 1000%;
+    width: 100%;
     height: 9em;
     position: absolute;
     z-index: -9;
@@ -60,6 +60,34 @@ body {
 }
 
 
+/* BANNER */
+
+
+.banner {
+    position: absolute;
+    width: 100%;
+    height: 3em;
+    color: white;
+    display: flex;
+    text-align: center;
+    z-index: 100000000;
+    background-color: #131313;
+    align-items: center;
+}
+.title-banner {
+    font-size: 1vw;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    margin: auto;
+}
+.close {
+    width: 1em;
+    height: auto;
+    margin-left: auto;
+    margin-right: 1em;
+    cursor: pointer;
+}
 .burger-button-open-menu {
     display: none;
     position: sticky;
@@ -75,7 +103,6 @@ body {
 .main-header {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     align-items: stretch;
     height: auto;
     width: 100%;
@@ -90,25 +117,32 @@ body {
     border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
     z-index: 100000;
 }
-.header-logo-navigation-container {
-    width: 50%;
+.header-logo-container {
+    width: min-content;
+    margin-left: 3em;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    height: auto;
+}
+.header-navigation-container {
+    width: 30%;
+    margin-left: 3em;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
     align-items: center;
     height: auto;
 }
 .logo-alumet {
-    width: 4%;
+    width: 30%;
     height: auto;
-    margin-left: 5%;
-    position: relative;
     cursor: pointer;
 }
 .name-logo {
     color: #FFFFFF;
     font-size: 1.7vw;
-    float: left;
+    margin-left: 1em;
     cursor: pointer;
     transition: 0.1s ease-out;
 }
@@ -130,6 +164,7 @@ body {
 }
 .header-connexion-buttons-container {
     width: auto;
+    margin-left: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: end;
@@ -297,7 +332,7 @@ body {
     width: auto;
     max-width: 25%;
     margin-top: 1.6875em;
-    padding: 10em 3em 3em 3em;
+    padding: 3em 3em 3em 3em;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 100%);
     border: 0.5px solid #4E4E4E;
     border-radius: 15px;
@@ -440,46 +475,65 @@ body {
 
 /* FOOTER  */
 
-footer {
+.footer-container {
     color: white;
     background: linear-gradient(-105deg, #131313, #461000);
     border-width: 1px  0px 0px;
     border-style: solid;
     border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
     width: 100%;
-    margin-top: 2em;
+    margin-top: 3em;
     height: auto;
-    max-height: 5em;
+    max-height: 10em;
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: center;
+    bottom: 0;
+    z-index: 1000;
+}
+.footer-logo {
+    margin-top: 1em;
     display: flex;
     flex-direction: row;
-    justify-content: baseline;
-    align-items: baseline;
-
+    justify-content: space-between;
+    column-gap: 0em;
+    height: auto;
+    border-bottom: 1px solid #BBBBBB;
+}
+.logo-alumet-footer {
+    width: 20%;
+    height: auto;
+    cursor: pointer; 
+    margin-bottom: 1em;   
+}
+.title-alumet-footer {
+    font-size: 1.7vw;
+    margin: auto;
+    cursor: pointer;
+    transition: 0.1s ease-out;
+}
+.name-logo-footer:hover {
+    color: #FF3D00;
 }
 .footer-links-container {
     display: flex;
     flex-direction: row;
-    justify-content: baseline;
-    align-items: baseline;
-    margin-left: 2em;
-    width: auto;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1em;
+    width: 50%;
     margin-top: 1em;
 }
 .footer-paragraph {
     justify-content: center;
-    margin-left: 2em;
 }
 .terms-of-service {
     cursor: pointer;
+    transition: 0.1s ease-out;
 }
 .terms-of-service:hover {
-    color: #131313;
-}
-.report-bug {
-    cursor: pointer;
-}
-.report-bug:hover {
-    color: #131313;
+    color: #FF3D00;
 }
 
 @media screen and (max-width: 768px) {
@@ -487,6 +541,7 @@ footer {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        width: 100%;
     }
     .blur-orange-background {
         position: relative;
@@ -651,9 +706,29 @@ footer {
     .class-argument-preview {
         max-width: 100%;
         height: auto;
+        margin-bottom: 1em;
+    }
+    .footer-container {
+        width: 100%;
+        max-height: 20em;
+        border-width: 1px  0px 0px;
+        border-style: solid;
+        border-image: linear-gradient(90deg, #BBBBBB 0%, rgba(77,77,77,1) 50%, #540f00 100%) 1;
+    }
+    .footer-logo {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: auto;
+        border: none;
+    }
+    .title-alumet-footer {
+        font-size: 10vw;
     }
     .footer-links-container {
-        width: 20%;
+        width: 100%;
+        align-items: center;
     }
 }
 

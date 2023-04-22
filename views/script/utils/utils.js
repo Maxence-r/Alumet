@@ -25,7 +25,12 @@ function init() {
             document.documentElement.style.setProperty('--accent-color', '#555555');
         }
         localStorage.setItem('modules', JSON.stringify(data.finalAlumet.modules));
+        console.log(data.finalAlumet.modules);
+        if (data.finalAlumet.modules.length < 1) {
+            document.querySelector('.nav-bar').style.display = 'none';
+        }
         localStorage.setItem('name', data.finalAlumet.name);
+        localStorage.setItem('userId', data.user._id);
     })
 }
 
@@ -35,6 +40,7 @@ init();
 
 function initModules() {
     JSON.parse(localStorage.getItem('modules')).forEach(module => {
+        document.querySelector(`.${module}`).style.display = 'flex';
         switch (module) {
             case 'dm':
                const script = document.createElement('script');
@@ -88,7 +94,9 @@ function getWalls() {
             })
         })
         document.querySelector('.loading').classList.add('hidden');
-        enableDrag();
+        try {
+            enableDrag();
+        } catch (error) {}
         initModules();
     })
     
@@ -110,7 +118,17 @@ function createPostHtml(post, wallId, postFirst) {
                         <p class="post-user-username">${post.owner}</p>
                         <pre class="post-user-date">12/12/2021</pre>
                         </div>
-                        <div onclick="editPost()" class="dots"><div></div><div></div><div></div></div>`
+                        `
+                        console.log(post.ownerId);
+                        if (post.ownerId === localStorage.getItem('userId')) {
+                            console.log("post.owner");
+                           
+                        }
+                        if (post.ownerId === localStorage.getItem('userId')) {
+                            postheader.innerHTML += `
+                            <div onclick="modifyPost('${post._id}', '${post.content}')" class="dots"><div></div><div></div><div></div></div>
+                            `
+                        }
                         postDiv.appendChild(postheader);
                     }
                     if (post.title) {
@@ -123,7 +141,8 @@ function createPostHtml(post, wallId, postFirst) {
                         if (post.type === "file") {
                             let filePreview = document.createElement('div');
                             filePreview.classList.add('file-preview');
-                            filePreview.innerHTML = `<img loading="lazy" src="../../assets/app/AcceuilConnected.png"><p class="file-type">${post.fileExt.toUpperCase()}</p><p class="file-name">${post.fileName.substring(0, 36)}</p>`;
+                            console.log(post);
+                            filePreview.innerHTML = `<img loading="lazy" src="/cdn/u/${post.typeContent}"><p class="file-type">${post.fileExt.toUpperCase()}</p><p class="file-name">${post.fileName.substring(0, 36)}</p>`;
                             postDiv.appendChild(filePreview);
                         }
                     }

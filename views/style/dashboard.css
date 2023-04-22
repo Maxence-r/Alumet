@@ -57,12 +57,15 @@ body {
 
 .menu-infos img {
     width: 25px;
+    cursor: pointer;
 }
 
-.menu-infos h3 {
+.name-logo {
     font-size: 20px;
     color: #ffffff;
     font-weight: 400;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .divider {

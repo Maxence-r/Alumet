@@ -8,6 +8,8 @@ const { authorizedModules } = require('../config.json');
 const mongoose = require('mongoose');
 const validateObjectId = require('../middlewares/validateObjectId');
 const path = require('path');
+const { tokenC } = require('../config.json');
+const jwt = require('jsonwebtoken');
 
 const storage = multer.diskStorage({
   destination: './cdn',
@@ -188,8 +190,13 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
         } else {
             finalAlumet.hasPassword = false;
         }
+        if (req.cookies.alumetToken) {
+          req.user = {_id: req.cookies.alumetToken}
+        }
+        console.log("decoded", req.user)
         res.json({
-            finalAlumet
+            finalAlumet,
+            user: req.user
         });
     }).catch(error => {
         console.log(error);

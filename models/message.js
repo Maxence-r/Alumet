@@ -9,7 +9,7 @@ const MessageSchema = mongoose.Schema({
         type: String,
         required: true,
         minLength: 2,
-        maxLength: 50
+        maxLength: 500
     },
     time : {
         type: Date,

@@ -33,11 +33,30 @@
     <section class="loading">
         <span class="loader-upload"></span>
     </section>
+    <div class="nav-bar">
+        <div onclick="home()" style="display: flex;" id="selected-item" class="item home">
+            <img loading="lazy" src="../../assets/app/home-alumet.svg" alt="Alumet">
+            <p>Acceuil</p>
+        </div>
+        <div onclick="enableModule('hw')" class="item hw">
+            <img loading="lazy" src="../../assets/app/homework.svg" alt="Alumet">
+            <p>Devoirs</p>
+        </div>
+        <div onclick="enableModule('dm')" class="item dm">
+            <img loading="lazy" src="../../assets/app/chat.svg" alt="Alumet">
+            <p>Messages</p>
+        </div>
+        <div onclick="enableModule('fc')" class="item fc">
+            <img loading="lazy" src="../../assets/app/flashcard.svg" alt="Alumet">
+            <p>Flashcards</p>
+        </div>
+    </div>
     <div id="patch-post" class="modal">
         <div class="modal-container">
             <h1>Modifier le post</h1>
             <p>Selectionner une couleur:</p>
             <div class="color-selector">
+                <div class="default" id="current-theme"></div>
                 <div class="blue"></div>
                 <div class="red"></div>
                 <div class="green"></div>
@@ -51,7 +70,7 @@
             <textarea placeholder="Contenu"></textarea>
             <div class="edit-buttons">
                 <button onclick="closeModal('patch-post')" id="cancel">Annuler</button>
-                <button id="patch" type="button" onclick="this.classList.add('button--loading')">
+                <button id="accent" type="button" onclick="this.classList.add('button--loading')">
                     <span class="button__text">Modifier</span>
                 </button>
             </div>
@@ -104,7 +123,7 @@
             <h1>Crée un post</h1>
             <p>Selectionner une couleur:</p>
             <div class="color-selector">
-                <div class="selected-color" id="current-theme"></div>
+                <div class="default" id="current-theme"></div>
                 <div class="blue"></div>
                 <div class="red"></div>
                 <div class="green"></div>

@@ -15,12 +15,12 @@ router.post('/send/:alumet', alumetAuth, async (req, res) => {
       if (!alumetObj) {
         return res.status(404).json({ error: 'Alumet not found' });
       }
-  
+      
       if (req.logged && alumetObj.owner.toString() !== req.user.id) {
         return res.status(401).json({ error: 'Unauthorized x001' });
       }
       
-      if (req.auth && req.params.alumet !== req.alumet.id) {
+      if (req.auth && !req.logged && req.params.alumet !== req.alumet.id) {
         return res.status(401).json({ error: 'Unauthorized x002' });
       }
   
@@ -63,7 +63,7 @@ router.post('/send/:alumet', alumetAuth, async (req, res) => {
         return res.status(401).json({ error: 'Unauthorized x001' });
       }
   
-      if (req.auth && req.params.alumet !== req.alumet.id) {
+      if (req.auth && !req.logged && req.params.alumet !== req.alumet.id) {
         return res.status(401).json({ error: 'Unauthorized x002' });
       }
   
@@ -75,7 +75,6 @@ router.post('/send/:alumet', alumetAuth, async (req, res) => {
       for (let message of messages) {
         if (message.owner) {
           if (message.owner.toString().length === 24) {
-            console.log(message.owner);
             const account = await Account.findOne({ _id: message.owner });
             message.owner = account.prenom + ' ' + account.nom;
           } else {

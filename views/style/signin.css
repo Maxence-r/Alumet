@@ -4,75 +4,82 @@ body {
     left: 0;
     background-color: #131313;
     margin: 0;
-    padding: 30px;
 }
 
-.dots {
+.high-background-dots {
     position: absolute;
     width: 100%;
-    height: 180px;
-    top: -10px;
-    left: -10px;
-    background-image: radial-gradient(#54503F 2px, transparent 0);
+    height: 16.625em;
+    top: -0.625em;
+    left: -0.625em;
+    background-image: radial-gradient(#54503F 2px, transparent 0, #131313 100%), linear-gradient(to bottom, #13131300 0%, #131313 100%);
     background-size: 35px 35px;
     background-position: -19px -19px;
+    z-index: -11;
+}
+.high-background-gradient {
+    position: absolute;
+    width: 100%;
+    height: 16.625em;
+    left: 0px;
+    top: 0px;
+    background: linear-gradient(178.31deg, rgba(22, 22, 22, 0.0), rgb(19, 19, 19, 1.0) 100%);
     z-index: -10;
+}
+.blur-orange-background {
+    background: linear-gradient(180deg, rgba(255, 61, 0, 0.5) 0%, rgba(255, 61, 0, 0) 89.06%);
+    filter: blur(148.5px);
+    width: 100%;
+    height: 9.8125em;
+    position: absolute;
+    z-index: -9;
 }
 
 .header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 55px;
+    height: auto;
+    padding: 0.5em 0em 0em 2em;
 }
-
 .logo {
-    height: 100%;
+    width: 3%;
+    height: auto;
     cursor: pointer;
 }
-
 .title {
-    color: white;
-    margin-left: 15px;
-    font-size: 26px;
+    color: #FFFFFF;
+    font-size: 2vw;
     font-weight: 600;
+    margin-left: 1vw;
     cursor: pointer;
+    transition: 0.1s ease-out;
 }
-
-.gradient {
-    position: absolute;
-    width: 100%;
-    height: 169px;
-    left: 0px;
-    top: 0px;
-    background: linear-gradient(178.31deg, rgba(22, 22, 22, 0.0) 1.43%, rgb(19, 19, 19, 1.0) 90%);
-    z-index: -1;
+.title:hover {
+    color: #FF3D00;
 }
 
 .thin-title {
     color: white;
-    font-size: 40px;
+    font-size: 3.4vw;
     font-weight: 200;
-    margin-top: 10px;
-    margin-bottom: 15px;
 }
 
 .input {
     background: rgba(217, 217, 217, 0.2);
+    margin-top: 1.2em;
     border-radius: 6px;
     border: none;
     outline: none;
-    height: 48px;
-    padding: 0 20px;
+    height: 3em;
+    padding: 0 1.25em;
     color: white;
-    margin-bottom: 15px;
-    transition: all 0.5s ease-in-out;
+    transition: 0.2s ease-out;
 }
 
 .input:focus {
     background: rgba(152, 152, 152, 0.5);
     color: #FFFFFF;
-    transform: scale(1.005);
 }
 
 .high-container {
@@ -83,12 +90,12 @@ body {
 .low-container {
     display: flex;
     flex-direction: column;
-    width: 450px;
+    width: 35%;
     margin-left: auto;
     margin-right: auto;
 }
 
-.button {
+.connect-button {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -97,15 +104,14 @@ body {
     border: 0.5px solid #3D3D3D;
     border-radius: 6px;
     outline: none;
-    height: 48px;
-    padding: 0 20px;
+    margin-top: 1em;
+    height: 3em;
+    padding: 0 1.25em;
     color: white;
-    margin-bottom: 15px;
-    font-size: 13px;
+    font-size: 1vw;
     font-weight: 400;
     cursor: pointer;
     transition: 0.4s ease-in-out;
-
 }
 .button:hover {
     background: rgba(25, 25, 25, 0.5);
@@ -120,10 +126,11 @@ body {
 .features {
     display: flex;
     flex-direction: column;
-    max-width: 408px;
+    max-width: 35%;
     max-height: 90%;
     align-items: center;
-    padding: 10px;
+    padding: 0.625em;
+    margin-right: 2em;
     background: rgba(12, 12, 12, 0.5);
     border: 0.5px solid #3D3D3D;
     border-radius: 6px;
@@ -140,75 +147,39 @@ body {
 }
 
 
-.new-feature {
-    display: flex;
-    max-width: 330px;
-    max-height: 40%;
-    flex-direction: column;
-    align-items: left;
-    background: rgba(100, 100, 100,0.1);
-    border: 0.5px solid #838383;
-    border-radius: 5px;
-    margin-top: 10px;
-    overflow: hidden;
-    padding: 10px;
-}
-
-.feature-text {
-    color: #FFFFFF;
-    font-weight: 300;
-    font-size: calc(0.4vw + 1.0em);
-    margin-bottom: 5px;
-    margin-top: 0;
-}
-.feature-description {
-    color: #D0D0D0;
-    font-weight: 100;
-    font-size: 12px;
-    line-height: 14.6px;
-    margin: 0;
-}
-.feature-img {
-    width: 90%;
-    margin: auto;
-}
-
-.feature-button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background: rgba(100, 100, 100,0.1);
-    border: 0.5px solid #3D3D3D;
-    border-radius: 6px;
-    outline: none;
-    height: 48px;
-    padding: 0 20px;
-    color: white;
-    margin-bottom: 3px;
-    margin-top: 3%;
-    font-size: 13px;
-    font-weight: 400;
-    cursor: pointer;
-    transition: 0.4s ease-in-out;
-
-}
-.feature-button:hover {
-    background: rgba(25, 25, 25, 0.5);
-    border: 0.2px solid #AAAAAA;
-}
 
 @media screen and (max-width: 768px) {
+    .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        column-gap: 0em;
+        height: auto;
+    }
+    .logo {
+        width: 20%;
+        height: auto;
+        margin: auto;
+    }
+    .title {
+        margin: auto;
+        font-size: 12vw;
+        margin-left: 0em;
+    }
     .high-container {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        text-align: center;
     }
     .low-container {
         width: 100%;
     }
-    .features {
-        min-width: 100%;
+    .thin-title {
+        font-size: 10vw;
+    }
+    .connect-button {
+        font-size: 4vw;
     }
 }
     
