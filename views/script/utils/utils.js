@@ -73,11 +73,24 @@ function getWalls() {
             <div class="wall-header">
                 <p id="${wall._id}" class="wall-title">${wall.title}</p>
                 <div onclick="modifySection('${wall._id}', '${wall.post}')" class="dots"><div></div><div></div><div></div></div>
-            </div>
-            <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Add post</button>
+            </div>`;
+            let userID = localStorage.getItem('userId')
+            if (userID.length > 50) {
+                console.log(userID);
+                if(wall.post === true) {
+                    div.innerHTML += `
+                    <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Add post</button>
+                    `
+                }
+            } else {
+                div.innerHTML += `
+                <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Add post</button>
+                `
+            }
+            div.innerHTML += `
             <div class="post-scroll post-${wall._id}">
                 
-            </div>`;
+            </div>`
             document.querySelector('.wall-container').insertBefore(div, document.querySelector('.wall-container').childNodes[0]);
             fetch(`/api/post/${localStorage.getItem('currentAlumet')}/${wall._id}/`, {	
                 method: 'GET',
@@ -119,18 +132,18 @@ function createPostHtml(post, wallId, postFirst) {
                         <pre class="post-user-date">12/12/2021</pre>
                         </div>
                         `
-                        console.log(post.ownerId);
-                        if (post.ownerId === localStorage.getItem('userId')) {
-                            console.log("post.owner");
-                           
-                        }
-                        if (post.ownerId === localStorage.getItem('userId')) {
+                        if (post.owning === true) {
                             postheader.innerHTML += `
-                            <div onclick="modifyPost('${post._id}', '${post.content}')" class="dots"><div></div><div></div><div></div></div>
+                            <div onclick="editPost('${post._id}')" class="dots"><div></div><div></div><div></div></div>
                             `
                         }
                         postDiv.appendChild(postheader);
+                    } else {
+                        postDiv.innerHTML = `
+                        <div onclick="editPost('${post._id}')" id="dots-absolute" class="dots"><div></div><div></div><div></div></div>
+                        `
                     }
+                        
                     if (post.title) {
                         let postTitle = document.createElement('div');
                         postTitle.classList.add('post-title');

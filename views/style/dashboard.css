@@ -66,14 +66,10 @@ body {
 .name-logo {
     font-size: 20px;
     color: #ffffff;
-    font-weight: 400;
-    font-weight: bold;
+    font-weight: 200;
     cursor: pointer;
 }
 
-.name-logo:hover {
-    color: #FF3D00
-}
 
 .divider {
     width: 100%;

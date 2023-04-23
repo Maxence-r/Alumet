@@ -25,10 +25,13 @@ router.post('/:alumet/:wall', validateObjectId, alumetAuth, postLayer, async (re
   post.save()
   .then(async (post) => {
     let editedPost = { ...post._doc };
-
+    
     if (post.ownerType !== 'teacher') {
       const decodedToken = jwt.verify(post.owner, tokenC);
       editedPost.owner = decodedToken.username;
+      if (req.cookies.alumetToken) {
+        editedPost.owning = true;
+      }
     }
 
     if (post.type === 'file') {
@@ -71,11 +74,16 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
       const sendPosts = await Promise.all(posts.map(async (post) => {
         let editedPost = { ...post._doc };
   
-        if (post.ownerType === 'student') {
+        if (post.ownerType !== 'teacher') {
+          if (req.cookies.alumetToken === editedPost.owner) {
+            console.log('true');
+            editedPost.owning = true;
+          }
           const decodedToken = jwt.verify(post.owner, tokenC);
           editedPost.owner = decodedToken.username;
-        } 
-        editedPost.ownerId = post.owner;
+        } else {
+          editedPost.owning = true;
+        }
         if (post.type === 'file') {
           const upload = await Upload.findById(post.typeContent);
   

@@ -74,7 +74,7 @@ function enableDrag() {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              max: targetIndex,
+              max: targetIndex -1,
               min: currentIndex
             })
           })

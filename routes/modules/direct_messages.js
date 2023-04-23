@@ -35,6 +35,7 @@ router.post('/send/:alumet', alumetAuth, async (req, res) => {
         const message = await messageObject.save();
         if (req.logged) {
             const account = await Account.findById(req.user.id);
+            console.log("SIGNAL");
             global.io.emit(`message-${req.params.alumet}`, { message: content, owner: account.prenom + ' ' + account.nom });
         } else {
             const decodedToken = jwt.verify(req.cookies.alumetToken, tokenC);

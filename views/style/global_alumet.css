@@ -83,8 +83,14 @@ body {
     margin-right: 20px;
 }
 
+#dots-absolute {
+    position: absolute;
+    right: 6px;
+}
+
 .post {
     display: flex;
+    position: relative;
     flex-direction: column;
     border-radius: 5px;
     background-color: var(--main-color);

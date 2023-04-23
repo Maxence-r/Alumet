@@ -1,13 +1,13 @@
 body {
     background-color: #131313;
     font-family: 'Plus Jakarta Sans';
+    height: auto;
     margin: 0;
     overflow: scroll;
     overflow-x: hidden;
 }
 
-
-/* TOP BACKGROUND  */
+/* BACKGROUNDS  */
 
 
 .blur-orange-background {
@@ -47,7 +47,52 @@ body {
     z-index: -10;
 }
 
+.orange-led-light-container {
+    width: 100%;
+    height: 30%;
+    background-image: url(../assets/app/orange_ellipse_led.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    margin: auto;
+    padding-top: 15em;
+}
 
+
+/* PAGE */
+
+.title {
+    text-align: center;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+.big-title {
+    color: #FF3D00;
+    justify-content: center;
+    font-size: 5vw;
+}
+.subtitle-big-title {
+    color: #FFFFFF;
+    justify-content: center;
+    font-size: 2.5vw;
+}
+.article {
+    text-align: center;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+.medium-title {
+    color: #FF3D00;
+    justify-content: center;
+    font-size: 2vw;
+}
+.paragraph {
+    text-align: left;
+    color: #FFFFFF;
+    font-size: 1.2vw;
+    text-indent: 5%;
+}
 /* HEADER */
 
 
@@ -77,7 +122,7 @@ body {
     height: auto;
 }
 .header-navigation-container {
-    width: 40%;
+    width: 30%;
     margin-left: 3em;
     margin-right: auto;
     display: flex;
@@ -102,7 +147,6 @@ body {
 }
 
 .button-header-navigation {
-    width: auto;
     float: left;
     color: white;
     margin-left: 5%;
@@ -149,116 +193,6 @@ body {
     color: white;
     margin-right: 2em;
 }
-
-
-/* PAGE */
-
-
-.global-container {
-    max-width: 100%;
-    min-height: 65vh;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    overflow-y: hidden;
-
-}
-.update-description-container {
-    width: 65%;
-    height: 60vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding-top: 1em;
-    overflow-y: scroll;
-    border-bottom-width: 3px;
-    border-style: solid;
-    border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
-}
-.update-description-title {
-    color: #FFFFFF;
-    font-size: 4vw;
-    font-weight: 600;
-    margin-top: none;
-}
-.update-description-subtitle {
-    color: #FF3D00;
-    font-size: 2vw;
-    font-weight: 500;
-}
-.update-description-paragraph {
-    color: #FFFFFF;
-    font-size: 1.3vw;
-    font-weight: 300;
-    width: 90%;
-    line-height: 1.5;
-    text-align: justify;
-    text-justify: inter-word;
-    text-indent: 1.5em;
-}
-.update-choice-container {
-    width: 30%;
-    height: auto;
-    max-height: 50vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    margin-right: 1em;
-    padding-top: 1em;
-}
-.update-date-title {
-    width: 100%;
-    color: #FF3D00;
-    font-size: 2.5vw;
-    font-weight: 700;
-}
-.update-choice-date-container {
-    width: 100%;
-    min-height: 100%;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 2em;
-    border-top-width: 1px;
-    border-bottom-width: 3px;
-    border-style: solid;
-    border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
-    backdrop-filter: blur(10px);
-}
-.update-choice-date {
-    width: 90%;
-    background: rgba(217, 217, 217, 0.1);
-    border-radius: 5px;
-    min-height: 3em;
-    color: #FFFFFF;
-    cursor: pointer;
-    border: 0.5px solid #484848;
-    margin: auto;
-    display: block;
-    font-size: 1vw;
-    font-weight: 300;
-    margin-top: 0.3125em;
-    transition: 0.2s cubic-bezier(.16,.93,.79,.9);
-    position: relative;
-}
-
-
-.burger-menu {
-    display: none;
-}
-.main-title {
-    display: none;
-}
-.burger-button-open-menu {
-    display: none;
-}
-
 /* FOOTER  */
 
 .footer-container {
@@ -268,10 +202,10 @@ body {
     border-style: solid;
     border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
     width: 100%;
+    margin-top: 3em;
     height: auto;
     max-height: 10em;
     display: flex;
-    margin-top: 3em;
     flex-direction: column;
     justify-content: baseline;
     align-items: center;
@@ -296,10 +230,11 @@ body {
 .title-alumet-footer {
     font-size: 1.7vw;
     margin: auto;
+    margin-right: auto;
     cursor: pointer;
     transition: 0.1s ease-out;
 }
-.name-logo-footer:hover {
+.title-alumet-footer:hover {
     color: #FF3D00;
 }
 .footer-links-container {
@@ -322,12 +257,13 @@ body {
     color: #FF3D00;
 }
 
-
 @media screen and (max-width: 768px) {
+
     body {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         flex-wrap: wrap;
+        width: 100%;
     }
     .blur-orange-background {
         position: relative;
@@ -343,7 +279,7 @@ body {
         height: auto;
         border-bottom: 2px solid #BBBBBB;
         z-index: 100000;
-    }
+    }   
     .logo-alumet {
         width: 20%;
         height: auto;
@@ -383,54 +319,28 @@ body {
         border: none;
         border-radius: 0px 0px 0px 50px;
     }
-    .burger-menu {
-        display: flex;
-        position: absolute;
-        left: 0;
-        margin-top: 1em;
-        margin-left: 1em;
+    .big-title {
+        font-size: 12vw;
     }
-    .main-title {
-        color: white;
-        margin-left: 40%;
-        position: absolute;
-        display: flex;
+    .subtitle-big-title {
+        font-size: 10vw;
     }
-    .date {
-        position: absolute;
-        flex-direction: column;
-        transform: translateY(-110%);
-        background-color: #1c1c1c;
-        min-width: 0;
-        width: 50%;
-        margin: 0;
+    .medium-title {
+        font-size: 7vw;
+    }
+    .paragraph {
+        font-size: 5vw;
+    }
+    .footer-logo {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
         height: auto;
-        border-bottom: 2px solid #BBBBBB;
-        z-index: 100000; 
+        border: none;
     }
-    .title-date {
-        font-size: 16.7073px;
-        margin-left: 50%;
-    }
-    .update-date {
-        font-size: 10.35px;
-        margin-left: 50%;
-    }
-    .presentation {
-        margin-left: 0;
-        width: 100%;
-    }
-    .changes {
-        width: 100%;
-        margin-left: 0;
-    }
-    footer {
-        height: 5%;
-        max-height: 10em;
-    }
-    .name-logo-footer {
-        font-size: 3vw;
-        margin-top: 1em;
+    .title-alumet-footer {
+        font-size: 10vw;
     }
     .footer-links-container {
         width: 100%;
