@@ -26,7 +26,3 @@ document.querySelector('.burger-button-open-menu').addEventListener("click", e =
       closed = true;
     }
 });
-
-function close() {
-  document.querySelector(.banner).style.display = "none";
-}

@@ -173,9 +173,6 @@ body {
     text-align: center;
     padding-top: 1em;
     overflow-y: scroll;
-    border-bottom-width: 3px;
-    border-style: solid;
-    border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
 }
 .update-description-title {
     color: #FFFFFF;
@@ -247,14 +244,6 @@ body {
     transition: 0.2s cubic-bezier(.16,.93,.79,.9);
     position: relative;
 }
-
-
-.burger-menu {
-    display: none;
-}
-.main-title {
-    display: none;
-}
 .burger-button-open-menu {
     display: none;
 }
@@ -308,17 +297,17 @@ body {
     justify-content: center;
     align-items: center;
     column-gap: 1em;
-    width: 50%;
+    width: 100%;
     margin-top: 1em;
 }
 .footer-paragraph {
     justify-content: center;
 }
-.terms-of-service {
+.footer-links {
     cursor: pointer;
     transition: 0.1s ease-out;
 }
-.terms-of-service:hover {
+.footer-links:hover {
     color: #FF3D00;
 }
 
@@ -328,6 +317,7 @@ body {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        width: 100%;
     }
     .blur-orange-background {
         position: relative;
@@ -335,6 +325,7 @@ body {
     .main-header {
         position: absolute;
         flex-direction: row;
+        flex-wrap: wrap;
         transform: translateY(-110%);
         background-color: #1c1c1c;
         min-width: 0;
@@ -344,6 +335,11 @@ body {
         border-bottom: 2px solid #BBBBBB;
         z-index: 100000;
     }
+    .header-logo-container {
+        width: 51%;
+        margin-left: 1em;
+        margin-top: 1em;
+    }
     .logo-alumet {
         width: 20%;
         height: auto;
@@ -351,8 +347,12 @@ body {
     .name-logo {
         font-size: 6vw;
     }
-    .header-logo-navigation-container {
-        max-width: 30%;
+    .header-navigation-container {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+        margin-left: 1em;
     }
     .button-header-navigation {
         font-size: 4vw;
@@ -368,6 +368,7 @@ body {
     .button-signin-header {
         font-size: 5vw;
         margin-right: none;
+        margin-top: 1em;
     }
     .button-signup-header {
         font-size: 5vw;
@@ -383,57 +384,63 @@ body {
         border: none;
         border-radius: 0px 0px 0px 50px;
     }
-    .burger-menu {
-        display: flex;
-        position: absolute;
-        left: 0;
-        margin-top: 1em;
-        margin-left: 1em;
-    }
-    .main-title {
-        color: white;
-        margin-left: 40%;
-        position: absolute;
-        display: flex;
-    }
-    .date {
-        position: absolute;
+    .global-container {
         flex-direction: column;
-        transform: translateY(-110%);
-        background-color: #1c1c1c;
-        min-width: 0;
-        width: 50%;
-        margin: 0;
+    }
+    .update-description-container {
+        width: 100%;
         height: auto;
-        border-bottom: 2px solid #BBBBBB;
-        z-index: 100000; 
     }
-    .title-date {
-        font-size: 16.7073px;
-        margin-left: 50%;
+    .update-description-title {
+        font-size: 10vw;
     }
-    .update-date {
-        font-size: 10.35px;
-        margin-left: 50%;
+    .update-description-subtitle {
+        font-size: 8vw;
     }
-    .presentation {
-        margin-left: 0;
+    .update-description-paragraph {
+        font-size: 4vw;
+    }
+    .update-choice-container {
         width: 100%;
     }
-    .changes {
+    .update-date-title {
+        font-size: 8vw;
+    }
+    .update-choice-date-container {
+        max-height: 20em;
+    }
+    .update-choice-date {
+        min-height: 5em;
+        font-size: 4vw;
+    }
+    .footer-container {
         width: 100%;
-        margin-left: 0;
+        max-height: auto;
+        margin-bottom: 0em;
+        border-width: 1px  0px 0px;
+        border-style: solid;
+        border-image: linear-gradient(90deg, #BBBBBB 0%, rgba(77,77,77,1) 50%, #540f00 100%) 1;
     }
-    footer {
-        height: 5%;
-        max-height: 10em;
+    .footer-logo {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: auto;
+        border: none;
     }
-    .name-logo-footer {
-        font-size: 3vw;
-        margin-top: 1em;
+    .title-alumet-footer {
+        font-size: 10vw;
     }
     .footer-links-container {
         width: 100%;
         align-items: center;
+        flex-wrap: wrap;
+        flex-direction: column;
+        font-size: 6vw;
+        background: linear-gradient(-105deg, #131313, #461000);
+    }
+    .footer-hyphen {
+        display: none;
     }
 }

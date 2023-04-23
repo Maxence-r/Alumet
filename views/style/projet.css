@@ -54,9 +54,8 @@ body {
 .main-header {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     align-items: stretch;
-    height:auto;
+    height: auto;
     width: 100%;
     position: sticky;
     top: 0em;
@@ -67,34 +66,34 @@ body {
     border-width: 0px  0px 1px;
     border-style: solid;
     border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
-    z-index: 400000;
+    z-index: 100000;
 }
-.burger-button-open-menu {
-    display: none;
-    position: sticky;
-    width: 100%;
-    height: 50%;
-    background: #FF3D00;
-}
-.header-logo-navigation-container {
-    width: 50%;
+.header-logo-container {
+    width: min-content;
+    margin-left: 3em;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    height: auto;
+}
+.header-navigation-container {
+    width: 30%;
+    margin-left: 3em;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
     align-items: center;
     height: auto;
 }
 .logo-alumet {
-    width: 1.1875em;
-    height: 1.75em;
-    margin-left: 5%;
-    position: relative;
+    width: 30%;
+    height: auto;
     cursor: pointer;
 }
 .name-logo {
     color: #FFFFFF;
     font-size: 1.7vw;
-    float: left;
+    margin-left: 1em;
     cursor: pointer;
     transition: 0.1s ease-out;
 }
@@ -108,8 +107,7 @@ body {
     margin-left: 5%;
     font-size: 1.2vw;
     cursor: pointer;
-    transition-duration: 0.1s;
-    transition-timing-function: ease-in-out;
+    transition: 0.1s ease-out;
     text-decoration: none;
 }
 .button-header-navigation:hover {
@@ -117,6 +115,7 @@ body {
 }
 .header-connexion-buttons-container {
     width: auto;
+    margin-left: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: end;
@@ -148,6 +147,13 @@ body {
     border: none;
     color: white;
     margin-right: 2em;
+}
+.burger-button-open-menu {
+    display: none;
+    position: sticky;
+    width: 100%;
+    height: 50%;
+    background: #FF3D00;
 }
 
 
@@ -261,10 +267,10 @@ body {
     border-style: solid;
     border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
     width: 100%;
-    margin-top: 3em;
     height: auto;
     max-height: 10em;
     display: flex;
+    margin-top: 3em;
     flex-direction: column;
     justify-content: baseline;
     align-items: center;
@@ -301,17 +307,17 @@ body {
     justify-content: center;
     align-items: center;
     column-gap: 1em;
-    width: 50%;
+    width: 100%;
     margin-top: 1em;
 }
 .footer-paragraph {
     justify-content: center;
 }
-.terms-of-service {
+.footer-links {
     cursor: pointer;
     transition: 0.1s ease-out;
 }
-.terms-of-service:hover {
+.footer-links:hover {
     color: #FF3D00;
 }
 
@@ -320,10 +326,15 @@ body {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        width: 100%;
+    }
+    .blur-orange-background {
+        position: relative;
     }
     .main-header {
         position: absolute;
         flex-direction: row;
+        flex-wrap: wrap;
         transform: translateY(-110%);
         background-color: #1c1c1c;
         min-width: 0;
@@ -333,6 +344,11 @@ body {
         border-bottom: 2px solid #BBBBBB;
         z-index: 100000;
     }
+    .header-logo-container {
+        width: 51%;
+        margin-left: 1em;
+        margin-top: 1em;
+    }
     .logo-alumet {
         width: 20%;
         height: auto;
@@ -340,8 +356,12 @@ body {
     .name-logo {
         font-size: 6vw;
     }
-    .header-logo-navigation-container {
-        max-width: 30%;
+    .header-navigation-container {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+        margin-left: 1em;
     }
     .button-header-navigation {
         font-size: 4vw;
@@ -357,6 +377,7 @@ body {
     .button-signin-header {
         font-size: 5vw;
         margin-right: none;
+        margin-top: 1em;
     }
     .button-signup-header {
         font-size: 5vw;
@@ -375,6 +396,7 @@ body {
     .big-project-title {
         font-size: 18vw;
         margin-left: 1vh;
+        margin-top: none;
     }
     .big-project-title-details {
         font-size: 5vw;
@@ -403,7 +425,8 @@ body {
     }
     .footer-container {
         width: 100%;
-        max-height: 20em;
+        max-height: auto;
+        margin-bottom: 0em;
         border-width: 1px  0px 0px;
         border-style: solid;
         border-image: linear-gradient(90deg, #BBBBBB 0%, rgba(77,77,77,1) 50%, #540f00 100%) 1;
@@ -422,5 +445,12 @@ body {
     .footer-links-container {
         width: 100%;
         align-items: center;
+        flex-wrap: wrap;
+        flex-direction: column;
+        font-size: 6vw;
+        background: linear-gradient(-105deg, #131313, #461000);
+    }
+    .footer-hyphen {
+        display: none;
     }
 }

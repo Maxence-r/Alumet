@@ -33,20 +33,22 @@
     <div class="high-background-gradient"></div>
   
     <button class="burger-button-open-menu"></button>
-    <header class="main-header">
-      <div class="header-logo-navigation-container">
-          <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Alumet's logo" class="logo-alumet">
-          <a onclick="document.location.href='/auth/main'" class="name-logo">Alumet</a>
-          <a onclick="document.location.href='/auth/statut'" class="button-header-navigation">Statut</a>
-          <a onclick="document.location.href='/auth/project'" class="button-header-navigation">Le projet</a>
-          <a onclick="document.location.href='/auth/main#adopt'" class="button-header-navigation">Pourquoi adopter ?</a>
-          <a onclick="document.location.href='/auth/update'" class="button-header-navigation">Mise à jour</a>
-        </div>
-        <div class="header-connexion-buttons-container">
-          <button class="button-signup-header" onclick="document.location.href='/auth/signin'">Se connecter</button>
-          <button class="button-signin-header" onclick="document.location.href='/auth/signup'" >S'incrire</button>
-        </div>
-     </header>
+  <header class="main-header">
+      <div class="header-logo-container">
+        <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Logo d'Alumet" class="logo-alumet">
+        <a onclick="document.location.href='/auth/main'" class="name-logo">Alumet</a>
+      </div>
+      <div class="header-navigation-container">
+        <!--<a onclick="document.location.href='/auth/statut'" class="button-header-navigation">Statut</a>-->
+        <a onclick="document.location.href='/auth/project'" class="button-header-navigation">Le projet</a>
+        <a onclick="document.location.href='/auth/main#adopt'" class="button-header-navigation">Pourquoi adopter ?</a>
+        <a onclick="document.location.href='/auth/update'" class="button-header-navigation">Mise à jour</a>
+      </div>
+      <div class="header-connexion-buttons-container">
+        <button class="button-signup-header" onclick="document.location.href='/auth/signin'">Se connecter</button>
+        <button class="button-signin-header" onclick="document.location.href='/auth/signup'" >S'incrire</button>
+      </div>
+   </header>
 
     <!--Page-->
     <div class="title">
@@ -113,18 +115,20 @@
     </div>
 
     <!--Footer-->
-  <footer class="footer-container">
-    <div class="footer-logo">
-      <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Logo d'Alumet" class="logo-alumet-footer">
-      <a onclick="document.location.href='/auth/main'" class="title-alumet-footer">Alumet</a>
-    </div>
-    <div class="footer-links-container">
-      <p class="footer-paragraph"><a onclick="document.location.href='/auth/contacts'" class="terms-of-service">Contacts</a></p>
-      <p>-</p>
-      <p class="footer-paragraph"><a onclick="document.location.href='/auth/terms-of-service'" class="terms-of-service">Conditions d'utilisation</a></p>
-      <p>-</p>
-      <p class="footer-paragraph"><a onclick="document.location.href='/auth/report'" class="terms-of-service">Signaler un bug</a></p>
-    </div>
-  </footer>
+    <footer class="footer-container">
+      <div class="footer-logo">
+        <img onclick="document.location.href='/auth/main'" src="../assets/app/alumet.png" alt="Logo d'Alumet" class="logo-alumet-footer">
+        <a onclick="document.location.href='/auth/main'" class="title-alumet-footer">Alumet</a>
+      </div>
+      <div class="footer-links-container">
+        <p class="footer-paragraph"><a onclick="document.location.href='/auth/contacts'" class="footer-links">Contacts</a></p>
+        <p class="footer-hyphen">-</p>
+        <p class="footer-paragraph"><a onclick="document.location.href='/auth/privacy-policy'" class="footer-links">Conditions d'utilisation</a></p>
+        <p class="footer-hyphen">-</p>
+        <p class="footer-paragraph"><a onclick="document.location.href='/auth/terms-of-service'" class="footer-links">Politique de confidentialité</a></p>
+        <p class="footer-hyphen">-</p>
+        <p class="footer-paragraph"><a onclick="document.location.href='/auth/report'" class="footer-links">Signaler un bug</a></p>
+      </div>
+    </footer>
   <script src="../script/terms-of-service.js"></script>      
 </body>
