@@ -56,8 +56,11 @@ body {
 }
 
 .menu-infos img {
-    width: 25px;
+    width: 1.5em;
+    height: auto;
     cursor: pointer;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .name-logo {
@@ -66,6 +69,10 @@ body {
     font-weight: 400;
     font-weight: bold;
     cursor: pointer;
+}
+
+.name-logo:hover {
+    color: #FF3D00
 }
 
 .divider {

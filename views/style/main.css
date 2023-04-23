@@ -510,10 +510,11 @@ body {
 .title-alumet-footer {
     font-size: 1.7vw;
     margin: auto;
+    margin-right: auto;
     cursor: pointer;
     transition: 0.1s ease-out;
 }
-.name-logo-footer:hover {
+.title-alumet-footer:hover {
     color: #FF3D00;
 }
 .footer-links-container {
