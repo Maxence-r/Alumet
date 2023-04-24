@@ -28,7 +28,7 @@ router.post('/:alumet', validateObjectId, alumetItemsAuth, (req, res) => {
 
 router.get('/:alumet', alumetItemsAuth, alumetAuth, validateObjectId, (req, res) => {
     if (!req.logged && !req.auth) return res.status(404).json({ error: 'Unauthorized x001' })
-    if (req.logged && req.alumetObj.owner.toString() !== req.user.id) return res.status(401).json({ error: 'Unauthorized' });
+    if (req.logged && !req.auth && req.alumetObj.owner.toString() !== req.user.id) return res.status(401).json({ error: 'Unauthorized' });
     if (req.auth && req.alumetObj.id !== req.params.alumet) return res.status(401).json({ error: 'Unauthorized x002' });
     Wall.find({ alumet: req.params.alumet }).sort({ position: -1 })
     .then(walls => res.json(walls))

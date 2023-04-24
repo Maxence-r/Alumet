@@ -65,7 +65,7 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
         return res.status(404).json({ error: 'Unauthorized x000' });
       }
   
-      if (req.logged && alumet.owner !== req.user.id) {
+      if (req.logged && !req.auth && alumet.owner !== req.user.id) {
         return res.status(404).json({ error: 'Unauthorized' });
       }
       

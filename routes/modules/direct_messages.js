@@ -16,7 +16,7 @@ router.post('/send/:alumet', alumetAuth, async (req, res) => {
         return res.status(404).json({ error: 'Alumet not found' });
       }
       
-      if (req.logged && alumetObj.owner.toString() !== req.user.id) {
+      if (req.logged && !req.auth && alumetObj.owner.toString() !== req.user.id) {
         return res.status(401).json({ error: 'Unauthorized x001' });
       }
       
@@ -60,7 +60,7 @@ router.post('/send/:alumet', alumetAuth, async (req, res) => {
         return res.status(404).json({ error: 'Alumet not found' });
       }
   
-      if (req.logged && alumetObj.owner.toString() !== req.user.id) {
+      if (req.logged && !req.auth && alumetObj.owner.toString() !== req.user.id) {
         return res.status(401).json({ error: 'Unauthorized x001' });
       }
   
