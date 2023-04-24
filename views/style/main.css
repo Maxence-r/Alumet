@@ -417,6 +417,7 @@ body {
 }  
 .class-choices {
     width: 90%;
+    font-size: 1vw;
     background: rgba(217, 217, 217, 0.1);
     border-radius: 5px;
     height: 35px;
@@ -542,7 +543,7 @@ body {
         font-size: 6vw;
     }
     .header-navigation-container {
-        width: 40%;
+        width: 50%;
         display: flex;
         flex-direction: column;
         align-items: baseline;
@@ -555,13 +556,13 @@ body {
     .header-connexion-buttons-container {
         display: block;
         max-height: 20%;
-        max-width: 50%;
+        max-width: 45%;
         flex-direction: row;
         margin-top: auto;
+        margin-right: auto;
     }
     .button-signin-header {
         font-size: 5vw;
-        margin-right: none;
         margin-top: 1em;
     }
     .button-signup-header {
@@ -683,6 +684,9 @@ body {
     .class-selector-choices-container {
         max-height: 8em;
         overflow: scroll;
+    }
+    .class-choices {
+        font-size: 5vw;
     }
     .class-argument-preview {
         max-width: 100%;

@@ -348,7 +348,7 @@ body {
         font-size: 6vw;
     }
     .header-navigation-container {
-        width: 40%;
+        width: 50%;
         display: flex;
         flex-direction: column;
         align-items: baseline;
@@ -361,13 +361,13 @@ body {
     .header-connexion-buttons-container {
         display: block;
         max-height: 20%;
-        max-width: 50%;
+        max-width: 45%;
         flex-direction: row;
         margin-top: auto;
+        margin-right: auto;
     }
     .button-signin-header {
         font-size: 5vw;
-        margin-right: none;
         margin-top: 1em;
     }
     .button-signup-header {
