@@ -6,7 +6,11 @@ const sharp = require('sharp');
 const axios = require('axios');
 const { createCanvas, loadImage } = require('canvas');
 const ffmpeg = require('fluent-ffmpeg');
+const { supportedPreviewAlumet } = require('../config.json');
 
+router.get('/alumetPreview', async (req, res) => {
+    res.json(supportedPreviewAlumet);
+});
 
 router.get('/meta', (req, res) => {
     const url = req.query.url;

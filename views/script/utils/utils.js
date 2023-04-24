@@ -100,7 +100,6 @@ function getWalls() {
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 data.forEach(post => {
                     createPostHtml(post, wall._id, false);
                 })
@@ -114,7 +113,31 @@ function getWalls() {
     })
     
 }
-
+let supportedPreviewAlumet = {
+    "pdf": "<img loading=\"lazy\" src=\"/preview/pdf?url=*\">",
+    "png": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+    "jpg": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+    "jpeg": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+    "gif": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+    "apng": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+    "avif": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+    "webp": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+    "mp4": "<video width=\"400\" controls=\"false\" preload=\"metadata\"><source src=\"*\" type=\"video/mp4\"></video>",
+    "webm": "<video width=\"400\" controls=\"controls\" preload=\"metadata\"><source src=\"*\" type=\"video/mp4\"></video>",
+    "ogg": "<video width=\"400\" controls=\"controls\" preload=\"metadata\"><source src=\"*\" type=\"video/mp4\"></video>",
+    "mp3": "<audio class=\"audio-view\" controls><source src=\"*\" type=\"audio/mpeg\"></audio>",
+    "wav": "<audio class=\"audio-view\" controls><source src=\"*\" type=\"audio/wav\"></audio>",
+    "flac": "<audio class=\"audio-view\" controls><source src=\"*\" type=\"audio/flac\"></audio>",
+    "pptx": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+    "odt": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+    "ods": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+    "ppt": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+    "odp": "<img loading=\"lazy\" src=\"./....//assets/app/empty_preview.png\">",
+    "docx": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+    "doc": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+    "xlsx": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+    "xls": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">"
+ }
 
 
 function createPostHtml(post, wallId, postFirst) {
@@ -138,8 +161,8 @@ function createPostHtml(post, wallId, postFirst) {
                             `
                         }
                         postDiv.appendChild(postheader);
-                    } else {
-                        postDiv.innerHTML = `
+                    } else if (post.owning) {
+                        postDiv.innerHTML += `
                         <div onclick="editPost('${post._id}')" id="dots-absolute" class="dots"><div></div><div></div><div></div></div>
                         `
                     }
@@ -154,8 +177,14 @@ function createPostHtml(post, wallId, postFirst) {
                         if (post.type === "file") {
                             let filePreview = document.createElement('div');
                             filePreview.classList.add('file-preview');
-                            console.log(post);
-                            filePreview.innerHTML = `<img loading="lazy" src="/cdn/u/${post.typeContent}"><p class="file-type">${post.fileExt.toUpperCase()}</p><p class="file-name">${post.fileName.substring(0, 36)}</p>`;
+                            if (supportedPreviewAlumet[post.fileExt]) {
+                                filePreview.innerHTML = `${supportedPreviewAlumet[post.fileExt].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${post.typeContent}`)}`;
+                            } else {
+                                filePreview.innerHTML = `<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">`;
+                            }
+                            filePreview.innerHTML += `
+                            <p class="file-type">${post.fileExt.toUpperCase()}</p><p class="file-name">${post.fileName.substring(0, 36)}</p>
+                            `
                             postDiv.appendChild(filePreview);
                         }
                     }
