@@ -65,3 +65,8 @@ document.querySelector('.s-modify').addEventListener('click', () => {
         }
     })
 });
+
+function editAlumet() {
+    document.getElementById("p-a").style.display = "flex";
+    document.getElementById("p-a").classList.add('active-modal');
+}

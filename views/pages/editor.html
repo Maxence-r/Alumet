@@ -51,7 +51,7 @@
             <p>Flashcards</p>
         </div>
     </div>
-    <div class="setting">
+    <div onclick="editAlumet()" class="setting">
         <img src="../../assets/app/setting.svg" alt="Settings">
     </div>
     <div id="patch-post" class="modal">
@@ -94,6 +94,41 @@
                 <button onclick="closeModal('ms')" id="cancel">Annuler</button>
                 <button onclick="deleteWall('ms')" id="delete">Supprimer</button>
                 <button class="s-modify" id="accent" type="button" onclick="this.classList.add('button--loading')">
+                    <span class="button__text">Modifier</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="p-a" class="modal">
+        <div class="modal-container">
+            <h1>Modifier le Alumet</h1>
+            <p>Titre</p>
+            <input maxlength="150" id="s-m-title" type="text" placeholder="Titre">
+            <p>Style</p>
+            <img class="p-alumet-back" src="">
+            <p>Modules activer</p>
+            <div class="option"><p>Messagerie en direct</p>
+                <label class="toggle">
+                    <input id="s-m-checked" class="toggle-checkbox" type="checkbox">
+                    <div class="toggle-switch"></div>
+                </label>
+            </div>
+            <div class="option"><p>Devoirs</p>
+                <label class="toggle">
+                    <input id="s-m-checked" class="toggle-checkbox" type="checkbox">
+                    <div class="toggle-switch"></div>
+                </label>
+            </div>
+            <div class="option"><p>Flashcards</p>
+                <label class="toggle">
+                    <input id="s-m-checked" class="toggle-checkbox" type="checkbox">
+                    <div class="toggle-switch"></div>
+                </label>
+            </div>
+            <div class="edit-buttons">
+                <button onclick="closeModal('p-a')" id="cancel">Annuler</button>
+                <button class="p-a-modify" id="accent" type="button" onclick="this.classList.add('button--loading')">
                     <span class="button__text">Modifier</span>
                 </button>
             </div>

@@ -193,7 +193,6 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
         if (req.cookies.alumetToken) {
           req.user = {_id: req.cookies.alumetToken}
         }
-        console.log("decoded", req.user)
         res.json({
             finalAlumet,
             user: req.user

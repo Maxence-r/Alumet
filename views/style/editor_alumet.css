@@ -21,10 +21,10 @@
     backdrop-filter: blur(5px);
     padding: 4px;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in;
 }
 
 .setting:hover {
     background-color: rgba(67, 66, 66, 0.8);
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
