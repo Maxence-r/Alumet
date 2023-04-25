@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 const Upload = require('../../models/upload');
 
 router.post('/:alumet/:wall', validateObjectId, alumetAuth, postLayer, async (req, res) => {
+  console.log(req.body.tcs);
   const post = new Post({
       title: req.body.title,
       content: req.body.content,
@@ -18,6 +19,7 @@ router.post('/:alumet/:wall', validateObjectId, alumetAuth, postLayer, async (re
       type: req.body.type,
       typeContent: req.contentType,
       color: req.body.color,
+      tcs: req.body.tcs,
       position: req.position,
       wallId: req.params.wall,
       visible: req.body.tcs
@@ -77,6 +79,7 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
       
       const sendPosts = await Promise.all(posts.map(async (post) => {
         let editedPost = { ...post._doc };
+        
         if (post.ownerType !== 'teacher') {
           if (req.cookies.alumetToken === editedPost.owner) {
             editedPost.owning = true;
@@ -93,6 +96,15 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
           if (upload) {
             editedPost.fileName = upload.displayname;
             editedPost.fileExt = upload.mimetype;
+          }
+        }
+        if (req.auth && !req.logged && editedPost.tcs === false) {
+          return editedPost;
+        } else if (req.auth && !req.logged && editedPost.tcs === true) {
+          if (req.cookies.alumetToken === post.owner) {
+            return editedPost;
+          } else {
+            return { content: 'Ce post est uniquement visible par le professeur'};
           }
         }
         return editedPost;

@@ -228,7 +228,6 @@ body {
     background: #131313;
 }
 .introduction-box-container {
-    height: 16em;
     width: auto;
     max-width: 40%;
     margin-top: 1.6875em;
@@ -237,6 +236,7 @@ body {
     border-radius: 15px;
     text-align: center;
     transition: 0.4s ease-out;
+    padding-bottom: 1em;
 }
 .introduction-box-title-container {
     margin: auto;
@@ -255,6 +255,9 @@ body {
     color: #FFFFFF;
     font-size: 1.1vw;
     font-weight: 300;
+    width: 90%;
+    margin: auto;
+    margin-top: 1em;
 }
 
 
@@ -298,7 +301,7 @@ body {
     cursor: pointer;
     transition: 0.1s ease-out;
 }
-.name-logo-footer:hover {
+.title-alumet-footer:hover {
     color: #FF3D00;
 }
 .footer-links-container {
@@ -448,7 +451,8 @@ body {
         flex-wrap: wrap;
         flex-direction: column;
         font-size: 6vw;
-        background: linear-gradient(90deg, #BBBBBB 0%, rgba(77,77,77,1) 50%, #540f00 100%) 1;
+        margin-top: none;
+        background: linear-gradient(-105deg, #131313, #461000);
     }
     .footer-hyphen {
         display: none;

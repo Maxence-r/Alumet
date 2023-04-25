@@ -24,8 +24,8 @@ function init() {
             document.documentElement.style.setProperty('--secondary-color', '#131313');
             document.documentElement.style.setProperty('--accent-color', '#555555');
         }
+        document.title = 'Alumet: ' + data.finalAlumet.name;
         localStorage.setItem('modules', JSON.stringify(data.finalAlumet.modules));
-        console.log(data.finalAlumet.modules);
         if (data.finalAlumet.modules.length < 1) {
             document.querySelector('.nav-bar').style.display = 'none';
         }
@@ -79,12 +79,12 @@ function getWalls() {
                 console.log(userID);
                 if(wall.post === true) {
                     div.innerHTML += `
-                    <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Add post</button>
+                    <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Ajouter</button>
                     `
                 }
             } else {
                 div.innerHTML += `
-                <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Add post</button>
+                <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Ajouter</button>
                 `
             }
             div.innerHTML += `
@@ -177,6 +177,7 @@ function createPostHtml(post, wallId, postFirst) {
                         if (post.type === "file") {
                             let filePreview = document.createElement('div');
                             filePreview.classList.add('file-preview');
+                            filePreview.setAttribute('onclick', `openFile("${post.typeContent}", "${post.fileName}", "${post.fileExt}")`);
                             if (supportedPreviewAlumet[post.fileExt]) {
                                 filePreview.innerHTML = `${supportedPreviewAlumet[post.fileExt].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${post.typeContent}`)}`;
                             } else {
@@ -186,6 +187,22 @@ function createPostHtml(post, wallId, postFirst) {
                             <p class="file-type">${post.fileExt.toUpperCase()}</p><p class="file-name">${post.fileName.substring(0, 36)}</p>
                             `
                             postDiv.appendChild(filePreview);
+                        } else if (post.type === "link") {
+                            if (post.typeContent.includes("youtube")) {
+                                let youtubePreview = document.createElement('div');
+                                youtubePreview.classList.add('youtube-preview');
+                                youtubePreview.innerHTML = `
+                                <img loading="lazy" src="https://img.youtube.com/vi/${post.typeContent.split('v=')[1]}/maxresdefault.jpg">
+                                `
+                                postDiv.appendChild(youtubePreview);
+                            } else {
+                                let linkPreview = document.createElement('div');
+                                linkPreview.classList.add('link-preview');
+                                linkPreview.innerHTML = `
+                                <a href="${post.typeContent}" target="_blank"><img loading="lazy" src="https://www.google.com/s2/favicons?domain=${post.typeContent}"><p>${post.typeContent}</p></a>
+                                `
+                                postDiv.appendChild(linkPreview);
+                            }
                         }
                     }
                     if (post.content) {

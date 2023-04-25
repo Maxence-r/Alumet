@@ -299,7 +299,7 @@ function openDocument(id) {
             document.querySelector('.file-title > span').innerHTML = data.response.displayname;
             document.getElementById('file-loading').style.display = 'none';
             if (supported[data.response.mimetype]) {
-                let x = supported[data.response.mimetype].replace('*', `/cdn/u/${id}#toolbar=0&navpanes=0`);
+                let x = supported[data.response.mimetype].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${id}#toolbar=0&navpanes=0`);
                 document.getElementById('file-viewer').innerHTML += x
             } else {
                 document.getElementById('file-viewer').innerHTML += `<div class="not-supported"><img src="./assets/app/uto.svg"><h3>Impossible d'ouvrir ce fichier, tentez de le télécharger</h3></div>`;

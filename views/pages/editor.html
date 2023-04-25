@@ -27,7 +27,7 @@
 
 
 
-    <title>Alumet: Editor</title>
+    <title>Alumet</title>
 </head>
 <body>
     <section class="loading">
@@ -53,6 +53,17 @@
     </div>
     <div onclick="editAlumet()" class="setting">
         <img src="../../assets/app/setting.svg" alt="Settings">
+    </div>
+    <div id="file-viewer" class="view-modal">
+        <div class="file-header">
+            <h1 class="file-title"><img src="../../assets/app/label.svg"><span>Loading...</span></h1>
+            <div class="quick-actions">
+                <div id="download-file" class="action"><img src="../../assets/app/download.svg" alt="Delete"></div>
+                <div onclick="closeViewer()" id="close-viewer" style="margin-right: 10px;" class="action close-viewer"><img src="../../assets/app/close.svg" alt="Close"></div>
+            </div>
+        </div>
+        <span id="file-loading" class="loader-upload"></span>
+        </div>
     </div>
     <div id="patch-post" class="modal">
         <div class="modal-container">
@@ -102,30 +113,51 @@
 
     <div id="p-a" class="modal">
         <div class="modal-container">
+            <input type="file" id="p-a-file" accept="image/*" style="display: none;">
             <h1>Modifier le Alumet</h1>
             <p>Titre</p>
-            <input maxlength="150" id="s-m-title" type="text" placeholder="Titre">
+            <input maxlength="150" id="a-p-title" type="text" placeholder="Titre">
             <p>Style</p>
-            <img class="p-alumet-back" src="">
+            <div class="alumet-p-preview">
+                <div class="layer-p-preview"></div>
+                <img id="p-alumet-back" src="">
+            </div>
+            <p>Niveau de flou<span id="blur-level"> 10</span></p>
+            <div class="slidecontainer">
+                <input type="range" min="0" max="20" value="5" class="slider" id="blur-range">
+            </div>
+            <p>Luminosité<span id="bright-level"> 10</span></p>
+            <div class="slidecontainer">
+                <input type="range" min="0" step="0.1" max="1" value="0.8" class="slider" id="bright-range">
+            </div>
             <p>Modules activer</p>
             <div class="option"><p>Messagerie en direct</p>
                 <label class="toggle">
-                    <input id="s-m-checked" class="toggle-checkbox" type="checkbox">
+                    <input id="dm-a-p" class="toggle-checkbox a-p" type="checkbox">
                     <div class="toggle-switch"></div>
                 </label>
             </div>
             <div class="option"><p>Devoirs</p>
                 <label class="toggle">
-                    <input id="s-m-checked" class="toggle-checkbox" type="checkbox">
+                    <input id="hw-a-p" class="toggle-checkbox a-p" type="checkbox">
                     <div class="toggle-switch"></div>
                 </label>
             </div>
             <div class="option"><p>Flashcards</p>
                 <label class="toggle">
-                    <input id="s-m-checked" class="toggle-checkbox" type="checkbox">
+                    <input id="fc-a-p" class="toggle-checkbox a-p" type="checkbox">
                     <div class="toggle-switch"></div>
                 </label>
             </div>
+            <p>Zone dangereuse</p>
+            <div class="option"><p>Mot de passe</p>
+                <label class="toggle">
+                    <input id="a-p-pswd" class="toggle-checkbox" type="checkbox">
+                    <div class="toggle-switch"></div>
+                </label>
+            </div>
+            <input maxlength="150" id="a-p-password" type="text" placeholder="Mot de passe">
+            <button onclick="deleteAlumet()" id="delete-alumet">Supprimer le Alumet</button>
             <div class="edit-buttons">
                 <button onclick="closeModal('p-a')" id="cancel">Annuler</button>
                 <button class="p-a-modify" id="accent" type="button" onclick="this.classList.add('button--loading')">
@@ -236,7 +268,7 @@
 </body>
 <script src="../../script/utils/utils.js"></script>
 <script src="../../script/utils/drag.js"></script>
-<script src="../../script/utils/teacherPostHandler.js"></script>
+<script src="../../script/utils/teacher.js"></script>
 <script src="../../script/alumetGlobal.js"></script>
 <script src="../../script/alumetEditor.js"></script>
 <script src="/socket.io/socket.io.js"></script>

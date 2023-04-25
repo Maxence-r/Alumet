@@ -13,7 +13,14 @@ function closeModal(id) {
     }, 500);
 }
 
-
+let supported = {};
+fetch('/cdn/supported')
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+        supported = data;
+    })
+    .catch(err => console.log(err));
 
 document.querySelector('.l-preview').addEventListener('click', async (e) => {
     const linkInputValue = document.querySelector('.link-input').value;
@@ -152,3 +159,32 @@ slider.forEach(slider => {
         slider.scrollLeft = scrollLeft - walk;
     });
 });
+
+function closeViewer() {
+    document.querySelector('.view-modal').style.transform = 'translateY(110%)';
+    document.getElementById('file-loading').style.display = 'flex';
+    const elementToRemoveAfter = document.getElementById("file-loading");
+    let nextElement = elementToRemoveAfter.nextElementSibling;
+    while (nextElement !== null) {
+        nextElement.remove();
+        nextElement = elementToRemoveAfter.nextElementSibling;
+    } 
+}
+function openFile(id, name, ext) {
+    document.getElementById('download-file').setAttribute('onclick', `downloadFile("./../../cdn/u/${id}")`);
+    document.querySelector('.view-modal').style.display = 'flex'; 
+    document.querySelector('.view-modal').style.transform = 'translateY(0)'; 
+    document.querySelector('.file-title > span').innerHTML = name.substring(0, 20);
+    document.getElementById('file-loading').style.display = 'none';
+    if (supported[ext]) {
+        let x = supported[ext].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${id}#toolbar=0&navpanes=0`);
+        document.getElementById('file-viewer').innerHTML += x
+    } else {
+        document.getElementById('file-viewer').innerHTML += `<div class="not-supported"><img loading="eager" src="./../../assets/app/uto.svg"><h3>Impossible d'ouvrir ce fichier, tentez de le télécharger</h3></div>`;
+    }
+      
+}
+
+function downloadFile(url) {
+    window.open(url, '_blank');
+}

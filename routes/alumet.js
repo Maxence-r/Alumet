@@ -8,8 +8,6 @@ const { authorizedModules } = require('../config.json');
 const mongoose = require('mongoose');
 const validateObjectId = require('../middlewares/validateObjectId');
 const path = require('path');
-const { tokenC } = require('../config.json');
-const jwt = require('jsonwebtoken');
 
 const storage = multer.diskStorage({
   destination: './cdn',
@@ -152,6 +150,66 @@ router.post('/new', async (req, res) => {
         });
     }
 });
+
+router.patch('/update/:id', validateObjectId, async (req, res) => {
+    req.body = req.body.body;
+    if (!req.logged) {
+        return res.status(401).json({
+            error: 'Unauthorized'
+        });
+    }
+    console.log(req.body.modules);
+    const unauthorizedModules = req.body.modules.filter(module => !authorizedModules.includes(module));
+    if (unauthorizedModules.length > 0) {
+        return res.status(400).json({
+            error: 'Invalid module'
+        });
+    }
+    if (req.body.background && !mongoose.Types.ObjectId.isValid(req.body.background)) {
+        return res.status(400).json({
+            error: 'Invalid background'
+        });
+    }
+    try {
+        const alumet = await Alumet.findOne({
+            _id: req.params.id
+        });
+        if (!alumet) {
+            return res.status(404).json({
+                error: 'Alumet not found'
+            });
+        }
+        if (alumet.owner != req.user.id) {
+            return res.status(401).json({
+                error: 'Unauthorized'
+            });
+        }
+        if (req.body.background) {
+            const upload = await Upload.findOne({
+                _id: req.body.background
+            });
+            if (!upload || upload.owner != req.user.id ||upload.mimetype != 'png' && upload.mimetype != 'jpg' && upload.mimetype != 'jpeg' || upload.filesize > 3 * 1024 * 1024 ) {
+                return res.status(404).json({error: 'Upload isn\'t valid'});
+            }
+        }
+        alumet.password = req.body.password;
+        alumet.name = req.body.name;
+        alumet.modules = req.body.modules;
+        alumet.blur = req.body.blur;
+        alumet.brightness = req.body.brightness;
+        alumet.lastUsage = Date.now();
+        let saved = await alumet.save({ runValidators: true });
+        res.json({
+            saved
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            error: 'Failed to update alumet'
+        });
+    }
+});
+
 
 router.get('/all', async (req, res) => {
     if (!req.logged) {

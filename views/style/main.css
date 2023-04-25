@@ -190,7 +190,7 @@ body {
     border: 0.5px solid #484848;
     font-size: 1vw;
     cursor: pointer;
-    transition: 0.3s ease-out;
+    transition: 0.2s ease-out;
 }
 .presentation-button-video:hover {
     color: #131313;
@@ -245,9 +245,7 @@ body {
     filter: drop-shadow(0px 0px 64px rgba(255, 61, 0, 0.1));
     border-radius: 9px;
     z-index: -1;
-
 }
-
 
 /* DESCRIPTION */
 
@@ -310,9 +308,6 @@ body {
     cursor: pointer;
     transition: 0.4s ease-out;
 }
-.description-box:hover{
-    transform: scale(1.03);
-    }
 .description-box-title {
     color: white;
     font-size: 1.3vw;
@@ -412,15 +407,16 @@ body {
     font-size: 1.5vw;
 }
 .class-selector-choices-container {
-    width: 100% inherit;
-    max-height: 100%;
+    width: 100%;
+    max-height: 16em;
+    overflow: scroll;
 }  
 .class-choices {
     width: 90%;
     font-size: 1vw;
     background: rgba(217, 217, 217, 0.1);
     border-radius: 5px;
-    height: 35px;
+    height: 3em;
     color: #BBBBBB;
     cursor: pointer;
     border: 0.5px solid #484848;
@@ -432,16 +428,19 @@ body {
 .class-choices:hover {
     background: rgba(217, 217, 217, 0.5);
 }
+.class-argument-no-preview-logo {
+    width: 20%;
+    height: auto;
+}
 .class-argument-preview-container {
     width: 60%;
     max-height: 80%;
     text-align: center;
     color: #BBBBBB;
 }
-.image {
-    position: absolute;
-    margin-left: 30em;
-    width: 30%;
+.class-argument-preview {
+    width: auto;
+    max-width: 100%;
 }
 
 /* FOOTER  */
@@ -484,7 +483,7 @@ body {
     cursor: pointer;
     transition: 0.1s ease-out;
 }
-.name-logo-footer:hover {
+.title-alumet-footer:hover {
     color: #FF3D00;
 }
 .footer-links-container {
@@ -674,7 +673,7 @@ body {
     }
     .class-argument-container {
         margin-top: 2em;
-        display: flex;
+        display: none;
         flex-direction: column;
     }
     .class-selector-title {

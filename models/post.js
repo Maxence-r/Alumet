@@ -45,6 +45,11 @@ const PostSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: true
+    }, 
+    tcs: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 });
 

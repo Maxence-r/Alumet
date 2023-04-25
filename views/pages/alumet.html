@@ -33,6 +33,17 @@
     <section class="loading">
         <span class="loader-upload"></span>
     </section>
+    <div id="file-viewer" class="view-modal">
+        <div class="file-header">
+            <h1 class="file-title"><img src="../../assets/app/label.svg"><span>Loading...</span></h1>
+            <div class="quick-actions">
+                <div id="delete-file" class="action"><img src="../../assets/app/download.svg" alt="Delete"></div>
+                <div onclick="closeViewer()" id="close-viewer" style="margin-right: 10px;" class="action close-viewer"><img src="../../assets/app/close.svg" alt="Close"></div>
+            </div>
+        </div>
+        <span id="file-loading" class="loader-upload"></span>
+        </div>
+    </div>
     <div class="nav-bar">
         <div onclick="home()" style="display: flex;" id="selected-item" class="item home">
             <img loading="lazy" src="../../assets/app/home-alumet.svg" alt="Alumet">
@@ -197,9 +208,8 @@
 <div class="background-image"></div>
 </body>
 <script src="../../script/utils/utils.js"></script>
-<script src="../../script/utils/teacherPostHandler.js"></script>
+<script src="../../script/utils/teacher.js"></script>
 <script src="../../script/alumetGlobal.js"></script>
-<script src="../../script/alumetEditor.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
   const socket = io();
