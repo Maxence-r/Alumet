@@ -241,9 +241,6 @@ body {
     width: 100%;
     height: auto;
     background: #131313;
-    border-width: 0px  0px 1px;
-    border-style: solid;
-    border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -256,20 +253,21 @@ body {
     color: #FFFFFF;
 }
 .comparaison-arguments-container {
-    width: 100%;
+    width: 90%;
     height: auto;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
 .comparaison-argument {
     color: #FFFFFF;
     width: 30%;
     height: auto;
-    border-width: 1px 1px 2px 1px;
+    padding: 0em 1em 0em 1em;
+    border-width: 0px 1px 0px 1px;
     border-style: solid;
-    border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
+    border-image: linear-gradient(0deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
 }
 .comparaison-argument-illustration {
     width:  7%;
@@ -279,6 +277,9 @@ body {
 }
 .comparaison-argument-title {
     font-size: 2vw;
+}
+.comparaison-argument-paragraph {
+    font-weight: 100;
 }
 
 
