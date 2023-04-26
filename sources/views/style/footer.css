@@ -78,6 +78,9 @@
         height: auto;
         border: none;
     }
+    .title-alumet-footer {
+        font-size: 10vw;
+    }
     .footer-links-container {
         width: 100%;
         align-items: center;
