@@ -63,6 +63,28 @@ body {
     margin-bottom: 0.5em;
 }
 
+.no-content {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+    margin-right: auto;
+    flex-direction: column;
+}
+
+.no-content > h1 {
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.no-content > p {
+    color: rgb(205, 205, 205);
+    font-size: 14px;
+    font-weight: 300;
+    margin: 0;
+}
+
 .name-logo {
     font-size: 20px;
     color: #ffffff;
@@ -582,13 +604,22 @@ iframe {
 
 .setup-container {
     gap: 10px;
-    width: calc(40%);
+    width: 100%;
+    max-width: 750px;
     margin-right: auto;
     margin-left: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: calc(100% - 120px);
+}
+
+.row-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .setup-title {
@@ -613,7 +644,7 @@ iframe {
 .setup-input {
     resize: none;
     padding: 0 15px;
-    height: 50px;
+    min-height: 50px;
     background: #303030;
     border-radius: 5px;
     border: none;
@@ -624,7 +655,7 @@ iframe {
 
 .setup-button {
     cursor: pointer;
-    margin-top: 10px;
+    width: 100%;
     font-size: 12px;
     color: white;
     justify-content: space-between;
@@ -633,7 +664,7 @@ iframe {
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 50px;
+    min-height: 50px;
     background-color: #161616;
     border: 1px solid #828282;
     border-radius: 5px;
@@ -679,6 +710,8 @@ iframe {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .step2 {

@@ -127,6 +127,7 @@ body {
     font-size: 12px;
     font-weight: 300;
     margin: 0;
+    overflow-wrap: anywhere;
 }
 
 .dots {
@@ -299,6 +300,7 @@ pre {
     max-height: 200px;
     object-fit: cover;
     border-radius: 5px;
+    object-position: top;
 }
 
 .file-preview > video {

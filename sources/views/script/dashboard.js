@@ -152,8 +152,8 @@ fetch('/auth/info')
         if (data.prenom == 'undefined' || data.nom == 'undefined' || !data) {
             window.location.href = '/auth/logout'
         }
-        document.getElementById('username').innerHTML = data.nom + ' ' + data.prenom
-        document.getElementById('status').innerHTML = data.status
+        document.getElementById('username').innerText = data.nom + ' ' + data.prenom
+        document.getElementById('status').innerText = data.status
     })  
     .catch(err => console.log(err))
 
@@ -168,7 +168,7 @@ document.querySelector('.file-drop').addEventListener('click', () => {
 let files = [];
 document.getElementById('file-input').addEventListener('change', (e) => {
     files = Array.from(e.target.files);
-    document.querySelector('.files').innerHTML = '';
+    document.querySelector('.files').innerText = '';
     files.forEach(file => {
         let fileDiv = document.createElement('div');
         fileDiv.setAttribute('id', file.name);
@@ -448,11 +448,14 @@ function editDocument(id) {
 }
 
 function getAlumets() {
-    document.getElementById('open-alumet').innerHTML = '';
     fetch('/alumet/all')
       .then(res => res.json())
       .then(data => {
         const sortedData = sortAlumetsByLastUsage(data.alumets);
+        console.log(data.alumets)
+        if (data.alumets.length > 0) {
+            document.getElementById('open-alumet').innerHTML = '';
+        } 
         sortedData.forEach(alumet => {
             let alumetDiv = document.createElement('div');
             alumetDiv.classList.add('alumet');
@@ -463,21 +466,12 @@ function getAlumets() {
             const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
             const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
             const timeAgo = hoursDiff > 0 ? `${hoursDiff}h ago` : `${minutesDiff}m ago`;
-            if (alumet.archived === false) {
-                alumetDiv.innerHTML = `
-                <div class="alumet-infos">
-                    <h3 class="alumet-title">${alumet.name.substring(0, 75)}</h3>
-                    <h4 class="alumet-last-use">${timeAgo}</h4>
-                </div>
-                `;
-            } else {
-                alumetDiv.innerHTML = `
-                <div id="archived" class="alumet-infos">
-                    <h3 class="alumet-title">${alumet.name.substring(0, 75)}</h3>
-                    <h4 class="alumet-last-use">Archivé</h4>
-                </div>
-                `;
-            }
+            alumetDiv.innerHTML = `
+            <div class="alumet-infos">
+                <h3 class="alumet-title">${alumet.name.substring(0, 75)}</h3>
+                <h4 class="alumet-last-use">${timeAgo}</h4>
+            </div>
+            `;
             document.getElementById('open-alumet').appendChild(alumetDiv);
         });
       })  

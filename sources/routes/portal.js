@@ -46,6 +46,11 @@ router.post('/authorize', validateObjectId, async (req, res) => {
                 error: 'Alumet not found'
             });
         }
+        if (req.body.username.length > 40 || req.body.username.includes('<')) {
+            return res.status(400).json({
+                error: 'Choississez un nom d\'utilisateur plus court !'
+            });
+        }
         if (alumet.password === req.body.password || !alumet.password) {
             const token = jwt.sign({
                 id: alumet._id,

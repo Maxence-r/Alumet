@@ -116,13 +116,12 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
   });
   
   router.patch('/:alumet/:wall/:post', validateObjectId, alumetAuth, postLayer, (req, res) => {
-    console.log(req.body);
     Post.findOneAndUpdate({ _id: req.params.post }, {
         title: req.body.title,
         content: req.body.content,
         color: req.body.color,
     }, { runValidators: true})
-      .then(post => res.json(post))
+      .then(editedPost => res.json(editedPost))
       .catch(error => res.json({ error }));
     });
 

@@ -127,6 +127,11 @@ router.post('/new', async (req, res) => {
             error: 'Invalid background'
         });
     }
+    if (req.body.name.includes('<') || req.body.description.includes('<')) {
+        return res.status(400).json({
+            error: 'Invalid characters'
+        });
+    }
     try {
         const upload = await Upload.findOne({
             _id: req.body.background

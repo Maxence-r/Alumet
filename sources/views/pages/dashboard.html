@@ -35,7 +35,9 @@
   </div>
   <div class="dots"></div>
   <div class="gradient"></div>
-
+  <div id="patch-post" class="modal">
+    
+  </div>
   
 
   <div class="menu">
@@ -82,16 +84,13 @@
           </div>
           <div class="step2 step">
             <h2 class="setup-title">Donnons lui un peu de style !</h2>
-            <button id="upload-alumet" class="setup-button">Charger un arrière plan<div class="action"><img src="../assets/app/upload.svg" alt="fichier qui montre un upload"></div></button>
-            <button id="template-alumet" class="setup-button">Choisir parmis les modèles<div class="action"><img src="../assets/app/paint.svg" alt="Pinceau"></div></button>
+            <div class="row-button">
+              <button id="upload-alumet" class="setup-button">Charger un arrière plan<div class="action"><img src="../assets/app/upload.svg" alt="fichier qui montre un upload"></div></button>
+              <button id="template-alumet" class="setup-button">Choisir parmis les modèles<div class="action"><img src="../assets/app/paint.svg" alt="Pinceau"></div></button>
+            </div>            
             <input type="file" id="file-background" accept="image/png, image/gif, image/jpeg" style="display: none;">
             <h3 class="setup-description">Aperçue</h3>
             <img class="setup-preview" src="../assets/app/alumet_preview.png" alt="Preview">
-            <h3 class="setup-description">Thème du Alumet (Automatique)</h3>
-            <div class="option-selector">
-              <p class="selected">Blanc</p>
-              <p id="black">Noir</p>
-            </div>
           </div>
           <div class="step3 step">
             <h2 class="setup-title">Les finitions</h2>
@@ -126,13 +125,18 @@
     <section class="scroll">
       <div class="under-section scroll-x">
         <div id="open-alumet" class="alumet-container">
-          
+          <div class="no-content">
+            <h1>Aucun Alumet trouvé</h1>
+            <p>Commencer à en crée un</p>
+          </div>
         </div>
       </div>
       <div class="under-section scroll-x">
         <h1 class="section-title">Activitées</h1>
-        <div id="archived-alumet" class="alumet-container">
-         
+        <div id="activity-alumet" class="alumet-container">
+          <div class="no-content">
+            <h1>Les informations relative a vos Alumet apparaitrons ici</h1>
+          </div>
         </div>
       </div>
       <div class="under-section">

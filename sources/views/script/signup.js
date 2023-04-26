@@ -31,7 +31,7 @@ function progress() {
             } else {
                 document.querySelector(".second").style.display = "none"
                 document.querySelector(".third").style.display = "flex"
-                document.querySelector(".continue").innerHTML = "Acceder à l'application"
+                document.querySelector(".continue").innerText = "Acceder à l'application"
                 progresse ++
             }
         })

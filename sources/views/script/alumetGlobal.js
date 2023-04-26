@@ -11,8 +11,8 @@ function editPost(id) {
     localStorage.setItem('currentItem', id);
     localStorage.setItem('postColor', postColor.split('-')[1]);
 
-    if (postTitle) { document.getElementById('m-p-t').value = postTitle.innerHTML; }
-    if (postContent) { document.getElementById('m-p-c').value = postContent.innerHTML; }
+    if (postTitle) { document.getElementById('m-p-t').value = postTitle.innerText; }
+    if (postContent) { document.getElementById('m-p-c').value = postContent.innerText; }
     if (postColor) { document.querySelector(`.${postColor}`).classList.add('selected-color'); }
     document.getElementById('patch-post').style.display = 'flex';
     document.getElementById('patch-post').classList.add('active-modal');
@@ -38,7 +38,12 @@ document.querySelector('.m-p-b').addEventListener('click', () => {
         if (data.error) {
             alert(data.error);
         } else {
+            document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"] > .post-title`).innerText = data.title;
+            document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"] > .post-content`).innerText = data.content;
+            document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"]`).classList.remove(document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"]`).classList[1]);
+            document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"]`).classList.add(`post-${data.color}`);
             closeModal('patch-post');
+            document.querySelector('.m-p-b').classList.remove('button--loading');
         }
     })
     .catch(error => {
@@ -69,6 +74,7 @@ document.getElementById('delete-post').addEventListener('click', () => {
             alert(data.error);
         } else {
             closeModal('patch-post');
+            document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"]`).remove();
         }
     })
     .catch(error => {
@@ -95,9 +101,8 @@ document.querySelector('.l-preview').addEventListener('click', async (e) => {
     try {
       const res = await fetch(`/preview/meta?url=${linkInputValue}`);
       const data = await res.json();
-      const replaceAll = (str, search, replace) => str.split(search).join(replace);
-      document.getElementById('preview-title').innerHTML = data.title ? replaceAll(data.title, "<", "") : 'Pas de titre trouvé';
-      document.getElementById('preview-description').innerHTML = data.description ? replaceAll(data.description, "<", "") : 'Pas de description trouvée';
+      document.getElementById('preview-title').innerText = data.title ? replaceAll(data.title, "$", "") : 'Pas de titre trouvé';
+      document.getElementById('preview-description').innerText = data.description ? replaceAll(data.description, "<", "") : 'Pas de description trouvée';
       document.getElementById('preview-image').src = data.image ? data.image : '../../assets/app/no-preview.png';
     } catch (error) {
       console.error(error);
@@ -124,7 +129,7 @@ document.querySelectorAll('.color-selector > div').forEach(color => {
 // Modifier function
 
 function modifySection(id, post) {
-    title = document.getElementById(id).innerHTML;
+    title = document.getElementById(id).innerText;
     localStorage.setItem('currentItem', id);
     document.getElementById("ms").classList.add('active-modal');
     document.getElementById("ms").style.display = 'flex';
@@ -155,7 +160,7 @@ function createPost(id) {
 }
 
 document.querySelector('.back-option').addEventListener('click', () => {
-    document.querySelector('.file-modal > h3').innerHTML = 'Aucun fichier selectionné';
+    document.querySelector('.file-modal > h3').innerText = 'Aucun fichier selectionné';
     document.getElementById('file-input').value = '';
     document.querySelector('.link-input').value = '';
     localStorage.removeItem('postOption');
@@ -237,7 +242,7 @@ function openFile(id, name, ext) {
     document.getElementById('download-file').setAttribute('onclick', `downloadFile("./../../cdn/u/${id}")`);
     document.querySelector('.view-modal').style.display = 'flex'; 
     document.querySelector('.view-modal').style.transform = 'translateY(0)'; 
-    document.querySelector('.file-title > span').innerHTML = name.substring(0, 20);
+    document.querySelector('.file-title > span').innerText = name.substring(0, 20);
     document.getElementById('file-loading').style.display = 'none';
     if (supported[ext]) {
         let x = supported[ext].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${id}#toolbar=0&navpanes=0`);

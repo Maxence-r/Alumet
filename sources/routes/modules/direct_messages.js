@@ -25,7 +25,9 @@ router.post('/send/:alumet', alumetAuth, async (req, res) => {
       }
   
       const { content } = req.body;
-  
+      if (content.length > 500 || content.includes('<')) {
+        return res.status(400).json({ error: 'Invalid content' });
+      }
       const messageObject = new Message({
         content,
         alumet: req.params.alumet,
