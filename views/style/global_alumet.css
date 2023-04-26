@@ -729,33 +729,43 @@ p.file-name {
 }
 
 .blue {
-    background-color: #1e90ff;
+    background-color: #1e90ff !important;
 }
 
 .red {
-    background-color: #ff6347;
+    background-color: #ff6347 !important;
 }
 
 .green {
-    background-color: #32cd32;
+    background-color: #32cd32 !important;
 }
 
 .yellow {
-    background-color: #ffd700;
+    background-color: #ffd700 !important;
 }
 
 .purple {
-    background-color: #9370db;
+    background-color: #9370db !important;
 }
 
 .orange {
-    background-color: #ffa500;
+    background-color: #ffa500 !important;
 }
 
 .button__text {
     color: #ffffff;
     transition: all 0.2s;
   }
+
+#delete-post {
+    cursor: pointer;
+    background-color: #d23100;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    color: white;
+}
 
 .nav-bar {
     display: none;
@@ -903,6 +913,10 @@ p.file-name {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.youtube-preview {
+    margin-top: 20px;
+}
+
 .youtube-preview > img {
     width: 100%;
     height: 100%;
@@ -976,6 +990,30 @@ iframe {
     width: 100%;
     min-height: 60px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.post-yellow {
+    background: #e7ff89;
+}
+
+.post-blue {
+    background: #89dfff;
+}
+
+.post-green {
+    background: #89ff9e;
+}
+
+.post-red {
+    background: #ff899e;
+}
+
+.post-purple {
+    background: #d689ff;
+}
+
+.post-orange {
+    background: #ffcc89;
 }
 
 

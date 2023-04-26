@@ -27,17 +27,17 @@ const postLayer = async (req, res, next) => {
         }
 
         if (req.body.title === '' && req.body.content === '' && !req.body.option) {
-            return res.status(400).json({ error: 'Unable to proceed your requests' });
+            return res.status(400).json({ error: 'Unable to proceed your requests x001' });
         }
         if (req.body.color) {
-            if (!supportedColor.includes(req.body.color)) return res.status(404).json({ error: 'Unable to proceed your requests' });
+            if (!supportedColor.includes(req.body.color)) return res.status(404).json({ error: 'Unable to proceed your requests x002' });
         }
 
         if (req.body.option === 'file') {
             req.body.type = 'file';
             req.contentType = req.body.fileID
             const upload = await Upload.findOne({ _id: req.body.fileID });
-            if (!upload) return res.status(404).json({ error: 'Unable to proceed your requests x001' });
+            if (!upload) return res.status(404).json({ error: 'Unable to proceed your requests x003' });
             if (req.logged) {
                 if (upload.owner !== req.user.id) return res.status(404).json({ error: 'Unauthorized x006' });
             }
@@ -60,7 +60,7 @@ const postLayer = async (req, res, next) => {
     }
     catch (error) {
         console.log(error);
-        return res.status(404).json({ error: 'Unable to proceed your requests x002' });
+        return res.status(404).json({ error: 'Unable to proceed your requests x004' });
     }
     next();
 };

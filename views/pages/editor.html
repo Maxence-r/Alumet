@@ -7,25 +7,23 @@
 
     <link rel="icon" href="../../assets/public/alumet.ico" />
 
-    <meta name="description" content="Alumet, explorer d'une nouvelle façon.">
-    <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers">
-    <meta property="og:title" content="Alumet: Explorer d'une nouvelle façon.">
-    <meta property="og:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
+    <meta name="description" content="Alumet: La flamme de l’innovation au service de l’éducation.">
+    <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers, courses, classroom">
+    <meta property="og:title" content="La flamme de l’innovation au service de l’éducation.">
+    <meta property="og:description" content="L'outil, gratuit, open-source, pour l'éducation, construit par des élèves">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://alumet.io">
-    <meta property="og:image" content="https://i.imgur.com/O9RdHj1.png">
+    <meta property="og:image" content="https://i.imgur.com/M5eR3qC.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:domain" content="alumet.io">
     <meta name="twitter:url" content="https://alumet.io/">
-    <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes.">
-    <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
-    <meta name="twitter:image" content="https://i.imgur.com/O9RdHj1.png">
+    <meta name="twitter:title" content="Alumet: La flamme de l’innovation au service de l’éducation.">
+    <meta name="twitter:description" content="L'outil, gratuit, open-source, pour l'éducation, construit par des élèves">
+    <meta name="twitter:image" content="https://i.imgur.com/M5eR3qC.png">
 
     <link rel="stylesheet" type="text/css" href="../../style/editor_alumet.css">
     <link rel="stylesheet" type="text/css" href="../../style/global_alumet.css">
     <link rel="stylesheet" type="text/css" href="../../style/global.css">
-
-
 
     <title>Alumet</title>
 </head>
@@ -70,21 +68,23 @@
             <h1>Modifier le post</h1>
             <p>Selectionner une couleur:</p>
             <div class="color-selector">
-                <div class="default" id="current-theme"></div>
-                <div class="blue"></div>
-                <div class="red"></div>
-                <div class="green"></div>
-                <div class="yellow"></div>
-                <div class="purple"></div>
-                <div class="orange"></div>
+                <div class="default post-default" id="current-theme"></div>
+                <div class="blue post-blue"></div>
+                <div class="red post-red"></div>
+                <div class="green post-green"></div>
+                <div class="yellow post-yellow"></div>
+                <div class="purple post-purple"></div>
+                <div class="orange post-orange"></div>
             </div>
             <p>Modifier le titre</p>
-            <input type="text" placeholder="Titre">
+            <input id="m-p-t"  type="text" placeholder="Titre">
             <p>Modifier le contenu</p>
-            <textarea placeholder="Contenu"></textarea>
+            <textarea id="m-p-c"  placeholder="Contenu"></textarea>
+            <p>Zone dangereuse</p>
+            <button id="delete-post">Supprimer cette publication</button>
             <div class="edit-buttons">
                 <button onclick="closeModal('patch-post')" id="cancel">Annuler</button>
-                <button id="accent" type="button" onclick="this.classList.add('button--loading')">
+                <button class="m-p-b" id="accent" type="button" onclick="this.classList.add('button--loading')">
                     <span class="button__text">Modifier</span>
                 </button>
             </div>

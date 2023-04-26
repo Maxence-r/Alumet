@@ -1,7 +1,50 @@
 function editPost(id) {
+    document.getElementById('m-p-t').value = '';
+    document.getElementById('m-p-c').value = '';
+    localStorage.setItem('currentWall', document.querySelector(`[data-id~="${id}"]`).dataset.wall)
+    document.querySelectorAll('.color-selector > div').forEach(selectedcolor => {
+        selectedcolor.classList.remove('selected-color');
+    })
+    let postTitle = document.querySelector(`[data-id~="${id}"] > .post-title`);
+    let postContent = document.querySelector(`[data-id~="${id}"] > .post-content`);
+    let postColor = document.querySelector(`[data-id~="${id}"]`).classList[1];
+    localStorage.setItem('currentItem', id);
+    localStorage.setItem('postColor', postColor.split('-')[1]);
+
+    if (postTitle) { document.getElementById('m-p-t').value = postTitle.innerHTML; }
+    if (postContent) { document.getElementById('m-p-c').value = postContent.innerHTML; }
+    if (postColor) { document.querySelector(`.${postColor}`).classList.add('selected-color'); }
     document.getElementById('patch-post').style.display = 'flex';
     document.getElementById('patch-post').classList.add('active-modal');
 } 
+
+document.querySelector('.m-p-b').addEventListener('click', () => {
+    let postTitle = document.getElementById('m-p-t').value;
+    let postContent = document.getElementById('m-p-c').value;
+    let postColor = localStorage.getItem('postColor'); 
+    let body = {}
+    if (postTitle) { body.title = postTitle; }
+    if (postContent) { body.content = postContent; }
+    if (postColor) { body.color = postColor; }
+    fetch(`/api/post/${localStorage.getItem('currentAlumet')}/${localStorage.getItem('currentWall')}/${localStorage.getItem('currentItem')}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            closeModal('patch-post');
+        }
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
 
 function closeModal(id) {
     document.getElementById(`${id}`).classList.remove('active-modal');
@@ -12,6 +55,26 @@ function closeModal(id) {
         resetItems();
     }, 500);
 }
+
+document.getElementById('delete-post').addEventListener('click', () => {
+    fetch(`/api/post/${localStorage.getItem('currentAlumet')}/${localStorage.getItem('currentWall')}/${localStorage.getItem('currentItem')}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            closeModal('patch-post');
+        }
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
 
 let supported = {};
 fetch('/cdn/supported')

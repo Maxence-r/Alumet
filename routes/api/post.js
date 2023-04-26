@@ -116,18 +116,51 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
   });
   
   router.patch('/:alumet/:wall/:post', validateObjectId, alumetAuth, postLayer, (req, res) => {
+    console.log(req.body);
     Post.findOneAndUpdate({ _id: req.params.post }, {
         title: req.body.title,
         content: req.body.content,
-        type: req.body.type,
-        typeContent: req.contentType,
         color: req.body.color,
-        position: req.position,
-        visible: req.body.tcs
     }, { runValidators: true})
-    .then(post => res.json(post))
-    .catch(error => res.json({ error }));
+      .then(post => res.json(post))
+      .catch(error => res.json({ error }));
     });
+
+  router.delete('/:alumet/:wall/:post', validateObjectId, alumetAuth, async (req, res) => {
+    try {
+      const alumet = await Alumet.findById(req.params.alumet);
+
+      if (!alumet) {
+        return res.status(404).json({ error: 'Unable to proceed your requests' });
+      }
+
+      if (!req.logged && !req.auth) {
+        return res.status(404).json({ error: 'Unauthorized x000' });
+      }
+
+
+      const post = await Post.findById(req.params.post);
+      
+      if (!post) {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+
+      if (req.logged && alumet.owner !== req.user.id && post.owner !== req.user.id) {
+        return res.status(404).json({ error: 'Unauthorized' });
+      }
+      
+      if (post.ownerType !== 'teacher') {
+        if (req.cookies.alumetToken !== post.owner) {
+          return res.status(404).json({ error: 'Unauthorized x001' });
+        }
+      }
+
+      const deletedPost = await Post.findByIdAndDelete(req.params.post);
+      res.json(deletedPost);
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
     
       

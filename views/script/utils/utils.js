@@ -144,6 +144,7 @@ function createPostHtml(post, wallId, postFirst) {
     let postDiv = document.createElement('div');
                     postDiv.setAttribute('data-id', post._id);
                     postDiv.setAttribute('data-position', post.position);
+                    postDiv.setAttribute('data-wall', wallId);
                     postDiv.classList.add('post');
                     if (post.ownerType === "student") {
                         let postheader = document.createElement('div');
@@ -152,7 +153,6 @@ function createPostHtml(post, wallId, postFirst) {
                         <div class="post-user-infos">
                         <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
                         <p class="post-user-username">${post.owner}</p>
-                        <pre class="post-user-date">12/12/2021</pre>
                         </div>
                         `
                         if (post.owning === true) {
@@ -210,6 +210,9 @@ function createPostHtml(post, wallId, postFirst) {
                         postContent.classList.add('post-content');
                         postContent.innerText = `${post.content}`;
                         postDiv.appendChild(postContent);
+                    }
+                    if (post.color) {
+                        postDiv.classList.add(`post-${post.color}`);
                     }
                     if (postFirst) {
                         document.querySelector(`.post-${wallId}`).insertBefore(postDiv, document.querySelector(`.post-${wallId}`).childNodes[0]);
