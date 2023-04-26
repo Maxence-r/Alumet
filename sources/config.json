@@ -27,5 +27,9 @@
       "doc": "<iframe src=\"https://view.officeapps.live.com/op/embed.aspx?src=*\" frameborder=\"0\">This is an embedded <a target=\"_blank\" href=\"http://office.com\">Microsoft Office</a> document, powered by <a target=\"_blank\" href=\"http://office.com/webapps\">Office Online</a>.</iframe>",
       "xlsx": "<iframe src=\"https://view.officeapps.live.com/op/embed.aspx?src=*\" frameborder=\"0\">This is an embedded <a target=\"_blank\" href=\"http://office.com\">Microsoft Office</a> document, powered by <a target=\"_blank\" href=\"http://office.com/webapps\">Office Online</a>.</iframe>",
       "xls": "<iframe src=\"https://view.officeapps.live.com/op/embed.aspx?src=*\" frameborder=\"0\">This is an embedded <a target=\"_blank\" href=\"http://office.com\">Microsoft Office</a> document, powered by <a target=\"_blank\" href=\"http://office.com/webapps\">Office Online</a>.</iframe>"
+   }, 
+   "supportedTemplate": {
+      "6449835518d04a0a15b21eac": "../views/assets/backgrounds/maths.jpg",
+      "644983cd074d43b8c49186b4": "../views/assets/backgrounds/langues_anciennes.jpg"
    }
 }

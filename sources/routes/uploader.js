@@ -8,7 +8,7 @@ const fs = require('fs');
 const validateObjectId = require('../middlewares/validateObjectId');
 const { supported } = require('../config.json');
 const alumetAuth = require('../middlewares/api/alumetAuth');
-
+const { supportedTemplate } = require('../config.json');
 // Set storage engine
 const storage = multer.diskStorage({
     destination: './cdn',
@@ -182,6 +182,20 @@ router.get('/delete/:id', validateObjectId, (req, res) => {
     })
     .catch(error => res.json({ error }));
 });
+
+router.get('/template/:id', (req, res) => {
+  console.log(supportedTemplate);
+  if (supportedTemplate.hasOwnProperty(req.params.id)) {
+    res.sendFile(path.join(__dirname, supportedTemplate[req.params.id]));
+  } else {
+    res.status(404).json({ error: 'Template not found' });
+  }
+});
+
+router.get('/templates', (req, res) => {
+  res.json({ templates: supportedTemplate });
+});
+
 
 
 module.exports = router;

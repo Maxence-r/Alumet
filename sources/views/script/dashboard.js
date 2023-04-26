@@ -95,38 +95,6 @@ document.getElementById('file-background').addEventListener('change', (e) => {
         img.src = reader.result;
 
         img.onload = () => {
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d");
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const data = imageData.data;
-
-            let brightness = 0;
-            for (let i = 0; i < data.length; i += 4) {
-                const r = data[i];
-                const g = data[i + 1];
-                const b = data[i + 2];
-                const gray = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-                brightness += gray;
-            }
-            brightness /= (data.length / 4);
-            if (brightness < 128) {
-                localStorage.setItem('theme', 'dark')
-                document.querySelectorAll('.option-selector > p').forEach(p => {
-                    p.classList.remove('selected')
-                })
-                document.querySelector('.option-selector > p:nth-child(1)').classList.add('selected')
-            } else {
-                localStorage.setItem('theme', 'light')
-                document.querySelectorAll('.option-selector > p').forEach(p => {
-                    p.classList.remove('selected')
-                })
-                document.querySelector('.option-selector > p:nth-child(2)').classList.add('selected')
-            }
-
             document.querySelector('.setup-preview').style.backgroundImage = `url('${reader.result}')`;
         }
     }
@@ -508,3 +476,32 @@ function openAlumet(id) {
         })
 
 }
+let loaded = false;
+document.getElementById('template-alumet').addEventListener('click', () => {
+    document.querySelector('.modal-choose').style.display = 'flex';
+    if (loaded) return;
+    fetch('/cdn/templates')
+        .then(res => res.json())
+        .then(data => {
+            for (const [key, value] of Object.entries(data.templates)) {
+                let img = document.createElement('img');
+                img.src = `/cdn/template/${key}`;
+                img.setAttribute('onclick', `chooseTemplate('${key}')`);
+                document.querySelector('.images-container').appendChild(img);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    loaded = true;
+});
+
+function chooseTemplate(id) {
+    document.querySelector('.setup-preview').style.backgroundImage = `url(/cdn/template/${id})`;
+    localStorage.setItem('template', id);
+    document.querySelector('.modal-choose').style.display = 'none';
+}
+
+document.getElementById('close-modal-choose').addEventListener('click', () => {
+    document.querySelector('.modal-choose').style.display = 'none';
+});
