@@ -1,4 +1,4 @@
-⚠️ STATUT ⚠️: VERSION NON STABLE, NE PAS TELECHARGER
+# ⚠️ STATUT ⚠️: VERSION NON STABLE, NE PAS TELECHARGER
 
 # Alumet
 ## La flamme de l’innovation au service de l’éducation.
