@@ -19,7 +19,7 @@ socket.on(`message-${localStorage.getItem('currentAlumet')}`, data => {
 document.querySelector('.modules-container').innerHTML = `
 <div id="dm" class="conversation-container module">
     <div class="conversation-header">
-        <p>${localStorage.getItem('name').substring(0, 20)}</p>
+        <p>${localStorage.getItem('name')}</p>
         <span class="loader"></span>
     </div>
     <div class="conversation">

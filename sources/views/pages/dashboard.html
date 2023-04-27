@@ -21,7 +21,7 @@
   <link href="../style/dashboard.css" rel="stylesheet" type="text/css">
   <link href="../style/global.css" rel="stylesheet" type="text/css">
   <link rel="manifest" href="../assets/public/manifest.json" />
-  <title>Alumet: Dashboard</title>
+  <title>Alumet - Dashboard</title>
 </head>
 <body>
   <div class="loading-screen">
@@ -36,7 +36,7 @@
   <div class="dots"></div>
   <div class="gradient"></div>
   <div class="modal-choose">
-      <h1>Choissiez une image<div id="close-modal-choose" class="action"><img src="../assets/app/close.svg" alt="croix de fermeture"></div></h1>
+      <h1>Choisir une image<div id="close-modal-choose" class="action"><img src="../assets/app/close.svg" alt="croix de fermeture"></div></h1>
       <div class="images-container">
       </div>
   </div>
@@ -69,33 +69,33 @@
     <div class="selector"></div>
     <div class="user-infos"><img class="user-avatar" src="../assets/app/default.png" alt="Avatar de l'utilisateur">
     <div class="user-infos-column">
-      <h3 id="username">Landry</h3>
-      <h4 id="status">Lifetime Premium User</h4>
+      <h3 id="username">Utilisateur</h3>
+      <h4 id="status">Professeur</h4>
     </div><img class="logout" src="../assets/app/logout.svg" alt="flèche de déconnexion"></div>
   </div>
   <section class="section alumets active-section">
     <div id="alumet-setup" class="view-modal">
-        <h1 class="section-title">Crée un nouveau Alumet <div id="close-modal-setup" class="action"><img src="../assets/app/close.svg" alt="croix de fermeture"></div></h1>
+        <h1 class="section-title">Créer un nouveau Alumet <div id="close-modal-setup" class="action"><img src="../assets/app/close.svg" alt="croix de fermeture"></div></h1>
         <div class="setup-container">
           <div class="step1 step">
-            <h2 class="setup-title">Commencons a crée un endroit magnifique</h2>
-            <h3 class="setup-description">Donner lui un nom</h3>
+            <h2 class="setup-title">Nouvel Alumet</h2>
+            <h3 class="setup-description">Comment va-t-il s'appeler ?</h3>
             <input id="alumet-name" placeholder="Entrer un nom" class="setup-input">
-            <h3 class="setup-description">Quel usage allez vous en faire</h3>
+            <h3 class="setup-description">Quel usage allez vous en faire ?</h3>
             <input id="alumet-description" placeholder="Ecriver une description" class="setup-input">
           </div>
           <div class="step2 step">
-            <h2 class="setup-title">Donnons lui un peu de style !</h2>
+            <h2 class="setup-title">Personnalisation</h2>
             <div class="row-button">
               <button id="upload-alumet" class="setup-button">Charger un arrière plan<div class="action"><img src="../assets/app/upload.svg" alt="fichier qui montre un upload"></div></button>
               <button id="template-alumet" class="setup-button">Choisir parmis les modèles<div class="action"><img src="../assets/app/paint.svg" alt="Pinceau"></div></button>
             </div>            
             <input type="file" id="file-background" accept="image/png, image/gif, image/jpeg" style="display: none;">
-            <h3 class="setup-description">Aperçue</h3>
+            <h3 class="setup-description">Aperçu</h3>
             <img class="setup-preview" src="../assets/app/alumet_preview.png" alt="Preview">
           </div>
           <div class="step3 step">
-            <h2 class="setup-title">Les finitions</h2>
+            <h2 class="setup-title">Dernière étape</h2>
             <h3 class="setup-description">Mot de passe<label class="switch"><input id="pssw" type="checkbox"><span class="slider round"></span></label></h3>
             <input id="pssw-input" style="display: none;" placeholder="Entrer un mot de passe" class="setup-input">
             <h3 class="setup-description">Police d'écriture</h3>
@@ -123,13 +123,13 @@
           <h3 id="new-alumet-tracker" class="setup-tracker">Préparation de votre Alumet</h3>
       </div>
     </div>
-    <h1 class="section-title">Alumets<button id="create-new-alumet" class="main-button">Crée un Alumet<img src="../assets/app/plus.svg" alt="plus"></button></h1>
+    <h1 class="section-title">Alumets<button id="create-new-alumet" class="main-button">Créer un Alumet<img src="../assets/app/plus.svg" alt="plus"></button></h1>
     <section class="scroll">
       <div class="under-section scroll-x">
         <div id="open-alumet" class="alumet-container">
           <div class="no-content">
             <h1>Aucun Alumet trouvé</h1>
-            <p>Commencer à en crée un</p>
+            <p>Commencer par en créer un</p>
           </div>
         </div>
       </div>
@@ -137,7 +137,7 @@
         <h1 class="section-title">Activitées</h1>
         <div id="activity-alumet" class="alumet-container">
           <div class="no-content">
-            <h1>Les informations relative a vos Alumet apparaitrons ici</h1>
+            <h1>Les informations relatives à vos Alumet apparaitrons ici</h1>
           </div>
         </div>
       </div>
@@ -235,7 +235,7 @@
       <input id="file-input" type="file" name="file" multiple>
       <div class="upload-s-1">
         <div class="file-drop">
-          <h3>Cliquer ici pour charger des fichiers (50)<img src="../assets/app/upload-box.svg" alt="deux doubles flèches"></h3>
+          <h3>Cliquer ici pour charger des fichiers (au maximum 50)<img src="../assets/app/upload-box.svg" alt="deux doubles flèches"></h3>
         </div>
         <div class="files">
 
@@ -247,7 +247,7 @@
       </div>
       <div class="upload-s-2">
         <span class="loader-upload"></span>
-        <div class="infos-upload">Les fichiers sont en cours d'envoie vers<span class="serveur">serveur-1-OracleParis</span></div>
+        <div class="infos-upload">Les fichiers sont en cours d'envoi vers<span class="serveur">Paris</span></div>
       </div>
     </div>
     <h1 class="section-title">Vos fichiers<input id="search-input" placeholder="Chercher dans vos fichiers" class="main-input"><button id="load-files" class="main-button">Ajouter<img src="../assets/app/plus.svg" alt="plus"></button></h1>

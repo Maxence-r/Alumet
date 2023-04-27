@@ -38,8 +38,27 @@ document.querySelector('.m-p-b').addEventListener('click', () => {
         if (data.error) {
             alert(data.error);
         } else {
-            document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"] > .post-title`).innerText = data.title;
-            document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"] > .post-content`).innerText = data.content;
+            let title = document.querySelector(`[data-id="${localStorage.getItem('currentItem')}"] > .post-title`);
+            let content = document.querySelector(`[data-id="${localStorage.getItem('currentItem')}"] > .post-content`);
+
+            if (title && data.title) {
+            title.innerText = data.title;
+            } else if (data.title) {
+            title = document.createElement('div');
+            title.innerText = data.title;
+            title.classList.add('post-title');
+            document.querySelector(`[data-id="${localStorage.getItem('currentItem')}"]`).appendChild(title);
+            }
+
+            if (content && data.content) {
+            content.innerText = data.content;
+            } else if (data.content) {
+            content = document.createElement('div');
+            content.classList.add('post-content');
+            content.innerText = data.content;
+            document.querySelector(`[data-id="${localStorage.getItem('currentItem')}"]`).appendChild(content);
+            }
+
             document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"]`).classList.remove(document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"]`).classList[1]);
             document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"]`).classList.add(`post-${data.color}`);
             closeModal('patch-post');
@@ -50,6 +69,10 @@ document.querySelector('.m-p-b').addEventListener('click', () => {
         console.log(error);
     });
 });
+
+function openLink(link) {
+    window.open(link, '_blank');
+}
 
 function closeModal(id) {
     document.getElementById(`${id}`).classList.remove('active-modal');

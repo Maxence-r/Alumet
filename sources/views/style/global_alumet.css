@@ -132,6 +132,7 @@ body {
 
 .dots {
     width: 20px;
+    z-index: 1500;
     height: 12px;
     cursor: pointer;
     display: flex;
@@ -282,7 +283,7 @@ pre {
     overflow-x: scroll;
 }
 
-.file-preview {
+.file-container {
     display: flex;
     position: relative;
     flex-direction: column;
@@ -294,7 +295,7 @@ pre {
     transition: all 0.3s ease;
 }
 
-.file-preview > img {
+.file-container > img {
     width: 100%;
     height: 100%;
     max-height: 200px;
@@ -303,20 +304,21 @@ pre {
     object-position: top;
 }
 
-.file-preview > video {
+.file-container > video {
     width: 100%;
 }
 
-.file-preview > audio {
+.file-container > audio {
     width: 100%;
 }
 
-.file-preview:hover {
+.file-container:hover {
     filter: brightness(0.8);  
 }
 
 .file-type {
-    bottom: 21px;
+    overflow-wrap: anywhere;
+    bottom: 0;
     margin: 5px;
     position: absolute;
     border-radius: 5px;
@@ -435,7 +437,7 @@ p.file-name {
     font-weight: 400;
     margin: 0;
     margin-top: 5px;
-    word-wrap: break-word;
+    overflow-wrap: anywhere;
 }
 
 .edit-buttons button {
@@ -911,19 +913,14 @@ p.file-name {
     background: rgba(35, 35, 35, 0.797);
     backdrop-filter: blur(30px);  
     border-radius: 5px;
-    z-index: 900;
+    z-index: 19000;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.youtube-preview {
-    margin-top: 20px;
-}
 
-.youtube-preview > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 5px 5px 5px 5px;
+
+#cover-center {
+    object-position: center;
 }
 
 .quick-actions {

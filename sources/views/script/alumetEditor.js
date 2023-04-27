@@ -241,8 +241,11 @@ document.getElementById('templates').addEventListener('click', () => {
     loaded = true;
 });
 
+localStorage.removeItem('templateAE');
+
 function chooseTemplate(id) {
     document.getElementById('p-alumet-back').src = `/cdn/u/${id}`;
     localStorage.setItem('templateAE', id);
+    document.getElementById('p-a-file').value = '';
     closeModal('choose-template')
 }

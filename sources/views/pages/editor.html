@@ -66,7 +66,7 @@
     <div id="patch-post" class="modal">
         <div class="modal-container">
             <h1>Modifier le post</h1>
-            <p>Selectionner une couleur:</p>
+            <p>Sélectionner une couleur:</p>
             <div class="color-selector">
                 <div class="default post-default" id="current-theme"></div>
                 <div class="blue post-blue"></div>
@@ -93,8 +93,20 @@
 
     <div id="choose-template" class="modal">
         <div class="modal-container">
-            <h1>Choississez une image</h1>
+            <h1>Choisir une image</h1>
             <div class="images-container"></div>
+        </div>
+    </div>
+    <div id="choose-file" class="modal">
+        <div class="modal-container">
+            <h1>Choisir un fichier à envoyer</h1>
+            <input id="search-input" placeholder="Chercher un fichier">
+            <div class="files-container">
+                <span id="file-waiting" class="loader-upload"></span>
+            </div>
+            <div class="edit-buttons">
+                <button onclick="closeModal('choose-file')" id="cancel">Annuler</button>
+            </div>
         </div>
     </div>
 
@@ -141,7 +153,7 @@
             <div class="slidecontainer">
                 <input type="range" min="0" step="0.1" max="1" value="0.8" class="slider" id="bright-range">
             </div>
-            <p>Modules activer</p>
+            <p>Modules activés</p>
             <div class="option"><p>Messagerie en direct</p>
                 <label class="toggle">
                     <input id="dm-a-p" class="toggle-checkbox a-p" type="checkbox">
@@ -201,8 +213,8 @@
 
     <div id="cp" class="modal">
         <div class="modal-container">
-            <h1>Crée un post</h1>
-            <p>Selectionner une couleur:</p>
+            <h1>Créer un post</h1>
+            <p>Sélectionner une couleur:</p>
             <div class="color-selector">
                 <div class="default" id="current-theme"></div>
                 <div class="blue"></div>
@@ -222,7 +234,7 @@
 
             <div class="file-modal option-modal">
                 <h3>Aucun fichier sélectionné</h3>
-                <p>Cliquer pour changer de fichier</p>
+                <p>Changer de fichier</p>
             </div>
 
             <div class="link-modal option-modal">
@@ -279,6 +291,7 @@
 </body>
 <script src="../../script/utils/utils.js"></script>
 <script src="../../script/utils/drag.js"></script>
+<script src="../../script/utils/postHandler.js"></script>
 <script src="../../script/utils/teacher.js"></script>
 <script src="../../script/alumetGlobal.js"></script>
 <script src="../../script/alumetEditor.js"></script>

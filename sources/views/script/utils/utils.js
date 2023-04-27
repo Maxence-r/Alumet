@@ -178,31 +178,52 @@ function createPostHtml(post, wallId, postFirst) {
                             let filePreview = document.createElement('div');
                             filePreview.classList.add('file-preview');
                             filePreview.setAttribute('onclick', `openFile("${post.typeContent}", "${post.fileName}", "${post.fileExt}")`);
+                            let fileContainer = document.createElement('div');
+                            fileContainer.classList.add('file-container');
                             if (supportedPreviewAlumet[post.fileExt]) {
-                                filePreview.innerHTML = `${supportedPreviewAlumet[post.fileExt].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${post.typeContent}`)}`;
+                                fileContainer.innerHTML = `${supportedPreviewAlumet[post.fileExt].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${post.typeContent}`)}`;
                             } else {
-                                filePreview.innerHTML = `<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">`;
+                                fileContainer.innerHTML = `<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">`;
                             }
+                            fileContainer.innerHTML += `
+                            <p class="file-type">${post.fileExt.toUpperCase()}</p>
+                            `
+                            filePreview.appendChild(fileContainer);
                             filePreview.innerHTML += `
-                            <p class="file-type">${post.fileExt.toUpperCase()}</p><p class="file-name">${post.fileName.substring(0, 36)}</p>
+                            <p class="file-name">${post.fileName}</p>
                             `
                             postDiv.appendChild(filePreview);
                         } else if (post.type === "link") {
-                            if (post.typeContent.includes("youtube")) {
-                                let youtubePreview = document.createElement('div');
-                                youtubePreview.classList.add('youtube-preview');
-                                youtubePreview.innerHTML = `
-                                <img loading="lazy" src="https://img.youtube.com/vi/${post.typeContent.split('v=')[1]}/maxresdefault.jpg">
-                                `
-                                postDiv.appendChild(youtubePreview);
-                            } else {
-                                let linkPreview = document.createElement('div');
-                                linkPreview.classList.add('link-preview');
-                                linkPreview.innerHTML = `
-                                <a href="${post.typeContent}" target="_blank"><img loading="lazy" src="https://www.google.com/s2/favicons?domain=${post.typeContent}"><p>${post.typeContent}</p></a>
-                                `
-                                postDiv.appendChild(linkPreview);
-                            }
+            
+                                let filePreview = document.createElement('div');
+                                filePreview.classList.add('file-preview');
+                                filePreview.setAttribute('onclick', `openLink("${post.typeContent}")`);
+                                fetch('/preview/meta?url=' + post.typeContent)
+                                .then(res => res.json())
+                                .then(data => {
+                                    let fileContainer = document.createElement('div');
+                                    fileContainer.classList.add('file-container');
+                                    if (data.image) {
+                                        fileContainer.innerHTML = `<img id="cover-center" loading=\"lazy\" src=\"${data.image}">`;
+                                    } else {
+                                        fileContainer.innerHTML = `<img id="cover-center" loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">`;
+                                    }
+                                    fileContainer.innerHTML += `
+                                    <p class="file-type">${data.title || "Aucun titre"}</p>
+                                    `
+                                    filePreview.appendChild(fileContainer);
+                                    if (data.title) {
+                                        filePreview.innerHTML += `
+                                        <p class="file-name">${data.url || post.typeContent}</p>
+                                        `
+                                    } else {
+                                        filePreview.innerHTML += `
+                                        <p class="file-name">${data.url || post.typeContent}</p>
+                                        `
+                                    }
+                                })
+                                postDiv.appendChild(filePreview);
+                            
                         }
                     }
                     if (post.content) {
