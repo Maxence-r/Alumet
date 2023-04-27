@@ -91,6 +91,13 @@
         </div>
     </div>
 
+    <div id="choose-template" class="modal">
+        <div class="modal-container">
+            <h1>Choississez une image</h1>
+            <div class="images-container"></div>
+        </div>
+    </div>
+
     <div id="ms" class="modal">
         <div class="modal-container">
             <h1>Modifier la section</h1>
@@ -113,12 +120,16 @@
 
     <div id="p-a" class="modal">
         <div class="modal-container">
-            <input type="file" id="p-a-file" accept="image/*" style="display: none;">
+            <input type="file" id="p-a-file" accept="image/png, image/jpeg, image/jpg" style="display: none;">
             <h1>Modifier le Alumet</h1>
             <p>Titre</p>
             <input maxlength="150" id="a-p-title" type="text" placeholder="Titre">
             <p>Style</p>
             <div class="alumet-p-preview">
+                <div class="change-preview">
+                    <button id="load-new-background">Charger un fichier</button>
+                    <button id="templates">Choisir parmis les modèles</button>
+                </div>
                 <div class="layer-p-preview"></div>
                 <img id="p-alumet-back" src="">
             </div>

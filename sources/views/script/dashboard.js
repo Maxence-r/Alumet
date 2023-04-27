@@ -95,6 +95,7 @@ document.getElementById('file-background').addEventListener('change', (e) => {
         img.src = reader.result;
 
         img.onload = () => {
+            localStorage.removeItem('template');
             document.querySelector('.setup-preview').style.backgroundImage = `url('${reader.result}')`;
         }
     }
@@ -308,7 +309,7 @@ let requestBody = {
     modules: []
 };
 let imgData = new FormData();
-
+localStorage.removeItem('template');
 document.getElementById('alumet-setup-continue').addEventListener('click', () => {
     switch (activeStep) {
         case 1:
@@ -323,20 +324,24 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
             }
             break;
         case 2:
-            if (document.getElementById('file-background').files.length < 1) {
-                return alert('Veuillez choisir un fond');
-            } else {
-                if (!document.getElementById('file-background').files[0]) {
+            if (!localStorage.getItem('template')) {
+                if (document.getElementById('file-background').files.length < 1) {
                     return alert('Veuillez choisir un fond');
-                } else if (document.getElementById('file-background').files[0].size > 3000000) {
-                    return alert('Le fichier est trop volumineux');
-                } else {
-                    imgData.append('background', document.getElementById('file-background').files[0]);
-                    document.querySelector('.step2').style.display = 'none';
-                    document.querySelector('.step3').style.display = 'flex';
-                    activeStep++;
                 }
             }
+                if (!localStorage.getItem('template')) {
+                    if (!document.getElementById('file-background').files[0]) {
+                        return alert('Veuillez choisir un fond');
+                    } else if (document.getElementById('file-background').files[0].size > 3000000 || document.getElementById('file-background').files[0].type !== 'image/png' && document.getElementById('file-background').files[0].type !== 'image/jpeg'  && document.getElementById('file-background').files[0].type !== 'image/jpg') {
+                        return alert('Le fichier est trop volumineux ou n\'est pas une image (png, jpeg, jpg)');
+                    }
+                }
+                imgData.append('background', document.getElementById('file-background').files[0] || localStorage.getItem('template'));
+                document.querySelector('.step2').style.display = 'none';
+                document.querySelector('.step3').style.display = 'flex';
+                activeStep++;
+                
+            
             break;
         case 3:
             if (document.getElementById('pssw').checked && document.getElementById('pssw-input').value.length > 0) {
@@ -349,47 +354,75 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
             document.getElementById('new-alumet-loading').style.display = 'flex';
             document.getElementById('new-alumet-tracker').style.display = 'flex';
             document.getElementById('alumet-setup-continue').style.display = 'none';
-            fetch('/alumet/new/background', {
-                    method: 'POST',
-                    body: imgData
-                })
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error('Une erreur est survenue');
-                    } else {
-                        return res.json();
-                    }
-                })
-                .then(data => {
-                    let dataU = data.uploaded
-                    requestBody.background = dataU._id;
-                    fetch('/alumet/new', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(requestBody)
-                        })
-                        .then(res => {
-                            if (!res.ok) {
-                                throw new Error('Une erreur est survenue');
-                            } else {
-                                return res.json();
-                            }
-                        })
-                        .then(data => {
-                            if (data.error) return alert(data.error);
-                            getAlumets();
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        });
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-            break;
+            if (!localStorage.getItem('template')) {
+                fetch('/alumet/new/background', {
+                        method: 'POST',
+                        body: imgData
+                    })
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error('Une erreur est survenue');
+                        } else {
+                            return res.json();
+                        }
+                    })
+                    .then(data => {
+                        let dataU = data.uploaded
+                        requestBody.background = dataU._id;
+                        fetch('/alumet/new', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(requestBody)
+                            })
+                            .then(res => {
+                                if (!res.ok) {
+                                    throw new Error('Une erreur est survenue');
+                                } else {
+                                    return res.json();
+                                }
+                            })
+                            .then(data => {
+                                if (data.error) return alert(data.error);
+                                window.open(`/a/${data.saved._id}`, '_blank');
+                                window.location.reload();
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                break;
+            } else {
+                requestBody.background = localStorage.getItem('template');
+                fetch('/alumet/new', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(requestBody)
+                    })
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error('Une erreur est survenue, si le problème persiste contactez nous.');
+                        } else {
+                            return res.json();
+                        }
+                    })
+                    .then(data => {
+                        if (data.error) return alert(data.error);
+                        window.open(`/a/${data.saved._id}`, '_blank');
+                        window.location.reload();
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
 
+
+            }
     }
 });
 
@@ -485,7 +518,7 @@ document.getElementById('template-alumet').addEventListener('click', () => {
         .then(data => {
             for (const [key, value] of Object.entries(data.templates)) {
                 let img = document.createElement('img');
-                img.src = `/cdn/template/${key}`;
+                img.src = `/cdn/u/${key}`;
                 img.setAttribute('onclick', `chooseTemplate('${key}')`);
                 document.querySelector('.images-container').appendChild(img);
             }
@@ -497,7 +530,7 @@ document.getElementById('template-alumet').addEventListener('click', () => {
 });
 
 function chooseTemplate(id) {
-    document.querySelector('.setup-preview').style.backgroundImage = `url(/cdn/template/${id})`;
+    document.querySelector('.setup-preview').style.backgroundImage = `url(/cdn/u/${id})`;
     localStorage.setItem('template', id);
     document.querySelector('.modal-choose').style.display = 'none';
 }
@@ -505,3 +538,4 @@ function chooseTemplate(id) {
 document.getElementById('close-modal-choose').addEventListener('click', () => {
     document.querySelector('.modal-choose').style.display = 'none';
 });
+

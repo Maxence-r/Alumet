@@ -32,7 +32,66 @@
 .alumet-p-preview {
     width: 100%;
     position: relative;
-    max-height: 350px;
+    max-height: 250px;
+}
+
+.change-preview {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: absolute;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease-in;
+}
+.change-preview > button {
+  height: 40px;
+  cursor: pointer;
+  border: 1px solid #a9a9a9;
+  width: 94%;
+  background-color: white;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in;
+}
+
+.images-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  margin-top: 20px;
+}
+
+#choose-template {
+  z-index: 15000;
+}
+
+.images-container > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.images-container > img:hover {
+  transform: scale(1.03);
+  filter: brightness(0.8);
+}
+
+.change-preview > button:hover {
+  background-color: #dbdbdb;
+}
+
+.change-preview:hover {
+  opacity: 1;
+  backdrop-filter: brightness(0.8);
+  transform: translateY(0px);
 }
 
 #p-alumet-back {
@@ -47,19 +106,19 @@
 }
 
 .slidecontainer {
-    width: 100%; /* Width of the outside container */
+    width: 100%; 
   }
   
-  /* The slider itself */
+ 
   .slider {
-    -webkit-appearance: none;  /* Override default CSS styles */
+    -webkit-appearance: none;  
     appearance: none;
-    width: 100%; /* Full-width */
-    height: 15px; /* Specified height */
-    background: #d3d3d3; /* Grey background */
-    outline: none; /* Remove outline */
-    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    width: 100%; 
+    height: 15px; 
+    background: #d3d3d3; 
+    outline: none; 
+    opacity: 0.7; 
+    -webkit-transition: .2s;
     transition: opacity .2s;
   }
   

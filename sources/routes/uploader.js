@@ -23,12 +23,16 @@ router.get('/supported', (req, res) => {
   
 
 router.get('/u/:id', validateObjectId, (req, res) => {
+    if (supportedTemplate.hasOwnProperty(req.params.id)) {
+      res.sendFile(path.join(__dirname, supportedTemplate[req.params.id]));
+    } else {
     Upload.find( { _id: req.params.id } )
     .then(upload => {
         if (!upload) return res.status(404).json({ error: 'Upload not found' });
         res.sendFile("./cdn/" + upload[0].filename, {root: './'});
     })
     .catch(error => res.json({ error }));
+  }
 });
 
 const sanitizeFilename = (filename) => {
@@ -183,14 +187,6 @@ router.get('/delete/:id', validateObjectId, (req, res) => {
     .catch(error => res.json({ error }));
 });
 
-router.get('/template/:id', (req, res) => {
-  console.log(supportedTemplate);
-  if (supportedTemplate.hasOwnProperty(req.params.id)) {
-    res.sendFile(path.join(__dirname, supportedTemplate[req.params.id]));
-  } else {
-    res.status(404).json({ error: 'Template not found' });
-  }
-});
 
 router.get('/templates', (req, res) => {
   res.json({ templates: supportedTemplate });

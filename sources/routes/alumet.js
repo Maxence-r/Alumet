@@ -104,7 +104,7 @@ router.post('/new/background', upload.single('background'), async (req, res) => 
 
 
 
-
+const { supportedTemplate } = require('../config.json');
 router.post('/new', async (req, res) => {
     if (!req.logged) {
         return res.status(401).json({
@@ -133,11 +133,13 @@ router.post('/new', async (req, res) => {
         });
     }
     try {
+       if (!(req.body.background in supportedTemplate)) {
         const upload = await Upload.findOne({
             _id: req.body.background
         });
-        if (!upload || upload.owner != req.user.id ||upload.mimetype != 'png' && upload.mimetype != 'jpg' && upload.mimetype != 'jpeg' || upload.filesize > 3 * 1024 * 1024 ) {
+        if (!upload || upload.owner != req.user.id ||upload.mimetype != 'png' && upload.mimetype != 'jpg' && upload.mimetype != 'jpeg' || upload.filesize > 3 * 1024 * 1024) {
             return res.status(404).json({error: 'Upload isn\'t valid'});
+        }
         }
         const alumet = new Alumet({
             ...req.body,
@@ -174,7 +176,7 @@ router.patch('/update/:id', validateObjectId, async (req, res) => {
         return res.status(400).json({
             error: 'Invalid background'
         });
-    }
+      }
     try {
         const alumet = await Alumet.findOne({
             _id: req.params.id
@@ -189,13 +191,19 @@ router.patch('/update/:id', validateObjectId, async (req, res) => {
                 error: 'Unauthorized'
             });
         }
+        if (!(req.body.background in supportedTemplate)) {
         if (req.body.background) {
             const upload = await Upload.findOne({
                 _id: req.body.background
             });
-            if (!upload || upload.owner != req.user.id ||upload.mimetype != 'png' && upload.mimetype != 'jpg' && upload.mimetype != 'jpeg' || upload.filesize > 3 * 1024 * 1024 ) {
-                return res.status(404).json({error: 'Upload isn\'t valid'});
+            
+              if (!upload || upload.owner != req.user.id ||upload.mimetype != 'png' && upload.mimetype != 'jpg' && upload.mimetype != 'jpeg' || upload.filesize > 3 * 1024 * 1024 ) {
+                  return res.status(404).json({error: 'Upload isn\'t valid'});
+              }
             }
+        }
+        if (req.body.background) {
+          alumet.background = req.body.background;
         }
         alumet.password = req.body.password;
         alumet.name = req.body.name;

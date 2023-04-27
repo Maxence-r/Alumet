@@ -136,6 +136,43 @@ document.querySelector('.p-a-modify').addEventListener('click', () => {
     body.modules = modules;
     body.blur = document.getElementById("blur-range").value;
     body.brightness = document.getElementById("bright-range").value;
+    if (file) {
+        formdata = new FormData();
+        formdata.append('background', file);
+        fetch('/alumet/new/background', {
+            method: 'POST',
+            body: formdata
+        })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('Une erreur est survenue');
+            } else {
+                return res.json();
+            }
+        })
+        .then(data => {
+           body.background = data.uploaded._id;
+           fetch(`/alumet/update/${localStorage.getItem('currentAlumet')}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    body: body
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                window.location.reload();
+            })
+        })
+        .catch(err => {
+            return alert(err);
+        })
+    } else {
+    if (localStorage.getItem('templateAE')) {
+        body.background = localStorage.getItem('templateAE');
+    }
     fetch(`/alumet/update/${localStorage.getItem('currentAlumet')}`, {
         method: 'PATCH',
         headers: {
@@ -147,8 +184,9 @@ document.querySelector('.p-a-modify').addEventListener('click', () => {
     })
     .then(response => response.json())
     .then(data => {
-        window.location.reload();
+         window.location.reload();
     })
+    }
 });
 
 document.getElementById('a-p-password').addEventListener('input', () => {
@@ -158,3 +196,53 @@ document.getElementById('a-p-password').addEventListener('input', () => {
         document.getElementById('a-p-pswd').checked = true;
     }
 });
+
+document.getElementById('load-new-background').addEventListener('click', () => {
+    document.getElementById('p-a-file').click();
+});
+
+document.getElementById('p-a-file').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    if (file.size > 3000000) {
+        return alert('File is too big');
+    }
+    reader.onload = () => {
+        const img = new Image();
+        img.src = reader.result;
+
+        img.onload = () => {
+            localStorage.removeItem('templateAE');
+            document.getElementById('p-alumet-back').src = `${reader.result}`;
+        }
+    }
+
+    reader.readAsDataURL(file);
+});
+
+let loaded = false;
+document.getElementById('templates').addEventListener('click', () => {
+    document.getElementById('choose-template').style.display = 'flex';
+    document.getElementById('choose-template').classList.add('active-modal');
+    if (loaded) return;
+    fetch('/cdn/templates')
+        .then(res => res.json())
+        .then(data => {
+            for (const [key, value] of Object.entries(data.templates)) {
+                let img = document.createElement('img');
+                img.src = `/cdn/u/${key}`;
+                img.setAttribute('onclick', `chooseTemplate('${key}')`);
+                document.querySelector('.images-container').appendChild(img);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    loaded = true;
+});
+
+function chooseTemplate(id) {
+    document.getElementById('p-alumet-back').src = `/cdn/u/${id}`;
+    localStorage.setItem('templateAE', id);
+    closeModal('choose-template')
+}

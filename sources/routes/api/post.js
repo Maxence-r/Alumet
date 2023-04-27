@@ -121,7 +121,12 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
         content: req.body.content,
         color: req.body.color,
     }, { runValidators: true})
-      .then(editedPost => res.json(editedPost))
+      .then(() => {
+        Post.findOne({ _id: req.params.post })
+        .then(post => {
+          res.json(post);
+        })
+      })
       .catch(error => res.json({ error }));
     });
 
