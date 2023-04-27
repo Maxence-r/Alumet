@@ -10,27 +10,41 @@ socket.on(`message-${localStorage.getItem('currentAlumet')}`, data => {
         <div class="message">
             <p>${data.message}</p>
         </div>`
-        document.querySelector('.conversation').appendChild(div);
-        let elem = document.querySelector('.conversation');
+        document.getElementById('conversation').appendChild(div);
+        let elem = document.getElementById('conversation');
         elem.scrollTop = elem.scrollHeight;
 })
 
 
-document.querySelector('.modules-container').innerHTML = `
-<div id="dm" class="conversation-container module">
-    <div class="conversation-header">
+document.querySelector('.modules-container').innerHTML += `
+<div id="dm" class="module-container module">
+    <div class="module-header">
         <p>${localStorage.getItem('name')}</p>
         <span class="loader"></span>
     </div>
-    <div class="conversation">
+    <div id="conversation" class="conversation">
     </div>
-    <div class="conversation-footer">
-        <input type="text" placeholder="Type a message" class="message-input">
+    <div class="module-footer">
+        <input id="message-input" type="text" placeholder="Type a message" class="message-input">
         <button class="l-preview send-button" id="accent" type="button" onclick="this.classList.add('button--loading')">
             <span class="button__text"><img class="img-preview" src="../../assets/app/open.svg"></span>
         </button>
     </div>
 </div>`;
+
+setTimeout(() => {
+    document.querySelector('.send-button').addEventListener('click', () => {
+        sendMessage();
+    })
+
+
+    document.querySelector('.message-input').addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+            document.querySelector('.send-button').classList.add('button--loading');
+            sendMessage();
+        }
+    })
+}, 1000)
 
 function getMessages() {
      fetch(`/api/dm/get/${localStorage.getItem('currentAlumet')}`, {
@@ -52,16 +66,16 @@ function getMessages() {
             <div class="message">
                 <p>${message.content}</p>
             </div>`
-            document.querySelector('.conversation').appendChild(div);
+            document.getElementById('conversation').appendChild(div);
         })
-        let elem = document.querySelector('.conversation');
+        let elem = document.getElementById('conversation');
         elem.scrollTop = elem.scrollHeight;
     })
 }
 getMessages();
 
 function sendMessage() {
-    let message = document.querySelector('.conversation-footer > input').value;
+    let message = document.getElementById('message-input').value;
     if (message.length === 0) return;
     fetch(`/api/dm/send/${localStorage.getItem('currentAlumet')}`, {
         method: 'POST',
@@ -80,13 +94,7 @@ function sendMessage() {
     })
 }
 
-document.querySelector('.send-button').addEventListener('click', () => {
-    sendMessage();
-})
 
-document.querySelector('.conversation-footer > input').addEventListener('keyup', (e) => {
-    if (e.keyCode === 13) {
-        document.querySelector('.send-button').classList.add('button--loading');
-        sendMessage();
-    }
-})
+
+
+

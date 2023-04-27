@@ -11,10 +11,10 @@ document.querySelector('.p-post').addEventListener('click', () => {
     let content = document.getElementById('p-content').value;
     let option = localStorage.getItem('postOption');
     let tcs = document.getElementById('p-tcs').checked; // TCS: Teacher Can See
-    let file = document.getElementById('file-input').files[0];
+    let file = document.getElementById('file-input').files[0] || localStorage.getItem('file');
     let link = document.querySelector('.link-input').value;
     let color = localStorage.getItem('postColor');
-    
+    console.log(file);
     let wall = localStorage.getItem('currentWall');
     if (title == '' && content == '' && !option) {
       return abortPost('Vous n\'avez pas spécifié de titre, de contenu ou d\'option');
@@ -42,7 +42,7 @@ document.querySelector('.p-post').addEventListener('click', () => {
     if (color) body.color = color;
     body.tcs = tcs;
   
-    if (file) {
+    if (file && document.getElementById('file-input').files[0]) {
       formData.append('file', file);
       fetch('/cdn/upload/guest', {
         method: 'POST',
@@ -71,6 +71,7 @@ document.querySelector('.p-post').addEventListener('click', () => {
         });
       });
     } else {
+      if (file) body.fileID = file;
       fetch(`/api/post/${localStorage.getItem('currentAlumet')}/${wall}/`, {
         method: 'POST',
         body: JSON.stringify(body),

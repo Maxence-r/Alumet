@@ -1,0 +1,17 @@
+.module-header > button {
+    height: 80%;
+    border: none;
+    color: white;
+    font-size: 11px;
+    color: black;
+    margin-right: 2px;
+    cursor: pointer;
+    padding-inline: 5px;
+}
+
+.devoirs {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}

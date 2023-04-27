@@ -17,11 +17,11 @@ items.addEventListener('click', (event) => {
         data.uploads.forEach(file => {
           div = document.createElement('div');
           div.classList.add('file');
-          div.setAttribute('onclick', `chooseFile('${file}')`);
+          
           div.innerHTML = `
-                    <h1>${file.displayname}</h1>
+                    <h1 onclick="chooseFile('${file._id}', '${file.displayname}')">${file.displayname}</h1>
                     <div class="actions">
-                        <div onclick="openFile('${file._id}', '${file.displayname}', '${file.mimetype}')" class="action darker"><img src="../../assets/app/open.svg" alt="Ouvrir"></div>
+                        <div onclick="openFile('${file._id}', '${file.displayname}', '${file.mimetype}')" class="action darker"><img src="../../assets/app/eyes.svg" alt="Ouvrir"></div>
                     </div>
                 `;
           document.querySelector('.files-container').appendChild(div);
@@ -57,8 +57,12 @@ document.getElementById('search-input').addEventListener('input', (e) => {
   });
 });
 
-function chooseFile(file) {
-  document.querySelector('.file-modal > h3').innerHTML = file;
+function chooseFile(file, display) {
+  document.querySelector('.file-modal').style.display = 'flex';
+  hideItems();
+  localStorage.setItem('postOption', 'file')
+  localStorage.setItem('file', file)
+  document.querySelector('.file-modal > h3').innerHTML = display;
   document.getElementById('choose-file').style.display = 'none';
   document.getElementById('choose-file').classList.remove('active-modal');
 }

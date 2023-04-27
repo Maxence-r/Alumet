@@ -1,146 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-
-    <link rel="icon" href="../../assets/public/alumet.ico" />
-
-    <meta name="description" content="Alumet, explorer d'une nouvelle façon.">
-    <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers">
-    <meta property="og:title" content="Alumet: Explorer d'une nouvelle façon.">
-    <meta property="og:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://alumet.io">
-    <meta property="og:image" content="https://i.imgur.com/O9RdHj1.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:domain" content="alumet.io">
-    <meta name="twitter:url" content="https://alumet.io/">
-    <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes.">
-    <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
-    <meta name="twitter:image" content="https://i.imgur.com/O9RdHj1.png">
-
-    <link rel="stylesheet" type="text/css" href="../../style/editor_alumet.css">
-    <link rel="stylesheet" type="text/css" href="../../style/global_alumet.css">
-    <link rel="stylesheet" type="text/css" href="../../style/global.css">
-
-
-
-    <title>Alumet</title>
-</head>
-<body>
-    <section class="loading">
-        <span class="loader-upload"></span>
-    </section>
-    <div id="file-viewer" class="view-modal">
-        <div class="file-header">
-            <h1 class="file-title"><img src="../../assets/app/label.svg"><span>Loading...</span></h1>
-            <div class="quick-actions">
-                <div id="delete-file" class="action"><img src="../../assets/app/download.svg" alt="Delete"></div>
-                <div onclick="closeViewer()" id="close-viewer" style="margin-right: 10px;" class="action close-viewer"><img src="../../assets/app/close.svg" alt="Close"></div>
-            </div>
-        </div>
-        <span id="file-loading" class="loader-upload"></span>
-        </div>
-    </div>
-    <div class="nav-bar">
-        <div onclick="home()" style="display: flex;" id="selected-item" class="item home">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+      <link rel="icon" href="../../assets/public/alumet.ico" />
+      <meta name="description" content="Alumet: La flamme de l’innovation au service de l’éducation.">
+      <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers, courses, classroom">
+      <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation.">
+      <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France.">
+      <meta property="og:type" content="website">
+      <meta property="og:url" content="https://alumet.io">
+      <meta property="og:image" content="https://i.imgur.com/QMtz1MF.png">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:domain" content="alumet.io">
+      <meta name="twitter:url" content="https://alumet.io/">
+      <meta name="twitter:title" content="Alumet: La flamme de l’innovation au service de l’éducation.">
+      <meta name="twitter:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France.">
+      <meta name="twitter:image" content="https://i.imgur.com/QMtz1MF.png">
+      <link rel="stylesheet" type="text/css" href="../../style/global_alumet.css">
+      <link rel="stylesheet" type="text/css" href="../../style/global.css">
+      <title>Alumet</title>
+   </head>
+   <body>
+      <section class="loading">
+         <span class="loader-upload"></span>
+      </section>
+      <div class="nav-bar">
+         <div onclick="home()" style="display: flex;" id="selected-item" class="item home">
             <img loading="lazy" src="../../assets/app/home-alumet.svg" alt="Alumet">
             <p>Acceuil</p>
-        </div>
-        <div onclick="enableModule('hw')" class="item hw">
+         </div>
+         <div onclick="enableModule('hw')" class="item hw">
             <img loading="lazy" src="../../assets/app/homework.svg" alt="Alumet">
             <p>Devoirs</p>
-        </div>
-        <div onclick="enableModule('dm')" class="item dm">
+         </div>
+         <div onclick="enableModule('dm')" class="item dm">
             <img loading="lazy" src="../../assets/app/chat.svg" alt="Alumet">
             <p>Messages</p>
-        </div>
-        <div onclick="enableModule('fc')" class="item fc">
+         </div>
+         <div onclick="enableModule('bd')" class="item bd">
             <img loading="lazy" src="../../assets/app/flashcard.svg" alt="Alumet">
-            <p>Flashcards</p>
-        </div>
-    </div>
-    <div id="patch-post" class="modal">
-        <div class="modal-container">
+            <p>Tableau</p>
+         </div>
+      </div>
+      <div id="file-viewer" class="view-modal">
+         <div class="file-header">
+            <h1 class="file-title"><img src="../../assets/app/label.svg"><span>Loading...</span></h1>
+            <div class="quick-actions">
+               <div id="download-file" class="action"><img src="../../assets/app/download.svg" alt="Delete"></div>
+               <div onclick="closeViewer()" id="close-viewer" style="margin-right: 10px;" class="action close-viewer"><img src="../../assets/app/close.svg" alt="Close"></div>
+            </div>
+         </div>
+      </div>
+      </div>
+      <div id="patch-post" class="modal">
+         <div class="modal-container">
             <h1>Modifier le post</h1>
-            <p>Selectionner une couleur:</p>
+            <p>Sélectionner une couleur:</p>
             <div class="color-selector">
-                <div class="default" id="current-theme"></div>
-                <div class="blue"></div>
-                <div class="red"></div>
-                <div class="green"></div>
-                <div class="yellow"></div>
-                <div class="purple"></div>
-                <div class="orange"></div>
+               <div class="default post-default" id="current-theme"></div>
+               <div class="blue post-blue"></div>
+               <div class="red post-red"></div>
+               <div class="green post-green"></div>
+               <div class="yellow post-yellow"></div>
+               <div class="purple post-purple"></div>
+               <div class="orange post-orange"></div>
             </div>
             <p>Modifier le titre</p>
-            <input type="text" placeholder="Titre">
+            <input id="m-p-t"  type="text" placeholder="Titre">
             <p>Modifier le contenu</p>
-            <textarea placeholder="Contenu"></textarea>
+            <textarea id="m-p-c"  placeholder="Contenu"></textarea>
+            <p>Zone dangereuse</p>
+            <button id="delete-post">Supprimer cette publication</button>
             <div class="edit-buttons">
-                <button onclick="closeModal('patch-post')" id="cancel">Annuler</button>
-                <button id="accent" type="button" onclick="this.classList.add('button--loading')">
-                    <span class="button__text">Modifier</span>
-                </button>
+               <button onclick="closeModal('patch-post')" id="cancel">Annuler</button>
+               <button class="m-p-b" id="accent" type="button" onclick="this.classList.add('button--loading')">
+               <span class="button__text">Modifier</span>
+               </button>
             </div>
-        </div>
-    </div>
-
-    <div id="ms" class="modal">
-        <div class="modal-container">
-            <h1>Modifier la section</h1>
-            <p>Titre</p>
-            <input maxlength="150" id="s-m-title" type="text" placeholder="Titre">
-            <p>Paramètres</p>
-            <div class="option"><p>Autoriser les commentaires</p><label class="toggle">
-                <input id="s-m-checked" class="toggle-checkbox" type="checkbox">
-                <div class="toggle-switch"></div>
-              </label></div>
-            <div class="edit-buttons">
-                <button onclick="closeModal('ms')" id="cancel">Annuler</button>
-                <button onclick="deleteWall('ms')" id="delete">Supprimer</button>
-                <button class="s-modify" id="accent" type="button" onclick="this.classList.add('button--loading')">
-                    <span class="button__text">Modifier</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div id="cs" class="modal">
-        <div class="modal-container">
-            <h1>Crée une section</h1>
-            <p>Titre</p>
-            <input maxlength="150" id="s-title" type="text" placeholder="Titre">
-            <p>Paramètres</p>
-            <div class="option"><p>Autoriser les commentaires</p><label class="toggle">
-                <input id="s-checked" class="toggle-checkbox" type="checkbox">
-                <div class="toggle-switch"></div>
-              </label></div>
-            <div class="edit-buttons">
-                <button onclick="closeModal('cs')" id="cancel">Annuler</button>
-                <button class="s-create" id="accent" type="button" onclick="this.classList.add('button--loading')">
-                    <span class="button__text">Poster</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    
-
-    <div id="cp" class="modal">
-        <div class="modal-container">
-            <h1>Crée un post</h1>
-            <p>Selectionner une couleur:</p>
+         </div>
+      </div>
+      <div id="cp" class="modal">
+         <div class="modal-container">
+            <h1>Créer un post</h1>
+            <p>Sélectionner une couleur:</p>
             <div class="color-selector">
-                <div class="default" id="current-theme"></div>
-                <div class="blue"></div>
-                <div class="red"></div>
-                <div class="green"></div>
-                <div class="yellow"></div>
-                <div class="purple"></div>
-                <div class="orange"></div>
+               <div class="default" id="current-theme"></div>
+               <div class="blue"></div>
+               <div class="red"></div>
+               <div class="green"></div>
+               <div class="yellow"></div>
+               <div class="purple"></div>
+               <div class="orange"></div>
             </div>
             <p>Titre</p>
             <textarea id="p-title" maxlength="300" type="text" placeholder="Titre"></textarea>
@@ -148,71 +100,65 @@
             <textarea id="p-content" maxlength="800" placeholder="Contenu"></textarea>
             <p>En plus <img class="back-option" src="../../assets/app/back-option.svg"</p>
             <input type="file" id="file-input">
-
-
             <div class="file-modal option-modal">
-                <h3>Aucun fichier sélectionné</h3>
-                <p>Cliquer pour changer de fichier</p>
+               <h3>Aucun fichier sélectionné</h3>
+               <p>Changer de fichier</p>
             </div>
-
             <div class="link-modal option-modal">
-                <div class="website-preview">
-                    <div class="link-row">
-                        <input class="link-input" type="text" placeholder="Coller ici un lien">
-                        <button class="l-preview" id="accent" type="button" onclick="this.classList.add('button--loading')">
-                            <span class="button__text"><img class="img-preview" src="../../assets/app/open.svg"></span>
-                        </button>
-                    </div>
-                    <img id="preview-image" src="../../assets/app/no-preview.png">
-                    <div id="preview-text">
-                        <h3 id="preview-title">Aucun titre</h3>
-                        <p id="preview-description">Aucune description</p>
-                    </div>
-                </div>
+               <div class="website-preview">
+                  <div class="link-row">
+                     <input class="link-input" type="text" placeholder="Coller ici un lien">
+                     <button class="l-preview" id="accent" type="button" onclick="this.classList.add('button--loading')">
+                     <span class="button__text"><img class="img-preview" src="../../assets/app/open.svg"></span>
+                     </button>
+                  </div>
+                  <img id="preview-image" src="../../assets/app/no-preview.png">
+                  <div id="preview-text">
+                     <h3 id="preview-title">Aucun titre</h3>
+                     <p id="preview-description">Aucune description</p>
+                  </div>
+               </div>
             </div>
-
-
             <div class="items">
-                <div id="file" title="Charger un fichier">
-                    <p>Charger un fichier</p>
-                    <img src="../../assets/app/upload_alumet.svg">
-                </div>
-                <div id="link" title="Ajouter un lien">
-                    <p>Ajouter un lien</p>
-                    <img src="../../assets/app/link_alumet.svg">
-                </div>
+               <div id="file" title="Charger un fichier">
+                  <p>Charger un fichier</p>
+                  <img src="../../assets/app/upload_alumet.svg">
+               </div>
+               <div id="link" title="Ajouter un lien">
+                  <p>Ajouter un lien</p>
+                  <img src="../../assets/app/link_alumet.svg">
+               </div>
             </div>
             <p>Option</p>
-            <div class="option"><p>Seulement le professeur peut voir</p><label class="toggle">
-                <input id="p-tcs" class="toggle-checkbox" type="checkbox">
-                <div class="toggle-switch"></div>
-              </label></div>
-            <div class="edit-buttons">
-                <button onclick="closeModal('cp')" id="cancel">Annuler</button>
-                <button class="p-post" id="accent" type="button" onclick="this.classList.add('button--loading')">
-                    <span class="button__text">Poster</span>
-                </button>
+            <div class="option">
+               <p>Seulement le professeur peut voir</p>
+               <label class="toggle">
+                  <input id="p-tcs" class="toggle-checkbox" type="checkbox">
+                  <div class="toggle-switch"></div>
+               </label>
             </div>
-        </div>
-    </div>
-    <div class="wall-container">
-       
-       
-        <button onclick="createSection()" class="main-button" id="add-wall">Ajouter un mur</button>
-    </div>
-    <div class="modules-container">
-
-    </div>
-
-<div class="layer-filter"></div>
-<div class="background-image"></div>
-</body>
-<script src="../../script/utils/utils.js"></script>
-<script src="../../script/utils/student.js"></script>
-<script src="../../script/utils/postHandler.js"></script>
-<script src="../../script/alumetGlobal.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-  const socket = io();
-</script>
+            <div class="edit-buttons">
+               <button onclick="closeModal('cp')" id="cancel">Annuler</button>
+               <button class="p-post" id="accent" type="button" onclick="this.classList.add('button--loading')">
+               <span class="button__text">Poster</span>
+               </button>
+            </div>
+         </div>
+      </div>
+      <div class="wall-container">
+      </div>
+      <div class="modules-container">
+      </div>
+      <div class="layer-filter"></div>
+      <div class="background-image"></div>
+   </body>
+   <script src="../../script/utils/utils.js"></script>
+   <script src="../../script/utils/drag.js"></script>
+   <script src="../../script/utils/postHandler.js"></script>
+   <script src="../../script/utils/student.js"></script>
+   <script src="../../script/alumetGlobal.js"></script>
+   <script src="/socket.io/socket.io.js"></script>
+   <script>
+      const socket = io();
+   </script>
 </html>

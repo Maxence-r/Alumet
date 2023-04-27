@@ -51,6 +51,16 @@ function initModules() {
                 link.href = '../../style/modules/direct_messages.css';
                 document.head.appendChild(link);
                 break;
+            case 'hw':
+                const script2 = document.createElement('script');
+                script2.src = '../../script/modules/homeworks.js';
+                document.body.appendChild(script2);
+                const link2 = document.createElement('link');
+                link2.rel = 'stylesheet';
+                link2.href = '../../style/modules/homeworks.css';
+                document.head.appendChild(link2);
+                break;
+            
         }
     }) 
 }
@@ -72,7 +82,7 @@ function getWalls() {
             div.innerHTML = `
             <div class="wall-header">
                 <p id="${wall._id}" class="wall-title">${wall.title}</p>
-                <div onclick="modifySection('${wall._id}', '${wall.post}')" class="dots"><div></div><div></div><div></div></div>
+                <div id="dots-wall" onclick="modifySection('${wall._id}', '${wall.post}')" class="dots"><div></div><div></div><div></div></div>
             </div>`;
             let userID = localStorage.getItem('userId')
             if (userID.length > 50) {

@@ -169,7 +169,7 @@ router.get('/delete/:id', validateObjectId, (req, res) => {
     if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
     Upload.find( { _id: req.params.id } )
     .then(upload => {
-        if (upload[0].modifiable == false) return res.status(401).json({ error: 'Ce fichiers est utilisé par un de vos Alumets, impossible de le supprimé' });
+        if (upload[0].modifiable == false) return res.status(401).json({ error: 'Ce fichiers est utilisé par un de vos Alumets, impossible de le supprimer' });
         if (!upload) return res.status(404).json({ error: 'Upload not found' });
         if (upload[0].owner != req.user.id) return res.status(401).json({ error: 'Unauthorized' });
         Upload.deleteOne( { _id: req.params.id } )

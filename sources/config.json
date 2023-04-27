@@ -1,6 +1,6 @@
 {
    "tokenC": "AACklm72ydk2qP2GMXEpOPue7uabJlE82jCpnYtYc2rd4EeQzl",
-   "authorizedModules": ["hw", "fc", "dm"],
+   "authorizedModules": ["hw", "bd", "dm"],
    "mongodbConnectString": "mongodb+srv://admin:OHdI4vfXbgNy1ZAV@alumet.knhvwib.mongodb.net/?retryWrites=true&w=majority",
    "supportedColor": ["default", "blue", "red", "green", "yellow", "purple", "orange"],
    "supported": {

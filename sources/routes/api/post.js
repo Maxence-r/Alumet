@@ -81,7 +81,7 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
         let editedPost = { ...post._doc };
         
         if (post.ownerType !== 'teacher') {
-          if (req.cookies.alumetToken === editedPost.owner) {
+          if (req.cookies.alumetToken === editedPost.owner || req.logged) {
             editedPost.owning = true;
           }
           const decodedToken = jwt.verify(post.owner, tokenC);
@@ -142,9 +142,12 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
         return res.status(404).json({ error: 'Unauthorized x000' });
       }
 
-
       const post = await Post.findById(req.params.post);
       
+      if (req.auth && req.cookies.alumetToken != post.owner) {
+        return res.status(404).json({ error: 'Unauthorized x002' });
+      }
+
       if (!post) {
         return res.status(404).json({ error: 'Post not found' });
       }
@@ -153,11 +156,7 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
         return res.status(404).json({ error: 'Unauthorized' });
       }
       
-      if (post.ownerType !== 'teacher') {
-        if (req.cookies.alumetToken !== post.owner) {
-          return res.status(404).json({ error: 'Unauthorized x001' });
-        }
-      }
+      
 
       const deletedPost = await Post.findByIdAndDelete(req.params.post);
       res.json(deletedPost);

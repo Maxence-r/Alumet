@@ -349,7 +349,7 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
             }
             document.getElementById('dm').checked ? requestBody.modules.push('dm') : null;
             document.getElementById('hw').checked ? requestBody.modules.push('hw') : null;
-            document.getElementById('fc').checked ? requestBody.modules.push('fc') : null;
+            document.getElementById('bd').checked ? requestBody.modules.push('bd') : null;
             document.querySelector('.step3').style.display = 'none';
             document.getElementById('new-alumet-loading').style.display = 'flex';
             document.getElementById('new-alumet-tracker').style.display = 'flex';

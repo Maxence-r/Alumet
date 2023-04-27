@@ -202,7 +202,7 @@ function enableModule(id) {
     JSON.parse(localStorage.getItem('modules')).forEach(module => {
         document.querySelector(`.${module}`).id = ''
         document.querySelector(`.home`).id = ''
-        document.getElementById(module).classList.remove('active-module');
+        document.getElementById(`${module}`).classList.remove('active-module');
     });
     document.querySelector(`.${id}`).id = 'selected-item'
     document.querySelector('.modules-container').style.display = 'flex';
@@ -253,8 +253,7 @@ slider.forEach(slider => {
 
 function closeViewer() {
     document.querySelector('.view-modal').style.transform = 'translateY(110%)';
-    document.getElementById('file-loading').style.display = 'flex';
-    const elementToRemoveAfter = document.getElementById("file-loading");
+    const elementToRemoveAfter = document.querySelector(".file-header");
     let nextElement = elementToRemoveAfter.nextElementSibling;
     while (nextElement !== null) {
         nextElement.remove();
@@ -266,7 +265,6 @@ function openFile(id, name, ext) {
     document.querySelector('.view-modal').style.display = 'flex'; 
     document.querySelector('.view-modal').style.transform = 'translateY(0)'; 
     document.querySelector('.file-title > span').innerText = name.substring(0, 20);
-    document.getElementById('file-loading').style.display = 'none';
     if (supported[ext]) {
         let x = supported[ext].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${id}#toolbar=0&navpanes=0`);
         document.getElementById('file-viewer').innerHTML += x
@@ -279,3 +277,4 @@ function openFile(id, name, ext) {
 function downloadFile(url) {
     window.open(url, '_blank');
 }
+
