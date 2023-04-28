@@ -109,7 +109,6 @@ let supported = {};
 fetch('/cdn/supported')
     .then(res => res.json())
     .then(data => {
-        console.log(data);
         supported = data;
     })
     .catch(err => console.log(err));
@@ -143,7 +142,6 @@ document.querySelectorAll('.color-selector > div').forEach(color => {
             selectedcolor.classList.remove('selected-color');
         })
         a.target.classList.add('selected-color');
-        console.log(a.target);
         localStorage.setItem('postColor', a.target.classList[0]);
     })
 })

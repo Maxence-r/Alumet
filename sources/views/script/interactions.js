@@ -6,7 +6,6 @@ function toDisplay(toget, toshow) {
 
 function toHide(toget, tohide) {
     document.getElementById(toget).addEventListener('click', () => {
-        console.log(toget, tohide)
         document.getElementById(tohide).classList.remove('isDisplayed')
         document.getElementById(tohide).style.display = 'none'
     })

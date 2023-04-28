@@ -9,8 +9,8 @@ const { tokenC } = require('../../config.json');
 const jwt = require('jsonwebtoken');
 const Upload = require('../../models/upload');
 const notification = require('../../middlewares/notification');
+
 router.post('/:alumet/:wall', validateObjectId, alumetAuth, postLayer, notification("A créé un post"), async (req, res) => {
-  console.log(req.body.tcs);
   const post = new Post({
       title: req.body.title,
       content: req.body.content,
@@ -30,13 +30,11 @@ router.post('/:alumet/:wall', validateObjectId, alumetAuth, postLayer, notificat
     
     if (post.ownerType !== 'teacher') {
       if (req.cookies.alumetToken === editedPost.owner) {
-        console.log('true');
         editedPost.owning = true;
       }
       const decodedToken = jwt.verify(post.owner, tokenC);
       editedPost.owner = decodedToken.username;
     } else if (req.logged) {
-      console.log(req.logged)
       editedPost.owning = true;
     }
 
@@ -87,7 +85,6 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
           const decodedToken = jwt.verify(post.owner, tokenC);
           editedPost.owner = decodedToken.username;
         } else if (req.logged) {
-          console.log("req.logged")
           editedPost.owning = true;
         }
         if (post.type === 'file') {
@@ -168,7 +165,6 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
     
       
       router.put('/move/:alumet/:postId', alumetAuth, async (req, res) => {
-        console.log(req.auth);
         const alumet = await Alumet.findById(req.params.alumet);
     
         if (!alumet) {

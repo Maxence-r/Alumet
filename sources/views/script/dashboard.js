@@ -253,7 +253,6 @@ let supported = {};
 fetch('/cdn/supported')
     .then(res => res.json())
     .then(data => {
-        console.log(data);
         supported = data;
     })
     .catch(err => console.log(err));
@@ -472,7 +471,6 @@ function getAlumets() {
       .then(res => res.json())
       .then(data => {
         const sortedData = sortAlumetsByLastUsage(data.alumets);
-        console.log(data.alumets)
         if (data.alumets.length > 0) {
             document.getElementById('open-alumet').innerHTML = '';
         } 

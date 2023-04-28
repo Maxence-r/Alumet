@@ -178,7 +178,6 @@ router.patch('/update/:id', validateObjectId, async (req, res) => {
             error: 'Unauthorized'
         });
     }
-    console.log(req.body.modules);
     const unauthorizedModules = req.body.modules.filter(module => !authorizedModules.includes(module));
     if (unauthorizedModules.length > 0) {
         return res.status(400).json({

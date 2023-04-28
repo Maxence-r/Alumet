@@ -14,7 +14,6 @@ document.querySelector('.p-post').addEventListener('click', () => {
     let file = document.getElementById('file-input').files[0] || localStorage.getItem('file');
     let link = document.querySelector('.link-input').value;
     let color = localStorage.getItem('postColor');
-    console.log(file);
     let wall = localStorage.getItem('currentWall');
     if (title == '' && content == '' && !option) {
       return abortPost('Vous n\'avez pas spécifié de titre, de contenu ou d\'option');
@@ -51,7 +50,6 @@ document.querySelector('.p-post').addEventListener('click', () => {
         if (data.error) {
           return abortPost(data.error);
         }
-        console.log(data);
         body.fileID = data.file._id;
   
         fetch(`/api/post/${localStorage.getItem('currentAlumet')}/${wall}/`, {
