@@ -7,7 +7,7 @@ function enableDrag() {
 
     postContainer.addEventListener('mousedown', function(event) {
       let target = event.target;
-      while (target && !target.classList?.contains('post')) { // add check for target and classList
+      while (target && !target.classList?.contains('post')) {
         target = target.parentNode;
       }
       if (target) {

@@ -55,7 +55,7 @@ slider.forEach(slider => {
         if(!isDown) return;
         e.preventDefault();
         const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 3; //scroll-fast
+        const walk = (x - startX) * 3;
         slider.scrollLeft = scrollLeft - walk;
     });
 });
@@ -277,7 +277,7 @@ function openDocument(id) {
 
 function closeViewer() {
     document.getElementById('file-viewer').classList.remove('isDisplayed');
-    const elementToRemoveAfter = document.getElementById("file-loading"); // replace "example" with the ID of the element after which you want to remove all elements
+    const elementToRemoveAfter = document.getElementById("file-loading");
 
     let nextElement = elementToRemoveAfter.nextElementSibling;
     while (nextElement !== null) {

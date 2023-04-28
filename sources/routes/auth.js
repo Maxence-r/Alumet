@@ -5,6 +5,7 @@ const Account = require('../models/account');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { tokenC } = require('../config.json');
+
 router.get('/signin', async (req, res) => {
     if (req.logged) return res.redirect('/dashboard');
     const filePath = path.join(__dirname, '../views/pages/signin.html');

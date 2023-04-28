@@ -1,5 +1,3 @@
-// Load the current alumet data
-
 const currentUrl = window.location.href;
 const path = currentUrl.split('/').pop();
 
