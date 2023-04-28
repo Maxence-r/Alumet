@@ -3,6 +3,7 @@ const Post = require('../models/post');
 const Upload = require('../models/upload');
 const Wall = require('../models/wall');
 const { supportedColor } = require('../config.json');
+
 const postLayer = async (req, res, next) => {
     try {
         const alumet = await Alumet.findOne({ _id: req.params.alumet });

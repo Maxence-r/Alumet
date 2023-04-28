@@ -4,7 +4,6 @@ function hideItems() {
     document.querySelector('.back-option').style.display = 'flex';
 }
 
-// Local verification to prevent user from posting empty content, a server-side verification is also done
 document.querySelector('.p-post').addEventListener('click', () => {
     document.querySelector('.p-post').disabled = true;
     let title = document.getElementById('p-title').value;
@@ -31,7 +30,7 @@ document.querySelector('.p-post').addEventListener('click', () => {
       }
     }
   
-    // Construct the request body dynamically
+
     let body = {};
     let formData = new FormData();
     if (title) body.title = title;

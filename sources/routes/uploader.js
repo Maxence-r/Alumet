@@ -10,7 +10,7 @@ const { supported } = require('../config.json');
 const alumetAuth = require('../middlewares/api/alumetAuth');
 const { supportedTemplate } = require('../config.json');
 const Post = require('../models/post');
-// Set storage engine
+
 const storage = multer.diskStorage({
     destination: './cdn',
     filename: (req, file, cb) => {
@@ -194,8 +194,6 @@ router.get('/delete/:id', validateObjectId, async (req, res) => {
     return res.status(500).json({ error: 'Server error' });
   }
 });
-
-
 
 router.get('/templates', (req, res) => {
   res.json({ templates: supportedTemplate });
