@@ -143,7 +143,7 @@ router.post('/upload', accountUpload.array('files'), (req, res) => {
             owner: req.user.id
         });
         upload.save()
-            .then(() => console.log('Upload saved !' + file.filename))
+            .then(() => console.log('Nouveau fichier !' + file.filename))
             .catch(error => console.log(error));
         });
       res.json({ files: files })

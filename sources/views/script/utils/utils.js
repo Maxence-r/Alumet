@@ -95,7 +95,6 @@ function getWalls() {
             </div>`;
             let userID = localStorage.getItem('userId')
             if (userID.length > 50) {
-                console.log(userID);
                 if(wall.post === true) {
                     div.innerHTML += `
                     <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Ajouter</button>
@@ -131,6 +130,16 @@ function getWalls() {
     })
     
 }
+
+
+setInterval(() => {
+    loading = document.querySelector('.loading');
+    if (loading.classList.contains('hidden')) {
+        console.log('Aucun problèmes');
+    } else {
+        window.location.reload();
+    }
+}, 10000);
 
 
 let supportedPreviewAlumet = {

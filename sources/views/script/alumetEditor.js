@@ -1,20 +1,29 @@
 
 let currentID = window.location.pathname.split('/');
-function displayAlert(title, content, button) {
+function displayAlert(title, content, button, functionToCall) {
     document.querySelector('.warning-modal').classList.add('active-warning');
     document.getElementById('warn-title').innerHTML = title;
     document.getElementById('warn-desc').innerHTML = content;
     document.getElementById('warn-button').innerHTML = button;
+    document.getElementById('warn-button').setAttribute('onclick', functionToCall + '()');
 }
 
-document.getElementById('warn-button').addEventListener('click', () => {
+function reload() {
     window.location.reload();
-})
+}
+
+function closeWarning() {
+    document.querySelector('.warning-modal').classList.remove('active-warning');
+}
+
+if (!localStorage.getItem('getStarted')) {
+    displayAlert("Bienvenue sur Alumet", "Nous n'attendions plus que vous ! Bienvenue sur le mode édition. Vous pouvez envoyer ce lien aux élèves, qui seront redirigés vers leur espace. Alors, allons-y et créons quelque chose de magnifique ensemble !", "C'est parti !", "closeWarning");
+    localStorage.setItem('getStarted', true);
+}
 
 socket.on(`warn-${localStorage.getItem('userId')}`, data => {
-    console.log(data);
     if(data === currentID[3]) return;
-    displayAlert("Impossible de continuer", "Vous ne pouvez pas modifier plusieurs alumets en même temps", "Utiliser celui ci");
+    displayAlert("Impossible de continuer", "Vous ne pouvez pas modifier plusieurs alumets en même temps", "Utiliser celui ci", "reload");
 })
 
 
@@ -38,7 +47,6 @@ document.querySelector('.s-create').addEventListener('click', () => {
     .then(response => response.json())
     .then(data => {
         if (!data.error) {
-            console.log(data);
             closeModal('cs')
             getWalls();
         }
@@ -256,7 +264,7 @@ document.getElementById('templates').addEventListener('click', () => {
             }
         })
         .catch(err => {
-            console.log(err);
+            console.log("Error while fetching templates");
         });
     loaded = true;
 });
@@ -324,7 +332,6 @@ function setFirst() {
 }
 
 function modifySection(id, post) {
-    console.log(id);
     title = document.getElementById(id).innerText;
     localStorage.setItem('currentItem', id);
     document.getElementById("ms").classList.add('active-modal');
@@ -348,11 +355,13 @@ document.getElementById('add-file').addEventListener('click', () => {
 });
 
 
-fetch(`http://localhost:3000/alumet/warn/multiple/${currentID[3]}`, {
+fetch(`/alumet/warn/multiple/${currentID[3]}`, {
     method: 'POST',
     headers: {
         "Content-Type": "application/json",
     }
 }).then(res => res.json()).then(data => {
-    console.log(data);
+    if (data.error) {
+        return console.log(data.error);
+    }
 });

@@ -9,7 +9,6 @@ function progress() {
         let prenom = document.getElementById("prenom").value
         let ae = document.getElementById("mail").value
         let mdp = document.getElementById("mdp").value
-        let message = document.getElementById("large").value
         let requete = fetch("/auth/signup", {
             method: "POST",
             headers: {
@@ -19,8 +18,7 @@ function progress() {
                 nom: nom,
                 prenom: prenom,
                 email: ae,
-                password: mdp,
-                message: message
+                password: mdp
             })
         })
         requete.then((res) => {

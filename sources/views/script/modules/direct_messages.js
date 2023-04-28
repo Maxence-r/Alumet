@@ -1,5 +1,3 @@
-console.log('direct_messages.js loaded')
-
 socket.on(`message-${localStorage.getItem('currentAlumet')}`, data => {
     let div = document.createElement('div');
         div.classList.add('user-message');

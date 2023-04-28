@@ -1,7 +1,7 @@
 {
-   "tokenC": "AACklm72ydk2qP2GMXEpOPue7uabJlE82jCpnYtYc2rd4EeQzl",
+   "tokenC": "METTRE_UNE_CHAINE_DE_CARACTERE_SECURISE_ICI",
    "authorizedModules": ["hw", "bd", "dm"],
-   "mongodbConnectString": "mongodb+srv://admin:OHdI4vfXbgNy1ZAV@alumet.knhvwib.mongodb.net/?retryWrites=true&w=majority",
+   "mongodbConnectString": "mongodb://127.0.0.1:27017/alumet",
    "supportedColor": ["default", "blue", "red", "green", "yellow", "purple", "orange"],
    "supported": {
       "pdf": "<iframe src=\"*?#toolbar=0\" frameBorder=\"0\"></iframe>",
