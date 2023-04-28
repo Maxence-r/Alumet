@@ -6,9 +6,9 @@ const Account = require('../../models/account');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { tokenC } = require('../../config.json');
+const notification = require('../../middlewares/notification');
 
-
-router.post('/send/:alumet', alumetAuth, async (req, res) => {
+router.post('/send/:alumet', alumetAuth, notification("A envoyer un message"), async (req, res) => {
     try {
       const alumetObj = await Alumet.findOne({ _id: req.params.alumet });
   

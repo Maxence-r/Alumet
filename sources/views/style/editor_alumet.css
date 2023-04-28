@@ -74,6 +74,27 @@
   background: transparent;
   border-radius: 5px;
 }
+
+#wrap-section {
+  flex-wrap: wrap;
+}
+
+#add-file {
+  min-height: 40px;
+  cursor: pointer;
+  border: 1px solid #ffffff;
+  background-color: var(--teranga-color);
+  margin-bottom: 10px;
+  color: white;
+  border-radius: 5px;
+  transition: all 0.3s ease-in;
+}
+
+#add-file:hover {
+  transform: scale(0.98);
+  filter: brightness(0.8);
+}
+
 .warning-infos {
   display: flex;
   margin-bottom: 5%;

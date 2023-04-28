@@ -466,7 +466,7 @@ body {
     flex-direction: row;
     align-items: center;
     gap: 15px;
-    width: 100%;
+    width: calc(100% - 40px);
     background: rgba(217, 217, 217, 0.05);
     padding: 20px;
 }

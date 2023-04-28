@@ -11,7 +11,10 @@ router.get('/', async (req, res) => {
         const notifications = [];
 
         for (const alumet of alumets) {
-            const alumetNotifications = await Notification.find({ alumet: alumet._id });
+            const alumetNotifications = await Notification.find({ alumet: alumet._id }).sort({ date: -1 }).limit(30);
+            alumetNotifications.forEach(notification => {
+                notification.alumet = alumet.name;
+            });
             notifications.push(...alumetNotifications);
         }
 

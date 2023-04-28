@@ -1,3 +1,23 @@
+
+let currentID = window.location.pathname.split('/');
+function displayAlert(title, content, button) {
+    document.querySelector('.warning-modal').classList.add('active-warning');
+    document.getElementById('warn-title').innerHTML = title;
+    document.getElementById('warn-desc').innerHTML = content;
+    document.getElementById('warn-button').innerHTML = button;
+}
+
+document.getElementById('warn-button').addEventListener('click', () => {
+    window.location.reload();
+})
+
+socket.on(`warn-${localStorage.getItem('userId')}`, data => {
+    console.log(data);
+    if(data === currentID[3]) return;
+    displayAlert("Impossible de continuer", "Vous ne pouvez pas modifier plusieurs alumets en même temps", "Utiliser celui ci");
+})
+
+
 document.querySelector('.s-create').addEventListener('click', () => {
     const title = document.getElementById('s-title').value;
     const checked = document.getElementById('s-checked').checked;
@@ -285,4 +305,54 @@ document.querySelector('.hw-send').addEventListener('click', async () => {
         document.querySelector('.hw-send').classList.remove('button--loading');
         closeModal("create-hw");
     });
+});
+
+function setFirst() {
+    fetch(`/api/wall/prioritize/${localStorage.getItem('currentAlumet')}/${localStorage.getItem('currentItem')}`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }).then(res => res.json()).then(data => {
+        if (!data.error) {
+            document.querySelector('.s-first').classList.remove('button--loading');
+        }
+        closeModal("ms");
+        document.querySelector('.s-first').classList.remove('button--loading');
+        getWalls()
+    })
+}
+
+function modifySection(id, post) {
+    console.log(id);
+    title = document.getElementById(id).innerText;
+    localStorage.setItem('currentItem', id);
+    document.getElementById("ms").classList.add('active-modal');
+    document.getElementById("ms").style.display = 'flex';
+    localStorage.setItem('currentItem', id);
+    document.getElementById('s-m-title').value = title;
+    if (post == 'true') {
+        document.getElementById('s-m-checked').checked = true;
+    } else {
+        document.getElementById('s-m-checked').checked = false;
+    }
+}
+
+function createSection() {
+    document.getElementById('cs').style.display = 'flex';
+    document.getElementById('cs').classList.add('active-modal');
+}
+
+document.getElementById('add-file').addEventListener('click', () => {
+    window.open('/dashboard?redirect=file', '_blank');
+});
+
+
+fetch(`http://localhost:3000/alumet/warn/multiple/${currentID[3]}`, {
+    method: 'POST',
+    headers: {
+        "Content-Type": "application/json",
+    }
+}).then(res => res.json()).then(data => {
+    console.log(data);
 });

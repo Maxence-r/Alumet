@@ -148,34 +148,6 @@ document.querySelectorAll('.color-selector > div').forEach(color => {
     })
 })
 
-
-// Modifier function
-
-function modifySection(id, post) {
-    title = document.getElementById(id).innerText;
-    localStorage.setItem('currentItem', id);
-    document.getElementById("ms").classList.add('active-modal');
-    document.getElementById("ms").style.display = 'flex';
-    localStorage.setItem('currentItem', id);
-    document.getElementById('s-m-title').value = title;
-    if (post == 'true') {
-        document.getElementById('s-m-checked').checked = true;
-    } else {
-        document.getElementById('s-m-checked').checked = false;
-    }
-}
-
-
-
-// Creator functions
-
-
-function createSection() {
-    document.getElementById('cs').style.display = 'flex';
-    document.getElementById('cs').classList.add('active-modal');
-}
-
-
 function createPost(id) {
     localStorage.setItem('currentWall', id);
     document.getElementById('cp').style.display = 'flex';

@@ -9,7 +9,7 @@ const { tokenC } = require('../../config.json');
 const jwt = require('jsonwebtoken');
 const Upload = require('../../models/upload');
 const notification = require('../../middlewares/notification');
-router.post('/:alumet/:wall', validateObjectId, alumetAuth, postLayer, notification("A crée un post"), async (req, res) => {
+router.post('/:alumet/:wall', validateObjectId, alumetAuth, postLayer, notification("A créé un post"), async (req, res) => {
   console.log(req.body.tcs);
   const post = new Post({
       title: req.body.title,
@@ -115,7 +115,7 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
     }
   });
   
-  router.patch('/:alumet/:wall/:post', validateObjectId, alumetAuth, postLayer, (req, res) => {
+  router.patch('/:alumet/:wall/:post', validateObjectId, alumetAuth, postLayer, notification("A modifié un post"), (req, res) => {
     Post.findOneAndUpdate({ _id: req.params.post }, {
         title: req.body.title,
         content: req.body.content,
@@ -130,7 +130,7 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
       .catch(error => res.json({ error }));
     });
 
-  router.delete('/:alumet/:wall/:post', validateObjectId, alumetAuth, async (req, res) => {
+  router.delete('/:alumet/:wall/:post', validateObjectId, alumetAuth, notification("A supprimé un post"), async (req, res) => {
     try {
       const alumet = await Alumet.findById(req.params.alumet);
 

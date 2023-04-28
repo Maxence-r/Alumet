@@ -50,4 +50,23 @@ router.patch('/:alumet/:wall', validateObjectId, alumetItemsAuth, (req, res) => 
     .catch(error => res.json({ error }));
 });
 
+router.get('/prioritize/:alumet/:wall', validateObjectId, alumetItemsAuth, (req, res) => {
+    if (!req.logged || req.alumetObj.owner.toString() !== req.user.id) return res.status(401).json({ error: 'Unauthorized' });
+    Wall.find({ alumet: req.params.alumet }).sort({ position: 1 }).limit(1)
+    .then(wall => {
+        console.log(wall[0])
+        if (wall.length === 0) {
+            position = 0;
+        } else {
+            position = wall[0].position + -1;
+        }
+        console.log(position)
+        Wall.findOneAndUpdate({ _id: req.params.wall }, { $set: { position: position } }, { runValidators: true })
+        .then(wall => res.status(200).json({ message: 'Wall updated' }))
+        .catch(error => res.json({ error }));
+    });
+});
+
+
+
 module.exports = router;

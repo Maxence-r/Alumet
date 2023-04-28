@@ -9,6 +9,7 @@ const validateObjectId = require('../middlewares/validateObjectId');
 const { supported } = require('../config.json');
 const alumetAuth = require('../middlewares/api/alumetAuth');
 const { supportedTemplate } = require('../config.json');
+const Post = require('../models/post');
 // Set storage engine
 const storage = multer.diskStorage({
     destination: './cdn',
@@ -165,27 +166,35 @@ router.get('/info/:id', validateObjectId, (req, res) => {
     .catch(error => res.json({ error }));
 });
 
-router.get('/delete/:id', validateObjectId, (req, res) => {
-    if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
-    Upload.find( { _id: req.params.id } )
-    .then(upload => {
-        if (upload[0].modifiable == false) return res.status(401).json({ error: 'Ce fichiers est utilisé par un de vos Alumets, impossible de le supprimer' });
-        if (!upload) return res.status(404).json({ error: 'Upload not found' });
-        if (upload[0].owner != req.user.id) return res.status(401).json({ error: 'Unauthorized' });
-        Upload.deleteOne( { _id: req.params.id } )
-        .then(() => 
-          res.json({ success: 'Upload deleted' }),
-          fs.unlink("./cdn/" + upload[0].filename, (err) => {
-            if (err) {
-              console.error(err)
-              return
-            }
-          })
-        )
-        .catch(error => res.json({ error }));
-    })
-    .catch(error => res.json({ error }));
+router.get('/delete/:id', validateObjectId, async (req, res) => {
+  try {
+    const upload = await Upload.findById(req.params.id);
+    if (!upload) {
+      return res.status(404).json({ error: 'Upload not found' });
+    }
+    if (req.logged === false) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    if (!upload.modifiable) {
+      return res.status(401).json({ error: 'This file is used by one of your Alumets and cannot be deleted' });
+    }
+    if (upload.owner.toString() !== req.user.id) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    await upload.deleteOne();
+    await Post.deleteMany({ typeContent: req.params.id });
+    fs.unlink(`./cdn/${upload.filename}`, (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+    return res.json({ success: 'Upload deleted' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Server error' });
+  }
 });
+
 
 
 router.get('/templates', (req, res) => {

@@ -18,8 +18,7 @@ const notification = (action) => {
         owner: user,
         alumet: alumet._id,
       });
-      const notificationSaved = await newNotification.save();
-      console.log("Notification created");
+      newNotification.save();
       next();
     } catch (err) {
       console.log(err);

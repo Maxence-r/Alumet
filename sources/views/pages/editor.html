@@ -50,9 +50,9 @@
       </div>
       <div class="warning-modal">
          <div class="warning-infos">
-            <h1>Oui mais non</h1>
-            <h3>Vous pourrez mais pas maintenantn par contre</h3>
-            <button>C'est noté</button>
+            <h1 id="warn-title">Oui mais non</h1>
+            <h3 id="warn-desc">Vous pourrez mais pas maintenantn par contre</h3>
+            <button id="warn-button">C'est noté</button>
          </div>
       </div>
       <div id="file-viewer" class="view-modal">
@@ -120,6 +120,7 @@
          <div class="modal-container">
             <h1>Choisir un fichier à envoyer</h1>
             <input id="search-input" placeholder="Chercher un fichier">
+            <button id="add-file">Ajouter des fichiers</button>
             <div class="files-container">
                <span id="file-waiting" class="loader-upload"></span>
             </div>
@@ -141,9 +142,12 @@
                   <div class="toggle-switch"></div>
                </label>
             </div>
-            <div class="edit-buttons">
+            <div id="wrap-section" class="edit-buttons">
                <button onclick="closeModal('ms')" id="cancel">Annuler</button>
                <button onclick="deleteWall('ms')" id="delete">Supprimer</button>
+               <button class="s-first" onclick="setFirst()" id="accent" type="button" onclick="this.classList.add('button--loading')">
+                  <span class="button__text">Mettre en première position</span>
+               </button>
                <button class="s-modify" id="accent" type="button" onclick="this.classList.add('button--loading')">
                <span class="button__text">Modifier</span>
                </button>
@@ -284,7 +288,7 @@
             </div>
             <p>Option</p>
             <div class="option">
-               <p>Seulement le professeur peut voir</p>
+               <p>Privé</p>
                <label class="toggle">
                   <input id="p-tcs" class="toggle-checkbox" type="checkbox">
                   <div class="toggle-switch"></div>
@@ -311,9 +315,9 @@
    <script src="../../script/utils/postHandler.js"></script>
    <script src="../../script/utils/teacher.js"></script>
    <script src="../../script/alumetGlobal.js"></script>
-   <script src="../../script/alumetEditor.js"></script>
    <script src="/socket.io/socket.io.js"></script>
    <script>
       const socket = io();
    </script>
+   <script src="../../script/alumetEditor.js"></script>
 </html>

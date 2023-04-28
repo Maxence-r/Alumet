@@ -147,7 +147,7 @@ document.getElementById('file-input').addEventListener('change', (e) => {
           <img src="../assets/app/label.svg" alt="label"><span>${file.name}</span>
         </div>
         <div class="info">
-          <img src="../assets/app/size.svg" alt="size">${file.size / 1048000000} MB
+          <img src="../assets/app/size.svg" alt="size">${(file.size / 1048576).toFixed(2)} MB
         </div>
         <div class="quick-actions">
             <div onclick="removeFile('${file.name}', '${files}')" class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
@@ -224,7 +224,7 @@ function getFiles() {
                     <img src="../assets/app/label.svg" alt="label">${file.displayname}
                 </div>
                     <div class="info">
-                <img src="../assets/app/size.svg" alt="size">${file.filesize / 10000} MB
+                <img src="../assets/app/size.svg" alt="size">${(file.filesize / 1048576).toFixed(2)} MB
                     </div>
                 <div class="quick-actions">
                 <div onclick="deleteFile('${file._id}')" class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
@@ -448,6 +448,25 @@ function editDocument(id) {
     })
 }
 
+function relativeTime(timestamp) {
+    const now = new Date();
+    const date = new Date(timestamp);
+
+    const diffInMs = now - date;
+    const diffInMinutes = Math.floor(diffInMs / 60000);
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+
+    if (diffInMinutes < 60) {
+        return "Il y a " + diffInMinutes + "min";
+    } else if (diffInHours < 24) {
+        return "Il y a " + diffInHours + "h";
+    } else {
+        return "Il y a " + diffInDays + "j";
+    }
+  }
+  
+
 function getAlumets() {
     fetch('/alumet/all')
       .then(res => res.json())
@@ -462,15 +481,10 @@ function getAlumets() {
             alumetDiv.classList.add('alumet');
             alumetDiv.style.backgroundImage = `url(/cdn/u/${alumet.background})`;
             alumetDiv.setAttribute('onclick', `openAlumet('${alumet._id}')`);
-            const lastUsage = new Date(alumet.lastUsage);
-            const timeDiff = new Date() - lastUsage;
-            const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
-            const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
-            const timeAgo = hoursDiff > 0 ? `${hoursDiff}h ago` : `${minutesDiff}m ago`;
             alumetDiv.innerHTML = `
             <div class="alumet-infos">
                 <h3 class="alumet-title">${alumet.name.substring(0, 75)}</h3>
-                <h4 class="alumet-last-use">${timeAgo}</h4>
+                <h4 class="alumet-last-use">${relativeTime(alumet.lastUsage)}</h4>
             </div>
             `;
             document.getElementById('open-alumet').appendChild(alumetDiv);
@@ -539,3 +553,35 @@ document.getElementById('close-modal-choose').addEventListener('click', () => {
     document.querySelector('.modal-choose').style.display = 'none';
 });
 
+function getNotifications() {
+    fetch('/api/notifications')
+        .then(res => res.json())
+        .then(data => {
+            if (data.length > 0) {
+                document.querySelector('.notifications-container').innerHTML = '';
+            }
+            data.forEach(notification => {
+                let notifDiv = document.createElement('div');
+                notifDiv.classList.add('notification');
+                notifDiv.innerHTML = `
+                <div class="info">
+                  <img src="../assets/app/action.svg" alt="arborescence de fichiers">${notification.action}
+                </div>
+                <div class="info responsive">
+                  <img src="../assets/app/path.svg" alt="path">${notification.alumet}
+                </div>
+                <div class="info">
+                  <img src="../assets/app/time.svg" alt="sablier">${relativeTime(notification.date)}
+                </div>
+                <div id="user" class="info">
+                  <img src="../assets/app/user.svg" alt="icon d'utilisateur">${notification.owner}
+                </div>`;
+                document.querySelector('.notifications-container').appendChild(notifDiv);
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+getNotifications();

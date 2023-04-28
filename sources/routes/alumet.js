@@ -8,6 +8,7 @@ const { authorizedModules } = require('../config.json');
 const mongoose = require('mongoose');
 const validateObjectId = require('../middlewares/validateObjectId');
 const path = require('path');
+const alumetItemsAuth = require('../middlewares/api/alumetItemsAuth');
 
 const storage = multer.diskStorage({
   destination: './cdn',
@@ -33,6 +34,18 @@ const upload = multer({
     }
     callback(null, true)
   }
+});
+
+router.post('/warn/multiple/:alumet', alumetItemsAuth, async (req, res) => {
+  if (!req.logged || req.alumetObj.owner !== req.user._id.toString()) {
+    return res.status(401).json({
+      error: 'Unauthorized'
+    });
+  }
+  global.io.emit(`warn-${req.user._id}`,req.params.alumet);
+  res.json({
+    message: 'Warned'
+  });
 });
 
 
