@@ -407,7 +407,7 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
                     })
                     .then(res => {
                         if (!res.ok) {
-                            throw new Error('Une erreur est survenue, si le problème persiste contactez nous.');
+                            throw new Error('Une erreur est survenue. Si le problème persiste contactez nous.');
                         } else {
                             return res.json();
                         }

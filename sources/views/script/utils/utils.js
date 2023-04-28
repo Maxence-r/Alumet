@@ -119,10 +119,11 @@ function getWalls() {
         try {
             enableDrag();
         } catch (error) {}
-        initModules();
     })
     
 }
+
+initModules();
 let supportedPreviewAlumet = {
     "pdf": "<img loading=\"lazy\" src=\"/preview/pdf?url=*\">",
     "png": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
