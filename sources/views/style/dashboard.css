@@ -256,6 +256,13 @@ body {
     display: none;
 }
 
+.informations > p {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 300;
+    margin: 0;
+}
+
 .parametres {
     flex-direction: column;
     width: 100%;
