@@ -25,7 +25,7 @@ document.querySelector('.modules-container').innerHTML += `
     <div id="conversation" class="conversation">
     </div>
     <div class="module-footer">
-        <input id="message-input" type="text" placeholder="Type a message" class="message-input">
+        <input id="message-input" type="text" placeholder="Envoyer un message" class="message-input">
         <button class="l-preview send-button" id="accent" type="button" onclick="this.classList.add('button--loading')">
             <span class="button__text"><img class="img-preview" src="../../assets/app/open.svg"></span>
         </button>

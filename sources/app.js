@@ -22,6 +22,7 @@ const homeworks = require('./routes/modules/homeworks');
 
 const wall = require('./routes/api/wall');
 const post = require('./routes/api/post');
+const notifications = require('./routes/api/notifications');
 // Definition des outils
 
 app.use(cookieParser());
@@ -64,6 +65,7 @@ app.use('/preview', preview)
 // routes api
 app.use('/api/wall', wall);
 app.use('/api/post', post); 
+app.use('/api/notifications', notifications);
 
 // routes modules
 app.use('/api/dm', direct_messages);

@@ -31,6 +31,7 @@ function init() {
         }
         localStorage.setItem('name', data.finalAlumet.name);
         localStorage.setItem('userId', data.user._id);
+        initModules();
     })
 }
 
@@ -60,7 +61,15 @@ function initModules() {
                 link2.href = '../../style/modules/homeworks.css';
                 document.head.appendChild(link2);
                 break;
-            
+            case 'bd':
+                const script3 = document.createElement('script');
+                script3.src = '../../script/modules/board.js';
+                document.body.appendChild(script3);
+                const link3 = document.createElement('link');
+                link3.rel = 'stylesheet';
+                link3.href = '../../style/modules/board.css';
+                document.head.appendChild(link3);
+                break;
         }
     }) 
 }
@@ -123,7 +132,7 @@ function getWalls() {
     
 }
 
-initModules();
+
 let supportedPreviewAlumet = {
     "pdf": "<img loading=\"lazy\" src=\"/preview/pdf?url=*\">",
     "png": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",

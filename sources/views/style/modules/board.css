@@ -1,0 +1,13 @@
+#bd {
+    height: 20%;
+}
+
+#warn {
+    font-size: 14px;
+    color: rgb(211, 211, 211);
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

@@ -7,8 +7,8 @@
 
 .setting {
     position: absolute;
-    right: 20px;
     bottom: 20px;
+    right: 20px;
     z-index: 800;
     display: flex;
     flex-direction: row;
@@ -27,6 +27,61 @@
 .setting:hover {
     background-color: rgba(67, 66, 66, 0.8);
     transform: scale(1.05);
+}
+
+.warning-modal {
+  position: absolute;
+  transform: translateY(100%);
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 21000;
+  height: 100%;
+  background: rgb(2,0,36);
+  background: linear-gradient(180deg, rgba(2,0,36,0) 0%, rgba(0,0,0,1) 100%);
+  transition: all 0.3s ease-in-out;
+}
+
+.active-warning {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  transform: translateY(0%);
+}
+
+.warning-infos > h1 {
+  margin: 0;
+  font-size: 60px;
+  font-weight: 500;
+  color: white;
+}
+
+.warning-infos > h3 {
+  font-size: 30px;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-weight: 400;
+  color: white;
+}
+
+.warning-infos > button {
+  margin-top: 20px;
+  cursor: pointer;
+  height: 50px;
+  border: 1px solid white;
+  color: white;
+  background: transparent;
+  border-radius: 5px;
+}
+.warning-infos {
+  display: flex;
+  margin-bottom: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+  max-width: 70%;
+  flex-direction: column;
+  align-self: flex-end;
 }
 
 .alumet-p-preview {
@@ -223,6 +278,12 @@
     margin-bottom: 10px;
 }
 
+.teacher-hw-layer {
+  display: flex !important;
+}
+.module-header > button {
+  display: block !important;
+}
   
 @media screen and (max-width: 1200px) {
   .setting {

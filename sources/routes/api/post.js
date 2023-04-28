@@ -8,8 +8,8 @@ const Alumet = require('../../models/alumet');
 const { tokenC } = require('../../config.json');
 const jwt = require('jsonwebtoken');
 const Upload = require('../../models/upload');
-
-router.post('/:alumet/:wall', validateObjectId, alumetAuth, postLayer, async (req, res) => {
+const notification = require('../../middlewares/notification');
+router.post('/:alumet/:wall', validateObjectId, alumetAuth, postLayer, notification("A crée un post"), async (req, res) => {
   console.log(req.body.tcs);
   const post = new Post({
       title: req.body.title,

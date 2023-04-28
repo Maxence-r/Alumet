@@ -249,3 +249,40 @@ function chooseTemplate(id) {
     document.getElementById('p-a-file').value = '';
     closeModal('choose-template')
 }
+
+function createHw() {
+    document.getElementById('create-hw').style.display = 'flex';
+    document.getElementById('create-hw').classList.add('active-modal');
+}
+
+document.querySelector('.hw-send').addEventListener('click', async () => {
+    let content = document.getElementById('hw-c').value;
+    let time = document.getElementById('hw-d').value;
+    if (!content || !time) {
+        document.querySelector('h.w-send').classList.remove('button--loading');
+        return alert('Spécifier le contenu et la date');
+    }
+    if (content.length > 500 || content.includes('<')) {
+        document.querySelector('.hw-send').classList.remove('button--loading');
+        return alert('Contenu invalide');
+    }
+    fetch(`/api/homeworks/add/${localStorage.getItem('currentAlumet')}`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            content,
+            time
+        })
+    }).then(res => res.json()).then(data => {
+        getHomeworks();
+        if (data.error) {
+            document.querySelector('.hw-send').classList.remove('button--loading');
+            return alert(data.error);
+            
+        }
+        document.querySelector('.hw-send').classList.remove('button--loading');
+        closeModal("create-hw");
+    });
+});

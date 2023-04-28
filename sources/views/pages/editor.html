@@ -48,6 +48,13 @@
       <div onclick="editAlumet()" class="setting">
          <img src="../../assets/app/setting.svg" alt="Settings">
       </div>
+      <div class="warning-modal">
+         <div class="warning-infos">
+            <h1>Oui mais non</h1>
+            <h3>Vous pourrez mais pas maintenantn par contre</h3>
+            <button>C'est noté</button>
+         </div>
+      </div>
       <div id="file-viewer" class="view-modal">
          <div class="file-header">
             <h1 class="file-title"><img src="../../assets/app/label.svg"><span>Loading...</span></h1>
@@ -94,7 +101,7 @@
             <input id="hw-d"  type="date" placeholder="Date limite">
             <div class="edit-buttons">
                <button onclick="closeModal('create-hw')" id="cancel">Annuler</button>
-               <button class="m-p-b" id="accent" type="button" onclick="this.classList.add('button--loading')">
+               <button class="hw-send" id="accent" type="button" onclick="this.classList.add('button--loading')">
                <span class="button__text">Créer</span>
                </button>
             </div>

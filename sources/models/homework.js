@@ -10,7 +10,11 @@ const HomeworkSchema = mongoose.Schema({
     time : {
         type: Date,
         required: true,
-        default: Date.now
+    },
+    alumet: {
+        type: String,
+        required: true,
+        minLength: 2,
     }
 });
 

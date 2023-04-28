@@ -147,7 +147,7 @@ document.getElementById('file-input').addEventListener('change', (e) => {
           <img src="../assets/app/label.svg" alt="label"><span>${file.name}</span>
         </div>
         <div class="info">
-          <img src="../assets/app/size.svg" alt="size">${file.size / 1000} MB
+          <img src="../assets/app/size.svg" alt="size">${file.size / 1048000000} MB
         </div>
         <div class="quick-actions">
             <div onclick="removeFile('${file.name}', '${files}')" class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
