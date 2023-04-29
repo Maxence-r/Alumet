@@ -25,7 +25,7 @@ Vous pouvez consulter la version en ligne d'Alumet à l'adresse https://alumet.i
 ### Projet en général
 - f = fortnight soit 15 jours (f2/05/23 = deux dernières semaines de mai)
 - w = week (w1/05/23 = première semaine de mai)
-| Data      | Evenement     | Status                     | Version 
+| Data      | Evenement     | Status                     | Version | 
 | :-------- | :-------      | :------------------------- |:------------------------- |
 | 28/04/23 | Rendu du projet aux trophées NSI | Fait | 1.0
 | 01/05/23 | Fin du developpement de la V1.1| En cours | 1.1
