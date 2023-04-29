@@ -45,7 +45,8 @@ Vous pouvez consulter la version en ligne d'Alumet à l'adresse https://alumet.i
 
 
 
-### Version
+### Versions
+Vous pouvez consulter la feuille de route des ameiliorations et des corrections de bugs sur le [notre Alumet](https://www.alumet.io/portal/644ceac3a200f23b168d6635).
 
 A venir
 
