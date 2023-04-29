@@ -217,7 +217,9 @@ router.patch('/update/:id', validateObjectId, async (req, res) => {
         if (req.body.background) {
           alumet.background = req.body.background;
         }
-        alumet.password = req.body.password;
+        if (req.body.password) {
+          alumet.password = req.body.password;
+        }
         alumet.name = req.body.name;
         alumet.modules = req.body.modules;
         alumet.blur = req.body.blur;
