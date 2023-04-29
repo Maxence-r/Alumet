@@ -95,12 +95,12 @@ function getWalls() {
             if (userID.length > 50) {
                 if(wall.post === true) {
                     div.innerHTML += `
-                    <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Ajouter</button>
+                    <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Ajouter une publication</button>
                     `
                 }
             } else {
                 div.innerHTML += `
-                <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Ajouter</button>
+                <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Ajouter une publication</button>
                 `
             }
             div.innerHTML += `
