@@ -343,7 +343,7 @@ pre {
 
 .post-scroll {
     overflow-y: auto;
-    height: calc(100% - 120px);
+    height: calc(100% - 60px);
 }
 
 .modal-container > h1 {
