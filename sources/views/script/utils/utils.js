@@ -29,6 +29,7 @@ function init() {
         }
         localStorage.setItem('name', data.finalAlumet.name);
         localStorage.setItem('userId', data.user._id);
+        getWalls();
         initModules();
     })
 }
@@ -129,15 +130,6 @@ function getWalls() {
     
 }
 
-
-setInterval(() => {
-    loading = document.querySelector('.loading');
-    if (loading.classList.contains('hidden')) {
-        console.log('Aucun problèmes');
-    } else {
-        window.location.reload();
-    }
-}, 10000);
 
 
 let supportedPreviewAlumet = {
@@ -270,4 +262,3 @@ function createPostHtml(post, wallId, postFirst) {
                     }
 }
 
-getWalls();

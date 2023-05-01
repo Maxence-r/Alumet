@@ -31,9 +31,10 @@ body {
     display: flex;
     flex-direction: row; 
     z-index: 100;
-    height: 100%;
+    height: calc(100vh - 40px);
     overflow-x: auto;
     overflow-y: hidden;
+    gap: 20px;
 }
 
 .background-image {
@@ -80,7 +81,8 @@ body {
 }
 
 .wall {
-    margin-right: 20px;
+    min-width: 272px;
+    max-width: 272px;
 }
 
 #dots-absolute {
@@ -96,9 +98,6 @@ body {
     border-radius: 5px;
     background-color: var(--main-color);
     padding: 8px;
-    margin-bottom: 15px;
-    width: 254px;
-    min-width: 254px;
     transition: transform 0.5s ease;
 }
 
@@ -174,8 +173,6 @@ pre {
 }
 
 .wall-header {
-    min-width: 254px;
-    max-width: 254px;
     background-color: var(--main-color);
     border-radius: 5px;
     padding: 8px;
@@ -191,7 +188,7 @@ pre {
     font-size: 18px;
     font-weight: 600;
     margin: 0;
-    word-wrap: break-word;
+    overflow-wrap: anywhere;
 }
 
 .modal {
@@ -302,7 +299,7 @@ pre {
 .file-container > img {
     width: 100%;
     height: 100%;
-    max-height: 200px;
+    max-height: 550px;
     object-fit: cover;
     border-radius: 5px;
     object-position: top;
@@ -310,6 +307,7 @@ pre {
 
 .file-container > video {
     width: 100%;
+    pointer-events: none;
 }
 
 .file-container > audio {
@@ -344,7 +342,10 @@ pre {
 .post-scroll {
     overflow-y: auto;
     overflow-x: hidden;
-    height: calc(100% - 120px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .modal-container > h1 {
@@ -594,10 +595,10 @@ p.file-name {
 
 .modules-container {
     display: flex;
-    margin-left: auto;
     flex-direction: column;
-    z-index: 500;
     gap: 10px;
+    z-index: 500;
+    margin-left: auto;
 }
 
 .module-header {
@@ -615,7 +616,7 @@ p.file-name {
     display: flex;
     flex-direction: column;
     width: 275px;
-    height: 50%;
+    height: calc(50% - 5px);
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
     border-radius: 10px;
@@ -944,7 +945,6 @@ p.file-name {
  
   .view-modal {
     display: none;
-    transform: translateY(100%);
     flex-direction: column;
     width: 100vw;
     height: 100vh;

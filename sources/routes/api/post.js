@@ -23,8 +23,7 @@ router.post('/:alumet/:wall', validateObjectId, alumetAuth, postLayer, notificat
         color: req.body.color,
         tcs: req.body.tcs,
         position: req.position,
-        wallId: req.params.wall,
-        visible: req.body.tcs
+        wallId: req.params.wall
     });
     post.save()
         .then(async (post) => {
@@ -104,7 +103,7 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
                 }
                 const decodedToken = jwt.verify(post.owner, tokenC);
                 editedPost.owner = decodedToken.username;
-            } else if (req.logged) {
+            } else if (req.logged && req.user.id == post.owner) {
                 editedPost.owning = true;
             }
             if (post.type === 'file') {
@@ -204,86 +203,7 @@ router.delete('/:alumet/:wall/:post', validateObjectId, alumetAuth, notification
 
 
 
-router.put('/move/:alumet/:postId', alumetAuth, async (req, res) => {
-    const alumet = await Alumet.findById(req.params.alumet);
 
-    if (!alumet) {
-        return res.status(404).json({
-            error: 'Unable to proceed your requests'
-        });
-    }
-
-    if (!req.logged && !req.auth) {
-        return res.status(404).json({
-            error: 'Unauthorized x000'
-        });
-    }
-
-    if (req.logged && alumet.owner !== req.user.id) {
-        return res.status(404).json({
-            error: 'Unauthorized'
-        });
-    }
-
-    try {
-        const {
-            postId
-        } = req.params;
-        const {
-            min,
-            max
-        } = req.body;
-
-        const post = await Post.findById(postId);
-        if (!post) {
-            return res.status(404).json({
-                error: 'Post not found'
-            });
-        }
-
-        if (min === max) {
-            return res.status(400).json({
-                error: 'No changes'
-            });
-        }
-
-        if (min > max) {
-            await Post.updateMany({
-                position: {
-                    $gte: max,
-                    $lte: min
-                }
-            }, {
-                $inc: {
-                    position: 1
-                }
-            });
-        } else {
-            await Post.updateMany({
-                position: {
-                    $gte: min,
-                    $lte: max
-                }
-            }, {
-                $inc: {
-                    position: -1
-                }
-            });
-        }
-
-        post.position = max;
-        await post.save();
-
-        res.json({
-            message: 'Post positions updated'
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: 'Internal server error'
-        });
-    }
-});
 
 
 

@@ -360,6 +360,7 @@ body {
 
 
 .alumet-infos h3 {
+    overflow-wrap: anywhere;
     margin-top: 10px;
     margin-left: 10px;
     margin-bottom: 0;
@@ -436,7 +437,6 @@ body {
     font-size: 14px;
     font-weight: 300;
     overflow-wrap: anywhere;
-    min-width: 80px;
 }
 
 .info img {

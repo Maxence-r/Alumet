@@ -264,7 +264,7 @@ function openDocument(id) {
         .then(res => res.json())
         .then(data => {
             document.getElementById('delete-file').setAttribute('onclick', `deleteFile('${id}')`);
-            document.querySelector('.file-title > span').innerHTML = data.response.displayname;
+            document.querySelector('.file-title > span').innerText = data.response.displayname;
             document.getElementById('file-loading').style.display = 'none';
             if (supported[data.response.mimetype]) {
                 let x = supported[data.response.mimetype].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${id}#toolbar=0&navpanes=0`);
@@ -288,7 +288,7 @@ function closeViewer() {
 }
 
 function deleteFile(id) {
-    if (!confirm('Are you sure you want to delete this file?')) return;
+    if (!confirm('Voulez vous vraiment supprimer ce fichier ?')) return;
     fetch(`/cdn/delete/${id}`)
         .then(res => res.json())
         .then(data => {
@@ -312,8 +312,8 @@ localStorage.removeItem('template');
 document.getElementById('alumet-setup-continue').addEventListener('click', () => {
     switch (activeStep) {
         case 1:
-            if (document.getElementById('alumet-name').value.length < 2) {
-                return alert('Veuillez entrer un nom assez long.');
+            if (document.getElementById('alumet-name').value.length < 2 || document.getElementById('alumet-name').value.includes('<')) {
+                return alert('Veuillez entrer un nom assez long. Sans "<"');
             } else {
                 document.querySelector('.step1').style.display = 'none';
                 document.querySelector('.step2').style.display = 'flex';

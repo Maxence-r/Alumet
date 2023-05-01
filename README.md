@@ -14,6 +14,10 @@ L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pou
 
 Vous pouvez consulter la version en ligne d'Alumet à l'adresse https://alumet.io
 
+## Installation
+
+Vous pouvez installer le projet localement en suivant la catégorie installation de la documentation.
+Il est recommandé d'utiliser la version en ligne d'Alumet afin de profiter des performances optimal et d'un version entiièrement stable.
 
 ## Documentation
 
@@ -42,16 +46,18 @@ Vous pouvez consulter la version en ligne d'Alumet à l'adresse https://alumet.i
 | f1/09/23  | Sortie officielle Alumet                   | Planifié | 2.0     |
 
 
-
-
+### Historiques des commits
+| Date      | Contenu                                   |
+| :-------- | :---------------------------------------- |
+| 30/04/23  | Amméiloration de l'UX sur les alumets (prend toute la taille), developpement du module Tableau toujours en cours, corrections de moultes bogs, optimisation des performances sur les appareils peut performants |
 
 ### Versions
 Vous pouvez consulter la feuille de route des ameiliorations et des corrections de bugs sur le [notre Alumet](https://www.alumet.io/portal/644ceac3a200f23b168d6635).
 
 A venir
 
-| Version | Ajout     | Status                       |
+| Version | Ajouts     | Status                            |
 | :-------- | :------- | :-------------------------------- |
-| ---      | --- | --- |
+| ---       | ---      | ---                               |
 
 

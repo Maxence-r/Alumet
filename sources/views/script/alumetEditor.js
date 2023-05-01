@@ -2,9 +2,9 @@
 let currentID = window.location.pathname.split('/');
 function displayAlert(title, content, button, functionToCall) {
     document.querySelector('.warning-modal').classList.add('active-warning');
-    document.getElementById('warn-title').innerHTML = title;
-    document.getElementById('warn-desc').innerHTML = content;
-    document.getElementById('warn-button').innerHTML = button;
+    document.getElementById('warn-title').innerText = title;
+    document.getElementById('warn-desc').innerText = content;
+    document.getElementById('warn-button').innerText = button;
     document.getElementById('warn-button').setAttribute('onclick', functionToCall + '()');
 }
 
@@ -112,8 +112,8 @@ function editAlumet() {
             });
             document.getElementById("bright-range").value = data.finalAlumet.brightness.$numberDecimal;
             document.getElementById("blur-range").value = data.finalAlumet.blur.$numberDecimal;
-            document.getElementById("blur-level").innerHTML = data.finalAlumet.blur.$numberDecimal;
-            document.getElementById("bright-level").innerHTML = data.finalAlumet.brightness.$numberDecimal;
+            document.getElementById("blur-level").innerText = data.finalAlumet.blur.$numberDecimal;
+            document.getElementById("bright-level").innerText = data.finalAlumet.brightness.$numberDecimal;
             document.getElementById("p-a").style.display = "flex";
             document.getElementById("p-a").classList.add('active-modal');
             if (data.finalAlumet.hasPassword === true) {
@@ -125,23 +125,24 @@ function editAlumet() {
 
 let blurRange = document.getElementById("blur-range");
 var outputBlurRange = document.getElementById("blur-level");
-outputBlurRange.innerHTML = blurRange.value;
+outputBlurRange.innerText = blurRange.value;
 
 blurRange.oninput = function() {
-    outputBlurRange.innerHTML = this.value;
+    outputBlurRange.innerText = this.value;
     document.querySelector('.layer-p-preview').style.backdropFilter = `blur(${this.value}px) brightness(${document.getElementById("bright-range").value})`;
 }   
 
 let brightRange = document.getElementById("bright-range");
 var outputBrightRange = document.getElementById("bright-level");
-outputBrightRange.innerHTML = brightRange.value;
+outputBrightRange.innerText = brightRange.value;
 
 brightRange.oninput = function() {
-    outputBrightRange.innerHTML = this.value;
+    outputBrightRange.innerText = this.value;
     document.querySelector('.layer-p-preview').style.backdropFilter = `blur(${document.getElementById("blur-range").value}px) brightness(${this.value})`;
 }   
 
 document.querySelector('.p-a-modify').addEventListener('click', () => {
+    console.log('ok')
     let file = document.getElementById('p-a-file') ? document.getElementById('p-a-file').files[0] : null;
     let title = document.getElementById('a-p-title').value;
     let password = document.getElementById('a-p-password').value;

@@ -11,17 +11,20 @@ fetch(`/alumet/info/${path}`, {
 })
 .then(response => response.json())
 .then(data => {
+    if (data.error) {
+        window.location.href = '/404';
+    }
     if (!data.finalAlumet.hasPassword) {
         enter();
     }
     document.getElementById('img').src = '/cdn/u/' + data.finalAlumet.background;
-    document.querySelector('.alumet-infos h1').innerHTML = data.finalAlumet.name.substring(0, 75)
+    document.querySelector('.alumet-infos h1').innerText = data.finalAlumet.name.substring(0, 75)
     const lastUsage = new Date(data.finalAlumet.lastUsage);
     const timeDiff = new Date() - lastUsage;
     const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
     const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
-    const timeAgo = hoursDiff > 0 ? `${hoursDiff}h ago` : `${minutesDiff}m ago`;
-    document.getElementById('time').innerHTML = timeAgo;
+    const timeAgo = hoursDiff > 0 ? `Il y a ${hoursDiff}h` : `Il y a ${minutesDiff}m`;
+    document.getElementById('time').innerText = timeAgo;
     if (data.finalAlumet.theme == 'dark') {
         document.querySelector('.alumet-infos h1').style.color = 'dark';
         document.querySelector('.alumet-infos h3').style.color = 'dark';
@@ -38,7 +41,7 @@ fetch(`/alumet/info/${path}`, {
     })
     .then(response => response.json())
     .then(data => {
-        document.getElementById('owner').innerHTML = data.prenom + ' ' + data.nom;
+        document.getElementById('owner').innerText = data.prenom + ' ' + data.nom;
     })
 })
 .catch(error => {

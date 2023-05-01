@@ -14,9 +14,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
                 _id: req.params.id
             });
             if (!alumet) {
-                return res.status(404).json({
-                    error: 'Alumet not found'
-                });
+                return res.redirect('/404');
             }
             if (alumet.owner.toString() === req.user.id) {
                 res.clearCookie('alumetToken');

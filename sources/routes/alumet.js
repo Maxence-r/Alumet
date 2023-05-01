@@ -219,6 +219,8 @@ router.patch('/update/:id', validateObjectId, async (req, res) => {
         }
         if (req.body.password) {
           alumet.password = req.body.password;
+        } else if (req.body.password === null) {
+          alumet.password = undefined;
         }
         alumet.name = req.body.name;
         alumet.modules = req.body.modules;
@@ -261,34 +263,32 @@ router.get('/all', async (req, res) => {
 
 
 router.get('/info/:id', validateObjectId, async (req, res) => {
-    Alumet.findOne({
-        _id: req.params.id
-    }).then(alumet => {
-        if (!alumet) {
-            return res.status(404).json({
-                error: 'Alumet not found'
-            });
-        }
-        let finalAlumet = alumet.toObject();
-        if (alumet.password) {
-            finalAlumet.hasPassword = true;
-        } else {
-            finalAlumet.hasPassword = false;
-        }
-        if (req.cookies.alumetToken) {
-          req.user = {_id: req.cookies.alumetToken}
-        }
-        res.json({
-            finalAlumet,
-            user: req.user
-        });
-    }).catch(error => {
-        console.log(error);
-        res.status(500).json({
-            error: 'Failed to get alumet'
-        });
+  try {
+    const alumet = await Alumet.findOne({
+      _id: req.params.id
     });
+    if (!alumet) {
+      return res.status(404).json({
+        error: 'Alumet not found'
+      });
+    }
+    let finalAlumet = alumet.toObject();
+    finalAlumet.hasPassword = Boolean(alumet.password);
+    if (req.cookies.alumetToken) {
+      req.user = { _id: req.cookies.alumetToken };
+    }
+    res.json({
+      finalAlumet,
+      user: req.user
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: 'Failed to get alumet'
+    });
+  }
 });
+
 
 
 

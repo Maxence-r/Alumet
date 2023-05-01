@@ -86,6 +86,7 @@ document.querySelector('.p-post').addEventListener('click', () => {
         localStorage.removeItem('postColor');
       });
     }
+    localStorage.removeItem('postOption');
   });
   
   

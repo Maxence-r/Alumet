@@ -18,6 +18,9 @@ function editPost(id) {
     document.getElementById('patch-post').classList.add('active-modal');
 } 
 
+
+  
+
 document.querySelector('.m-p-b').addEventListener('click', () => {
     let postTitle = document.getElementById('m-p-t').value;
     let postContent = document.getElementById('m-p-c').value;
@@ -123,6 +126,9 @@ document.querySelector('.l-preview').addEventListener('click', async (e) => {
     try {
       const res = await fetch(`/preview/meta?url=${linkInputValue}`);
       const data = await res.json();
+      function replaceAll(str, find, replace) {
+        return str.replace(new RegExp(find, 'g'), replace);
+      }
       document.getElementById('preview-title').innerText = data.title ? replaceAll(data.title, "$", "") : 'Pas de titre trouvé';
       document.getElementById('preview-description').innerText = data.description ? replaceAll(data.description, "<", "") : 'Pas de description trouvée';
       document.getElementById('preview-image').src = data.image ? data.image : '../../assets/app/no-preview.png';
@@ -222,7 +228,7 @@ slider.forEach(slider => {
 });
 
 function closeViewer() {
-    document.querySelector('.view-modal').style.transform = 'translateY(110%)';
+    document.getElementById('file-viewer').style.display = 'none';
     const elementToRemoveAfter = document.querySelector(".file-header");
     let nextElement = elementToRemoveAfter.nextElementSibling;
     while (nextElement !== null) {
@@ -232,8 +238,8 @@ function closeViewer() {
 }
 function openFile(id, name, ext) {
     document.getElementById('download-file').setAttribute('onclick', `downloadFile("./../../cdn/u/${id}")`);
-    document.querySelector('.view-modal').style.display = 'flex'; 
-    document.querySelector('.view-modal').style.transform = 'translateY(0)'; 
+    document.getElementById('file-viewer').style.display = 'flex'; 
+    document.getElementById('file-viewer').style.transform = 'translateY(0)'; 
     document.querySelector('.file-title > span').innerText = name.substring(0, 20);
     if (supported[ext]) {
         let x = supported[ext].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${id}#toolbar=0&navpanes=0`);

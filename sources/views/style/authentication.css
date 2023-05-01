@@ -140,6 +140,7 @@ input {
 }
 
 .alumet-infos h3 {
+    overflow-wrap: anywhere;
     line-break: anywhere;
     font-weight: 200;
     font-size: 16px;

@@ -41,11 +41,6 @@ const PostSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    visible: {
-        type: Boolean,
-        required: true,
-        default: true
-    }, 
     tcs: {
         type: Boolean,
         required: true,
