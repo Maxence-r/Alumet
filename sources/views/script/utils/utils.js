@@ -199,6 +199,7 @@ function createPostHtml(post, wallId, postFirst) {
                             filePreview.setAttribute('onclick', `openFile("${post.typeContent}", "${post.fileName}", "${post.fileExt}")`);
                             let fileContainer = document.createElement('div');
                             fileContainer.classList.add('file-container');
+                            fileContainer.id = post.fileExt;
                             if (supportedPreviewAlumet[post.fileExt]) {
                                 fileContainer.innerHTML = `${supportedPreviewAlumet[post.fileExt].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${post.typeContent}`)}`;
                             } else {

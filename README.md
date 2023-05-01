@@ -47,9 +47,9 @@ Il est recommandé d'utiliser la version en ligne d'Alumet afin de profiter des 
 
 
 ### Historiques des commits
-| Date      | Contenu                                   |
-| :-------- | :---------------------------------------- |
-| 30/04/23  | Amméiloration de l'UX sur les alumets (prend toute la taille), developpement du module Tableau toujours en cours, corrections de moultes bogs, optimisation des performances sur les appareils peut performants |
+| Date      | Contenu                                   | Version  |
+| :-------- | :---------------------------------------- | :------- |
+| 30/04/23  | Amméiloration de l'UX sur les alumets (prend toute la taille), developpement du module Tableau toujours en cours, corrections de moultes bogs, optimisation des performances sur les appareils peut performants | 1.0.1    |
 
 ### Versions
 Vous pouvez consulter la feuille de route des ameiliorations et des corrections de bugs sur le [notre Alumet](https://www.alumet.io/portal/644ceac3a200f23b168d6635).
