@@ -11,17 +11,17 @@ function init() {
     .then(response => response.json())
     .then(data => {
         localStorage.setItem('currentAlumet', data.finalAlumet._id);
-        document.querySelector('.background-image').style.backgroundImage = `url("/cdn/u/${data.finalAlumet.background}")`;
+        document.querySelector('.background-image').src = `/cdn/u/${data.finalAlumet.background}`;
         document.querySelector('.layer-filter').style.backdropFilter = `blur(${data.finalAlumet.blur.$numberDecimal}px) brightness(${data.finalAlumet.brightness.$numberDecimal})`;
         if (data.finalAlumet.theme == 'dark') {
             document.documentElement.style.setProperty('--main-color', '#131313');
             document.documentElement.style.setProperty('--secondary-color', '#ffffff');
-            document.documentElement.style.setProperty('--accent-color', '#cfcfcf');
         } else {
             document.documentElement.style.setProperty('--main-color', '#f1f1f1');
             document.documentElement.style.setProperty('--secondary-color', '#131313');
-            document.documentElement.style.setProperty('--accent-color', '#555555');
         }
+        document.getElementById('alumet-title').innerText = data.finalAlumet.name;
+        document.getElementById('alumet-description').innerText = data.finalAlumet.description || 'Alumet, parce que l\'éducation compte.';
         document.title = 'Alumet: ' + data.finalAlumet.name;
         localStorage.setItem('modules', JSON.stringify(data.finalAlumet.modules));
         if (data.finalAlumet.modules.length < 1) {
@@ -36,6 +36,77 @@ function init() {
 
 init();
 
+
+function getAccentColorFromImage(imgOrDiv) {
+    return new Promise((resolve, reject) => {
+      let imageUrl;
+      let isDiv = false;
+      if (imgOrDiv.tagName === 'IMG') {
+        imageUrl = imgOrDiv.src;
+      } else if (imgOrDiv.tagName === 'DIV') {
+        imageUrl = imgOrDiv.style.backgroundImage.slice(4, -1).replace(/"/g, "");
+        isDiv = true;
+      } else {
+        reject(new Error('Element is not an image or div with background image'));
+      }
+      const img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+        const pixelCount = imageData.length / 4;
+        const colorCounts = {};
+        let maxCount = 0;
+        let accentColor = [0, 0, 0];
+        for (let i = 0; i < pixelCount; i++) {
+          const r = imageData[i * 4];
+          const g = imageData[i * 4 + 1];
+          const b = imageData[i * 4 + 2];
+          const rgb = [r, g, b];
+          const key = rgb.join(',');
+          if (!colorCounts[key]) {
+            colorCounts[key] = 0;
+          }
+          colorCounts[key]++;
+          if (colorCounts[key] > maxCount) {
+            maxCount = colorCounts[key];
+            accentColor = rgb;
+          }
+        }
+        resolve(`rgb(${accentColor.join(',')})`);
+      };
+      img.onerror = () => {
+        reject(new Error('Failed to load image'));
+      };
+      if (isDiv) {
+        img.src = imageUrl;
+      } else {
+        img.src = imageUrl + '?t=' + new Date().getTime();
+      }
+    });
+  }
+  
+  const imgOrDiv = document.querySelector('.background-image');
+  
+  imgOrDiv.addEventListener('load', () => {
+    getAccentColorFromImage(imgOrDiv)
+      .then(accentColor => {
+        document.documentElement.style.setProperty('--this-color', accentColor);
+        value1 = accentColor.split(',')[0].split('(')[1];
+        value2 = accentColor.split(',')[1];
+        value3 = accentColor.split(',')[2].split(')')[0];
+        if (value1 < 200 && value2 < 200 && value3 < 200) {
+          document.documentElement.style.setProperty('--title-color', 'rgb(255, 255, 255)');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  });
 
 
 function initModules() {
@@ -96,12 +167,12 @@ function getWalls() {
             if (userID.length > 50) {
                 if(wall.post === true) {
                     div.innerHTML += `
-                    <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Ajouter une publication</button>
+                    <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Ajouter</button>
                     `
                 }
             } else {
                 div.innerHTML += `
-                <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Ajouter une publication</button>
+                <button onclick="createPost('${wall._id}')" id="add-post" class="main-button">Ajouter</button>
                 `
             }
             div.innerHTML += `

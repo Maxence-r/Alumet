@@ -24,6 +24,10 @@
     transition: all 0.3s ease-in;
 }
 
+#add-wall {
+  min-width: 150px;
+}
+
 .setting:hover {
     background-color: rgba(67, 66, 66, 0.8);
     transform: scale(1.05);

@@ -3,6 +3,7 @@
 }
 
 .open-board {
+    min-height: 38px;
     height: 100%;
     margin: 4px;
     width: calc(100% - 8px);

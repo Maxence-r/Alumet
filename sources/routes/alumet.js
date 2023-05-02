@@ -222,6 +222,7 @@ router.patch('/update/:id', validateObjectId, async (req, res) => {
         } else if (req.body.password === null) {
           alumet.password = undefined;
         }
+        alumet.description = req.body.description;
         alumet.name = req.body.name;
         alumet.modules = req.body.modules;
         alumet.blur = req.body.blur;

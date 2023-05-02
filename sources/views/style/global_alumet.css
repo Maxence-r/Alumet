@@ -15,8 +15,9 @@ body {
 :root {
     --main-color: white;
     --secondary-color: #000000;
-    --accent-color: #555555;
+    --this-color: #ffffff;
     --hover-color: #d8d8d8;
+    --title-color: #000000;
 
     --post-red: #f9afaf;
     --post-green: #9affac;
@@ -37,14 +38,35 @@ body {
     gap: 20px;
 }
 
+.alumet-infos {
+    display: flex;
+    flex-direction: column;
+    max-height: 150px;
+    overflow: hidden;
+}
+
+.alumet-infos > h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--main-color);
+    margin: 0;
+}
+
+.alumet-infos > h3 {
+    font-size: 15px;
+    font-weight: 200;
+    color: var(--main-color);
+    margin: 0;
+    margin-bottom: 5px;
+}
+
 .background-image {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    object-fit: cover;
+    object-position: center;
     height: 100vh;
 }
 
@@ -58,31 +80,43 @@ body {
 }
 
 .main-button {
-    background-color: var(--main-color);
-    color: var(--secondary-color);
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+    color: white;
     border: none;
     border-radius: 5px;
-    padding-inline: 30px;
     font-size: 14px;
-    font-weight: 600;
-    height: 35px;
+    font-weight: 200;
+    height: 36px;
     width: 100%;
     cursor: pointer;
-    white-space: nowrap;
     transition: all 0.3s ease;
 }
 
-#add-post {
-    margin-bottom: 20px;
+.left-container {
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    height: calc(100vh - 40px);
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 14px;
 }
 
+#add-post {
+    margin-bottom: 12px;
+}
+
+
+
 .main-button:hover {
-    background-color: var(--hover-color);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .wall {
     min-width: 272px;
     max-width: 272px;
+    height: 100%;
 }
 
 #dots-absolute {
@@ -149,11 +183,15 @@ body {
     min-width: 2px;
     min-height: 2px;
     border-radius: 50%;
-    background-color: var(--accent-color);
+    background-color: var(--title-color);
+}
+
+.post > .dots > div {
+    background-color: #666666;
 }
 
 pre {
-    color: var(--accent-color);
+    color: #868686;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 10px;
     margin: 0;
@@ -173,20 +211,20 @@ pre {
 }
 
 .wall-header {
-    background-color: var(--main-color);
+    background-color: var(--this-color);
     border-radius: 5px;
     padding: 8px;
     backdrop-filter: blur(10px);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 
 .wall-title {
-    color: var(--secondary-color);
+    color: var(--title-color);
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 400;
     margin: 0;
     overflow-wrap: anywhere;
 }
@@ -342,7 +380,7 @@ pre {
 .post-scroll {
     overflow-y: auto;
     overflow-x: hidden;
-    height: 100%;
+    height: calc(100% - 50px);
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -634,6 +672,7 @@ p.file-name {
   overflow-wrap: anywhere;
   font-size: 14px;
   margin-left: 10px;
+  max-width: 230px;
 }
 
 
@@ -994,7 +1033,7 @@ iframe {
     border-radius: 0 0 5px 5px;
 }
 
-.file-title {
+.modal-title {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1024,7 +1063,7 @@ iframe {
     object-fit: contain;
 }
 
-.file-header {
+.modal-header {
     display: flex;
     flex-direction: row;
     align-items: center;

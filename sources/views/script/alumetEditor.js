@@ -105,6 +105,7 @@ function editAlumet() {
     .then(data => {
         if (!data.error) {
             document.getElementById('a-p-title').value = data.finalAlumet.name;
+            document.getElementById('a-p-description').value = data.finalAlumet.description;
             document.getElementById('p-alumet-back').src = `/cdn/u/${data.finalAlumet.background}`;
             document.querySelector('.layer-p-preview').style.backdropFilter = `blur(${data.finalAlumet.blur.$numberDecimal}px) brightness(${data.finalAlumet.brightness.$numberDecimal})`;
             data.finalAlumet.modules.forEach(module => {
@@ -145,6 +146,7 @@ document.querySelector('.p-a-modify').addEventListener('click', () => {
     console.log('ok')
     let file = document.getElementById('p-a-file') ? document.getElementById('p-a-file').files[0] : null;
     let title = document.getElementById('a-p-title').value;
+    let description = document.getElementById('a-p-description').value;
     let password = document.getElementById('a-p-password').value;
     let modules = [];
     document.querySelectorAll('.a-p').forEach(module => {
@@ -156,6 +158,9 @@ document.querySelector('.p-a-modify').addEventListener('click', () => {
     body = {}
     if (title) {
         body.name = title;
+    }
+    if (description) {
+        body.description = description;
     }
     if (password && document.getElementById("a-p-pswd").checked) {
         body.password = password;

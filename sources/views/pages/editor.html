@@ -32,7 +32,7 @@
       <div class="nav-bar">
          <div onclick="home()" style="display: flex;" id="selected-item" class="item home">
             <img loading="lazy" src="../../assets/app/home-alumet.svg" alt="Alumet">
-            <p>Acceuil</p>
+            <p>Accueil</p>
          </div>
          <div onclick="enableModule('hw')" class="item hw">
             <img loading="lazy" src="../../assets/app/homework.svg" alt="Alumet">
@@ -58,8 +58,8 @@
          </div>
       </div>
       <div id="file-viewer" class="view-modal">
-         <div class="file-header">
-            <h1 class="file-title"><img src="../../assets/app/label.svg"><span>Loading...</span></h1>
+         <div id="file-header" class="modal-header">
+            <h1 id="file-title" class="modal-title"><img src="../../assets/app/label.svg"><span>Loading...</span></h1>
             <div class="quick-actions">
                <div id="download-file" class="action"><img src="../../assets/app/download.svg" alt="Delete"></div>
                <div onclick="closeViewer()" id="close-viewer" style="margin-right: 10px;" class="action close-viewer"><img src="../../assets/app/close.svg" alt="Close"></div>
@@ -162,6 +162,8 @@
             <h1>Modifier le Alumet</h1>
             <p>Titre</p>
             <input maxlength="150" id="a-p-title" type="text" placeholder="Titre">
+            <p>Description</p>
+            <input maxlength="150" id="a-p-description" type="text" placeholder="Description du Alumet">
             <p>Style</p>
             <div class="alumet-p-preview">
                <div class="change-preview">
@@ -306,13 +308,19 @@
       </div>
 
       <! -- Containers --> 
-      <div class="wall-container">
-         <button onclick="createSection()" class="main-button" id="add-wall">Ajouter un mur</button>
+      <div class="left-container">
+         <div class="alumet-infos">
+            <h1 id="alumet-title">Alumet</h1>
+            <h3 id="alumet-description">Alumet, parce que l'éducation compte</h3>
+         </div>
+         <div class="wall-container">
+            <button onclick="createSection()" class="main-button" id="add-wall">Ajouter un mur</button>
+         </div>
       </div>
       <div class="modules-container">
       </div>
       <div class="layer-filter"></div>
-      <div class="background-image"></div>
+      <img class="background-image"></img>
    </body>
    <script src="../../script/utils/utils.js"></script>
    <script src="../../script/utils/postHandler.js"></script>
