@@ -222,14 +222,14 @@ slider.forEach(slider => {
         if(!isDown) return;
         e.preventDefault();
         const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 3; //scroll-fast
+        const walk = (x - startX) * 3;
         slider.scrollLeft = scrollLeft - walk;
     });
 });
 
 function closeViewer() {
     document.getElementById('file-viewer').style.display = 'none';
-    const elementToRemoveAfter = document.querySelector(".file-header");
+    const elementToRemoveAfter = document.getElementById("file-header");
     let nextElement = elementToRemoveAfter.nextElementSibling;
     while (nextElement !== null) {
         nextElement.remove();
@@ -240,7 +240,7 @@ function openFile(id, name, ext) {
     document.getElementById('download-file').setAttribute('onclick', `downloadFile("./../../cdn/u/${id}")`);
     document.getElementById('file-viewer').style.display = 'flex'; 
     document.getElementById('file-viewer').style.transform = 'translateY(0)'; 
-    document.querySelector('.file-title > span').innerText = name.substring(0, 20);
+    document.querySelector('#file-title > span').innerText = name.substring(0, 20);
     if (supported[ext]) {
         let x = supported[ext].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${id}#toolbar=0&navpanes=0`);
         document.getElementById('file-viewer').innerHTML += x
