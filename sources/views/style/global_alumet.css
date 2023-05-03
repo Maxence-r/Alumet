@@ -114,6 +114,9 @@ body {
 }
 
 .wall {
+overflow: hidden;
+display: flex;
+flex-direction: column;
     min-width: 272px;
     max-width: 272px;
     height: 100%;
