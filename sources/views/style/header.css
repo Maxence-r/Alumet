@@ -100,6 +100,7 @@
     margin-left: 1em;
     cursor: pointer;
     transition: 0.1s ease-out;
+    text-decoration: none;
 }
 .name-logo:hover {
     color: #FF3D00;
