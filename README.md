@@ -53,7 +53,7 @@ Il est recommandé d'utiliser la version en ligne d'Alumet afin de profiter des 
 | 02/05/23  | Amméiloration de l'UI sur les alumets (couleur d'accent), corrections de moultes bogs | 1.0.2   |
 
 ### Versions
-Vous pouvez consulter la feuille de route des ameiliorations et des corrections de bugs sur le [notre Alumet](https://www.alumet.io/portal/644ceac3a200f23b168d6635).
+Vous pouvez consulter la feuille de route des ameiliorations et des corrections de bugs sur [notre Alumet](https://www.alumet.io/portal/644ceac3a200f23b168d6635).
 
 A venir
 
