@@ -17,7 +17,7 @@ Vous pouvez consulter la version en ligne d'Alumet à l'adresse https://alumet.i
 ## Installation
 
 Vous pouvez installer le projet localement en suivant la catégorie installation de la documentation.
-Il est recommandé d'utiliser la version en ligne d'Alumet afin de profiter des performances optimal et d'un version entiièrement stable.
+Il est recommandé d'utiliser la version en ligne d'Alumet afin de profiter des performances optimales et d'un version entièrement stable.
 
 ## Documentation
 
