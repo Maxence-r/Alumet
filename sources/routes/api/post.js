@@ -103,7 +103,6 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
                 const decodedToken = jwt.verify(post.owner, tokenC);
                 editedPost.owner = decodedToken.username;
             } else if (req.logged && req.user.id == post.owner) {
-                console.log('test');
                 editedPost.owning = true;
             }
             if (post.type === 'file') {
