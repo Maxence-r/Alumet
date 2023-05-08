@@ -51,7 +51,7 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 ### Historiques des commits
 | Date      | Contenu                                   | Version  |
 | :-------- | :---------------------------------------- | :------- |
-| 08/05/23  | Amméiloration de l'UI & UX sur les alumets (visibilité des bouttons et interactions), corrections de moultes bogs, correction d'un énorme soucis de performance qui touchait les appareils moins performants | 1.0.2   |
+| 08/05/23  | Amméiloration de l'UI & UX sur les alumets (visibilité des bouttons et interactions), corrections de moultes bogs, correction d'un énorme soucis de performance qui touchait les appareils moins performants | 1.0.3   |
 | 02/05/23  | Amméiloration de l'UI sur les alumets (couleur d'accent), corrections de moultes bogs | 1.0.2   |
 | 30/04/23  | Amméiloration de l'UX sur les alumets (prend toute la taille), developpement du module Tableau toujours en cours, corrections de moultes bogs, optimisation des performances sur les appareils peut performants | 1.0.1    |
 
