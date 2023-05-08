@@ -18,7 +18,6 @@ document.querySelector('.modules-container').innerHTML += `
 <div id="dm" class="module-container module">
     <div class="module-header">
         <p>${localStorage.getItem('name')}</p>
-        <span class="loader"></span>
     </div>
     <div id="conversation" class="conversation">
     </div>

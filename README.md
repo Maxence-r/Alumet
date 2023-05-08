@@ -37,7 +37,7 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 | 28/04/23  | Rendu du projet aux trophées NSI           | Fait     | 1.0     |
 | 01/05/23  | Fin du developpement de la V1.1            | Retardé | 1.1     |
 | w1/05/23  | Présentation Alumet à quelques profs et avis | Fait | 1.1     |
-| w2/05/23  | Conférence Alumet aux professeurs à Clémenceau | Planifié | 1.1 |
+| w2/05/23  | Conférence Alumet aux professeurs à Clémenceau | Planifié (Mail à la proviseur) | 1.1 |
 | f2/05/23  | Fin du developpement de la V1.2            | Planifié | 1.2     |
 | f2/05/23  | Résultats régionaux trophées NSI           | En attente | 1.0  |
 | w1/06/23  | Résultats nationaux trophées NSI           | En attente | 1.0  |
@@ -51,6 +51,8 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 ### Historiques des commits
 | Date      | Contenu                                   | Version  |
 | :-------- | :---------------------------------------- | :------- |
-| 30/04/23  | Amméiloration de l'UX sur les alumets (prend toute la taille), developpement du module Tableau toujours en cours, corrections de moultes bogs, optimisation des performances sur les appareils peut performants | 1.0.1    |
+| 08/05/23  | Amméiloration de l'UI & UX sur les alumets (visibilité des bouttons et interactions), corrections de moultes bogs, correction d'un énorme soucis de performance qui touchait les appareils moins performants | 1.0.2   |
 | 02/05/23  | Amméiloration de l'UI sur les alumets (couleur d'accent), corrections de moultes bogs | 1.0.2   |
+| 30/04/23  | Amméiloration de l'UX sur les alumets (prend toute la taille), developpement du module Tableau toujours en cours, corrections de moultes bogs, optimisation des performances sur les appareils peut performants | 1.0.1    |
+
 

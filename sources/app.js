@@ -19,6 +19,7 @@ const preview = require('./routes/preview');
 
 const direct_messages = require('./routes/modules/direct_messages');
 const homeworks = require('./routes/modules/homeworks');
+const board = require('./routes/modules/board');
 
 const wall = require('./routes/api/wall');
 const post = require('./routes/api/post');
@@ -82,6 +83,6 @@ app.use('/api/notifications', notifications);
 // routes modules
 app.use('/api/dm', direct_messages);
 app.use('/api/homeworks', homeworks)
-
+app.use('/api/board', board)
 module.exports = app;
 

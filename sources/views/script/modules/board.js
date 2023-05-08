@@ -12,7 +12,7 @@ board.id = 'board-viewer';
 board.className = 'view-modal';
 board.innerHTML = `
    <div class="modal-header">
-      <h1 class="modal-title"><span class="loader"></span><span>Tableau</span></h1>
+      <h1 class="modal-title"><span>Tableau</span></h1>
       <div class="quick-actions">
          <div id="download-file" class="action"><img src="../../assets/app/new-print.svg" alt="new-print"></div>
          <div onclick="closeBoard()" id="close-viewer" style="margin-right: 10px;" class="action close-viewer"><img src="../../assets/app/close.svg" alt="Close"></div>
