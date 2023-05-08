@@ -74,7 +74,7 @@ getMessages();
 
 function sendMessage() {
     let message = document.getElementById('message-input').value;
-    if (message.length === 0) return;
+    if (message.length === 0) return document.querySelector('.send-button').classList.remove('button--loading');
     fetch(`/api/dm/send/${localStorage.getItem('currentAlumet')}`, {
         method: 'POST',
         headers: {

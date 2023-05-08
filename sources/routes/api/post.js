@@ -96,7 +96,6 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
             let editedPost = {
                 ...post._doc
             };
-
             if (post.ownerType !== 'teacher') {
                 if (req.cookies.alumetToken === editedPost.owner || req.logged) {
                     editedPost.owning = true;
@@ -104,6 +103,7 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
                 const decodedToken = jwt.verify(post.owner, tokenC);
                 editedPost.owner = decodedToken.username;
             } else if (req.logged && req.user.id == post.owner) {
+                console.log('test');
                 editedPost.owning = true;
             }
             if (post.type === 'file') {
@@ -114,14 +114,24 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
                     editedPost.fileExt = upload.mimetype;
                 }
             }
-            if (req.auth && !req.logged && editedPost.tcs === false) {
+            if (editedPost.tcs === false) {
                 return editedPost;
             } else if (req.auth && !req.logged && editedPost.tcs === true) {
                 if (req.cookies.alumetToken === post.owner) {
                     return editedPost;
                 } else {
                     return {
-                        content: 'Ce post est uniquement visible par le professeur'
+                        content: 'Ce post est uniquement visible par le professeur',
+                        color: editedPost.color,
+                    };
+                }
+            } else if (req.logged && editedPost.tcs === true) {
+                if (post.owner === req.user.id || alumet.owner === req.user.id) {
+                    return editedPost;
+                } else {
+                    return {
+                        content: 'Ce post est uniquement visible par le professeur',
+                        color: editedPost.color,
                     };
                 }
             }

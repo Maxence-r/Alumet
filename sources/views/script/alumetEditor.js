@@ -1,7 +1,7 @@
 
 let currentID = window.location.pathname.split('/');
 function displayAlert(title, content, button, functionToCall) {
-    document.querySelector('.warning-modal').classList.add('active-warning');
+    document.querySelector('.warning-modal').style.display = 'flex';
     document.getElementById('warn-title').innerText = title;
     document.getElementById('warn-desc').innerText = content;
     document.getElementById('warn-button').innerText = button;
@@ -13,7 +13,7 @@ function reload() {
 }
 
 function closeWarning() {
-    document.querySelector('.warning-modal').classList.remove('active-warning');
+    document.querySelector('.warning-modal').style.display = 'none';
 }
 
 if (!localStorage.getItem('getStarted')) {
@@ -164,7 +164,7 @@ document.querySelector('.p-a-modify').addEventListener('click', () => {
     }
     if (password && document.getElementById("a-p-pswd").checked) {
         body.password = password;
-    } else {
+    } else if (!document.getElementById("a-p-pswd").checked) {
         body.password = null;
     }
     body.modules = modules;
@@ -287,6 +287,11 @@ function chooseTemplate(id) {
 function createHw() {
     document.getElementById('create-hw').style.display = 'flex';
     document.getElementById('create-hw').classList.add('active-modal');
+}
+
+function createBd() {
+    document.getElementById('create-bd').style.display = 'flex';
+    document.getElementById('create-bd').classList.add('active-modal');
 }
 
 document.querySelector('.hw-send').addEventListener('click', async () => {

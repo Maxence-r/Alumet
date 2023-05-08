@@ -27,7 +27,7 @@ router.get('/pdf', async (req, res) => {
             throw new Error('URL parameter missing');
         }
 
-        const outputImages = await pdf2img.convert(url, {width: 200});
+        const outputImages = await pdf2img.convert(url, {width: 400});
         if (outputImages.length === 0) {
             throw new Error('No images found');
         }

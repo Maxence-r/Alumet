@@ -8,14 +8,15 @@
 .setting {
     position: absolute;
     bottom: 20px;
-    right: 20px;
+    border: 1px solid rgb(131, 131, 131);
     z-index: 800;
     display: flex;
     flex-direction: row;
     align-items: center;
+    width: 130px;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    height: 35px;
+    gap: 10px;
     background-color: rgba(67, 66, 66, 0.5);
     border-radius: 5px;
     backdrop-filter: blur(5px);
@@ -24,18 +25,30 @@
     transition: all 0.3s ease-in;
 }
 
+.setting > p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+}
+
+.setting > img {
+    width: 20px;
+    height: 20px;
+}
+
 #add-wall {
   min-width: 150px;
 }
 
 .setting:hover {
     background-color: rgba(67, 66, 66, 0.8);
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 .warning-modal {
+  display: none;
   position: absolute;
-  transform: translateY(100%);
   width: 100%;
   top: 0;
   left: 0;
@@ -46,13 +59,7 @@
   transition: all 0.3s ease-in-out;
 }
 
-.active-warning {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-  transform: translateY(0%);
-}
+
 
 .warning-infos > h1 {
   margin: 0;
@@ -312,7 +319,7 @@
   
 @media screen and (max-width: 1200px) {
   .setting {
-    right: 10px;
-    bottom: 10px;
+    top: 10px;
+    right: 10px !important;
   }
 }

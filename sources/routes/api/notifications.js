@@ -18,12 +18,15 @@ router.get('/', async (req, res) => {
             notifications.push(...alumetNotifications);
         }
 
+        notifications.sort((a, b) => b.date - a.date);
+
         res.json(notifications);
     } catch (error) {
         console.error(error);
         res.json({ error });
     } 
 });
+
 
 
 module.exports = router;

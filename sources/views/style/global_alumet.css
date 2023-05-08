@@ -41,8 +41,7 @@ body {
 .alumet-infos {
     display: flex;
     flex-direction: column;
-    max-height: 150px;
-    overflow: hidden;
+    gap: 5px;
 }
 
 .alumet-infos > h1 {
@@ -57,7 +56,6 @@ body {
     font-weight: 200;
     color: var(--main-color);
     margin: 0;
-    margin-bottom: 5px;
 }
 
 .background-image {
@@ -67,7 +65,7 @@ body {
     width: 100%;
     object-fit: cover;
     object-position: center;
-    height: 100vh;
+    height: 101vh;
 }
 
 .layer-filter {
@@ -123,6 +121,7 @@ flex-direction: column;
 }
 
 #dots-absolute {
+    border-radius: 0 0 0 5px;
     position: absolute;
     right: 6px;
 }
@@ -172,7 +171,7 @@ flex-direction: column;
 
 .dots {
     display: flex;
-    width: 20px;
+    width: 10px;
     z-index: 1500;
     height: 12px;
     cursor: pointer;
@@ -180,6 +179,7 @@ flex-direction: column;
     align-items: end;
     justify-content: space-between;
     margin-right: 2px;
+    padding-bottom: 6px;
 }
 
 .dots div {
@@ -190,6 +190,10 @@ flex-direction: column;
 }
 
 .post > .dots > div {
+    background-color: #666666;
+}
+
+.post > .post-header > .dots > div {
     background-color: #666666;
 }
 
@@ -246,9 +250,7 @@ pre {
     overflow: hidden;
 }
 
-#delete {
-    border: 1px solid var(--teranga-color);
-}
+
 
 .active-modal {
     animation: fadeIn 0.5s ease;
@@ -645,13 +647,13 @@ p.file-name {
 .module-header {
     width: 100%;
     display: flex;
-    border-bottom: 1px solid #626262;
+    border-bottom: 1px solid #9b9b9b;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
-    border-radius: 5px;
+    border-radius: 5px 5px 0 0;
 }
 .module-container {
     display: flex;
@@ -846,7 +848,7 @@ p.file-name {
     transition: all 0.2s;
   }
 
-#delete-post {
+#delete {
     cursor: pointer;
     background-color: #d23100;
     height: 40px;
@@ -863,8 +865,8 @@ p.file-name {
     left: 0;
     flex-direction: row;
     align-items: center;
-    gap: 40px;
-    padding: 0 20px;
+    justify-content: space-around;
+    gap: 5%;
     width: 100%;
     height: 70px;
     background-color: var(--main-color);
@@ -1077,27 +1079,31 @@ iframe {
 }
 
 .post-yellow {
-    background: #e7ff89;
+    background: #e3f49e;
 }
 
 .post-blue {
-    background: #89dfff;
+    background: #a0d3e5;
 }
 
 .post-green {
-    background: #89ff9e;
+    background: #9ad5a5;
 }
 
 .post-red {
-    background: #ff899e;
+    background: #d1a3ab;
 }
 
 .post-purple {
-    background: #d689ff;
+    background: #c894e4;
 }
 
 .post-orange {
-    background: #ffcc89;
+    background: #eecda0;
+}
+
+.post-default {
+    background: #f1f1f1;
 }
 
 
@@ -1145,7 +1151,25 @@ iframe {
 }
 
 
+
 @media screen and (max-width: 1200px) {
+    .module-container {
+        width: 100%;
+        height: 100% !important;
+        border-radius: 0;
+    }
+    .module-footer {
+      min-height: 55px;
+    }
+    .send-button {
+      max-height: 60px;
+      height: 100%;
+      min-width: 60px;
+    }
+    .module-header {
+      min-height: 60px;
+      max-height: 60px;
+    }
     .modules-container {
         display: none;
         position: absolute;
@@ -1168,25 +1192,14 @@ iframe {
     }
     .not-supported > img {
         width: 90%;
-    }    
-}
+    } 
+    #alumet-description {
+        display: none;
+    }
+  }
 
-@media screen and (max-width: 1200px) {
-    .module-container {
-        width: 100%;
-        height: 100% !important;
-        border-radius: 0;
-    }
-    .module-footer {
-      min-height: 55px;
-    }
-    .send-button {
-      max-height: 60px;
-      height: 100%;
-      min-width: 60px;
-    }
-    .module-header {
-      min-height: 60px;
-      max-height: 60px;
+  @media screen and (max-height: 600px) { 
+    .alumet-infos {
+        display: none
     }
   }

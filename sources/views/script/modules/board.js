@@ -2,8 +2,8 @@ document.querySelector('.modules-container').innerHTML += `
 <div id="bd" class="module-container module">
     <div class="module-header">
         <p>Tableau</p>
+        <button onclick="createBd()">Crée un tableau</button>
     </div>
-    <button class="open-board" onclick="openBoard()">Ouvrir le tableau</button>
 </div>`;
 
 

@@ -23,6 +23,8 @@ Il est recommandé d'utiliser la version en ligne d'Alumet afin de profiter des 
 
 [Documentation](https://doc.alumet.io/)
 
+## Versions
+Consulter la feuille de route des ameiliorations et des corrections de bugs sur [notre Alumet](https://www.alumet.io/portal/644ceac3a200f23b168d6635).
 
 ## Feuilles de routes
 
@@ -52,12 +54,3 @@ Il est recommandé d'utiliser la version en ligne d'Alumet afin de profiter des 
 | 30/04/23  | Amméiloration de l'UX sur les alumets (prend toute la taille), developpement du module Tableau toujours en cours, corrections de moultes bogs, optimisation des performances sur les appareils peut performants | 1.0.1    |
 | 02/05/23  | Amméiloration de l'UI sur les alumets (couleur d'accent), corrections de moultes bogs | 1.0.2   |
 
-### Versions
-Vous pouvez consulter la feuille de route des ameiliorations et des corrections de bugs sur [notre Alumet](https://www.alumet.io/portal/644ceac3a200f23b168d6635).
-
-A venir
-
-| Fonctionnalité      | Status                         | Date           |
-| :--------           | :----------------------------- | :-------       |
-| Barre de recherche  | Planifié                       | Bientôt        |
-| Commentaires sous les posts  | Planifié              | Bientôt        |

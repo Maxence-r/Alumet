@@ -37,76 +37,7 @@ function init() {
 init();
 
 
-function getAccentColorFromImage(imgOrDiv) {
-    return new Promise((resolve, reject) => {
-      let imageUrl;
-      let isDiv = false;
-      if (imgOrDiv.tagName === 'IMG') {
-        imageUrl = imgOrDiv.src;
-      } else if (imgOrDiv.tagName === 'DIV') {
-        imageUrl = imgOrDiv.style.backgroundImage.slice(4, -1).replace(/"/g, "");
-        isDiv = true;
-      } else {
-        reject(new Error('Element is not an image or div with background image'));
-      }
-      const img = new Image();
-      img.crossOrigin = 'Anonymous';
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-        const pixelCount = imageData.length / 4;
-        const colorCounts = {};
-        let maxCount = 0;
-        let accentColor = [0, 0, 0];
-        for (let i = 0; i < pixelCount; i++) {
-          const r = imageData[i * 4];
-          const g = imageData[i * 4 + 1];
-          const b = imageData[i * 4 + 2];
-          const rgb = [r, g, b];
-          const key = rgb.join(',');
-          if (!colorCounts[key]) {
-            colorCounts[key] = 0;
-          }
-          colorCounts[key]++;
-          if (colorCounts[key] > maxCount) {
-            maxCount = colorCounts[key];
-            accentColor = rgb;
-          }
-        }
-        resolve(`rgb(${accentColor.join(',')})`);
-      };
-      img.onerror = () => {
-        reject(new Error('Failed to load image'));
-      };
-      if (isDiv) {
-        img.src = imageUrl;
-      } else {
-        img.src = imageUrl + '?t=' + new Date().getTime();
-      }
-    });
-  }
-  
-  const imgOrDiv = document.querySelector('.background-image');
-  
-  imgOrDiv.addEventListener('load', () => {
-    getAccentColorFromImage(imgOrDiv)
-      .then(accentColor => {
-        document.documentElement.style.setProperty('--this-color', accentColor);
-        value1 = accentColor.split(',')[0].split('(')[1];
-        value2 = accentColor.split(',')[1];
-        value3 = accentColor.split(',')[2].split(')')[0];
-        if (value1 < 200 && value2 < 200 && value3 < 200) {
-          document.documentElement.style.setProperty('--title-color', 'rgb(255, 255, 255)');
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  });
+
 
 
 function initModules() {
@@ -230,107 +161,103 @@ let supportedPreviewAlumet = {
  }
 
 
-function createPostHtml(post, wallId, postFirst) {
+ function createPostHtml(post, wallId, postFirst) {
     let postDiv = document.createElement('div');
-                    postDiv.setAttribute('data-id', post._id);
-                    postDiv.setAttribute('data-position', post.position);
-                    postDiv.setAttribute('data-wall', wallId);
-                    postDiv.classList.add('post');
-                    if (post.ownerType === "student") {
-                        let postheader = document.createElement('div');
-                        postheader.classList.add('post-header');
-                        postheader.innerHTML = `
+    postDiv.setAttribute('data-id', post._id);
+    postDiv.setAttribute('data-position', post.position);
+    postDiv.setAttribute('data-wall', wallId);
+    postDiv.classList.add('post');
+    if (post.ownerType === "student") {
+        let postheader = document.createElement('div');
+        postheader.classList.add('post-header');
+        postheader.innerHTML = `
                         <div class="post-user-infos">
                         <img src="../../assets/app/default.png" class="post-user-img" alt="avatar">
                         <p class="post-user-username">${post.owner}</p>
                         </div>
                         `
-                        if (post.owning === true) {
-                            postheader.innerHTML += `
+        if (post.owning === true) {
+            postheader.innerHTML += `
                             <div onclick="editPost('${post._id}')" class="dots"><div></div><div></div><div></div></div>
                             `
-                        }
-                        postDiv.appendChild(postheader);
-                    } else if (post.owning) {
-                        postDiv.innerHTML += `
-                        <div onclick="editPost('${post._id}')" id="dots-absolute" class="dots"><div></div><div></div><div></div></div>
+        }
+        postDiv.appendChild(postheader);
+    } else if (post.owning) {
+        postDiv.innerHTML += `
+                        <div onclick="editPost('${post._id}')" id="dots-absolute" class="dots post-${post.color}"><div></div><div></div><div></div></div>
                         `
-                    }
-                        
-                    if (post.title) {
-                        let postTitle = document.createElement('div');
-                        postTitle.classList.add('post-title');
-                        postTitle.innerText = `${post.title}`;
-                        postDiv.appendChild(postTitle);
-                    }
-                    if (post.type !== "default") {
-                        if (post.type === "file") {
-                            let filePreview = document.createElement('div');
-                            filePreview.classList.add('file-preview');
-                            filePreview.setAttribute('onclick', `openFile("${post.typeContent}", "${post.fileName}", "${post.fileExt}")`);
-                            let fileContainer = document.createElement('div');
-                            fileContainer.classList.add('file-container');
-                            fileContainer.id = post.fileExt;
-                            if (supportedPreviewAlumet[post.fileExt]) {
-                                fileContainer.innerHTML = `${supportedPreviewAlumet[post.fileExt].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${post.typeContent}`)}`;
-                            } else {
-                                fileContainer.innerHTML = `<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">`;
-                            }
-                            fileContainer.innerHTML += `
+    }
+    if (post.title) {
+        let postTitle = document.createElement('div');
+        postTitle.classList.add('post-title');
+        postTitle.innerText = `${post.title}`;
+        postDiv.appendChild(postTitle);
+    }
+    if (post.type !== "default") {
+        if (post.type === "file") {
+            let filePreview = document.createElement('div');
+            filePreview.classList.add('file-preview');
+            filePreview.setAttribute('onclick', `openFile("${post.typeContent}", "${post.fileName}", "${post.fileExt}")`);
+            let fileContainer = document.createElement('div');
+            fileContainer.classList.add('file-container');
+            fileContainer.id = post.fileExt;
+            if (supportedPreviewAlumet[post.fileExt]) {
+                fileContainer.innerHTML = `${supportedPreviewAlumet[post.fileExt].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${post.typeContent}`)}`;
+            } else {
+                fileContainer.innerHTML = `<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">`;
+            }
+            fileContainer.innerHTML += `
                             <p class="file-type">${post.fileExt.toUpperCase()}</p>
                             `
-                            filePreview.appendChild(fileContainer);
-                            filePreview.innerHTML += `
+            filePreview.appendChild(fileContainer);
+            filePreview.innerHTML += `
                             <p class="file-name">${post.fileName}</p>
                             `
-                            postDiv.appendChild(filePreview);
-                        } else if (post.type === "link") {
-            
-                                let filePreview = document.createElement('div');
-                                filePreview.classList.add('file-preview');
-                                filePreview.setAttribute('onclick', `openLink("${post.typeContent}")`);
-                                fetch('/preview/meta?url=' + post.typeContent)
-                                .then(res => res.json())
-                                .then(data => {
-                                    let fileContainer = document.createElement('div');
-                                    fileContainer.classList.add('file-container');
-                                    if (data.image) {
-                                        fileContainer.innerHTML = `<img id="cover-center" loading=\"lazy\" src=\"${data.image}">`;
-                                    } else {
-                                        fileContainer.innerHTML = `<img id="cover-center" loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">`;
-                                    }
-                                    fileContainer.innerHTML += `
+            postDiv.appendChild(filePreview);
+        } else if (post.type === "link") {
+            let filePreview = document.createElement('div');
+            filePreview.classList.add('file-preview');
+            filePreview.setAttribute('onclick', `openLink("${post.typeContent}")`);
+            fetch('/preview/meta?url=' + post.typeContent)
+                .then(res => res.json())
+                .then(data => {
+                    let fileContainer = document.createElement('div');
+                    fileContainer.classList.add('file-container');
+                    if (data.image) {
+                        fileContainer.innerHTML = `<img id="cover-center" loading=\"lazy\" src=\"${data.image}">`;
+                    } else {
+                        fileContainer.innerHTML = `<img id="cover-center" loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">`;
+                    }
+                    fileContainer.innerHTML += `
                                     <p class="file-type">${data.title || "Aucun titre"}</p>
                                     `
-                                    filePreview.appendChild(fileContainer);
-                                    if (data.title) {
-                                        filePreview.innerHTML += `
+                    filePreview.appendChild(fileContainer);
+                    if (data.title) {
+                        filePreview.innerHTML += `
                                         <p class="file-name">${data.url || post.typeContent}</p>
                                         `
-                                    } else {
-                                        filePreview.innerHTML += `
-                                        <p class="file-name">${data.url || post.typeContent}</p>
-                                        `
-                                    }
-                                })
-                                postDiv.appendChild(filePreview);
-                            
-                        }
-                    }
-                    if (post.content) {
-                        let postContent = document.createElement('p');
-                        postContent.classList.add('post-content');
-                        postContent.innerText = `${post.content}`;
-                        postDiv.appendChild(postContent);
-                    }
-                    if (post.color) {
-                        postDiv.classList.add(`post-${post.color}`);
-                    }
-                    if (postFirst) {
-                        document.querySelector(`.post-${wallId}`).insertBefore(postDiv, document.querySelector(`.post-${wallId}`).childNodes[0]);
                     } else {
-
-                    document.querySelector(`.post-${wallId}`).appendChild(postDiv);
+                        filePreview.innerHTML += `
+                                        <p class="file-name">${data.url || post.typeContent}</p>
+                                        `
                     }
+                })
+            postDiv.appendChild(filePreview);
+        }
+    }
+    if (post.content) {
+        let postContent = document.createElement('p');
+        postContent.classList.add('post-content');
+        postContent.innerText = `${post.content}`;
+        postDiv.appendChild(postContent);
+    }
+    if (post.color) {
+        postDiv.classList.add(`post-${post.color}`);
+    }
+    if (postFirst) {
+        document.querySelector(`.post-${wallId}`).insertBefore(postDiv, document.querySelector(`.post-${wallId}`).childNodes[0]);
+    } else {
+        document.querySelector(`.post-${wallId}`).appendChild(postDiv);
+    }
 }
 

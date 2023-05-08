@@ -46,11 +46,11 @@ router.post('/add/:alumet', validateObjectId, alumetItemsAuth, async (req, res) 
 
 router.get('/:alumet', validateObjectId, alumetItemsAuth, alumetAuth, async (req, res) => {
   try {
-    if (req.logged && req.alumetObj.owner !== req.user._id.toString()) {
-      return res.status(401).json({ error: 'Unauthorized' });
+    if (req.logged && !req.auth && req.alumetObj.owner !== req.user._id.toString()) {
+      return res.status(401).json({ error: 'Unauthorized x001' });
     }
     if (req.auth && req.alumet.id !== req.params.alumet) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unauthorized x002' });
     }
     const homeworks = await Homework.find({ alumet: req.params.alumet, time: { $gte: new Date() } }).sort({ time: 1 });
     return res.json(homeworks);
@@ -63,7 +63,7 @@ router.get('/:alumet', validateObjectId, alumetItemsAuth, alumetAuth, async (req
 router.delete('/:alumet/:id', validateObjectId, alumetItemsAuth, async (req, res) => {
   try {
     if (!req.logged || req.alumetObj.owner !== req.user._id.toString()) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unauthorized x002' });
     }
     const homework = await Homework.findById(req.params.id);
     if (!homework) {

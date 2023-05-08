@@ -47,9 +47,6 @@
             <p>Tableau</p>
          </div>
       </div>
-      <div onclick="editAlumet()" class="setting">
-         <img src="../../assets/app/setting.svg" alt="Settings">
-      </div>
       <div class="warning-modal">
          <div class="warning-infos">
             <h1 id="warn-title">Oui mais non</h1>
@@ -85,7 +82,7 @@
             <p>Modifier le contenu</p>
             <textarea id="m-p-c"  placeholder="Contenu"></textarea>
             <p>Zone dangereuse</p>
-            <button id="delete-post">Supprimer cette publication</button>
+            <button onclick="deletePost()" id="delete">Supprimer cette publication</button>
             <div class="edit-buttons">
                <button onclick="closeModal('patch-post')" id="cancel">Annuler</button>
                <button class="m-p-b" id="accent" type="button" onclick="this.classList.add('button--loading')">
@@ -105,6 +102,27 @@
                <button onclick="closeModal('create-hw')" id="cancel">Annuler</button>
                <button class="hw-send" id="accent" type="button" onclick="this.classList.add('button--loading')">
                <span class="button__text">Créer</span>
+               </button>
+            </div>
+         </div>
+      </div>
+      <div id="create-bd" class="modal">
+         <div class="modal-container">
+            <h1>Créer un tableau</h1>
+            <p>Comment allons nous l'appeler ?</p>
+            <input id="bd-c" type="text"  placeholder="Donner un nom au tableau"></input>
+            <p>Autorisation</p>
+            <div class="option">
+               <p>Autoriser les élèves à interagir</p>
+               <label class="toggle">
+                  <input id="bd-c-checked" class="toggle-checkbox" type="checkbox">
+                  <div class="toggle-switch"></div>
+               </label>
+            </div>
+            <div class="edit-buttons">
+               <button onclick="closeModal('create-bd')" id="cancel">Annuler</button>
+               <button class="hw-send" id="accent" type="button" onclick="this.classList.add('button--loading')">
+                  <span class="button__text">Créer</span>
                </button>
             </div>
          </div>
@@ -138,15 +156,16 @@
             <input maxlength="150" id="s-m-title" type="text" placeholder="Titre">
             <p>Paramètres</p>
             <div class="option">
-               <p>Autoriser les commentaires</p>
+               <p>Autoriser les publications</p>
                <label class="toggle">
                   <input id="s-m-checked" class="toggle-checkbox" type="checkbox">
                   <div class="toggle-switch"></div>
                </label>
             </div>
+            <p>Zone dangereuse</p>
+            <button onclick="deleteWall()" id="delete">Supprimer cette section</button>
             <div id="wrap-section" class="edit-buttons">
                <button onclick="closeModal('ms')" id="cancel">Annuler</button>
-               <button onclick="deleteWall('ms')" id="delete">Supprimer</button>
                <button class="s-first" onclick="setFirst()" id="accent" type="button" onclick="this.classList.add('button--loading')">
                   <span class="button__text">Mettre en première position</span>
                </button>
@@ -228,7 +247,7 @@
             <input maxlength="150" id="s-title" type="text" placeholder="Titre">
             <p>Paramètres</p>
             <div class="option">
-               <p>Autoriser les commentaires</p>
+               <p>Autoriser les publications</p>
                <label class="toggle">
                   <input id="s-checked" class="toggle-checkbox" type="checkbox">
                   <div class="toggle-switch"></div>
@@ -237,7 +256,7 @@
             <div class="edit-buttons">
                <button onclick="closeModal('cs')" id="cancel">Annuler</button>
                <button class="s-create" id="accent" type="button" onclick="this.classList.add('button--loading')">
-               <span class="button__text">Poster</span>
+               <span class="button__text">Créer une section</span>
                </button>
             </div>
          </div>
@@ -301,13 +320,17 @@
             <div class="edit-buttons">
                <button onclick="closeModal('cp')" id="cancel">Annuler</button>
                <button class="p-post" id="accent" type="button" onclick="this.classList.add('button--loading')">
-               <span class="button__text">Poster</span>
+               <span class="button__text">Publier</span>
                </button>
             </div>
          </div>
       </div>
 
       <! -- Containers --> 
+      <div onclick="editAlumet()" class="setting">
+         <p>Paramètres</p>
+         <img src="../../assets/app/setting.svg" alt="Settings">
+      </div>
       <div class="left-container">
          <div class="alumet-infos">
             <h1 id="alumet-title">Alumet</h1>

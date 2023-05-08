@@ -87,7 +87,7 @@ function closeModal(id) {
     }, 500);
 }
 
-document.getElementById('delete-post').addEventListener('click', () => {
+function deletePost() {
     fetch(`/api/post/${localStorage.getItem('currentAlumet')}/${localStorage.getItem('currentWall')}/${localStorage.getItem('currentItem')}`, {
         method: 'DELETE',
         headers: {
@@ -106,6 +106,14 @@ document.getElementById('delete-post').addEventListener('click', () => {
     .catch(error => {
         console.log(error);
     });
+};
+
+document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal')) {
+            closeModal(modal.id);
+        }
+    })
 });
 
 let supported = {};
@@ -222,7 +230,7 @@ slider.forEach(slider => {
         if(!isDown) return;
         e.preventDefault();
         const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 3;
+        const walk = (x - startX) * 1;
         slider.scrollLeft = scrollLeft - walk;
     });
 });

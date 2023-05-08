@@ -2,7 +2,7 @@
 document.querySelector('.modules-container').innerHTML += `
 <div id="hw" class="module-container module">
     <div class="module-header">
-        <p>Devoirs</p>
+        <p>Devoirs à faire</p>
         <button onclick="createHw()">Crée un devoir</button>
     </div>
     <div class="devoirs">
