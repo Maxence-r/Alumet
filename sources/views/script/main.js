@@ -1,28 +1,21 @@
-document.querySelectorAll(".box").forEach(box => {
-box.onmousemove = e => {
-    for (const card of document.getElementsByClassName("box")) {
-      const rect = card.getBoundingClientRect(),
-            x = e.clientX - rect.left,
-            y = e.clientY - rect.top;
-        card.style.setProperty("--mouse-x", `${x}px`);
-        card.style.setProperty("--mouse-y", `${y}px`);
-    }
-  };
-});
-
-function changer_image(lien) {
-  const image = document.querySelector(".class-argument-preview");
-  image.setAttribute("src", lien);
+function isElementInViewport(el) {
+  var rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
 }
 
-let closed = true;
+var previewContainers = document.querySelectorAll('.preview-container');
 
-document.querySelector('.burger-button-open-menu').addEventListener("click", e => {
-    if (closed == true) {
-      document.querySelector('.main-header').style.transform = 'translateY(0%)'
-      closed = false;
-    } else {
-      document.querySelector('.main-header').style.transform = 'translateY(-110%)'
-      closed = true;
+function checkPreviewContainers() {
+  previewContainers.forEach(function(container) {
+    if (isElementInViewport(container)) {
+      container.classList.add('show');
     }
-});
+  });
+}
+
+window.addEventListener('scroll', checkPreviewContainers);

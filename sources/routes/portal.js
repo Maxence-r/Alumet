@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const Alumet = require('../models/alumet');
 const { tokenC } = require('../config.json');
 const validateObjectId = require('../middlewares/validateObjectId');
-
+const puppeteer = require('puppeteer');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     try {
@@ -68,6 +68,53 @@ router.post('/authorize', validateObjectId, async (req, res) => {
         });
     });
 });
+
+
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+router.post('/educonnect', async (req, res) => {
+    const {
+        username,
+        password
+    } = req.body;
+    const browser = await puppeteer.launch({
+        headless: false
+    });
+    try {
+        const page = await browser.newPage();
+        await page.goto('https://educonnect.education.gouv.fr/');
+
+        await page.waitForSelector('#bouton_eleve');
+        await page.click('#bouton_eleve');
+
+        await page.waitForSelector('#username');
+        await page.type('#username', username);
+        await page.type('#password', password);
+
+        await page.click('#bouton_valider');
+      
+        await page.waitForNavigation({waitUntil: 'networkidle0'});
+        
+        if (page.url() !== 'https://teleservices.education.gouv.fr/eds/') {
+            return res.status(401).send('Invalid credentials');
+        }
+        
+        const userResponse = await page.waitForResponse('https://teleservices.education.gouv.fr/eds/api/v0/user');
+        const user = await userResponse.json();
+        console.log(user);
+        await page.waitForNavigation();
+        return res.status(200).json(user);
+        
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Internal server error');
+    } finally {
+        await browser.close();
+    }
+});
+  
 
 
 

@@ -204,9 +204,11 @@ function home() {
 }
 
 const slider = document.querySelectorAll('.wall-container');
+
 let isDown = false;
 let startX;
 let scrollLeft;
+
 
 slider.forEach(slider => {
     slider.addEventListener('mousedown', (e) => {
@@ -225,6 +227,7 @@ slider.forEach(slider => {
     isDown = false;
     });
 });
+
 slider.forEach(slider => {
     slider.addEventListener('mousemove', (e) => {
         if(!isDown) return;
@@ -234,6 +237,7 @@ slider.forEach(slider => {
         slider.scrollLeft = scrollLeft - walk;
     });
 });
+
 
 function closeViewer() {
     document.getElementById('file-viewer').style.display = 'none';

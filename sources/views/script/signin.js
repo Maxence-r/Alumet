@@ -22,7 +22,7 @@ function signin() {
         }
     })
 }
-document.querySelector('#signin').addEventListener('click' , (event) => {
+document.querySelector('#signin').addEventListener('click' , () => {
     signin()
 })
 document.addEventListener('keydown' , (event) => {
