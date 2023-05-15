@@ -372,6 +372,7 @@ header {
     color: #FFFFFF;
     font-size: 18px;
     font-weight: 400;
+    line-height: 1.5;
 }
 .preview-container {
     justify-content: center;
@@ -423,6 +424,17 @@ header {
     bottom: 0;
     right: 0;
     width: 38%;
+}
+
+.soon {
+    display: inline-block;
+    border: 1px solid #FF6B00;
+    font-size: 14px;
+    border-radius: 20px;
+    padding-inline: 10px;
+    height: 22px;
+    vertical-align: middle;
+    color: #ff6b00;
 }
 
 @media screen and (max-width: 800px) {

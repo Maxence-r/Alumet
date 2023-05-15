@@ -2,7 +2,7 @@ document.querySelector('.modules-container').innerHTML += `
 <div id="bd" class="module-container module">
     <div class="module-header">
         <p>Tableau</p>
-        <button onclick="createBd()">Crée un tableau</button>
+        <button onclick="alert('Cette fonctionnalité arrive bientôt')">Crée un tableau</button>
     </div>
 </div>`;
 
