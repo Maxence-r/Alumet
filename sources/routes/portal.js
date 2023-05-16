@@ -70,9 +70,8 @@ router.post('/authorize', validateObjectId, async (req, res) => {
 });
 
 
-function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+
+/* Nous devons trouver une solution légal, ceci était une expérimentation 
 
 router.post('/educonnect', async (req, res) => {
     const {
@@ -114,7 +113,7 @@ router.post('/educonnect', async (req, res) => {
         await browser.close();
     }
 });
-  
+*/
 
 
 

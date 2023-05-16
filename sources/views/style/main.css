@@ -304,11 +304,21 @@ header {
     display: flex;
     max-width: 375px;
     flex-direction: column;
-    border-width: 0 1px 1px 1px;
-    border-style: solid;
-    border-image: linear-gradient(to bottom, #131313 30%, #B7B7B7 100%) 1;
+    position: relative;
 }
-
+.why-alumet-box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px; 
+    padding: 1px; 
+    background:linear-gradient(to bottom, #131313 30%, #ffffff 100%);
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude; 
+}
 .wa-content {
     padding: 25px;
 }
@@ -323,6 +333,14 @@ header {
     align-items: center;
     justify-content: center;
     position: relative;
+}
+
+.links {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 20px !important;
+    margin-left: auto !important;
 }
 
 .wa-img {
@@ -436,6 +454,124 @@ header {
     vertical-align: middle;
     color: #ff6b00;
 }
+/* FOOTER */
+
+footer {
+    width: calc(100% - 6%);
+    position: absolute;
+    left: 0;
+    border-width: 1px 0 0 0;
+    border-style: solid;
+    border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
+    padding-inline: 3%;
+    padding-top: 3%;
+}
+
+.footer-top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.footer-title {
+    color: rgb(255, 255, 255);
+    margin: 0;
+    margin-bottom: 5px;
+    font-size: 3vh;  
+}
+.footer-paragraph {
+    color: rgb(167, 167, 167);
+    margin: 0;
+    font-size: 2vh;
+}
+.footer-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.mail-zone {
+    width: 270px;
+    height: 42px;
+    border-radius: 8px;
+    font-size: 12px;
+    border: 1px solid #9c9c9c;
+    color: white;
+    background: #131313;
+    outline: none;
+    padding-left: 10px;
+    box-sizing: border-box;
+    margin-right: 15px;
+    transition: 0.2s cubic-bezier(.18,1.19,.81,.96);
+}
+.mail-zone:focus {
+    background-color: #252525;
+}
+.submit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 42px;
+    background: #FFFFFF;
+    border-radius: 6px;
+    border: none;
+    padding-inline: 20px;
+    transition: 0.2s cubic-bezier(.18,1.19,.81,.96);
+}
+.submit-button:hover {
+    cursor: pointer;
+    background: #B9B9B9;
+}
+
+.submit-button::after {
+    border-top-color: black !important;
+} 
+.submit-button >span {
+    color: #000000;
+    font-size: 12px;
+    font-weight: 500;
+}
+.footer-middle {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+.logo-alumet {
+    width: 27px;
+    height: 39px;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.footer-title-logo {
+    display: flex;
+    color: white;
+    font-weight: 400;
+    margin: 0;
+    align-items: center;
+}
+
+.footer-middle > div {
+    display: flex;
+    flex-direction: column;
+    a
+}
+
+.footer-title-div {
+    color: #C5C5C5;
+    font-size: 1.5em;
+    font-weight: 500;
+    margin: 0;
+}
+
+.footer-paragraph-div {
+    color: #FFFFFF;
+    margin: 0;
+}
+
 
 @media screen and (max-width: 800px) {
     .nav-items > h2 {
@@ -491,6 +627,9 @@ header {
     }
     .reasons {
         display: none;
+    }
+    .footer-form {
+        width: 100%;
     }
 }
 
