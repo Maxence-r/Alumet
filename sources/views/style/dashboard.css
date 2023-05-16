@@ -39,7 +39,7 @@ body {
     padding-inline: 15px;
     margin: 20px;
     width: 18%;
-    min-width: 350px;
+    min-width: 300px;
     background: rgba(255, 255, 255, 0.1);
     box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(3px);
@@ -273,7 +273,6 @@ body {
 
 .active-section {
     display: flex;
-    width: calc(100% - 480px);
     animation: active-section 0.7s ease-in-out !important;
 }
 
@@ -516,16 +515,15 @@ body {
 .view-modal {
     display: none;
     flex-direction: column;
-    width: calc(100% - 440px);
     position: fixed;
+    width: calc(100% - 40px);
     top: 20px;
     background: rgba(35, 35, 35, 0.5);
     backdrop-filter: blur(10.5px);  
     border-radius: 5px;
-    left: 420px;
     right: 20px;
     height: calc(100% - 40px);
-    z-index: 49;
+    z-index: 150;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -646,7 +644,7 @@ iframe {
 }
 
 #alumet-setup {
-    width: calc(100% - 480px);
+    width: calc(100% - 80px);
     border: 1px solid #4A4A4A;
     padding-inline: 20px;
     backdrop-filter: blur(30px);
@@ -968,9 +966,9 @@ input:checked + .slider + .menu {
 
 #file-uploader {
     display: none;
+    width: calc(100% - 80px);
     flex-direction: column;
     padding-inline: 20px;
-    width: calc(100% - 480px);
     border: 1px solid #4A4A4A;
     backdrop-filter: blur(20px);
 }
@@ -1056,7 +1054,7 @@ input:checked + .slider + .menu {
     100% { transform: rotate(360deg)}
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1100px) {
     .menu {
         position: absolute;
         transform: translateX(-110%);

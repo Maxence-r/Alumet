@@ -63,6 +63,7 @@ body {
     color: white;
     font-size: 3.4vw;
     font-weight: 200;
+    margin: 0;
 }
 
 .input {
@@ -82,15 +83,14 @@ body {
     color: #FFFFFF;
 }
 
-.high-container {
-    display: flex;
-    flex-direction: row;
-}
 
 .low-container {
     display: flex;
     flex-direction: column;
+    padding: 20px;
     width: 35%;
+    margin-top: auto;
+    margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
 }
@@ -104,14 +104,12 @@ body {
     border: 0.5px solid #3D3D3D;
     border-radius: 6px;
     outline: none;
-    margin-top: 1em;
-    height: 3em;
-    padding: 0 1.25em;
+    margin-top: 10px;
+    height: 45px;
     color: white;
-    font-size: 1vw;
+    font-size: 12px;
     font-weight: 400;
     cursor: pointer;
-    transition: 0.4s ease-in-out;
 }
 .button:hover {
     background: rgba(25, 25, 25, 0.5);
@@ -166,20 +164,11 @@ body {
         font-size: 12vw;
         margin-left: 0em;
     }
-    .high-container {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
     .low-container {
-        width: 100%;
+        width: calc(100% - 40px);
     }
     .thin-title {
         font-size: 10vw;
-    }
-    .connect-button {
-        font-size: 4vw;
     }
 }
     

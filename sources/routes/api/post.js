@@ -102,7 +102,7 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
                 }
                 const decodedToken = jwt.verify(post.owner, tokenC);
                 editedPost.owner = decodedToken.username;
-            } else if (req.logged && req.user.id == post.owner) {
+            } else if (req.logged && alumet.owner === req.user.id) {
                 editedPost.owning = true;
             }
             if (post.type === 'file') {
@@ -124,15 +124,8 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
                         color: editedPost.color,
                     };
                 }
-            } else if (req.logged && editedPost.tcs === true) {
-                if (post.owner === req.user.id || alumet.owner === req.user.id) {
-                    return editedPost;
-                } else {
-                    return {
-                        content: 'Ce post est uniquement visible par le professeur',
-                        color: editedPost.color,
-                    };
-                }
+            } else if (req.logged && alumet.owner === req.user.id) {
+                return editedPost;
             }
             return editedPost;
         }));

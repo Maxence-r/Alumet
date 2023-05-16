@@ -11,7 +11,7 @@ body {
 
 header {
     width: 100%;
-    height: 80px;
+    min-height: 80px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -276,6 +276,7 @@ header {
     background-color: #E24A21;
 }
 .big-title {
+    overflow-wrap: anywhere;
     margin: 0;
     margin-top: 0.7em;
     font-size: 6vh; 
@@ -288,7 +289,6 @@ header {
 .why-alumet-container {
     display: flex;
     flex-direction: column;
-    
 }
 .box-container {
     display: flex;
@@ -299,7 +299,6 @@ header {
     gap: 20px;
     margin-top: 25px;
 }
-
 .why-alumet-box {
     display: flex;
     max-width: 375px;
@@ -318,11 +317,14 @@ header {
         linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude; 
+    mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude; 
 }
 .wa-content {
     padding: 25px;
 }
-
 .black-box {
     width: 100%;
 }
@@ -557,7 +559,6 @@ footer {
 .footer-middle > div {
     display: flex;
     flex-direction: column;
-    a
 }
 
 .footer-title-div {
@@ -596,12 +597,10 @@ footer {
         height: 5.9vh;
         border: 0.05vh solid #131313;
     }
-    #sign-up {
-        display: none;
-    }
     .connect {
         margin: 0;
         margin-left: auto;
+        flex-wrap: wrap;
     }
     .features-container {
         flex-direction: column !important;
@@ -630,6 +629,13 @@ footer {
     }
     .footer-form {
         width: 100%;
+    }
+    .alumet-infos > h1 {
+        display: none;
+    }
+
+    .title > h1 {
+        overflow-wrap: anywhere;
     }
 }
 
