@@ -8,7 +8,7 @@ function progress() {
         let nom = document.getElementById("nom").value
         let prenom = document.getElementById("prenom").value
         let ae = document.getElementById("mail").value
-        let mdp = document.getElementById("mdp").value
+        let mdp = document.getElementById("password").value
         let requete = fetch("/auth/signup", {
             method: "POST",
             headers: {

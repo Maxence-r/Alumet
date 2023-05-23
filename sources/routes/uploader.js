@@ -30,10 +30,13 @@ router.get('/u/:id', validateObjectId, (req, res) => {
     Upload.find({ _id: req.params.id })
       .then(upload => {
         if (!upload) return res.status(404).json({ error: 'Upload not found' });
-        const filePath = path.join(__dirname, "./cdn/" + upload[0].filename);
+        const filePath = path.join(__dirname, "./../cdn/" + upload[0].filename);
+        console.log(filePath);
         if (fs.existsSync(filePath)) {
+          
           res.sendFile(filePath);
         } else {
+          console.log("404");
           res.redirect('/404')
         }
       })

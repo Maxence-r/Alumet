@@ -27,10 +27,9 @@
     <title>Alumet: Inscription</title>
 </head>
 <body>
-    <div class="header">
-        <img onclick="document.location.href='/'" class="logo" src="../assets/app/alumet.png" alt="logo d'Alumet">
-        <a onclick="document.location.href='/'" class="title">Alumet</a>
-    </div>
+    <div class="blur-orange-background"></div>
+    <div class="high-background-dots"></div>
+    <div class="high-background-gradient"></div>
     <div class="positon">
         <div class="signup">
             <div class="first">
@@ -41,15 +40,16 @@
                 <p class="infos-desc">Version 1, comporte probablement des instabilitées/bogs, merci de vous réferer a la documentation <a href="https://doc.alumet.io">en cliquand ici</a>Alumet a été réalisé en quelques semaines seulement.</p>
             </div>
             <div class="second">
-                <div class="header-infos">
-                    <img class="warn" src="../assets/app/user.svg" alt="warn">
-                    <h2 class="title-info">Création de votre profil</h2>
-                </div>
-                <div class="f-column">
-                    <input id="nom" type="text" placeholder="Nom" required>
-                    <input id="prenom" type="text" placeholder="Prénom" required>
-                    <input id="mail" type="text" placeholder="Adresse email" required>
-                    <input id="mdp" type="password" placeholder="Mot de passe" required>
+                <div class="low-container">
+                    <div class="header-infos">
+                        <img class="warn" src="../assets/app/user.svg" alt="warn">
+                        <h2 class="title-info">Création de votre profil</h2>
+                    </div>
+                    <input id="prenom" class="input" type="text" placeholder="Prénom">
+                    <input id="nom" class="input" type="password" placeholder="Nom">
+                    <input id="mail" class="input" type="text" placeholder="Adresse e-mail">
+                    <input id="password" class="input" type="password" placeholder="Mot de passe">
+                    </button>
                 </div>
             </div>
             <div class="third">
