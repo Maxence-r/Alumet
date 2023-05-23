@@ -26,6 +26,7 @@ function init() {
         localStorage.setItem('modules', JSON.stringify(data.finalAlumet.modules));
         if (data.finalAlumet.modules.length < 1) {
             document.querySelector('.nav-bar').style.display = 'none';
+            document.querySelector('.left-container').style.width = '100%';
         }
         localStorage.setItem('name', data.finalAlumet.name);
         localStorage.setItem('userId', data.user._id);

@@ -13,6 +13,7 @@
 
 #add-wall {
   min-width: 150px;
+  max-width: 250px;
 }
 
 .warning-modal {

@@ -133,7 +133,6 @@ header {
 }
 
 .under-header {
-    margin-top: 3%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -177,16 +176,7 @@ header {
     transition: 0.2s ease-out;
 }
 
-.items {
-    width: 70%;
-    margin-left: auto;
-    justify-content: end;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
+
 .item {
     background-image: url("../assets/app/");
     width: 30%;
@@ -203,7 +193,7 @@ header {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-top: 55px;
+    margin-top: 5%;
     align-items: flex-start;
 }
 
@@ -255,7 +245,7 @@ header {
 
 .title > h1 {
     margin: 0;
-    margin-bottom: 50px;
+    margin-bottom: 1%;
     font-size: 12vh;
     font-weight: 800;
     background: #FFE3AF;
@@ -641,9 +631,6 @@ footer {
 
 
 @media screen and (max-width: 1200px) {
-    .items {
-        display: none;
-    }
     .box-container {
         justify-content: center;
     }

@@ -4,7 +4,7 @@ const { tokenC } = require('../config.json');
 
 const authentication = (req, res, next) => {
     const token = req.cookies.token;
-    if (!token || token == 'undefined') {
+    if (!token || token === 'undefined') {
         req.logged = false;
         return next();
     }

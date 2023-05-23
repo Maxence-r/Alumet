@@ -24,15 +24,20 @@ router.get('/supported', (req, res) => {
   
 
 router.get('/u/:id', validateObjectId, (req, res) => {
-    if (supportedTemplate.hasOwnProperty(req.params.id)) {
-      res.sendFile(path.join(__dirname, supportedTemplate[req.params.id]));
-    } else {
-    Upload.find( { _id: req.params.id } )
-    .then(upload => {
+  if (supportedTemplate.hasOwnProperty(req.params.id)) {
+    res.sendFile(path.join(__dirname, supportedTemplate[req.params.id]));
+  } else {
+    Upload.find({ _id: req.params.id })
+      .then(upload => {
         if (!upload) return res.status(404).json({ error: 'Upload not found' });
-        res.sendFile("./cdn/" + upload[0].filename, {root: './'});
-    })
-    .catch(error => res.json({ error }));
+        const filePath = path.join(__dirname, "./cdn/" + upload[0].filename);
+        if (fs.existsSync(filePath)) {
+          res.sendFile(filePath);
+        } else {
+          res.redirect('/404')
+        }
+      })
+      .catch(error => res.json({ error }));
   }
 });
 
