@@ -1109,7 +1109,7 @@ iframe {
         height: 100vh;      
     }
     .post-scroll {
-        height: calc(100% - 120px);
+        height: calc(100% - 20px);
     }
     .modal-container {
         width: calc(100% - 20px);

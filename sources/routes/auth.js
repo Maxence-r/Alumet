@@ -5,6 +5,8 @@ const Account = require('../models/account');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { tokenC } = require('../config.json');
+const Mail = require('../models/mail');
+
 
 router.get('/signin', async (req, res) => {
     if (req.logged) return res.redirect('/dashboard');
@@ -140,6 +142,54 @@ router.put('/changepassword', async (req, res) => {
       error: err.message
     });
   }
+});
+
+router.post('/sign-mail', async (req, res) => {
+  Mail.findOne({
+          mail: req.body.mail
+      })
+      .then(mail => {
+          if (mail) {
+              mail.deleteOne({
+                      mail: req.body.mail
+                  })
+                  .then(() => {
+                      res.status(200).json({
+                          message: 'Mail supprimé !'
+                      });
+                  })
+                  .catch(error => {
+                      console.log(error);
+                      res.status(500).json({
+                          error
+                      });
+                  });
+          } else {
+              const newMail = new Mail({
+                  mail: req.body.mail
+              });
+              newMail.save()
+                  .then(() => {
+                      res.status(201).json({
+                          message: 'Mail ajouté !'
+                      });
+                  })
+                  .catch(error => {
+                      console.log(error);
+                      res.status(500).json({
+                          error
+                      });
+                  });
+
+          }
+
+      })
+      .catch(error => {
+          console.log(error);
+          res.status(500).json({
+              error
+          });
+      });
 });
 
 

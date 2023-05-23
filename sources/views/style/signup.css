@@ -64,6 +64,10 @@ body {
     flex-direction: column;
 }
 
+.ancre {
+    color: white;
+}
+
 .warn {
     width: 22px;
 }
@@ -148,11 +152,16 @@ body {
     display: flex;
     flex-direction: column;
     padding: 20px;
-    width: 100%;
+    width: calc(100% - 40px);
     margin-top: auto;
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
+}
+
+.div-title {
+    display: flex;
+    flex-direction: row;
 }
 
 .low-container > input {
@@ -180,4 +189,5 @@ body {
         width: 100%;
     }
 }
+
     

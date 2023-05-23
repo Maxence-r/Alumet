@@ -19,3 +19,27 @@ function checkPreviewContainers() {
 }
 
 window.addEventListener('scroll', checkPreviewContainers);
+
+document.querySelector('.submit-button').addEventListener('click', function() {
+  fetch('/auth/sign-mail', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        mail: document.querySelector('.mail-zone').value
+      })
+    })
+    .then(function(res) {
+      return res.json();
+    }
+  )
+  .then(function(data) {
+    document.querySelector('.submit-button').classList.remove('button--loading')
+    if (data.error) {
+      alert('Une erreur est survenue');
+    } else {
+      alert(data.message)
+    }
+  });
+});
