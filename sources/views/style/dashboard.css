@@ -233,7 +233,7 @@ body {
 }
 
 .file-manager {
-    width: 100%;
+    width: calc(100% - 420px);
     margin: 20px;
     display: none;
     flex-direction: column;

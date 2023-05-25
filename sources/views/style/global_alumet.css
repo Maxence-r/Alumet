@@ -855,7 +855,7 @@ p.file-name {
     position: absolute;
     background-color: var(--main-color);
     box-shadow:  0px -1px 11px rgba(0, 0, 0, 0.25);
-    z-index: 500;
+    z-index: 501;
 }
   
 #selected-item > img {
@@ -1127,11 +1127,11 @@ iframe {
 @keyframes fadeTop {
     from {
         opacity: 0;
-        transform: scale(0.9)
+        transform: translateX(100%)
     }
     to {
         opacity: 1;
-        transform: scale(1)
+        transform: translateX(0px)
     }
 }
 
@@ -1192,6 +1192,14 @@ iframe {
     }
     .item {
         margin-top: 0;
+    }
+    @keyframes fadeTop {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
     }
   }
 

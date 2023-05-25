@@ -1,6 +1,6 @@
 
 # Alumet
-> :warning: **Conférence a clémenceau**: nous aurons le plaisir de tenir une conférence sur le futur du projet alumet aux professeurs du lycée clemenceau a nantes ! Nous ferons de notre mieux pour fournir un résumé, ou enregistrement
+> :warning: **Conférence à Clemenceau** : Nous avons le plaisir d'annoncer la tenue d'une conférence sur le futur du projet Alumet destinée aux professeurs du lycée Clemenceau à Nantes ! Nous nous efforcerons de vous fournir un résumé ou un enregistrement de l'événement.
 
 La flamme de l’innovation au service de l’éducation.
 
