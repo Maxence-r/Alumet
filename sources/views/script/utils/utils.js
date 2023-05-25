@@ -154,7 +154,7 @@ let supportedPreviewAlumet = {
     "odt": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
     "ods": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
     "ppt": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
-    "odp": "<img loading=\"lazy\" src=\"./....//assets/app/empty_preview.png\">",
+    "odp": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
     "docx": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
     "doc": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
     "xlsx": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",

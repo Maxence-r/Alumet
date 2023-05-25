@@ -1,5 +1,6 @@
 
 # Alumet
+> :warning: **Conférence a clémenceau**: nous aurons le plaisir de tenir une conférence sur le futur du projet alumet aux professeurs du lycée clemenceau a nantes ! Nous ferons de notre mieux pour fournir un résumé, ou enregistrement
 
 La flamme de l’innovation au service de l’éducation.
 
@@ -33,11 +34,11 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 | Date      | Evenement                                  | Status    | Version |
 | :-------- | :---------------------------------------- | :--------| :-------|
 | 28/04/23  | Rendu du projet aux trophées NSI           | Fait     | 1.0     |
-| 01/05/23  | Fin du developpement de la V1.1            | Retardé | 1.1     |
+| 01/05/23  | Fin du developpement de la V1.1            | Fait | 1.1     |
 | w1/05/23  | Présentation Alumet à quelques profs et avis | Fait | 1.1     |
-| w2/05/23  | Conférence Alumet aux professeurs à Clémenceau | Planifié (5 juin) | 1.1 |
+| w2/05/23  | Conférence Alumet aux professeurs à Clémenceau | Confirmé (5 juin) | 1.1 |
 | f2/05/23  | Fin du developpement de la V1.2            | Planifié | 1.2     |
-| f2/05/23  | Résultats régionaux trophées NSI           | En attente | 1.0  |
+| f2/05/23  | Résultats régionaux trophées NSI           | Qualifié | 1.0  |
 | w1/06/23  | Résultats nationaux trophées NSI           | En attente | 1.0  |
 | w2/06/23  | Collecte d'informations pour la V2         | Planifié | 1.2     |
 | w1/07/23  | Alumet rejoint Teranga                     | Planifié | 1.2     |
@@ -49,6 +50,7 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 ### Historiques des commits
 | Date      | Contenu                                   | Version  |
 | :-------- | :---------------------------------------- | :------- |
+| 25/05/23  | Hotfix | 1.0.6  |
 | 16/05/23  | Amméiloration de l'UI & UX + de moultes bugs réglés et un problème d'accès aux données | 1.0.5   |
 | 16/05/23  | Amméiloration de l'UI & UX | 1.0.4   |
 | 08/05/23  | Amméiloration de l'UI & UX sur les alumets (visibilité des bouttons et interactions), corrections de moultes bogs, correction d'un énorme soucis de performance qui touchait les appareils moins performants | 1.0.3   |
