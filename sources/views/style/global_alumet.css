@@ -876,6 +876,7 @@ p.file-name {
 }
 
 .item > p {
+    text-align: center;
     font-size: 11px;
     color: #6e6e6e;
     margin: 0;

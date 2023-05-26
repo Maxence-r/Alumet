@@ -1,8 +1,8 @@
 document.querySelector('.modules-container').innerHTML += `
 <div id="bd" class="module-container module">
     <div class="module-header">
-        <p>Tableau</p>
-        <button onclick="alert('Cette fonctionnalité arrive bientôt')">Crée un tableau</button>
+        <p>Mur d'idées</p>
+        <button onclick="alert('Cette fonctionnalité arrive bientôt')">Crée un mur d'idées</button>
     </div>
 </div>`;
 
