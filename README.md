@@ -50,6 +50,7 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 ### Historiques des commits
 | Date      | Contenu                                   | Version  |
 | :-------- | :---------------------------------------- | :------- |
+| 26/05/23  | Nous entamons la refonte du design de nos modules afin de les rendre plus accessibles, moins encombrants et plus simples d'utilisation. Pendant cette période, nous ajouterons des fonctionnalités aux modules "Devoirs", "Mur d'idées" et "Messages". Cela finalisera la version 1.0 en vue de passer à la version 1.1 | 1.0.7  |
 | 25/05/23  | Hotfix | 1.0.6  |
 | 16/05/23  | Amméiloration de l'UI & UX + de moultes bugs réglés et un problème d'accès aux données | 1.0.5   |
 | 16/05/23  | Amméiloration de l'UI & UX | 1.0.4   |

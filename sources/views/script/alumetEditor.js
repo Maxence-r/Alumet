@@ -298,7 +298,7 @@ document.querySelector('.hw-send').addEventListener('click', async () => {
     let content = document.getElementById('hw-c').value;
     let time = document.getElementById('hw-d').value;
     if (!content || !time) {
-        document.querySelector('h.w-send').classList.remove('button--loading');
+        document.querySelector('.hw-send').classList.remove('button--loading');
         return alert('Spécifier le contenu et la date');
     }
     if (content.length > 500 || content.includes('<')) {

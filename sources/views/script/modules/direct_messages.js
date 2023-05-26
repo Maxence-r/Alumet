@@ -2,11 +2,14 @@ socket.on(`message-${localStorage.getItem('currentAlumet')}`, data => {
     let div = document.createElement('div');
         div.classList.add('user-message');
         div.innerHTML = `
-        <div class="username">
-            <p>${data.owner}</p>
-        </div>
-        <div class="message">
-            <p>${data.message}</p>
+        <img class="pp" src="../../assets/app/default.png">
+        <div class="message-content">
+            <div class="username">
+                <p>${data.owner}</p>
+            </div>
+            <div class="message">
+                <p>${data.message}</p>
+            </div>
         </div>`
         document.getElementById('conversation').appendChild(div);
         let elem = document.getElementById('conversation');
@@ -23,9 +26,7 @@ document.querySelector('.modules-container').innerHTML += `
     </div>
     <div class="module-footer">
         <input id="message-input" type="text" placeholder="Envoyer un message" class="message-input">
-        <button class="l-preview send-button" id="accent" type="button" onclick="this.classList.add('button--loading')">
-            <span class="button__text"><img class="img-preview" src="../../assets/app/open.svg"></span>
-        </button>
+        <span class="material-symbols-rounded send-button">send</span>
     </div>
 </div>`;
 
@@ -44,30 +45,35 @@ setTimeout(() => {
 }, 1000)
 
 function getMessages() {
-     fetch(`/api/dm/get/${localStorage.getItem('currentAlumet')}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include'
-    })
-    .then(response => response.json())
-    .then(data => {
-        data.forEach(message => {
-            let div = document.createElement('div');
-            div.classList.add('user-message');
-            div.innerHTML = `
-            <div class="username">
-                <p>${message.owner}</p>
-            </div>
-            <div class="message">
-                <p>${message.content}</p>
-            </div>`
-            document.getElementById('conversation').appendChild(div);
-        })
-        let elem = document.getElementById('conversation');
-        elem.scrollTop = elem.scrollHeight;
-    })
+  fetch(`/api/dm/get/${localStorage.getItem('currentAlumet')}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
+  })
+  .then(response => response.json())
+  .then(data => {
+    data.forEach(message => {
+      let div = document.createElement('div');
+      div.classList.add('user-message');
+      div.innerHTML = `
+        <img class="pp" src="../../assets/app/default.png">
+        <div class="message-content">
+          <div class="username">
+            <p>${message.owner}</p>
+          </div>
+          <div class="message">
+            <p>${message.content}</p>
+          </div>
+        </div>`;
+      document.getElementById('conversation').appendChild(div);
+    });
+    console.log('scrolling');
+    let elem = document.getElementById('conversation');
+    elem.scrollTop = elem.scrollHeight;
+  })
+  .catch(error => console.error(error));
 }
 getMessages();
 

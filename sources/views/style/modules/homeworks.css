@@ -12,12 +12,12 @@
     flex-direction: column;
     justify-content: space-between;
     padding-inline: 10px;
-    border-bottom: 1px solid rgb(88, 88, 88);
+    border-bottom: 1px solid rgb(179, 179, 179);
 }
 
 .devoir-content {
     font-size: 12px;
-    color: rgb(255, 255, 255);
+    color: rgb(2, 2, 2);
     overflow-wrap: anywhere;
     margin: 0;
     margin-bottom: 10px;
@@ -25,7 +25,7 @@
 
 .devoir-date {
     font-size: 12px;
-    color: rgb(211, 211, 211);
+    color: rgb(180, 180, 180);
     margin: 0;
     margin-top: 10px;
     margin-bottom: 5px;
@@ -33,6 +33,7 @@
 
 .teacher-hw-layer {
     display: none;
+    align-items: center;
     position: absolute;
     width: calc(100% - 20px);
     height: 100%;
@@ -48,10 +49,6 @@
     justify-content: flex-end;
 }
 
-.teacher-hw-layer > .quick-actions > div {
-    margin-right: 0 !important;
-    margin-top: 8px;
-}
 
 
 
