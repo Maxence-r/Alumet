@@ -2,8 +2,9 @@ document.querySelector('.modules-container').innerHTML += `
 <div id="bd" class="module-container module">
     <div class="module-header">
         <p>Mur d'idées</p>
-        <button onclick="alert('Cette fonctionnalité arrive bientôt')">Crée un mur d'idées</button>
+        <button onclick="createBd()">Crée un mur d'idées</button>
     </div>
+    <div id="boards"></div>
 </div>`;
 
 
@@ -150,3 +151,41 @@ itemContents.forEach((itemContent) => {
     });
 });
 
+
+document.querySelector('.bd-create').addEventListener('click', () => {
+    fetch(`/api/board/${localStorage.getItem('currentAlumet')}/create`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: document.getElementById('bd-c').value,
+            interact: document.getElementById('bd-c-checked').checked,
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'success') {
+            window.location.href = `/board/${data.id}`;
+        }
+    })
+    .catch(err => console.log(err));
+});
+
+
+function getBoards() {
+    fetch(`/api/board/${localStorage.getItem('currentAlumet')}`)
+    .then(res => res.json())
+    .then(data => {
+        data.forEach(board => {
+          document.getElementById('boards').innerHTML += `
+            <div class="board">
+              ${board.name}
+              </div>
+          `;
+        });
+    })
+    .catch(err => console.log(err));
+}
+
+getBoards();

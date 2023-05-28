@@ -15,11 +15,6 @@ const BoardSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: false
-    },
-    public : {
-        type: Boolean,
-        required: true,
-        default: false
     }
 });
 

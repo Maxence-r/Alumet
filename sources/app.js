@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
-
 const { mongodbConnectString} = require('./config.json');
 //Import middlewares
 const authentication = require('./middlewares/authentication');

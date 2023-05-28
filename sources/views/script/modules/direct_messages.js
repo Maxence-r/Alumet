@@ -69,7 +69,6 @@ function getMessages() {
         </div>`;
       document.getElementById('conversation').appendChild(div);
     });
-    console.log('scrolling');
     let elem = document.getElementById('conversation');
     elem.scrollTop = elem.scrollHeight;
   })

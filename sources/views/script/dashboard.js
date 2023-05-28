@@ -583,3 +583,15 @@ function getNotifications() {
 }
 
 getNotifications();
+
+
+const urlParams = new URLSearchParams(window.location.search);
+const redirectFile = urlParams.get('redirect');
+
+if (redirectFile) {
+    document.getElementById("fileM").click();
+    console.log('Redirecting to file manager');
+    document.getElementById("file-uploader").classList.add('isDisplayed');
+} else {
+  console.log('No redirect parameter found');
+}

@@ -5,7 +5,7 @@ const Alumet = require('../../models/alumet');
 const Account = require('../../models/account');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const { tokenC } = require('../../config.json');
+require('dotenv').config();
 const notification = require('../../middlewares/notification');
 
 router.post('/send/:alumet', alumetAuth, notification("A envoyer un message"), async (req, res) => {
@@ -39,7 +39,7 @@ router.post('/send/:alumet', alumetAuth, notification("A envoyer un message"), a
             const account = await Account.findById(req.user.id);
             global.io.emit(`message-${req.params.alumet}`, { message: content, owner: account.prenom + ' ' + account.nom });
         } else {
-            const decodedToken = jwt.verify(req.cookies.alumetToken, tokenC);
+            const decodedToken = jwt.verify(req.cookies.alumetToken, process.env.TOKEN.toString());
             message.username = decodedToken.username;
             global.io.emit(`message-${req.params.alumet}`, { message: content, owner: message.username });
         }
@@ -80,7 +80,7 @@ router.post('/send/:alumet', alumetAuth, notification("A envoyer un message"), a
             const account = await Account.findOne({ _id: message.owner });
             message.owner = account.prenom + ' ' + account.nom;
           } else {
-            const decodedToken = jwt.verify(message.owner, tokenC);
+            const decodedToken = jwt.verify(message.owner, process.env.TOKEN.toString());
             message.owner = decodedToken.username;
           }
         }

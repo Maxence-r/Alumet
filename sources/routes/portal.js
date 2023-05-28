@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const Alumet = require('../models/alumet');
-const { tokenC } = require('../config.json');
+require('dotenv').config();
 const validateObjectId = require('../middlewares/validateObjectId');
 const puppeteer = require('puppeteer');
 
@@ -53,7 +53,7 @@ router.post('/authorize', validateObjectId, async (req, res) => {
             const token = jwt.sign({
                 id: alumet._id,
                 username: req.body.username || "Anonyme",
-            }, tokenC);
+            }, process.env.TOKEN.toString());
             res.cookie('alumetToken', token).status(200).json({
                 message: 'Connexion réussie !'
             });

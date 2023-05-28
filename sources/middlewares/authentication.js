@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Account = require('../models/account');
-const { tokenC } = require('../config.json');
+require('dotenv').config();
+
 
 const authentication = (req, res, next) => {
     const token = req.cookies.token;
@@ -9,7 +10,7 @@ const authentication = (req, res, next) => {
         return next();
     }
     try {
-        const decodedToken = jwt.verify(token, tokenC);
+        const decodedToken = jwt.verify(token, process.env.TOKEN.toString());
         const userId = decodedToken.userId;
         Account.findOne({ _id: userId })
             .then(user => {

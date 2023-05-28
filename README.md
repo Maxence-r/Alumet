@@ -50,6 +50,7 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 ### Historiques des commits
 | Date      | Contenu                                   | Version  |
 | :-------- | :---------------------------------------- | :------- |
+| 28/05/23  | Afin d'améliorer la stabilité et la sécurité d'Alumet, nous avons pris la décision de stocker les informations sensibles, telles que le jeton de chiffrement et les clés d'API, dans des variables d'environnement. Par conséquent, ces informations ne seront plus affichées dans le fichier config.json. Nous avons également résolu plusieurs bugs et poursuivi le développement des modules pour améliorer l'ensemble du système. | 1.0.8  |
 | 26/05/23  | Nous entamons la refonte du design de nos modules afin de les rendre plus accessibles, moins encombrants et plus simples d'utilisation. Pendant cette période, nous ajouterons des fonctionnalités aux modules "Devoirs", "Mur d'idées" et "Messages". Cela finalisera la version 1.0 en vue de passer à la version 1.1 | 1.0.7  |
 | 25/05/23  | Hotfix | 1.0.6  |
 | 16/05/23  | Amméiloration de l'UI & UX + de moultes bugs réglés et un problème d'accès aux données | 1.0.5   |

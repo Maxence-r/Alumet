@@ -5,9 +5,7 @@ const validateObjectId = require('../../middlewares/validateObjectId');
 const postLayer = require('../../middlewares/postLayer');
 const alumetAuth = require('../../middlewares/api/alumetAuth');
 const Alumet = require('../../models/alumet');
-const {
-    tokenC
-} = require('../../config.json');
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const Upload = require('../../models/upload');
 const notification = require('../../middlewares/notification');
@@ -35,7 +33,7 @@ router.post('/:alumet/:wall', validateObjectId, alumetAuth, postLayer, notificat
                 if (req.cookies.alumetToken === editedPost.owner) {
                     editedPost.owning = true;
                 }
-                const decodedToken = jwt.verify(post.owner, tokenC);
+                const decodedToken = jwt.verify(post.owner, process.env.TOKEN.toString());
                 editedPost.owner = decodedToken.username;
             } else if (req.logged) {
                 editedPost.owning = true;
@@ -100,7 +98,7 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
                 if (req.cookies.alumetToken === editedPost.owner || req.logged) {
                     editedPost.owning = true;
                 }
-                const decodedToken = jwt.verify(post.owner, tokenC);
+                const decodedToken = jwt.verify(post.owner, process.env.TOKEN.toString());
                 editedPost.owner = decodedToken.username;
             } else if (req.logged && alumet.owner === req.user.id) {
                 editedPost.owning = true;

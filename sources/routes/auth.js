@@ -4,7 +4,7 @@ const path = require('path');
 const Account = require('../models/account');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { tokenC } = require('../config.json');
+require('dotenv').config();
 const Mail = require('../models/mail');
 
 
@@ -40,7 +40,7 @@ router.get('/logout', async (req, res) => {
 router.get('/info', async (req, res) => {
     const token = req.cookies.token;
     if (!token) return res.redirect('/auth/signin');
-    const decodedToken = jwt.verify(token, tokenC);
+    const decodedToken = jwt.verify(token, process.env.TOKEN.toString());
     const userId = decodedToken.userId;
     Account.findOne({ _id: userId })
         .then(user => {
@@ -63,6 +63,7 @@ router.post('/signin', (req, res) => {
                 error: 'Utilisateur non trouvé !'
             });
         }
+     
         bcrypt.compare(req.body.password, user.password)
             .then(valid => {
                 if (!valid) {
@@ -74,10 +75,11 @@ router.post('/signin', (req, res) => {
                         userId: user._id,
                         mail: user.mail
                     },
-                    tokenC, {
+                    process.env.TOKEN.toString(), {
                         expiresIn: '24h'
                     }
                 )
+                console.log(token);
                 res.cookie('token', token).status(200).json({
                     message: 'Connexion réussie !'
                 });
