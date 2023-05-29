@@ -68,4 +68,4 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 | 30/04/23  | Amméiloration de l'UX sur les alumets (prend toute la taille), developpement du module Tableau toujours en cours, corrections de moultes bogs, optimisation des performances sur les appareils peut performants | 1.0.1    |
 
 ### Status du repository github
-Le code actuel est pas le même que celui sur le serveur et sur la version web alumet.io.
+Le code actuel est le même que celui sur le serveur et sur la version web alumet.io.
