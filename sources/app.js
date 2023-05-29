@@ -15,6 +15,7 @@ const auth = require('./routes/auth');
 const portal = require('./routes/portal');
 const a = require('./routes/a');
 const preview = require('./routes/preview');
+const DBoard = require('./routes/DBoard');
 
 const direct_messages = require('./routes/modules/direct_messages');
 const homeworks = require('./routes/modules/homeworks');
@@ -67,6 +68,7 @@ app.use('/portal', alumetAuth, portal);
 app.use('/dashboard', dashboard);
 app.use('/alumet', alumet);
 app.use('/auth', auth);
+app.use('/board', DBoard);
 
 // preview processing 
 app.use('/preview', preview)

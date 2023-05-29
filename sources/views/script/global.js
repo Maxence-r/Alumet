@@ -3,10 +3,9 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
   if (main) {
     const toast = document.createElement("div");
 
-    const autoRemoveId = setTimeout(function () {
+    setTimeout(function () {
       main.removeChild(toast);
     }, duration + 1000);
-
 
     const icons = {
       success: `<span class="material-symbols-rounded">check_circle</span>`,
