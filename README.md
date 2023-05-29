@@ -10,7 +10,7 @@
   <img alt="Socketio" src="https://img.shields.io/badge/Socket.io-010101?&style=for-the-badge&logo=Socket.io&logoColor=white">
   <img href="https://openai.com/" alt="OpenAI API" src="https://img.shields.io/badge/-OPENAI%20API-1ea47f?logo=openai&logoColor=FFFFFF&style=for-the-badge">
 </div>
----
+
 
 ![image alumet](https://i.imgur.com/M5eR3qC.png)
 L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France.
