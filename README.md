@@ -2,12 +2,18 @@
 # Alumet
 > :warning: **Conférence à Clemenceau** : Nous avons le plaisir d'annoncer la tenue d'une conférence sur le futur du projet Alumet destinée aux professeurs du lycée Clemenceau à Nantes ! Nous nous efforcerons de vous fournir un résumé ou un enregistrement de l'événement.
 
-La flamme de l’innovation au service de l’éducation.
+<img href="https://www.oracle.com/fr/cloud/" alt="Oracle Cloud" src="https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=Oracle&logoColor=white">
+<img href="https://www.mongodb.com/" alt="MongoDB" src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white">
+<img alt="HTML 5" src="https://img.shields.io/badge/-HTML5-F06529?logo=html5&logoColor=FFFFFF&style=for-the-badge">
+<img alt="CSS 3" src="https://img.shields.io/badge/-CSS%203-2965f1?logo=css3&logoColor=FFFFFF&style=for-the-badge">
+<img alt="Nodejs" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white">
+<img alt="Socketio" src="https://img.shields.io/badge/Socket.io-010101?&style=for-the-badge&logo=Socket.io&logoColor=white">
+<img href="https://openai.com/" alt="OpenAI API" src="https://img.shields.io/badge/-OPENAI%20API-1ea47f?logo=openai&logoColor=FFFFFF&style=for-the-badge">
 
-L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France.
+---
 
 ![image alumet](https://i.imgur.com/M5eR3qC.png)
-
+L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France.
 
 ## Demo
 
@@ -50,7 +56,8 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 ### Historiques des commits
 | Date      | Contenu                                   | Version  |
 | :-------- | :---------------------------------------- | :------- |
-| 28/05/23  | Afin d'améliorer la stabilité et la sécurité d'Alumet, nous avons pris la décision de stocker les informations sensibles, telles que le jeton de chiffrement et les clés d'API, dans des variables d'environnement. Par conséquent, ces informations ne seront plus affichées dans le fichier config.json. Nous avons également résolu plusieurs bugs et poursuivi le développement des modules pour améliorer l'ensemble du système. | 1.0.8  |
+| 28/05/23  | Développement des modules | 1.0.9  |
+| 27/05/23  | Afin d'améliorer la stabilité et la sécurité d'Alumet, nous avons pris la décision de stocker les informations sensibles, telles que le jeton de chiffrement et les clés d'API, dans des variables d'environnement. Par conséquent, ces informations ne seront plus affichées dans le fichier config.json. Nous avons également résolu plusieurs bugs et poursuivi le développement des modules pour améliorer l'ensemble du système. | 1.0.8  |
 | 26/05/23  | Nous entamons la refonte du design de nos modules afin de les rendre plus accessibles, moins encombrants et plus simples d'utilisation. Pendant cette période, nous ajouterons des fonctionnalités aux modules "Devoirs", "Mur d'idées" et "Messages". Cela finalisera la version 1.0 en vue de passer à la version 1.1 | 1.0.7  |
 | 25/05/23  | Hotfix | 1.0.6  |
 | 16/05/23  | Amméiloration de l'UI & UX + de moultes bugs réglés et un problème d'accès aux données | 1.0.5   |

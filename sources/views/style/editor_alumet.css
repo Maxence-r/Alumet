@@ -290,6 +290,10 @@
 .module-header > button {
   display: block !important;
 }
+
+.setting-ico {
+  display: flex !important;
+}
   
 @media screen and (max-width: 1200px) {
   .setting {

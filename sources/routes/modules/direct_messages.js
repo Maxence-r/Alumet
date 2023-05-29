@@ -17,11 +17,11 @@ router.post('/send/:alumet', alumetAuth, notification("A envoyer un message"), a
       }
       
       if (req.logged && !req.auth && alumetObj.owner.toString() !== req.user.id) {
-        return res.status(401).json({ error: 'Unauthorized x001' });
+        return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
       }
       
       if (req.auth && !req.logged && req.params.alumet !== req.alumet.id) {
-        return res.status(401).json({ error: 'Unauthorized x002' });
+        return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
       }
   
       const { content } = req.body;
@@ -62,11 +62,11 @@ router.post('/send/:alumet', alumetAuth, notification("A envoyer un message"), a
       }
   
       if (req.logged && !req.auth && alumetObj.owner.toString() !== req.user.id) {
-        return res.status(401).json({ error: 'Unauthorized x001' });
+        return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
       }
   
       if (req.auth && !req.logged && req.params.alumet !== req.alumet.id) {
-        return res.status(401).json({ error: 'Unauthorized x002' });
+        return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
       }
   
       const messages = await Message.find({ alumet: req.params.alumet })

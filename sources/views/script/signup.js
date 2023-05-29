@@ -25,7 +25,12 @@ function progress() {
             return res.json()
         }).then((data) => {
             if (data.message) {
-             alert("Une erreur est survenue")
+                toast({
+                    title: "Quelque chose s'est mal passé",
+                    message: `${data.message}`,
+                    type: "error",
+                    duration: 3000
+                  })
             } else {
                 document.querySelector(".second").style.display = "none"
                 document.querySelector(".third").style.display = "flex"

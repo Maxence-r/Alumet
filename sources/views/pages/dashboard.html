@@ -20,10 +20,12 @@
   <meta name="twitter:image" content="https://i.imgur.com/WZO8U8s.png">
   <link href="../style/dashboard.css" rel="stylesheet" type="text/css">
   <link href="../style/global.css" rel="stylesheet" type="text/css">
-  <link rel="manifest" href="../assets/public/manifest.json" />
-  <title>Alumet - Dashboard</title>
+
+
+  <title>Alumet - Tableau de bord</title>
 </head>
 <body>
+  <div id="toast"></div>
   <div class="loading-screen">
     <div class="loading-infos">
       <img src="../assets/app/alumet.png" alt="Logo d'Alumet">
@@ -113,6 +115,10 @@
                 <label class="switch"><input id="hw" type="checkbox"><span class="slider round"></span></label>
               </div>
               <div class="module">
+                <h1>Flashcards</h1>
+                <label class="switch"><input id="fc" type="checkbox"><span class="slider round"></span></label>
+              </div>
+              <div class="module">
                 <h1>Mur d'idées</h1>
                 <label class="switch"><input id="bd" type="checkbox"><span class="slider round"></span></label>
               </div>
@@ -200,5 +206,6 @@
   <div class="open-menu"><img src="../assets/app/open-menu.svg" alt="Menu"></div>
   <script src="../script/dashboard.js"></script>
   <script src="../script/interactions.js"></script>
+  <script src="../script/global.js"></script>
 </body>
 </html>

@@ -39,7 +39,13 @@ document.querySelector('.m-p-b').addEventListener('click', () => {
     .then(response => response.json())
     .then(data => {
         if (data.error) {
-            alert(data.error);
+            toast({
+                title: "Quelque chose s'est mal passé",
+                message: `${data.error}`,
+                type: "error",
+                duration: 3000
+              })
+              cancelLoading("m-p-b");
         } else {
             let title = document.querySelector(`[data-id="${localStorage.getItem('currentItem')}"] > .post-title`);
             let content = document.querySelector(`[data-id="${localStorage.getItem('currentItem')}"] > .post-content`);
@@ -65,7 +71,7 @@ document.querySelector('.m-p-b').addEventListener('click', () => {
             document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"]`).classList.remove(document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"]`).classList[1]);
             document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"]`).classList.add(`post-${data.color}`);
             closeModal('patch-post');
-            document.querySelector('.m-p-b').classList.remove('button--loading');
+            cancelLoading("m-p-b");
         }
     })
     .catch(error => {
@@ -97,8 +103,19 @@ function deletePost() {
     .then(response => response.json())
     .then(data => {
         if (data.error) {
-            alert(data.error);
+            toast({
+                title: "Quelque chose s'est mal passé",
+                message: `${data.error}`,
+                type: "error",
+                duration: 3000
+              })
         } else {
+            toast({
+                title: "Post supprimé",
+                message: "Le post a été supprimé avec succès",
+                type: "success",
+                duration: 3000
+            })
             closeModal('patch-post');
             document.querySelector(`[data-id~="${localStorage.getItem('currentItem')}"]`).remove();
         }
@@ -124,28 +141,27 @@ fetch('/cdn/supported')
     })
     .catch(err => console.log(err));
 
-document.querySelector('.l-preview').addEventListener('click', async (e) => {
+document.querySelector('.link-input').addEventListener('input', async (e) => {
     const linkInputValue = document.querySelector('.link-input').value;
-    if (!linkInputValue) {
-      document.querySelector('.l-preview').classList.remove('button--loading');
-      return;
+
+    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*\.[^\s]{2,}$/i;
+    if (!urlRegex.test(linkInputValue)) {
+        return;
     }
-  
+
     try {
-      const res = await fetch(`/preview/meta?url=${linkInputValue}`);
-      const data = await res.json();
-      function replaceAll(str, find, replace) {
-        return str.replace(new RegExp(find, 'g'), replace);
-      }
-      document.getElementById('preview-title').innerText = data.title ? replaceAll(data.title, "$", "") : 'Pas de titre trouvé';
-      document.getElementById('preview-description').innerText = data.description ? replaceAll(data.description, "<", "") : 'Pas de description trouvée';
-      document.getElementById('preview-image').src = data.image ? data.image : '../../assets/app/no-preview.png';
+        const res = await fetch(`/preview/meta?url=${linkInputValue}`);
+        const data = await res.json();
+        function replaceAll(str, find, replace) {
+            return str.replace(new RegExp(find, 'g'), replace);
+        }
+        document.getElementById('preview-title').innerText = data.title ? replaceAll(data.title, "$", "") : 'Pas de titre trouvé';
+        document.getElementById('preview-description').innerText = data.description ? replaceAll(data.description, "<", "") : 'Pas de description trouvée';
+        document.getElementById('preview-image').src = data.image ? data.image : '../../assets/app/no-preview.png';
     } catch (error) {
-      console.error(error);
+        console.error(error);
     }
-    document.querySelector('.l-preview').classList.remove('button--loading');
-  });
-  
+});
 
 
 // Utils functions
@@ -266,3 +282,8 @@ function downloadFile(url) {
     window.open(url, '_blank');
 }
 
+function launch_toast() {
+    var x = document.getElementById("toast")
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
+}

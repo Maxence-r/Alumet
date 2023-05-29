@@ -31,7 +31,13 @@ document.querySelector('.s-create').addEventListener('click', () => {
     const title = document.getElementById('s-title').value;
     const checked = document.getElementById('s-checked').checked;
     if (title === '') {
-        alert('Please enter a title');
+        toast({
+            title: "Spécifiez un titre",
+            message: "Vous devez spécifier un titre pour votre section",
+            type: "warning",
+            duration: 3000
+          })
+        return cancelLoading("s-create");
     }
     fetch(`/api/wall/${localStorage.getItem('currentAlumet')}`, {
         method: 'POST',
@@ -49,8 +55,14 @@ document.querySelector('.s-create').addEventListener('click', () => {
         if (!data.error) {
             closeModal('cs')
             getWalls();
+            toast({
+                title: "Section créée",
+                message: `Votre section ${title} a bien été créée`,
+                type: "success",
+                duration: 3000
+              })
         }
-        document.querySelector('.s-create').classList.remove('button--loading');
+        cancelLoading("s-create");
     })
 });
 
@@ -65,6 +77,12 @@ function deleteWall() {
     .then(response => response.json())
     .then(data => {
         if (!data.error) {
+            toast({
+                title: "Section supprimée",
+                message: `Votre section a bien été supprimée`,
+                type: "success",
+                duration: 3000
+            })
             closeModal('ms')
             getWalls();
         }
@@ -86,7 +104,7 @@ document.querySelector('.s-modify').addEventListener('click', () => {
     })
     .then(response => response.json())
     .then(data => {
-        document.querySelector('.s-modify').classList.remove('button--loading');
+        cancelLoading("s-modify");
         if (!data.error) {
             closeModal('ms')
             getWalls();
@@ -201,7 +219,13 @@ document.querySelector('.p-a-modify').addEventListener('click', () => {
             })
         })
         .catch(err => {
-            return alert(err);
+            toast({
+                title: "Quelque chose s'est mal passé",
+                message: `${err}`,
+                type: "error",
+                duration: 3000
+              })
+              cancelLoading("p-a-modify");
         })
     } else {
     if (localStorage.getItem('templateAE')) {
@@ -239,7 +263,12 @@ document.getElementById('p-a-file').addEventListener('change', (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     if (file.size > 3000000) {
-        return alert('File is too big');
+        return toast({
+            title: "Fichier trop volumineux",
+            message: "Le fichier ne doit pas dépasser 3Mo",
+            type: "warning",
+            duration: 6000
+          })
     }
     reader.onload = () => {
         const img = new Image();
@@ -294,16 +323,109 @@ function createBd() {
     document.getElementById('create-bd').classList.add('active-modal');
 }
 
+function openModifyBd(id) {
+    localStorage.setItem('currentItem', id);
+    fetch(`/api/board/${localStorage.getItem('currentAlumet')}/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('bd-m').value = data.name;
+            console.log(data.interact);
+            document.getElementById('bd-m-checked').checked = data.interact;
+        })
+        document.getElementById('modify-bd').style.display = 'flex';
+        document.getElementById('modify-bd').classList.add('active-modal');
+}
+
+function deleteBd() {
+    fetch(`/api/board/${localStorage.getItem('currentAlumet')}/${localStorage.getItem('currentItem')}`, {
+        method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(data => {
+        cancelLoading('bd-modify');
+        if (data.error) {
+            return toast({
+                title: "Impossible de supprimer ce tableau",
+                message: `${data.error}`,
+                type: "error",
+                duration: 5000
+                })
+        }
+        document.getElementById(`${localStorage.getItem('currentItem')}`).remove();
+        toast({
+            title: "Tableau supprimé",
+            message: "Le tableau a été supprimé avec succès",
+            type: "success",
+            duration: 3000
+        })
+        closeModal('modify-bd');
+    })
+}
+
+document.querySelector('.bd-modify').addEventListener('click', () => {
+    let name = document.getElementById('bd-m').value;
+    let interact = document.getElementById('bd-m-checked').checked;
+    if (!name) {
+        return toast({
+            title: "Impossible de modifier ce tableau",
+            message: "Vous devez spécifier un nom",
+            type: "warning",
+            duration: 5000
+            })
+    }
+    fetch(`/api/board/${localStorage.getItem('currentAlumet')}/${localStorage.getItem('currentItem')}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: name,
+            interact: interact
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        cancelLoading('bd-modify');
+        if (data.error) {
+            return toast({
+                title: "Impossible de modifier ce tableau",
+                message: `${data.error}`,
+                type: "error",
+                duration: 5000
+                })
+        }
+        toast({
+            title: "Tableau modifié",
+            message: "Le tableau a été modifié avec succès",
+            type: "success",
+            duration: 5000
+        })
+        getBoards();
+        closeModal('modify-bd');
+    })
+})
+
+
 document.querySelector('.hw-send').addEventListener('click', async () => {
     let content = document.getElementById('hw-c').value;
     let time = document.getElementById('hw-d').value;
     if (!content || !time) {
-        document.querySelector('.hw-send').classList.remove('button--loading');
-        return alert('Spécifier le contenu et la date');
+        cancelLoading("hw-send");
+        return toast({
+            title: "Impossible de publier ce devoir",
+            message: "Vous devez spécifier un contenu et une date",
+            type: "warning",
+            duration: 5000
+          })
     }
     if (content.length > 500 || content.includes('<')) {
-        document.querySelector('.hw-send').classList.remove('button--loading');
-        return alert('Contenu invalide');
+        cancelLoading("hw-send");
+        return toast({
+            title: "Impossible de publier",
+            message: "Le contenue dépasse la limite de 500 caractères ou contient des caractères interdits",
+            type: "warning",
+            duration: 5000
+          })
     }
     fetch(`/api/homeworks/add/${localStorage.getItem('currentAlumet')}`, {
         method: 'POST',
@@ -317,11 +439,16 @@ document.querySelector('.hw-send').addEventListener('click', async () => {
     }).then(res => res.json()).then(data => {
         getHomeworks();
         if (data.error) {
-            document.querySelector('.hw-send').classList.remove('button--loading');
-            return alert(data.error);
+            cancelLoading("hw-send");
+            return  toast({
+                title: "Quelque chose s'est mal passé",
+                message: `${data.error}`,
+                type: "error",
+                duration: 3000
+              })
             
         }
-        document.querySelector('.hw-send').classList.remove('button--loading');
+        cancelLoading("hw-send");
         closeModal("create-hw");
     });
 });
@@ -334,10 +461,10 @@ function setFirst() {
         }
     }).then(res => res.json()).then(data => {
         if (!data.error) {
-            document.querySelector('.s-first').classList.remove('button--loading');
+            cancelLoading("s-first");
         }
         closeModal("ms");
-        document.querySelector('.s-first').classList.remove('button--loading');
+        cancelLoading("s-first");
         getWalls()
     })
 }
@@ -375,4 +502,34 @@ fetch(`/alumet/warn/multiple/${currentID[3]}`, {
     if (data.error) {
         return console.log(data.error);
     }
+});
+
+
+document.querySelector('.bd-create').addEventListener('click', () => {
+    fetch(`/api/board/${localStorage.getItem('currentAlumet')}/create`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: document.getElementById('bd-c').value,
+            interact: document.getElementById('bd-c-checked').checked,
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        cancelLoading("bd-create");
+        if (!data.error) {
+            closeModal('create-bd');
+            getBoards();
+        } else {
+            toast({
+                title: "Impossible de créer le tableau",
+                message: `${data.error}`,
+                type: "error",
+                duration: 3000
+              })
+        }
+    })
+    .catch(err => console.log(err));
 });

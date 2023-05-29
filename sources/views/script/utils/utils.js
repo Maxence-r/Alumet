@@ -72,6 +72,15 @@ function initModules() {
                 link3.href = '../../style/modules/board.css';
                 document.head.appendChild(link3);
                 break;
+            case 'fc':
+                const script4 = document.createElement('script');
+                script4.src = '../../script/modules/flashcards.js';
+                document.body.appendChild(script4);
+                const link4 = document.createElement('link');
+                link4.rel = 'stylesheet';
+                link4.href = '../../style/modules/flashcards.css';
+                document.head.appendChild(link4);
+                break;
         }
     }) 
 }

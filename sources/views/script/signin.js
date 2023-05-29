@@ -15,7 +15,12 @@ function signin() {
         return res.json()
     }).then((data) => {
         if (data.error) {
-            alert(data.error)
+            toast({
+                title: "Quelque chose s'est mal passé",
+                message: `${data.error}`,
+                type: "error",
+                duration: 3000
+              })
             document.getElementById('signin').classList.toggle('button--loading')
         } else {
             window.location = "../dashboard"

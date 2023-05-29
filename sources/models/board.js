@@ -15,7 +15,12 @@ const BoardSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: false
-    }
+    },
+    lastUsage: {
+        type: Date,
+        required: true,
+        default: Date.now()
+    },
 });
 
 

@@ -23,6 +23,67 @@
     
 }
 
+#boards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 20px;
+}
+
+.board {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+  padding: 15px;
+  padding-inline: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.board:hover {
+  transform: scale(0.98);
+}
+
+.board:hover .setting-ico {
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+}
+
+.board:hover .setting-ico:hover {
+  transform: rotate(140deg);
+  transition: all 0.5s ease-in-out;
+}
+.setting-ico {
+  display: none;
+  opacity: 0;
+  font-size: 28px;
+  transition: all 0.2s ease-in-out;
+}
+
+.board-infos {
+  display: flex;
+  flex-direction: column;
+}
+
+.board-infos > h1 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.board-infos > p {
+  margin-top: 5px;
+  font-size: 0.8rem;
+  margin: 0;
+  color: var(--teranga-color);
+}
+
 
 #canvas-container {
     width: 100%;

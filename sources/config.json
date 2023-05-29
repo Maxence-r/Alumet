@@ -1,5 +1,5 @@
 {
-   "authorizedModules": ["hw", "bd", "dm"],
+   "authorizedModules": ["hw", "bd", "dm", "fc"],
    "mongodbConnectString": "mongodb://127.0.0.1:27017/alumet",
    "supportedColor": ["default", "blue", "red", "green", "yellow", "purple", "orange"],
    "supported": {

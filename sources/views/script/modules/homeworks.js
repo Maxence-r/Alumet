@@ -6,6 +6,10 @@ document.querySelector('.modules-container').innerHTML += `
         <button onclick="createHw()">Crée un devoir</button>
     </div>
     <div class="devoirs">
+    <div class="no-items">
+        <h1>Pas de devoirs 🙂</h1>
+        <p>Alors qu'est ce qu'on fait ?</p>
+      </div>
     </div>
 </div>`;
 
@@ -13,9 +17,10 @@ document.querySelector('.modules-container').innerHTML += `
     
 
 function getHomeworks() {
-    document.querySelector('.devoirs').innerHTML = '';
     fetch(`/api/homeworks/${localStorage.getItem('currentAlumet')}`).then(res => res.json()).then(data => {
-        document.querySelector('.devoirs').innerHTML = '';
+        if (data.length !== 0) {
+            document.querySelector('.devoirs').innerHTML = '';
+        }
         data.forEach(homework => {
             document.querySelector('.devoirs').innerHTML += `
             <div class="devoir">

@@ -39,7 +39,7 @@ const upload = multer({
 router.post('/warn/multiple/:alumet', alumetItemsAuth, async (req, res) => {
   if (!req.logged || req.alumetObj.owner !== req.user._id.toString()) {
     return res.status(401).json({
-      error: 'Unauthorized'
+      error: 'Vous n\'avez pas les permissions pour effectuer cette action !'
     });
   }
   global.io.emit(`warn-${req.user._id}`,req.params.alumet);
@@ -81,7 +81,7 @@ router.patch('/update/lastUsage', validateObjectId, async (req, res) => {
 router.post('/new/background', upload.single('background'), async (req, res) => {
   if (!req.logged) {
     return res.status(401).json({
-      error: 'Unauthorized'
+      error: 'Vous n\'avez pas les permissions pour effectuer cette action !'
     });
   }
   if (req.file) {
@@ -121,7 +121,7 @@ const { supportedTemplate } = require('../config.json');
 router.post('/new', async (req, res) => {
     if (!req.logged) {
         return res.status(401).json({
-            error: 'Unauthorized'
+            error: 'Vous n\'avez pas les permissions pour effectuer cette action !'
         });
     }
     if (!req.body.modules) {
@@ -175,7 +175,7 @@ router.patch('/update/:id', validateObjectId, async (req, res) => {
     req.body = req.body.body;
     if (!req.logged) {
         return res.status(401).json({
-            error: 'Unauthorized'
+            error: 'Vous n\'avez pas les permissions pour effectuer cette action !'
         });
     }
     const unauthorizedModules = req.body.modules.filter(module => !authorizedModules.includes(module));
@@ -200,7 +200,7 @@ router.patch('/update/:id', validateObjectId, async (req, res) => {
         }
         if (alumet.owner != req.user.id) {
             return res.status(401).json({
-                error: 'Unauthorized'
+                error: 'Vous n\'avez pas les permissions pour effectuer cette action !'
             });
         }
         if (!(req.body.background in supportedTemplate)) {
@@ -244,7 +244,7 @@ router.patch('/update/:id', validateObjectId, async (req, res) => {
 router.get('/all', async (req, res) => {
     if (!req.logged) {
         return res.status(401).json({
-            error: 'Unauthorized'
+            error: 'Vous n\'avez pas les permissions pour effectuer cette action !'
         });
     }
     try {

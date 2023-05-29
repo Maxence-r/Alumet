@@ -62,7 +62,7 @@ document.querySelector('.p-post').addEventListener('click', () => {
             return abortPost(data.error);
           }
           document.querySelector('.p-post').disabled = false;
-          document.querySelector('.p-post').classList.remove('button--loading');
+          cancelLoading("p-post");
           createPostHtml(data, data.wallId, true);
           closeModal('cp')
         });
@@ -79,7 +79,7 @@ document.querySelector('.p-post').addEventListener('click', () => {
         if (data.error) {
           return abortPost(data.error);
         }
-        document.querySelector('.p-post').classList.remove('button--loading');
+        cancelLoading("p-post");
         createPostHtml(data, data.wallId, true);
         document.querySelector('.p-post').disabled = false;
         closeModal('cp')
@@ -93,6 +93,11 @@ document.querySelector('.p-post').addEventListener('click', () => {
   
   function abortPost(message) {
     document.querySelector('.p-post').disabled = false;
-    alert(message);
-    document.querySelector('.p-post').classList.remove('button--loading');
+    toast({
+      title: "Quelque chose s'est mal passé",
+      message: `${message}`,
+      type: "error",
+      duration: 3000
+    })
+    cancelLoading("p-post");
   }

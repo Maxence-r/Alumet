@@ -68,19 +68,19 @@ router.get('/:alumet/:wall', validateObjectId, alumetAuth, async (req, res) => {
 
         if (!req.logged && !req.auth) {
             return res.status(404).json({
-                error: 'Unauthorized x000'
+                error: 'Vous n\'avez pas les permissions pour effectuer cette action !'
             });
         }
 
         if (req.logged && !req.auth && alumet.owner !== req.user.id) {
             return res.status(404).json({
-                error: 'Unauthorized'
+                error: 'Vous n\'avez pas les permissions pour effectuer cette action !'
             });
         }
 
         if (req.auth && !req.logged && alumet._id.toString() !== req.alumet.id) {
             return res.status(404).json({
-                error: 'Unauthorized x002'
+                error: 'Vous n\'avez pas les permissions pour effectuer cette action !'
             });
         }
 
@@ -168,7 +168,7 @@ router.delete('/:alumet/:wall/:post', validateObjectId, alumetAuth, notification
 
         if (!req.logged && !req.auth) {
             return res.status(404).json({
-                error: 'Unauthorized x000'
+                error: 'Vous n\'avez pas les permissions pour effectuer cette action !'
             });
         }
 
@@ -176,7 +176,7 @@ router.delete('/:alumet/:wall/:post', validateObjectId, alumetAuth, notification
 
         if (req.auth && req.cookies.alumetToken != post.owner) {
             return res.status(404).json({
-                error: 'Unauthorized x002'
+                error: 'Vous n\'avez pas les permissions pour effectuer cette action !'
             });
         }
 
@@ -188,7 +188,7 @@ router.delete('/:alumet/:wall/:post', validateObjectId, alumetAuth, notification
 
         if (req.logged && alumet.owner !== req.user.id && post.owner !== req.user.id) {
             return res.status(404).json({
-                error: 'Unauthorized'
+                error: 'UVous n\'avez pas les permissions pour effectuer cette action !'
             });
         }
 

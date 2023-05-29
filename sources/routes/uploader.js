@@ -62,7 +62,7 @@ const accountUpload = multer({
 });
 
 router.post('/upload/guest', alumetAuth, upload.single('file'), (req, res) => {
-  if (!req.auth) return res.status(401).json({ error: 'Unauthorized' });
+  if (!req.auth) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
   if (req.file) {
     const file = req.file;
     const ext = file.originalname.split('.').pop()
@@ -89,7 +89,7 @@ router.post('/upload/guest', alumetAuth, upload.single('file'), (req, res) => {
 
 
 router.patch('/update/:id', validateObjectId, (req, res) => {
-  if (req.logged == false) return res.status(401).json({ error: 'Unauthorized' });
+  if (req.logged == false) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
   if (!req.body.displayname) return res.status(400).json({ error: 'Veuillez spéficier un nouveau nom' });
   if (req.body.displayname.length > 100) return res.status(400).json({ error: 'Nom trop long' });
   Upload.find( { _id: req.params.id } )
@@ -114,7 +114,7 @@ router.patch('/update/:id', validateObjectId, (req, res) => {
 
 
 router.get('/files', (req, res) => {
-    if (!req.logged) return res.status(401).json({ error: 'Unauthorized' });
+    if (!req.logged) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
     Upload.find( { owner: req.user.id } ).sort({ date: -1 })
     .then(uploads => {
         res.json({ uploads });
@@ -126,7 +126,7 @@ router.get('/files', (req, res) => {
 
   
 router.post('/upload', accountUpload.array('files'), (req, res) => {
-    if (req.logged == false || req.user === undefined) return res.status(401).json({ error: 'Unauthorized' });
+    if (req.logged == false || req.user === undefined) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
     if (req.files && req.files.length > 0) {
       const files = req.files.map(file => {
         const ext = file.originalname.split('.').pop()
@@ -179,13 +179,13 @@ router.get('/delete/:id', validateObjectId, async (req, res) => {
       return res.status(404).json({ error: 'Upload not found' });
     }
     if (req.logged === false) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
     }
     if (!upload.modifiable) {
-      return res.status(401).json({ error: 'This file is used by one of your Alumets and cannot be deleted' });
+      return res.status(401).json({ error: 'Ce fichier est utilisé par un de vos Alumet, impossible de le supprimer !' });
     }
     if (upload.owner.toString() !== req.user.id) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
     }
     await upload.deleteOne();
     await Post.deleteMany({ typeContent: req.params.id });

@@ -37,9 +37,19 @@ document.querySelector('.submit-button').addEventListener('click', function() {
   .then(function(data) {
     document.querySelector('.submit-button').classList.remove('button--loading')
     if (data.error) {
-      alert('Une erreur est survenue');
+      toast({
+        title: "Quelque chose s'est mal passé",
+        message: `C'est probablement de notre faute, veuillez réessayer plus tard.`,
+        type: "error",
+        duration: 3000
+      })
     } else {
-      alert(data.message)
+      toast({
+        title: "Email enrégistré",
+        message: `Merci, nous vous tiendrons au courant.`,
+        type: "success",
+        duration: 3000
+      })
     }
   });
 });

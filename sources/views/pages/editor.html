@@ -27,27 +27,33 @@
       <section class="loading">
          <span class="loader-upload"></span>
       </section>
+      
+      <div id="toast"></div>
 
       <! -- Modals --> 
       <div class="nav-bar">
          <div onclick="home()" style="display: flex;" id="selected-item" class="item home">
-            <img loading="lazy" src="../../assets/app/home-alumet.svg" alt="Alumet">
+            <span class="material-symbols-rounded">home</span>
             <p>Accueil</p>
          </div>
          <div onclick="enableModule('hw')" class="item hw">
-            <img loading="lazy" src="../../assets/app/homework.svg" alt="Alumet">
+            <span class="material-symbols-rounded">receipt_long</span>
             <p>Devoirs</p>
          </div>
+         <div onclick="enableModule('fc')" class="item fc">
+            <span class="material-symbols-rounded">style</span>
+            <p>Flashcards</p>
+         </div>
          <div onclick="enableModule('dm')" class="item dm">
-            <img loading="lazy" src="../../assets/app/chat.svg" alt="Alumet">
+            <span class="material-symbols-rounded">chat</span>
             <p>Messages</p>
          </div>
          <div onclick="enableModule('bd')" class="item bd">
-            <img loading="lazy" src="../../assets/app/flashcard.svg" alt="Alumet">
+            <span class="material-symbols-rounded">map</span>
             <p>Mur d'idées</p>
          </div>
          <div onclick="editAlumet()" class="item setting">
-            <img loading="lazy" src="../../assets/app/setting.svg" alt="Alumet">
+            <span class="material-symbols-rounded">settings</span>
             <p>Paramètres</p>
          </div>
       </div>
@@ -127,6 +133,29 @@
                <button onclick="closeModal('create-bd')" id="cancel">Annuler</button>
                <button class="bd-create" id="accent" type="button" onclick="this.classList.add('button--loading')">
                   <span class="button__text">Créer</span>
+               </button>
+            </div>
+         </div>
+      </div>
+      <div id="modify-bd" class="modal">
+         <div class="modal-container">
+            <h1>Modifié le mur d'idées</h1>
+            <p>Nom du mur</p>
+            <input id="bd-m" type="text"  placeholder="Donner un nom au mur d'idées"></input>
+            <p>Autorisation</p>
+            <div class="option">
+               <p>Autoriser les élèves à interagir</p>
+               <label class="toggle">
+                  <input id="bd-m-checked" class="toggle-checkbox" type="checkbox">
+                  <div class="toggle-switch"></div>
+               </label>
+            </div>
+            <p>Zone dangereuse</p>
+            <button onclick="deleteBd()" id="delete">Supprimer ce mur d'idées</button>
+            <div class="edit-buttons">
+               <button onclick="closeModal('modify-bd')" id="cancel">Annuler</button>
+               <button class="bd-modify" id="accent" type="button" onclick="this.classList.add('button--loading')">
+                  <span class="button__text">Modifier</span>
                </button>
             </div>
          </div>
@@ -220,6 +249,13 @@
                </label>
             </div>
             <div class="option">
+               <p>Flashcards</p>
+               <label class="toggle">
+                  <input id="fc-a-p" class="toggle-checkbox a-p" type="checkbox">
+                  <div class="toggle-switch"></div>
+               </label>
+            </div>
+            <div class="option">
                <p>Mur d'idées</p>
                <label class="toggle">
                   <input id="bd-a-p" class="toggle-checkbox a-p" type="checkbox">
@@ -292,8 +328,7 @@
                <div class="website-preview">
                   <div class="link-row">
                      <input class="link-input" type="text" placeholder="Coller ici un lien">
-                     <button class="l-preview" id="accent" type="button" onclick="this.classList.add('button--loading')">
-                     <span class="button__text"><img class="img-preview" src="../../assets/app/open.svg"></span>
+                    
                      </button>
                   </div>
                   <img id="preview-image" src="../../assets/app/no-preview.png">
@@ -349,6 +384,7 @@
    <script src="../../script/utils/postHandler.js"></script>
    <script src="../../script/utils/teacher.js"></script>
    <script src="../../script/alumetGlobal.js"></script>
+   <script src="../../script/global.js"></script>
    <script src="/socket.io/socket.io.js"></script>
    <script>
       const socket = io();

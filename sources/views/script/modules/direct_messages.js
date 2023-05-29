@@ -23,6 +23,10 @@ document.querySelector('.modules-container').innerHTML += `
         <p>${localStorage.getItem('name')}</p>
     </div>
     <div id="conversation" class="conversation">
+      <div class="no-items">
+        <h1>Pas de messages</h1>
+        <p>Qui fera le premier pas ?!</p>
+      </div>
     </div>
     <div class="module-footer">
         <input id="message-input" type="text" placeholder="Envoyer un message" class="message-input">
@@ -54,6 +58,7 @@ function getMessages() {
   })
   .then(response => response.json())
   .then(data => {
+    if (data.length !== 0 ) document.getElementById('conversation').innerHTML = '';
     data.forEach(message => {
       let div = document.createElement('div');
       div.classList.add('user-message');
@@ -78,7 +83,6 @@ getMessages();
 
 function sendMessage() {
     let message = document.getElementById('message-input').value;
-    if (message.length === 0) return document.querySelector('.send-button').classList.remove('button--loading');
     fetch(`/api/dm/send/${localStorage.getItem('currentAlumet')}`, {
         method: 'POST',
         headers: {
@@ -91,8 +95,16 @@ function sendMessage() {
     })
     .then(response => response.json())
     .then(data => {
-        document.querySelector('.send-button').classList.remove('button--loading');
+      if (data.error) {
+        toast({
+          title: "Quelque chose s'est mal passé",
+          message: `${data.error}`,
+          type: "error",
+          duration: 3000
+        })
+      } else {
         document.querySelector('.message-input').value = '';
+      }
     })
 }
 

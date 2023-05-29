@@ -123,6 +123,12 @@ fetch('/auth/info')
         }
         document.getElementById('username').innerText = data.nom + ' ' + data.prenom
         document.getElementById('status').innerText = data.status
+        toast({
+            title: 'Bonjour ' + data.prenom + ' ' + data.nom,
+            message: 'Quel plaisir de vous revoir !',
+            type: 'success',
+            duration: 5000
+        })
     })  
     .catch(err => console.log(err))
 
@@ -171,7 +177,12 @@ function resetFiles() {
 
 document.getElementById('upload-files-b').addEventListener('click', () => {
     if (files.length === 0) {
-        alert('Please select a file');
+        toast({
+            title: "Aucun fichier sélectionné",
+            message: `Vous devez sélectionner au moins un fichier pour pouvoir l'envoyer.`,
+            type: "error",
+            duration: 3000
+          })
         return;
     }
     document.querySelector('.upload-s-1').style.display = 'none'
@@ -192,7 +203,12 @@ document.getElementById('upload-files-b').addEventListener('click', () => {
     })
     .then(data => {
         if (data.error) {
-            alert(data.error);
+            toast({
+                title: "Quelque chose s'est mal passé",
+                message: `${data.error}`,
+                type: "error",
+                duration: 3000
+              })
             resetFiles();
         } else {
             document.getElementById('close-modal-upload').click()
@@ -200,8 +216,13 @@ document.getElementById('upload-files-b').addEventListener('click', () => {
             resetFiles();
         }
     })
-    .catch(() => {
-        alert('Impossible d\'envoyez vos fichiers, assurez vous que vous envoyez moins de 50 fichiers. Si le problème persite, les administrateurs seront prévenus.');
+    .catch((err) => {
+        toast({
+            title: "Quelque chose s'est mal passé",
+            message: `${err}`,
+            type: "error",
+            duration: 3000
+          })
         resetFiles();
     });
 });
@@ -292,7 +313,12 @@ function deleteFile(id) {
     fetch(`/cdn/delete/${id}`)
         .then(res => res.json())
         .then(data => {
-            if (data.error) return alert(data.error);
+            if (data.error) return toast({
+                title: "Quelque chose s'est mal passé",
+                message: `${data.error}`,
+                type: "error",
+                duration: 3000
+              })
             closeViewer();
             getFiles();
         })
@@ -313,7 +339,12 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
     switch (activeStep) {
         case 1:
             if (document.getElementById('alumet-name').value.length < 2 || document.getElementById('alumet-name').value.includes('<')) {
-                return alert('Veuillez entrer un nom assez long. Sans "<"');
+                return toast({
+                    title: "Quelque chose s'est mal passé",
+                    message: `Le nom de votre alumet est invalide ou trop court`,
+                    type: "warning",
+                    duration: 3000
+                  })
             } else {
                 document.querySelector('.step1').style.display = 'none';
                 document.querySelector('.step2').style.display = 'flex';
@@ -325,14 +356,29 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
         case 2:
             if (!localStorage.getItem('template')) {
                 if (document.getElementById('file-background').files.length < 1) {
-                    return alert('Veuillez choisir un fond');
+                    return toast({
+                        title: "Quelque chose s'est mal passé",
+                        message: `Vous devez choisir un fond pour votre Alumet`,
+                        type: "warning",
+                        duration: 3000
+                      })
                 }
             }
                 if (!localStorage.getItem('template')) {
                     if (!document.getElementById('file-background').files[0]) {
-                        return alert('Veuillez choisir un fond');
+                        return toast({
+                            title: "Quelque chose s'est mal passé",
+                            message: `Vous devez choisir un fond pour votre Alumet`,
+                            type: "warning",
+                            duration: 3000
+                          })
                     } else if (document.getElementById('file-background').files[0].size > 3000000 || document.getElementById('file-background').files[0].type !== 'image/png' && document.getElementById('file-background').files[0].type !== 'image/jpeg'  && document.getElementById('file-background').files[0].type !== 'image/jpg') {
-                        return alert('Le fichier est trop volumineux ou n\'est pas une image (png, jpeg, jpg)');
+                        return  toast({
+                            title: "Quelque chose s'est mal passé",
+                            message: `Le fichier que vous avez choisi est trop lourd ou n'est pas une image`,
+                            type: "error",
+                            duration: 3000
+                          })
                     }
                 }
                 imgData.append('background', document.getElementById('file-background').files[0] || localStorage.getItem('template'));
@@ -349,6 +395,7 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
             document.getElementById('dm').checked ? requestBody.modules.push('dm') : null;
             document.getElementById('hw').checked ? requestBody.modules.push('hw') : null;
             document.getElementById('bd').checked ? requestBody.modules.push('bd') : null;
+            document.getElementById('fc').checked ? requestBody.modules.push('fc') : null;
             document.querySelector('.step3').style.display = 'none';
             document.getElementById('new-alumet-loading').style.display = 'flex';
             document.getElementById('new-alumet-tracker').style.display = 'flex';
@@ -383,7 +430,12 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
                                 }
                             })
                             .then(data => {
-                                if (data.error) return alert(data.error);
+                                if (data.error) return  toast({
+                                    title: "Quelque chose s'est mal passé",
+                                    message: `${data.err}`,
+                                    type: "error",
+                                    duration: 3000
+                                  })
                                 window.open(`/a/${data.saved._id}`, '_blank');
                                 window.location.reload();
                             })
@@ -412,7 +464,12 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
                         }
                     })
                     .then(data => {
-                        if (data.error) return alert(data.error);
+                        if (data.error) return  toast({
+                            title: "Quelque chose s'est mal passé",
+                            message: `${data.err}`,
+                            type: "error",
+                            duration: 3000
+                          })
                         window.open(`/a/${data.saved._id}`, '_blank');
                         window.location.reload();
                     })
@@ -442,28 +499,17 @@ function editDocument(id) {
     })
     .then(res => res.json())
     .then(data => {
-        if (data.error) return alert(data.error);
+        if (data.error) return  toast({
+            title: "Quelque chose s'est mal passé",
+            message: `${data.error}`,
+            type: "error",
+            duration: 3000
+          })
         getFiles();
     })
 }
 
-function relativeTime(timestamp) {
-    const now = new Date();
-    const date = new Date(timestamp);
 
-    const diffInMs = now - date;
-    const diffInMinutes = Math.floor(diffInMs / 60000);
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    const diffInDays = Math.floor(diffInHours / 24);
-
-    if (diffInMinutes < 60) {
-        return "Il y a " + diffInMinutes + "min";
-    } else if (diffInHours < 24) {
-        return "Il y a " + diffInHours + "h";
-    } else {
-        return "Il y a " + diffInDays + "j";
-    }
-  }
   
 
 function getAlumets() {
@@ -513,7 +559,12 @@ function openAlumet(id) {
         })
         .then(res => res.json())
         .then(data => {
-            if (data.error) return alert(data.error);
+            if (data.error) return  toast({
+                title: "Quelque chose s'est mal passé",
+                message: `${data.error}`,
+                type: "error",
+                duration: 3000
+              })
             window.open(`/portal/${id}`);
         })
         .catch(err => {

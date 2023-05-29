@@ -19,12 +19,7 @@ fetch(`/alumet/info/${path}`, {
     }
     document.getElementById('img').src = '/cdn/u/' + data.finalAlumet.background;
     document.querySelector('.alumet-infos h1').innerText = data.finalAlumet.name.substring(0, 75)
-    const lastUsage = new Date(data.finalAlumet.lastUsage);
-    const timeDiff = new Date() - lastUsage;
-    const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
-    const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
-    const timeAgo = hoursDiff > 0 ? `Il y a ${hoursDiff}h` : `Il y a ${minutesDiff}m`;
-    document.getElementById('time').innerText = timeAgo;
+    document.getElementById('time').innerText = relativeTime(data.finalAlumet.lastUsage);
     if (data.finalAlumet.theme == 'dark') {
         document.querySelector('.alumet-infos h1').style.color = 'dark';
         document.querySelector('.alumet-infos h3').style.color = 'dark';
@@ -75,7 +70,12 @@ function enter() {
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                alert(data.error);
+                toast({
+                    title: "Quelque chose s'est mal passé",
+                    message: `${data.error}`,
+                    type: "error",
+                    duration: 3000
+                  })
             } else {
                 window.location.href = "/a/" + path;
             }
