@@ -527,15 +527,12 @@ footer {
 
 
 @media screen and (max-width: 800px) {
-    .nav-items > h2 {
+    .nav-items > h2, a {
         display: none;
     }
     .connect {
         margin: 0;
         margin-bottom: 10px;
-    }
-    .nav-items > h2  {
-        font-size: 1.2em;
     }
     .title > h1 {
         font-size: 6.7vh;

@@ -131,7 +131,9 @@ window.addEventListener("resize", updateLinePosition);
 element1.addEventListener("mousemove", updateLinePosition);
 element2.addEventListener("mousemove", updateLinePosition);
 document.getElementById("canvas").addEventListener("mousemove", updateLinePosition);
-
+element1.addEventListener("touchmove", updateLinePosition);
+element2.addEventListener("touchmove", updateLinePosition);
+document.getElementById("canvas").addEventListener("touchmove", updateLinePosition);
 document.querySelector('.tool-bar').addEventListener('click', function(e){
     toast({
         title: 'Pas encore prêt',
