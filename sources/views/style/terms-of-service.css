@@ -100,7 +100,8 @@ header {
     font-weight: 400;
     margin: 0;
     height: 50px;
-    padding-inline: 30px;
+    padding-right: 30px;
+    padding-left: 30px;
     border-radius: 8px;
     color: white;
     cursor: pointer;
@@ -142,7 +143,8 @@ header {
     display: inline-block;
     border: 1px solid #848484;
     padding: 10px;
-    padding-inline: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
     color: #B8B8B8;
     border-radius: 50px;
     font-size: 15px;

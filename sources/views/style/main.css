@@ -101,7 +101,8 @@ header {
     font-weight: 400;
     margin: 0;
     height: 50px;
-    padding-inline: 30px;
+    padding-right: 30px;
+    padding-left: 30px;
     border-radius: 8px;
     color: white;
     cursor: pointer;
@@ -202,7 +203,8 @@ header {
     display: inline-block;
     border: 1px solid #848484;
     padding: 10px;
-    padding-inline: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
     color: #B8B8B8;
     border-radius: 50px;
     font-size: 15px;
@@ -442,7 +444,8 @@ header {
     border: 1px solid #FF6B00;
     font-size: 14px;
     border-radius: 20px;
-    padding-inline: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
     height: 22px;
     vertical-align: middle;
     color: #ff6b00;
@@ -508,7 +511,8 @@ footer {
     background: #FFFFFF;
     border-radius: 6px;
     border: none;
-    padding-inline: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
     transition: 0.2s cubic-bezier(.18,1.19,.81,.96);
 }
 .submit-button:hover {

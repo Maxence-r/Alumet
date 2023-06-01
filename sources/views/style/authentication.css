@@ -14,7 +14,8 @@ body {
     justify-content: center;
     width: 30%;
     min-width: 500px;
-    padding-inline: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
     height: 100%;
     background: #f1f1f1;
 }
@@ -187,7 +188,8 @@ input {
         height: calc(100vh - 80px);
     }
     .log-container {
-        padding-inline: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
         width: calc(100% - 20px);
         min-width: 0;
         height: 90%;

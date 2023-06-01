@@ -536,7 +536,8 @@ p.file-name {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding-inline: 15px;    
+    padding-right: 15px;
+    padding-left: 15px; 
     width: calc(100% - 30px);
     height: 44px;
     border-radius: 5px;
@@ -638,7 +639,8 @@ p.file-name {
 .module-header {
     width: calc(100% - 10px);
     height: 56px;
-    padding-inline: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
     display: flex;
     box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);
     flex-direction: row;
@@ -659,7 +661,8 @@ p.file-name {
     background-color: var(--teranga-color);
     margin-right: 3px;
     cursor: pointer;
-    padding-inline: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
     border-radius: 6px;
 }
 

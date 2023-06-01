@@ -4,11 +4,12 @@ body {
 }
 
 #boards {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-inline: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-right: 20px;
+    padding-left: 20px;
 }
 
 
@@ -54,7 +55,8 @@ body {
     top: 20px;
     right: 20px;
     padding: 12px;
-    padding-inline: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
     background: #fff;
     display: flex;
     align-items: center;

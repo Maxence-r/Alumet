@@ -36,7 +36,8 @@ body {
 .menu {
     display: flex;
     flex-direction: column;
-    padding-inline: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
     margin: 20px;
     width: 18%;
     min-width: 300px;
@@ -663,7 +664,8 @@ iframe {
 #alumet-setup {
     width: calc(100% - 80px);
     border: 1px solid #4A4A4A;
-    padding-inline: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
     -webkit-backdrop-filter: blur(30px);
     backdrop-filter: blur(30px);
 }
@@ -776,7 +778,7 @@ iframe {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
@@ -870,7 +872,8 @@ iframe {
     flex-direction: row;
     align-items: center;
     gap: 10px;
-    padding-inline: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
     height: 50px;
     background-color: #161616;
     color: white;
@@ -963,7 +966,8 @@ input:checked + .slider + .menu {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding-inline: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
     background-color: #161616;
 }
 
@@ -986,7 +990,8 @@ input:checked + .slider + .menu {
     display: none;
     width: calc(100% - 80px);
     flex-direction: column;
-    padding-inline: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
     border: 1px solid #4A4A4A;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
@@ -1079,16 +1084,17 @@ input:checked + .slider + .menu {
         transform: translateX(-110%);
         background-color: #1c1c1c;
         min-width: 0;
-        width: calc(100vw - 30px);
+        width: calc(100% - 30px);
         margin: 0;
         height: 100%;
+        border-radius: 0;
     }
     .open-menu {
         display: flex;
     }
     .active-section {
         width: calc(100% - 20px);
-        height: calc(100% - 80px);
+        height: 100lvh;
         margin: 10px;
     }
     .responsive {
@@ -1109,13 +1115,14 @@ input:checked + .slider + .menu {
         overflow: hidden;
     }
     #alumet-setup {
-        padding-inline: 10px;
+        padding: 10px;
         width: calc(100% - 20px);
         border: none;
     }
     #file-uploader {
         width: calc(100% - 20px);
-        padding-inline: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
         border: none;
     }
     .setup-container {
