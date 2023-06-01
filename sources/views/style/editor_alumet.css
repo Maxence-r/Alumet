@@ -214,6 +214,7 @@
 
 .change-preview:hover {
   opacity: 1;
+  -webkit-backdrop-filter: brightness(0.8);
   backdrop-filter: brightness(0.8);
   transform: translateY(0px);
 }
