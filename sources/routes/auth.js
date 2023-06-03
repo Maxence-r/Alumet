@@ -79,7 +79,6 @@ router.post('/signin', (req, res) => {
                         expiresIn: '24h'
                     }
                 )
-                console.log(token);
                 res.cookie('token', token).status(200).json({
                     message: 'Connexion réussie !'
                 });

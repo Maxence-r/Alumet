@@ -34,7 +34,6 @@ router.get('/u/:id', validateObjectId, (req, res) => {
         if (fs.existsSync(filePath)) {
           res.sendFile(filePath);
         } else {
-          console.log("404");
           res.redirect('/404')
         }
       })
@@ -70,7 +69,7 @@ router.post('/upload/guest', alumetAuth, upload.single('file'), (req, res) => {
     const upload = new Upload({
         filename: file.filename,
         displayname: sanitizedFilename,
-        mimetype: ext,
+        mimetype: ext.toLowerCase(),
         filesize: file.size,
         owner: req.cookies.alumetToken,
     });
@@ -135,7 +134,7 @@ router.post('/upload', accountUpload.array('files'), (req, res) => {
           fieldname: file.fieldname,
           displayname: sanitizedFilename,
           encoding: file.encoding,
-          mimetype: ext,
+          mimetype: ext.toLowerCase(),
           filename: file.filename,
           size: file.size
         }
@@ -144,7 +143,7 @@ router.post('/upload', accountUpload.array('files'), (req, res) => {
         const upload = new Upload({
             filename: file.filename,
             displayname: file.displayname,
-            mimetype: file.mimetype,
+            mimetype: file.mimetype.toLowerCase(),
             filesize: file.size,
             owner: req.user.id
         });
