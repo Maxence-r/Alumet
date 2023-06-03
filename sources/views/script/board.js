@@ -105,40 +105,51 @@ window.onload = () => {
     document.querySelector('.loading').style.display = 'none';
 }
 
-const element1 = document.getElementById("1");
-const element2 = document.getElementById("2");
-const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
-line.setAttribute("stroke", "black");
-line.setAttribute("fill", "none");
-line.setAttribute("stroke-width", "2");
-line.setAttribute("onclick", "alert('test')");
-const svg = document.querySelector("svg");
-svg.appendChild(line);
-
-function updateLinePosition() {
-  const rect1 = element1.getBoundingClientRect();
-  const rect2 = element2.getBoundingClientRect();
-  const x1 = rect1.left + rect1.width / 2;
-  const y1 = rect1.top + rect1.height / 2;
-  const x2 = rect2.left + rect2.width / 2;
-  const y2 = rect2.top + rect2.height / 2;
-  const d = `M ${x1} ${y1} C ${x1} ${(y1 + y2) / 2}, ${x2} ${(y1 + y2) / 2}, ${x2} ${y2}`;
-  line.setAttribute("d", d);
-}
-
-window.addEventListener("load", updateLinePosition);
-window.addEventListener("resize", updateLinePosition);
-element1.addEventListener("mousemove", updateLinePosition);
-element2.addEventListener("mousemove", updateLinePosition);
-document.getElementById("canvas").addEventListener("mousemove", updateLinePosition);
-element1.addEventListener("touchmove", updateLinePosition);
-element2.addEventListener("touchmove", updateLinePosition);
-document.getElementById("canvas").addEventListener("touchmove", updateLinePosition);
-document.querySelector('.tool-bar').addEventListener('click', function(e){
+document.querySelector('.tool-bar').addEventListener('click', () => {
     toast({
         title: 'Pas encore prêt',
-        message: 'Ce module est en cours de développement.',
+        message: 'Ce module n\'est pas encore prêt',
         type: 'warning',
         duration: 3000
-    })
-})
+    });
+  })
+
+const elements = [
+  [document.getElementById("1"), document.getElementById("2")],
+  [document.getElementById("2"), document.getElementById("3")],
+  [document.getElementById("2"), document.getElementById("4")],
+  [document.getElementById("1"), document.getElementById("5")],
+  [document.getElementById("5"), document.getElementById("6")],
+  [document.getElementById("5"), document.getElementById("7")],
+];
+
+const svg = document.querySelector("svg");
+
+for (const [element1, element2] of elements) {
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  line.setAttribute("stroke", "black");
+  line.setAttribute("fill", "none");
+  line.setAttribute("stroke-width", "2");
+  line.setAttribute("onclick", "alert('test')");
+  svg.appendChild(line);
+
+  function updateLinePosition() {
+    const rect1 = element1.getBoundingClientRect();
+    const rect2 = element2.getBoundingClientRect();
+    const x1 = rect1.left + rect1.width / 2;
+    const y1 = rect1.top + rect1.height / 2;
+    const x2 = rect2.left + rect2.width / 2;
+    const y2 = rect2.top + rect2.height / 2;
+    const d = `M ${x1} ${y1} C ${x1} ${(y1 + y2) / 2}, ${x2} ${(y1 + y2) / 2}, ${x2} ${y2}`;
+    line.setAttribute("d", d);
+  }
+
+  window.addEventListener("load", updateLinePosition);
+  window.addEventListener("resize", updateLinePosition);
+  element1.addEventListener("mousemove", updateLinePosition);
+  element2.addEventListener("mousemove", updateLinePosition);
+  document.getElementById("canvas").addEventListener("mousemove", updateLinePosition);
+  element1.addEventListener("touchmove", updateLinePosition);
+  element2.addEventListener("touchmove", updateLinePosition);
+  document.getElementById("canvas").addEventListener("touchmove", updateLinePosition);
+}

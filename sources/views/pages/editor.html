@@ -170,15 +170,14 @@
          </div>
       </div>
       <div id="choose-file" class="modal">
-         <div class="modal-container">
-            <h1>Choisir un fichier à envoyer</h1>
+         <div id="big-modal" class="modal-container">
+            <h1>Choisir un fichier à envoyer<span id="close-files-modal" onclick="closeModal('choose-file')" class="material-symbols-rounded">close</span></h1>
             <input id="search-input" placeholder="Chercher un fichier">
-            <button id="add-file">Ajouter des fichiers</button>
             <div class="files-container">
-               <span id="file-waiting" class="loader-upload"></span>
-            </div>
-            <div class="edit-buttons">
-               <button onclick="closeModal('choose-file')" id="cancel">Annuler</button>
+               <div class="no-items">
+                  <h1>Aucun fichiers trouvés</h1>
+                  <p>Charger de nouveaux fichiers sur votre tableau de bord et actualiser.</p>
+               </div>
             </div>
          </div>
       </div>

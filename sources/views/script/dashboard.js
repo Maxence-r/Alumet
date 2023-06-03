@@ -143,22 +143,20 @@ document.querySelector('.file-drop').addEventListener('click', () => {
 let files = [];
 document.getElementById('file-input').addEventListener('change', (e) => {
     files = Array.from(e.target.files);
-    document.querySelector('.files').innerText = '';
+    document.querySelector('.files-container').innerText = '';
     files.forEach(file => {
         let fileDiv = document.createElement('div');
         fileDiv.setAttribute('id', file.name);
         fileDiv.classList.add('file-uplading-prev', 'file');
         fileDiv.innerHTML = `
-        <div class="info">
-          <img src="../assets/app/label.svg" alt="label"><span>${file.name}</span>
-        </div>
-        <div class="info">
-          <img src="../assets/app/size.svg" alt="size">${(file.size / 1048576).toFixed(2)} MB
-        </div>
-        <div class="quick-actions">
-            <div onclick="removeFile('${file.name}', '${files}')" class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
-        </div>`;
-        document.querySelector('.files').appendChild(fileDiv);
+        <div class="box-header">
+            <img src="../assets/files-ico/${fileICO[file.type.split('/')[1]] || "object.svg"}" alt="file">
+                <h1>${file.name}</h1>
+                <div class="quick-actions">
+                    <div onclick="removeFile('${file.name}', '${files}')" class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+                    </div>
+                </div>`;
+        document.querySelector('.files-container').appendChild(fileDiv);
     });
 });
 
@@ -172,7 +170,7 @@ function resetFiles() {
     document.querySelector('.upload-s-1').style.display = 'flex'
     document.getElementById('file-input').value = '';
     files = [];
-    document.querySelector('.files').innerHTML = '';
+    document.querySelector('.files-container').innerHTML = '';
 }
 
 document.getElementById('upload-files-b').addEventListener('click', () => {
@@ -234,26 +232,22 @@ function getFiles() {
         .then(res => res.json())
         .then(data => { 
             if (data.uploads.length == 0) {  
-                document.querySelector('.file-container').innerHTML = '<div class="not-supported"><img src="./assets/app/uto.svg"><h3>Vos fichiers seront affichés ici</h3></div>'; 
+                document.getElementById('files-container').innerHTML = '<div class="not-supported"><img src="./assets/app/uto.svg"><h3>Vos fichiers seront affichés ici</h3></div>'; 
             } else {
-            document.querySelector('.file-container').innerHTML = '';
+            document.getElementById('files-container').innerHTML = '';
             data.uploads.forEach(file => {
                 fileDiv = document.createElement('div');
                 fileDiv.classList.add('file');
+                fileDiv.setAttribute('onclick', `openDocument('${file._id}')`);
                 fileDiv.innerHTML = `
-                <div class="info">
-                    <img src="../assets/app/label.svg" alt="label">${file.displayname}
-                </div>
-                    <div class="info">
-                <img src="../assets/app/size.svg" alt="size">${(file.filesize / 1048576).toFixed(2)} MB
+                <div class="box-header">
+                        <img src="../../assets/files-ico/${fileICO[file.mimetype] || "object.svg"}" alt="file">
+                        <h1>${file.displayname}</h1>
                     </div>
-                <div class="quick-actions">
-                <div onclick="deleteFile('${file._id}')" class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
-                <div onclick="editDocument('${file._id}')" class="action"><img src="../assets/app/edit.svg" alt="Edit name"></div>
-                <div onclick="downloadDocument('${file._id}')" class="action"><img src="../assets/app/download.svg" alt="Download"></div>
-                <div onclick="openDocument('${file._id}')" class="action"><img src="../assets/app/open.svg" alt="Open"></div>
-                </div>`;
-                document.querySelector('.file-container').appendChild(fileDiv);
+                    <div class="box-content">
+                    ${(supportedPreviewAlumet[file.mimetype] || '').replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${file._id}`)}
+                    </div>`;
+                document.getElementById('files-container').appendChild(fileDiv);
             });
         }
         })
@@ -285,6 +279,7 @@ function openDocument(id) {
         .then(res => res.json())
         .then(data => {
             document.getElementById('delete-file').setAttribute('onclick', `deleteFile('${id}')`);
+            document.getElementById('edit-file').setAttribute('onclick', `editDocument('${id}')`);
             document.querySelector('.file-title > span').innerText = data.response.displayname;
             document.getElementById('file-loading').style.display = 'none';
             if (supported[data.response.mimetype]) {

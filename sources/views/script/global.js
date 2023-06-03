@@ -54,3 +54,57 @@ function relativeTime(timestamp) {
 function cancelLoading(classLoading) {
     document.querySelector(`.${classLoading}`).classList.remove('button--loading');
 }
+
+const fileICO = {
+  'pdf': 'pdf.svg',
+  'doc': 'doc.svg',
+  'docx': 'doc.svg',
+  'odt': 'doc.svg',
+  'ppt': 'slide.svg',
+  'pptx': 'slide.svg',
+  'xls': 'sheet.svg',
+  'xlsx': 'sheet.svg',
+  'txt': 'doc.svg',
+  'zip': 'zip.svg',
+  'rar': 'zip.svg',
+  '7z': 'zip.svg',
+  'tar': 'zip.svg',
+  'gz': 'zip.svg',
+  'mp3': 'audio.svg',
+  'wav': 'audio.svg',
+  'ogg': 'audio.svg',
+  'mp4': 'video.svg',
+  'mov': 'video.svg',
+  'avi': 'video.svg',
+  'mkv': 'video.svg',
+  'png': 'image.svg',
+  'jpg': 'image.svg',
+  'jpeg': 'image.svg',
+  'gif': 'image.svg',
+}
+
+let supportedPreviewAlumet = {
+  "pdf": "<img loading=\"lazy\" src=\"/preview/pdf?url=*\">",
+  "png": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+  "jpg": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+  "jpeg": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+  "gif": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+  "apng": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+  "avif": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+  "webp": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
+  "mp4": "<video width=\"400\" controls=\"false\" preload=\"metadata\"><source src=\"*\" type=\"video/mp4\"></video>",
+  "webm": "<video width=\"400\" controls=\"controls\" preload=\"metadata\"><source src=\"*\" type=\"video/mp4\"></video>",
+  "ogg": "<video width=\"400\" controls=\"controls\" preload=\"metadata\"><source src=\"*\" type=\"video/mp4\"></video>",
+  "mp3": "<img loading=\"lazy\" src=\"./../../assets/app/audio.png\">",
+  "wav": "<img loading=\"lazy\" src=\"./../../assets/app/audio.png\">",
+  "flac": "img loading=\"lazy\" src=\"./../../assets/app/audio.png\">",
+  "pptx": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+  "odt": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+  "ods": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+  "ppt": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+  "odp": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+  "docx": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+  "doc": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+  "xlsx": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
+  "xls": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">"
+}

@@ -56,6 +56,7 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 ### Historiques des commits
 | Date      | Contenu                                   | Version  |
 | :-------- | :---------------------------------------- | :------- |
+| 04/06/23  | Nouveau gestionnaire de fichiers, fix de bugs, dev des modules, préparation des démos pour la conférence | 1.1  |
 | 29/05/23  | Développement des modules | 1.0.9  |
 | 28/05/23  | Développement des modules | 1.0.9  |
 | 27/05/23  | Afin d'améliorer la stabilité et la sécurité d'Alumet, nous avons pris la décision de stocker les informations sensibles, telles que le jeton de chiffrement et les clés d'API, dans des variables d'environnement. Par conséquent, ces informations ne seront plus affichées dans le fichier config.json. Nous avons également résolu plusieurs bugs et poursuivi le développement des modules pour améliorer l'ensemble du système. | 1.0.8  |

@@ -208,3 +208,86 @@
   }
   
   
+
+
+
+.box-header > h1 {
+  margin: 0;
+  line-break: anywhere;
+  overflow: hidden;
+  font-size: 14px;
+  margin: 0 5px;
+  height: 20px;
+  overflow-wrap: anywhere;
+  font-weight: 500;
+  width: 100%;
+  cursor: pointer;
+}
+
+.box-header > img {
+  width: 25px;
+  height: 25px;
+}
+
+.file {
+  width: 260px;
+  max-width: 300px;
+  height: 220px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.file:hover {
+  filter: brightness(0.8);
+}
+
+
+.box-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: var(--main-color);
+  border-radius: 5px;
+  margin-top: 10px;
+  border: 1px solid #e5e5e5;
+  overflow: hidden;
+}
+
+.box-content > img {
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+}
+
+.box-content > video {
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+.box-header {
+  display: flex;
+  flex-direction: row;
+  height: 20px;
+  align-items: center;
+}
+
+.files-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 100%;
+  grid-gap: 10px;
+  overflow-y: auto;
+}
+
+.files-container > * {
+  flex: 1 0 250px;
+  min-width: 250px;
+}

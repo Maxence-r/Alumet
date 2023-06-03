@@ -4,7 +4,7 @@ document.querySelector('.modules-container').innerHTML += `
         <p>Flashcards</p>
         <button onclick="alert('Arrive bientôt')">Crée un jeu de flashcards</button>
     </div>
-    <div id="boards">
+    <div id="flashcards">
       <div class="no-items">
         <h1>Aucune flascards</h1>
         <p>C'est pourtant la meilleur façon d'apprendre !</p>

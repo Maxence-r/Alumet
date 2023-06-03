@@ -165,6 +165,7 @@
             <h1 class="file-title"><img src="../assets/app/label.svg"><span>Loading...</span></h1>
             <div class="quick-actions">
                 <div id="delete-file" class="action"><img src="../assets/app/delete.svg" alt="Delete"></div>
+                <div id="edit-file" class="action"><img src="../assets/app/edit.svg" alt="Delete"></div>
                 <div onclick="closeViewer()" id="close-viewer" style="margin-right: 10px;" class="action close-viewer"><img src="../assets/app/close.svg" alt="Close"></div>
             </div>
         </div>
@@ -177,7 +178,7 @@
         <div class="file-drop">
           <h3>Cliquer ici pour charger des fichiers (au maximum 50)<img src="../assets/app/upload-box.svg" alt="deux doubles flèches"></h3>
         </div>
-        <div class="files">
+        <div id="uploading" class="files-container">
 
         </div>
         <div class="footer-upload">
@@ -191,7 +192,7 @@
       </div>
     </div>
     <h1 class="section-title">Vos fichiers<input id="search-input" placeholder="Chercher dans vos fichiers" class="main-input"><button id="load-files" class="main-button">Ajouter<img src="../assets/app/plus.svg" alt="plus"></button></h1>
-    <div class="file-container">
+    <div id="files-container" class="files-container">
     </div>
     </div>
   </section>

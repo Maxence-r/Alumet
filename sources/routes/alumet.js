@@ -92,7 +92,7 @@ router.post('/new/background', upload.single('background'), async (req, res) => 
     const upload = new Upload({
       filename: file.filename,
       displayname: sanitizedFilename,
-      mimetype: ext,
+      mimetype: ext.toLowerCase(),
       filesize: file.size,
       owner: req.user._id,
       modifiable: false

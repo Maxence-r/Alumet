@@ -1,5 +1,5 @@
 function isElementInViewport(el) {
-  var rect = el.getBoundingClientRect();
+  let rect = el.getBoundingClientRect();
   return (
     rect.top >= 0 &&
     rect.left >= 0 &&
@@ -8,7 +8,7 @@ function isElementInViewport(el) {
   );
 }
 
-var previewContainers = document.querySelectorAll('.preview-container');
+let previewContainers = document.querySelectorAll('.preview-container');
 
 function checkPreviewContainers() {
   previewContainers.forEach(function(container) {
@@ -46,7 +46,7 @@ document.querySelector('.submit-button').addEventListener('click', function() {
     } else {
       toast({
         title: "Email enrégistré",
-        message: `Merci, nous vous tiendrons au courant.`,
+        message: `${data.message}`,
         type: "success",
         duration: 3000
       })

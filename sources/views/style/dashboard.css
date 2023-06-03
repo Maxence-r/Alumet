@@ -120,7 +120,7 @@ body {
 .images-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 10px;
+    gap: 10px;
     margin-top: 20px;
 }
 
@@ -148,7 +148,7 @@ body {
 .options {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    grid-gap: 5px;
     margin-top: 10px;
     margin-left: 12px;
     z-index: 1;
@@ -241,13 +241,7 @@ body {
     flex-direction: column;
 }
 
-.file-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow-y: scroll;
-}
+
 
 
 
@@ -290,7 +284,7 @@ body {
 }
 
 .section-title {
-    gap: 10px;
+    grid-gap: 10px;
     color: #ffffff;
     font-weight: 500;
     font-size: 40px;
@@ -317,7 +311,7 @@ body {
 .alumet-container {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    grid-gap: 20px;
     padding-bottom: 8px;
 }
 
@@ -405,7 +399,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    grid-gap: 10px;
     background: rgba(255, 255, 255, 0.1);
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
@@ -425,7 +419,7 @@ body {
    
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    grid-gap: 10px;
 }
 
 .scroll {
@@ -436,7 +430,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 8px;
+    grid-gap: 8px;
     color: white;
     font-size: 14px;
     font-weight: 300;
@@ -453,7 +447,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10px;
+    grid-gap: 10px;
 }
 
 .quick-actions img {
@@ -476,23 +470,14 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 15px;
+    grid-gap: 15px;
     width: calc(100% - 40px);
     background: rgba(217, 217, 217, 0.05);
     padding: 20px;
 }
 
-
-
 .file {
-    border-radius: 5px;
-    box-shadow: 0px 0px 17px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 15px;
-    background: rgba(217, 217, 217, 0.05);
-    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 #user {
@@ -502,6 +487,14 @@ body {
 .isDisplayed {
     display: flex !important;
     animation: fadeIn 0.5s ease-in-out;
+}
+
+.box-header > h1 {
+    color: white !important;
+}
+
+.box-content {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 
@@ -523,9 +516,9 @@ body {
     position: fixed;
     width: calc(100% - 40px);
     top: 20px;
-    background: rgba(35, 35, 35, 0.5);
-    -webkit-backdrop-filter: blur(10.5px);
-    backdrop-filter: blur(10.5px);  
+    background: rgba(35, 35, 35, 0.6);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);  
     border-radius: 5px;
     right: 20px;
     height: calc(100% - 40px);
@@ -544,7 +537,7 @@ iframe {
     flex-direction: row;
     align-items: center;
     font-size: 16px;
-    gap: 10px;
+    grid-gap: 10px;
     font-weight: 400;
     color: white;
     margin-left: 20px;
@@ -616,7 +609,7 @@ iframe {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 15px;
+    grid-gap: 15px;
 }
 
 .loading-infos h3 {
@@ -671,7 +664,7 @@ iframe {
 }
 
 .setup-container {
-    gap: 10px;
+    grid-gap: 10px;
     width: 100%;
     max-width: 750px;
     margin-right: auto;
@@ -687,7 +680,7 @@ iframe {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    grid-gap: 10px;
 }
 
 .setup-title {
@@ -777,20 +770,20 @@ iframe {
 .step {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    grid-gap: 10px;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
 .step2 {
     flex-direction: column;
-    gap: 10px;
+    grid-gap: 10px;
     display: none;
 }
 
 .step3 {
     flex-direction: column;
-    gap: 10px;
+    grid-gap: 10px;
     display: none;
 }
 
@@ -830,6 +823,7 @@ iframe {
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    margin-bottom: 10px;
 }
 
 .footer-upload {
@@ -838,7 +832,7 @@ iframe {
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    gap: 10px;
+    grid-gap: 10px;
     margin-bottom: 20px;
 }
 
@@ -871,7 +865,7 @@ iframe {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10px;
+    grid-gap: 10px;
     padding-right: 10px;
     padding-left: 10px;
     height: 50px;
@@ -891,7 +885,7 @@ iframe {
     align-items: center;
     font-size: 14px;
     font-weight: 300;
-    color: #818181;
+    color: #b9b9b9;
     margin: 0;
 }
 
@@ -956,7 +950,7 @@ input:checked + .slider + .menu {
 .module-selector {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    grid-gap: 10px;
 }
 
 .module {
@@ -1015,14 +1009,6 @@ input:checked + .slider + .menu {
     height: calc(100% - 80px);
 }
 
-.files {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow-y: auto;
-}
 
 .not-supported {
     display: flex;
@@ -1060,6 +1046,11 @@ input:checked + .slider + .menu {
     height: 100px;
     margin-bottom: 30px;
   }
+
+#uploading > div {
+    height: 20px;
+    background-color: #131313 !important;
+}
   
 .loader-upload:before , .loader-upload:after{
     content: '';
@@ -1110,10 +1101,6 @@ input:checked + .slider + .menu {
     iframe {
         border-radius: 0;
     }
-    .file-title {
-        width: 65%;
-        overflow: hidden;
-    }
     #alumet-setup {
         padding: 10px;
         width: calc(100% - 20px);
@@ -1128,9 +1115,6 @@ input:checked + .slider + .menu {
     .setup-container {
         width: 100%;
         justify-content: flex-start;
-    }
-    .file {
-        flex-wrap: wrap;
     }
     .section-title > input {
         width: 100%;

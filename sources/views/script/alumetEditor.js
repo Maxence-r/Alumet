@@ -125,7 +125,9 @@ function editAlumet() {
             document.getElementById('a-p-title').value = data.finalAlumet.name;
             document.getElementById('a-p-description').value = data.finalAlumet.description;
             document.getElementById('p-alumet-back').src = `/cdn/u/${data.finalAlumet.background}`;
-            document.querySelector('.layer-p-preview').style.backdropFilter = `blur(${data.finalAlumet.blur.$numberDecimal}px) brightness(${data.finalAlumet.brightness.$numberDecimal})`;
+            const previewLayer = document.querySelector('.layer-p-preview');
+            previewLayer.style.backdropFilter = `blur(${data.finalAlumet.blur.$numberDecimal}px) brightness(${data.finalAlumet.brightness.$numberDecimal})`;
+            previewLayer.style.webkitBackdropFilter = `blur(${data.finalAlumet.blur.$numberDecimal}px) brightness(${data.finalAlumet.brightness.$numberDecimal})`;
             data.finalAlumet.modules.forEach(module => {
                 document.getElementById(`${module}-a-p`).checked = true;
             });
@@ -143,25 +145,28 @@ function editAlumet() {
 }
 
 let blurRange = document.getElementById("blur-range");
-var outputBlurRange = document.getElementById("blur-level");
+let outputBlurRange = document.getElementById("blur-level");
 outputBlurRange.innerText = blurRange.value;
 
 blurRange.oninput = function() {
     outputBlurRange.innerText = this.value;
-    document.querySelector('.layer-p-preview').style.backdropFilter = `blur(${this.value}px) brightness(${document.getElementById("bright-range").value})`;
+    const previewLayer = document.querySelector('.layer-p-preview');
+    previewLayer.style.backdropFilter = `blur(${this.value}px) brightness(${document.getElementById("bright-range").value})`;
+    previewLayer.style.webkitBackdropFilter = `blur(${this.value}px) brightness(${document.getElementById("bright-range").value})`;
 }   
 
 let brightRange = document.getElementById("bright-range");
-var outputBrightRange = document.getElementById("bright-level");
+let outputBrightRange = document.getElementById("bright-level");
 outputBrightRange.innerText = brightRange.value;
 
 brightRange.oninput = function() {
     outputBrightRange.innerText = this.value;
-    document.querySelector('.layer-p-preview').style.backdropFilter = `blur(${document.getElementById("blur-range").value}px) brightness(${this.value})`;
+    const previewLayer = document.querySelector('.layer-p-preview');
+    previewLayer.style.backdropFilter = `blur(${document.getElementById("blur-range").value}px) brightness(${this.value})`;
+    previewLayer.style.webkitBackdropFilter = `blur(${document.getElementById("blur-range").value}px) brightness(${this.value})`;
 }   
 
 document.querySelector('.p-a-modify').addEventListener('click', () => {
-    console.log('ok')
     let file = document.getElementById('p-a-file') ? document.getElementById('p-a-file').files[0] : null;
     let title = document.getElementById('a-p-title').value;
     let description = document.getElementById('a-p-description').value;
@@ -329,7 +334,6 @@ function openModifyBd(id) {
         .then(res => res.json())
         .then(data => {
             document.getElementById('bd-m').value = data.name;
-            console.log(data.interact);
             document.getElementById('bd-m-checked').checked = data.interact;
         })
         document.getElementById('modify-bd').style.display = 'flex';
@@ -487,10 +491,6 @@ function createSection() {
     document.getElementById('cs').style.display = 'flex';
     document.getElementById('cs').classList.add('active-modal');
 }
-
-document.getElementById('add-file').addEventListener('click', () => {
-    window.open('/dashboard?redirect=file', '_blank');
-});
 
 
 fetch(`/alumet/warn/multiple/${currentID[3]}`, {

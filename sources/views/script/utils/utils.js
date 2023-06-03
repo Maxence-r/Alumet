@@ -12,7 +12,9 @@ function init() {
     .then(data => {
         localStorage.setItem('currentAlumet', data.finalAlumet._id);
         document.querySelector('.background-image').src = `/cdn/u/${data.finalAlumet.background}`;
-        document.querySelector('.layer-filter').style.backdropFilter = `blur(${data.finalAlumet.blur.$numberDecimal}px) brightness(${data.finalAlumet.brightness.$numberDecimal})`;
+       const layerFilter = document.querySelector('.layer-filter');
+layerFilter.style.backdropFilter = `blur(${data.finalAlumet.blur.$numberDecimal}px) brightness(${data.finalAlumet.brightness.$numberDecimal})`;
+layerFilter.style.webkitBackdropFilter = `blur(${data.finalAlumet.blur.$numberDecimal}px) brightness(${data.finalAlumet.brightness.$numberDecimal})`;
         if (data.finalAlumet.theme == 'dark') {
             document.documentElement.style.setProperty('--main-color', '#131313');
             document.documentElement.style.setProperty('--secondary-color', '#ffffff');
@@ -144,31 +146,6 @@ function getWalls() {
 
 
 
-let supportedPreviewAlumet = {
-    "pdf": "<img loading=\"lazy\" src=\"/preview/pdf?url=*\">",
-    "png": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
-    "jpg": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
-    "jpeg": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
-    "gif": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
-    "apng": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
-    "avif": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
-    "webp": "<img loading=\"lazy\" src=\"/preview/image?url=*\">",
-    "mp4": "<video width=\"400\" controls=\"false\" preload=\"metadata\"><source src=\"*\" type=\"video/mp4\"></video>",
-    "webm": "<video width=\"400\" controls=\"controls\" preload=\"metadata\"><source src=\"*\" type=\"video/mp4\"></video>",
-    "ogg": "<video width=\"400\" controls=\"controls\" preload=\"metadata\"><source src=\"*\" type=\"video/mp4\"></video>",
-    "mp3": "<audio class=\"audio-view\" controls><source src=\"*\" type=\"audio/mpeg\"></audio>",
-    "wav": "<audio class=\"audio-view\" controls><source src=\"*\" type=\"audio/wav\"></audio>",
-    "flac": "<audio class=\"audio-view\" controls><source src=\"*\" type=\"audio/flac\"></audio>",
-    "pptx": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
-    "odt": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
-    "ods": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
-    "ppt": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
-    "odp": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
-    "docx": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
-    "doc": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
-    "xlsx": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">",
-    "xls": "<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">"
- }
 
 
  function createPostHtml(post, wallId, postFirst) {
@@ -194,7 +171,7 @@ let supportedPreviewAlumet = {
         postDiv.appendChild(postheader);
     } else if (post.owning) {
         postDiv.innerHTML += `
-                        <div onclick="editPost('${post._id}')" id="dots-absolute" class="dots post-${post.color}"><div></div><div></div><div></div></div>
+                        <div onclick="editPost('${post._id}')" id="dots-absolute" class="dots"><div></div><div></div><div></div></div>
                         `
     }
     if (post.title) {
