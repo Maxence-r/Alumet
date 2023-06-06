@@ -9,124 +9,13 @@ body {
     scroll-behavior: smooth;
 }
 
-header {
-    width: 100%;
-    min-height: 80px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 5%;
-    border-width: 0 0 1px;
-    border-style: solid;
-    border-image: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(77,77,77,1) 50%, rgba(0,212,255,0) 100%) 1;
-}
-
-.preview-container img {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-  }
-  
-  .preview-container.show img {
-    opacity: 1;
-  }
-
-.alumet-infos {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
-    cursor: pointer;
-    transition: 0.3s ease-out;
-}
-
-.alumet-infos > img {
-    width: 30px;
-    
-}
-
-#left {
-    flex-direction: row-reverse;
-}
-
-#left > .preview-container {
-    margin: 0;
-    margin-right: auto;
-}
-
-.alumet-infos > h1 {
-    font-size: 1.7em;
-    font-weight: 600;
-    margin: 0;
-    color: white;
-    background: linear-gradient(to right, #FFFFFF 20%, #FFCA68 35%, #FFCA68 75%, #FFFFFF 100%);
-    background-size: 200% auto;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shine 2s ease-in-out infinite;
-}
-@keyframes shine {
-    to {
-      background-position: 200% center;
-    }
-  }
-
-.nav-items {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 15%;
-}
-
-.nav-items > h2 {
-    font-size: 1em;
-    font-weight: 400;
-    margin: 0;
-    color: white;
-    cursor: pointer;
-}
-
-
-.connect {
-    display: flex;
-    margin-left: auto;
-    gap: 20px;
-}
-
-#sign-in {
-    border: 1px solid rgb(134, 134, 134);
-    background: #383737;
-    font-size: 16px;
-    font-weight: 400;
-    margin: 0;
-    height: 50px;
-    padding-right: 30px;
-    padding-left: 30px;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    transition: 0.4s cubic-bezier(.18,1.19,.81,.96);
-}
-#sign-in:hover {
-    background: #585858;
-}
-#sign-up {
-    border: none;
-    background: transparent;
-    font-size: 16px;
-    font-weight: 400;
-    margin: 0;
-    color: white;
-    cursor: pointer;
-    transition: 0.2s ease-out;
-}
-
 .presentation-title {
     color: white;
     font-size: 8vh;
     border-bottom: 1px solid #C8C8C8;
     padding-bottom: 1%;
     margin: 0;
+    margin-top: 5vh;
 }
 
 .badges {
@@ -152,8 +41,33 @@ header {
 }
 
 
-.badge:hover {
-    cursor: pointer;
+.badges>div:hover {
+    cursor: default;
     color: #C8C8C8;
     background: #383737;
+}
+
+.text-container {
+    margin-top: 12.0405vh;
+}
+h1 {
+    color:  white;
+    font-size: 3.0418vh;
+    font-weight: 700;
+    margin-top: 5vh;
+}
+h2 {
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 3.041825095057034vh;
+}
+h3 {
+    color: #DDDDDD;
+    font-size: 2.534854245880862vh;
+    font-weight: 100;
+}
+p {
+    color: white;
+    font-size:  2.5348vh;
+    font-weight: 200;
 }
