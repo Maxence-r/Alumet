@@ -56,6 +56,7 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 ### Historiques des commits
 | Date      | Contenu                                   | Version  |
 | :-------- | :---------------------------------------- | :------- |
+| 06/06/23  | Rédaction de la politique de confidentialité et des conditions d'utilisations | 1.1 |
 | 04/06/23  | Nouveau gestionnaire de fichiers, fix de bugs, dev des modules, préparation des démos pour la conférence | 1.1  |
 | 29/05/23  | Développement des modules | 1.0.9  |
 | 28/05/23  | Développement des modules | 1.0.9  |
