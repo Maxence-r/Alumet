@@ -105,7 +105,10 @@
     top: 32px;
     right: 32px;
     margin-left: 32px;
+    display: flex;
+    flex-direction: column-reverse;
     z-index: 999999;
+    gap: 14px;
   }
   
   .toast {

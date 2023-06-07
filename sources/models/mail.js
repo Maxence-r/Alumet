@@ -7,6 +7,11 @@ const MailSchema = mongoose.Schema({
         minLength: 2,
         maxLength: 100
     },
+    level: {
+        type: Number,
+        required: true,
+        default: 1
+    },
     data : {
         type: Date,
         required: true,

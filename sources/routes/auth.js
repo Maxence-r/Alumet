@@ -146,6 +146,13 @@ router.put('/changepassword', async (req, res) => {
 });
 
 router.post('/sign-mail', async (req, res) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(req.body.mail)) {
+    return res.status(400).json({
+      error: 'Adresse mail invalide !'
+    });
+  }
+
   Mail.findOne({
           mail: req.body.mail
       })
@@ -167,7 +174,8 @@ router.post('/sign-mail', async (req, res) => {
                   });
           } else {
               const newMail = new Mail({
-                  mail: req.body.mail
+                  mail: req.body.mail,
+                  level: req.body.level
               });
               newMail.save()
                   .then(() => {

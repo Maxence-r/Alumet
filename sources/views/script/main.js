@@ -45,7 +45,7 @@ document.querySelector('.submit-button').addEventListener('click', function() {
       })
     } else {
       toast({
-        title: "Email enrégistré",
+        title: "C'est fait !",
         message: `${data.message}`,
         type: "success",
         duration: 3000
@@ -53,3 +53,54 @@ document.querySelector('.submit-button').addEventListener('click', function() {
     }
   });
 });
+
+
+function FollowTheDevelopment(level) {
+  let mail = prompt("Entrez votre adresse mail:")
+  if (mail != null) {
+    fetch('/auth/sign-mail', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          mail: mail,
+          level: level
+        })
+      })
+      .then(function(res) {
+        return res.json();
+      }
+    )
+    .then(function(data) {
+      if (data.error) {
+        toast({
+          title: "Quelque chose s'est mal passé",
+          message: `${data.error}`,
+          type: "error",
+          duration: 5000
+        })
+      } else {
+        toast({
+          title: "C'est fait !",
+          message: `Votre inscription au programme est confirmée.`,
+          type: "success",
+          duration: 10000
+        })
+        if (level == 3) {
+          toast({
+            title: "C'est fait !",
+            message: `Le programme prendra place fin juin, merci de votre patience.`,
+            type: "info",
+            duration: 10000
+          })
+        }
+      }
+    });
+  }
+} 
+
+
+function closeProgram() {
+  document.querySelector('.fdt').style.display = 'none'
+}
