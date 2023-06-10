@@ -1,6 +1,5 @@
 
 # Alumet
-> :warning: **Conférence à Clemenceau** : Nous avons le plaisir d'annoncer la tenue d'une conférence sur le futur du projet Alumet destinée aux professeurs du lycée Clemenceau à Nantes ! Nous nous efforcerons de vous fournir un résumé ou un enregistrement de l'événement.
 <div>
   <img href="https://www.oracle.com/fr/cloud/" alt="Oracle Cloud" src="https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=Oracle&logoColor=white">
   <img href="https://www.mongodb.com/" alt="MongoDB" src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white">
