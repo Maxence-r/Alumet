@@ -44,7 +44,6 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 | w2/05/23  | Conférence Alumet aux professeurs à Clémenceau | Confirmé (5 juin) | 1.1 |
 | f2/05/23  | Fin du developpement de la V1.2            | Planifié | 1.2     |
 | f2/05/23  | Résultats régionaux trophées NSI           | Qualifié | 1.0  |
-| w1/06/23  | Résultats nationaux trophées NSI           | En attente | 1.0  |
 | w2/06/23  | Collecte d'informations pour la V2         | Planifié | 1.2     |
 | w1/07/23  | Alumet rejoint Teranga                     | Planifié | 1.2     |
 | été 2023  | Développement de la V2                     | Planifié | 2.0     |
