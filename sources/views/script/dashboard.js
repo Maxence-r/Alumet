@@ -336,7 +336,7 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
             if (document.getElementById('alumet-name').value.length < 2 || document.getElementById('alumet-name').value.includes('<')) {
                 return toast({
                     title: "Quelque chose s'est mal passé",
-                    message: `Le nom de votre alumet est invalide ou trop court`,
+                    message: "Le nom de votre alumet est invalide ou trop court",
                     type: "warning",
                     duration: 3000
                   })
@@ -353,7 +353,7 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
                 if (document.getElementById('file-background').files.length < 1) {
                     return toast({
                         title: "Quelque chose s'est mal passé",
-                        message: `Vous devez choisir un fond pour votre Alumet`,
+                        message: "Vous devez choisir un fond pour votre Alumet",
                         type: "warning",
                         duration: 3000
                       })
@@ -363,14 +363,14 @@ document.getElementById('alumet-setup-continue').addEventListener('click', () =>
                     if (!document.getElementById('file-background').files[0]) {
                         return toast({
                             title: "Quelque chose s'est mal passé",
-                            message: `Vous devez choisir un fond pour votre Alumet`,
+                            message: "Vous devez choisir un fond pour votre Alumet",
                             type: "warning",
                             duration: 3000
                           })
                     } else if (document.getElementById('file-background').files[0].size > 3000000 || document.getElementById('file-background').files[0].type !== 'image/png' && document.getElementById('file-background').files[0].type !== 'image/jpeg'  && document.getElementById('file-background').files[0].type !== 'image/jpg') {
                         return  toast({
                             title: "Quelque chose s'est mal passé",
-                            message: `Le fichier que vous avez choisi est trop lourd ou n'est pas une image`,
+                            message: "Le fichier que vous avez choisi est trop lourd ou n'est pas une image",
                             type: "error",
                             duration: 3000
                           })

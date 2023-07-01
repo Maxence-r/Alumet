@@ -39,7 +39,7 @@ document.querySelector('.submit-button').addEventListener('click', function() {
     if (data.error) {
       toast({
         title: "Quelque chose s'est mal passé",
-        message: `C'est probablement de notre faute, veuillez réessayer plus tard.`,
+        message: "C'est probablement de notre faute, veuillez réessayer plus tard.",
         type: "error",
         duration: 3000
       })
@@ -83,14 +83,14 @@ function FollowTheDevelopment(level) {
       } else {
         toast({
           title: "C'est fait !",
-          message: `Votre inscription au programme est confirmée.`,
+          message: "Votre inscription au programme est confirmée.",
           type: "success",
           duration: 10000
         })
         if (level == 3) {
           toast({
             title: "C'est fait !",
-            message: `Le programme prendra place fin juin, merci de votre patience.`,
+            message: "Le programme prendra place fin juin, merci de votre patience.",
             type: "info",
             duration: 10000
           })
