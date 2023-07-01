@@ -201,7 +201,7 @@ function resetItems() {
 function enableModule(id) {
     JSON.parse(localStorage.getItem('modules')).forEach(module => {
         document.querySelector(`.${module}`).id = ''
-        document.querySelector(`.home`).id = ''
+        document.querySelector(".home").id = ''
         document.getElementById(`${module}`).classList.remove('active-module');
     });
     document.querySelector(`.${id}`).id = 'selected-item'
@@ -212,7 +212,7 @@ function enableModule(id) {
 
 function home() {
     document.querySelector('.modules-container').style.display = 'none';
-    document.querySelector(`.home`).id = 'selected-item'
+    document.querySelector(".home").id = 'selected-item'
     JSON.parse(localStorage.getItem('modules')).forEach(module => {
         document.querySelector(`.${module}`).id = ''
         document.getElementById(module).classList.remove('active-module');

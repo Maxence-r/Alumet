@@ -8,10 +8,10 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
     }, duration + 1000);
 
     const icons = {
-      success: `<span class="material-symbols-rounded">check_circle</span>`,
-      info: `<span class="material-symbols-rounded">error</span>`,
-      warning: `<span class="material-symbols-rounded">warning</span>`,
-      error: `<span class="material-symbols-rounded">report</span>`
+      success: '<span class="material-symbols-rounded">check_circle</span>',
+      info: '<span class="material-symbols-rounded">error</span>',
+      warning: '<span class="material-symbols-rounded">warning</span>',
+      error: '<span class="material-symbols-rounded">report</span>'
     };
     const icon = icons[type];
     const delay = (duration / 1000).toFixed(2);
