@@ -57,7 +57,7 @@ document.querySelector('.submit-button').addEventListener('click', function() {
 
 function FollowTheDevelopment(level) {
   let mail = prompt("Entrez votre adresse mail:")
-  if (mail != null) {
+  if (mail !== null) {
     fetch('/auth/sign-mail', {
       method: 'POST',
       headers: {
