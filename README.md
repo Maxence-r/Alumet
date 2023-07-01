@@ -42,11 +42,11 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 | 01/05/23  | Fin du developpement de la V1.1            | Fait | 1.1     |
 | w1/05/23  | Présentation Alumet à quelques profs et avis | Fait | 1.1     |
 | w2/05/23  | Conférence Alumet aux professeurs à Clémenceau | Confirmé (5 juin) | 1.1 |
-| f2/05/23  | Fin du developpement de la V1.2            | Planifié | 1.2     |
+| f2/05/23  | Fin du developpement de la V1.2            | Fait | 1.2     |
 | f2/05/23  | Résultats régionaux trophées NSI           | Qualifié | 1.0  |
-| w2/06/23  | Collecte d'informations pour la V2         | Planifié | 1.2     |
-| w1/07/23  | Alumet rejoint Teranga                     | Planifié | 1.2     |
-| été 2023  | Développement de la V2                     | Planifié | 2.0     |
+| w2/06/23  | Collecte d'informations pour la V2         | Fait | 1.2     |
+| w2/07/23  | Alumet rejoint Teranga                     | Planifié | 1.2     |
+| été 2023  | Développement de la V2                     | En cours | 2.0     |
 | f2/08/23  | Campagne aux profs pour la rentrée 2023     | Planifié | 2.0     |
 | f1/09/23  | Sortie officielle Alumet                   | Planifié | 2.0     |
 
