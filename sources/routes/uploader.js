@@ -24,7 +24,7 @@ router.get('/supported', (req, res) => {
   
 
 router.get('/u/:id', validateObjectId, (req, res) => {
-  if (supportedTemplate.hasOwnProperty(req.params.id)) {
+  if (Object.prototype.hasOwnProperty.call(supportedTemplate, req.params.id)) {
     res.sendFile(path.join(__dirname, supportedTemplate[req.params.id]));
   } else {
     Upload.find({ _id: req.params.id })
