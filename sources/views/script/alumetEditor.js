@@ -79,7 +79,7 @@ function deleteWall() {
         if (!data.error) {
             toast({
                 title: "Section supprimée",
-                message: `Votre section a bien été supprimée`,
+                message: "Votre section a bien été supprimée",
                 type: "success",
                 duration: 3000
             })
@@ -480,7 +480,7 @@ function modifySection(id, post) {
     document.getElementById("ms").style.display = 'flex';
     localStorage.setItem('currentItem', id);
     document.getElementById('s-m-title').value = title;
-    if (post == 'true') {
+    if (post === 'true') {
         document.getElementById('s-m-checked').checked = true;
     } else {
         document.getElementById('s-m-checked').checked = false;

@@ -177,7 +177,7 @@ document.getElementById('upload-files-b').addEventListener('click', () => {
     if (files.length === 0) {
         toast({
             title: "Aucun fichier sélectionné",
-            message: `Vous devez sélectionner au moins un fichier pour pouvoir l'envoyer.`,
+            message: "Vous devez sélectionner au moins un fichier pour pouvoir l'envoyer.",
             type: "error",
             duration: 3000
           })
@@ -231,7 +231,7 @@ function getFiles() {
     fetch('/cdn/files')
         .then(res => res.json())
         .then(data => { 
-            if (data.uploads.length == 0) {  
+            if (data.uploads.length === 0) {  
                 document.getElementById('files-container').innerHTML = '<div class="not-supported"><img src="./assets/app/uto.svg"><h3>Vos fichiers seront affichés ici</h3></div>'; 
             } else {
             document.getElementById('files-container').innerHTML = '';

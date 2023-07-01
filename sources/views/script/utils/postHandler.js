@@ -84,12 +84,10 @@ document.querySelector('.p-post').addEventListener('click', () => {
         document.querySelector('.p-post').disabled = false;
         closeModal('cp')
         localStorage.removeItem('postColor');
+        localStorage.removeItem('postOption');
       });
     }
-    localStorage.removeItem('postOption');
   });
-  
-  
   
   function abortPost(message) {
     document.querySelector('.p-post').disabled = false;

@@ -88,12 +88,12 @@ router.post('/upload/guest', alumetAuth, upload.single('file'), (req, res) => {
 
 
 router.patch('/update/:id', validateObjectId, (req, res) => {
-  if (req.logged == false) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
+  if (req.logged === false) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
   if (!req.body.displayname) return res.status(400).json({ error: 'Veuillez spéficier un nouveau nom' });
   if (req.body.displayname.length > 100) return res.status(400).json({ error: 'Nom trop long' });
   Upload.find( { _id: req.params.id } )
     .then(upload => {
-        if (upload[0].modifiable == false) return res.status(401).json({ error: 'Ce fichiers est utilisé par un de vos Alumets, impossible de le modifié' });
+        if (upload[0].modifiable === false) return res.status(401).json({ error: 'Ce fichiers est utilisé par un de vos Alumets, impossible de le modifié' });
         if (!upload) return res.status(404).json({ error: 'Upload not found' });
         upload[0].displayname = sanitizeFilename(req.body.displayname)+ "." + upload[0].mimetype;
         upload[0].save()
@@ -125,7 +125,7 @@ router.get('/files', (req, res) => {
 
   
 router.post('/upload', accountUpload.array('files'), (req, res) => {
-    if (req.logged == false || req.user === undefined) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
+    if (req.logged === false || req.user === undefined) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
     if (req.files && req.files.length > 0) {
       const files = req.files.map(file => {
         const ext = file.originalname.split('.').pop()

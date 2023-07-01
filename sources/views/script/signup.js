@@ -4,7 +4,7 @@ function progress() {
         document.querySelector(".first").style.display = "none"
         document.querySelector(".second").style.display = "flex"
         progresse ++
-    } else if (progresse == 2) {
+    } else if (progresse === 2) {
         let nom = document.getElementById("nom").value
         let prenom = document.getElementById("prenom").value
         let ae = document.getElementById("mail").value

@@ -114,7 +114,4 @@ router.post('/educonnect', async (req, res) => {
     }
 });
 */
-
-
-
 module.exports = router;

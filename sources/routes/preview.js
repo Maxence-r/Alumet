@@ -49,11 +49,8 @@ router.get('/pdf', async (req, res) => {
 router.get('/image', async (req, res) => {
     try {
       const { url } = req.query;
-  
-      
       const { data: imageData } = await axios.get(url, { responseType: 'arraybuffer' });
-  
-     
+      
       const previewImage = await sharp(imageData)
         .resize(200)
         .toBuffer();

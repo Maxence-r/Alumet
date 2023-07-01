@@ -15,7 +15,7 @@ function init() {
        const layerFilter = document.querySelector('.layer-filter');
 layerFilter.style.backdropFilter = `blur(${data.finalAlumet.blur.$numberDecimal}px) brightness(${data.finalAlumet.brightness.$numberDecimal})`;
 layerFilter.style.webkitBackdropFilter = `blur(${data.finalAlumet.blur.$numberDecimal}px) brightness(${data.finalAlumet.brightness.$numberDecimal})`;
-        if (data.finalAlumet.theme == 'dark') {
+        if (data.finalAlumet.theme === 'dark') {
             document.documentElement.style.setProperty('--main-color', '#131313');
             document.documentElement.style.setProperty('--secondary-color', '#ffffff');
         } else {
@@ -47,8 +47,8 @@ function initModules() {
     JSON.parse(localStorage.getItem('modules')).forEach(module => {
         document.querySelector(`.${module}`).style.display = 'flex';
         switch (module) {
-            case 'dm':
-               const script = document.createElement('script');
+            case 'dm': {
+                const script = document.createElement('script');
                 script.src = '../../script/modules/direct_messages.js';
                 document.body.appendChild(script);
                 const link = document.createElement('link');
@@ -56,7 +56,8 @@ function initModules() {
                 link.href = '../../style/modules/direct_messages.css';
                 document.head.appendChild(link);
                 break;
-            case 'hw':
+            }
+            case 'hw': {
                 const script2 = document.createElement('script');
                 script2.src = '../../script/modules/homeworks.js';
                 document.body.appendChild(script2);
@@ -65,7 +66,8 @@ function initModules() {
                 link2.href = '../../style/modules/homeworks.css';
                 document.head.appendChild(link2);
                 break;
-            case 'bd':
+            }
+            case 'bd': {
                 const script3 = document.createElement('script');
                 script3.src = '../../script/modules/board.js';
                 document.body.appendChild(script3);
@@ -74,7 +76,8 @@ function initModules() {
                 link3.href = '../../style/modules/board.css';
                 document.head.appendChild(link3);
                 break;
-            case 'fc':
+            }
+            case 'fc': {
                 const script4 = document.createElement('script');
                 script4.src = '../../script/modules/flashcards.js';
                 document.body.appendChild(script4);
@@ -83,9 +86,11 @@ function initModules() {
                 link4.href = '../../style/modules/flashcards.css';
                 document.head.appendChild(link4);
                 break;
+            }
         }
-    }) 
+    });
 }
+
 
 function getWalls() {
     document.querySelectorAll('.wall').forEach(wall => wall.remove());
@@ -137,9 +142,6 @@ function getWalls() {
             })
         })
         document.querySelector('.loading').classList.add('hidden');
-        try {
-            enableDrag();
-        } catch (error) {}
     })
     
 }

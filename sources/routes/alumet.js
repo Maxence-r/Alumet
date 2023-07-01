@@ -72,7 +72,7 @@ router.patch('/update/lastUsage', validateObjectId, async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      error: 'Failed to update alumet'
+      error: 'Vous ne pouvez pas ouvrir cette Alumet.'
     });
   }
 });
@@ -150,7 +150,7 @@ router.post('/new', async (req, res) => {
         const upload = await Upload.findOne({
             _id: req.body.background
         });
-        if (!upload || upload.owner != req.user.id ||upload.mimetype != 'png' && upload.mimetype != 'jpg' && upload.mimetype != 'jpeg' || upload.filesize > 3 * 1024 * 1024) {
+        if (!upload || upload.owner !== req.user.id ||upload.mimetype !== 'png' && upload.mimetype !== 'jpg' && upload.mimetype !== 'jpeg' || upload.filesize > 3 * 1024 * 1024) {
             return res.status(404).json({error: 'Upload isn\'t valid'});
         }
         }
@@ -209,7 +209,7 @@ router.patch('/update/:id', validateObjectId, async (req, res) => {
                 _id: req.body.background
             });
             
-              if (!upload || upload.owner != req.user.id ||upload.mimetype != 'png' && upload.mimetype != 'jpg' && upload.mimetype != 'jpeg' || upload.filesize > 3 * 1024 * 1024 ) {
+              if (!upload || upload.owner !== req.user.id ||upload.mimetype !== 'png' && upload.mimetype !== 'jpg' && upload.mimetype !== 'jpeg' || upload.filesize > 3 * 1024 * 1024 ) {
                   return res.status(404).json({error: 'Upload isn\'t valid'});
               }
             }

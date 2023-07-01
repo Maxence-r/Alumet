@@ -13,7 +13,7 @@ const uploader = require('./routes/uploader');
 const alumet = require('./routes/alumet')
 const auth = require('./routes/auth');
 const portal = require('./routes/portal');
-const a = require('./routes/a');
+const alumetRender = require('./routes/a');
 const preview = require('./routes/preview');
 const DBoard = require('./routes/DBoard');
 
@@ -63,7 +63,7 @@ app.use('/adopter', (_, res) => {
 })
 
 // Routes spécifiques
-app.use('/a', alumetAuth, a)
+app.use('/a', alumetAuth, alumetRender)
 app.use('/portal', alumetAuth, portal);
 app.use('/dashboard', dashboard);
 app.use('/alumet', alumet);

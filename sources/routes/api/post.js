@@ -174,7 +174,7 @@ router.delete('/:alumet/:wall/:post', validateObjectId, alumetAuth, notification
 
         const post = await Post.findById(req.params.post);
 
-        if (req.auth && req.cookies.alumetToken != post.owner) {
+        if (req.auth && req.cookies.alumetToken !== post.owner) {
             return res.status(404).json({
                 error: 'Vous n\'avez pas les permissions pour effectuer cette action !'
             });
@@ -200,11 +200,5 @@ router.delete('/:alumet/:wall/:post', validateObjectId, alumetAuth, notification
         console.error(error);
     }
 });
-
-
-
-
-
-
 
 module.exports = router;

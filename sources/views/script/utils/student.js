@@ -6,12 +6,12 @@ items.addEventListener('click', (event) => {
   if (target.tagName.toLowerCase() === 'img' || target.tagName.toLowerCase() === 'p') {
     target = target.parentNode;
   }
-  if (target.id == 'file') {
+  if (target.id === 'file') {
     localStorage.setItem('postOption', 'file')
     document.querySelector('.file-modal').style.display = 'flex';
     hideItems();
     document.getElementById('file-input').click();
-  } else if (target.id == 'link') {
+  } else if (target.id === 'link') {
     localStorage.setItem('postOption', 'link')
     hideItems();
     document.querySelector('.link-modal').style.display = 'flex';

@@ -77,6 +77,4 @@ router.delete('/:alumet/:id', validateObjectId, alumetItemsAuth, async (req, res
   }
 });
 
-  
-
-  module.exports = router;
+module.exports = router;

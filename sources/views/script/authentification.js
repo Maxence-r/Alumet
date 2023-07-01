@@ -20,7 +20,7 @@ fetch(`/alumet/info/${path}`, {
     document.getElementById('img').src = '/cdn/u/' + data.finalAlumet.background;
     document.querySelector('.alumet-infos h1').innerText = data.finalAlumet.name.substring(0, 75)
     document.getElementById('time').innerText = relativeTime(data.finalAlumet.lastUsage);
-    if (data.finalAlumet.theme == 'dark') {
+    if (data.finalAlumet.theme === 'dark') {
         document.querySelector('.alumet-infos h1').style.color = 'dark';
         document.querySelector('.alumet-infos h3').style.color = 'dark';
     } else {

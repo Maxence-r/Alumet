@@ -140,8 +140,8 @@ for (const [element1, element2] of elements) {
     const y1 = rect1.top + rect1.height / 2;
     const x2 = rect2.left + rect2.width / 2;
     const y2 = rect2.top + rect2.height / 2;
-    const d = `M ${x1} ${y1} C ${x1} ${(y1 + y2) / 2}, ${x2} ${(y1 + y2) / 2}, ${x2} ${y2}`;
-    line.setAttribute("d", d);
+    const lineVector = `M ${x1} ${y1} C ${x1} ${(y1 + y2) / 2}, ${x2} ${(y1 + y2) / 2}, ${x2} ${y2}`;
+    line.setAttribute("d", lineVector);
   }
 
   window.addEventListener("load", updateLinePosition);
