@@ -191,7 +191,7 @@ function getWalls() {
             if (supportedPreviewAlumet[post.fileExt]) {
                 fileContainer.innerHTML = `${supportedPreviewAlumet[post.fileExt].replace('*', `${window.location.protocol}//${window.location.host}/cdn/u/${post.typeContent}`)}`;
             } else {
-                fileContainer.innerHTML = `<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">`;
+                fileContainer.innerHTML = '<img loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">';
             }
             fileContainer.innerHTML += `
                             <p class="file-type">${post.fileExt.toUpperCase()}</p>
@@ -213,7 +213,7 @@ function getWalls() {
                     if (data.image) {
                         fileContainer.innerHTML = `<img id="cover-center" loading=\"lazy\" src=\"${data.image}">`;
                     } else {
-                        fileContainer.innerHTML = `<img id="cover-center" loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">`;
+                        fileContainer.innerHTML = '<img id="cover-center" loading=\"lazy\" src=\"./../../assets/app/empty_preview.png\">';
                     }
                     fileContainer.innerHTML += `
                                     <p class="file-type">${data.title || "Aucun titre"}</p>

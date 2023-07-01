@@ -79,7 +79,7 @@ function deleteWall() {
         if (!data.error) {
             toast({
                 title: "Section supprimée",
-                message: `Votre section a bien été supprimée`,
+                message: "Votre section a bien été supprimée",
                 type: "success",
                 duration: 3000
             })

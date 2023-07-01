@@ -15,7 +15,7 @@ router.get('/edit/:id', validateObjectId, (req, res) => {
     Alumet.findOne({
         _id: req.params.id
     }).then(alumet => {
-        if (!alumet) return res.redirect(`/404`);
+        if (!alumet) return res.redirect("/404");
         if (alumet.owner.toString() !== req.user.id) return res.redirect(`/portal/${req.params.id}`);
         res.clearCookie('alumetToken');
         const filePath = path.join(__dirname, '../views/pages/editor.html');
