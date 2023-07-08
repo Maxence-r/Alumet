@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../assets/public/alumet.ico">
+  <meta name="description" content="Alumet: La flamme de l’innovation au service de l’éducation.">
+  <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers">
+  <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation.">
+  <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://alumet.io">
+  <meta property="og:image" content="https://i.imgur.com/WZO8U8s.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:domain" content="alumet.io">
+  <meta name="twitter:url" content="https://alumet.io/">
+  <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes.">
+  <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
+  <meta name="twitter:image" content="https://i.imgur.com/WZO8U8s.png">
+  <link href="../style/dashboard.css" rel="stylesheet" type="text/css">
+  <link href="../style/global.css" rel="stylesheet" type="text/css">
+
+
+  <title>Alumet - Tableau de bord</title>
+</head>
+<body>
+  <section class="loading">
+    <span class="loader-upload"></span>
+ </section>
+  <div id="toast"></div>
+  <div class="prompt-popup popup">
+    <div class="prompt">
+        <h1 id="prompt-head">Prompt name</h1>
+        <input id="prompt-input" type="text" placeholder="Prompt placeholder">
+        <div class="prompt-buttons">
+          <button class="large" id="prompt-red">Supprimer</button>
+          <button class="large" onclick="document.querySelector('.prompt-popup').classList.remove('active-popup')">Annuler</button>
+          <button class="large" id="prompt-confirm">Confirmer</button>
+        </div>  
+    </div>
+  </div>
+  <div class="nav">
+    <button class="active" id="home"><img src="../assets/app/home.svg" alt="home"></button>
+    <button id="cloud"><img src="../assets/app/cloud.svg" alt="gestionnaire de fichiers"></button>
+    <button id="messages"><img src="../assets/app/chat.svg" alt="messagerie"><div class="ping"></div></button>
+    <button id="professors_community"><img src="../assets/app/group.svg" alt="communauté des professeurs"></button>
+    <button id="profile"><img src="../assets/app/profile.svg" alt="paramètres"></button>
+  </div>
+  <section class="sections-container">
+
+    <section class="home active-section">
+      <div class="main-container">
+        <!--- <div class="warning-box">Attention : Cette version n'est pas représentative du produit final et est sujette à de nombreux changements. Elle comporte également des bugs. Merci de nous laisser vos retours d'amélioration.</div> --->
+        <h1 class="welcomer">Bonjour, <span id="username">Gabriel</span></h1>
+        <div class="alumets-container">
+
+
+          <div class="alumets-container-header">
+            <div>
+              <h3>Vos Alumets</h3>
+            </div>
+            <div>
+              <input placeholder="Chercher dans vos Alumets">
+              <button onclick="document.querySelector('.create_alumet').classList.add('active-section')" class="large">Créer un alumet</button>
+            </div>
+          </div>
+
+
+          <div class="alumets">
+              <div class="alumet-box">
+                <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="undraw">
+                <div class="layer-blur-info">
+                  <h4>Première 5 n°3 -- Citizenship and Virtual Worlds</h4>
+                  <p>Il y a 2 jours</p>
+                </div>
+              </div>
+              <div class="alumet-box">
+                <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="undraw">
+                <div class="layer-blur-info">
+                  <h4>Première 5 n°3 -- Citizenship and Virtual Worlds</h4>
+                  <p>Il y a 2 jours</p>
+                </div>
+              </div>
+              <div class="alumet-box">
+                <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="undraw">
+                <div class="layer-blur-info">
+                  <h4>Première 5 n°3 -- Citizenship and Virtual Worlds</h4>
+                  <p>Il y a 2 jours</p>
+                </div>
+              </div>
+          </div>
+          
+          <div class="divider"></div>
+
+        </div>
+        
+        <div class="alumet-details-container">
+            <div class="loading-details-layer">
+              <span class="loader-upload"></span>
+            </div>
+            <div class="alumet-details">
+                <div class="alumet-card">
+                  <div class="layer-effect"></div>
+                  <img src="https://4kwallpapers.com/images/wallpapers/3d-background-purple-background-abstract-background-windows-3840x1080-8292.jpg">
+                  <div class="actions-buttons">
+                    <button class="large">Changer l'image</button>
+                    <button class="large">Ouvrir</button>
+                  </div>
+                </div>
+                <div class="alumet-primary-info">
+                  <h2>Informations</h2>
+                  <input id="alumet-title" placeholder="Nom de l'alumet">
+                  <input id="alumet-description" placeholder="Description de l'Alumet">
+                  <h2>Niveau de flou</h2>
+                  <input type="range" min="0" max="10" value="0" class="slider" id="blur-slider">
+                  <h2>Niveau de luminosité</h2>
+                  <input type="range" min="0" max="10" value="0" class="slider" id="bright-slider">
+                  <h2>Mot de passe et visibilité</h2>
+                  <div class="row-security">
+                    <input type="text" id="alumet-password" placeholder="Mot de passe">
+                    <select name="privacy" id="privacy-select">
+                      <option value="public">Publique</option>
+                      <option value="private">Privé</option>
+                  </select>
+                  </div>
+                </div>
+                <div class="alumet-secondary-info">
+                  <h2>Modules</h2>
+                  <div>
+                    <h3>Messagerie</h3>
+                    <label class="switch">
+                      <input type="checkbox">
+                      <span class="slide round"></span>
+                    </label>
+                  </div>
+                  <div>
+                    <h3>Mur d'idées</h3>
+                    <label class="switch">
+                      <input type="checkbox">
+                      <span class="slide round"></span>
+                    </label>
+                  </div>
+                  <div>
+                    <h3>Devoirs</h3>
+                    <label class="switch">
+                      <input type="checkbox">
+                      <span class="slide round"></span>
+                    </label>
+                  </div>
+                  <div>
+                    <h3>Flashcard + IA</h3>
+                    <label class="switch">
+                      <input type="checkbox">
+                      <span class="slide round"></span>
+                    </label>
+                  </div>
+                  <h2>Collaboration</h2>
+                  <div class="collaborators">
+                    <div class="collaborator">
+                      <img src="../assets/app/default.png" alt="undraw">
+                      <div class="collaborator-info">
+                        <h3>Gabriel Lancelot</h3>
+                        <p>Collaborateur</p>
+                      </div>
+                    </div>
+                    <div class="collaborator">
+                      <img src="../assets/app/default.png" alt="undraw">
+                      <div class="collaborator-info">
+                        <h3>Gabriel Lancelot</h3>
+                        <p>Collaborateur</p>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="large greyed">Ajouter un collaborateur</button>
+                  <h2>Mes élèves</h2>
+                  <button class="large greyed">Créer un lien d'invitation</button>
+                  <button class="large greyed">Copier le lien du Alumet</button>
+                </div>
+            </div>
+            <h4>Cliquer sur un alumet</h4>
+            <p>Les détails s'afficheront ici</p>
+        </div>
+      </div>
+
+      
+      <div class="sub-container">
+        <div class="header">
+          <h2>Activités récentes</h2>
+        </div>
+        <div class="divider"></div>
+        <div class="notifications">
+
+
+          <div class="notification">
+            <div class="notification-icon">
+              <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="notification icon">
+            </div>
+            <div class="notification-infos">
+              <h3>LLCER SPE2</h3>
+              <p>Nouvelle publication</p>
+            </div>
+          </div>
+          <div class="notification">
+            <div class="notification-icon">
+              <img src="https://images.pexels.com/photos/4322027/pexels-photo-4322027.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="notification icon">
+            </div>
+            <div class="notification-infos">
+              <h3>LLCER SPE2</h3>
+              <p>Nouvelle publication</p>
+            </div>
+          </div>
+          <div class="notification">
+            <div class="notification-icon">
+              <img src="https://padlet.pics/1/image?t=c_lfill,dpr_1,f_auto,g_auto,h_1080,q_auto:best,w_1920&url=https%3A%2F%2Fpadlet.net%2Fwallpapers%2Fv0%2Ff61fad47ba7c0bc7418579103ba0659d%2Fe3af300a%2FStLucia.jpg" alt="notification icon">
+            </div>
+            <div class="notification-infos">
+              <h3>LLCER SPE2</h3>
+              <p>Nouvelle publication</p>
+            </div>
+          </div>
+          <div class="notification">
+            <div class="notification-icon">
+              <img src="https://padlet.pics/1/image?t=c_lfill,dpr_1,f_auto,g_auto,h_1080,q_auto:best,w_1920&url=https%3A%2F%2Fpadlet.net%2Fwallpapers%2Fv0%2F3064b46a6457682bf38f34945c0dd8e5%2F6f01a9c8%2Fcherry.jpg" alt="notification icon">
+            </div>
+            <div class="notification-infos">
+              <h3>LLCER SPE2</h3>
+              <p>Nouvelle publication</p>
+            </div>
+          </div>
+          <div class="notification">
+            <div class="notification-icon">
+              <img src="https://padlet.pics/1/image?t=c_lfill,dpr_1,f_auto,g_auto,h_1080,q_auto:best,w_1920&url=https%3A%2F%2Fpadlet.net%2Fwallpapers%2Fv0%2F3064b46a6457682bf38f34945c0dd8e5%2F6f01a9c8%2Fcherry.jpg" alt="notification icon">
+            </div>
+            <div class="notification-infos">
+              <h3>LLCER SPE2</h3>
+              <p>Publication supprimé</p>
+            </div>
+          </div>
+          <div class="notification">
+            <div class="notification-icon">
+              <img src="https://padlet.pics/1/image?t=c_lfill,dpr_1,f_auto,g_auto,h_1080,q_auto:best,w_1920&url=https%3A%2F%2Fpadlet.net%2Fwallpapers%2Fv0%2F3064b46a6457682bf38f34945c0dd8e5%2F6f01a9c8%2Fcherry.jpg" alt="notification icon">
+            </div>
+            <div class="notification-infos">
+              <h3>LLCER SPE2</h3>
+              <p>Compte suspendu</p>
+            </div>
+          </div>
+
+          <div class="bottom-gradient"></div>
+        </div>
+        <div class="header">
+          <h2>Actions requises</h2>
+          <h5>5<span>/10</span></h5>
+        </div>
+        <div class="divider"></div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------- -->
+
+    <section class="cloud">
+        <div class="sub-container">
+          <div class="sub-item">
+            <img src="../assets/app/folder.svg" alt="folder icon">
+            <h4>Dossiers</h4>
+          </div>
+          <div class="folder-selector">
+            <div class="selector">
+              <div class="selector-line"></div>
+              <div class="selector-box">
+                <img onclick="editFolder()" src="../assets/app/edit.svg">
+              </div>
+            </div>
+            <div class="line-selector"></div>
+            <div class="folder-list">
+        
+            </div>
+          </div>
+          <div class="sub-item">
+            <img src="../assets/app/trash.svg" alt="folder icon">
+            <h4>Corbeille</h4>
+          </div>
+          <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
+        </div>
+        <div class="main-container">
+          <div class="row-fm-header">
+            <select name="folder" id="folder-selection">
+              <option>Choissisez un dossier</option>
+            </select>
+            <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
+          </div>
+          <div class="drop-box sending-data ">
+            <div class="indications">
+              <h3>Cliquer pour envoyer de nouveaux fichiers. <br>Chaque envoie peut contenir jusqu’a 50 fichiers</h3>
+            </div>
+            <div class="sending-box">
+              <div class="loading-box">
+                <span class="spinner"></span>
+              </div>
+              <div class="file-sending-infos">
+                <h3>methodologie_bac<span id="file-upload-ext">.pdf</span></h3>
+                <p>5bm - 4 fichiers restants</p>
+              </div>
+            </div>
+            <div class="success-box">
+              <h3>C'est fait !</h3>
+            </div>
+          </div>
+          <div class="files-header">
+            <h3>Nom du fichier</h3>
+            <h3>Taille</h3>
+            <h3>Mise en ligne</h3>
+            <input placeholder="Rechercher un fichier" type="text" name="search" id="search">
+          </div>
+          <div class="files-items">
+            <div class="file-item">
+              <div class="file-name">
+                <img src="../assets/files-ico/doc.png" alt="file icon">
+                <h4><span>resultats_bac_2023</span>.xlss</h4>
+              </div>
+              <h4>5mb</h4>
+              <h4>il y a 5 minutes</h4>
+            </div>
+            <div class="file-item">
+              <div class="file-name">
+                <img src="../assets/files-ico/pdf.png" alt="file icon">
+                <h4><span>resultats_bac_2023</span>.xlss</h4>
+              </div>
+              <h4>5mb</h4>
+              <h4>il y a 5 minutes</h4>
+            </div>
+            <div class="file-item">
+              <div class="file-name">
+                <img src="../assets/files-ico/mp3.png" alt="file icon">
+                <h4><span>resultats_bac_2023</span>.xlss</h4>
+              </div>
+              <h4>5mb</h4>
+              <h4>il y a 5 minutes</h4>
+            </div>
+            <div class="file-item">
+              <div class="file-name">
+                <img src="../assets/files-ico/ppt.png" alt="file icon">
+                <h4><span>resultats_bac_2023</span>.xlss</h4>
+              </div>
+              <h4>5mb</h4>
+              <h4>il y a 5 minutes</h4>
+            </div>
+            <div class="file-item">
+              <div class="file-name">
+                <img src="../assets/files-ico/xls.png" alt="file icon">
+                <h4><span>resultats_bac_2023</span>.xlss</h4>
+              </div>
+              <h4>5mb</h4>
+              <h4>il y a 5 minutes</h4>
+            </div>
+
+          </div>
+        </div>
+        <div class="sub-container right-container">
+        <div class="header reponsive-hide">
+          <h2>Mémoire</h2>
+          <h5>20<span>GB</span></h5>
+        </div>
+        <div class="divider reponsive-hide"></div>
+        <div class="memory-split reponsive-hide">
+          <div class="graph">
+            <div class="graph-doc"></div>
+            <div class="graph-audio"></div>
+            <div class="graph-image"></div>
+            <div class="graph-video"></div>
+          </div>
+          <div class="legend reponsive-hide">
+            <h4>Documents <span class="doc-color">12%</span></h4>
+            <h4>Audio <span class="audio-color">12%</span></h4>
+            <h4>Images <span class="image-color">12%</span></h4>
+            <h4>Vidéos <span class="video-color">12%</span></h4>
+          </div>
+        </div>
+        <div class="header reponsive-hide">
+          <h2>Actions</h2>
+        </div>
+        <div class="divider reponsive-hide"></div>
+        <div class="actions-menu reponsive-hide">
+          <div>
+            <img src="../assets/app/gdrive.png" alt="google drive icon">
+            <h5 class="gdrive">Ajouter depuis Google Drive</h5>
+          </div>
+          <div>
+            <img src="../assets/app/dropbox.png" alt="google drive icon">
+            <h5 class="gdrive">Ajouter depuis Dropbox</h5>
+          </div>
+        </div>
+        <div class="header">
+          <h2>Fichier</h2>
+          <button onclick="document.querySelector('.active-sub-container').classList.remove('active-sub-container')" class="large">Fermer</button>
+        </div>
+        <div class="divider"></div>
+        <div class="file-info">
+          <div class="file-details">
+            <div class="file-preview">
+              <img src="../assets/app/preview-file.png" alt="file icon">
+            </div>
+            <div class="file-basic-info">
+              <img src="../assets/app/doc.png" alt="file icon">
+              <h4>resultats_bac_2023_france.xlss</h4>
+            </div>
+            <div class="file-single-info">
+              <h4>Taille</h4>
+              <p id="file-size">5mb</p>
+            </div>
+            <div class="file-single-info">
+              <h4>Extension du fichier</h4>
+              <p id="file-ext">5mb</p>
+            </div>
+            <div class="file-single-info">
+              <h4>Mis en ligne il y a</h4>
+              <p id="file-date">2 semaines</p>
+            </div>
+            <div class="file-single-info">
+              <h4>Consulté</h4>
+              <p id="file-views">124 fois</p>
+            </div>
+          </div>
+          <div class="no-file">
+            <h4>Aucun fichier sélectionné</h4>
+            <p>Séléctionner un fichier pour obtenir des informations</p>
+          </div>
+          <div class="actions-buttons-file">
+            <button class="large">Ouvrir le fichier</button>
+            <button class="large">Supprimer</button>
+          </div>
+        </div>
+    </section>
+
+    <!-- ---------------------------------------- -->
+
+    <section class="messages">
+
+    </section>
+
+    <!-- ---------------------------------------- -->
+
+    <section class="professors_community">
+
+    </section>
+
+    <section class="profile">
+
+    </section>
+
+    <section class="create_alumet">
+
+    </section>
+
+
+  </section>
+
+  <script src="../script/global.js"></script>
+  <script src="../script/dashboard.js"></script>
+</body>
+</html>
