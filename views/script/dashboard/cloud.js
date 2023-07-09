@@ -15,61 +15,11 @@ function createFolderElement(folder) {
     return h2;
 }
 
-const endpointReference = {
-    'png': '/preview/image?id=*',
-    'jpg': '/preview/image?id=*',
-    'jpeg': '/preview/image?id=*',
-    'gif': '/cdn/u/*',
-    'apng': '/cdn/u/*',
-    'avif': '/cdn/u/*',
-    'webp': '/cdn/u/*',
-    'svg': '/cdn/u/*',
-    'pdf': '/preview/pdf?id=*',
-}
 
-const fileIconReference = {
-    'png': '../assets/files-ico/img.png',
-    'jpg': '../assets/files-ico/img.png',
-    'jpeg': '../assets/files-ico/img.png',
-    'gif': '../assets/files-ico/img.png',
-    'apng': '../assets/files-ico/img.png',
-    'avif': '../assets/files-ico/img.png',
-    'webp': '../assets/files-ico/img.png',
-    'svg': '../assets/files-ico/img.png',
-    'pdf': '../assets/files-ico/img.png',
-    'doc': '../assets/files-ico/doc.png',
-    'docx': '../assets/files-ico/doc.png',
-    'xls': '../assets/files-ico/xls.png',
-    'xlsx': '../assets/files-ico/xls.png',
-    'ppt': '../assets/files-ico/ppt.png',
-    'pptx': '../assets/files-ico/ppt.png',
-    'txt': '../assets/files-ico/doc.png',
-    'zip': '../assets/files-ico/zip.png',
-    'rar': '../assets/files-ico/zip.png',
-    '7z': '../assets/files-ico/zip.png',
-    'tar': '../assets/files-ico/zip.png',
-    'gz': '../assets/files-ico/zip.png',
-    'bz2': '../assets/files-ico/zip.png',
-    'xz': '../assets/files-ico/zip.png',
-    'mp3': '../assets/files-ico/mp3.png',
-    'wav': '../assets/files-ico/mp3.png',
-    'ogg': '../assets/files-ico/mp3.png',
-    'flac': '../assets/files-ico/mp3.png',
-    'm4a': '../assets/files-ico/mp3.png',
-    'mp4': '../assets/files-ico/mov.png',
-    'mkv': '../assets/files-ico/mov.png',
-    'mov': '../assets/files-ico/mov.png',
-    'avi': '../assets/files-ico/mov.png',
-    'wmv': '../assets/files-ico/mov.png',
-    'flv': '../assets/files-ico/mov.png',
-    'webm': '../assets/files-ico/mov.png',
-    'm4v': '../assets/files-ico/mov.png',
-    'mpg': '../assets/files-ico/mov.png',
-    'mpeg': '../assets/files-ico/mov.png',
-}
 
 
 function openDetails(id) {
+    localStorage.setItem('currentFile', id);
     let file = document.querySelector('.files-items').querySelector(`div[data-id="${id}"]`)
     document.querySelector('.file-basic-info > h4').innerText = file.dataset.name;
     document.getElementById('file-size').innerText = file.dataset.size;
@@ -83,6 +33,7 @@ function openDetails(id) {
     } else {
         document.querySelector('.file-preview > img').src = '../assets/files-ico/not-supported.png';
     }
+    document.querySelector('.right-container').classList.add('active-sub-container');
 }
 
 function createFileElement(file) {
@@ -153,6 +104,93 @@ function editFolder() {
         redActionText: 'Supprimer le dossier'
     });
 }
+
+function modifyFile() {
+    createPrompt({
+        head: 'Renommer le fichier',
+        placeholder: 'Nouveau nom',
+        function: renameFileRequest,
+        redAction: deleteFile,
+        redActionText: 'Supprimer'
+    });
+}
+
+function deleteFile() {
+    fetch(`/cdn/${localStorage.getItem('currentFile')}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                toast({
+                    title: 'Erreur',
+                    message: `${data.error}`,
+                    type: 'error',
+                    duration: 5000
+                });
+                return;
+            }
+            toast({
+                title: 'Succès',
+                message: 'Le fichier a été supprimé.',
+                type: 'success',
+                duration: 5000
+            });
+            document.querySelector('.files-items > div[data-id="' + localStorage.getItem('currentFile') + '"]').remove();
+            document.querySelector('.file-info').classList.add('no-selected-file');
+            document.querySelector('.right-container').classList.remove('active-sub-container');
+            document.querySelector('.active-popup').classList.remove('active-popup');
+            loadFolders(localStorage.getItem('currentFolder'));
+        });
+}
+
+function renameFileRequest(name) {
+    if (!name) {
+        toast({
+            title: 'Erreur',
+            message: 'Veuillez entrer un nom de fichier.',
+            type: 'error',
+            duration: 5000
+        });
+        return;
+    }
+    fetch(`/cdn/update/${localStorage.getItem('currentFile')}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                displayname: name
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                toast({
+                    title: 'Erreur',
+                    message: `${data.error}`,
+                    type: 'error',
+                    duration: 5000
+                });
+                return;
+            }
+            toast({
+                title: 'Succès',
+                message: 'Le fichier a été renommé.',
+                type: 'success',
+                duration: 5000
+            });
+            const file = document.querySelector('.files-items').querySelector(`div[data-id="${localStorage.getItem('currentFile')}"]`);
+            file.dataset.name = data.upload[0].displayname;
+            document.querySelector('.file-basic-info > h4').innerHTML = `<span>${data.upload[0].displayname.split('.')[0]}</span>.${data.upload[0].mimetype}`;
+            file.querySelector('h4').innerHTML = `<span>${data.upload[0].displayname.split('.')[0]}</span>.${data.upload[0].mimetype}`;
+            document.querySelector('.active-popup').classList.remove('active-popup');
+    });
+}
+
 
 function deleteFolder(id) {
     fetch(`/cdn/folder/delete/${localStorage.getItem('currentFolder')}`, {

@@ -376,13 +376,9 @@ body {
     z-index: 11;
 }
 
-.sub-actions {
-    display: flex;
-    gap: 10px;
-}
 
-.actions-buttons-file > .sub-actions > button:nth-child(1),
-.actions-buttons-file > .sub-actions > button:nth-child(2) {
+
+.actions-buttons-file > button:nth-child(1) {
     width: 100%;
     box-shadow: none;
     color: black;

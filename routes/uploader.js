@@ -143,7 +143,6 @@ router.post('/upload/guest', alumetAuth, upload.single('file'), (req, res) => {
 router.patch('/update/:id', validateObjectId, (req, res) => {
   if (req.logged === false) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
   if (!req.body.displayname) return res.status(400).json({ error: 'Veuillez spéficier un nouveau nom' });
-  if (req.body.displayname.length > 100) return res.status(400).json({ error: 'Nom trop long' });
   Upload.find( { _id: req.params.id } )
     .then(upload => {
         if (upload[0].modifiable === false) return res.status(401).json({ error: 'Ce fichiers est utilisé par un de vos Alumets, impossible de le modifié' });
@@ -234,24 +233,26 @@ router.get('/info/:id', validateObjectId, (req, res) => {
     .catch(error => res.json({ error }));
 });
 
-router.get('/delete/:id', validateObjectId, async (req, res) => {
+router.delete('/:id', validateObjectId, async (req, res) => {
+  console.log(req.params.id);
   try {
-    const upload = await Upload.findById(req.params.id);
-    if (!upload) {
+    const upload = await Upload.find({ _id: req.params.id })
+    if (!upload[0]) {
       return res.status(404).json({ error: 'Upload not found' });
     }
     if (req.logged === false) {
       return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
     }
-    if (!upload.modifiable) {
+    console.log(upload[0].modifiable);
+    if (!upload[0].modifiable) {
       return res.status(401).json({ error: 'Ce fichier est utilisé par un de vos Alumet, impossible de le supprimer !' });
     }
-    if (upload.owner.toString() !== req.user.id) {
+    if (upload[0].owner.toString() !== req.user.id) {
       return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
     }
-    await upload.deleteOne();
+    await upload[0].deleteOne();
     await Post.deleteMany({ typeContent: req.params.id });
-    fs.unlink(`./cdn/${upload.filename}`, (err) => {
+    fs.unlink(`./cdn/${upload[0].filename}`, (err) => {
       if (err) {
         console.error(err);
       }
