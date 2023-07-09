@@ -45,7 +45,7 @@ router.delete('/folder/delete/:id', validateObjectId, (req, res) => {
   if (!req.logged) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
   Folder.findOne({ _id: req.params.id, owner: req.user.id })
     .then(folder => {
-      if (folder.name === "Dossier Système") return res.status(403).json({ error: 'Vous ne pouvez pas supprimer ce dossier !' });
+      if (folder.name === "system") return res.status(403).json({ error: 'Vous n\'avez pas la permission de modifier un dossier système !' });
       if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
       folder.remove()
       res.json(folder);
@@ -57,7 +57,7 @@ router.post('/folder/rename/:id', alumetAuth, validateObjectId, (req, res) => {
   if (!req.logged) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
   Folder.findOne({ _id: req.params.id, owner: req.user.id })
     .then(folder => {
-      if (folder.name === "Dossier Système") return res.status(403).json({ error: 'Vous ne pouvez pas renommer ce dossier !' });
+      if (folder.name === "system") return res.status(403).json({ error: 'Vous n\'avez pas la permission de modifier un dossier système !' });
       if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
       if (!req.body.name) return res.status(400).json({ error: 'Veuillez spéficier un nouveau nom' });
       folder.name = req.body.name;
@@ -67,6 +67,18 @@ router.post('/folder/rename/:id', alumetAuth, validateObjectId, (req, res) => {
     .catch(error => res.json({ error }));
 });
 
+
+router.get('/folder/:id', validateObjectId, (req, res) => {
+  if (!req.logged) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
+  Folder.findOne({ _id: req.params.id, owner: req.user.id })
+    .then(folder => {
+      if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
+      Upload.find({ folder: folder._id }).sort({ _id: -1 })
+        .then(uploads => res.json(uploads))
+        .catch(error => res.json({ error }));
+    })
+    .catch(error => res.json({ error }));
+});
 
 router.get('/u/:id', validateObjectId, (req, res) => {
   if (Object.prototype.hasOwnProperty.call(supportedTemplate, req.params.id)) {
@@ -98,12 +110,7 @@ const upload = multer({
     }
 });
   
-const accountUpload = multer({ 
-  storage: storage, 
-  limits: {
-    files: 50
-  }
-});
+
 
 router.post('/upload/guest', alumetAuth, upload.single('file'), (req, res) => {
   if (!req.auth) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
@@ -117,6 +124,7 @@ router.post('/upload/guest', alumetAuth, upload.single('file'), (req, res) => {
         mimetype: ext.toLowerCase(),
         filesize: file.size,
         owner: req.cookies.alumetToken,
+        date: Date.now()
     });
     upload.save()
         .then((file) => res.json({ file: file }))
@@ -166,45 +174,55 @@ router.get('/files', (req, res) => {
 });
 
 
-
-
-  
-router.post('/upload', accountUpload.array('files'), (req, res) => {
-    if (req.logged === false || req.user === undefined) return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
-    if (req.files && req.files.length > 0) {
-      const files = req.files.map(file => {
-        const ext = file.originalname.split('.').pop()
-        const sanitizedFilename = sanitizeFilename(file.originalname);
-        return {
-          fieldname: file.fieldname,
-          displayname: sanitizedFilename,
-          encoding: file.encoding,
-          mimetype: ext.toLowerCase(),
-          filename: file.filename,
-          size: file.size
-        }
-      });
-      files.forEach(file => {
-        const upload = new Upload({
-            filename: file.filename,
-            displayname: file.displayname,
-            mimetype: file.mimetype.toLowerCase(),
-            filesize: file.size,
-            owner: req.user.id
-        });
-        upload.save()
-            .then(() => console.log('Nouveau fichier !' + file.filename))
-            .catch(error => console.log(error));
-        });
-      res.json({ files: files })
-    } else {
-      if (req.fileValidationError) {
-        res.status(400).json({ error: "Erreur inconnue: Trop de fichiers"})
-      } else {
-        res.status(400).json({ error: 'Please select at least one file to upload' })
-      }
-    }
+const accountUpload = multer({ 
+  storage: storage, 
+  limits: {
+    files: 50
+  }
 });
+
+
+router.post('/upload/:id', validateObjectId, accountUpload.single('file'), (req, res) => {
+  if (req.logged === false || req.user === undefined) {
+    return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
+  }
+  if (req.params.id) {
+    Folder.findOne({ _id: req.params.id, owner: req.user.id })
+      .then(folder => {
+        if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
+        if (folder.name === "system") return res.status(403).json({ error: 'Vous n\'avez pas la permission d\'envoyer des fichiers ici ! Créer un nouveau dossier.' });
+
+        if (req.file) {
+          const ext = req.file.originalname.split('.').pop();
+          const sanitizedFilename = sanitizeFilename(req.file.originalname);
+          const upload = new Upload({
+            filename: req.file.filename,
+            displayname: sanitizedFilename,
+            mimetype: ext.toLowerCase(),
+            filesize: req.file.size,
+            owner: req.user.id,
+            folder: req.params.id
+          });
+      
+          upload.save()
+            .then(() => {
+              res.json({ file: upload });
+            })
+            .catch(error => {
+              console.log(error);
+              res.status(500).json({ error: 'Une erreur est survenue lors de l\'enregistrement du fichier' });
+            });
+        } else {
+          res.status(400).json({ error: 'Une erreur inconnue est survenue !' });
+        }
+
+      })
+      .catch(error => res.status(500).json({ error: error.message }));
+  } else {
+    res.status(400).json({ error: 'Une erreur inconnue est survenue !' });
+  }
+});
+
 
 router.get('/info/:id', validateObjectId, (req, res) => {
     Upload.find( { _id: req.params.id } )

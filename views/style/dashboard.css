@@ -102,7 +102,7 @@ body {
 }
 
 .row-fm-header {
-    display: flex;
+    display: none;
     flex-direction: row;
     gap: 10px;
     margin-bottom: 10px;
@@ -254,9 +254,7 @@ body {
     flex-direction: row;
 }
 
-#folder-selection {
-    display: none;
-}
+
 
 .sub-container > .header > h2 {
     font-size: 1.8rem;
@@ -291,6 +289,14 @@ body {
     height: 100%;
 }
 
+.no-selected-file > .file-details {
+    display: none;
+}
+
+.no-selected-file > .actions-buttons-file {
+    display: none;
+}
+
 .no-file {
     margin-top: auto;
     margin-bottom: auto;
@@ -309,7 +315,7 @@ body {
     flex-direction: column;
     position: absolute;
     width: 100%;
-    height: 70%;
+    height: 75%;
     background-color: white;
     margin-top: 10px;
     overflow-y: auto;
@@ -318,7 +324,7 @@ body {
 
 .file-preview {
     width: calc(100% - 2px);
-    height: 30%;
+    height: 40%;
     border: 1px solid #F3F3F3;
     border-radius: 10px 10px 0 0;
 }
@@ -370,13 +376,21 @@ body {
     z-index: 11;
 }
 
-.actions-buttons-file > button:nth-child(2) {
+.sub-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions-buttons-file > .sub-actions > button:nth-child(1),
+.actions-buttons-file > .sub-actions > button:nth-child(2) {
+    width: 100%;
     box-shadow: none;
     color: black;
     background-color: #F3F3F3;
 }
 
 .file-basic-info > h4 {
+    white-space: nowrap;
     font-size: 0.9rem;
     font-weight: 500;
     margin: 0;
@@ -386,7 +400,7 @@ body {
 }
 
 .file-basic-info > img {
-    width: 30px;
+    width: 20px;
 }
 
 .file-preview > img {
@@ -394,6 +408,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top;
 }
 
 .context-menu {
@@ -863,6 +878,7 @@ h3 {
 
 .success-box {
     cursor: default;
+    pointer-events: none;
     position: absolute;
     bottom: 15px;
     width: calc(100% - 30px);
@@ -972,12 +988,33 @@ h3 {
 }
 
 .files-items {
+    position: relative;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    height: 100%;
+}
+
+.loading-files > .loader-container {
+    display: flex !important;
+}
+
+.files-items > .loader-container {
+    position: absolute;
+    width: 100%;
+    display: none;
+    height: 100%;
+    z-index: 15;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+
 }
 
 .file-name {
+    white-space: nowrap;
+    width: 32%;
+    overflow: hidden;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1077,6 +1114,10 @@ h3 {
     margin-left: 10px;
 }
 
+.indications {
+    pointer-events: none;
+}
+
 .indications > h3 {
     font-size: 0.9rem;
     font-weight: 500;
@@ -1094,7 +1135,7 @@ h3 {
     align-items: center;
     justify-content: center;
     width: calc(100% - 20px);
-    min-height: 145px;
+    min-height: 130px;
     border-radius: 8px;
     height: 15%;
     padding: 10px;
@@ -1108,9 +1149,13 @@ h3 {
     align-items: center;
     justify-content: center;
     height: 100%;
-    width: 50px;
+    min-width: 50px;
     background-color: #F6F8FC;
     border-radius: 4px;
+}
+
+.loading-box > img {
+    width: 24px;
 }
 
 .spinner {
@@ -1141,11 +1186,18 @@ h3 {
 }
 
 .file-sending-infos > h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 0.9rem;
     font-weight: 500;
     margin: 0;
     color: #000000;
     text-align: center;
+}
+
+.file-sending-infos > h3 > span {
+    color: #6A6A6A;
 }
 
 .file-sending-infos > p {
@@ -1159,6 +1211,22 @@ h3 {
 #file-upload-ext {
     color: #6A6A6A;
 }
+
+.send-actions {
+    position: absolute;
+    right: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+.send-actions > button:nth-child(1) {
+    background-color: #F6F8FC;
+    color: #000000;
+    box-shadow: none;
+}
+
 
 .sending-box {
     display: flex;
@@ -1175,21 +1243,49 @@ h3 {
     opacity: 0;
     transition: all 0.3s ease-in-out;
     cursor: default;
+    pointer-events: none;
+    overflow: hidden;
 }
 
 .sending-data > .indications > h3 {
     transform: translateY(-100%);
 }
 
-.sending-data > .sending-box {
-    opacity: 1;
-    transform: translateY(0%);
+.ready-to-send > .indications > h3 {
+    transform: translateY(-100%);
 }
 
+.sending-data > .sending-box:nth-child(2) {
+    opacity: 1;
+    transform: translateY(0%);
+    pointer-events: all;
+}
+
+#file-upload-ext {
+    margin-left: 3px;
+}
+
+.ready-to-send > .sending-box:nth-child(3) {
+    opacity: 1;
+    transform: translateY(0%);
+    pointer-events: all;
+}
 
 .success-upload > .success-box {
     opacity: 1;
     transform: translateY(0%);
+    pointer-events: all;
+}
+
+.progress {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    background-color: #1E54E3;
+    border-radius: 0 0 5px 5px;
+    transition: all 0.5s ease-in-out;
 }
 
 
@@ -1412,6 +1508,10 @@ input:checked + .slide:before {
     margin: 0;
 }
 
+#files-upload {
+    display: none;
+}
+
 .prompt > input {
     width: calc(100% - 40px);
 }
@@ -1443,7 +1543,10 @@ input:checked + .slide:before {
     }
     .files-header > h3:nth-child(3) {
         display: none;
-    }   
+    }
+    .file-name {
+        width: 100%;
+    }
 }
 
 @media (max-width: 1200px) {
@@ -1456,7 +1559,7 @@ input:checked + .slide:before {
     .alumet-details > div {
         width: 100%;
     }
-    #folder-selection {
+    .row-fm-header {
         display: flex;
     }
     .cloud > .sub-container:nth-child(3) {

@@ -4,7 +4,7 @@ const UploadSchema = mongoose.Schema({
     filename: {
         type: String,
         required: true,
-        minLength: 2
+        minLength: 1
     },
     displayname: {
         type: String,
@@ -33,6 +33,11 @@ const UploadSchema = mongoose.Schema({
     modifiable: {
         type: Boolean,
         default: true
+    },
+    folder: {
+        type: String,
+        default: "root",
+        minLength: 1
     }
 });
 

@@ -22,7 +22,8 @@ router.get('/meta', (req, res) => {
 
 router.get('/pdf', async (req, res) => {
     try {
-        const url = req.query.url;
+        const { id } = req.query;
+        const url = `${req.protocol}://${req.get('host')}/cdn/u/${id}`
         if (!url) {
             throw new Error('URL parameter missing');
         }
@@ -48,7 +49,9 @@ router.get('/pdf', async (req, res) => {
 
 router.get('/image', async (req, res) => {
     try {
-      const { url } = req.query;
+      const { id } = req.query;
+      const url = `${req.protocol}://${req.get('host')}/cdn/u/${id}`
+      console.log(url);
       const { data: imageData } = await axios.get(url, { responseType: 'arraybuffer' });
       
       const previewImage = await sharp(imageData)
@@ -58,7 +61,7 @@ router.get('/image', async (req, res) => {
       res.set('Content-Type', 'image/png');
       res.send(previewImage);
     } catch (err) {
-      console.error(err);
+     
       res.status(500).send('Internal server error');
     }
   });
