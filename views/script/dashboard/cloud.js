@@ -15,9 +15,6 @@ function createFolderElement(folder) {
     return h2;
 }
 
-
-
-
 function openDetails(id) {
     localStorage.setItem('currentFile', id);
     let file = document.querySelector('.files-items').querySelector(`div[data-id="${id}"]`)
@@ -99,8 +96,8 @@ function editFolder() {
     createPrompt({
         head: 'Renommer le dossier',
         placeholder: 'Nouveau nom',
-        function: renameFolder,
-        redAction: deleteFolder,
+        action: 'renameFolder()',
+        redAction: 'deleteFolder()',
         redActionText: 'Supprimer le dossier'
     });
 }
@@ -109,8 +106,8 @@ function modifyFile() {
     createPrompt({
         head: 'Renommer le fichier',
         placeholder: 'Nouveau nom',
-        function: renameFileRequest,
-        redAction: deleteFile,
+        action: 'renameFileRequest()',
+        redAction: 'deleteFile()',
         redActionText: 'Supprimer'
     });
 }
@@ -143,11 +140,11 @@ function deleteFile() {
             document.querySelector('.file-info').classList.add('no-selected-file');
             document.querySelector('.right-container').classList.remove('active-sub-container');
             document.querySelector('.active-popup').classList.remove('active-popup');
-            loadFolders(localStorage.getItem('currentFolder'));
         });
 }
 
-function renameFileRequest(name) {
+function renameFileRequest() {
+    let name = document.getElementById('prompt-input').value;
     if (!name) {
         toast({
             title: 'Erreur',
@@ -224,7 +221,8 @@ function deleteFolder(id) {
         });
 }
 
-function renameFolder(name) {
+function renameFolder() {
+    let name = document.getElementById('prompt-input').value;
     if (!name) {
         toast({
             title: 'Erreur',
@@ -289,11 +287,12 @@ function newFolder() {
     createPrompt({
         head: 'Nouveau dossier',
         placeholder: 'Nom du dossier',
-        function: createFolder
+        action: 'createFolder()'
     });
 }
 
-function createFolder(name) {
+function createFolder() {
+    let name = document.getElementById('prompt-input').value;
     if (!name) {
         toast({
             title: 'Erreur',

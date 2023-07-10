@@ -147,9 +147,15 @@ body {
     color: #1E54E3 !important;
 }
 
-.messages {
-    background-color: red;
+.messages > .sub-container {
+    margin: 0;
+    margin-right: 20px;
 }
+
+.messages > .sub-container > input {
+   width: calc(100% - 40px);
+}
+
 
 .professors_community {
     background-color: yellow;
@@ -171,7 +177,7 @@ body {
 
 .main-container {
     width: calc(100% - 40px);
-    height: calc(100% - 40px);
+
     display: flex;
     flex-direction: column;
     overflow-x: scroll;
@@ -1565,7 +1571,7 @@ input:checked + .slide:before {
         transform: translateY(110%);
         transition: all 0.3s ease-in-out;
         width: calc(100% - 40px);
-        height: calc(100% - 60px);
+        height: calc(100% - 40px);
         margin: 0;
         display: flex;
     }
@@ -1574,6 +1580,19 @@ input:checked + .slide:before {
     }
     .header > .large {
         display: block;
+    }
+    .messages > .sub-container:nth-child(1) {
+        display: flex;
+        min-width: calc(100% - 40px);
+        margin: 0;
+    }
+    .messages > .main-container {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: calc(100% - 40px);
+
     }
 }
 
@@ -1608,7 +1627,10 @@ input:checked + .slide:before {
         padding: 10px;
         width: calc(100% - 20px);
     }
-
+    .sub-container {
+        padding: 10px;
+        width: calc(100% - 20px);
+    }
     .sections-container > section {
         height: calc(100% - 40px);
     }
@@ -1631,5 +1653,8 @@ input:checked + .slide:before {
     #profile {
         position: absolute;
         right: 5px;
+    }
+    .cloud > .sub-container:nth-child(3) {
+        width: calc(100% - 20px);
     }
 }

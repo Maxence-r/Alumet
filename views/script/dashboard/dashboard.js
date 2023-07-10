@@ -14,41 +14,26 @@ navButtons.forEach((button) => {
 
 toast({ title: 'Bienvenue !', message: 'Vous êtes connecté.', type: 'info', duration: 2500 });
 
-async function createPrompt(object) {
+
+
+document.getElementById('prompt-confirm').addEventListener('click', () => {
+  document.querySelector('.prompt-popup').classList.remove('active-popup');
+});
+
+function createPrompt(object) {
+  document.getElementById('prompt-red').style.display = 'none';
   document.getElementById('prompt-head').innerHTML = object.head;
   document.getElementById('prompt-input').placeholder = object.placeholder;
-  document.getElementById('prompt-confirm').removeEventListener('click', onClick);
-  document.getElementById('prompt-confirm').addEventListener('click', onClick);
+  document.getElementById('prompt-confirm').setAttribute('onclick', object.action);
   if (object.redAction) {
     document.getElementById('prompt-red').style.display = 'block';
     document.getElementById('prompt-red').innerHTML = object.redActionText;
-    document.getElementById('prompt-red').addEventListener('click', object.redAction);
-  } else {
-    document.getElementById('prompt-red').style.display = 'none';
-  }
-
-  function onClick() {
-    const input = document.getElementById('prompt-input');
-    if (typeof object.function === 'function') {
-      object.function(input.value);
-    }
-    document.querySelector('.prompt-popup').classList.remove('active-popup');
-    document.getElementById('prompt-confirm').removeEventListener('click', onClick);
+    document.getElementById('prompt-red').setAttribute('onclick', object.redAction);
   }
 
   document.querySelector('.prompt-popup').classList.add('active-popup');
-
-  const inputValue = await new Promise((resolve) => {
-    document.getElementById('prompt-confirm').addEventListener('click', () => {
-      const input = document.getElementById('prompt-input');
-      resolve(input.value);
-    });
-  });
-
   document.getElementById('prompt-input').value = '';
-  document.getElementById('prompt-red').style.display = 'none';
 }
-
 
 
 const params = new URL(window.location).searchParams;
