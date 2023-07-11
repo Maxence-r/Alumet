@@ -91,7 +91,7 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s ease-in-out;
     opacity: 0;
     border-radius: 10px;
 }
@@ -109,13 +109,21 @@ body {
 }
 
 .row-fm-header > select {
-    outline: none;
-    min-height: 40px;
-    background-color: #F6F8FC;
     width: 100%;
-    border-radius: 5px;
-    border: none;
-    padding: 0 10px;
+}
+
+.messages-head-option {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.messages-head-option > input {
+    width: 60%;
+}
+
+.messages-head-option > select {
+    width: 40%;
 }
 
 .row-fm-header > button {
@@ -651,6 +659,10 @@ h3 {
     margin-top: 0px !important;
 }
 
+.alumet-secondary-info > button {
+    min-height: 50px;
+}
+
 .collaborator {
     display: flex;
     width: 100%;
@@ -756,6 +768,7 @@ h3 {
 }
 
 .alumet-details > div {
+    overflow-y: auto;
     gap: 10px;
     width: 33%;
 }
@@ -833,7 +846,7 @@ h3 {
 
 .alumet-card > img {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 4px);
     object-fit: cover;
     border-radius: 10px;
 }
@@ -1429,7 +1442,7 @@ input:checked + .slide:before {
     width: 100%;
 }
 
-.row-security > select {
+select {
     height: 50px;
     border: none;
     outline: none;
@@ -1532,6 +1545,103 @@ input:checked + .slide:before {
     transform: translateY(0) !important;
 }
 
+.conversations-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+}
+
+#search-conv {
+    min-height: 45px;
+}
+
+.conversation {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.conversation:hover {
+    transform: scale(1.02);
+}
+
+
+.conversation-infos {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;   
+}
+
+.ping-conv {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #e3351e;
+    position: absolute;
+    bottom: 2px;
+    right: 0;
+
+}
+
+.conversation-infos > h4 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.conversation-infos > h4 > span {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #9EA1A7;
+}
+
+.conversation-infos > p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #9EA1A7;
+}
+
+.certified > img:nth-child(2) {
+    display: block !important;
+}
+
+.conversation > img:nth-child(1) {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.10);
+}
+
+
+
+.conversation > img:nth-child(2) {
+    display: none;
+    position: absolute;
+    width: 24px;
+    left: 36px;
+    top: 34px;
+}
+
+.conversation-head {
+    font-size: 1rem;
+    color: #9EA1A7;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
 @media (max-width: 1400px) {
     .file-item > h4:nth-child(2) {
         display: none;
@@ -1560,6 +1670,7 @@ input:checked + .slide:before {
     }
     .alumet-details > div {
         width: 100%;
+        min-height: 400px;
     }
     .row-fm-header {
         display: flex;
@@ -1626,6 +1737,7 @@ input:checked + .slide:before {
     .main-container {
         padding: 10px;
         width: calc(100% - 20px);
+        height: calc(100% - 40px);
     }
     .sub-container {
         padding: 10px;
