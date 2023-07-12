@@ -19,6 +19,7 @@
   <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
   <meta name="twitter:image" content="https://i.imgur.com/WZO8U8s.png">
   <link href="../style/dashboard.css" rel="stylesheet" type="text/css">
+  <link href="../style/messages.css" rel="stylesheet" type="text/css">
   <link href="../style/global.css" rel="stylesheet" type="text/css">
 
 
@@ -99,7 +100,7 @@
             <div class="loading-details-layer">
               <span class="loader-upload"></span>
             </div>
-            <div class="alumet-details active-details">
+            <div class="alumet-details ">
                 <div class="alumet-card">
                   <div class="layer-effect"></div>
                   <img src="https://4kwallpapers.com/images/wallpapers/3d-background-purple-background-abstract-background-windows-3840x1080-8292.jpg">
@@ -287,7 +288,7 @@
           </div>
           <div class="drop-box">
             <div class="indications">
-              <h3>Cliquer pour envoyer de nouveaux fichiers. <br>Chaque envoie peut contenir jusqu’a 50 fichiers</h3>
+              <h3>Cliquer pour envoyer de nouveaux fichiers. <br>Chaque envoi peut contenir jusqu’a 50 fichiers</h3>
             </div>
             <div class="sending-box">
               <div class="loading-box">
@@ -460,7 +461,92 @@
         </div>
       </div>
       <div class="main-container">
-        
+        <div class="conversation-container">
+          <div class="conversation-header">
+            <div class="conversation-user-infos">
+              <img src="../assets/app/default.png" alt="file icon">
+              <div class="sub-infos">
+                <h4 id="conversation-username">John Doe</h4>
+                <p id="conversation-lastTime">Il y a 56 jours</p>
+                <p></p>
+              </div>
+            </div>
+            <div class="options">
+              <button class="large greyed">Fermer</button>
+              <img src="../assets/app/dots.svg" alt="options icon">
+            </div>
+         </div>
+         <div class="conversation-body">
+          <div class="right-message message">
+            <div class="message-details">
+              <p class="message-content solo">Vous êtes vraiment des gros gay</p>
+            </div>
+          </div>
+          <div class="right-message message first">
+            <img src="../assets/app/fauxmaxence.png" alt="file icon">
+            <div class="message-details">
+              <p class="user-name">Maxence</p>
+              <p class="message-content">Bon vos geules non ?</p>
+            </div>
+          </div>
+
+
+          <div class="left-message message">
+            <div class="message-details">
+              <p class="message-content solo">Ca me ferait bien chier</p>
+            </div>
+          </div>
+            <div class="left-message message first">
+              <img src="../assets/app/default.png" alt="file icon">
+              <div class="message-details">
+                <p class="user-name">Noémie<span id="message-date">16:01</span></p>
+                <p class="message-content">Hello les gros gay ? contrôle</p>
+              </div>
+            </div>
+
+
+            <div class="left-message message">
+              <div class="message-details">
+                <p class="message-content solo">Mais pas grand chose a reviser</p>
+              </div>
+            </div>
+            <div class="left-message message">
+              <div class="message-details">
+                <p class="message-content solo">Mais pas grand chose à reviser</p>
+              </div>
+            </div>
+            <div class="left-message message first">
+              <img src="../assets/app/fauxmaxence.png" alt="file icon">
+              <div class="message-details">
+                <p class="user-name">Pierre</p>
+                <p class="message-content">Oui il y en a 1</p>
+              </div>
+            </div>
+
+
+            <div class="left-message message">
+              <div class="message-details">
+                <p class="message-content solo">Gabriel: Yes</p>
+              </div>
+            </div>
+            <div class="left-message message">
+              <div class="message-details">
+                <p class="message-content solo">Gabriel:</p>
+              </div>
+            </div>
+            <div class="left-message message first">
+              <img src="../assets/app/fauxmaxence.png" alt="file icon">
+              <div class="message-details">
+                <p class="user-name">Gabriel Lancelot</p>
+                <p class="message-content">Oui il y en a 1</p>
+              </div>
+            </div>
+         </div>
+          <div class="conversation-footer">
+            <input autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message">
+            <img id="send-text" src="../assets/app/send.svg" alt="send icon">
+          </div>
+        </div>
       </div>
     </section>
 
@@ -489,5 +575,10 @@
   <script src="../script/dashboard/cloud.js"></script>
   <script src="../script/dashboard/messages.js"></script>
   <script src="../script/dashboard/uploadHandler.js"></script>
+
+  <script src="/socket.io/socket.io.js"></script>
+   <script>
+      const socket = io();
+   </script>
 </body>
 </html>

@@ -96,6 +96,7 @@ body {
     border-radius: 10px;
 }
 
+
 .active-section {
     opacity: 1 !important;
     z-index: 40;
@@ -577,7 +578,7 @@ body {
 .alumets-container {
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .alumets-container-header {
@@ -1698,11 +1699,12 @@ select {
         margin: 0;
     }
     .messages > .main-container {
-        display: none;
+        display: flex;
         position: absolute;
         top: 0;
         left: 0;
         width: calc(100% - 40px);
+        height: calc(100% - 40px);
 
     }
 }
@@ -1767,6 +1769,9 @@ select {
         right: 5px;
     }
     .cloud > .sub-container:nth-child(3) {
+        width: calc(100% - 20px);
+    }
+    .messages > .main-container {
         width: calc(100% - 20px);
     }
 }

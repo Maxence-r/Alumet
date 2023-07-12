@@ -4,7 +4,7 @@ const FolderSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
-        minLength: 2,
+        minLength: 1,
         maxLength: 50
     },
     owner: {

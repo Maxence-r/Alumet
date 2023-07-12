@@ -75,7 +75,6 @@ function createFileElement(file) {
 function loadFolder(id) {
     document.querySelector('.files-items').classList.add('loading-files');
     localStorage.setItem('currentFolder', id);
-    document.querySelector('.files-items').innerHTML = '';
     fetch(`/cdn/folder/${id}`, {
             method: 'GET',
             headers: {
@@ -84,6 +83,7 @@ function loadFolder(id) {
         })
         .then(response => response.json())
         .then(data => {
+            document.querySelectorAll('.file-item').forEach(file => file.remove());
             data.forEach(file => {
                 const fileElement = createFileElement(file);
                 document.querySelector('.files-items').appendChild(fileElement);
@@ -268,6 +268,7 @@ function renameFolder() {
 function triggerFolder() {
     const folderElements = folderList.querySelectorAll('h2');
     folderElements.forEach((folder) => {
+        folder.removeEventListener('click', () => {});
         folder.addEventListener('click', () => {
             folderElements.forEach((folder) => folder.classList.remove('active-folder'));
             folder.classList.add('active-folder');
