@@ -81,7 +81,7 @@ app.use('/api/wall', wall);
 app.use('/api/post', post); 
 app.use('/api/notifications', notifications);
 
-// routes modules
+// routes moduless
 app.use('/api/dm', direct_messages);
 app.use('/api/homeworks', homeworks)
 app.use('/api/board', board)
