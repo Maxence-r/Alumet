@@ -21,10 +21,14 @@ document.getElementById('prompt-confirm').addEventListener('click', () => {
 });
 
 function createPrompt(object) {
+  document.getElementById('prompt-input').removeAttribute('list'); 
   document.getElementById('prompt-red').style.display = 'none';
   document.getElementById('prompt-head').innerHTML = object.head;
   document.getElementById('prompt-input').placeholder = object.placeholder;
   document.getElementById('prompt-confirm').setAttribute('onclick', object.action);
+  if (object.list) {
+    document.getElementById('prompt-input').setAttribute('list', object.list);
+  }
   if (object.redAction) {
     document.getElementById('prompt-red').style.display = 'block';
     document.getElementById('prompt-red').innerHTML = object.redActionText;

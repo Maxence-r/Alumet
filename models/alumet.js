@@ -13,6 +13,11 @@ const AlumetSchema = mongoose.Schema({
         required: true,
         minLength: 1
     },
+    participants: {
+        type: Array,
+        required: false,
+        default: []
+    },
     description: {
         type: String,
         default: "Un endroit, pour tous !",
