@@ -4,7 +4,6 @@ const ConversationSchema = mongoose.Schema({
     participants: {
         type: Array,
         required: true,
-        minLength: 2,
         validate: [arrayLimit, 'Must have at least 2 participants']
     },
     name: {

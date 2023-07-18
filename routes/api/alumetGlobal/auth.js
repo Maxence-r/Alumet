@@ -9,17 +9,20 @@ require('dotenv').config();
 
 router.get('/signin', async (req, res) => {
     if (req.connected) return res.redirect('/dashboard');
-    const filePath = path.join(__dirname, '../views/pages/signin.html');
+    const filePath = path.join(__dirname, '../../../views/pages/authentification/signin.html');
     res.sendFile(filePath);
 });
 
 router.get('/u/:id', (req, res) => {
     Account.findOne( { _id: req.params.id } )
     .then(user => {
+        console.log(user);
         if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé !' });
         res.status(200).json({
             name: user.name,
             lastname: user.lastname,
+            icon: user.icon,
+            isVerified: user.isVerified
         });
     })
     .catch(error => res.status(500).json({ error }));

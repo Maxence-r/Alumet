@@ -109,6 +109,13 @@ function cancelLoading(classLoading) {
     document.querySelector(`.${classLoading}`).classList.remove('button--loading');
 }
 
+function getUser(id) {
+  return fetch('/auth/u/' + id) 
+    .then(response => response.json())
+    .then(data => {
+      return data;
+    });
+}
 
 
 let supportedPreviewAlumet = {
