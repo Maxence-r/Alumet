@@ -5,25 +5,24 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const { mongodbConnectString} = require('./config.json');
 //Import middlewares
-const authentication = require('./middlewares/authentication');
-const alumetAuth = require('./middlewares/api/alumetAuth');
+const authentification = require('./middlewares/authentification/authentification');
+const anonymeAuthentification = require('./middlewares/authentification/anonymeAuthentification');
 // Import routes
-const dashboard = require('./routes/dashboard');
-const uploader = require('./routes/uploader');
-const alumet = require('./routes/alumet')
-const auth = require('./routes/auth');
-const portal = require('./routes/portal');
-const alumetRender = require('./routes/a');
-const preview = require('./routes/preview');
-const DBoard = require('./routes/DBoard');
+const dashboard = require('./routes/api/alumetGlobal/dashboard');
+const uploader = require('./routes/api/alumetGlobal/uploader');
+const alumet = require('./routes/api/alumet/alumet')
+const auth = require('./routes/api/alumetGlobal/auth');
+const portal = require('./routes/api/alumetGlobal/portal');
+const alumetRender = require('./routes/routing/alumet');
+const preview = require('./routes/utils/preview');
 
-const direct_messages = require('./routes/modules/direct_messages');
-const homeworks = require('./routes/modules/homeworks');
-const board = require('./routes/modules/board');
+const homeworks = require('./routes/applications/eduTasker');
+const board = require('./routes/applications/ideaFlow');
 
-const wall = require('./routes/api/wall');
-const post = require('./routes/api/post');
-const notifications = require('./routes/api/notifications');
+const wall = require('./routes/api/alumet/wall');
+const post = require('./routes/api/alumet/post');
+const notifications = require('./routes/api/alumet/notifications');
+const conversation = require('./routes/applications/swiftChat');
 // Definition des outils
 
 app.use(cookieParser());
@@ -42,7 +41,7 @@ mongoose.connect(`${mongodbConnectString}`,
 
 
 // Routes global
-app.use(authentication);
+app.use(authentification);
 app.get('/', (req, res) => {
     res.sendFile('main.html', {root: './views/pages'});
 });
@@ -63,12 +62,12 @@ app.use('/adopter', (_, res) => {
 })
 
 // Routes spécifiques
-app.use('/a', alumetAuth, alumetRender)
-app.use('/portal', alumetAuth, portal);
+app.use('/a', anonymeAuthentification, alumetRender)
+app.use('/portal', anonymeAuthentification, portal);
 app.use('/dashboard', dashboard);
 app.use('/alumet', alumet);
 app.use('/auth', auth);
-app.use('/board', DBoard);
+app.use('/conversation', conversation);
 
 // preview processing 
 app.use('/preview', preview)
@@ -82,7 +81,6 @@ app.use('/api/post', post);
 app.use('/api/notifications', notifications);
 
 // routes moduless
-app.use('/api/dm', direct_messages);
 app.use('/api/homeworks', homeworks)
 app.use('/api/board', board)
 module.exports = app;

@@ -15,22 +15,22 @@ const PostSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    ownerType: {
+    file: {
         type: String,
-        required: true,
+        minLength: 1,
+        maxLength: 300,
+        required: false,
     },
-    type: {
+    link: {
         type: String,
-        required: true,
-        default: "default"
-    },
-    typeContent: {
-        type: String,
+        minLength: 1,
+        maxLength: 300,
+        required: false,
     },
     color: {
         type: String,
         required: true,
-        default: "default"
+        default: "ffffff"
     },
     position: {
         type: Number,
@@ -41,11 +41,21 @@ const PostSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    tcs: {
+    isVisible: {
+        type: Boolean,
+        required: true,
+        default: true
+    },
+    postDate: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
+    commentAuthorized: {
         type: Boolean,
         required: true,
         default: false
-    }
+    },
 });
 
 

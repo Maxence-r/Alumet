@@ -2,37 +2,41 @@ const mongoose = require("mongoose");
 const { Decimal128 } = mongoose.Types;
 
 const AlumetSchema = mongoose.Schema({
-    name: {
+    title: {
         type: String,
         required: true,
         minLength: 2,
         maxLength: 150
+    },
+    description: {
+        type: String,
+        maxLength: 2000
     },
     owner: {
         type: String,
         required: true,
         minLength: 1
     },
-    participants: {
+    collaborators: {
         type: Array,
         required: false,
         default: []
     },
-    description: {
-        type: String,
-        default: "Un endroit, pour tous !",
-        maxLength: 2000
+    participants: {
+        type: Array,
+        required: false,
+        default: []
     },
     password : {
         type: String,
         required: false,
         minLength: 1,
         maxLength: 150
-    }, 
-    modules: {
-        type: Array,
+    },
+    lastUsage: {
+        type: Date,
         required: true,
-        default: []
+        default: Date.now()
     },
     font: {
         type: String,
@@ -43,25 +47,10 @@ const AlumetSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    theme: {
-        type: String,
-        required: true,
-        default: "light"
-    },
     customsLinks: {
         type: Array,
         required: true,
         default: []
-    },
-    lastUsage: {
-        type: Date,
-        required: true,
-        default: Date.now()
-    },
-    archived: {
-        type: Boolean,
-        required: true,
-        default: false
     },
     brightness: {
         type: Decimal128,

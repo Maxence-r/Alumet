@@ -7,7 +7,7 @@ const NotificationSchema = mongoose.Schema({
         minLength: 2,
         maxLength: 500
     },
-    owner : {
+    owner: {
         type: String,
         required: true,
     },

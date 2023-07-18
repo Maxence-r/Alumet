@@ -5,7 +5,7 @@ const ConversationSchema = mongoose.Schema({
         type: Array,
         required: true,
         minLength: 2,
-        maxLength: 50
+        validate: [arrayLimit, 'Must have at least 2 participants']
     },
     name: {
         type: String,
@@ -29,6 +29,10 @@ const ConversationSchema = mongoose.Schema({
         minLength: 1
     },
 });
+
+function arrayLimit(val) {
+    return val.length > 1;
+}
 
 
 const Conversation = mongoose.model("Conversation", ConversationSchema);

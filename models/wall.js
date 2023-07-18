@@ -7,7 +7,7 @@ const WallSchema = mongoose.Schema({
         minLength: 1,
         maxLength: 150
     },
-    post: {
+    postAuthorized: {
         type: Boolean,
         required: true,
         default: false
@@ -17,7 +17,7 @@ const WallSchema = mongoose.Schema({
         required: true,
         default: 0
     },
-    alumet: {
+    alumetReference: {
         type: String,
         required: true,
     }

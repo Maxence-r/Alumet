@@ -11,15 +11,20 @@ const MessageSchema = mongoose.Schema({
         minLength: 2,
         maxLength: 500
     },
-    time : {
+    time: {
         type: Date,
         required: true,
         default: Date.now
     },
-    alumet : {
+    reference : {
         type: String,
         required: true
     },
+    isReaded: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 });
 
 const Message = mongoose.model("Message", MessageSchema);

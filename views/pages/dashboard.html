@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="../assets/public/alumet.ico">
+  <link rel="icon" href="../assets/global/alumet.ico">
   <meta name="description" content="Alumet: La flamme de l’innovation au service de l’éducation.">
   <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers">
   <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation.">
@@ -18,8 +18,8 @@
   <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes.">
   <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
   <meta name="twitter:image" content="https://i.imgur.com/WZO8U8s.png">
-  <link href="../style/dashboard.css" rel="stylesheet" type="text/css">
-  <link href="../style/messages.css" rel="stylesheet" type="text/css">
+  <link href="../style/pages/dashboard.css" rel="stylesheet" type="text/css">
+  <link href="../style/applications/swiftChat.css" rel="stylesheet" type="text/css">
   <link href="../style/global.css" rel="stylesheet" type="text/css">
 
 
@@ -48,11 +48,11 @@
     </div>
   </div>
   <div class="nav">
-    <button class="active" id="home"><img src="../assets/app/home.svg" alt="home"></button>
-    <button id="cloud"><img src="../assets/app/cloud.svg" alt="gestionnaire de fichiers"></button>
-    <button id="messages"><img src="../assets/app/chat.svg" alt="messagerie"><div class="ping"></div></button>
-    <button id="professors_community"><img src="../assets/app/group.svg" alt="communauté des professeurs"></button>
-    <button id="profile"><img src="../assets/app/profile.svg" alt="paramètres"></button>
+    <button class="active" id="home"><img src="../assets/global/home.svg" alt="home"></button>
+    <button id="cloud"><img src="../assets/global/cloud.svg" alt="gestionnaire de fichiers"></button>
+    <button id="messages"><img src="../assets/global/chat.svg" alt="messagerie"><div class="ping"></div></button>
+    <button id="professors_community"><img src="../assets/global/group.svg" alt="communauté des professeurs"></button>
+    <button id="profile"><img src="../assets/global/profile.svg" alt="paramètres"></button>
   </div>
   <section class="sections-container">
 
@@ -165,14 +165,14 @@
                   <h2>Collaboration</h2>
                   <div class="collaborators">
                     <div class="collaborator">
-                      <img src="../assets/app/default.png" alt="undraw">
+                      <img src="../assets/global/default.png" alt="undraw">
                       <div class="collaborator-info">
                         <h3>Gabriel Lancelot</h3>
                         <p>Collaborateur</p>
                       </div>
                     </div>
                     <div class="collaborator">
-                      <img src="../assets/app/default.png" alt="undraw">
+                      <img src="../assets/global/default.png" alt="undraw">
                       <div class="collaborator-info">
                         <h3>Gabriel Lancelot</h3>
                         <p>Collaborateur</p>
@@ -269,14 +269,14 @@
     <section class="cloud">
         <div class="sub-container">
           <div class="sub-item">
-            <img src="../assets/app/folder.svg" alt="folder icon">
+            <img src="../assets/global/folder.svg" alt="folder icon">
             <h4>Dossiers</h4>
           </div>
           <div class="folder-selector">
             <div class="selector">
               <div class="selector-line"></div>
               <div class="selector-box">
-                <img onclick="editFolder()" src="../assets/app/edit.svg">
+                <img onclick="editFolder()" src="../assets/global/edit.svg">
               </div>
             </div>
             <div class="line-selector"></div>
@@ -308,7 +308,7 @@
             </div>
             <div class="sending-box">
               <div class="loading-box reponsive-hide">
-                <img src="../assets/app/tick.svg">
+                <img src="../assets/global/tick.svg">
               </div>
               <div class="file-sending-infos">
                 <h3><span id="numbers-of-files">14</span> fichiers<span id="file-upload-ext">prêt à l'envoie</span></h3>
@@ -357,20 +357,7 @@
             <h4>Vidéos <span class="video-color">12%</span></h4>
           </div>
         </div>
-        <div class="header reponsive-hide">
-          <h2>Actions</h2>
-        </div>
-        <div class="divider reponsive-hide"></div>
-        <div class="actions-menu reponsive-hide">
-          <div>
-            <img src="../assets/app/gdrive.png" alt="google drive icon">
-            <h5 class="gdrive">Ajouter depuis Google Drive</h5>
-          </div>
-          <div>
-            <img src="../assets/app/dropbox.png" alt="google drive icon">
-            <h5 class="gdrive">Ajouter depuis Dropbox</h5>
-          </div>
-        </div>
+        
         <div class="header">
           <h2>Fichier</h2>
           <button onclick="document.querySelector('.active-sub-container').classList.remove('active-sub-container')" class="large">Fermer</button>
@@ -379,10 +366,10 @@
         <div class="file-info no-selected-file">
           <div class="file-details">
             <div class="file-preview">
-              <img src="../assets/app/preview-file.png" alt="file icon">
+              <img src="../assets/global/preview-file.png" alt="file icon">
             </div>
             <div class="file-basic-info">
-              <img src="../assets/app/doc.png" alt="file icon">
+              <img src="../assets/global/doc.png" alt="file icon">
               <h4>resultats_bac_2023_france.xlss</h4>
             </div>
             <div class="file-single-info">
@@ -427,8 +414,8 @@
         <div class="conversations-container">
 
           <div class="conversation">
-            <img src="../assets/app/default.png" alt="file icon">
-            <img src="../assets/app/certified.svg" alt="file icon">
+            <img src="../assets/global/default.png" alt="file icon">
+            <img src="../assets/global/certified.svg" alt="file icon">
             <div class="conversation-infos">
               <h4>John Doe<span>16:08</span></h4>
               <p>Salut, comment vas-tu ?</p>
@@ -436,8 +423,8 @@
             </div>
           </div>
           <div class="conversation certified">
-            <img src="../assets/app/default.png" alt="file icon">
-            <img src="../assets/app/certified.svg" alt="file icon">
+            <img src="../assets/global/default.png" alt="file icon">
+            <img src="../assets/global/certified.svg" alt="file icon">
             <div class="conversation-infos">
               <h4>John Doe<span>16:08</span></h4>
               <p>Salut, comment vas-tu ?</p>
@@ -445,8 +432,8 @@
             </div>
           </div>
           <div class="conversation">
-            <img src="../assets/app/default.png" alt="file icon">
-            <img src="../assets/app/certified.svg" alt="file icon">
+            <img src="../assets/global/default.png" alt="file icon">
+            <img src="../assets/global/certified.svg" alt="file icon">
             <div class="conversation-infos">
               <h4>John Doe<span>16:08</span></h4>
               <p>Salut, comment vas-tu ?</p>
@@ -454,8 +441,8 @@
             </div>
           </div>
           <div class="conversation">
-            <img src="../assets/app/default.png" alt="file icon">
-            <img src="../assets/app/certified.svg" alt="file icon">
+            <img src="../assets/global/default.png" alt="file icon">
+            <img src="../assets/global/certified.svg" alt="file icon">
             <div class="conversation-infos">
               <h4>John Doe<span>16:08</span></h4>
               <p>Salut, comment vas-tu ?</p>
@@ -469,7 +456,7 @@
         <div class="conversation-container">
           <div class="conversation-header">
             <div class="conversation-user-infos">
-              <img src="../assets/app/default.png" alt="file icon">
+              <img src="../assets/global/default.png" alt="file icon">
               <div class="sub-infos">
                 <h4 id="conversation-username">John Doe</h4>
                 <p id="conversation-lastTime">Il y a 56 jours</p>
@@ -478,7 +465,7 @@
             </div>
             <div class="options">
               <button class="large greyed">Fermer</button>
-              <img src="../assets/app/dots.svg" alt="options icon">
+              <img src="../assets/global/dots.svg" alt="options icon">
             </div>
          </div>
          <div class="conversation-body">
@@ -488,7 +475,7 @@
             </div>
           </div>
           <div class="right-message message first">
-            <img src="../assets/app/fauxmaxence.png" alt="file icon">
+            <img src="../assets/global/fauxmaxence.png" alt="file icon">
             <div class="message-details">
               <p class="user-name">Maxence</p>
               <p class="message-content">Bon vos geules non ?</p>
@@ -502,7 +489,7 @@
             </div>
           </div>
             <div class="left-message message first">
-              <img src="../assets/app/default.png" alt="file icon">
+              <img src="../assets/global/default.png" alt="file icon">
               <div class="message-details">
                 <p class="user-name">Noémie<span id="message-date">16:01</span></p>
                 <p class="message-content">Hello les gros gay ? contrôle</p>
@@ -521,7 +508,7 @@
               </div>
             </div>
             <div class="left-message message first">
-              <img src="../assets/app/fauxmaxence.png" alt="file icon">
+              <img src="../assets/global/fauxmaxence.png" alt="file icon">
               <div class="message-details">
                 <p class="user-name">Pierre</p>
                 <p class="message-content">Oui il y en a 1</p>
@@ -540,7 +527,7 @@
               </div>
             </div>
             <div class="left-message message first">
-              <img src="../assets/app/fauxmaxence.png" alt="file icon">
+              <img src="../assets/global/fauxmaxence.png" alt="file icon">
               <div class="message-details">
                 <p class="user-name">Gabriel Lancelot</p>
                 <p class="message-content">Oui il y en a 1</p>
@@ -549,7 +536,7 @@
          </div>
           <div class="conversation-footer">
             <input autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message">
-            <img id="send-text" src="../assets/app/send.svg" alt="send icon">
+            <img id="send-text" src="../assets/global/send.svg" alt="send icon">
           </div>
         </div>
       </div>
@@ -563,9 +550,9 @@
 
     <section class="profile">
       <div class="main-container">
-        <img src="../assets/app/banner.png" class="banner">
+        <img src="../assets/global/banner.png" class="banner">
         <div class="user-infos">
-          <img src="../assets/app/fauxmaxence.png" alt="file icon">
+          <img src="../assets/global/fauxmaxence.png" alt="file icon">
           <div class="sub-infos">
             <h4>Gabriel Lancelot</h4>
             <p>gabriellancelotgay01@gmail.com</p>

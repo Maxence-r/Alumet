@@ -1,13 +1,14 @@
+
 const mongoose = require("mongoose");
 
 const AccountSchema = mongoose.Schema({
-    nom: {
+    name: {
         type: String,
         required: true,
         minLength: 2,
         maxLength: 50
     },
-    prenom: {
+    lastname: {
         type: String,
         required: true,
         minLength: 2,
@@ -23,14 +24,31 @@ const AccountSchema = mongoose.Schema({
         required: true,
         default: "default"
     },
-    status: {
+    accountType: {
         type: String,
+        required: true
+    },
+    isVerified: {
+        type: Boolean,
         required: true,
-        default: "Professeur"
+        default: false
+    },
+    subjects: {
+        type: Array,
+        required: false,
+        default: []
+    },
+    icon: {
+        type: String,
+        required: false,
+        default: "default"
+    },
+    notifications: {
+        type: Array,
+        required: false,
+        default: ['messages']
     },
 });
-
-
 
 const Account = mongoose.model("Account", AccountSchema);
 module.exports = Account;
