@@ -20,25 +20,6 @@ document.getElementById('prompt-confirm').addEventListener('click', () => {
   document.querySelector('.prompt-popup').classList.remove('active-popup');
 });
 
-function createPrompt(object) {
-  document.getElementById('prompt-input').removeAttribute('list'); 
-  document.getElementById('prompt-red').style.display = 'none';
-  document.getElementById('prompt-head').innerHTML = object.head;
-  document.getElementById('prompt-input').placeholder = object.placeholder;
-  document.getElementById('prompt-confirm').setAttribute('onclick', object.action);
-  if (object.list) {
-    document.getElementById('prompt-input').setAttribute('list', object.list);
-  }
-  if (object.redAction) {
-    document.getElementById('prompt-red').style.display = 'block';
-    document.getElementById('prompt-red').innerHTML = object.redActionText;
-    document.getElementById('prompt-red').setAttribute('onclick', object.redAction);
-  }
-
-  document.querySelector('.prompt-popup').classList.add('active-popup');
-  document.getElementById('prompt-input').value = '';
-}
-
 
 const params = new URL(window.location).searchParams;
 let redirect = params.get('redirect');
@@ -47,4 +28,9 @@ if (redirect) {
     if (element) {
         element.click();
     }
-}
+};
+
+document.getElementById('close-conversation').addEventListener('click', () => {
+  document.querySelector('.messages').classList.remove('active-messages');
+  localStorage.removeItem('currentConversation');
+});

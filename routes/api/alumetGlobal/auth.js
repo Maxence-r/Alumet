@@ -16,7 +16,6 @@ router.get('/signin', async (req, res) => {
 router.get('/u/:id', (req, res) => {
     Account.findOne( { _id: req.params.id } )
     .then(user => {
-        console.log(user);
         if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé !' });
         res.status(200).json({
             name: user.name,
@@ -50,8 +49,10 @@ router.get('/info', async (req, res) => {
             res.status(200).json({
                 lastname: user.lastname,
                 name: user.name,
+                id: user._id,
                 mail: user.mail,
                 accountType: user.accountType,
+                icon: user.icon,
             });
         })
         .catch(error => res.status(500).json({ error }));
@@ -117,34 +118,6 @@ router.post('/signup', async (req, res) => {
         console.log(err);
         res.status(400).json({ message: err });
     }
-});
-
-router.put('/changepassword', async (req, res) => {
-  try {
-    const user = await Account.findById(req.user.id);
-    if (!user) {
-      return res.status(401).json({
-        error: 'Utilisateur non trouvé !'
-      });
-    }
-    const validPassword = await bcrypt.compare(req.body.oldPassword, user.password);
-    if (!validPassword) {
-      return res.status(400).json({
-        error: 'Ancien mot de passe incorrect !'
-      });
-    }
-    const hash = await bcrypt.hash(req.body.newPassword, 10);
-    user.password = hash;
-    await user.save();
-    res.status(200).json({
-      message: 'Mot de passe modifié avec succès !'
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      error: err.message
-    });
-  }
 });
 
 router.post('/sign-mail', async (req, res) => {

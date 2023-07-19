@@ -22,6 +22,7 @@ const AccountSchema = mongoose.Schema({
     password: {
         type: String,
         required: true,
+        minLength: 4,
         default: "default"
     },
     accountType: {
@@ -29,6 +30,11 @@ const AccountSchema = mongoose.Schema({
         required: true
     },
     isVerified: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    isA2FEnabled: {
         type: Boolean,
         required: true,
         default: false

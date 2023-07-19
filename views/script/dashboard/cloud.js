@@ -260,7 +260,6 @@ function renameFolder() {
             });
             const folder = folderList.querySelector(`h2[data-id="${localStorage.getItem('currentFolder')
       }"]`);
-            console.log(folder);
             folder.innerText = name;
         });
 }

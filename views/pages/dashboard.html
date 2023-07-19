@@ -422,13 +422,13 @@
             <div class="conversation-user-infos">
               <img src="../assets/global/default.png" alt="file icon">
               <div class="sub-infos">
-                <h4 id="conversation-username">John Doe</h4>
+                <h4 id="conversation-username">John Does</h4>
                 <p id="conversation-lastTime">Il y a 56 jours</p>
                 <p></p>
               </div>
             </div>
             <div class="options">
-              <button class="large greyed">Fermer</button>
+              <button id="close-conversation" class="large greyed">Fermer</button>
               <img src="../assets/global/dots.svg" alt="options icon">
             </div>
          </div>
@@ -518,8 +518,8 @@
         <div class="user-infos">
           <img src="../assets/global/fauxmaxence.png" alt="file icon">
           <div class="sub-infos">
-            <h4>Gabriel Lancelot</h4>
-            <p>gabriellancelotgay01@gmail.com</p>
+            <h4>User.name user.lastname</h4>
+            <p>user.mail</p>
           </div>
         </div>
         <div class="user-settings">
@@ -528,21 +528,21 @@
               <h4>Informations</h4>
               <p>Mettez a jour vos informations si nécessaire</p>
             </div>
-            <button class="large greyed">Enregistrer</button>
+            <button id="saveInfosBtn" class="large">Enregistrer</button>
           </div>
           <div class="divider"></div>
           <div class="grid-user-container">
             <div class="item">
               <h3>Prénom</h3>
-              <input type="text" name="firstname" id="firstname" placeholder="Prénom">
+              <input type="text" name="firstname" id="firstnameField" placeholder="Prénom" autocomplete="on">
             </div>
             <div class="item">
               <h3>Nom</h3>
-              <input type="text" name="lastname" id="lastname" placeholder="Nom">
+              <input type="text" name="lastname" id="lastnameField" placeholder="Nom" autocomplete="on">
             </div>
             <div class="item">
               <h3>Adresse e-mail</h3>
-              <input type="text" name="email" autocomplete="off" id="email" placeholder="Adresse e-mail">
+              <input type="text" name="email" autocomplete="on" id="mailField" placeholder="Adresse e-mail">
             </div>
           </div>
           <div class="user-options-heading">
@@ -553,18 +553,18 @@
           </div>
           <div class="divider"></div>
           <div class="grid-user-container">
-              <button class="large greyed">Changer de mot de passe</button>
+              <button id="changePasswordBtn" class="large greyed">Changer de mot de passe</button>
           
-              <button class="large greyed">Activer l'A2F</button>
+              <button id="toggleA2FBtn" class="large greyed">Activer l'A2F</button>
            
-              <button class="large greyed">Supprimer mon compte</button>
+              <button id="deleteAccountBtn" class="large greyed">Supprimer mon compte</button>
           </div>
           <div class="user-options-heading">
             <div class="user-options-infos">
               <h4>Notifications</h4>
               <p>Activer ou desactiver selon vos préférences certains notifications</p>
             </div>
-            <button class="large greyed">Enregistrer</button>
+            <button class="large">Enregistrer</button>
           </div>
           <div class="divider"></div>
         </div>
@@ -584,6 +584,7 @@
 
 
   <script src="../script/dashboard/cloud.js"></script>
+  <script src="../script/dashboard/profile.js"></script>
   <script src="../script/applications/swiftChat.js"></script>
   <script src="../script/dashboard/uploadHandler.js"></script>
 

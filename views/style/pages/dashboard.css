@@ -19,7 +19,12 @@ body {
     border-radius: 10px;
 }
 
+.pinged > .ping {
+    display: block;
+}
+
 .ping {
+    display: none;
     position: absolute;
     top: 0;
     right: 0;
@@ -157,6 +162,7 @@ body {
 }
 
 .messages > .sub-container {
+    position: relative;
     margin: 0;
     margin-right: 20px;
 }
@@ -696,6 +702,7 @@ input {
     padding: 0 20px;
     outline: none;
     transition: all 0.3s ease-in-out;
+    font-size: 0.9em;
 }
 
 input:focus {
@@ -1592,6 +1599,7 @@ select {
     font-size: 2rem;
     font-weight: 500;
     margin: 0;
+    margin-bottom : 13px;
 }
 
 #files-upload {
@@ -1623,6 +1631,9 @@ select {
     width: 100%;
     height: 100%;
     margin-top: 20px;
+    overflow: auto;
+    overflow-x: none;
+    margin-bottom: 3%;
 }
 
 #search-conv {
@@ -1640,7 +1651,7 @@ select {
 }
 
 .conversation:hover {
-    transform: scale(1.02);
+    transform: scale(0.98);
 }
 
 
@@ -1652,7 +1663,7 @@ select {
     width: 100%;   
 }
 
-.readed > .conversation-infos > .ping-conv {
+.not-readed > .conversation-infos > .ping-conv {
     display: block;
 }
 
@@ -1666,6 +1677,10 @@ select {
     bottom: 2px;
     right: 0;
 
+}
+
+.user-name {
+    display: none;
 }
 
 .conversation-infos > h4 {
@@ -1701,6 +1716,10 @@ select {
     box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.10);
 }
 
+.message > img {
+    display: none;
+}
+
 .profile > .main-container {
     width: 100%;
     height: calc(100% - 20px);
@@ -1720,6 +1739,10 @@ select {
     color: #9EA1A7;
     margin-top: 20px;
     margin-bottom: 10px;
+}
+
+.active-messages > .main-container {
+    transform: translateY(0) !important;
 }
 
 @media (max-width: 1400px) {
@@ -1742,6 +1765,10 @@ select {
 }
 
 @media (max-width: 1200px) {
+    .messages > .main-container {
+        transform: translateY(100%);
+        transition: all 0.3s ease-in-out;
+    }
     .grid-user-container {
         width: 100%;
     }
@@ -1801,6 +1828,18 @@ select {
 
 
 @media (max-width: 600px) {
+    .right-message > .message-details > .message-content {
+        margin: 0 !important;
+    }
+    .left-message > .message-details > .message-content {
+        margin: 0 !important;
+    }
+    .right-message > img {
+        display: none !important;
+    }
+    .left-message > img {
+        display: none !important;
+    }
     .user-options-infos > p {
         display: none;
     }

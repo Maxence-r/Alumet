@@ -93,15 +93,24 @@
     margin-top: 20px;
 }
 
-.solo {
-    border-radius: 10px !important;
+.first > img {
+    display: block;
 }
 
-.left-message > .message-details > .solo {
+.first > .message-details > .user-name {
+    display: flex;
+}
+
+.first > .message-details > .message-content {
+    margin: 0 !important;
+}
+
+
+.left-message > .message-details > .message-content {
     margin-left: 56px;
 }
 
-.right-message > .message-details > .solo {
+.right-message > .message-details > .message-content {
     margin-right: 56px;
 }
 
@@ -154,6 +163,7 @@
 }
 
 .message-details > .message-content {
+    line-break: anywhere;
     font-size: 0.9rem;
     padding: 10px;
     background-color: white;

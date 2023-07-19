@@ -62,10 +62,10 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
     }, duration + 1000);
 
     const icons = {
-      success: '<span class="material-symbols-rounded">check_circle</span>',
-      info: '<span class="material-symbols-rounded">error</span>',
-      warning: '<span class="material-symbols-rounded">warning</span>',
-      error: '<span class="material-symbols-rounded">report</span>'
+      success: '<span rel="preload" class="material-symbols-rounded">check_circle</span>',
+      info: '<span rel="preload" class="material-symbols-rounded">error</span>',
+      warning: '<span rel="preload" class="material-symbols-rounded">warning</span>',
+      error: '<span rel="preload" class="material-symbols-rounded">report</span>'
     };
     const icon = icons[type];
     const delay = (duration / 1000).toFixed(2);
@@ -86,6 +86,24 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
   }
 }
 
+function createPrompt(object) {
+  document.getElementById('prompt-input').removeAttribute('list'); 
+  document.getElementById('prompt-red').style.display = 'none';
+  document.getElementById('prompt-head').innerHTML = object.head;
+  document.getElementById('prompt-input').placeholder = object.placeholder;
+  document.getElementById('prompt-confirm').setAttribute('onclick', object.action);
+  if (object.list) {
+    document.getElementById('prompt-input').setAttribute('list', object.list);
+  }
+  if (object.redAction) {
+    document.getElementById('prompt-red').style.display = 'block';
+    document.getElementById('prompt-red').innerHTML = object.redActionText;
+    document.getElementById('prompt-red').setAttribute('onclick', object.redAction);
+  }
+
+  document.querySelector('.prompt-popup').classList.add('active-popup');
+  document.getElementById('prompt-input').value = '';
+}
 
 function relativeTime(timestamp) {
     const now = new Date();
@@ -116,6 +134,25 @@ function getUser(id) {
       return data;
     });
 }
+
+function getMyInfos() {
+  return new Promise((resolve, reject) => {
+    fetch('/auth/info')
+      .then(response => response.json())
+      .then(json => {
+        localStorage.setItem('user', JSON.stringify(json));
+        resolve('cela fonctionne');
+      })
+      .catch(error => {
+        console.error(error);
+        reject(error);
+      });
+  });
+}
+
+
+
+
 
 
 let supportedPreviewAlumet = {

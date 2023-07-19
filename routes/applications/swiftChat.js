@@ -5,18 +5,33 @@ const Conversation = require('../../models/conversation');
 const validateConversation = require('../../middlewares/modelsValidation/validateConversation');
 const Message = require('../../models/message');
 const Account = require('../../models/account');
+
+
 router.post('/create', validateConversation, async (req, res) => {
-    req.body.participants.push(req.user.id);
-    const conversation = new Conversation({
-        participants: req.body.participants,
-        name: req.body.name,
-        owner: req.user.id,
-        lastUsage: Date.now(),
-        icon: req.body.icon
-    });
-    conversation.save()
-        .then(conversation => res.status(201).json(conversation))  
-        .catch(error => res.json({ error }));
+  const { participants, name, icon } = req.body;
+  const userId = req.user.id;
+
+  if (participants.includes(userId)) {
+    return res.status(400).json({ error: 'Cannot create a conversation with yourself' });
+  }
+
+  const existingConversation = await Conversation.findOne({ participants: { $all: participants } });
+  if (existingConversation) {
+    return res.status(400).json({ error: 'Conversation already exists' });
+  }
+
+  participants.push(userId);
+  const conversation = new Conversation({
+    participants,
+    name,
+    owner: userId,
+    lastUsage: Date.now(),
+    icon
+  });
+
+  conversation.save()
+    .then(conversation => res.status(201).json(conversation))
+    .catch(error => res.json({ error }));
 });
 
 router.delete('/delete', async (req, res) => {
@@ -35,15 +50,19 @@ router.delete('/delete', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const conversations = await Conversation.find({ participants: req.user.id });
+    const conversations = await Conversation.find({ participants: req.user.id }).sort({ lastUsage: -1 });
     const filteredConversations = await Promise.all(conversations.map(async conversation => {
       const participants = conversation.participants.filter(participant => participant !== req.user.id);
-      const lastMessage = await Message.findOne({ reference: conversation._id }).sort({ _id: -1 });
+      const lastMessage = await Message.findOne({ reference: conversation._id}).sort({ _id: -1 });
       const lastMessageText = lastMessage && lastMessage.content ? lastMessage.content : 'Pas de message';
 
-      const isReaded = lastMessage && lastMessage.isReaded? lastMessage.isReaded : false;
+      let isReaded = lastMessage && lastMessage.isReaded? lastMessage.isReaded : false;
+      if (String(lastMessage.sender) === req.user.id) {
+        isReaded = true;
+      }
+      const conversationId = conversation._id;
 
-      return { ...conversation.toObject(), participants, lastMessage: lastMessageText, isReaded: isReaded };
+      return { ...conversation.toObject(), participants, lastMessage: lastMessageText, isReaded: isReaded, conversationId: conversationId };
     }));
     res.json(filteredConversations);
   } catch (error) {
@@ -51,6 +70,9 @@ router.get('/', async (req, res) => {
     res.json({ error });
   }
 });
+
+
+
 
 router.get('/search', async (req, res) => {
   const searchQuery = req.query.q;
@@ -67,6 +89,46 @@ router.get('/search', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
+});
+router.get('/:conversation', async (req, res) => {
+  try {
+    const conversation = await Conversation.findOne({ _id: req.params.conversation, participants: req.user.id });
+    if (!conversation) return res.status(404).json({ error: 'Conversation not found' });
+    if (!conversation.participants.includes(req.user.id)) { return res.status(401).json({ error: 'Not authorized' }) }
+    Message.find({ reference: conversation._id }).sort({ _id: 1 })
+      .then(async messages => {
+        const messagePromises = messages.map(async message => {
+          const user = await Account.findOne({ _id: message.sender }, { name: 1, lastname: 1, icon: 1 });
+          return { message, user };
+        });
+        const messageObjects = await Promise.all(messagePromises);
+        const lastMessage = messageObjects[messageObjects.length - 1].message;
+        if (lastMessage && !lastMessage.isReaded && String(lastMessage.sender) !== req.user.id) {
+          await Message.findOneAndUpdate({ _id: lastMessage._id }, { isReaded: true });
+        }
+        res.json({ messages: messageObjects });
+      })
+      .catch(error => res.json({ error }));
+  } catch (error) {
+    console.error(error);
+    res.json({ error });
+  }
+});
+
+router.post('/send', async (req, res) => {
+  const { message, conversationId } = req.body;
+  const sender = req.user.id;
+  const reference = conversationId;
+  const isReaded = false;
+  const newMessage = new Message({ sender, content: message, reference, isReaded });
+  const user = await Account.findOne({ _id: sender }, { name: 1, lastname: 1, icon: 1 });
+  newMessage.save()
+    .then(message => {
+      Conversation.findOneAndUpdate({ _id: conversationId }, { lastUsage: Date.now() })
+        .then(() => res.status(201).json({ message, user }))
+        .catch(error => res.json({ error }));
+    })
+    .catch(error => res.json({ error }));
 });
 
 

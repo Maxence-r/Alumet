@@ -9,6 +9,7 @@ const authentification = require('./middlewares/authentification/authentificatio
 const anonymeAuthentification = require('./middlewares/authentification/anonymeAuthentification');
 // Import routes
 const dashboard = require('./routes/api/alumetGlobal/dashboard');
+const profile = require('./routes/api/alumetGlobal/profile');
 const uploader = require('./routes/api/alumetGlobal/uploader');
 const alumet = require('./routes/api/alumet/alumet')
 const auth = require('./routes/api/alumetGlobal/auth');
@@ -68,6 +69,7 @@ app.use('/dashboard', dashboard);
 app.use('/alumet', alumet);
 app.use('/auth', auth);
 app.use('/conversation', conversation);
+app.use('/profile', profile);
 
 // preview processing 
 app.use('/preview', preview)

@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 
 const MessageSchema = mongoose.Schema({
-    owner: {
+    sender: {
         type: String,
         required: true,
     },
     content: {
         type: String,
         required: true,
-        minLength: 2,
-        maxLength: 500
+        minLength: 1,
+        maxLength: 2000
     },
-    time: {
+    createdAt: {
         type: Date,
         required: true,
         default: Date.now
