@@ -15,10 +15,16 @@ router.post('/create', validateConversation, async (req, res) => {
     return res.status(400).json({ error: 'Cannot create a conversation with yourself' });
   }
 
-  const existingConversation = await Conversation.findOne({ participants: { $all: participants } });
-  if (existingConversation) {
-    return res.status(400).json({ error: 'Conversation already exists' });
-  }
+const existingConversation = await Conversation.findOne({
+  participants: {
+    $all: participants,
+    $size: participants.length
+  },
+  owner: userId
+});
+if (existingConversation) {
+  return res.status(400).json({ error: 'Conversation already exists' });
+}
 
   participants.push(userId);
   const conversation = new Conversation({
@@ -57,7 +63,7 @@ router.get('/', async (req, res) => {
       const lastMessageText = lastMessage && lastMessage.content ? lastMessage.content : 'Pas de message';
 
       let isReaded = lastMessage && lastMessage.isReaded? lastMessage.isReaded : false;
-      if (String(lastMessage.sender) === req.user.id) {
+      if (lastMessage && String(lastMessage.sender) === req.user.id) {
         isReaded = true;
       }
       const conversationId = conversation._id;
@@ -97,6 +103,9 @@ router.get('/:conversation', async (req, res) => {
     if (!conversation.participants.includes(req.user.id)) { return res.status(401).json({ error: 'Not authorized' }) }
     Message.find({ reference: conversation._id }).sort({ _id: 1 })
       .then(async messages => {
+        if (messages.length === 0) {
+          return res.json({ messages: [] });
+        }
         const messagePromises = messages.map(async message => {
           const user = await Account.findOne({ _id: message.sender }, { name: 1, lastname: 1, icon: 1 });
           return { message, user };

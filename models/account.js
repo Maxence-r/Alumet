@@ -29,7 +29,7 @@ const AccountSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    isVerified: {
+    isCertified: {
         type: Boolean,
         required: true,
         default: false

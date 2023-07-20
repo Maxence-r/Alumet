@@ -36,7 +36,7 @@ async function sendFiles() {
             const formData = new FormData();
             formData.append('file', file);
             fileInfoHead.innerHTML = `<span>Envoi de</span> ${file.name}`;
-            fileInfoSub.innerHTML = `${files.length} fichiers à envoyer`;
+            fileInfoSub.innerHTML = `${files.length} fichier(s) à envoyer`;
             const response = await fetch(`/cdn/upload/${localStorage.getItem('currentFolder')}`, {
                 method: 'POST',
                 body: formData
@@ -70,4 +70,5 @@ async function sendFiles() {
         document.querySelector('.drop-box').classList.remove('ready-to-send');
         loadFolder(localStorage.getItem('currentFolder'));
     }
+    updateStats()
 }

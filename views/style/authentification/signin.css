@@ -1,174 +1,174 @@
 body {
-    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
     top: 0;
     left: 0;
-    background-color: #131313;
+    background-color: #ffffff;
     margin: 0;
 }
 
-.high-background-dots {
-    position: absolute;
-    width: 100%;
-    height: 16.625em;
-    top: -0.625em;
-    left: -0.625em;
-    background-image: radial-gradient(#54503F 2px, transparent 0, #131313 100%), linear-gradient(to bottom, #13131300 0%, #131313 100%);
-    background-size: 35px 35px;
-    background-position: -19px -19px;
-    z-index: -11;
-}
-.high-background-gradient {
-    position: absolute;
-    width: 100%;
-    height: 16.625em;
-    left: 0px;
-    top: 0px;
-    background: linear-gradient(178.31deg, rgba(22, 22, 22, 0.0), rgb(19, 19, 19, 1.0) 100%);
-    z-index: -10;
-}
-.blur-orange-background {
-    background: linear-gradient(180deg, rgba(255, 61, 0, 0.5) 0%, rgba(255, 61, 0, 0) 89.06%);
-    filter: blur(148.5px);
-    width: 100%;
-    height: 9.8125em;
-    position: absolute;
-    z-index: -9;
-}
-
-.header {
+.login-container {
+    position: relative;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: auto;
-    padding: 0.5em 0em 0em 2em;
-}
-.logo {
-    width: 3%;
-    height: auto;
-    cursor: pointer;
-}
-.title {
-    color: #FFFFFF;
-    font-size: 2vw;
-    font-weight: 600;
-    margin-left: 1vw;
-    cursor: pointer;
-    transition: 0.1s ease-out;
-}
-.title:hover {
-    color: #FF3D00;
-}
-
-.thin-title {
-    color: white;
-    font-size: 3.4vw;
-    font-weight: 200;
-    margin: 0;
-}
-
-.input {
-    background: rgba(217, 217, 217, 0.2);
-    margin-top: 1.2em;
-    border-radius: 6px;
-    border: none;
-    outline: none;
-    height: 3em;
-    padding: 0 1.25em;
-    color: white;
-    transition: 0.2s ease-out;
-}
-
-.input:focus {
-    background: rgba(152, 152, 152, 0.5);
-    color: #FFFFFF;
-}
-
-
-.low-container {
-    display: flex;
+    max-width: 400px;
     flex-direction: column;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.08);
+}
+
+.full-screen {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
     padding: 20px;
-    width: 35%;
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.connect-button {
-    display: flex;
-    flex-direction: row;
+    border-radius: 20px;
+    background-color: #ffffff;
     align-items: center;
     justify-content: center;
-    background: rgba(12, 12, 12, 0.5);
-    border: 0.5px solid #3D3D3D;
-    border-radius: 6px;
-    outline: none;
-    margin-top: 10px;
-    height: 45px;
-    color: white;
-    font-size: 12px;
-    font-weight: 400;
-    cursor: pointer;
-}
-.button:hover {
-    background: rgba(25, 25, 25, 0.5);
-    border: 0.2px solid #AAAAAA;
-    border-radius: 8px;
-}
-.button-img {
-    width: 12px;
-    margin-left: 10px;
+    flex-direction: column;
+    z-index: 100;
 }
 
-.features {
+#a2f-log {
+    margin-top: 20px;
+}
+
+.loading-login {
+    z-index: 200;
+}
+.active-loading > .loading-login {
+    display: flex;
+}
+
+.active-a2f > .a2f-challenge {
+    display: flex;
+}
+
+.a2f-challenge > h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.a2f-challenge > p {
+    font-size: 0.9rem;
+    color: #747474;
+    text-align: center;
+    font-weight: 400;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.login-container > img {
+    width: 160px;
+    margin-bottom: 40px;
+}
+
+.login-container > h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.login-container > p {
+    font-size: 0.9rem;
+    color: #747474;
+    font-weight: 400;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.input-container {
     display: flex;
     flex-direction: column;
-    max-width: 35%;
-    max-height: 90%;
-    align-items: center;
-    padding: 0.625em;
-    margin-right: 2em;
-    background: rgba(12, 12, 12, 0.5);
-    border: 0.5px solid #3D3D3D;
-    border-radius: 6px;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center; 
-}
-.feature-title {
-    color: #FFFFFF;
-    margin: auto;
-    font-size: calc(1.2vw + 1.0em);
-    font-weight: 100;
-
+    margin-bottom: 20px;
 }
 
 
+ input {
+    width: calc(100% - 42px);
+    border-radius: 10px;
+    padding: 0 20px;
+    height: 60px;
+    font-size: 0.9rem;
+    outline-color: #e5e5e5;
+    border: 1px solid #e5e5e5;
+}
 
-@media screen and (max-width: 768px) {
-    .header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        column-gap: 0em;
-        height: auto;
+.input-container > label {
+    margin-bottom: 8px;
+}
+
+textarea:focus, input:focus{
+    outline-color: #296EFF;
+}
+
+button {
+    width: 100%;
+    height: 60px;
+    border-radius: 10px;
+    background-color: #296EFF;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+h4 {
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0;
+    margin-top: 20px;
+    text-align: center;
+    color: #747474;
+}
+
+
+button:hover {
+    filter: brightness(0.9);
+    transform: scale(0.98);
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 2px solid #296EFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 0.7s linear infinite;
     }
-    .logo {
-        width: 20%;
-        height: auto;
-        margin: auto;
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
     }
-    .title {
-        margin: auto;
-        font-size: 12vw;
-        margin-left: 0em;
+    100% {
+        transform: rotate(360deg);
     }
-    .low-container {
-        width: calc(100% - 40px);
+    } 
+
+@media screen and (max-width: 600px) {
+    .login-container {
+        border: none;
+        height: 100vh;
+        border-radius: 0;
+        margin: 0;
+        padding: 20px;
+
     }
-    .thin-title {
-        font-size: 10vw;
+    .loading-login {
+        border-radius: 0;
     }
 }
-    

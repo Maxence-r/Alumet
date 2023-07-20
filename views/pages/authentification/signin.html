@@ -28,19 +28,31 @@
 </head>
 <body>
     <div id="toast"></div>
-    <div class="blur-orange-background"></div>
-    <div class="high-background-dots"></div>
-    <div class="high-background-gradient"></div>
-        <div class="low-container">
-            <h1 class="thin-title">Portail de connexion</h1>
-            <input id="mail" class="input" type="text" placeholder="Adresse e-mail">
-            <input id="password" class="input" type="password" placeholder="Mot de passe">
-            <button id="signin" class="connect-button" type="button" onclick="this.classList.add('button--loading')">
-                <span class="button-text">Se connecter</span>
-            </button>
+    <div class="login-container">
+        <div class="loading-login full-screen">
+            <span class="loader"></span>
         </div>
-    <div class="gradient"></div>
-    <div class="dots"></div>
+        <div class="a2f-challenge full-screen">
+            <h1>Défi de sécurité</h1>
+            <p>Une code de sécurité vous a été envoyé sur votre adresse email.</p>
+            <input autocomplete="off" type="text" name="a2f-code" id="a2f-code" placeholder="Entrez le code de sécurité">
+            <button type="submit" id="a2f-log">Se connecter</button>
+            <h4>Code non reçu ?</h4>
+        </div>
+        <img src="../../assets/global/branding.png">
+        <h1>Se connecter à Alumet</h1>
+        <p>Utiliser les services Alumet ou que vous soyez, vous resterez connecter 24h sur ce navigateur.</p>
+        <div class="input-container">
+            <label for="mail">Adresse mail</label>
+            <input type="text" name="mail" id="mail" placeholder="Entrez votre adresse mail">
+        </div>
+        <div class="input-container">
+            <label for="password">Mot de passe</label>
+            <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe">
+        </div>
+        <button type="submit" id="login-btn">Se connecter</button>
+        <h4 id="forgot-password">Mot de passe oublié ?</h4>
+    </div>
 </body>
 <script src="../../script/authentification/signin.js"></script>
 <script src="../../script/global.js"></script>

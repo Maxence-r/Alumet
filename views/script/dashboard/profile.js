@@ -22,6 +22,7 @@ function updateInfos(userInfos) {
   userFirstNameInput.value = userInfos.name;
   userLastNameInput.value = userInfos.lastname;
   userMailInput.value = userInfos.mail;
+  toggleA2FBtn.innerText = userInfos.isA2FEnabled ? 'Désactiver la verification par mail' : 'Activer la verification par mail';
 }
 
 getMyInfos()
@@ -104,4 +105,47 @@ function changePassword(oldPassword) {
 
 /** Toggle the 2FA */
 toggleA2FBtn.addEventListener('click', () => {
+  fetch('/auth/a2f', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (!data.error) {
+      createPrompt({
+        head: 'Code de vérification',
+        desc: 'Un code de vérification vous a été envoyé par mail.',
+        placeholder: 'Tapez votre code de vérification',
+        action: `confirmA2F()`,
+      });
+    } else {
+      toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
+    }
+  })
 });
+
+function confirmA2F() {
+  let a2fCode = document.getElementById('prompt-input').value;
+  fetch('/profile/toggleA2f', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      code: a2fCode,
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (!data.error) {
+      toast({ title: '2FA modifié !', message: 'Votre 2FA a bien été modifié.', type: 'success', duration: 2500 });
+    } else {
+      toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
+    }
+  })
+  .catch(err => {
+    toast({ title: 'Erreur !', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
+  });
+}

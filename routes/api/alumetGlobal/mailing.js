@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 
 
 
-function sendMail(receiver, subject, content) { // A faire: différent design de mail: 1 pour la confirmation de compte, 1 pour la demande de réinitialisation de mo
+function sendMail(receiver, subject, content) { // A faire: différent design de mail: 1 pour la confirmation de compte, 1 pour la demande de réinitialisation de mot de passe
     const mailOptions = {
         from: 'Alumet.io@gmail.com',
         to: receiver,
@@ -27,6 +27,4 @@ function sendMail(receiver, subject, content) { // A faire: différent design de
       });
 }
 
-sendMail('gabriellancelot1@gmail.com', 'testObject', 'text');
-
-
+exports.sendMail = sendMail;

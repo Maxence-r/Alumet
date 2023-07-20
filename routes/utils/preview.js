@@ -61,7 +61,7 @@ router.get('/image', async (req, res) => {
       res.set('Content-Type', 'image/png');
       res.send(previewImage);
     } catch (err) {
-     
+        console.error(`Error generating image: ${err}`);
       res.status(500).send('Internal server error');
     }
   });

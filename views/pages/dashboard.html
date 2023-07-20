@@ -33,6 +33,7 @@
   <div class="prompt-popup popup">
     <div class="prompt">
         <h1 id="prompt-head">Prompt name</h1>
+        <h4 id="prompt-desc"></h4>
         <input autocomplete="off" id="prompt-input" type="text" placeholder="Prompt placeholder">
         <div class="prompt-buttons">
           <button class="large" id="prompt-red">Supprimer</button>
@@ -327,7 +328,7 @@
             <h3>Nom du fichier</h3>
             <h3>Taille</h3>
             <h3>Mise en ligne</h3>
-            <input placeholder="Rechercher un fichier" type="text" name="search" id="search">
+            <input id="search-bar" placeholder="Rechercher un fichier" type="text" name="search">
           </div>
           <div class="files-items">
             <div class="loader-container">
@@ -338,23 +339,25 @@
           </div>
         </div>
         <div class="sub-container right-container">
-        <div class="header reponsive-hide">
+        <div id="storage-usage" class="header reponsive-hide">
           <h2>Mémoire</h2>
           <h5>20<span>GB</span></h5>
         </div>
         <div class="divider reponsive-hide"></div>
         <div class="memory-split reponsive-hide">
           <div class="graph">
-            <div class="graph-doc"></div>
-            <div class="graph-audio"></div>
-            <div class="graph-image"></div>
-            <div class="graph-video"></div>
+            <div id="graph-document"></div>
+            <div id="graph-audio"></div>
+            <div id="graph-image"></div>
+            <div id="graph-video"></div>
+            <div id="graph-other"></div>
           </div>
           <div class="legend reponsive-hide">
-            <h4>Documents <span class="doc-color">12%</span></h4>
-            <h4>Audio <span class="audio-color">12%</span></h4>
-            <h4>Images <span class="image-color">12%</span></h4>
-            <h4>Vidéos <span class="video-color">12%</span></h4>
+            <h4 id="percentage-document-container">Documents <span id="percentage-document" class="document-color">20%</span></h4>
+            <h4 id="percentage-audio-container">Audio <span id="percentage-audio" class="audio-color">20%</span></h4>
+            <h4 id="percentage-image-container">Images <span id="percentage-image" class="image-color">20%</span></h4>
+            <h4 id="percentage-video-container">Vidéos <span id="percentage-video" class="video-color">20%</span></h4>
+            <h4 id="percentage-other-container">Autres <span id="percentage-other" class="other-color">20%</span></h4>
           </div>
         </div>
         
@@ -391,7 +394,7 @@
           </div>
           <div class="actions-buttons-file">
             <button onclick="modifyFile()" class="large">Modifier</button>
-            <button class="large">Ouvrir le fichier</button>
+            <button id="openFileBtn" class="large">Ouvrir le fichier</button>
           </div>
         </div>
     </section>
@@ -416,14 +419,21 @@
         </div>
         <button onclick="newConversation()" id="new-conv" class="large">Nouvelle conversation</button>
       </div>
-      <div class="main-container">
+      <div class="main-container no-conversation">
+        <div class="full-screen">
+          <h1>Cliquer sur une conversation pour commencer !</h1>
+          <p>Alumet garantie la sécurité de vos données accessible ou que vous soyez !</p>
+        </div>
+        <div class="loading-conversation full-screen">
+          <span class="loader-upload"></span>
+        </div>
         <div class="conversation-container">
           <div class="conversation-header">
             <div class="conversation-user-infos">
               <img src="../assets/global/default.png" alt="file icon">
               <div class="sub-infos">
-                <h4 id="conversation-username">John Does</h4>
-                <p id="conversation-lastTime">Il y a 56 jours</p>
+                <h4 id="conversation-username">conversation.name</h4>
+                <p id="conversation-lastTime">conversation.lastusage</p>
                 <p></p>
               </div>
             </div>
@@ -433,70 +443,7 @@
             </div>
          </div>
          <div class="conversation-body">
-          <div class="right-message message">
-            <div class="message-details">
-              <p class="message-content solo">Vous êtes vraiment des gros gay</p>
-            </div>
-          </div>
-          <div class="right-message message first">
-            <img src="../assets/global/fauxmaxence.png" alt="file icon">
-            <div class="message-details">
-              <p class="user-name">Maxence</p>
-              <p class="message-content">Bon vos geules non ?</p>
-            </div>
-          </div>
-
-
-          <div class="left-message message">
-            <div class="message-details">
-              <p class="message-content solo">Ca me ferait bien chier</p>
-            </div>
-          </div>
-            <div class="left-message message first">
-              <img src="../assets/global/default.png" alt="file icon">
-              <div class="message-details">
-                <p class="user-name">Noémie<span id="message-date">16:01</span></p>
-                <p class="message-content">Hello les gros gay ? contrôle</p>
-              </div>
-            </div>
-
-
-            <div class="left-message message">
-              <div class="message-details">
-                <p class="message-content solo">Mais pas grand chose a reviser</p>
-              </div>
-            </div>
-            <div class="left-message message">
-              <div class="message-details">
-                <p class="message-content solo">Mais pas grand chose à reviser</p>
-              </div>
-            </div>
-            <div class="left-message message first">
-              <img src="../assets/global/fauxmaxence.png" alt="file icon">
-              <div class="message-details">
-                <p class="user-name">Pierre</p>
-                <p class="message-content">Oui il y en a 1</p>
-              </div>
-            </div>
-
-
-            <div class="left-message message">
-              <div class="message-details">
-                <p class="message-content solo">Gabriel: Yes</p>
-              </div>
-            </div>
-            <div class="left-message message">
-              <div class="message-details">
-                <p class="message-content solo">Gabriel:</p>
-              </div>
-            </div>
-            <div class="left-message message first">
-              <img src="../assets/global/fauxmaxence.png" alt="file icon">
-              <div class="message-details">
-                <p class="user-name">Gabriel Lancelot</p>
-                <p class="message-content">Oui il y en a 1</p>
-              </div>
-            </div>
+          
          </div>
           <div class="conversation-footer">
             <input autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message">
@@ -514,7 +461,7 @@
 
     <section class="profile">
       <div class="main-container">
-        <img src="../assets/global/banner.png" class="banner">
+        <img src="../assets/global/banner.jpg" class="banner">
         <div class="user-infos">
           <img src="../assets/global/fauxmaxence.png" alt="file icon">
           <div class="sub-infos">
@@ -556,8 +503,10 @@
               <button id="changePasswordBtn" class="large greyed">Changer de mot de passe</button>
           
               <button id="toggleA2FBtn" class="large greyed">Activer l'A2F</button>
-           
-              <button id="deleteAccountBtn" class="large greyed">Supprimer mon compte</button>
+
+              <button onclick="window.location='/auth/logout'" class="large greyed">Déconnexion</button>
+
+              <button id="deleteAccountBtn" class="large reded">Supprimer mon compte</button>
           </div>
           <div class="user-options-heading">
             <div class="user-options-infos">

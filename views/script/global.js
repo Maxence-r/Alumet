@@ -11,44 +11,44 @@ const endpointReference = {
 }
 
 const fileIconReference = {
-  'png': '../assets/files-ico/img.png',
-  'jpg': '../assets/files-ico/img.png',
-  'jpeg': '../assets/files-ico/img.png',
-  'gif': '../assets/files-ico/img.png',
-  'apng': '../assets/files-ico/img.png',
-  'avif': '../assets/files-ico/img.png',
-  'webp': '../assets/files-ico/img.png',
-  'svg': '../assets/files-ico/img.png',
-  'pdf': '../assets/files-ico/img.png',
-  'doc': '../assets/files-ico/doc.png',
-  'docx': '../assets/files-ico/doc.png',
-  'xls': '../assets/files-ico/xls.png',
-  'xlsx': '../assets/files-ico/xls.png',
-  'ppt': '../assets/files-ico/ppt.png',
-  'pptx': '../assets/files-ico/ppt.png',
-  'txt': '../assets/files-ico/doc.png',
-  'zip': '../assets/files-ico/zip.png',
-  'rar': '../assets/files-ico/zip.png',
-  '7z': '../assets/files-ico/zip.png',
-  'tar': '../assets/files-ico/zip.png',
-  'gz': '../assets/files-ico/zip.png',
-  'bz2': '../assets/files-ico/zip.png',
-  'xz': '../assets/files-ico/zip.png',
-  'mp3': '../assets/files-ico/mp3.png',
-  'wav': '../assets/files-ico/mp3.png',
-  'ogg': '../assets/files-ico/mp3.png',
-  'flac': '../assets/files-ico/mp3.png',
-  'm4a': '../assets/files-ico/mp3.png',
-  'mp4': '../assets/files-ico/mov.png',
-  'mkv': '../assets/files-ico/mov.png',
-  'mov': '../assets/files-ico/mov.png',
-  'avi': '../assets/files-ico/mov.png',
-  'wmv': '../assets/files-ico/mov.png',
-  'flv': '../assets/files-ico/mov.png',
-  'webm': '../assets/files-ico/mov.png',
-  'm4v': '../assets/files-ico/mov.png',
-  'mpg': '../assets/files-ico/mov.png',
-  'mpeg': '../assets/files-ico/mov.png',
+  'png': '../assets/files-icons/img.png',
+  'jpg': '../assets/files-icons/img.png',
+  'jpeg': '../assets/files-icons/img.png',
+  'gif': '../assets/files-icons/img.png',
+  'apng': '../assets/files-icons/img.png',
+  'avif': '../assets/files-icons/img.png',
+  'webp': '../assets/files-icons/img.png',
+  'svg': '../assets/files-icons/img.png',
+  'pdf': '../assets/files-icons/img.png',
+  'doc': '../assets/files-icons/doc.png',
+  'docx': '../assets/files-icons/doc.png',
+  'xls': '../assets/files-icons/xls.png',
+  'xlsx': '../assets/files-icons/xls.png',
+  'ppt': '../assets/files-icons/ppt.png',
+  'pptx': '../assets/files-icons/ppt.png',
+  'txt': '../assets/files-icons/doc.png',
+  'zip': '../assets/files-icons/zip.png',
+  'rar': '../assets/files-icons/zip.png',
+  '7z': '../assets/files-icons/zip.png',
+  'tar': '../assets/files-icons/zip.png',
+  'gz': '../assets/files-icons/zip.png',
+  'bz2': '../assets/files-icons/zip.png',
+  'xz': '../assets/files-icons/zip.png',
+  'mp3': '../assets/files-icons/mp3.png',
+  'wav': '../assets/files-icons/mp3.png',
+  'ogg': '../assets/files-icons/mp3.png',
+  'flac': '../assets/files-icons/mp3.png',
+  'm4a': '../assets/files-icons/mp3.png',
+  'mp4': '../assets/files-icons/mov.png',
+  'mkv': '../assets/files-icons/mov.png',
+  'mov': '../assets/files-icons/mov.png',
+  'avi': '../assets/files-icons/mov.png',
+  'wmv': '../assets/files-icons/mov.png',
+  'flv': '../assets/files-icons/mov.png',
+  'webm': '../assets/files-icons/mov.png',
+  'm4v': '../assets/files-icons/mov.png',
+  'mpg': '../assets/files-icons/mov.png',
+  'mpeg': '../assets/files-icons/mov.png',
 }
 
 
@@ -61,22 +61,12 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
       main.removeChild(toast);
     }, duration + 1000);
 
-    const icons = {
-      success: '<span rel="preload" class="material-symbols-rounded">check_circle</span>',
-      info: '<span rel="preload" class="material-symbols-rounded">error</span>',
-      warning: '<span rel="preload" class="material-symbols-rounded">warning</span>',
-      error: '<span rel="preload" class="material-symbols-rounded">report</span>'
-    };
-    const icon = icons[type];
     const delay = (duration / 1000).toFixed(2);
 
     toast.classList.add("toast", `toast--${type}`);
     toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
 
     toast.innerHTML = `
-                    <div class="toast__icon">
-                        ${icon}
-                    </div>
                     <div class="toast__body">
                         <h3 class="toast__title">${title}</h3>
                         <p class="toast__msg">${message}</p>
@@ -87,20 +77,28 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
 }
 
 function createPrompt(object) {
-  document.getElementById('prompt-input').removeAttribute('list'); 
+  document.getElementById('prompt-input').removeAttribute('list');
+  document.getElementById('prompt-input').style.display = 'none';  
   document.getElementById('prompt-red').style.display = 'none';
+  document.getElementById('prompt-desc').style.display = 'none';
   document.getElementById('prompt-head').innerHTML = object.head;
   document.getElementById('prompt-input').placeholder = object.placeholder;
   document.getElementById('prompt-confirm').setAttribute('onclick', object.action);
   if (object.list) {
     document.getElementById('prompt-input').setAttribute('list', object.list);
   }
+  if (object.desc) {
+    document.getElementById('prompt-desc').style.display = 'block';
+    document.getElementById('prompt-desc').innerHTML = object.desc;
+  }
   if (object.redAction) {
     document.getElementById('prompt-red').style.display = 'block';
     document.getElementById('prompt-red').innerHTML = object.redActionText;
     document.getElementById('prompt-red').setAttribute('onclick', object.redAction);
   }
-
+  if (object.placeholder) {
+    document.getElementById('prompt-input').style.display = 'block';
+  }
   document.querySelector('.prompt-popup').classList.add('active-popup');
   document.getElementById('prompt-input').value = '';
 }

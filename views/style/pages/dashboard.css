@@ -222,7 +222,12 @@ body {
     font-weight: 500;
 } 
 
-.sub-infos {
+
+
+.user-infos > .sub-infos {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
     margin-top: 3%;
 }
 
@@ -296,17 +301,24 @@ body {
     display: flex;
     flex-direction: row;
     width: 100%;
-    gap: 10px;
+    gap: 5px;
 }
-.graph-doc {
+.graph > div {
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.10);
+    width: 25%;
+    border-radius: 2px;
+    height: 14px;
+}
+
+#graph-document {
     background-color: #0597FF;
 }
 
-.doc-color {
+.document-color {
     color: #0597FF;
 }
 
-.graph-audio {
+#graph-audio {
     background-color: #A93BFE;
 }
 
@@ -314,7 +326,7 @@ body {
     color: #A93BFE;
 }
 
-.graph-image {
+#graph-image {
     background-color: #FD9B6D;
 }
 
@@ -322,20 +334,20 @@ body {
     color: #FD9B6D;
 }
 
-.graph-video {
+#graph-video {
     background-color: #F82B1A;
 }
-
 
 .video-color {
     color: #F82B1A;
 }
 
-.graph > div {
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.10);
-    width: 25%;
-    border-radius: 10px;
-    height: 14px;
+#graph-other {
+    background-color: #9198A3;
+}
+
+.other-color {
+    color: #9198A3;
 }
 
 .memory-split {
@@ -553,15 +565,19 @@ body {
 }
 
 .sub-container > .header > h5 {
+    display: flex;
+    gap: 2px;
+    align-items: center;
     font-size: 1.2rem;
     font-weight: 500;
     margin: 0;
     color: #000000;
     margin-bottom: 2px;
+    
 }
 
 .sub-container > .header > h5 > span {
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     font-weight: 400;
     margin: 0;
     color: #B4B4B4;
@@ -1035,12 +1051,13 @@ h3 {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
     width: 100%;
     margin: 10px 0;
     margin-bottom: 20px;
     line-height: 25px;
+    column-gap: 10px;
+    row-gap: 4px;
 }
 
 .legend > h4 {
@@ -1112,6 +1129,7 @@ h3 {
     flex-direction: row;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
 }
 
 .file-name > img {
@@ -1589,6 +1607,24 @@ select {
     box-shadow: none;
 }
 
+#prompt-desc {
+    display: block;
+    font-size: 1rem;
+    color: #474747ec;
+    margin: 0;
+    font-weight: 500;
+}
+
+.reded {
+    background-color: #a82d17;
+    color: white;
+    box-shadow: none;
+}
+
+.reded:hover {
+    background-color: #8a1e0b;
+}
+
 .prompt-buttons > button:nth-child(2){
     background-color: #F6F8FC;
     color: #000000;
@@ -1599,7 +1635,6 @@ select {
     font-size: 2rem;
     font-weight: 500;
     margin: 0;
-    margin-bottom : 13px;
 }
 
 #files-upload {
@@ -1607,6 +1642,7 @@ select {
 }
 
 .prompt > input {
+    margin-top: 10px;
     width: calc(100% - 40px);
 }
 
@@ -1705,7 +1741,7 @@ select {
     color: #9EA1A7;
 }
 
-.verified > img:nth-child(2) {
+.certified > img:nth-child(2) {
     display: block !important;
 }
 
@@ -1722,8 +1758,37 @@ select {
 
 .profile > .main-container {
     width: 100%;
-    height: calc(100% - 20px);
     padding: 0 !important;
+}
+
+.full-screen {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    position: absolute;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    z-index: 15;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+
+.full-screen > h1 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.full-screen > p {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin: 0;
+    color: #9EA1A7;
+}
+
+.no-conversation > .full-screen:nth-child(1) {
+    display: flex;
 }
 
 .conversation > img:nth-child(2) {
@@ -1743,6 +1808,14 @@ select {
 
 .active-messages > .main-container {
     transform: translateY(0) !important;
+}
+
+.messages > .main-container {
+    position: relative;
+}
+
+.active-loading > .loading-conversation {
+    display: flex;
 }
 
 @media (max-width: 1400px) {
@@ -1836,6 +1909,10 @@ select {
     }
     .right-message > img {
         display: none !important;
+    }
+    .loading-conversation {
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
     }
     .left-message > img {
         display: none !important;

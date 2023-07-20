@@ -2,7 +2,7 @@ const conversationsContainer = document.querySelector('.conversations-container'
 
 const createConversationElement = (user, conversation) => {
   const { lastUsage, isReaded, lastMessage, _id } = conversation;
-  const { icon, name, lastname, isVerified } = user;
+  const { icon, name, lastname, isCertified } = user;
   const time = relativeTime(lastUsage);
 
   const conversationElement = document.createElement('div');
@@ -14,9 +14,9 @@ const createConversationElement = (user, conversation) => {
   iconElement.alt = 'file icon';
   conversationElement.appendChild(iconElement);
 
-  if (isVerified) {
+  if (isCertified) {
     const certifiedElement = document.createElement('img');
-    conversationElement.classList.add('verified');
+    conversationElement.classList.add('certified');
     certifiedElement.src = '../assets/global/certified.svg';
     certifiedElement.alt = 'certified icon';
     conversationElement.appendChild(certifiedElement);
@@ -155,8 +155,10 @@ sendMessage = () => {
     .catch(error => console.error(error));
 };
 
-
+localStorage.removeItem('currentConversation');
 function openConversation(id) {
+    document.querySelector('.messages > .main-container').classList.add('active-loading');
+    document.querySelector('.messages > .main-container').classList.remove('no-conversation');
     localStorage.setItem('currentConversation', id);
     document.querySelector('.messages').classList.add('active-messages');
     previousSender = null;
@@ -171,6 +173,7 @@ function openConversation(id) {
             const conversationBody = document.querySelector('.conversation-body');
             messageElements.forEach(messageElement => conversationBody.prepend(messageElement));
           });
+          document.querySelector('.messages > .main-container').classList.remove('active-loading');
       }) 
       .catch(error => console.error(error));
 }

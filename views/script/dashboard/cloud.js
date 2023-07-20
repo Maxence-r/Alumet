@@ -20,6 +20,7 @@ function openDetails(id) {
     let file = document.querySelector('.files-items').querySelector(`div[data-id="${id}"]`)
     document.querySelector('.file-basic-info > h4').innerText = file.dataset.name;
     document.getElementById('file-size').innerText = file.dataset.size;
+    console.log(file.dataset.size)
     document.getElementById('file-date').innerText = file.dataset.date;
     document.getElementById('file-ext').innerText = file.dataset.ext;
     document.querySelector('.file-info').classList.remove('no-selected-file');
@@ -28,7 +29,7 @@ function openDetails(id) {
     if (endpoint) {
         document.querySelector('.file-preview > img').src = `${endpoint.replace('*', id)}`;
     } else {
-        document.querySelector('.file-preview > img').src = '../assets/files-ico/not-supported.png';
+        document.querySelector('.file-preview > img').src = '../assets/files-icons/not-supported.png';
     }
     document.querySelector('.right-container').classList.add('active-sub-container');
 }
@@ -49,8 +50,8 @@ function createFileElement(file) {
     if (imgRef) {
     img.src = `${fileIconReference[file.mimetype]}`;
     } else {
-        img.src = '../assets/files-ico/unknow.png';
-        imgRef = '../assets/files-ico/unknow.png';
+        img.src = '../assets/files-icons/unknow.png';
+        imgRef = '../assets/files-icons/unknow.png';
     }
     div.dataset.imgRef = imgRef;
     img.alt = 'file icon';
@@ -108,7 +109,7 @@ function modifyFile() {
         placeholder: 'Nouveau nom',
         action: 'renameFileRequest()',
         redAction: 'deleteFile()',
-        redActionText: 'Supprimer'
+        redActionText: 'Supprimer ce fichier'
     });
 }
 
@@ -139,9 +140,28 @@ function deleteFile() {
             document.querySelector('.files-items > div[data-id="' + localStorage.getItem('currentFile') + '"]').remove();
             document.querySelector('.file-info').classList.add('no-selected-file');
             document.querySelector('.right-container').classList.remove('active-sub-container');
-            document.querySelector('.active-popup').classList.remove('active-popup');
+            localStorage.removeItem('currentFile');
+            if (document.querySelector('.active-popup')) {
+                document.querySelector('.active-popup').classList.remove('active-popup');
+            }
         });
+        updateStats();
 }
+localStorage.removeItem('currentFile');
+document.addEventListener('keydown', (e) => {
+    if (e.keyCode === 46 && localStorage.getItem('currentFile') && document.getElementById('cloud').classList.contains('active')) {
+        createPrompt({
+            'head': 'Supprimer le fichier',
+            'desc': 'Êtes-vous sûr de vouloir supprimer ce fichier ?',
+            'action': 'deleteFile()',
+        });
+    }
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && document.querySelector('.active-popup')) {
+        document.getElementById('prompt-confirm').click();
+    }
+});
 
 function renameFileRequest() {
     let name = document.getElementById('prompt-input').value;
@@ -370,3 +390,59 @@ document.querySelector('.folder-selector').addEventListener('scroll', () => {
 });
 
 
+function updateStats () {
+    fetch('/cdn/stats', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        let sendItems = data.sendItems;
+        let Item = ['document', 'image', 'video', 'audio', 'other'];
+        function modifyOrDelete (element)  {
+            if(sendItems.includes(element))  {
+                document.getElementById('graph-' + element).style.width = `${data[element + 'Percentage']}%`;
+                document.getElementById('percentage-' + element).innerText = `${data[element + 'Percentage']}%`;
+                document.getElementById('graph-' + element).style.display = 'block';
+                document.getElementById('percentage-' + element + '-container').style.display = 'flex';
+            } else {
+                document.getElementById('graph-' + element).style.width = `0%`;
+                document.getElementById('graph-' + element).style.display = 'none';
+                document.getElementById('percentage-' + element + '-container').style.display = 'none';
+            }
+        }
+        Item.forEach(element => {
+            modifyOrDelete(element);
+        });
+
+        function modifyStorageUsed(totalSize, typeOfSize) {
+            const headerElement = document.querySelector('#storage-usage > h5');
+            const spanElement = document.createElement('span');
+            const newTotalSize = Number(totalSize).toFixed(2);
+            headerElement.innerText = newTotalSize;
+            spanElement.textContent = typeOfSize;
+            headerElement.appendChild(spanElement);
+}
+        if(data.totalSizeMB > 1000) {
+            modifyStorageUsed((data.totalSizeMB / 1024), 'GB')
+        } else {
+            modifyStorageUsed(data.totalSizeMB, 'MB')
+        }
+    });
+}
+updateStats();
+
+document.getElementById('search-bar').addEventListener('input', (e) => {
+    console.log('Fonctionne');
+    const search = e.currentTarget.value;
+    const allFiles = document.querySelectorAll('.file-item');
+    allFiles.forEach((file) => {
+        if (file.dataset.name.includes(search)) {
+            file.style.display = 'flex';
+        } else {
+            file.style.display = 'none';
+        }
+    });
+});
