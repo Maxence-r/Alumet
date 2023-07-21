@@ -91,19 +91,19 @@ async function getCloudStats(req) {
     delete result[item + 'Percentage'];
   }
   // exclude elements with percentage under 2%
-  if (documentPercentage < 2) {
+  if (documentPercentage < 2 || documentPercentage === 'NaN') {
     withdrawItem('document');
   }
-  if (audioPercentage < 2) {
+  if (audioPercentage < 2 || audioPercentage === 'NaN') {
     withdrawItem('audio');
   }
-  if (videoPercentage < 2) {
+  if (videoPercentage < 2 || videoPercentage === 'NaN') {
     withdrawItem('video');
   }
-  if (imagePercentage < 2) {
+  if (imagePercentage < 2 || imagePercentage === 'NaN') {
     withdrawItem('image');
   }
-  if (otherPercentage < 2) {
+  if (otherPercentage < 2 || otherPercentage === 'NaN') {
     withdrawItem('other');
   }
 
@@ -175,6 +175,8 @@ router.get('/folder/:id', validateObjectId, (req, res) => {
   Folder.findOne({ _id: req.params.id, owner: req.user.id })
     .then(folder => {
       if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
+      folder.lastUsage = Date.now();
+      folder.save();
       Upload.find({ folder: folder._id }).sort({ _id: -1 })
         .then(uploads => res.json(uploads))
         .catch(error => res.json({ error }));
@@ -188,7 +190,7 @@ router.get('/u/:id', validateObjectId, (req, res) => {
   } else {
     Upload.find({ _id: req.params.id })
       .then(upload => {
-        if (!upload) return res.status(404).json({ error: 'Upload not found' });
+        if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
         const filePath = path.join(__dirname, "./../../../cdn/" + upload[0].filename);
         if (fs.existsSync(filePath)) {
           res.sendFile(filePath);
@@ -248,7 +250,7 @@ router.patch('/update/:id', validateObjectId, (req, res) => {
   Upload.find( { _id: req.params.id } )
     .then(upload => {
         if (upload[0].modifiable === false) return res.status(401).json({ error: 'Ce fichiers est utilisé par un de vos Alumets, impossible de le modifié' });
-        if (!upload) return res.status(404).json({ error: 'Upload not found' });
+        if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
         upload[0].displayname = sanitizeFilename(req.body.displayname)+ "." + upload[0].mimetype;
         upload[0].save()
             .then(() => res.json({ upload }))
@@ -283,42 +285,46 @@ const accountUpload = multer({
 });
 
 
-router.post('/upload/:id', validateObjectId, accountUpload.single('file'), (req, res) => {
+router.post('/upload/:id', validateObjectId, accountUpload.single('file'), async (req, res) => {
   if (req.connected === false || req.user === undefined) {
     return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });
   }
   if (req.params.id) {
-    Folder.findOne({ _id: req.params.id, owner: req.user.id })
-      .then(folder => {
-        if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
-        if (folder.name === "system") return res.status(403).json({ error: 'Vous n\'avez pas la permission d\'envoyer des fichiers ici ! Créer un nouveau dossier.' });
-
-        if (req.file) {
-          const ext = req.file.originalname.split('.').pop();
-          const sanitizedFilename = sanitizeFilename(req.file.originalname);
-          const upload = new Upload({
-            filename: req.file.filename,
-            displayname: sanitizedFilename,
-            mimetype: ext.toLowerCase(),
-            filesize: req.file.size,
-            owner: req.user.id,
-            folder: req.params.id
-          });
-      
-          upload.save()
-            .then(() => {
-              res.json({ file: upload });
-            })
-            .catch(error => {
-              console.log(error);
-              res.status(500).json({ error: 'Une erreur est survenue lors de l\'enregistrement du fichier' });
-            });
-        } else {
-          res.status(400).json({ error: 'Une erreur inconnue est survenue !' });
-        }
-
-      })
-      .catch(error => res.status(500).json({ error: error.message }));
+    try {
+      let folder;
+      if (req.params.id === "system") {
+        folder = { name: "system", owner: req.user.id };
+      } else {
+        folder = await Folder.findOne({ _id: req.params.id, owner: req.user.id });
+      }
+      if (!folder) {
+        return res.status(404).json({ error: 'Dossier introuvable' });
+      }
+      let systemFolderId;
+      if (req.params.id === "system") {
+        const systemFolder = await Folder.findOne({ name: "system", owner: req.user.id });
+        systemFolderId = systemFolder._id;
+      }
+      if (req.file) {
+        const ext = req.file.originalname.split('.').pop();
+        const sanitizedFilename = sanitizeFilename(req.file.originalname);
+        const upload = new Upload({
+          filename: req.file.filename,
+          displayname: sanitizedFilename,
+          mimetype: ext.toLowerCase(),
+          filesize: req.file.size,
+          owner: req.user.id,
+          folder: req.params.id || systemFolderId,
+        });
+        await upload.save();
+        res.json({ file: upload });
+      } else {
+        res.status(400).json({ error: 'Une erreur inconnue est survenue !' });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: 'Une erreur est survenue lors de l\'enregistrement du fichier' });
+    }
   } else {
     res.status(400).json({ error: 'Une erreur inconnue est survenue !' });
   }
@@ -328,7 +334,7 @@ router.post('/upload/:id', validateObjectId, accountUpload.single('file'), (req,
 router.get('/info/:id', validateObjectId, (req, res) => {
     Upload.find( { _id: req.params.id } )
     .then(upload => {
-        if (!upload) return res.status(404).json({ error: 'Upload not found' });
+        if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
         response = upload[0];
         res.json({ response });
     })
@@ -340,7 +346,7 @@ router.delete('/:id', validateObjectId, async (req, res) => {
   try {
     const upload = await Upload.find({ _id: req.params.id })
     if (!upload[0]) {
-      return res.status(404).json({ error: 'Upload not found' });
+      return res.status(404).json({ error: 'Fichier non trouvé' });
     }
     if (req.connected === false) {
       return res.status(401).json({ error: 'Vous n\'avez pas les permissions pour effectuer cette action !' });

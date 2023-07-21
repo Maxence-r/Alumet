@@ -195,6 +195,33 @@ router.post('/a2f', async (req, res) => {
     sendA2FCode(req.user.mail, res);
 });
 
+router.post('/resetpassword', async (req, res) => { 
+    const user = await Account.findOne({ mail: req.body.mail });
+    if (!user) {
+        return res.status(401).json({
+            error: 'Utilisateur non trouvé !'
+        });
+    }
+    sendA2FCode(req.body.mail, res);
+});
 
+router.post('/resetpassword/confirm', async (req, res) => {
+    try {
+        const a2f = await A2F.findOne({ owner: req.body.mail, code: req.body.code });
+        if (!a2f || a2f.expireAt < new Date()) {
+            res.status(400).json({ error: 'Code invalide !' });
+        } else {
+            const user = await Account.findOne({ mail: a2f.owner });
+            const hash = await bcrypt.hash(req.body.password, 10);
+            user.password = hash;
+            await user.save();
+            await A2F.deleteOne({ owner: a2f.owner });
+            res.status(200).json({ message: 'Mot de passe modifié !' });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+    }
+})
 
 module.exports = router;

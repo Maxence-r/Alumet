@@ -54,9 +54,9 @@ Consulter la feuille de route des ameiliorations et des corrections de bugs sur 
 ### Historiques des commits
 | Date      | Contenu                                   | Version  |
 | :-------- | :---------------------------------------- | :------- |
-| 20/07/23  | Authentification à moultes facteurs, page de connexion, affichage des statistiques de la mémoire utilisée sur le cloud, page de profil dynamique, système de mail crée, ajouts de corrections mineures | 2.0.0.3 |
-| 18/07/23  | Réorganisation globale des fichiers. Les modules deviennent désormais des applications (Flashcard => MindFlash, Messagerie => SwiftChat, Devoirs => EduTasker, Mur d'idées => IdeaFlow | 2.0.0.2 |
-| 09/07/23  | Creation du nouveau dashboard, suppression de tous les fichiers obselètes | 2.0.0.1 |
+| 20/07/23  | Authentification à moultes facteurs, page de connexion, affichage des statistiques de la mémoire utilisée sur le cloud, page de profil dynamique, système de mail crée, ajouts de corrections mineures | 1.2.3 |
+| 18/07/23  | Réorganisation globale des fichiers. Les modules deviennent désormais des applications (Flashcard => MindFlash, Messagerie => SwiftChat, Devoirs => EduTasker, Mur d'idées => IdeaFlow | 1.2.1 |
+| 09/07/23  | Creation du nouveau dashboard, suppression de tous les fichiers obselètes | 1.2.0 |
 | 06/06/23  | Rédaction de la politique de confidentialité et des conditions d'utilisations | 1.1 |
 | 04/06/23  | Nouveau gestionnaire de fichiers, fix de bugs, dev des modules, préparation des démos pour la conférence | 1.1  |
 | 29/05/23  | Développement des modules | 1.0.9  |

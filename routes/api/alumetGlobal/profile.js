@@ -95,4 +95,27 @@ router.put('/toggleA2f', async (req, res) => {
     });
   }
 });
+
+router.put('/updateicon' , async (req, res) => {
+  try {
+    const user = await Account.findById(req.user.id);
+    if (!user) {
+      return res.status(401).json({
+        error: 'Utilisateur non trouvé !'
+      });
+    }
+    console.log(req.body);
+    user.icon = req.body.icon;
+    await user.save();
+    res.status(200).json({
+      message: "Icone modifiée avec succès ! ${req.body.icon"
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: err.message
+    });
+  }
+});
+
 module.exports = router;

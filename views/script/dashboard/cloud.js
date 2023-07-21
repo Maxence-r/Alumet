@@ -20,9 +20,9 @@ function openDetails(id) {
     let file = document.querySelector('.files-items').querySelector(`div[data-id="${id}"]`)
     document.querySelector('.file-basic-info > h4').innerText = file.dataset.name;
     document.getElementById('file-size').innerText = file.dataset.size;
-    console.log(file.dataset.size)
     document.getElementById('file-date').innerText = file.dataset.date;
-    document.getElementById('file-ext').innerText = file.dataset.ext;
+    const ext = file.dataset.ext;
+    document.getElementById('file-ext').innerText = ext.charAt(0).toUpperCase() + ext.slice(1);
     document.querySelector('.file-info').classList.remove('no-selected-file');
     document.querySelector('.file-basic-info > img').src = file.dataset.imgRef;
     const endpoint = endpointReference[file.dataset.ext];
@@ -39,7 +39,7 @@ function createFileElement(file) {
     div.dataset.id = file._id;
     div.dataset.name = file.displayname;
     div.dataset.ext = file.mimetype;
-    div.dataset.size = (file.filesize / 1000000).toFixed(2) + ' mo';
+    div.dataset.size = (file.filesize / 1024 / 1024).toFixed(2) + ' Mo';
     div.dataset.date = file.date.split('T')[0];
     div.setAttribute('onclick', `openDetails('${file._id}')`)
     div.classList.add('file-item');
@@ -64,7 +64,7 @@ function createFileElement(file) {
     subDiv.appendChild(h4);
     div.appendChild(subDiv);
     const sizeH4 = document.createElement('h4');
-    sizeH4.innerText = (file.filesize / 1000000).toFixed(2) + ' mo';
+    sizeH4.innerText = (file.filesize / 1024 / 1024).toFixed(2) + ' Mo';
     div.appendChild(sizeH4);
     const dateH4 = document.createElement('h4');
     dateH4.innerText = file.date.split('T')[0];
@@ -435,11 +435,11 @@ function updateStats () {
 updateStats();
 
 document.getElementById('search-bar').addEventListener('input', (e) => {
-    console.log('Fonctionne');
-    const search = e.currentTarget.value;
+    const search = e.currentTarget.value.toLowerCase();
     const allFiles = document.querySelectorAll('.file-item');
     allFiles.forEach((file) => {
-        if (file.dataset.name.includes(search)) {
+        const fileName = file.dataset.name.toLowerCase();
+        if (fileName.includes(search)) {
             file.style.display = 'flex';
         } else {
             file.style.display = 'none';

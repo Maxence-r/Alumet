@@ -67,7 +67,9 @@ changePasswordBtn.addEventListener('click', () => {
   createPrompt({
       head: 'Confirmez votre mot de passe',
       placeholder: 'Tapez votre mot de passe',
-      action: 'confirmPassword()'
+      placeholderType: 'password',
+      action: 'confirmPassword()',
+
   });
 });
 function confirmPassword() {
@@ -75,6 +77,7 @@ function confirmPassword() {
   createPrompt({
     head: 'Nouveau mot de passe',
     placeholder: 'Tapez votre nouveau mot de passe',
+    placeholderType: 'password',
     action: `changePassword("${oldPassword}")`,
   });
 }
@@ -140,12 +143,58 @@ function confirmA2F() {
   .then(res => res.json())
   .then(data => {
     if (!data.error) {
-      toast({ title: '2FA modifié !', message: 'Votre 2FA a bien été modifié.', type: 'success', duration: 2500 });
+      document.getElementById('toggleA2FBtn').innerText = !JSON.parse(localStorage.getItem('user')).isA2FEnabled ? 'Désactiver la verification par mail' : 'Activer la verification par mail';
+      toast({ title: 'A2F modifié !', message: 'Vos paramètres d\'authentification à double facteur ont bien été modifiés.', type: 'success', duration: 2500 });
     } else {
       toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
     }
   })
   .catch(err => {
+    console.error(err);
     toast({ title: 'Erreur !', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
   });
 }
+document.getElementById('profile-picture').addEventListener('click', () => {
+  console.log('click');
+  document.getElementById('profile-picture-input').click();
+}
+);
+
+document.getElementById('profile-picture-input').addEventListener('change', async () => {
+  const file = document.getElementById('profile-picture-input').files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+  try {
+    const response = await fetch('/cdn/upload/system', {
+      method: 'POST',
+      body: formData
+    });
+    const data = await response.json();
+    if (!data.error) {
+      const updateResponse = await fetch('/profile/updateicon', {
+        method: 'PUT',
+        body: JSON.stringify({
+          icon: data.file._id
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const updateData = await updateResponse.json();
+      if (!updateData.error) {
+        toast({ title: 'Image de profil modifiée !', message: 'Votre image de profil a bien été modifiée', type: 'success', duration: 2500 });
+        document.getElementById('profile-picture').src = '/cdn/u/' + updateData.icon;
+        const userInfos = JSON.parse(localStorage.getItem('user'));
+        userInfos.icon = updateData.icon;
+        localStorage.setItem('user', JSON.stringify(userInfos));
+      } else {
+        toast({ title: 'Erreur !', message: updateData.error, type: 'error', duration: 2500 });
+      }
+    } else {
+      toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
+    }
+  } catch (error) {
+    console.error(error);
+    toast({ title: 'Erreur !', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
+  }
+});

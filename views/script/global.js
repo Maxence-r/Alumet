@@ -77,6 +77,7 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
 }
 
 function createPrompt(object) {
+  document.getElementById('prompt-input').type = 'text';
   document.getElementById('prompt-input').removeAttribute('list');
   document.getElementById('prompt-input').style.display = 'none';  
   document.getElementById('prompt-red').style.display = 'none';
@@ -98,6 +99,9 @@ function createPrompt(object) {
   }
   if (object.placeholder) {
     document.getElementById('prompt-input').style.display = 'block';
+    if (object.placeholderType) {
+      document.getElementById('prompt-input').type = object.placeholderType;
+    }
   }
   document.querySelector('.prompt-popup').classList.add('active-popup');
   document.getElementById('prompt-input').value = '';

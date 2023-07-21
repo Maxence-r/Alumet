@@ -139,7 +139,7 @@ body {
 .cloud > .sub-container:nth-child(1) {
     margin: 0;
     margin-right: 20px;
-    min-width: 15%;
+    min-width: 12%;
 }
 
 .cloud > .sub-container:nth-child(3) {
@@ -206,10 +206,19 @@ body {
 }
   
 .user-infos > img {
+    object-fit: cover;
     border: 3px solid #ffffff;
     width: 120px;
+    height: 120px;
     border-radius: 50%;
     box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease-in-out;
+}
+
+.user-infos > img:hover {
+    transform: scale(0.98);
+    filter: brightness(0.7);
+    cursor: pointer;
 }
 
 .user-infos > .sub-infos > h4 {
@@ -1036,15 +1045,18 @@ h3 {
     margin-left: 52%;
 }
 
-.files-header > input {
+.files-header > #search-bar {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
     position: absolute;
     right: 5px;
     font-size: 0.8rem;
     border-radius: 5px;
-    width: 30%;
+    width: 28%;
+    padding-right: 5px;
     height: 40px;
     padding-left: 15px;
-    padding-right: 5px;
 }
 
 .legend {
@@ -1079,6 +1091,7 @@ h3 {
     flex-direction: row;
     align-items: center;
     position: relative;
+    cursor: pointer;
     width: 100%;
     min-height: 50px;
     border-bottom: 1px solid #F3F3F3;
@@ -1130,6 +1143,7 @@ h3 {
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    padding-left: 1.5%;
 }
 
 .file-name > img {
@@ -1696,7 +1710,8 @@ select {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    width: 100%;   
+    width: 100%; 
+    overflow: hidden;  
 }
 
 .not-readed > .conversation-infos > .ping-conv {
@@ -1739,6 +1754,7 @@ select {
     font-size: 0.9rem;
     font-weight: 400;
     color: #9EA1A7;
+    white-space: nowrap;
 }
 
 .certified > img:nth-child(2) {
@@ -1746,6 +1762,7 @@ select {
 }
 
 .conversation > img:nth-child(1) {
+    width: 55px;
     min-width: 55px;
     height: 55px;
     border-radius: 50%;
@@ -1758,6 +1775,7 @@ select {
 
 .profile > .main-container {
     width: 100%;
+    height: calc(100% - 20px);
     padding: 0 !important;
 }
 
@@ -1818,6 +1836,10 @@ select {
     display: flex;
 }
 
+#profile-picture-input {
+    display: none;
+}
+
 @media (max-width: 1400px) {
     .file-item > h4:nth-child(2) {
         display: none;
@@ -1839,7 +1861,7 @@ select {
 
 @media (max-width: 1200px) {
     .messages > .main-container {
-        transform: translateY(100%);
+        transform: translateY(110%);
         transition: all 0.3s ease-in-out;
     }
     .grid-user-container {

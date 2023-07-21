@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const Alumet = require('../../../models/alumet');
 require('dotenv').config();
 const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
-const puppeteer = require('puppeteer');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     try {

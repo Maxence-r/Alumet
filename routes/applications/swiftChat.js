@@ -60,7 +60,16 @@ router.get('/', async (req, res) => {
     const filteredConversations = await Promise.all(conversations.map(async conversation => {
       const participants = conversation.participants.filter(participant => participant !== req.user.id);
       const lastMessage = await Message.findOne({ reference: conversation._id}).sort({ _id: -1 });
+      
       const lastMessageText = lastMessage && lastMessage.content ? lastMessage.content : 'Pas de message';
+
+      let lastMessageObject = {};
+      if (lastMessage && lastMessage.content) {
+        const senderAccount = await Account.findOne({ _id: lastMessage.sender});
+        lastMessageObject = { content: lastMessage.content, sender: senderAccount.name };
+      } else {
+        lastMessageObject = {};
+      }
 
       let isReaded = lastMessage && lastMessage.isReaded? lastMessage.isReaded : false;
       if (lastMessage && String(lastMessage.sender) === req.user.id) {
@@ -68,7 +77,7 @@ router.get('/', async (req, res) => {
       }
       const conversationId = conversation._id;
 
-      return { ...conversation.toObject(), participants, lastMessage: lastMessageText, isReaded: isReaded, conversationId: conversationId };
+      return { ...conversation.toObject(), participants, lastMessage: lastMessageObject, isReaded: isReaded, conversationId: conversationId };
     }));
     res.json(filteredConversations);
   } catch (error) {

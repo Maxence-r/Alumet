@@ -1,13 +1,20 @@
 const conversationsContainer = document.querySelector('.conversations-container');
 
 const createConversationElement = (user, conversation) => {
-  const { lastUsage, isReaded, lastMessage, _id } = conversation;
+  console.log(conversation);
+  const { lastUsage, isReaded, lastMessage, _id, conversationName } = conversation;
   const { icon, name, lastname, isCertified } = user;
   const time = relativeTime(lastUsage);
 
   const conversationElement = document.createElement('div');
   conversationElement.classList.add('conversation');
   conversationElement.dataset.conversationid = _id;
+  conversationElement.dataset.lastusage = lastUsage;
+  if (conversationName) {
+    conversationElement.dataset.name = conversationName;
+  } else {
+    conversationElement.dataset.name = `${name} ${lastname}`;
+  }
 
   const iconElement = document.createElement('img');
   iconElement.src = `/cdn/u/${icon}`;
@@ -34,14 +41,18 @@ const createConversationElement = (user, conversation) => {
   infosElement.appendChild(nameElement);
 
   const messageElement = document.createElement('p');
-  messageElement.textContent = lastMessage || "Pas de messages";
+  if (lastMessage.sender && lastMessage.content) {
+    messageElement.textContent = lastMessage.sender + ': ' + lastMessage.content;
+  } else {
+    messageElement.textContent = 'Pas de message';
+  }
   infosElement.appendChild(messageElement);
 
   const pingElement = document.createElement('div');
   pingElement.classList.add('ping-conv');
   infosElement.appendChild(pingElement);
 
-  if (!isReaded) {
+  if (!isReaded && lastMessage.content) {
     conversationElement.classList.add('not-readed');
   }
   conversationElement.setAttribute('onclick', `openConversation('${_id}')`);
@@ -103,24 +114,24 @@ const newConversation = () => {
 
 const getConversations = () => {
   fetch('/conversation')
-    .then(response => response.json())
-    .then(json => {
-      const hasUnreadConversations = json.some(conversation => conversation.isReaded === false);
-      if (hasUnreadConversations) {
-        document.getElementById('messages').classList.add('pinged');
-      }
-      const promises = json.map(conversation => getUser(conversation.participants[0]));
-      return Promise.all(promises)
-        .then(users => {
-          const conversations = json.map((conversation, index) => ({ conversation, user: users[index] }));
-          conversations.sort((a, b) => b.conversation.lastUsage - a.conversation.lastUsage);
-          conversations.forEach(({ conversation, user }) => {
-            const conversationElement = createConversationElement(user, conversation);
-            conversationsContainer.appendChild(conversationElement);
-          });
+  .then(response => response.json())
+  .then(json => {
+    const hasUnreadConversations = Array.isArray(json) && json.some(conversation => conversation.isReaded === false);
+    if (hasUnreadConversations) {
+      document.getElementById('messages').classList.add('pinged');
+    }
+    const promises = json.map(conversation => getUser(conversation.participants[0]));
+    return Promise.all(promises)
+      .then(users => {
+        const conversations = json.map((conversation, index) => ({ conversation, user: users[index] }));
+        conversations.sort((a, b) => b.conversation.lastUsage - a.conversation.lastUsage);
+        conversations.forEach(({ conversation, user }) => {
+          const conversationElement = createConversationElement(user, conversation);
+          conversationsContainer.appendChild(conversationElement);
         });
-    })
-    .catch(error => console.error(error));
+      });
+  })
+  .catch(error => console.error(error));
 };
 
 
@@ -164,6 +175,10 @@ function openConversation(id) {
     previousSender = null;
     document.querySelector('.conversation-body').innerHTML = '';
     document.querySelector('[data-conversationid="' + id + '"]').classList.remove('not-readed');
+    let lastUsage = document.querySelector('[data-conversationid="' + id + '"]').dataset.lastusage 
+    let name = document.querySelector('[data-conversationid="' + id + '"]').dataset.name
+    document.getElementById('conversation-username').textContent = name;
+    document.getElementById('conversation-lastTime').textContent = relativeTime(lastUsage);
     fetch(`/conversation/${id}`)
       .then(response => response.json())
       .then(json => {
@@ -220,6 +235,19 @@ function createFirstMessageElement(message, user) {
     return messageElement;
 }
 
+
+document.getElementById('search-conv').addEventListener('input', (e) => {
+  const search = e.currentTarget.value.toLowerCase();
+  const allConversations = document.querySelectorAll('.conversation');
+  allConversations.forEach((conversation) => {
+      const conversationName = conversation.dataset.name.toLowerCase();
+      if (conversationName.includes(search)) {
+        conversation.style.display = 'flex';
+      } else {
+        conversation.style.display = 'none';
+      }
+  });
+});
 
 
 getConversations();
