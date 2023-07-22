@@ -12,25 +12,21 @@ router.post('/create', validateConversation, async (req, res) => {
   const userId = req.user.id;
 
   if (participants.includes(userId)) {
-    return res.status(400).json({ error: 'Cannot create a conversation with yourself' });
+    return res.status(400).json({ error: 'Vous ne pouvez pas créer une conversation avec vous même !' });
   }
-
-const existingConversation = await Conversation.findOne({
-  participants: {
-    $all: participants,
-    $size: participants.length
-  },
-  owner: userId
-});
-if (existingConversation) {
-  return res.status(400).json({ error: 'Conversation already exists' });
-}
-
   participants.push(userId);
+  const existingConversation = await Conversation.findOne({
+    participants: {
+      $all: participants
+    }
+  });
+  console.log(participants)
+  if (existingConversation) {
+    return res.status(400).json({ error: 'Une conversation avec cet utilisateur existe déjà !' });
+  }
   const conversation = new Conversation({
     participants,
     name,
-    owner: userId,
     lastUsage: Date.now(),
     icon
   });
@@ -59,19 +55,19 @@ router.get('/', async (req, res) => {
     const conversations = await Conversation.find({ participants: req.user.id }).sort({ lastUsage: -1 });
     const filteredConversations = await Promise.all(conversations.map(async conversation => {
       const participants = conversation.participants.filter(participant => participant !== req.user.id);
-      const lastMessage = await Message.findOne({ reference: conversation._id}).sort({ _id: -1 });
-      
-      const lastMessageText = lastMessage && lastMessage.content ? lastMessage.content : 'Pas de message';
-
+      const lastMessage = await Message.findOne({ reference: conversation._id}).sort({ _id: -1 })
       let lastMessageObject = {};
       if (lastMessage && lastMessage.content) {
-        const senderAccount = await Account.findOne({ _id: lastMessage.sender});
+        let senderAccount = await Account.findOne({ _id: lastMessage.sender});
+        if(senderAccount.name == req.user.name) {
+          senderAccount.name = "Vous";
+        }        
         lastMessageObject = { content: lastMessage.content, sender: senderAccount.name };
       } else {
         lastMessageObject = {};
       }
 
-      let isReaded = lastMessage && lastMessage.isReaded? lastMessage.isReaded : false;
+      let isReaded = lastMessage ? lastMessage.isReaded : true;
       if (lastMessage && String(lastMessage.sender) === req.user.id) {
         isReaded = true;
       }
@@ -85,7 +81,6 @@ router.get('/', async (req, res) => {
     res.json({ error });
   }
 });
-
 
 
 

@@ -30,7 +30,4 @@ if (redirect) {
     }
 };
 
-document.getElementById('close-conversation').addEventListener('click', () => {
-  document.querySelector('.messages').classList.remove('active-messages');
-  localStorage.removeItem('currentConversation');
-});
+

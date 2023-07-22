@@ -108,7 +108,7 @@ router.put('/updateicon' , async (req, res) => {
     user.icon = req.body.icon;
     await user.save();
     res.status(200).json({
-      message: "Icone modifiée avec succès ! ${req.body.icon"
+      icon: user.icon
     });
   } catch (err) {
     console.log(err);

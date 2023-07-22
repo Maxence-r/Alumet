@@ -23,7 +23,8 @@ router.get('/u/:id', (req, res) => {
             name: user.name,
             lastname: user.lastname,
             icon: user.icon,
-            isCertified: user.isCertified
+            isCertified: user.isCertified,
+            accountType: user.accountType
         });
     })
     .catch(error => res.status(500).json({ error }));

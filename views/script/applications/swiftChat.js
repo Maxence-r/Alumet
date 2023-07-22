@@ -1,9 +1,8 @@
 const conversationsContainer = document.querySelector('.conversations-container');
 
 const createConversationElement = (user, conversation) => {
-  console.log(conversation);
   const { lastUsage, isReaded, lastMessage, _id, conversationName } = conversation;
-  const { icon, name, lastname, isCertified } = user;
+  const { icon, name, lastname, isCertified, accountType } = user;
   const time = relativeTime(lastUsage);
 
   const conversationElement = document.createElement('div');
@@ -24,7 +23,7 @@ const createConversationElement = (user, conversation) => {
   if (isCertified) {
     const certifiedElement = document.createElement('img');
     conversationElement.classList.add('certified');
-    certifiedElement.src = '../assets/global/certified.svg';
+    certifiedElement.src = `../assets/global/${accountType}-certified.svg`;
     certifiedElement.alt = 'certified icon';
     conversationElement.appendChild(certifiedElement);
   }
@@ -41,8 +40,9 @@ const createConversationElement = (user, conversation) => {
   infosElement.appendChild(nameElement);
 
   const messageElement = document.createElement('p');
-  if (lastMessage.sender && lastMessage.content) {
-    messageElement.textContent = lastMessage.sender + ': ' + lastMessage.content;
+  if (lastMessage && lastMessage.sender && lastMessage.content) {
+    const lastMessageText = lastMessage && lastMessage.content ? (lastMessage.content.length > 25 ? lastMessage.content.slice(0, 25) + '...' : lastMessage.content) : 'Pas de message';
+    messageElement.textContent = lastMessage.sender + ': ' + lastMessageText;
   } else {
     messageElement.textContent = 'Pas de message';
   }
@@ -52,7 +52,7 @@ const createConversationElement = (user, conversation) => {
   pingElement.classList.add('ping-conv');
   infosElement.appendChild(pingElement);
 
-  if (!isReaded && lastMessage.content) {
+  if (!isReaded) {
     conversationElement.classList.add('not-readed');
   }
   conversationElement.setAttribute('onclick', `openConversation('${_id}')`);
@@ -135,11 +135,17 @@ const getConversations = () => {
 };
 
 
-document.getElementById('message').addEventListener('keyup', (event) => {
+document.getElementById('message').addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     sendMessage();
   }
 });
+const sendMessageButton = document.getElementById('send-text');
+if (sendMessageButton) {
+  sendMessageButton.addEventListener('click', () => {
+    sendMessage();
+  });
+}
 
 sendMessage = () => {
   const message = document.getElementById('message').value;
@@ -166,7 +172,20 @@ sendMessage = () => {
     .catch(error => console.error(error));
 };
 
-localStorage.removeItem('currentConversation');
+function closeConversation() {
+  document.querySelector('.messages').classList.remove('active-messages');
+  localStorage.removeItem('currentConversation');
+}
+document.getElementById('close-conversation-button').addEventListener('click', () => {
+  closeConversation();
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    closeConversation();
+  }
+});
+closeConversation();
+
 function openConversation(id) {
     document.querySelector('.messages > .main-container').classList.add('active-loading');
     document.querySelector('.messages > .main-container').classList.remove('no-conversation');
@@ -250,4 +269,8 @@ document.getElementById('search-conv').addEventListener('input', (e) => {
 });
 
 
+
 getConversations();
+
+// Modify banner.jpg -> banner.j 
+// 
