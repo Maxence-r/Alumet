@@ -205,6 +205,7 @@ body {
 .user-infos > img {
     object-fit: cover;
     border: 3px solid #ffffff;
+    background-color: white;
     max-width: 120px;
     min-width: 120px;
     min-height: 120px;
@@ -1761,6 +1762,7 @@ select {
 }
 
 .conversation > img:nth-child(1) {
+    object-fit: cover;
     width: 55px;
     min-width: 55px;
     height: 55px;

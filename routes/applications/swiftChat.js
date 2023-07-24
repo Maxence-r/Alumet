@@ -73,7 +73,7 @@ router.get('/', async (req, res) => {
       }
       const conversationId = conversation._id;
 
-      return { ...conversation.toObject(), participants, lastMessage: lastMessageObject, isReaded: isReaded, conversationId: conversationId };
+      return { ...conversation.toObject(), participants, lastMessage: lastMessageObject, isReaded: isReaded, conversationId: conversationId, conversationName: conversation.name, conversationIcon: conversation.icon };
     }));
     res.json(filteredConversations);
   } catch (error) {

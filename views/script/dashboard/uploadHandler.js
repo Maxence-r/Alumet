@@ -10,7 +10,7 @@ document.querySelector('.drop-box > input').addEventListener('change', (e) => {
         document.querySelector('.drop-box').classList.remove('ready-to-send');
         return;
     }
-    document.getElementById('numbers-of-files').innerHTML = `${files.length}`;
+    document.getElementById('numbers-of-files').innerText = `${files.length}`;
     document.querySelector('.drop-box').classList.add('ready-to-send');
 });
 

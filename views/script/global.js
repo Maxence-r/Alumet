@@ -66,12 +66,21 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
     toast.classList.add("toast", `toast--${type}`);
     toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
 
-    toast.innerHTML = `
-                    <div class="toast__body">
-                        <h3 class="toast__title">${title}</h3>
-                        <p class="toast__msg">${message}</p>
-                    </div>
-                `;
+    const toastBody = document.createElement('div');
+    toastBody.classList.add('toast__body');
+
+    const toastTitle = document.createElement('h3');
+    toastTitle.classList.add('toast__title');
+    toastTitle.textContent = title;
+
+    const toastMsg = document.createElement('p');
+    toastMsg.classList.add('toast__msg');
+    toastMsg.textContent = message;
+
+    toastBody.appendChild(toastTitle);
+    toastBody.appendChild(toastMsg);
+
+toast.appendChild(toastBody);
     main.appendChild(toast);
   }
 }
@@ -82,7 +91,7 @@ function createPrompt(object) {
   document.getElementById('prompt-input').style.display = 'none';  
   document.getElementById('prompt-red').style.display = 'none';
   document.getElementById('prompt-desc').style.display = 'none';
-  document.getElementById('prompt-head').innerHTML = object.head;
+  document.getElementById('prompt-head').innerText = object.head;
   document.getElementById('prompt-input').placeholder = object.placeholder;
   document.getElementById('prompt-confirm').setAttribute('onclick', object.action);
   if (object.list) {
@@ -90,11 +99,11 @@ function createPrompt(object) {
   }
   if (object.desc) {
     document.getElementById('prompt-desc').style.display = 'block';
-    document.getElementById('prompt-desc').innerHTML = object.desc;
+    document.getElementById('prompt-desc').innerText = object.desc;
   }
   if (object.redAction) {
     document.getElementById('prompt-red').style.display = 'block';
-    document.getElementById('prompt-red').innerHTML = object.redActionText;
+    document.getElementById('prompt-red').innerText = object.redActionText;
     document.getElementById('prompt-red').setAttribute('onclick', object.redAction);
   }
   if (object.placeholder) {

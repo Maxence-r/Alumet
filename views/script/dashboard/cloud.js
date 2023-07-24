@@ -59,7 +59,7 @@ function createFileElement(file) {
     const span = document.createElement('span');
     span.innerText = file.displayname.split('.')[0];
     h4.appendChild(span);
-    h4.innerHTML += `.${file.displayname.split('.').pop()}`;
+    h4.innerText += `.${file.displayname.split('.').pop()}`;
     subDiv.appendChild(img);
     subDiv.appendChild(h4);
     div.appendChild(subDiv);

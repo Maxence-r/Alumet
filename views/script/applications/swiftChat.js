@@ -1,7 +1,7 @@
 const conversationsContainer = document.querySelector('.conversations-container');
 
 const createConversationElement = (user, conversation) => {
-  const { lastUsage, isReaded, lastMessage, _id, conversationName } = conversation;
+  const { lastUsage, isReaded, lastMessage, _id, conversationName, conversationIcon } = conversation;
   const { icon, name, lastname, isCertified, accountType } = user;
   const time = relativeTime(lastUsage);
 
@@ -9,6 +9,7 @@ const createConversationElement = (user, conversation) => {
   conversationElement.classList.add('conversation');
   conversationElement.dataset.conversationid = _id;
   conversationElement.dataset.lastusage = lastUsage;
+  conversationElement.dataset.icon = conversationIcon || icon;
   if (conversationName) {
     conversationElement.dataset.name = conversationName;
   } else {
@@ -16,7 +17,7 @@ const createConversationElement = (user, conversation) => {
   }
 
   const iconElement = document.createElement('img');
-  iconElement.src = `/cdn/u/${icon}`;
+  iconElement.src = `/cdn/u/${conversationIcon || icon}`;
   iconElement.alt = 'file icon';
   conversationElement.appendChild(iconElement);
 
@@ -33,7 +34,7 @@ const createConversationElement = (user, conversation) => {
   conversationElement.appendChild(infosElement);
 
   const nameElement = document.createElement('h4');
-  nameElement.textContent = `${name} ${lastname}`;
+  nameElement.textContent = `${conversationName || name + ' ' + lastname}`;
   const timeElement = document.createElement('span');
   timeElement.textContent = time;
   nameElement.appendChild(timeElement);
@@ -196,8 +197,10 @@ function openConversation(id) {
     document.querySelector('[data-conversationid="' + id + '"]').classList.remove('not-readed');
     let lastUsage = document.querySelector('[data-conversationid="' + id + '"]').dataset.lastusage 
     let name = document.querySelector('[data-conversationid="' + id + '"]').dataset.name
-    document.getElementById('conversation-username').textContent = name;
+    let icon = document.querySelector('[data-conversationid="' + id + '"]').dataset.icon
+    document.querySelector('#conversation-username > span').textContent = name;
     document.getElementById('conversation-lastTime').textContent = relativeTime(lastUsage);
+    document.querySelector('.conversation-user-infos > img').src = `/cdn/u/${icon}`;
     fetch(`/conversation/${id}`)
       .then(response => response.json())
       .then(json => {
@@ -272,5 +275,3 @@ document.getElementById('search-conv').addEventListener('input', (e) => {
 
 getConversations();
 
-// Modify banner.jpg -> banner.j 
-// 
