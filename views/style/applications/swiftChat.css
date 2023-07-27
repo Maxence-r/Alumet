@@ -8,6 +8,7 @@
 
 .conversation-user-infos {
     display: flex;
+    width: 60%;
     position: relative;
     flex-direction: row;
     align-items: center;
@@ -23,10 +24,13 @@
 
 .sub-infos {
     display: flex;
+    overflow: hidden;
     flex-direction: column;
 }
 
 .sub-infos > h4 {
+    overflow: scroll;
+    white-space: nowrap;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -82,6 +86,7 @@
 
 .conversation-body {
     display: flex;
+    position: relative;
     flex-direction: column-reverse;
     gap: 5px;
     padding: 20px;
@@ -148,8 +153,14 @@
 
 .message {
     display: flex;
+    position: relative;
     flex-direction: row;
     gap: 10px;
+}
+
+.user-name > img {
+    width: 15px;
+    margin-left: 5px;
 }
 
 .message > img {

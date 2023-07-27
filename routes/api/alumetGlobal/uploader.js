@@ -293,17 +293,13 @@ router.post('/upload/:id', validateObjectId, accountUpload.single('file'), async
     try {
       let folder;
       if (req.params.id === "system") {
-        folder = { name: "system", owner: req.user.id };
+        const systemFolder = await Folder.findOne({ name: "system", owner: req.user._id.toString() });
+        folder = { name: "system", owner: req.user._id.toString(), _id: systemFolder._id };
       } else {
         folder = await Folder.findOne({ _id: req.params.id, owner: req.user.id });
       }
       if (!folder) {
         return res.status(404).json({ error: 'Dossier introuvable' });
-      }
-      let systemFolderId;
-      if (req.params.id === "system") {
-        const systemFolder = await Folder.findOne({ name: "system", owner: req.user.id });
-        systemFolderId = systemFolder._id;
       }
       if (req.file) {
         const ext = req.file.originalname.split('.').pop();
@@ -314,7 +310,7 @@ router.post('/upload/:id', validateObjectId, accountUpload.single('file'), async
           mimetype: ext.toLowerCase(),
           filesize: req.file.size,
           owner: req.user.id,
-          folder: req.params.id || systemFolderId,
+          folder: folder._id,
         });
         await upload.save();
         res.json({ file: upload });

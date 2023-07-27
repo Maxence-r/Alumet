@@ -41,8 +41,6 @@ router.put('/changepassword', async (req, res) => {
 });
 
 router.put('/updateinfos', validateUpdateInfos, async (req, res) => {
-    /* const session = await mongoose.startSession();
-    session.startTransaction(); */
     try {
       const { name, lastname, mail } = req.body;
       const user = await Account.findById(req.user.id);
@@ -56,14 +54,10 @@ router.put('/updateinfos', validateUpdateInfos, async (req, res) => {
       user.lastname = lastname;
       user.mail = mail;
       await user.save();
-      /* await session.commitTransaction(); */
       res.status(200).json({ message: 'Informations modifiées avec succès !' });
     } catch (err) {
-      /* await session.abortTransaction(); */
       console.log(err);
       res.status(500).json({ error: err.message });
-    } finally {
-     /*  session.endSession(); */
     }
  });
 

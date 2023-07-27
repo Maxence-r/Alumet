@@ -3,7 +3,6 @@ body {
     flex-direction: row;
     background-color: #F6F8FC;
     padding: 20px;
-    height: calc(100vh - 40px);
     margin: 0;
     overflow: hidden;
 }
@@ -62,6 +61,13 @@ body {
     border: none;
     z-index: 10;
 }
+
+html, body {
+  height: calc(100% - 20px);
+  min-height: calc(100% - 20px);
+}
+  
+
 
 .nav > button > img {
     transition: all 0.3s ease-in-out;
@@ -184,7 +190,7 @@ body {
 .user-infos {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: end;
     gap: 10px;
     margin: 0 3%;
     margin-top: -45px;
@@ -204,13 +210,13 @@ body {
   
 .user-infos > img {
     object-fit: cover;
-    border: 3px solid #ffffff;
+    border: 2px solid #ffffff;
     background-color: white;
-    max-width: 120px;
-    min-width: 120px;
-    min-height: 120px;
-    max-height: 120px;
-    border-radius: 50%;
+    width: 100px;
+    min-width: 100px;
+    height: 100px;
+    min-height: 100px;
+    border-radius: 20px;
     box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.25);
     transition: all 0.3s ease-in-out;
 }
@@ -230,14 +236,45 @@ body {
     font-size: 1rem;
     font-weight: 500;
 } 
+#cancel-conv {
+    margin-top: auto;
+    margin-bottom: 10px;
+}
 
+.creating-conversation > .create-conversation {
+    transform: translateY(0%);
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+}
 
+.create-conversation {
+    display: flex !important;
+    transform: translateY(100%);
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    margin: 0 !important;
+}
+
+.create-conversation > h4 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 10px 0;
+    color: #000000;
+}
+
+.create-conversation > input {
+    width: calc(100% - 40px);
+}
 
 .user-infos > .sub-infos {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-top: 3%;
+    margin-bottom: 4px;
 }
 
 .user-options-heading {
@@ -285,7 +322,6 @@ body {
 
 .main-container {
     width: calc(100% - 40px);
-
     display: flex;
     flex-direction: column;
     overflow-x: scroll;
@@ -299,7 +335,6 @@ body {
     flex-direction: column;
     min-width: 325px;
     margin-left: 20px;
-    height: calc(100% - 40px);
     overflow: hidden;
     background-color: white;
     border-radius: 10px;
@@ -443,7 +478,7 @@ body {
     flex-direction: column;
     position: absolute;
     width: 100%;
-    height: 75%;
+    height: 70%;
     background-color: white;
     margin-top: 10px;
     overflow-y: auto;
@@ -1074,6 +1109,7 @@ h3 {
 
 .legend > h4 {
     display: flex;
+    gap: 2px;
     font-size: 0.9rem;
     font-weight: 400;
     margin: 0;
@@ -1107,7 +1143,7 @@ h3 {
     font-size: 0.9rem;
     font-weight: 400;
     margin: 0;
-    color: #B4B4B4;
+    color: #000000;
 }
 
 .files-items {
@@ -1735,6 +1771,7 @@ select {
 }
 
 .conversation-infos > h4 {
+    white-space: nowrap;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -1776,8 +1813,8 @@ select {
 
 .profile > .main-container {
     width: 100%;
-    height: calc(100% - 20px);
     padding: 0 !important;
+    overflow-x: hidden;
 }
 
 .full-screen {
@@ -1837,9 +1874,20 @@ select {
     display: flex;
 }
 
+.new-conversation {
+    width: calc(100% - 40px);
+    height: calc(100% - 20px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0 !important;
+}
+
 #profile-picture-input {
     display: none;
 }
+
+
 
 @media (max-width: 1400px) {
     .file-item > h4:nth-child(2) {
@@ -1910,7 +1958,6 @@ select {
         left: 0;
         width: calc(100% - 40px);
         height: calc(100% - 40px);
-
     }
 }
 
@@ -1924,6 +1971,16 @@ select {
 
 
 @media (max-width: 600px) {
+    .create-conversation {
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+    }
+    .messages > .sub-container:nth-child(1) {
+        min-width: calc(100% - 20px);
+    }
+    .banner {
+        height: 15%;
+    }
     .right-message > .message-details > .message-content {
         margin: 0 !important;
     }
@@ -1943,13 +2000,13 @@ select {
     .user-options-infos > p {
         display: none;
     }
-    .user-infos > .sub-infos > p {
-        display: none;
-    }
     body {
         flex-direction: column;
         padding: 10px;
-        height: calc(100vh - 20px);
+    }
+    html, body {
+        height: calc(100% - 10px);
+        min-height: calc(100% - 10px);
     }
     .prompt {
         width: calc(90% - 20px);
@@ -1966,15 +2023,12 @@ select {
     .main-container {
         padding: 10px;
         width: calc(100% - 20px);
-        height: calc(100% - 40px);
     }
     .sub-container {
         padding: 10px;
         width: calc(100% - 20px);
     }
-    .sections-container > section {
-        height: calc(100% - 40px);
-    }
+
     .nav > button {
         margin: 0 1.5%;
     }
@@ -1997,8 +2051,11 @@ select {
     }
     .cloud > .sub-container:nth-child(3) {
         width: calc(100% - 20px);
+        height: calc(100% - 20px);
     }
     .messages > .main-container {
         width: calc(100% - 20px);
+        height: calc(100% - 20px);
     }
+
 }

@@ -9,6 +9,9 @@ const Account = require('../../models/account');
 
 router.post('/create', validateConversation, async (req, res) => {
   const { participants, name, icon } = req.body;
+  if (!req.connected) {
+    res.status(401).json({ error: 'Not authorized' });
+  }
   const userId = req.user.id;
 
   if (participants.includes(userId)) {
@@ -17,6 +20,7 @@ router.post('/create', validateConversation, async (req, res) => {
   participants.push(userId);
   const existingConversation = await Conversation.findOne({
     participants: {
+      $size: 2,
       $all: participants
     }
   });
@@ -111,7 +115,7 @@ router.get('/:conversation', async (req, res) => {
           return res.json({ messages: [] });
         }
         const messagePromises = messages.map(async message => {
-          const user = await Account.findOne({ _id: message.sender }, { name: 1, lastname: 1, icon: 1 });
+          const user = await Account.findOne({ _id: message.sender }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1 });
           return { message, user };
         });
         const messageObjects = await Promise.all(messagePromises);
@@ -134,7 +138,7 @@ router.post('/send', async (req, res) => {
   const reference = conversationId;
   const isReaded = false;
   const newMessage = new Message({ sender, content: message, reference, isReaded });
-  const user = await Account.findOne({ _id: sender }, { name: 1, lastname: 1, icon: 1 });
+  const user = await Account.findOne({ _id: sender }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1 });
   newMessage.save()
     .then(message => {
       Conversation.findOneAndUpdate({ _id: conversationId }, { lastUsage: Date.now() })
@@ -142,6 +146,20 @@ router.post('/send', async (req, res) => {
         .catch(error => res.json({ error }));
     })
     .catch(error => res.json({ error }));
+});
+
+router.delete('/:message', async (req, res) => {
+  try {
+    const message = await Message.findOne({ _id: req.params.message, participants: req.user.id });
+    if (!message) return res.status(404).json({ error: 'Message non trouvé' });
+    /* if (!message.participants.includes(req.user.id)) { return res.status(401).json({ error: 'Vous n\'êtes pas authorisé à supprimer ce message' }) } */
+    await message.delete();
+    res.json({ message: 'Message supprimé' });
+  }
+  catch (error) {
+    console.error(error);
+    res.json({ error });
+  }
 });
 
 

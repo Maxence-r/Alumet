@@ -1,10 +1,9 @@
 const conversationsContainer = document.querySelector('.conversations-container');
 
 const createConversationElement = (user, conversation) => {
-  const { lastUsage, isReaded, lastMessage, _id, conversationName, conversationIcon } = conversation;
+  const { lastUsage, isReaded, lastMessage, _id, conversationName, conversationIcon, participants } = conversation;
   const { icon, name, lastname, isCertified, accountType } = user;
   const time = relativeTime(lastUsage);
-
   const conversationElement = document.createElement('div');
   conversationElement.classList.add('conversation');
   conversationElement.dataset.conversationid = _id;
@@ -21,7 +20,7 @@ const createConversationElement = (user, conversation) => {
   iconElement.alt = 'file icon';
   conversationElement.appendChild(iconElement);
 
-  if (isCertified) {
+  if (isCertified && participants.length === 1) {
     const certifiedElement = document.createElement('img');
     conversationElement.classList.add('certified');
     certifiedElement.src = `../assets/global/${accountType}-certified.svg`;
@@ -34,7 +33,8 @@ const createConversationElement = (user, conversation) => {
   conversationElement.appendChild(infosElement);
 
   const nameElement = document.createElement('h4');
-  nameElement.textContent = `${conversationName || name + ' ' + lastname}`;
+  const nameString = (conversationName || name + ' ' + lastname).slice(0, 25);
+  nameElement.textContent = `${nameString}${nameString.length < (conversationName || name + ' ' + lastname).length ? '...' : ''}`;
   const timeElement = document.createElement('span');
   timeElement.textContent = time;
   nameElement.appendChild(timeElement);
@@ -65,7 +65,7 @@ const createConversation = async () => {
   const participants = [recipient];
 
   try {
-    const response = await fetch('/conversation/create', {
+    const response = await fetch('/swiftChat/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -89,16 +89,11 @@ const createConversation = async () => {
 };
 
 const newConversation = () => {
-  createPrompt({
-    head: 'Nouvelle conversation',
-    placeholder: 'Nom de la conversation',
-    action: 'createConversation()',
-    list: 'users'
-  });
+  document.querySelector('.messages > .sub-container').classList.add('creating-conversation');
 
   const promptInput = document.querySelector('#prompt-input');
   promptInput.addEventListener('keyup', async (event) => {
-    const response = await fetch(`/conversation/search?q=${event.target.value}`);
+    const response = await fetch(`/swiftChat/search?q=${event.target.value}`);
     const json = await response.json();
     const datalist = document.getElementById('users');
     datalist.innerHTML = '';
@@ -114,7 +109,7 @@ const newConversation = () => {
 };
 
 const getConversations = () => {
-  fetch('/conversation')
+  fetch('/swiftChat')
   .then(response => response.json())
   .then(json => {
     const hasUnreadConversations = Array.isArray(json) && json.some(conversation => conversation.isReaded === false);
@@ -130,6 +125,7 @@ const getConversations = () => {
           const conversationElement = createConversationElement(user, conversation);
           conversationsContainer.appendChild(conversationElement);
         });
+
       });
   })
   .catch(error => console.error(error));
@@ -151,7 +147,7 @@ if (sendMessageButton) {
 sendMessage = () => {
   const message = document.getElementById('message').value;
   const conversationId = localStorage.getItem('currentConversation');
-  fetch('/conversation/send', {
+  fetch('/swiftChat/send', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -167,7 +163,7 @@ sendMessage = () => {
         duration: 5000
       });
       document.getElementById('message').value = '';
-      const messageElement = createFirstMessageElement(json.message, json.user);
+      const messageElement = createMessageElement(json.message, json.user);
       document.querySelector('.conversation-body').prepend(messageElement);
     })
     .catch(error => console.error(error));
@@ -198,17 +194,22 @@ function openConversation(id) {
     let lastUsage = document.querySelector('[data-conversationid="' + id + '"]').dataset.lastusage 
     let name = document.querySelector('[data-conversationid="' + id + '"]').dataset.name
     let icon = document.querySelector('[data-conversationid="' + id + '"]').dataset.icon
-    document.querySelector('#conversation-username > span').textContent = name;
+    document.querySelector('#conversation-username').textContent = name;
     document.getElementById('conversation-lastTime').textContent = relativeTime(lastUsage);
     document.querySelector('.conversation-user-infos > img').src = `/cdn/u/${icon}`;
-    fetch(`/conversation/${id}`)
+    fetch(`/swiftChat/${id}`)
       .then(response => response.json())
       .then(json => {
         if (!json) return
-        Promise.all(json.messages.map(message => createFirstMessageElement(message.message, message.user )))
+        Promise.all(json.messages.map(message => createMessageElement(message.message, message.user )))
           .then(messageElements => {
             const conversationBody = document.querySelector('.conversation-body');
-            messageElements.forEach(messageElement => conversationBody.prepend(messageElement));
+            messageElements.forEach(messageElement => {
+              messageElement.addEventListener('dbclick', () => {
+                deleteMessage(messageElement.dataset.messageid);
+              });
+              conversationBody.prepend(messageElement);
+            });
           });
           document.querySelector('.messages > .main-container').classList.remove('active-loading');
       }) 
@@ -216,9 +217,10 @@ function openConversation(id) {
 }
 
 let previousSender = null;
-function createFirstMessageElement(message, user) {
-    const { sender, content, createdAt, isReaded } = message;
+function createMessageElement(message, user) {
+    const { sender, content, createdAt} = message;
     const messageElement = document.createElement('div');
+    messageElement.dataset.messageid = message._id;
     if (previousSender !== sender) {
         messageElement.classList.add('first');
     }
@@ -238,6 +240,13 @@ function createFirstMessageElement(message, user) {
     const userNameElement = document.createElement('p');
     userNameElement.classList.add('user-name');
     userNameElement.textContent = user.name + ' ' + user.lastname;
+
+    if (user.isCertified) {
+        const certifiedElement = document.createElement('img');
+        certifiedElement.src = `../assets/global/${user.accountType}-certified.svg`;
+        certifiedElement.alt = 'certified icon';
+        userNameElement.appendChild(certifiedElement);
+    }
 
     const createAt = document.createElement('span');
     createAt.id = 'message-date';
@@ -270,6 +279,24 @@ document.getElementById('search-conv').addEventListener('input', (e) => {
       }
   });
 });
+
+function deleteMessage(id) {
+  fetch(`/swiftChat/delete/${id}`, {
+    method: 'DELETE'
+  })
+    .then(response => response.json())
+    .then(json => {
+      if (json.error) return toast({
+        title: 'Erreur',
+        message: `${json.error}`,
+        type: 'error',
+        duration: 5000
+      });
+      document.querySelector(`[data-messageid="${id}"]`).remove();
+    })
+    .catch(error => console.error(error));
+}
+
 
 
 

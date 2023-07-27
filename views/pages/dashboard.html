@@ -18,10 +18,12 @@
   <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes.">
   <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
   <meta name="twitter:image" content="https://i.imgur.com/WZO8U8s.png">
+
   <link href="../style/pages/dashboard.css" rel="stylesheet" type="text/css">
   <link href="../style/applications/swiftChat.css" rel="stylesheet" type="text/css">
   <link href="../style/global.css" rel="stylesheet" type="text/css">
 
+  
 
   <title>Alumet - Tableau de bord</title>
 </head>
@@ -411,6 +413,19 @@
 
         </div>
         <button onclick="newConversation()" id="new-conv" class="large">Nouvelle conversation</button>
+        <div class="sub-container create-conversation">
+          <div class="header">
+            <h2>Nouvelle conversation</h2>
+          </div>
+          <div class="divider"></div>
+          <h4>Ajouter un ou des participant(s)</h4>
+          <input autocomplete="off" type="text" name="search-user" id="search-user" placeholder="Rechercher un utilisateur">
+          <div class="participants-container">
+
+          </div>
+          <button onclick="document.querySelector('.messages > .sub-container').classList.remove('creating-conversation')" id="cancel-conv" class="large greyed">Annuler</button>
+          <button onclick="createConversation()" id="new-conv" class="large">Créer la conversation</button>
+        </div>
       </div>
       <div class="main-container no-conversation">
         <div class="full-screen">
@@ -425,7 +440,7 @@
             <div class="conversation-user-infos">
               <img src="../assets/global/default.png" alt="file icon">
               <div class="sub-infos">
-                <h4 id="conversation-username"><span>conversation.name</span><img src="../assets/global/staff-certified.svg"  alt="certified icon"></h4>
+                <h4 id="conversation-username">conversation.name</h4>
                 <p id="conversation-lastTime">conversation.lastusage</p>
                 <p></p>
               </div>
@@ -436,7 +451,6 @@
             </div>
          </div>
          <div class="conversation-body">
-          
          </div>
           <div class="conversation-footer">
             <input autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message">
