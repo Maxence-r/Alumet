@@ -421,8 +421,12 @@
           <h4>Ajouter un ou des participant(s)</h4>
           <input autocomplete="off" type="text" name="search-user" id="search-user" placeholder="Rechercher un utilisateur">
           <div class="participants-container">
-
+            <div class="loading-participants">
+              <span class="loader"></span>
+            </div>
+            <h1>Aucun résultats</h1>
           </div>
+          <h4>Participant(s)</h4>
           <button onclick="document.querySelector('.messages > .sub-container').classList.remove('creating-conversation')" id="cancel-conv" class="large greyed">Annuler</button>
           <button onclick="createConversation()" id="new-conv" class="large">Créer la conversation</button>
         </div>

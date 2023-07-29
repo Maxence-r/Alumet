@@ -4,35 +4,34 @@ const ConversationSchema = mongoose.Schema({
     participants: {
         type: Array,
         required: true,
-        validate: [arrayLimit, 'Must have at least 2 participants']
+        validate: [arrayLimit, "Must have at least 2 participants"],
     },
     name: {
         type: String,
         required: false,
         minLength: 1,
-        maxLength: 50
+        maxLength: 50,
     },
     owner: {
         type: String,
         required: false,
-        minLength: 1
+        minLength: 1,
     },
     lastUsage: {
         type: Date,
         required: true,
-        default: Date.now()
+        default: Date.now(),
     },
     icon: {
         type: String,
         required: false,
-        minLength: 1
+        minLength: 1,
     },
 });
 
 function arrayLimit(val) {
     return val.length > 1;
 }
-
 
 const Conversation = mongoose.model("Conversation", ConversationSchema);
 module.exports = Conversation;

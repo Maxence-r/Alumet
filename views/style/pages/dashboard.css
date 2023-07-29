@@ -241,10 +241,35 @@ html, body {
     margin-bottom: 10px;
 }
 
+.participants-container {
+    position: absolute;
+    top: 180px;
+    min-height: 50px;
+    width: calc(100% - 40px);
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.08);
+}
+
+
+.participants-container {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-20%);
+    transition: all 0.3s ease-in-out;
+}
+
+#search-user:focus + .participants-container {
+    opacity: 1;
+    transform: translateY(0%);
+}
+
 .creating-conversation > .create-conversation {
     transform: translateY(0%);
     opacity: 1;
-    transition: all 0.3s ease-in-out;
 }
 
 .create-conversation {
@@ -257,6 +282,7 @@ html, body {
     width: calc(100% - 40px);
     height: calc(100% - 40px);
     margin: 0 !important;
+    transition: all 0.3s ease-in-out;
 }
 
 .create-conversation > h4 {
@@ -1887,6 +1913,29 @@ select {
     display: none;
 }
 
+.fetching-participants > .loading-participants {
+    display: flex;
+}
+
+.participants-container > h1 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: auto;
+}
+
+.loading-participants {
+    display: none;
+    position: absolute;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+}
+
 
 
 @media (max-width: 1400px) {
@@ -1971,6 +2020,9 @@ select {
 
 
 @media (max-width: 600px) {
+    .participants-container {
+        width: calc(100% - 20px);
+    }
     .create-conversation {
         width: calc(100% - 20px);
         height: calc(100% - 20px);
