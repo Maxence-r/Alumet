@@ -33,7 +33,7 @@ const createConversationElement = (user, conversation) => {
     conversationElement.appendChild(infosElement);
 
     const nameElement = document.createElement("h4");
-    const nameString = (conversationName || name + " " + lastname).slice(0, 25);
+    const nameString = (conversationName || name + " " + lastname).slice(0, 20);
     nameElement.textContent = `${nameString}${nameString.length < (conversationName || name + " " + lastname).length ? "..." : ""}`;
     const timeElement = document.createElement("span");
     timeElement.textContent = time;
@@ -61,16 +61,18 @@ const createConversationElement = (user, conversation) => {
 };
 
 const createConversation = async () => {
-    const recipient = document.querySelector("#users>option").dataset.id;
-    const participants = [recipient];
-
+    if (participants.length === 0) return toast({ title: "Erreur", message: "Vous devez sélectionner au moins un utilisateur", type: "error", duration: 5000 });
+    const conversationName = document.querySelector("#prompt-input").value;
     try {
         const response = await fetch("/swiftChat/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ participants }),
+            body: JSON.stringify({
+                participants: participants,
+                name: conversationName ? conversationName : undefined,
+            }),
         });
 
         const data = await response.json();
@@ -84,44 +86,131 @@ const createConversation = async () => {
         const user = await getUser(data.participants[0]);
         const conversationElement = createConversationElement(user, data);
         conversationsContainer.prepend(conversationElement);
+        document.querySelector(".creating-conversation").classList.remove("creating-conversation");
+        document.querySelectorAll("[data-id]").forEach((element) => {
+            element.remove();
+        });
+        participants = [];
     } catch (error) {
         console.error(error);
     }
 };
 
+const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func.apply(null, args);
+        }, delay);
+    };
+};
+
 const newConversation = () => {
-    document.querySelector(".messages > .sub-container").classList.add("creating-conversation");
+    const messagesContainer = document.querySelector(".messages");
+    const subContainer = messagesContainer.querySelector(".sub-container");
+    subContainer.classList.add("creating-conversation");
 
     const promptInput = document.querySelector("#search-user");
-    promptInput.addEventListener("keyup", async (event) => {
-        document.querySelector(".participants-container").classList.add("fetching-participants");
-        const response = await fetch(`/swiftChat/search?q=${event.target.value}`);
-        const json = await response.json();
-        if (json.length === 0) {
-            document.querySelector(".participants-container").innerHTML = "<h1>Aucun utilisateur trouvé</h1>";
+    const participantsContainer = document.querySelector(".participants-container");
+
+    const clearParticipants = () => {
+        document.querySelectorAll(".participants-container > div").forEach((element) => {
+            element.remove();
+        });
+    };
+
+    const showParticipants = (users) => {
+        if (users.length === 0) {
+            document.querySelector(".create-conversation").classList.remove("searching-users");
         } else {
-            document.querySelector(".participants-container > h1").remove();
-            document.querySelectorAll(".participant").forEach((participant) => participant.remove());
-            json.forEach((user) => {
+            document.querySelector(".create-conversation").classList.add("searching-users");
+            clearParticipants();
+            users.forEach((user) => {
                 const userElement = document.createElement("div");
                 userElement.classList.add("participant");
                 userElement.dataset.id = user._id;
-                userElement.dataset.name = `${user.name} ${user.lastname}`;
-                userElement.dataset.icon = user.icon;
-                userElement.setAttribute("onclick", "addParticipant(this)");
+                userElement.setAttribute("onclick", `addParticipant('${user._id}')`);
                 const iconElement = document.createElement("img");
                 iconElement.src = `/cdn/u/${user.icon}`;
                 iconElement.alt = "user icon";
                 userElement.appendChild(iconElement);
+
+                const columnInfosElement = document.createElement("div");
+                columnInfosElement.classList.add("column-infos");
+                userElement.appendChild(columnInfosElement);
+
                 const nameElement = document.createElement("h4");
                 nameElement.textContent = `${user.name} ${user.lastname}`;
-                userElement.appendChild(nameElement);
-                document.querySelector(".participants-container").appendChild(userElement);
+                columnInfosElement.appendChild(nameElement);
+
+                const accountTypeElement = document.createElement("span");
+                accountTypeElement.textContent = user.accountType;
+                columnInfosElement.appendChild(accountTypeElement);
+
+                participantsContainer.appendChild(userElement);
             });
         }
+    };
 
-        document.querySelector(".participants-container").classList.remove("fetching-participants");
+    const searchUsers = async (query) => {
+        try {
+            const response = await fetch(`/swiftChat/search?q=${query}`);
+            const json = await response.json();
+            showParticipants(json);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const debouncedSearchUsers = debounce(searchUsers, 500);
+
+    promptInput.addEventListener("input", (event) => {
+        const query = event.target.value.trim();
+        if (query === "") {
+            participantsContainer.classList.remove("searching-users");
+        } else {
+            debouncedSearchUsers(query);
+        }
     });
+};
+
+document.getElementById("create-conversation").addEventListener("click", () => {
+    console.log(participants.length);
+    if (participants.length >= 2) {
+        return createPrompt({
+            head: "Nom de la converstion",
+            desc: "Veuillez donner un nom a cette conversation de groupe",
+            placeholder: "Nom de la conversation",
+            action: "createConversation()",
+        });
+    }
+    createConversation();
+});
+
+let participants = [];
+const addParticipant = (user) => {
+    userElement = document.querySelector("[data-id='" + user + "']");
+    if (participants.includes(user)) {
+        return toast({
+            title: "Erreur",
+            message: "Vous avez déjà ajouté cet utilisateur",
+            type: "error",
+            duration: 5000,
+        });
+    }
+    participants.push(user);
+    userElement.setAttribute("onclick", `removeParticipant('${user}')`);
+    document.querySelector(".confirmed-participants").appendChild(userElement);
+    document.querySelector(".create-conversation").classList.remove("searching-users");
+    document.querySelector("#search-user").value = "";
+};
+
+const removeParticipant = (user) => {
+    userElement = document.querySelectorAll("[data-id='" + user + "']").forEach((element) => {
+        element.remove();
+    });
+    participants.splice(participants.indexOf(user), 1);
 };
 
 const getConversations = () => {
@@ -218,9 +307,6 @@ function openConversation(id) {
             Promise.all(json.messages.map((message) => createMessageElement(message.message, message.user))).then((messageElements) => {
                 const conversationBody = document.querySelector(".conversation-body");
                 messageElements.forEach((messageElement) => {
-                    messageElement.addEventListener("dbclick", () => {
-                        deleteMessage(messageElement.dataset.messageid);
-                    });
                     conversationBody.prepend(messageElement);
                 });
             });

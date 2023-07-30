@@ -16,7 +16,9 @@ body {
     background-color: white;
     height: 100%;
     border-radius: 10px;
+    transition: all 0.3s ease-in-out;
 }
+
 
 .pinged > .ping {
     display: block;
@@ -159,15 +161,36 @@ html, body {
     border-radius: 6px;
 }
 
+.participants-list {
+    display: flex !important;
+}
+
 .active-folder {
     color: #1E54E3 !important;
 }
 
-.messages > .sub-container {
+.messages > .sub-container:nth-child(1) {
     max-width: 365px;
     position: relative;
     margin: 0;
     margin-right: 20px;
+}
+
+.participants-list {
+    position: absolute !important;
+    margin-left: 0 !important;
+    top: 0;
+    left: 0;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    position: relative;
+    margin: 0;
+    min-width: 14%;
+    transition: all 0.3s ease-in-out;
+}
+
+.participants-list > .header > button {
+    display: block !important;
 }
 
 .messages > .sub-container > input {
@@ -244,26 +267,74 @@ html, body {
 .participants-container {
     position: absolute;
     top: 180px;
+    padding: 0 10px;
     min-height: 50px;
-    width: calc(100% - 40px);
+    width: calc(100% - 60px);
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
-    gap: 10px;
     border-radius: 10px;
     box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.08);
+}
+
+.participant {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    transition: all 0.3s ease-in-out;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.confirmed-participants {
+    display: flex;
+    flex-direction: column;
+}
+
+.participant:hover {
+    transform: scale(0.98);
+}
+
+.participant > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+    background-color: white;
+}
+
+.column-infos > h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.column-infos > span {
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.column-infos {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 
 .participants-container {
     opacity: 0;
+    z-index: 1000;
     pointer-events: none;
-    transform: translateY(-20%);
+    transform: translateY(-10%);
     transition: all 0.3s ease-in-out;
 }
 
-#search-user:focus + .participants-container {
+.searching-users > .participants-container {
     opacity: 1;
+    pointer-events: all !important;
     transform: translateY(0%);
 }
 
@@ -290,6 +361,10 @@ html, body {
     font-weight: 500;
     margin: 10px 0;
     color: #000000;
+}
+
+.create-conversation > h4:nth-child(6) {
+    margin-bottom: 0;
 }
 
 .create-conversation > input {
@@ -1830,11 +1905,18 @@ select {
     min-width: 55px;
     height: 55px;
     border-radius: 50%;
-    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.10);
 }
 
 .message > img {
     display: none;
+}
+
+#options {
+    width: 10px;
+    background: url("../../assets/global/dots.svg") no-repeat right #ffffff;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: none;
 }
 
 .profile > .main-container {
@@ -1860,6 +1942,7 @@ select {
     font-size: 1.2rem;
     font-weight: 500;
     margin: 0;
+    text-align: center;
 }
 
 .full-screen > p {
@@ -1867,6 +1950,7 @@ select {
     font-weight: 400;
     margin: 0;
     color: #9EA1A7;
+    text-align: center;
 }
 
 .no-conversation > .full-screen:nth-child(1) {
@@ -1921,6 +2005,7 @@ select {
     font-size: 0.9rem;
     font-weight: 500;
     margin: auto;
+    padding: 20px 0;
 }
 
 .loading-participants {
@@ -1934,6 +2019,18 @@ select {
     backdrop-filter: blur(10px);
     align-items: center;
     justify-content: center;
+}
+
+.participants-container-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 10px;
+}
+
+.participants-container-list > div {
+    background-color: #F6F8FC;
+    height: 50px;
+    border-radius: 10px;
 }
 
 
@@ -2021,7 +2118,7 @@ select {
 
 @media (max-width: 600px) {
     .participants-container {
-        width: calc(100% - 20px);
+        width: calc(100% - 40px);
     }
     .create-conversation {
         width: calc(100% - 20px);
@@ -2079,6 +2176,7 @@ select {
     .sub-container {
         padding: 10px;
         width: calc(100% - 20px);
+        height: calc(100% - 20px);
     }
 
     .nav > button {

@@ -27,6 +27,7 @@
       "xls": "<iframe src=\"https://view.officeapps.live.com/op/embed.aspx?src=*\" frameborder=\"0\">This is an embedded <a target=\"_blank\" href=\"http://office.com\">Microsoft Office</a> document, powered by <a target=\"_blank\" href=\"http://office.com/webapps\">Office Online</a>.</iframe>"
    }, 
    "supportedTemplate": {
+      "64c6a4a24ee85cf03846170d": "../../../views/assets/global/group.png",
       "64aea5dbf2bb9684ab754f52": "../../../views/assets/global/default.png",
       "644983cd074d43b8c49186b4": "../views/assets/backgrounds/monument-background.png",
       "644a1deb214c47674a61c194": "../views/assets/backgrounds/bibliotheque-background.png",
