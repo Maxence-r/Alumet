@@ -161,9 +161,6 @@ html, body {
     border-radius: 6px;
 }
 
-.participants-list {
-    display: flex !important;
-}
 
 .active-folder {
     color: #1E54E3 !important;
@@ -176,7 +173,12 @@ html, body {
     margin-right: 20px;
 }
 
+.showing-participants > .participants-list {
+    transform: translateY(0);
+}
+
 .participants-list {
+    display: flex !important;
     position: absolute !important;
     margin-left: 0 !important;
     top: 0;
@@ -186,6 +188,7 @@ html, body {
     position: relative;
     margin: 0;
     min-width: 14%;
+    transform: translateY(100%);
     transition: all 0.3s ease-in-out;
 }
 
@@ -1912,8 +1915,10 @@ select {
 }
 
 #options {
+    cursor: pointer;
     width: 10px;
     background: url("../../assets/global/dots.svg") no-repeat right #ffffff;
+    background-position: center;
     -webkit-appearance: none;
     appearance: none;
     background-color: none;
@@ -1978,6 +1983,7 @@ select {
 
 .messages > .main-container {
     position: relative;
+    overflow-y: hidden;
 }
 
 .active-loading > .loading-conversation {

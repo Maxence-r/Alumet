@@ -397,3 +397,10 @@ function deleteMessage(id) {
 }
 
 getConversations();
+
+document.querySelector("#options").addEventListener("change", (e) => {
+    const value = e.currentTarget.value;
+    if (value === "dp") {
+        document.querySelector(".messages > .main-container").classList.add("showing-participants");
+    }
+});

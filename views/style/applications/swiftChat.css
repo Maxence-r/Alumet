@@ -52,7 +52,6 @@
 }
 
 .options {
-    margin-right: 2%;
     display: flex;
     flex-direction: row;
     align-items: center;
