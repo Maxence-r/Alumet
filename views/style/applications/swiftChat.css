@@ -46,7 +46,7 @@
 
 .sub-infos > p {
     font-size: 0.8rem;
-    color: #9EA1A7;
+    color: #9ea1a7;
     font-weight: 400;
     margin: 0;
 }
@@ -56,18 +56,21 @@
     flex-direction: row;
     align-items: center;
     transition: all 0.3s ease-in-out;
+    gap: 15px;
 }
 
 .right-message {
     display: flex;
     flex-direction: row-reverse !important;
-
 }
-
 
 .options > button {
     display: none;
     height: 46px;
+}
+
+.options > img {
+    cursor: pointer;
 }
 
 .conversation-header {
@@ -78,7 +81,7 @@
     align-items: center;
     width: calc(100% - 22px);
     min-height: 65px;
-    border: 1px solid #F3F3F3;
+    border: 1px solid #f3f3f3;
     border-radius: 5px;
 }
 
@@ -90,14 +93,14 @@
     padding: 20px;
     width: calc(100% - 40px);
     height: 100%;
-    background-color: #F6F8FC;
+    background-color: #f6f8fc;
     border-radius: 5px;
     overflow-y: auto;
 }
 
 #message-date {
     font-size: 0.7rem;
-    color: #9EA1A7;
+    color: #9ea1a7;
     margin-left: 5px;
 }
 
@@ -117,7 +120,6 @@
     margin: 0 !important;
 }
 
-
 .left-message > .message-details > .message-content {
     margin-left: 56px;
 }
@@ -129,7 +131,7 @@
 .right-message > .message-details > .message-content {
     border-radius: 10px 0 10px 10px;
     color: white;
-    background: linear-gradient(44deg, #4B85FF 0%, #296EFF 100%);
+    background: linear-gradient(44deg, #4b85ff 0%, #296eff 100%);
 }
 
 .right-message > .message-details > .user-name {
@@ -144,7 +146,7 @@
 }
 
 .conversation-footer > input {
-    width: calc(100% - 40px);
+    width: calc(100% - 44px);
     height: 100%;
     border-radius: 5px;
 }
@@ -211,7 +213,7 @@
         padding: 10px;
         width: calc(100% - 20px);
         height: 100%;
-        background-color: #F6F8FC;
+        background-color: #f6f8fc;
         border-radius: 5px;
     }
 }
@@ -219,5 +221,5 @@
 @media (max-width: 1200px) {
     .options > button {
         display: block;
-    }    
+    }
 }

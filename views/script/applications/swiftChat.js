@@ -176,7 +176,6 @@ const newConversation = () => {
 };
 
 document.getElementById("create-conversation").addEventListener("click", () => {
-    console.log(participants.length);
     if (participants.length >= 2) {
         return createPrompt({
             head: "Nom de la converstion",
@@ -249,6 +248,8 @@ if (sendMessageButton) {
 sendMessage = () => {
     const message = document.getElementById("message").value;
     const conversationId = localStorage.getItem("currentConversation");
+    if (document.getElementById("message").value === "") return;
+    document.getElementById("message").value = "";
     fetch("/swiftChat/send", {
         method: "POST",
         headers: {
@@ -265,7 +266,6 @@ sendMessage = () => {
                     type: "error",
                     duration: 5000,
                 });
-            document.getElementById("message").value = "";
             const messageElement = createMessageElement(json.message, json.user);
             document.querySelector(".conversation-body").prepend(messageElement);
         })
@@ -398,9 +398,6 @@ function deleteMessage(id) {
 
 getConversations();
 
-document.querySelector("#options").addEventListener("change", (e) => {
-    const value = e.currentTarget.value;
-    if (value === "dp") {
-        document.querySelector(".messages > .main-container").classList.add("showing-participants");
-    }
+document.querySelector(".options > img").addEventListener("click", (e) => {
+    document.querySelector(".messages > .main-container").classList.add("showing-group-settings");
 });

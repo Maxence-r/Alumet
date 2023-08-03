@@ -1,574 +1,480 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="../assets/global/alumet.ico">
-  <meta name="description" content="Alumet: La flamme de l’innovation au service de l’éducation.">
-  <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers">
-  <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation.">
-  <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://alumet.io">
-  <meta property="og:image" content="https://i.imgur.com/WZO8U8s.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:domain" content="alumet.io">
-  <meta name="twitter:url" content="https://alumet.io/">
-  <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes.">
-  <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
-  <meta name="twitter:image" content="https://i.imgur.com/WZO8U8s.png">
-
-  <link href="../style/pages/dashboard.css" rel="stylesheet" type="text/css">
-  <link href="../style/applications/swiftChat.css" rel="stylesheet" type="text/css">
-  <link href="../style/global.css" rel="stylesheet" type="text/css">
-
-  
-
-  <title>Alumet - Tableau de bord</title>
-</head>
-<body>
-  <section class="loading">
-    <span class="loader-upload"></span>
- </section>
-  <div id="toast"></div>
-  <div class="prompt-popup popup">
-    <div class="prompt">
-        <h1 id="prompt-head">Prompt name</h1>
-        <h4 id="prompt-desc"></h4>
-        <input autocomplete="off" id="prompt-input" type="text" placeholder="Prompt placeholder">
-        <div class="prompt-buttons">
-          <button class="large" id="prompt-red">Supprimer</button>
-          <button class="large" onclick="document.querySelector('.prompt-popup').classList.remove('active-popup')">Annuler</button>
-          <button class="large" id="prompt-confirm">Confirmer</button>
-        </div>  
-        <datalist id="users">
-        </datalist>        
-    </div>
-  </div>
-  <div class="nav">
-    <button class="active" id="home"><img src="../assets/global/home.svg" alt="home"></button>
-    <button id="cloud"><img src="../assets/global/cloud.svg" alt="gestionnaire de fichiers"></button>
-    <button id="messages"><img src="../assets/global/chat.svg" alt="messagerie"><div class="ping"></div></button>
-    <button id="professors_community"><img src="../assets/global/group.svg" alt="communauté des professeurs"></button>
-    <button id="profile"><img src="../assets/global/profile.svg" alt="paramètres"></button>
-  </div>
-  <section class="sections-container">
-
-    <section class="home active-section">
-      <div class="main-container">
-        <!--- <div class="warning-box">Attention : Cette version n'est pas représentative du produit final et est sujette à de nombreux changements. Elle comporte également des bugs. Merci de nous laisser vos retours d'amélioration.</div> --->
-        <h1 class="welcomer">Bonjour, <span id="username">Gabriel</span></h1>
-        <div class="alumets-container">
-
-
-          <div class="alumets-container-header">
-            <div>
-              <h3>Vos Alumets</h3>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="../assets/global/alumet.ico" />
+        <meta name="description" content="Alumet: La flamme de l’innovation au service de l’éducation." />
+        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers" />
+        <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation." />
+        <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://alumet.io" />
+        <meta property="og:image" content="https://i.imgur.com/WZO8U8s.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:domain" content="alumet.io" />
+        <meta name="twitter:url" content="https://alumet.io/" />
+        <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes." />
+        <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !" />
+        <meta name="twitter:image" content="https://i.imgur.com/WZO8U8s.png" />
+        <link href="../style/pages/dashboard.css" rel="stylesheet" type="text/css" />
+        <link href="../style/applications/swiftChat.css" rel="stylesheet" type="text/css" />
+        <link href="../style/global.css" rel="stylesheet" type="text/css" />
+        <title>Alumet - Tableau de bord</title>
+    </head>
+    <body>
+        <section class="loading"></section>
+        <div id="toast"></div>
+        <div class="prompt-popup popup">
+            <div class="prompt">
+                <h1 id="prompt-head">Prompt name</h1>
+                <h4 id="prompt-desc"></h4>
+                <input autocomplete="off" id="prompt-input" type="text" placeholder="Prompt placeholder" />
+                <div class="prompt-buttons">
+                    <button class="large" id="prompt-red">Supprimer</button> <button class="large" onclick="document.querySelector('.prompt-popup').classList.remove('active-popup')">Annuler</button>
+                    <button class="large" id="prompt-confirm">Confirmer</button>
+                </div>
+                <datalist id="users"> </datalist>
             </div>
-            <div>
-              <input placeholder="Chercher dans vos Alumets">
-              <button onclick="document.querySelector('.create_alumet').classList.add('active-section')" class="large">Créer un alumet</button>
-            </div>
-          </div>
-
-
-          <div class="alumets">
-              <div class="alumet-box">
-                <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="undraw">
-                <div class="layer-blur-info">
-                  <h4>Première 5 n°3 -- Citizenship and Virtual Worlds</h4>
-                  <p>Il y a 2 jours</p>
-                </div>
-              </div>
-              <div class="alumet-box">
-                <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="undraw">
-                <div class="layer-blur-info">
-                  <h4>Première 5 n°3 -- Citizenship and Virtual Worlds</h4>
-                  <p>Il y a 2 jours</p>
-                </div>
-              </div>
-              <div class="alumet-box">
-                <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="undraw">
-                <div class="layer-blur-info">
-                  <h4>Première 5 n°3 -- Citizenship and Virtual Worlds</h4>
-                  <p>Il y a 2 jours</p>
-                </div>
-              </div>
-          </div>
-          
-          <div class="divider"></div>
-
         </div>
-        
-        <div class="alumet-details-container">
-            <div class="loading-details-layer">
-              <span class="loader-upload"></span>
-            </div>
-            <div class="alumet-details ">
-                <div class="alumet-card">
-                  <div class="layer-effect"></div>
-                  <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg">
-                  <div class="actions-buttons">
-                    <button class="large">Changer l'image</button>
-                    <button class="large">Ouvrir</button>
-                  </div>
-                </div>
-                <div class="alumet-primary-info">
-                  <h2>Informations</h2>
-                  <input id="alumet-title" placeholder="Nom de l'alumet">
-                  <input id="alumet-description" placeholder="Description de l'Alumet">
-                  <h2>Niveau de flou</h2>
-                  <input type="range" min="0" max="10" value="0" class="slider" id="blur-slider">
-                  <h2>Niveau de luminosité</h2>
-                  <input type="range" min="0" max="10" value="0" class="slider" id="bright-slider">
-                  <h2>Mot de passe et visibilité</h2>
-                  <div class="row-security">
-                    <input type="text" id="alumet-password" placeholder="Mot de passe">
-                    <select name="privacy" id="privacy-select">
-                      <option value="public">Publique</option>
-                      <option value="private">Privé</option>
-                  </select>
-                  </div>
-                </div>
-                <div class="alumet-secondary-info">
-                  <h2>Modules</h2>
-                  <div>
-                    <h3>Messagerie</h3>
-                    <label class="switch">
-                      <input type="checkbox">
-                      <span class="slide round"></span>
-                    </label>
-                  </div>
-                  <div>
-                    <h3>Mur d'idées</h3>
-                    <label class="switch">
-                      <input type="checkbox">
-                      <span class="slide round"></span>
-                    </label>
-                  </div>
-                  <div>
-                    <h3>Devoirs</h3>
-                    <label class="switch">
-                      <input type="checkbox">
-                      <span class="slide round"></span>
-                    </label>
-                  </div>
-                  <div>
-                    <h3>Flashcard + IA</h3>
-                    <label class="switch">
-                      <input type="checkbox">
-                      <span class="slide round"></span>
-                    </label>
-                  </div>
-                  <h2>Collaboration</h2>
-                  <div class="collaborators">
-                    <div class="collaborator">
-                      <img src="../assets/global/default.png" alt="undraw">
-                      <div class="collaborator-info">
-                        <h3>Gabriel Lancelot</h3>
-                        <p>Collaborateur</p>
-                      </div>
+        <div class="nav">
+            <button class="active" id="home"><img src="../assets/global/home.svg" alt="home" /></button> <button id="cloud"><img src="../assets/global/cloud.svg" alt="gestionnaire de fichiers" /></button>
+            <button id="messages">
+                <img src="../assets/global/chat.svg" alt="messagerie" />
+                <div class="ping"></div>
+            </button>
+            <button id="professors_community"><img src="../assets/global/group.svg" alt="communauté des professeurs" /></button> <button id="profile"><img src="../assets/global/profile.svg" alt="paramètres" /></button>
+        </div>
+        <section class="sections-container">
+            <section class="home active-section">
+                <div class="main-container">
+                    <!--- <div class="warning-box">Attention : Cette version n'est pas représentative du produit final et est sujette à de nombreux changements. Elle comporte également des bugs. Merci de nous laisser vos retours d'amélioration.</div> =-->
+                    <h1 class="welcomer">Bonjour, <span id="username">Gabriel</span></h1>
+                    <div class="alumets-container">
+                        <div class="alumets-container-header">
+                            <div>
+                                <h3>Vos Alumets</h3>
+                            </div>
+                            <div><input placeholder="Chercher dans vos Alumets" /> <button onclick="document.querySelector('.setup-modal').classList.add('active-section')" class="large">Créer un alumet</button></div>
+                        </div>
+                        <div class="alumets">
+                            <div class="alumet-box">
+                                <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="undraw" />
+                                <div class="layer-blur-info">
+                                    <h4>Première 5 n°3 -- Citizenship and Virtual Worlds</h4>
+                                    <p>Il y a 2 jours</p>
+                                </div>
+                            </div>
+                            <div class="alumet-box">
+                                <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="undraw" />
+                                <div class="layer-blur-info">
+                                    <h4>Première 5 n°3 -- Citizenship and Virtual Worlds</h4>
+                                    <p>Il y a 2 jours</p>
+                                </div>
+                            </div>
+                            <div class="alumet-box">
+                                <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="undraw" />
+                                <div class="layer-blur-info">
+                                    <h4>Première 5 n°3 -- Citizenship and Virtual Worlds</h4>
+                                    <p>Il y a 2 jours</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="divider"></div>
                     </div>
-                    <div class="collaborator">
-                      <img src="../assets/global/default.png" alt="undraw">
-                      <div class="collaborator-info">
-                        <h3>Gabriel Lancelot</h3>
-                        <p>Collaborateur</p>
-                      </div>
+                    <div class="alumet-details-container">
+                        <div class="loading-details-layer"></div>
+                        <div class="alumet-details">
+                            <div class="alumet-card">
+                                <div class="layer-effect"></div>
+                                <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw" />
+                                <div class="actions-buttons"><button class="large">Changer l'image</button> <button class="large">Ouvrir</button></div>
+                            </div>
+                            <div class="alumet-primary-info">
+                                <h2>Informations</h2>
+                                <input id="alumet-title" placeholder="Nom de l'alumet" /> <input id="alumet-description" placeholder="Description de l'Alumet" />
+                                <h2>Niveau de flou</h2>
+                                <input type="range" min="0" max="10" value="0" class="slider" id="blur-slider" />
+                                <h2>Niveau de luminosité</h2>
+                                <input type="range" min="0" max="10" value="0" class="slider" id="bright-slider" />
+                                <h2>Mot de passe et visibilité</h2>
+                                <div class="row-security">
+                                    <input type="text" id="alumet-password" placeholder="Mot de passe" />
+                                    <select name="privacy" id="privacy-select">
+                                        <option value="public">Publique</option>
+                                        <option value="private">Privé</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="alumet-secondary-info">
+                                <h2>Modules</h2>
+                                <div>
+                                    <h3>Messagerie</h3>
+                                    <label class="switch"><input type="checkbox" /></label>
+                                </div>
+                                <div>
+                                    <h3>Mur d'idées</h3>
+                                    <label class="switch"><input type="checkbox" /></label>
+                                </div>
+                                <div>
+                                    <h3>Devoirs</h3>
+                                    <label class="switch"><input type="checkbox" /></label>
+                                </div>
+                                <div>
+                                    <h3>Flashcard + IA</h3>
+                                    <label class="switch"><input type="checkbox" /></label>
+                                </div>
+                                <h2>Collaboration</h2>
+                                <div class="collaborators">
+                                    <div class="collaborator">
+                                        <img src="../assets/global/default.png" alt="undraw" />
+                                        <div class="collaborator-info">
+                                            <h3>Gabriel Lancelot</h3>
+                                            <p>Collaborateur</p>
+                                        </div>
+                                    </div>
+                                    <div class="collaborator">
+                                        <img src="../assets/global/default.png" alt="undraw" />
+                                        <div class="collaborator-info">
+                                            <h3>Gabriel Lancelot</h3>
+                                            <p>Collaborateur</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="large greyed">Ajouter un collaborateur</button>
+                                <h2>Mes élèves</h2>
+                                <button class="large greyed">Créer un lien d'invitation</button> <button class="large greyed">Copier le lien du Alumet</button>
+                            </div>
+                        </div>
+                        <h4>Cliquer sur un alumet</h4>
+                        <p>Les détails s'afficheront ici</p>
                     </div>
-                  </div>
-                  <button class="large greyed">Ajouter un collaborateur</button>
-                  <h2>Mes élèves</h2>
-                  <button class="large greyed">Créer un lien d'invitation</button>
-                  <button class="large greyed">Copier le lien du Alumet</button>
                 </div>
-            </div>
-            <h4>Cliquer sur un alumet</h4>
-            <p>Les détails s'afficheront ici</p>
-        </div>
-      </div>
-
-      
-      <div class="sub-container">
-        <div class="header">
-          <h2>Activités récentes</h2>
-        </div>
-        <div class="divider"></div>
-        <div class="notifications">
-
-
-          <div class="notification">
-            <div class="notification-icon">
-              <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="notification icon">
-            </div>
-            <div class="notification-infos">
-              <h3>LLCER SPE2</h3>
-              <p>Nouvelle publication</p>
-            </div>
-          </div>
-          <div class="notification">
-            <div class="notification-icon">
-              <img src="https://images.pexels.com/photos/4322027/pexels-photo-4322027.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="notification icon">
-            </div>
-            <div class="notification-infos">
-              <h3>LLCER SPE2</h3>
-              <p>Nouvelle publication</p>
-            </div>
-          </div>
-          <div class="notification">
-            <div class="notification-icon">
-              <img src="https://padlet.pics/1/image?t=c_lfill,dpr_1,f_auto,g_auto,h_1080,q_auto:best,w_1920&url=https%3A%2F%2Fpadlet.net%2Fwallpapers%2Fv0%2Ff61fad47ba7c0bc7418579103ba0659d%2Fe3af300a%2FStLucia.jpg" alt="notification icon">
-            </div>
-            <div class="notification-infos">
-              <h3>LLCER SPE2</h3>
-              <p>Nouvelle publication</p>
-            </div>
-          </div>
-          <div class="notification">
-            <div class="notification-icon">
-              <img src="https://padlet.pics/1/image?t=c_lfill,dpr_1,f_auto,g_auto,h_1080,q_auto:best,w_1920&url=https%3A%2F%2Fpadlet.net%2Fwallpapers%2Fv0%2F3064b46a6457682bf38f34945c0dd8e5%2F6f01a9c8%2Fcherry.jpg" alt="notification icon">
-            </div>
-            <div class="notification-infos">
-              <h3>LLCER SPE2</h3>
-              <p>Nouvelle publication</p>
-            </div>
-          </div>
-          <div class="notification">
-            <div class="notification-icon">
-              <img src="https://padlet.pics/1/image?t=c_lfill,dpr_1,f_auto,g_auto,h_1080,q_auto:best,w_1920&url=https%3A%2F%2Fpadlet.net%2Fwallpapers%2Fv0%2F3064b46a6457682bf38f34945c0dd8e5%2F6f01a9c8%2Fcherry.jpg" alt="notification icon">
-            </div>
-            <div class="notification-infos">
-              <h3>LLCER SPE2</h3>
-              <p>Publication supprimé</p>
-            </div>
-          </div>
-          <div class="notification">
-            <div class="notification-icon">
-              <img src="https://padlet.pics/1/image?t=c_lfill,dpr_1,f_auto,g_auto,h_1080,q_auto:best,w_1920&url=https%3A%2F%2Fpadlet.net%2Fwallpapers%2Fv0%2F3064b46a6457682bf38f34945c0dd8e5%2F6f01a9c8%2Fcherry.jpg" alt="notification icon">
-            </div>
-            <div class="notification-infos">
-              <h3>LLCER SPE2</h3>
-              <p>Compte suspendu</p>
-            </div>
-          </div>
-
-          <div class="bottom-gradient"></div>
-        </div>
-        <div class="header">
-          <h2>Actions requises</h2>
-          <h5>5<span>/10</span></h5>
-        </div>
-        <div class="divider"></div>
-      </div>
-    </section>
-
-    <!-- ---------------- Cloud ------------------- -->
-
-    <section class="cloud">
-        <div class="sub-container">
-          <div class="sub-item">
-            <img src="../assets/global/folder.svg" alt="folder icon">
-            <h4>Dossiers</h4>
-          </div>
-          <div class="folder-selector">
-            <div class="selector">
-              <div class="selector-line"></div>
-              <div class="selector-box">
-                <img onclick="editFolder()" src="../assets/global/edit.svg">
-              </div>
-            </div>
-            <div class="line-selector"></div>
-            <div class="folder-list">
-        
-            </div>
-          </div>
-          <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
-        </div>
-        <div class="main-container">
-          <div class="row-fm-header">
-            <select name="folder" id="folder-selection">
-            </select>
-            <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
-          </div>
-          <div class="drop-box">
-            <div class="indications">
-              <h3>Cliquer pour envoyer de nouveaux fichiers. <br>Chaque envoi peut contenir jusqu’à 50 fichiers</h3>
-            </div>
-            <div class="sending-box">
-              <div class="loading-box">
-                <span class="spinner"></span>
-              </div>
-              <div class="file-sending-infos">
-                <h3>methodologie_bac<span id="file-upload-ext">.pdf</span></h3>
-                <p>5bm - 4 fichiers restants</p>
-              </div>
-              <div class="progress"></div>
-            </div>
-            <div class="sending-box">
-              <div class="loading-box reponsive-hide">
-                <img src="../assets/global/tick.svg">
-              </div>
-              <div class="file-sending-infos">
-                <h3><span id="numbers-of-files">14</span> fichiers<span id="file-upload-ext">prêt à l'envoi</span></h3>
-              </div>
-              <div class="send-actions">
-                <button onclick="cancelSend()" id="cancel-send" class="large">Annuler</button>
-                <button onclick="sendFiles()" id="send-files" class="large">Envoyer</button>
-              </div>
-            </div>
-            <div class="success-box">
-              <h3>C'est fait !</h3>
-            </div>
-            <input type="file" id="files-upload" multiple>
-          </div>
-          <div class="files-header">
-            <h3>Nom du fichier</h3>
-            <h3>Taille</h3>
-            <h3>Mise en ligne</h3>
-            <input id="search-bar" placeholder="Rechercher un fichier" type="text" name="search">
-          </div>
-          <div class="files-items">
-            <div class="loader-container">
-              <span class="loader-upload"></span>
-            </div>
-            
-
-          </div>
-        </div>
-        <div class="sub-container right-container">
-        <div id="storage-usage" class="header reponsive-hide">
-          <h2>Mémoire</h2>
-          <h5>20<span>GB</span></h5>
-        </div>
-        <div class="divider reponsive-hide"></div>
-        <div class="memory-split reponsive-hide">
-          <div class="graph">
-            <div id="graph-document"></div>
-            <div id="graph-audio"></div>
-            <div id="graph-image"></div>
-            <div id="graph-video"></div>
-            <div id="graph-other"></div>
-          </div>
-          <div class="legend reponsive-hide">
-            <h4 id="percentage-document-container">Documents <span id="percentage-document" class="document-color">20%</span></h4>
-            <h4 id="percentage-audio-container">Audio <span id="percentage-audio" class="audio-color">20%</span></h4>
-            <h4 id="percentage-image-container">Images <span id="percentage-image" class="image-color">20%</span></h4>
-            <h4 id="percentage-video-container">Vidéos <span id="percentage-video" class="video-color">20%</span></h4>
-            <h4 id="percentage-other-container">Autres <span id="percentage-other" class="other-color">20%</span></h4>
-          </div>
-        </div>
-        
-        <div class="header">
-          <h2>Fichier</h2>
-          <button onclick="document.querySelector('.active-sub-container').classList.remove('active-sub-container')" class="large">Fermer</button>
-        </div>
-        <div class="divider"></div>
-        <div class="file-info no-selected-file">
-          <div class="file-details">
-            <div class="file-preview">
-              <img src="../assets/global/preview-file.png" alt="file icon">
-            </div>
-            <div class="file-basic-info">
-              <img src="../assets/global/doc.png" alt="file icon">
-              <h4>resultats_bac_2023_france.xlss</h4>
-            </div>
-            <div class="file-single-info">
-              <h4>Taille</h4>
-              <p id="file-size">5mb</p>
-            </div>
-            <div class="file-single-info">
-              <h4>Extension du fichier</h4>
-              <p id="file-ext">5mb</p>
-            </div>
-            <div class="file-single-info">
-              <h4>Date de mise en ligne</h4>
-              <p id="file-date">2 semaines</p>
-            </div>
-          </div>
-          <div class="no-file">
-            <h4>Aucun fichier sélectionné</h4>
-            <p>Séléctionner un fichier pour obtenir des informations</p>
-          </div>
-          <div class="actions-buttons-file">
-            <button onclick="modifyFile()" class="large">Modifier</button>
-            <button id="openFileBtn" class="large">Ouvrir le fichier</button>
-          </div>
-        </div>
-    </section>
-
-    <!-- ----------------- Swift Chat ----------------------- -->
-
-    <section class="messages">
-      <div class="sub-container">
-        <div class="header">
-          <h2>Messages</h2>
-        </div>
-        <div class="divider"></div>
-        <div class="messages-head-option">
-          <input placeholder="Rechercher une conversation" type="text" name="search-conv" id="search-conv">
-
-        </div>
-        <div class="conversations-container">
-
-        </div>
-        <button onclick="newConversation()" id="new-conv" class="large">Nouvelle conversation</button>
-        <div class="sub-container create-conversation">
-          <div class="header">
-            <h2>Nouvelle conversation</h2>
-          </div>
-          <div class="divider"></div>
-          <h4>Ajouter un ou des participant(s)</h4>
-          <input autocomplete="off" type="text" name="search-user" id="search-user" placeholder="Rechercher un utilisateur">
-          <div class="participants-container">
-          </div>
-          <h4>Participant(s)</h4>
-          <div class="confirmed-participants">
-          </div>
-          <button onclick="document.querySelector('.messages > .sub-container').classList.remove('creating-conversation')" id="cancel-conv" class="large greyed">Annuler</button>
-          <button id="create-conversation" id="new-conv" class="large">Créer la conversation</button>
-        </div>
-      </div>
-      <div class="main-container no-conversation">
-        <div class="full-screen">
-          <h1>Cliquer sur une conversation pour commencer !</h1>
-          <p>Alumet garantie la sécurité de vos données accessible ou que vous soyez !</p>
-        </div>
-        <div class="loading-conversation full-screen">
-          <span class="loader-upload"></span>
-        </div>
-        <div class="conversation-container">
-          <div class="conversation-header">
-            <div class="conversation-user-infos">
-              <img src="../assets/global/default.png" alt="file icon">
-              <div class="sub-infos">
-                <h4 id="conversation-username">conversation.name</h4>
-                <p id="conversation-lastTime">conversation.lastusage</p>
-                <p></p>
-              </div>
-            </div>
-            <div class="options">
-              <button id="close-conversation-button" class="large greyed">Fermer</button>
-              <select id="options">  
-                <option value="rg">Renommer le groupe</option>
-                <option value="dg">Supprimer le groupe</option>
-                <option value="dp">Affichers les participants</option>
-              </select>
-            </div>
-         </div>
-         <div class="conversation-body">
-         </div>
-          <div class="conversation-footer">
-            <input autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message">
-            <img id="send-text" src="../assets/global/send.svg" alt="send icon">
-          </div>
-        </div>
-        <div class="sub-container participants-list">
-          <div class="header">
-            <h2>Participants</h2>
-            <button onclick="document.querySelector('.showing-participants').classList.remove('showing-participants')" class="large greyed">Fermer</button>
-          </div>
-          <div class="divider"></div>
-          <div class="participants-container-list">
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-      </div>
-      </div>
-    </section>
-
-    <!-- ------------------ Professor Community ------------------- -->
-
-    <section class="professors_community">
-
-    </section>
-
-    <!-- ------------------ Profile ------------------- -->
-
-    <section class="profile">
-      <div class="main-container">
-        <img src="../assets/global/banner.jpg" class="banner">
-        <div class="user-infos">
-          <img id="profile-picture" src="../assets/global/fauxmaxence.png" alt="file icon">
-          <input type="file" id="profile-picture-input" accept="image/png, image/jpeg">
-          <div class="sub-infos">
-            <h4>User.name user.lastname</h4>
-            <p>user.mail</p>
-          </div>
-        </div>
-        <div class="user-settings">
-          <div class="user-options-heading">
-            <div class="user-options-infos">
-              <h4>Informations</h4>
-              <p>Mettez a jour vos informations si nécessaire</p>
-            </div>
-            <button id="saveInfosBtn" class="large">Enregistrer</button>
-          </div>
-          <div class="divider"></div>
-          <div class="grid-user-container">
-            <div class="item">
-              <h3>Prénom</h3>
-              <input type="text" name="firstname" id="firstnameField" placeholder="Prénom" autocomplete="on">
-            </div>
-            <div class="item">
-              <h3>Nom</h3>
-              <input type="text" name="lastname" id="lastnameField" placeholder="Nom" autocomplete="on">
-            </div>
-            <div class="item">
-              <h3>Adresse e-mail</h3>
-              <input type="text" name="email" autocomplete="on" id="mailField" placeholder="Adresse e-mail">
-            </div>
-          </div>
-          <div class="user-options-heading">
-            <div class="user-options-infos">
-              <h4>Sécurité</h4>
-              <p>Mettez en place les mesures de sécurité nécessaire pour proteger votre compte</p>
-            </div>
-          </div>
-          <div class="divider"></div>
-          <div class="grid-user-container">
-              <button id="changePasswordBtn" class="large greyed">Changer de mot de passe</button>
-          
-              <button id="toggleA2FBtn" class="large greyed">Activer l'A2F</button>
-
-              <button onclick="window.location='/auth/logout'" class="large greyed">Déconnexion</button>
-
-              <button id="deleteAccountBtn" class="large reded">Supprimer mon compte</button>
-          </div>
-          <div class="user-options-heading">
-            <div class="user-options-infos">
-              <h4>Notifications</h4>
-              <p>Activer ou desactiver selon vos préférences certains notifications</p>
-            </div>
-            <button class="large">Enregistrer</button>
-          </div>
-          <div class="divider"></div>
-        </div>
-      </div>
-    </section>
-    
-
-    <section class="create_alumet">
-
-    </section>
-
-
-  </section>
-
-  <script src="../script/global.js"></script>
-  <script src="../script/dashboard/dashboard.js"></script>
- 
-
-
-  <script src="../script/dashboard/cloud.js"></script>
-  <script src="../script/dashboard/profile.js"></script>
-  <script src="../script/applications/swiftChat.js"></script>
-  <script src="../script/dashboard/uploadHandler.js"></script>
-
-  <script src="/socket.io/socket.io.js"></script>
-   <script>
-      const socket = io();
-   </script>
-</body>
+                <div class="sub-container">
+                    <div class="header">
+                        <h2>Activités récentes</h2>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="notifications">
+                        <div class="notification">
+                            <div class="notification-icon"><img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="notification icon" /></div>
+                            <div class="notification-infos">
+                                <h3>LLCER SPE2</h3>
+                                <p>Nouvelle publication</p>
+                            </div>
+                        </div>
+                        <div class="notification">
+                            <div class="notification-icon"><img src="https://images.pexels.com/photos/4322027/pexels-photo-4322027.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=1" alt="notification icon" /></div>
+                            <div class="notification-infos">
+                                <h3>LLCER SPE2</h3>
+                                <p>Nouvelle publication</p>
+                            </div>
+                        </div>
+                        <div class="notification">
+                            <div class="notification-icon">
+                                <img
+                                    src="https://padlet.pics/1/image?t=c_lfill,dpr_1,f_auto,g_auto,h_1080,q_auto:best,w_1920&amp;url=https%3A%2F%2Fpadlet.net%2Fwallpapers%2Fv0%2Ff61fad47ba7c0bc7418579103ba0659d%2Fe3af300a%2FStLucia.jpg"
+                                    alt="notification icon"
+                                />
+                            </div>
+                            <div class="notification-infos">
+                                <h3>LLCER SPE2</h3>
+                                <p>Nouvelle publication</p>
+                            </div>
+                        </div>
+                        <div class="notification">
+                            <div class="notification-icon">
+                                <img
+                                    src="https://padlet.pics/1/image?t=c_lfill,dpr_1,f_auto,g_auto,h_1080,q_auto:best,w_1920&amp;url=https%3A%2F%2Fpadlet.net%2Fwallpapers%2Fv0%2F3064b46a6457682bf38f34945c0dd8e5%2F6f01a9c8%2Fcherry.jpg"
+                                    alt="notification icon"
+                                />
+                            </div>
+                            <div class="notification-infos">
+                                <h3>LLCER SPE2</h3>
+                                <p>Nouvelle publication</p>
+                            </div>
+                        </div>
+                        <div class="notification">
+                            <div class="notification-icon">
+                                <img
+                                    src="https://padlet.pics/1/image?t=c_lfill,dpr_1,f_auto,g_auto,h_1080,q_auto:best,w_1920&amp;url=https%3A%2F%2Fpadlet.net%2Fwallpapers%2Fv0%2F3064b46a6457682bf38f34945c0dd8e5%2F6f01a9c8%2Fcherry.jpg"
+                                    alt="notification icon"
+                                />
+                            </div>
+                            <div class="notification-infos">
+                                <h3>LLCER SPE2</h3>
+                                <p>Publication supprimé</p>
+                            </div>
+                        </div>
+                        <div class="notification">
+                            <div class="notification-icon">
+                                <img
+                                    src="https://padlet.pics/1/image?t=c_lfill,dpr_1,f_auto,g_auto,h_1080,q_auto:best,w_1920&amp;url=https%3A%2F%2Fpadlet.net%2Fwallpapers%2Fv0%2F3064b46a6457682bf38f34945c0dd8e5%2F6f01a9c8%2Fcherry.jpg"
+                                    alt="notification icon"
+                                />
+                            </div>
+                            <div class="notification-infos">
+                                <h3>LLCER SPE2</h3>
+                                <p>Compte suspendu</p>
+                            </div>
+                        </div>
+                        <div class="bottom-gradient"></div>
+                    </div>
+                    <div class="header">
+                        <h2>Actions requises</h2>
+                        <h5>5<span>/10</span></h5>
+                    </div>
+                    <div class="divider"></div>
+                </div>
+            </section>
+            <!-- ================ Cloud =================== -->
+            <section class="cloud">
+                <div class="sub-container">
+                    <div class="sub-item">
+                        <img src="../assets/global/folder.svg" alt="folder icon" />
+                        <h4>Dossiers</h4>
+                    </div>
+                    <div class="folder-selector">
+                        <div class="selector">
+                            <div class="selector-line"></div>
+                            <div class="selector-box"><img onclick="editFolder()" src="../assets/global/edit.svg" alt="edit" /></div>
+                        </div>
+                        <div class="line-selector"></div>
+                        <div class="folder-list"></div>
+                    </div>
+                    <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
+                </div>
+                <div class="main-container">
+                    <div class="row-fm-header">
+                        <select name="folder" id="folder-selection"></select>
+                        <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
+                    </div>
+                    <div class="drop-box">
+                        <div class="indications">
+                            <h3>
+                                Cliquer pour envoyer de nouveaux fichiers.<br />
+                                Chaque envoi peut contenir jusqu’à 50 fichiers
+                            </h3>
+                        </div>
+                        <div class="sending-box">
+                            <div class="loading-box"></div>
+                            <div class="file-sending-infos">
+                                <h3>methodologie_bac<span id="file-upload-ext">.pdf</span></h3>
+                                <p>5bm - 4 fichiers restants</p>
+                            </div>
+                            <div class="progress"></div>
+                        </div>
+                        <div class="sending-box">
+                            <div class="loading-box reponsive-hide"><img src="../assets/global/tick.svg" alt="tick" /></div>
+                            <div class="file-sending-infos">
+                                <h3><span id="numbers-of-files">14</span> fichiers<span id="file-upload-ext">prêt à l'envoi</span></h3>
+                            </div>
+                            <div class="send-actions"><button onclick="cancelSend()" id="cancel-send" class="large">Annuler</button> <button onclick="sendFiles()" id="send-files" class="large">Envoyer</button></div>
+                        </div>
+                        <div class="success-box">
+                            <h3>C'est fait !</h3>
+                        </div>
+                        <input type="file" id="files-upload" multiple />
+                    </div>
+                    <div class="files-header">
+                        <h3>Nom du fichier</h3>
+                        <h3>Taille</h3>
+                        <h3>Mise en ligne</h3>
+                        <input id="search-bar" placeholder="Rechercher un fichier" type="text" name="search" />
+                    </div>
+                    <div class="files-items">
+                        <div class="loader-container">
+                            <span class="loader-upload"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-container right-container">
+                    <div id="storage-usage" class="header reponsive-hide">
+                        <h2>Mémoire</h2>
+                        <h5>20<span>GB</span></h5>
+                    </div>
+                    <div class="divider reponsive-hide"></div>
+                    <div class="memory-split reponsive-hide">
+                        <div class="graph">
+                            <div id="graph-document"></div>
+                            <div id="graph-audio"></div>
+                            <div id="graph-image"></div>
+                            <div id="graph-video"></div>
+                            <div id="graph-other"></div>
+                        </div>
+                        <div class="legend reponsive-hide">
+                            <h4 id="percentage-document-container">Documents <span id="percentage-document" class="document-color">20%</span></h4>
+                            <h4 id="percentage-audio-container">Audio <span id="percentage-audio" class="audio-color">20%</span></h4>
+                            <h4 id="percentage-image-container">Images <span id="percentage-image" class="image-color">20%</span></h4>
+                            <h4 id="percentage-video-container">Vidéos <span id="percentage-video" class="video-color">20%</span></h4>
+                            <h4 id="percentage-other-container">Autres <span id="percentage-other" class="other-color">20%</span></h4>
+                        </div>
+                    </div>
+                    <div class="header">
+                        <h2>Fichier</h2>
+                        <button onclick="document.querySelector('.active-sub-container').classList.remove('active-sub-container')" class="large">Fermer</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="file-info no-selected-file">
+                        <div class="file-details">
+                            <div class="file-preview"><img src="../assets/global/preview-file.png" alt="file icon" /></div>
+                            <div class="file-basic-info">
+                                <img src="../assets/global/doc.png" alt="file icon" />
+                                <h4>resultats_bac_2023_france.xlss</h4>
+                            </div>
+                            <div class="file-single-info">
+                                <h4>Taille</h4>
+                                <p id="file-size">5mb</p>
+                            </div>
+                            <div class="file-single-info">
+                                <h4>Extension du fichier</h4>
+                                <p id="file-ext">5mb</p>
+                            </div>
+                            <div class="file-single-info">
+                                <h4>Date de mise en ligne</h4>
+                                <p id="file-date">2 semaines</p>
+                            </div>
+                        </div>
+                        <div class="no-file">
+                            <h4>Aucun fichier sélectionné</h4>
+                            <p>Séléctionner un fichier pour obtenir des informations</p>
+                        </div>
+                        <div class="actions-buttons-file"><button onclick="modifyFile()" class="large">Modifier</button> <button id="openFileBtn" class="large">Ouvrir le fichier</button></div>
+                    </div>
+                </div>
+            </section>
+            <!-- ================= Swift Chat ======================= -->
+            <section class="messages">
+                <div class="sub-container">
+                    <div class="header">
+                        <h2>Messages</h2>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="messages-head-option">
+                        <input placeholder="Rechercher une conversation" type="text" name="search-conv" id="search-conv" />
+                    </div>
+                    <div class="conversations-container"></div>
+                    <button onclick="newConversation()" id="new-conv" class="large">Nouvelle conversation</button>
+                    <div class="sub-container create-conversation">
+                        <div class="header">
+                            <h2>Nouvelle conversation</h2>
+                        </div>
+                        <div class="divider"></div>
+                        <h4>Ajouter un ou des participant(s)</h4>
+                        <input autocomplete="off" type="text" name="search-user" id="search-user" placeholder="Rechercher un utilisateur" />
+                        <div class="participants-container"></div>
+                        <h4>Participant(s)</h4>
+                        <div class="confirmed-participants"></div>
+                        <button onclick="document.querySelector('.messages &gt; .sub-container').classList.remove('creating-conversation')" id="cancel-conv" class="large greyed">Annuler</button>
+                        <button id="create-conversation" class="large">Créer la conversation</button>
+                    </div>
+                </div>
+                <div class="main-container no-conversation">
+                    <div class="full-screen">
+                        <h1>Cliquer sur une conversation pour commencer !</h1>
+                        <p>Alumet garantie la sécurité de vos données accessible ou que vous soyez !</p>
+                    </div>
+                    <div class="loading-conversation full-screen">
+                        <span class="loader-upload"></span>
+                    </div>
+                    <div class="conversation-container">
+                        <div class="conversation-header">
+                            <div class="conversation-user-infos">
+                                <img src="../assets/global/default.png" alt="file icon" />
+                                <div class="sub-infos">
+                                    <h4 id="conversation-username">conversation.name</h4>
+                                    <p id="conversation-lastTime">conversation.lastusage</p>
+                                </div>
+                            </div>
+                            <div class="options"><button id="close-conversation-button" class="large greyed">Fermer</button> <img src="../assets/global/dots.svg" alt="dots" /></div>
+                        </div>
+                        <div class="conversation-body"></div>
+                        <div class="conversation-footer"><input autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message" /> <img id="send-text" src="../assets/global/send.svg" alt="send icon" /></div>
+                    </div>
+                    <div class="sub-container conversation-settings">
+                        <div class="header">
+                            <h2>Paramètres de la conversation</h2>
+                            <button onclick="document.querySelector('.showing-group-settings').classList.remove('showing-group-settings')" class="large greyed">Fermer</button>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="participants-container-list"></div>
+                    </div>
+                </div>
+            </section>
+            <!-- ================== Professor Community =================== -->
+            <section class="professors_community"></section>
+            <!-- ================== Profile =================== -->
+            <section class="profile">
+                <div class="main-container">
+                    <img src="../assets/global/banner.jpg" class="banner" alt="banner" />
+                    <div class="user-infos">
+                        <img id="profile-picture" src="../assets/global/fauxmaxence.png" alt="file icon" /> <input type="file" id="profile-picture-input" accept="image/png, image/jpeg" />
+                        <div class="sub-infos">
+                            <h4>User.name user.lastname</h4>
+                            <p>user.mail</p>
+                        </div>
+                    </div>
+                    <div class="user-settings">
+                        <div class="user-options-heading">
+                            <div class="user-options-infos">
+                                <h4>Informations</h4>
+                                <p>Mettez a jour vos informations si nécessaire</p>
+                            </div>
+                            <button id="saveInfosBtn" class="large">Enregistrer</button>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="grid-user-container">
+                            <div class="item">
+                                <h3>Prénom</h3>
+                                <input type="text" name="firstname" id="firstnameField" placeholder="Prénom" autocomplete="on" />
+                            </div>
+                            <div class="item">
+                                <h3>Nom</h3>
+                                <input type="text" name="lastname" id="lastnameField" placeholder="Nom" autocomplete="on" />
+                            </div>
+                            <div class="item">
+                                <h3>Adresse e-mail</h3>
+                                <input type="text" name="email" autocomplete="on" id="mailField" placeholder="Adresse e-mail" />
+                            </div>
+                        </div>
+                        <div class="user-options-heading">
+                            <div class="user-options-infos">
+                                <h4>Sécurité</h4>
+                                <p>Mettez en place les mesures de sécurité nécessaire pour proteger votre compte</p>
+                            </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="grid-user-container">
+                            <button id="changePasswordBtn" class="large greyed">Changer de mot de passe</button> <button id="toggleA2FBtn" class="large greyed">Activer l'A2F</button>
+                            <button onclick="window.location='/auth/logout'" class="large greyed">Déconnexion</button> <button id="deleteAccountBtn" class="large reded">Supprimer mon compte</button>
+                        </div>
+                        <div class="user-options-heading">
+                            <div class="user-options-infos">
+                                <h4>Notifications</h4>
+                                <p>Activer ou desactiver selon vos préférences certains notifications</p>
+                            </div>
+                            <button class="large">Enregistrer</button>
+                        </div>
+                        <div class="divider"></div>
+                    </div>
+                </div>
+            </section>
+            <section class="setup-modal">
+                <img class="abstract-background" src="../assets/global/squares.svg" />
+                <h1 id="action">Tu dois faire ça</h1>
+                <h4 id="action-detail">Les détails de ce que tu dois faire</h4>
+            </section>
+        </section>
+        <script src="../script/global.js"></script>
+        <script src="../script/dashboard/dashboard.js"></script>
+        <script src="../script/dashboard/cloud.js"></script>
+        <script src="../script/dashboard/profile.js"></script>
+        <script src="../script/applications/swiftChat.js"></script>
+        <script src="../script/dashboard/uploadHandler.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            const socket = io();
+        </script>
+    </body>
 </html>
