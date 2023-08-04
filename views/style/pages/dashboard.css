@@ -103,11 +103,13 @@ body {
     overflow: hidden;
     transition: all 0.2s ease-in-out;
     opacity: 0;
+    transform: translateY(10%);
     border-radius: 10px;
 }
 
 .active-section {
     opacity: 1 !important;
+    transform: translateY(0) !important;
     z-index: 40;
 }
 
@@ -205,11 +207,73 @@ body {
 
 .setup-modal {
     display: flex;
+    position: relative;
     flex-direction: column !important;
     align-items: center;
     background-color: white;
 }
 
+.progression-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 40px;
+    width: 80%;
+}
+
+.progression-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.progression-item > img {
+    padding: 12px;
+    outline: solid;
+    outline-width: 10px;
+    outline-color: white;
+    border: 1px solid #eeeff2;
+    border-radius: 10px;
+    background-color: white;
+    z-index: 100;
+}
+
+.action-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+
+.action-details > h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    margin-top: 4px;
+    white-space: nowrap;
+    color: #adadad;
+}
+
+.action-details > p {
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin: 0;
+    white-space: nowrap;
+    color: #adadad;
+}
+
+.completed > h3 {
+    color: #000000;
+}
+
+.completed > p {
+    color: #000000;
+}
 #action {
     font-size: 1.8rem;
     font-weight: 600;
@@ -237,8 +301,44 @@ body {
 
 .abstract-background {
     position: absolute;
+    z-index: -1;
     width: 100%;
     max-width: 600px;
+}
+
+.action-content {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 350px;
+    margin: 2% 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.active-action {
+    display: flex;
+    animation: arrive 0.3s ease-in-out;
+}
+
+@keyframes arrive {
+    0% {
+        transform: translateY(-20%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.continue-button {
+    width: 354px;
+}
+
+.action-content > input {
+    height: 48px;
+    width: calc(100% - 40px);
 }
 
 .grid-user-container {
@@ -850,11 +950,6 @@ body {
     gap: 15px;
 }
 
-.alumet-secondary-info {
-    display: flex;
-    flex-direction: column;
-}
-
 .large {
     height: 50px;
     padding: 0 20px;
@@ -904,34 +999,6 @@ h3 {
     overflow-y: auto;
 }
 
-.collaborators {
-    display: flex;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 10px;
-    margin-top: 0px !important;
-}
-
-.alumet-secondary-info > button {
-    min-height: 50px;
-}
-
-.collaborator {
-    display: flex;
-    width: 100%;
-    justify-content: flex-start !important;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-}
-
-.collaborator > img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
 .greyed {
     background-color: #f6f8fc;
     color: #000000;
@@ -941,11 +1008,6 @@ h3 {
 
 .greyed:hover {
     background-color: #e6e6e6;
-    border-radius: 10px;
-}
-
-.collaborator:hover {
-    background-color: #f6f8fc;
     border-radius: 10px;
 }
 
@@ -1002,65 +1064,9 @@ h3 {
     color: #b4b4b4;
 }
 
-.alumet-details {
-    display: none;
-    gap: 20px;
-    flex-direction: row;
-    position: absolute;
-    z-index: 10;
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    opacity: 0;
-    transition: all 0.3s ease-in-out;
-}
-
 .active-details {
     display: flex;
     opacity: 1;
-}
-
-.alumet-details > div {
-    overflow-y: auto;
-    gap: 10px;
-    width: 33%;
-}
-
-.alumet-primary-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.alumet-details > div > h2 {
-    font-size: 1.3rem;
-    font-weight: 500;
-    margin: 0;
-}
-
-.alumet-secondary-info > div {
-    display: flex;
-    flex-direction: row;
-    margin-top: -10px;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.alumet-details > div > div > h3 {
-    display: flex;
-    font-size: 1.1rem;
-    font-weight: 400;
-    margin: 5px 0;
-}
-
-.alumet-primary-info > input {
-    width: calc(100% - 40px);
-}
-
-.alumet-card {
-    position: relative;
-    border-radius: 10;
-    height: 100%;
-    min-height: 200px;
 }
 
 .actions-buttons {
@@ -1083,35 +1089,6 @@ h3 {
 .actions-buttons > button:hover {
     background-color: #e1e2e4;
     color: black;
-}
-
-.layer-effect {
-    position: absolute;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    --webkit-backdrop-filter: blur(10px);
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    background-color: rgba(0, 0, 0, 0.25);
-}
-
-.alumet-card > img {
-    width: 100%;
-    height: calc(100% - 4px);
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.loading-details-layer {
-    display: none;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 15;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
 }
 
 .sub-item {
@@ -1555,35 +1532,6 @@ h3 {
     transition: all 0.5s ease-in-out;
 }
 
-.alumet-details-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    margin-top: 20px;
-}
-
-.alumet-details-container > h4 {
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin: 0;
-}
-
-.alumet-details-container > p {
-    font-size: 0.8rem;
-    font-weight: 400;
-    margin: 0;
-    color: #9ea1a7;
-}
-
-.alumet-primary-info > input[type="range"] {
-    width: calc(100% - 16px);
-}
-
 .switch {
     position: relative;
     display: inline-block;
@@ -1677,17 +1625,6 @@ input:checked + .slide:before {
     border-radius: 10px;
     background: #1e54e3;
     cursor: pointer;
-}
-
-.row-security {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-}
-
-.row-security > input {
-    width: 100%;
 }
 
 select {
@@ -1922,7 +1859,7 @@ select {
     gap: 5px;
     position: absolute;
     width: calc(100% - 40px);
-    height: calc(100% - 40px);
+    height: calc(100% - 20px);
     z-index: 15;
     align-items: center;
     justify-content: center;
@@ -2041,6 +1978,15 @@ select {
     border-radius: 10px;
 }
 
+.progression-bar {
+    width: 85%;
+    position: absolute;
+    top: 25px;
+    height: 2px;
+    background-color: #adadad;
+    margin: 0 10%;
+}
+
 @media (max-width: 1400px) {
     .file-item > h4:nth-child(2) {
         display: none;
@@ -2070,13 +2016,6 @@ select {
     }
     .sub-container {
         display: none;
-    }
-    .alumet-details {
-        flex-direction: column;
-    }
-    .alumet-details > div {
-        width: 100%;
-        min-height: 400px;
     }
     .row-fm-header {
         display: flex;
@@ -2113,13 +2052,49 @@ select {
     }
 }
 
-@media screen and (max-height: 500px) {
+@media screen and (max-height: 600px) {
     .drop-box {
+        display: none;
+    }
+    .progression-container {
         display: none;
     }
 }
 
 @media (max-width: 600px) {
+    .continue-button {
+        width: 92%;
+    }
+    .action-content > input {
+        height: 48px;
+        width: 80%;
+    }
+    .action-content {
+        width: 100%;
+        margin: 7% 0;
+    }
+    .progression-bar {
+        width: 2px;
+        height: 90%;
+        margin: 0;
+        left: 25px;
+    }
+    .progression-item > img {
+        outline-width: 2px;
+    }
+    .progression-container {
+        flex-direction: column;
+        gap: 20px;
+        align-items: start;
+        left: 20px;
+        bottom: 20px;
+    }
+    .action-details {
+        align-items: start;
+    }
+    .progression-item {
+        flex-direction: row;
+    }
     .participants-container {
         width: calc(100% - 40px);
     }
@@ -2144,7 +2119,7 @@ select {
     }
     .loading-conversation {
         width: calc(100% - 20px);
-        height: calc(100% - 20px);
+        height: 100%;
     }
     .left-message > img {
         display: none !important;

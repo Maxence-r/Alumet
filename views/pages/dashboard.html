@@ -83,73 +83,6 @@
                         </div>
                         <div class="divider"></div>
                     </div>
-                    <div class="alumet-details-container">
-                        <div class="loading-details-layer"></div>
-                        <div class="alumet-details">
-                            <div class="alumet-card">
-                                <div class="layer-effect"></div>
-                                <img src="https://t3.ftcdn.net/jpg/04/36/06/98/360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw.jpg" alt="360_F_436069851_5I0sSsAw18jsauLnL56meZ6iNMDZ0Rkw" />
-                                <div class="actions-buttons"><button class="large">Changer l'image</button> <button class="large">Ouvrir</button></div>
-                            </div>
-                            <div class="alumet-primary-info">
-                                <h2>Informations</h2>
-                                <input id="alumet-title" placeholder="Nom de l'alumet" /> <input id="alumet-description" placeholder="Description de l'Alumet" />
-                                <h2>Niveau de flou</h2>
-                                <input type="range" min="0" max="10" value="0" class="slider" id="blur-slider" />
-                                <h2>Niveau de luminosité</h2>
-                                <input type="range" min="0" max="10" value="0" class="slider" id="bright-slider" />
-                                <h2>Mot de passe et visibilité</h2>
-                                <div class="row-security">
-                                    <input type="text" id="alumet-password" placeholder="Mot de passe" />
-                                    <select name="privacy" id="privacy-select">
-                                        <option value="public">Publique</option>
-                                        <option value="private">Privé</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="alumet-secondary-info">
-                                <h2>Modules</h2>
-                                <div>
-                                    <h3>Messagerie</h3>
-                                    <label class="switch"><input type="checkbox" /></label>
-                                </div>
-                                <div>
-                                    <h3>Mur d'idées</h3>
-                                    <label class="switch"><input type="checkbox" /></label>
-                                </div>
-                                <div>
-                                    <h3>Devoirs</h3>
-                                    <label class="switch"><input type="checkbox" /></label>
-                                </div>
-                                <div>
-                                    <h3>Flashcard + IA</h3>
-                                    <label class="switch"><input type="checkbox" /></label>
-                                </div>
-                                <h2>Collaboration</h2>
-                                <div class="collaborators">
-                                    <div class="collaborator">
-                                        <img src="../assets/global/default.png" alt="undraw" />
-                                        <div class="collaborator-info">
-                                            <h3>Gabriel Lancelot</h3>
-                                            <p>Collaborateur</p>
-                                        </div>
-                                    </div>
-                                    <div class="collaborator">
-                                        <img src="../assets/global/default.png" alt="undraw" />
-                                        <div class="collaborator-info">
-                                            <h3>Gabriel Lancelot</h3>
-                                            <p>Collaborateur</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="large greyed">Ajouter un collaborateur</button>
-                                <h2>Mes élèves</h2>
-                                <button class="large greyed">Créer un lien d'invitation</button> <button class="large greyed">Copier le lien du Alumet</button>
-                            </div>
-                        </div>
-                        <h4>Cliquer sur un alumet</h4>
-                        <p>Les détails s'afficheront ici</p>
-                    </div>
                 </div>
                 <div class="sub-container">
                     <div class="header">
@@ -460,10 +393,46 @@
                     </div>
                 </div>
             </section>
-            <section class="setup-modal">
+            <section class="setup-modal create-alumet">
                 <img class="abstract-background" src="../assets/global/squares.svg" />
                 <h1 id="action">Tu dois faire ça</h1>
                 <h4 id="action-detail">Les détails de ce que tu dois faire</h4>
+                <div class="action-content active-action">
+                    <input type="text" name="action" id="actionField" placeholder="Nom de l'Alumet" />
+                    <input type="text" name="action" id="actionField" placeholder="Description de l'Alumet" />
+                </div>
+                <div class="action-content">
+                    <h1>2</h1>
+                </div>
+                <div class="action-content">
+                    <h1>3</h1>
+                </div>
+
+                <button onclick="setup('create-alumet')" class="large continue-button">Continuer</button>
+                <div class="progression-container">
+                    <div class="progression-bar"></div>
+                    <div class="progression-item">
+                        <img src="../assets/global/userdetails.svg" />
+                        <div class="action-details completed">
+                            <h3>Vos détails</h3>
+                            <p>Nom et email</p>
+                        </div>
+                    </div>
+                    <div class="progression-item">
+                        <img src="../assets/global/passwordcheck.svg" />
+                        <div class="action-details">
+                            <h3>Vos détails</h3>
+                            <p>Nom et email</p>
+                        </div>
+                    </div>
+                    <div class="progression-item">
+                        <img src="../assets/global/tickcircle.svg" />
+                        <div class="action-details">
+                            <h3>Vos détails</h3>
+                            <p>Nom et email</p>
+                        </div>
+                    </div>
+                </div>
             </section>
         </section>
         <script src="../script/global.js"></script>
