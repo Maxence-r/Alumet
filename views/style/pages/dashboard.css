@@ -227,7 +227,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    width: 50px;
     gap: 10px;
 }
 
@@ -236,7 +236,7 @@ body {
     outline: solid;
     outline-width: 10px;
     outline-color: white;
-    border: 1px solid #eeeff2;
+    border: 1px solid #ebebeb;
     border-radius: 10px;
     background-color: white;
     z-index: 100;
@@ -256,7 +256,7 @@ body {
     margin: 0;
     margin-top: 4px;
     white-space: nowrap;
-    color: #adadad;
+    color: #ebebeb;
 }
 
 .action-details > p {
@@ -264,7 +264,7 @@ body {
     font-weight: 400;
     margin: 0;
     white-space: nowrap;
-    color: #adadad;
+    color: #ebebeb;
 }
 
 .completed > h3 {
@@ -277,9 +277,13 @@ body {
 #action {
     font-size: 1.8rem;
     font-weight: 600;
-    margin-top: 4%;
+    margin-top: 20px;
     margin-bottom: 5px;
     z-index: 100;
+}
+
+#alumet-background {
+    display: none;
 }
 
 #action-detail {
@@ -511,6 +515,20 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2px;
+}
+
+.option {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.option > h1 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
 }
 
 .user-options-infos > h4 {
@@ -964,7 +982,7 @@ body {
 }
 
 input {
-    height: 50px;
+    height: 46px;
     width: 250px;
     color: #000000;
     border: 2px solid #f3f3f3;
@@ -1860,7 +1878,7 @@ select {
     position: absolute;
     width: calc(100% - 40px);
     height: calc(100% - 20px);
-    z-index: 15;
+    z-index: 1500;
     align-items: center;
     justify-content: center;
     background-color: white;
@@ -1979,12 +1997,52 @@ select {
 }
 
 .progression-bar {
-    width: 85%;
+    width: 100%;
     position: absolute;
     top: 25px;
     height: 2px;
     background-color: #adadad;
-    margin: 0 10%;
+}
+
+.new-message {
+    animation: new-message 0.5s ease-in-out;
+}
+
+.alumet-background {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.alumet-background > img {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    object-position: center;
+    height: 70%;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.alumet-background > img:hover {
+    transform: scale(0.98);
+}
+
+.alumet-background > button {
+    margin-top: 10px;
+}
+
+@keyframes new-message {
+    0% {
+        opacity: 0;
+        transform: translateY(30%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 1400px) {
@@ -2062,20 +2120,24 @@ select {
 }
 
 @media (max-width: 600px) {
+    .full-screen {
+        width: 100%;
+        height: 100%;
+    }
     .continue-button {
         width: 92%;
     }
     .action-content > input {
         height: 48px;
-        width: 80%;
+        width: calc(90% - 4px);
     }
     .action-content {
-        width: 100%;
+        width: 90%;
         margin: 7% 0;
     }
     .progression-bar {
         width: 2px;
-        height: 90%;
+        height: 80%;
         margin: 0;
         left: 25px;
     }
@@ -2084,10 +2146,10 @@ select {
     }
     .progression-container {
         flex-direction: column;
-        gap: 20px;
+        gap: 10px;
         align-items: start;
-        left: 20px;
-        bottom: 20px;
+        left: 15px;
+        bottom: 15px;
     }
     .action-details {
         align-items: start;

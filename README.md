@@ -11,16 +11,15 @@
 </div>
 
 ![image alumet](https://i.imgur.com/M5eR3qC.png)
-L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France.
+Alumet is a free, open-source tool for education, built by students for teachers. It is maintained and hosted in France.
 
 ## Demo
 
-Vous pouvez consulter la version en ligne d'Alumet à l'adresse https://alumet.io
+You can check out the online version of Alumet at https://alumet.io
 
 ## Installation
 
-Vous pouvez installer le projet localement en suivant la catégorie installation de la documentation.
-Il est recommandé d'utiliser la version en ligne d'Alumet afin de profiter des performances optimales et d'un version entièrement stable.
+You can install the project locally by following the installation category of the documentation. It is recommended to use the online version of Alumet to take advantage of optimal performance and a fully stable version.
 
 ## Documentation
 
@@ -28,50 +27,51 @@ Il est recommandé d'utiliser la version en ligne d'Alumet afin de profiter des 
 
 ## Versions
 
-Consulter la feuille de route des ameiliorations et des corrections de bugs sur [notre Alumet](https://www.alumet.io/portal/644ceac3a200f23b168d6635).
+Check out the roadmap for improvements and bug fixes on [our Alumet](https://www.alumet.io/portal/644ceac3a200f23b168d6635).
 
-## Feuilles de routes
+## Roadmaps
 
-### Projet en général
+### Project in general
 
--   f = fortnight soit 15 jours (f2/05/23 = deux dernières semaines de mai)
--   w = week (w1/05/23 = première semaine de mai)
+-   f = fortnight, which is 15 days (f2/05/23 = last two weeks of May)
+-   w = week (w1/05/23 = first week of May)
 
-| Date     | Evenement                                      | Status            | Version |
-| :------- | :--------------------------------------------- | :---------------- | :------ |
-| 28/04/23 | Rendu du projet aux trophées NSI               | Fait              | 1.0     |
-| 01/05/23 | Fin du developpement de la V1.1                | Fait              | 1.1     |
-| w1/05/23 | Présentation Alumet à quelques profs et avis   | Fait              | 1.1     |
-| w2/05/23 | Conférence Alumet aux professeurs à Clémenceau | Confirmé (5 juin) | 1.1     |
-| f2/05/23 | Fin du developpement de la V1.2                | Fait              | 1.2     |
-| f2/05/23 | Résultats régionaux trophées NSI               | Qualifié          | 1.0     |
-| w2/06/23 | Collecte d'informations pour la V2             | Fait              | 1.2     |
-| w2/07/23 | Alumet rejoint Teranga                         | Planifié          | 1.2     |
-| été 2023 | Développement de la V2                         | En cours          | 2.0     |
-| f2/08/23 | Campagne aux profs pour la rentrée 2023        | Planifié          | 2.0     |
-| f1/09/23 | Sortie officielle Alumet                       | Planifié          | 2.0     |
+| Date        | Event                                           | Status             | Version |
+| :---------- | :---------------------------------------------- | :----------------- | :------ |
+| 28/04/23    | Submission of the project to NSI trophies       | Done               | 1.0     |
+| 01/05/23    | End of development of V1.1                      | Done               | 1.1     |
+| w1/05/23    | Alumet presentation to some teachers and advice | Done               | 1.1     |
+| w2/05/23    | Alumet conference for teachers at Clémenceau    | Confirmed (June 5) | 1.1     |
+| f2/05/23    | End of development of V1.2                      | Done               | 1.2     |
+| f2/05/23    | Regional results of NSI trophies                | Qualified          | 1.0     |
+| w2/06/23    | Information gathering for V2                    | Done               | 1.2     |
+| w2/07/23    | Alumet joins Teranga                            | Planned            | 1.2     |
+| Summer 2023 | Development of V2                               | In progress        | 2.0     |
+| f2/08/23    | Campaign to teachers for the 2023 school year   | Planned            | 2.0     |
+| f1/09/23    | Official release of Alumet                      | Planned            | 2.0     |
 
-### Historiques des commits
+### Commit history
 
-| Date     | Contenu                                                                                                                                                                                                                                                                                                                                                                                                                               | Version |
-| :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------ |
-| 05/08/23 | Des animations des animations des animations, du front-end => créer un alumet, créer des conversations de groupe ou privé, afficher les détails (je laisserais gabriel finir ;), corrections de bugs et plusieurs optimisations effecutés, correction d'un bug majeur d'affichage sur les téléphones                                                                                                                                  | 1.2.5   |
-| 20/07/23 | Authentification à moultes facteurs, page de connexion, affichage des statistiques de la mémoire utilisée sur le cloud, page de profil dynamique, système de mail crée, ajouts de corrections mineures                                                                                                                                                                                                                                | 1.2.3   |
-| 18/07/23 | Réorganisation globale des fichiers. Les modules deviennent désormais des applications (Flashcard => MindFlash, Messagerie => SwiftChat, Devoirs => EduTasker, Mur d'idées => IdeaFlow                                                                                                                                                                                                                                                | 1.2.1   |
-| 09/07/23 | Creation du nouveau dashboard, suppression de tous les fichiers obselètes                                                                                                                                                                                                                                                                                                                                                             | 1.2.0   |
-| 06/06/23 | Rédaction de la politique de confidentialité et des conditions d'utilisations                                                                                                                                                                                                                                                                                                                                                         | 1.1     |
-| 04/06/23 | Nouveau gestionnaire de fichiers, fix de bugs, dev des modules, préparation des démos pour la conférence                                                                                                                                                                                                                                                                                                                              | 1.1     |
-| 29/05/23 | Développement des modules                                                                                                                                                                                                                                                                                                                                                                                                             | 1.0.9   |
-| 28/05/23 | Développement des modules                                                                                                                                                                                                                                                                                                                                                                                                             | 1.0.9   |
-| 27/05/23 | Afin d'améliorer la stabilité et la sécurité d'Alumet, nous avons pris la décision de stocker les informations sensibles, telles que le jeton de chiffrement et les clés d'API, dans des variables d'environnement. Par conséquent, ces informations ne seront plus affichées dans le fichier config.json. Nous avons également résolu plusieurs bugs et poursuivi le développement des modules pour améliorer l'ensemble du système. | 1.0.8   |
-| 26/05/23 | Nous entamons la refonte du design de nos modules afin de les rendre plus accessibles, moins encombrants et plus simples d'utilisation. Pendant cette période, nous ajouterons des fonctionnalités aux modules "Devoirs", "Mur d'idées" et "Messages". Cela finalisera la version 1.0 en vue de passer à la version 1.1                                                                                                               | 1.0.7   |
-| 25/05/23 | Hotfix                                                                                                                                                                                                                                                                                                                                                                                                                                | 1.0.6   |
-| 16/05/23 | Amméiloration de l'UI & UX + de moultes bugs réglés et un problème d'accès aux données                                                                                                                                                                                                                                                                                                                                                | 1.0.5   |
-| 16/05/23 | Amméiloration de l'UI & UX                                                                                                                                                                                                                                                                                                                                                                                                            | 1.0.4   |
-| 08/05/23 | Amméiloration de l'UI & UX sur les alumets (visibilité des bouttons et interactions), corrections de moultes bogs, correction d'un énorme soucis de performance qui touchait les appareils moins performants                                                                                                                                                                                                                          | 1.0.3   |
-| 02/05/23 | Amméiloration de l'UI sur les alumets (couleur d'accent), corrections de moultes bogs                                                                                                                                                                                                                                                                                                                                                 | 1.0.2   |
-| 30/04/23 | Amméiloration de l'UX sur les alumets (prend toute la taille), developpement du module Tableau toujours en cours, corrections de moultes bogs, optimisation des performances sur les appareils peut performants                                                                                                                                                                                                                       | 1.0.1   |
+| Date     | Content                                                                                                                                                                                                                                                                                                                                                         | Version |
+| :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------ |
+| 06/08/23 | Client and server-side verifications when loading a new profile picture. Generalization of the user search function, which can now be used in several places. Switch the README from french to english.                                                                                                                                                         | 1.2.5   |
+| 05/08/23 | Animations, front-end => create an alumet, create private or group conversations, display details, bug fixes and several optimizations, correction of a major display bug on phones                                                                                                                                                                             | 1.2.5   |
+| 20/07/23 | Multi-factor authentication, login page, display of memory usage statistics on the cloud, dynamic profile page, mail system created, addition of minor fixes                                                                                                                                                                                                    | 1.2.3   |
+| 18/07/23 | Global file reorganization. Modules are now becoming applications (Flashcard => MindFlash, Messaging => SwiftChat, Homework => EduTasker, Idea Wall => IdeaFlow)                                                                                                                                                                                                | 1.2.1   |
+| 09/07/23 | Creation of the new dashboard, deletion of all obsolete files                                                                                                                                                                                                                                                                                                   | 1.2.0   |
+| 06/06/23 | Writing of the privacy policy and terms of use                                                                                                                                                                                                                                                                                                                  | 1.1     |
+| 04/06/23 | New file manager, bug fixes, module development, preparation of demos for the conference                                                                                                                                                                                                                                                                        | 1.1     |
+| 29/05/23 | Module development                                                                                                                                                                                                                                                                                                                                              | 1.0.9   |
+| 28/05/23 | Module development                                                                                                                                                                                                                                                                                                                                              | 1.0.9   |
+| 27/05/23 | In order to improve the stability and security of Alumet, we have decided to store sensitive information, such as the encryption token and API keys, in environment variables. Therefore, this information will no longer be displayed in the config.json file. We have also solved several bugs and continued to develop modules to improve the entire system. | 1.0.8   |
+| 26/05/23 | We are redesigning our modules to make them more accessible, less cluttered, and easier to use. During this period, we will be adding features to the "Homework", "Idea Wall", and "Messaging" modules. This will finalize version 1.0 in preparation for version 1.1                                                                                           | 1.0.7   |
+| 25/05/23 | Hotfix                                                                                                                                                                                                                                                                                                                                                          | 1.0.6   |
+| 16/05/23 | UI & UX improvements + many bugs fixed and a data access issue resolved                                                                                                                                                                                                                                                                                         | 1.0.5   |
+| 16/05/23 | UI & UX improvements                                                                                                                                                                                                                                                                                                                                            | 1.0.4   |
+| 08/05/23 | UI & UX improvements on alumets (button visibility and interactions), many bugs fixed, correction of a major performance issue affecting less performant devices                                                                                                                                                                                                | 1.0.3   |
+| 02/05/23 | UI improvements on alumets (accent color), many bugs fixed                                                                                                                                                                                                                                                                                                      | 1.0.2   |
+| 30/04/23 | UX improvements on alumets (takes up the entire size), development of the Table module still ongoing, many bugs fixed, performance optimization on less performant devices                                                                                                                                                                                      | 1.0.1   |
 
-### Status du repository github
+### Github repository status
 
-Le code actuel est le même que celui sur le serveur et sur la version web alumet.io.
+The current code is not the same as on the server and on the alumet.io web version. Will be updated on september 1st.

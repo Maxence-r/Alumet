@@ -129,6 +129,7 @@ router.get("/:conversation", async (req, res) => {
         const participants = await Promise.all(participantsPromises);
         Message.find({ reference: conversation._id })
             .sort({ _id: 1 })
+            .limit(50)
             .then(async (messages) => {
                 if (messages.length === 0) {
                     return res.json({ messages: [], participants });

@@ -106,31 +106,85 @@ const debounce = (func, delay) => {
     };
 };
 
-const newConversation = () => {
+function initConversation() {
     const messagesContainer = document.querySelector(".messages");
     const subContainer = messagesContainer.querySelector(".sub-container");
     subContainer.classList.add("creating-conversation");
+    newConversation("search-user", "participants-container", "create-conversation", "confirmed-participants");
+}
 
-    const promptInput = document.querySelector("#search-user");
-    const participantsContainer = document.querySelector(".participants-container");
+let participants = [];
+
+const newConversation = (input, participantsBox, mainContainer, confirmed) => {
+    const promptInput = document.getElementById(`${input}`);
+    const participantsContainer = document.querySelector(`.${participantsBox}`);
+    const container = document.querySelector(`.${mainContainer}`);
+    const confirmedParticipants = document.querySelector(`.${confirmed}`);
+
+    confirmedParticipants.addEventListener("click", (event) => {
+        let clickedElement = event.target;
+        while (clickedElement !== confirmedParticipants) {
+            if (clickedElement.classList.contains("participant")) {
+                const userId = clickedElement.dataset.id;
+                removeParticipant(userId);
+                return;
+            }
+            clickedElement = clickedElement.parentNode;
+        }
+    });
+
+    participantsContainer.addEventListener("click", (event) => {
+        let clickedElement = event.target;
+        while (clickedElement !== participantsContainer) {
+            if (clickedElement.classList.contains("participant")) {
+                const userId = clickedElement.dataset.id;
+                addParticipant(userId);
+                return;
+            }
+            clickedElement = clickedElement.parentNode;
+        }
+    });
+
+    const addParticipant = (user) => {
+        userElement = document.querySelector("[data-id='" + user + "']");
+        console.log(participants);
+        if (participants.includes(user)) {
+            return toast({
+                title: "Erreur",
+                message: "Vous avez déjà ajouté cet utilisateur",
+                type: "error",
+                duration: 5000,
+            });
+        }
+        participants.push(user);
+        confirmedParticipants.appendChild(userElement);
+        container.classList.remove("searching-users");
+        promptInput.value = "";
+    };
+
+    function removeParticipant(user) {
+        userElement = document.querySelectorAll("[data-id='" + user + "']").forEach((element) => {
+            element.remove();
+        });
+        participants.splice(participants.indexOf(user), 1);
+    }
 
     const clearParticipants = () => {
-        document.querySelectorAll(".participants-container > div").forEach((element) => {
+        document.querySelectorAll(`.${participantsBox} > div`).forEach((element) => {
             element.remove();
         });
     };
 
     const showParticipants = (users) => {
         if (users.length === 0) {
-            document.querySelector(".create-conversation").classList.remove("searching-users");
+            container.classList.remove("searching-users");
         } else {
-            document.querySelector(".create-conversation").classList.add("searching-users");
+            container.classList.add("searching-users");
             clearParticipants();
             users.forEach((user) => {
                 const userElement = document.createElement("div");
                 userElement.classList.add("participant");
                 userElement.dataset.id = user._id;
-                userElement.setAttribute("onclick", `addParticipant('${user._id}')`);
                 const iconElement = document.createElement("img");
                 iconElement.src = `/cdn/u/${user.icon}`;
                 iconElement.alt = "user icon";
@@ -175,6 +229,8 @@ const newConversation = () => {
     });
 };
 
+/* End search manager */
+
 document.getElementById("create-conversation").addEventListener("click", () => {
     if (participants.length >= 2) {
         return createPrompt({
@@ -186,31 +242,6 @@ document.getElementById("create-conversation").addEventListener("click", () => {
     }
     createConversation();
 });
-
-let participants = [];
-const addParticipant = (user) => {
-    userElement = document.querySelector("[data-id='" + user + "']");
-    if (participants.includes(user)) {
-        return toast({
-            title: "Erreur",
-            message: "Vous avez déjà ajouté cet utilisateur",
-            type: "error",
-            duration: 5000,
-        });
-    }
-    participants.push(user);
-    userElement.setAttribute("onclick", `removeParticipant('${user}')`);
-    document.querySelector(".confirmed-participants").appendChild(userElement);
-    document.querySelector(".create-conversation").classList.remove("searching-users");
-    document.querySelector("#search-user").value = "";
-};
-
-const removeParticipant = (user) => {
-    userElement = document.querySelectorAll("[data-id='" + user + "']").forEach((element) => {
-        element.remove();
-    });
-    participants.splice(participants.indexOf(user), 1);
-};
 
 const getConversations = () => {
     fetch("/swiftChat")
@@ -267,6 +298,7 @@ sendMessage = () => {
                     duration: 5000,
                 });
             const messageElement = createMessageElement(json.message, json.user);
+            messageElement.classList.add("new-message");
             document.querySelector(".conversation-body").prepend(messageElement);
         })
         .catch((error) => console.error(error));

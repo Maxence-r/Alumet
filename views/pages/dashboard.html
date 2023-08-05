@@ -191,7 +191,9 @@
                             </h3>
                         </div>
                         <div class="sending-box">
-                            <div class="loading-box"></div>
+                            <div class="loading-box">
+                                <span class="loader"></span>
+                            </div>
                             <div class="file-sending-infos">
                                 <h3>methodologie_bac<span id="file-upload-ext">.pdf</span></h3>
                                 <p>5bm - 4 fichiers restants</p>
@@ -288,7 +290,7 @@
                         <input placeholder="Rechercher une conversation" type="text" name="search-conv" id="search-conv" />
                     </div>
                     <div class="conversations-container"></div>
-                    <button onclick="newConversation()" id="new-conv" class="large">Nouvelle conversation</button>
+                    <button onclick="initConversation()" id="new-conv" class="large">Nouvelle conversation</button>
                     <div class="sub-container create-conversation">
                         <div class="header">
                             <h2>Nouvelle conversation</h2>
@@ -296,7 +298,7 @@
                         <div class="divider"></div>
                         <h4>Ajouter un ou des participant(s)</h4>
                         <input autocomplete="off" type="text" name="search-user" id="search-user" placeholder="Rechercher un utilisateur" />
-                        <div class="participants-container"></div>
+                        <div id="new-conversation" class="participants-container"></div>
                         <h4>Participant(s)</h4>
                         <div class="confirmed-participants"></div>
                         <button onclick="document.querySelector('.messages &gt; .sub-container').classList.remove('creating-conversation')" id="cancel-conv" class="large greyed">Annuler</button>
@@ -394,18 +396,43 @@
                 </div>
             </section>
             <section class="setup-modal create-alumet">
+                <div class="creating-alumet full-screen">
+                    <span class="loader-upload"></span>
+                    <h1>Nous préparons votre Alumet</h1>
+                    <p>C'est ici que tous commence !</p>
+                </div>
                 <img class="abstract-background" src="../assets/global/squares.svg" />
-                <h1 id="action">Tu dois faire ça</h1>
-                <h4 id="action-detail">Les détails de ce que tu dois faire</h4>
+                <h1 id="action">Les détails</h1>
+                <h4 id="action-detail">Nom et description</h4>
                 <div class="action-content active-action">
-                    <input type="text" name="action" id="actionField" placeholder="Nom de l'Alumet" />
-                    <input type="text" name="action" id="actionField" placeholder="Description de l'Alumet" />
+                    <input required type="text" name="action" id="actionField" placeholder="Nom de l'Alumet" />
+                    <input required type="text" name="action" id="actionField" placeholder="Description de l'Alumet" />
                 </div>
                 <div class="action-content">
-                    <h1>2</h1>
+                    <div class="alumet-background">
+                        <img src="../assets/global/download.jpeg" />
+                        <button id="load-background" class="large greyed">Charger une image</button>
+                        <input type="file" name="alumet-background" id="alumet-background" accept="image/png, image/jpeg" />
+                    </div>
                 </div>
                 <div class="action-content">
-                    <h1>3</h1>
+                    <div class="option">
+                        <h1>Alumet en mode privé</h1>
+                        <label class="switch">
+                            <input type="checkbox" />
+                            <span class="slide round"></span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <h1>Messagerie publique</h1>
+                        <label class="switch">
+                            <input checked type="checkbox" />
+                            <span class="slide round"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="action-content">
+                    <input placeholder="Chercher des collaborateurs" />
                 </div>
 
                 <button onclick="setup('create-alumet')" class="large continue-button">Continuer</button>
@@ -414,22 +441,29 @@
                     <div class="progression-item">
                         <img src="../assets/global/userdetails.svg" />
                         <div class="action-details completed">
-                            <h3>Vos détails</h3>
-                            <p>Nom et email</p>
+                            <h3>Les détails</h3>
+                            <p>Nom et description</p>
                         </div>
                     </div>
                     <div class="progression-item">
                         <img src="../assets/global/passwordcheck.svg" />
                         <div class="action-details">
-                            <h3>Vos détails</h3>
-                            <p>Nom et email</p>
+                            <h3>Un peu de style</h3>
+                            <p>Une image de fond</p>
                         </div>
                     </div>
                     <div class="progression-item">
                         <img src="../assets/global/tickcircle.svg" />
                         <div class="action-details">
-                            <h3>Vos détails</h3>
-                            <p>Nom et email</p>
+                            <h3>Paramètres</h3>
+                            <p>Sécurité & modules</p>
+                        </div>
+                    </div>
+                    <div class="progression-item">
+                        <img src="../assets/global/tickcircle.svg" />
+                        <div class="action-details">
+                            <h3>Collaboration</h3>
+                            <p>Travailler avec d'autres enseignants</p>
                         </div>
                     </div>
                 </div>

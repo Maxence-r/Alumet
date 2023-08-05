@@ -1,28 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 
 * {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: "Plus Jakarta Sans", sans-serif;
     scrollbar-width: thin;
     scrollbar-color: #a2a2a2 transparent;
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 4px;
+    width: 6px;
+    height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 10px 10px transparent;
-  border-left: solid 3px transparent;
+    box-shadow: inset 0 0 10px 10px transparent;
+    border-left: solid 3px transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  box-shadow: inset 0 0 10px 10px #ebebeb;
-  border-left: solid 3px transparent;
+    box-shadow: inset 0 0 10px 10px #ebebeb;
+    border-left: solid 3px transparent;
 }
 
 ::-webkit-scrollbar-corner {
-  background: transparent;
+    background: transparent;
 }
 
 .button__text {
@@ -30,13 +30,13 @@
     justify-content: center;
     color: #ffffff;
     transition: all 0.2s;
-  }
-  
-  .button--loading .button__text {
+}
+
+.button--loading .button__text {
     display: none;
-  }
-  
-  .button--loading::after {
+}
+
+.button--loading::after {
     position: absolute;
     content: "";
     width: 16px;
@@ -46,20 +46,19 @@
     border-top-color: #ffffff;
     border-radius: 50%;
     animation: button-loading-spinner 1s ease infinite;
-  }
-  
-  @keyframes button-loading-spinner {
-    from {
-      transform: rotate(0turn);
-    }
-  
-    to {
-      transform: rotate(1turn);
-    }
-  }
-  
+}
 
-  .loading {
+@keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+.loading {
     position: absolute;
     z-index: 10000;
     width: 100%;
@@ -73,16 +72,16 @@
     justify-content: center;
 }
 
-
 .loader-upload {
     position: relative;
     width: 100px;
     height: 100px;
     margin-bottom: 30px;
-  }
-  
-.loader-upload:before , .loader-upload:after{
-    content: '';
+}
+
+.loader-upload:before,
+.loader-upload:after {
+    content: "";
     border-radius: 50%;
     position: absolute;
     inset: 0;
@@ -94,16 +93,19 @@
 }
 
 @keyframes rotate {
-    0% {  transform: rotate(0)}
-    100% { transform: rotate(360deg)}
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .hidden {
     display: none !important;
-}  
+}
 
-
-  #toast {
+#toast {
     position: fixed;
     margin-left: auto;
     margin-right: auto;
@@ -114,9 +116,9 @@
     flex-direction: column-reverse;
     z-index: 999999;
     gap: 14px;
-  }
-  
-  .toast {
+}
+
+.toast {
     display: flex;
     align-items: center;
     background-color: #fff;
@@ -127,193 +129,194 @@
     border-left: 4px solid;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08);
     transition: all linear 0.3s;
-  }
-  
-  @keyframes slideInLeft {
+}
+
+@keyframes slideInLeft {
     from {
-      opacity: 0;
-      transform: translateX(calc(100% + 32px));
+        opacity: 0;
+        transform: translateX(calc(100% + 32px));
     }
     to {
-      opacity: 1;
-      transform: translateX(0);
+        opacity: 1;
+        transform: translateX(0);
     }
-  }
-  
-  @keyframes fadeOut {
+}
+
+@keyframes fadeOut {
     from {
-      opacity: 1;
-      transform: translateX(0);
+        opacity: 1;
+        transform: translateX(0);
     }
     to {
-      opacity: 0;
+        opacity: 0;
     }
-  }
-  
-  .toast--success {
+}
+
+.toast--success {
     border-color: #19c43b;
-  }
-  
-  .toast--success .toast__icon {
+}
+
+.toast--success .toast__icon {
     color: #19c43b;
-  }
-  
-  .toast--info {
+}
+
+.toast--info {
     border-color: #2f86eb;
-  }
-  
-  .toast--info .toast__icon {
+}
+
+.toast--info .toast__icon {
     color: #2f86eb;
-  }
-  
-  .toast--warning {
+}
+
+.toast--warning {
     border-color: #ffc021;
-  }
-  
-  .toast--warning .toast__icon {
+}
+
+.toast--warning .toast__icon {
     color: #ffc021;
-  }
-  
-  .toast--error {
+}
+
+.toast--error {
     border-color: #ff623d;
-  }
-  
-  .toast--error .toast__icon {
+}
+
+.toast--error .toast__icon {
     color: #ff623d;
-  }
-  
-  .toast__icon > span {
+}
+
+.toast__icon > span {
     font-size: 34px;
-  }
-  
-  .toast__icon {
+}
+
+.toast__icon {
     padding: 0 16px;
-  }
-  
-  .toast__body {
+}
+
+.toast__body {
     margin-left: 20px;
     flex-grow: 1;
-  }
-  
-  .toast__title {
+}
+
+.toast__title {
     font-size: 16px;
     font-weight: 600;
     color: #333;
     margin: 0;
     margin-bottom: 5px;
-  }
-  
-  .toast__msg {
+}
+
+.toast__msg {
     font-size: 14px;
     overflow-wrap: anywhere;
     color: #888;
     margin-top: 6px;
     line-height: 1.5;
     margin: 0;
-  }
-  
-  
-
-
+}
 
 .box-header > h1 {
-  margin: 0;
-  line-break: anywhere;
-  overflow: hidden;
-  font-size: 14px;
-  margin: 0 5px;
-  height: 20px;
-  overflow-wrap: anywhere;
-  font-weight: 500;
-  width: 100%;
-  cursor: pointer;
+    margin: 0;
+    line-break: anywhere;
+    overflow: hidden;
+    font-size: 14px;
+    margin: 0 5px;
+    height: 20px;
+    overflow-wrap: anywhere;
+    font-weight: 500;
+    width: 100%;
+    cursor: pointer;
 }
 
 .box-header > img {
-  width: 25px;
-  height: 25px;
+    width: 25px;
+    height: 25px;
 }
 
 .file {
-  width: 260px;
-  max-width: 300px;
-  height: 220px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  border-radius: 5px;
-  cursor: pointer;
+    width: 260px;
+    max-width: 300px;
+    height: 220px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .file:hover {
-  filter: brightness(0.8);
+    filter: brightness(0.8);
 }
 
-
 .box-content {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  background-color: var(--main-color);
-  border-radius: 5px;
-  margin-top: 10px;
-  border: 1px solid #e5e5e5;
-  overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: var(--main-color);
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #e5e5e5;
+    overflow: hidden;
 }
 
 .box-content > img {
-  width: 100%;
-  object-fit: cover;
-  height: 100%;
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
 }
 
 .box-content > video {
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
 }
 
 .box-header {
-  display: flex;
-  flex-direction: row;
-  height: 20px;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 20px;
+    align-items: center;
 }
 
 .files-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: stretch;
-  width: 100%;
-  grid-gap: 10px;
-  overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    width: 100%;
+    grid-gap: 10px;
+    overflow-y: auto;
 }
 
 .files-container > * {
-  flex: 1 0 250px;
-  min-width: 250px;
+    flex: 1 0 250px;
+    min-width: 250px;
 }
 
-
 .loader {
-  width: 30px;
-  height: 30px;
-  border: 2px solid #296EFF;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 0.7s linear infinite;
-  }
+    width: 30px;
+    height: 30px;
+    border: 2px solid #296eff;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 0.7s linear infinite;
+}
 
-  @keyframes rotation {
-  0% {
-      transform: rotate(0deg);
-  }
-  100% {
-      transform: rotate(360deg);
-  }
-  } 
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #toast {
+        top: 16px;
+        right: 16px;
+    }
+}

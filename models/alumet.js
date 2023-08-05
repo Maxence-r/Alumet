@@ -6,42 +6,41 @@ const AlumetSchema = mongoose.Schema({
         type: String,
         required: true,
         minLength: 2,
-        maxLength: 150
+        maxLength: 150,
     },
     description: {
         type: String,
-        maxLength: 2000
+        maxLength: 2000,
     },
     owner: {
         type: String,
         required: true,
-        minLength: 1
+        minLength: 1,
     },
     collaborators: {
         type: Array,
         required: false,
-        default: []
+        default: [],
     },
     participants: {
         type: Array,
         required: false,
-        default: []
+        default: [],
     },
-    password : {
-        type: String,
-        required: false,
-        minLength: 1,
-        maxLength: 150
+    private: {
+        type: Boolean,
+        required: true,
+        default: false,
     },
     lastUsage: {
         type: Date,
         required: true,
-        default: Date.now()
+        default: Date.now(),
     },
     font: {
         type: String,
         required: true,
-        default: "pjs"
+        default: "pjs",
     },
     background: {
         type: String,
@@ -50,17 +49,17 @@ const AlumetSchema = mongoose.Schema({
     customsLinks: {
         type: Array,
         required: true,
-        default: []
+        default: [],
     },
     brightness: {
         type: Decimal128,
         required: true,
-        default: 0.80
+        default: 0.8,
     },
     blur: {
         type: Decimal128,
         required: true,
-        default: 5
+        default: 5,
     },
 });
 

@@ -27,16 +27,46 @@ if (redirect) {
 
 let setupProgress = 1;
 function setup(setupName) {
-    const inputs = document.querySelectorAll(`.${setupName} > .active-action > input`);
-    for (let i = 0; i < inputs.length; i++) {
-        const input = inputs[i];
-        if (!input.value) {
-            return toast({ title: "Erreur", message: `Veuillez remplir "${input.getAttribute("placeholder")}"`, type: "error", duration: 2500 });
-        }
+    const inputs = document.querySelectorAll(`.${setupName} > .active-action > input[required]`);
+    if (!Array.from(inputs).every((input) => input.value)) {
+        return toast({ title: "Erreur", message: `Veuillez remplir tous les champs`, type: "error", duration: 2500 });
     }
     setupProgress++;
-
-    document.querySelector(".active-action").classList.remove("active-action");
-    document.querySelector(`.${setupName} > .action-content:nth-of-type(${setupProgress}n)`).classList.add("active-action");
-    document.querySelector(`.${setupName} > .progression-container > .progression-item:nth-child(${setupProgress + 1}n) > .action-details`).classList.add("completed");
+    const nextActionContent = document.querySelector(`.${setupName} > .action-content:nth-of-type(${setupProgress + 1}n)`);
+    if (nextActionContent) {
+        document.querySelector(".active-action").classList.remove("active-action");
+        nextActionContent.classList.add("active-action");
+        document.querySelectorAll(".completed").forEach((element) => element.classList.remove("completed"));
+        const actionDetails = document.querySelector(`.${setupName} > .progression-container > .progression-item:nth-child(${setupProgress + 1}n) > .action-details`);
+        actionDetails.classList.add("completed");
+        document.querySelector(`.${setupName} > h1`).textContent = actionDetails.querySelector("h3").textContent;
+        document.querySelector(`.${setupName} > h4`).textContent = actionDetails.querySelector("p").textContent;
+    } else {
+        endSetup(setupName);
+    }
 }
+
+function endSetup(setupName) {
+    if (setupName === "create-alumet") {
+        createAlumet();
+    }
+}
+
+async function createAlumet() {
+    toast({ title: "Création de l'alumet", message: "Cette opération peut prendre un peu de temps...", type: "info", duration: 5000 });
+    document.querySelector(".creating-alumet").style.display = "flex";
+}
+
+document.getElementById("load-background").addEventListener("click", () => {
+    document.getElementById("alumet-background").click();
+});
+
+document.getElementById("alumet-background").addEventListener("change", () => {
+    const file = document.getElementById("alumet-background").files[0];
+    const fileType = file.type.split("/")[0];
+    const fileSize = file.size / 1024 / 1024; // Convert to MB
+    if (fileType !== "image" || fileSize > 3) {
+        return toast({ title: "Erreur", message: "Veuillez sélectionner une image de moins de 3MB", type: "error", duration: 2500 });
+    }
+    document.querySelector(".alumet-background > img").src = URL.createObjectURL(file);
+});
