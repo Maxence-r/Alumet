@@ -3,19 +3,19 @@ const Upload = require("../../models/upload");
 
 function validateConversation(req, res, next) {
     if (!req.connected) {
-        return res.status(401).json({ error: "Unauthorized" });
+        return res.status(401).json({ error: "Non autorisé" });
     }
     if (req.body.participants) {
         if (!Array.isArray(req.body.participants)) {
             return res
                 .status(400)
-                .json({ error: "Participants must be an array" });
+                .json({ error: "Les participants doivent être un tableau" });
         }
         req.body.participants.forEach((participant) => {
             if (!mongoose.Types.ObjectId.isValid(participant)) {
                 return res
                     .status(400)
-                    .json({ error: "Invalid participant id" });
+                    .json({ error: "Identifiant de participant invalide" });
             }
         });
     }
@@ -27,13 +27,13 @@ function validateConversation(req, res, next) {
                     !upload ||
                     !["jpg", "png", "jpeg"].includes(upload.mimetype)
                 ) {
-                    return res.status(400).json({ error: "Invalid icon id" });
+                    return res.status(400).json({ error: "Identifiant d'icône invalide" });
                 }
                 next();
             })
             .catch((err) => {
                 console.error(err);
-                return res.status(500).json({ error: "Internal server error" });
+                return res.status(500).json({ error: "Erreur interne du serveur" });
             });
     } else {
         next();

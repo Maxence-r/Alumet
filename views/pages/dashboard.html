@@ -305,7 +305,7 @@
                         <button id="create-conversation" class="large">Créer la conversation</button>
                     </div>
                 </div>
-                <div class="main-container no-conversation">
+                <div class="main-container no-conversation showing-group-settings">
                     <div class="full-screen">
                         <h1>Cliquer sur une conversation pour commencer !</h1>
                         <p>Alumet garantie la sécurité de vos données accessible ou que vous soyez !</p>
@@ -333,12 +333,27 @@
                             <button onclick="document.querySelector('.showing-group-settings').classList.remove('showing-group-settings')" class="large greyed">Fermer</button>
                         </div>
                         <div class="divider"></div>
-                        <div class="participants-container-list"></div>
+
+                        <div class="body">
+                            <div class="group-infos">
+                                <img class="group-profile-picture" src="../assets/global/default_group.png" alt="file icon" />
+                                <input type="file" class="group-profile-picture-input" accept="image/png, image/jpeg">
+                                <div class="sub-infos">
+                                    <h3 id="parameter-group-name">Leee Groupe</h3>
+                                    <img src="../assets/global/edit.svg" alt="edit" />
+                                </div>
+                            </div>
+                            <div class="group-participants-container">
+                                <h3>Participants</h3>
+                                <div class="participants-list"></div>
+                        </div>
                     </div>
                 </div>
             </section>
+
             <!-- ================== Professor Community =================== -->
             <section class="professors_community"></section>
+
             <!-- ================== Profile =================== -->
             <section class="profile">
                 <div class="main-container">

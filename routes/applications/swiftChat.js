@@ -9,13 +9,14 @@ const Account = require("../../models/account");
 router.post("/create", validateConversation, async (req, res) => {
     const { participants, name, icon } = req.body;
     if (!req.connected) {
-        res.status(401).json({ error: "Not authorized" });
+        res.status(401).json({ error: "Vous n'êtes pas autorisé à effectuer cela!" });
     }
     const userId = req.user.id;
 
     if (participants.includes(userId)) {
         return res.status(400).json({ error: "Vous ne pouvez pas créer une conversation avec vous même !" });
     }
+    
     participants.push(userId);
     const existingConversation = await Conversation.findOne({
         participants: {
@@ -27,27 +28,45 @@ router.post("/create", validateConversation, async (req, res) => {
         return res.status(400).json({ error: "Une conversation avec cet utilisateur existe déjà !" });
     }
 
-    const isGroupConversation = participants.length > 2;
-    const conversation = new Conversation({
-        participants,
-        name: isGroupConversation ? name || "Groupe sans nom" : null,
-        lastUsage: Date.now(),
-        icon: isGroupConversation ? "64c6a4a24ee85cf03846170d" : icon,
-    });
-
-    conversation
+    function saveConversation (conversation) {
+        conversation
         .save()
         .then((conversation) =>
             res.status(201).json({
                 _id: conversation._id,
                 participants: conversation.participants,
+                owner: conversation.owner,
+                administrators: conversation.administrators,
                 conversationName: conversation.name,
                 conversationIcon: conversation.icon,
                 lastUsage: conversation.lastUsage,
             })
         )
         .catch((error) => res.json({ error }));
+    };
+    const isGroupConversation = participants.length > 2;
+    if (isGroupConversation) {
+        const conversation = new Conversation({
+            participants,
+            owner: userId,
+            administrators: [],
+            name: isGroupConversation ? name || "Groupe sans nom" : null,
+            lastUsage: Date.now(),
+            icon: isGroupConversation ? "64c6a4a24ee85cf03846170d" : icon,
+        });
+        saveConversation(conversation);
+    } else {
+        const conversation = new Conversation({
+            participants,
+            name: isGroupConversation ? name || "Groupe sans nom" : null,
+            lastUsage: Date.now(),
+            icon: isGroupConversation ? "64c6a4a24ee85cf03846170d" : icon,
+        });
+        saveConversation(conversation);
+    }
+    
 });
+    
 
 router.delete("/delete", async (req, res) => {
     if (!req.connected || req.user.id !== req.alumetObj.owner) return res.status(401).json({ error: "Not authorized" });
@@ -122,17 +141,25 @@ router.get("/:conversation", async (req, res) => {
         if (!conversation.participants.includes(req.user.id)) {
             return res.status(401).json({ error: "Not authorized" });
         }
+        const conversationOwner = conversation.owner;
+        const conversationAdministrators = conversation.administrators; 
         const participantsPromises = conversation.participants.map(async (participant) => {
+            const role = participant === conversationOwner ? 'Propriétaire' : conversationAdministrators.includes(participant) ? 'Administrateur' : 'Membre';
             const user = await Account.findOne({ _id: participant }, { name: 1, lastname: 1, icon: 1 });
-            return { id: user._id, name: user.name, lastname: user.lastname, icon: user.icon };
+            return { id: user._id, name: user.name, lastname: user.lastname, icon: user.icon, role };
         });
         const participants = await Promise.all(participantsPromises);
         Message.find({ reference: conversation._id })
             .sort({ _id: 1 })
             .limit(50)
             .then(async (messages) => {
+                const conversationId = conversation._id;
+                const conversationName = conversation.name;
+                const conversationIcon = conversation.icon;
+
+
                 if (messages.length === 0) {
-                    return res.json({ messages: [], participants });
+                    return res.json({ conversationId, conversationName, conversationIcon, messages: [], participants });
                 }
                 const messagePromises = messages.map(async (message) => {
                     const user = await Account.findOne({ _id: message.sender }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1 });
@@ -143,7 +170,7 @@ router.get("/:conversation", async (req, res) => {
                 if (lastMessage && !lastMessage.isReaded && String(lastMessage.sender) !== req.user.id) {
                     await Message.findOneAndUpdate({ _id: lastMessage._id }, { isReaded: true });
                 }
-                res.json({ messages: messageObjects, participants });
+                res.json({ conversationId, conversationName, conversationIcon, messages: messageObjects, participants });
             })
             .catch((error) => res.json({ error }));
     } catch (error) {
@@ -181,5 +208,6 @@ router.delete("/:message", async (req, res) => {
         res.json({ error });
     }
 });
+
 
 module.exports = router;

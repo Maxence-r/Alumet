@@ -10,7 +10,7 @@ navButtons.forEach((button) => {
     });
 });
 
-toast({ title: "Bienvenue !", message: "Vous êtes connecté.", type: "info", duration: 2500 });
+/* toast({ title: "Bienvenue !", message: "Vous êtes connecté.", type: "info", duration: 2500 }); */
 
 document.getElementById("prompt-confirm").addEventListener("click", () => {
     document.querySelector(".prompt-popup").classList.remove("active-popup");

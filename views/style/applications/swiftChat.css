@@ -57,20 +57,191 @@
     align-items: center;
     transition: all 0.3s ease-in-out;
     gap: 15px;
-}
-
-.right-message {
-    display: flex;
-    flex-direction: row-reverse !important;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 .options > button {
     display: none;
     height: 46px;
 }
-
 .options > img {
-    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
+}
+
+.conversation-settings > .body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+    > .group-infos {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+        margin: 22px 15px;
+
+        > .group-profile-picture {
+            width: 50px;
+            min-width: 50px;
+            height: 50px;
+            min-height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.3s ease-in-out;
+        }
+        > .group-profile-picture:hover {
+            transform: scale(0.98);
+            filter: brightness(0.7);
+            cursor: pointer;
+        }
+        > .group-profile-picture-input {
+            display: none;
+        }
+        > .sub-infos {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            
+            > h3 {
+                font-size: 1.4rem;
+                font-weight: 500;
+                margin: 0;
+            }
+            > img {
+                width: 18px;
+                height: 18px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    > .group-participants-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 0 15px;
+        color: black;
+
+        > h3 {
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin: 0;
+        }
+        > .participants-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 0;
+            max-height: 40vh;
+            overflow-y: auto;   
+
+            > .participant:hover {
+                transform: none;
+                filter: none;
+                cursor: default;
+            }
+
+            > .participant {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                transition: none;
+
+                > .infos {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 10px;
+                    > img {
+                        width: 46px;
+                        height: 46px;
+                        border-radius: 5px;
+                        object-fit: cover;
+                    }
+                    > .sub-infos {
+                        display: flex;
+                        flex-direction: column;
+                        > h4 {
+                            font-size: 1rem;
+                            font-weight: 500;
+                            margin: 0;
+                        }
+                        > p {
+                            font-size: 0.8rem;
+                            color: #9ea1a7;
+                            font-weight: 400;
+                            margin: 0;
+                        }
+                    }
+                }
+                > .participant-options-container {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 10px;
+                    position: relative;
+
+                    > img {
+                        width: 20px;
+                        height: 20px;
+                        cursor: pointer;
+                    }
+
+                    > .participant-options-popup {
+                        display: none;
+                        position: absolute;
+                        top: -18px;
+                        left: -125px;
+                        padding: 10px 10px;
+                        min-height: 50px;
+                        width: fit-content;
+                        max-width: 121px;
+                        font-size: 0.75em;
+                        background-color: #ffffff;
+                        gap: 6px;
+                        flex-direction: column;
+                        border-radius: 10px;
+                        box-shadow: -1px 2px 8px 2px rgba(0, 0, 0, 0.08);
+                        z-index: 1;
+
+                        > .participant-option-divider{
+                            width: 100%;
+                            height: 1px;
+                            background-color: #f5f5f5;
+                            opacity: 1;
+                        }
+
+                        > .participant-option {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: 10px;
+                            padding: 2px 0;
+                            transition: all 0.3s ease-in-out;
+                        }
+                        > .participant-option:hover {
+                            transform: scale(0.98);
+                            cursor: pointer;
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+}
+.right-message {
+    display: flex;
+    flex-direction: row-reverse !important;
 }
 
 .conversation-header {

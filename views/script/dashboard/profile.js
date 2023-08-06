@@ -153,7 +153,6 @@ function confirmA2F() {
         });
 }
 document.getElementById("profile-picture").addEventListener("click", () => {
-    console.log("click");
     document.getElementById("profile-picture-input").click();
 });
 

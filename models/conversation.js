@@ -17,6 +17,10 @@ const ConversationSchema = mongoose.Schema({
         required: false,
         minLength: 1,
     },
+    administrators: {
+        type: Array,
+        required: false,
+    },
     lastUsage: {
         type: Date,
         required: true,
