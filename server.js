@@ -1,13 +1,35 @@
 const http = require('http');
 const app = require('./app');
 const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
+const io = require('socket.io')(server);
+const Conversation = require("./models/conversation");
 
 io.on('connection', (socket) => {
-  console.log('Connecté au websocket: ' + socket.id);
+  console.log('A user connected');
+
+  socket.on('joinRoom', async (conversationId) => {
+    try {
+      
+      const conversation = await Conversation.findOne({ _id: conversationId, participants: socket.request.user._id });
+      if (!conversation) {
+        console.log(`User ${socket.id} attempted to join unauthorized room ${conversationId}`);
+        return;
+      }
+      socket.join(conversationId);
+      console.log(`User ${socket.id} joined room ${conversationId}`);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  socket.on('message', (message) => {
+    console.log(`Message received on server: ${message.content}`);
+    io.to(message.conversationId).emit('message', message);
+  });
 });
-global.io = io;
+
+module.exports = io;
+
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
@@ -52,3 +74,5 @@ server.on('listening', () => {
 });
 
 server.listen(port);
+
+module.exports = server;

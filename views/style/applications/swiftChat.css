@@ -83,7 +83,7 @@
         flex-direction: row;
         align-items: center;
         gap: 20px;
-        margin: 22px 15px;
+        margin: 22px 0;
 
         > .group-profile-picture {
             width: 50px;
@@ -128,7 +128,6 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        margin: 0 15px;
         color: black;
 
         > h3 {

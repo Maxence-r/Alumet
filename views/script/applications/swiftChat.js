@@ -305,6 +305,7 @@ function sendMessage() {
 };
 
 function closeConversation() {
+    document.querySelector('.messages > .main-container').classList.remove("showing-group-settings");
     document.querySelector(".messages").classList.remove("active-messages");
     localStorage.removeItem("currentConversation");
 }
@@ -324,11 +325,12 @@ function openConversation(id) {
     localStorage.setItem("currentConversation", id);
     document.querySelector(".messages").classList.add("active-messages");
     previousSender = null;
-    document.querySelector(".conversation-body").innerHTML = "";    
+    document.querySelector(".conversation-body").innerHTML = "";
+    console.log('[data-conversationid="' + id + '"]'    );
     if (document.querySelector('[data-conversationid="' + id + '"]').classList.contains("not-readed")) {
         document.querySelector('[data-conversationid="' + id + '"]').classList.remove("not-readed");
     }
-        
+    
     let lastUsage = document.querySelector('[data-conversationid="' + id + '"]').dataset.lastusage;
     let name = document.querySelector('[data-conversationid="' + id + '"]').dataset.name;
     let icon = document.querySelector('[data-conversationid="' + id + '"]').dataset.icon;
@@ -356,7 +358,6 @@ function openConversation(id) {
                 document.querySelectorAll(".participant-options-container").forEach((element) => {
                     element.addEventListener("click", () => {
                         document.querySelector(`[data-popup-conversation-id="${element.dataset.participantOptionsContainerId}"]`).style.display = "flex";
-
                     });
                 });
 
@@ -365,14 +366,89 @@ function openConversation(id) {
             } else {
                 console.log('Parameters for conversation of 2 persons are not configure yet')
             }
-
-
-
-
             document.querySelector(".messages > .main-container").classList.remove("active-loading");
         })
         .catch((error) => console.error(error));
 }
+function findOrCreateConversation (userId) {
+    fetch(`/swiftChat/findOrCreate/${userId}`)
+        .then((response) => response.json())
+        .then((json) => {
+            if (json.error)
+                return toast({
+                    title: "Erreur",
+                    message: `${json.error}`,
+                    type: "error",
+                    duration: 5000,
+                });
+            if (json.conversationId === null) {
+                participants = [userId];
+                closeConversation();
+                createConversation();
+                openConversation(json.conversationId);
+            } else {
+                closeConversation();
+                openConversation(json.conversationId);
+            }
+        })
+        .catch((error) => console.error(error));
+}
+
+function promoteAdmin(userId, conversationId) {
+    fetch(`/swiftChat/${conversationId}/promoteAdmin/${userId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ conversationId, userId }),
+    })
+        .then((response) => response.json())
+        .then((json) => {
+            if (json.error)
+                return toast({
+                    title: "Erreur",
+                    message: `${json.error}`,
+                    type: "error",
+                    duration: 5000,
+                });
+            return toast({
+                title: "Succès",
+                message: `${json.message}`,
+                type: "success",
+                duration: 5000,
+            });
+        })
+        .catch((error) => console.error(error));
+}
+
+function removeUser(userId, conversationId) {
+    fetch(`/swiftChat/${conversationId}/removeUser/${userId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ conversationId, userId }),
+    })
+        .then((response) => response.json())
+        .then((json) => {
+            if (json.error)
+                return toast({
+                    title: "Erreur",
+                    message: `${json.error}`,
+                    type: "error",
+                    duration: 5000,
+                });
+            return toast({
+                title: "Succès",
+                message: `${json.message}`,
+                type: "success",
+                duration: 5000,
+            });
+        })
+        .catch((error) => console.error(error));
+}
+
+
 
 function createConversationParametersElement(conversationName, conversationIcon, participants) {
     const parameterGroupIcon = document.querySelector(".group-infos > .group-profile-picture");
@@ -461,11 +537,14 @@ function createConversationParametersElement(conversationName, conversationIcon,
         let clickedElement = event.target;
         while (clickedElement !== element) {
             if (clickedElement.classList.contains("participant-option")) {
+                const conversationId = localStorage.getItem("currentConversation");
+                console.log('converasiton ID :' + conversationId)
                 const userId = clickedElement.dataset.id;
                 const option = clickedElement.dataset.option;
                 if (option === "private-message") {
-                    openConversation(userId);
+                    findOrCreateConversation(userId);
                 } else if (option === "admin") {
+                    promoteAdmin(userId, conversationId);
                     console.log('promote admin');
                 } else if (option === "remove") {
                     console.log('remove user')

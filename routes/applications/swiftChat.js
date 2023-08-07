@@ -134,6 +134,9 @@ router.get("/search", async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
+
+
+
 router.get("/:conversation", async (req, res) => {
     try {
         const conversation = await Conversation.findOne({ _id: req.params.conversation, participants: req.user.id });
@@ -172,12 +175,82 @@ router.get("/:conversation", async (req, res) => {
                 }
                 res.json({ conversationId, conversationName, conversationIcon, messages: messageObjects, participants });
             })
-            .catch((error) => res.json({ error }));
+            .catch((error) => {
+                console.error(error);
+                res.json({ error });
+            });
     } catch (error) {
         console.error(error);
         res.json({ error });
     }
 });
+
+router.get("/findOrCreate/:user", async (req, res) => {
+    console.log(req.params, req.user)
+    const { user } = req.params;
+    const userId = req.user._id.toString();
+    const participants = [userId, user];
+    console.log(participants)
+    const existingConversation = await Conversation.findOne({
+        participants: {
+            $size: 2,
+            $all: participants,
+        },
+    });
+    if (existingConversation) {
+        return res.json({ conversationId: existingConversation._id });
+    }
+    return res.json({ conversationId: null });
+});
+
+router.post("/:conversation/promoteAdmin/:userId", async (req, res) => {
+    const { conversation, userId } = req.params;
+    const conversationObj = await Conversation.findOne({ _id: conversation, participants: req.user.id });
+    if (!conversationObj) return res.status(404).json({ error: "Aucune conversation trouvée" });
+    if (!conversationObj.participants.includes(req.user.id)) {
+        return res.status(401).json({ error: "Vous n'êtes pas authorisé à faire cela" });
+    }
+    if (conversationObj.owner !== req.user.id || !conversationObj.administrators.includes(req.user.id)) {
+        return res.status(401).json({ error: "Vous n'êtes pas authorisé à faire cela" });
+    }
+    if (conversationObj.administrators.includes(userId)) {
+        return res.status(400).json({ error: "Cet utilisateur est déjà administrateur" });
+    }
+    if (!conversationObj.participants.includes(userId)) {
+        return res.status(400).json({ error: "Cet utilisateur n'est pas dans la conversation" });
+    }
+    conversationObj.administrators.push(userId);
+    conversationObj
+        .save()
+        .then(() => res.json({ message: "Utilisateur promu" }))
+        .catch((error) => res.json({ error }));
+});
+
+router.post("/:conversation/removeUser/:userId", async (req, res) => {
+    const { conversation, userId } = req.params;
+    const conversationObj = await Conversation.findOne({ _id: conversation, participants: req.user.id });
+    if (!conversationObj) return res.status(404).json({ error: "Aucune conversation trouvée" });
+    if (!conversationObj.participants.includes(req.user.id)) {
+        return res.status(401).json({ error: "Vous n'êtes pas authorisé à faire cela" });
+    }
+    if (conversationObj.owner !== req.user.id || !conversationObj.administrators.includes(req.user.id)) {
+        return res.status(401).json({ error: "Vous n'êtes pas authorisé à faire cela" });
+    }
+    if (!conversationObj.participants.includes(userId)) {
+        return res.status(400).json({ error: "Cet utilisateur n'est pas dans la conversation" });
+    }
+    if (conversationObj.owner === userId) {
+        return res.status(400).json({ error: "Vous ne pouvez pas supprimer le propriétaire de la conversation" });
+    }
+    conversationObj.participants = conversationObj.participants.filter((participant) => participant !== userId);
+    conversationObj.administrators = conversationObj.administrators.filter((administrator) => administrator !== userId);
+    conversationObj
+        .save()
+        .then(() => res.json({ message: "Utilisateur supprimé de la conversation" }))
+        .catch((error) => res.json({ error }));
+});
+
+
 
 router.post("/send", async (req, res) => {
     const { message, conversationId } = req.body;

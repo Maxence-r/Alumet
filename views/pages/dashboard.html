@@ -24,7 +24,9 @@
         <title>Alumet - Tableau de bord</title>
     </head>
     <body>
-        <section class="loading"></section>
+        <section class="loading">
+            <span class="loader-upload"></span>
+        </section>
         <div id="toast"></div>
         <div class="prompt-popup popup">
             <div class="prompt">
@@ -493,6 +495,13 @@
         <script src="/socket.io/socket.io.js"></script>
         <script>
             const socket = io();
+
+            socket.on('connect', () => {
+            console.log('Connected to server');
+            const conversationId = '123'; // Replace with the conversation ID
+            socket.emit('joinRoom', conversationId);
+            });
+            
         </script>
     </body>
 </html>
