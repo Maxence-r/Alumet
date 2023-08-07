@@ -486,22 +486,12 @@
                 </div>
             </section>
         </section>
+        <script src="/socket.io/socket.io.js"></script>
         <script src="../script/global.js"></script>
         <script src="../script/dashboard/dashboard.js"></script>
         <script src="../script/dashboard/cloud.js"></script>
         <script src="../script/dashboard/profile.js"></script>
         <script src="../script/applications/swiftChat.js"></script>
         <script src="../script/dashboard/uploadHandler.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <script>
-            const socket = io();
-
-            socket.on('connect', () => {
-            console.log('Connected to server');
-            const conversationId = '123'; // Replace with the conversation ID
-            socket.emit('joinRoom', conversationId);
-            });
-            
-        </script>
     </body>
 </html>

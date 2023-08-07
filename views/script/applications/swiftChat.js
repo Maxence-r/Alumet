@@ -302,12 +302,11 @@ function sendMessage() {
             document.querySelector(".conversation-body").prepend(messageElement);
         })
         .catch((error) => console.error(error));
-};
+}
 
 function closeConversation() {
-    document.querySelector('.messages > .main-container').classList.remove("showing-group-settings");
+    document.querySelector(".messages > .main-container").classList.remove("showing-group-settings");
     document.querySelector(".messages").classList.remove("active-messages");
-    localStorage.removeItem("currentConversation");
 }
 document.getElementById("close-conversation-button").addEventListener("click", () => {
     closeConversation();
@@ -319,18 +318,28 @@ document.addEventListener("keydown", (event) => {
 });
 closeConversation();
 
+const socket = io();
+
+socket.on("connect", () => {
+    console.log("Vous êtes connecté au serveur Alumet");
+});
+
 function openConversation(id) {
+    if (localStorage.getItem("currentConversation")) {
+        socket.emit("leaveRoom", localStorage.getItem("currentConversation"), JSON.parse(localStorage.getItem("user")).id);
+    }
+    socket.emit("joinRoom", id, JSON.parse(localStorage.getItem("user")).id);
     document.querySelector(".messages > .main-container").classList.add("active-loading");
     document.querySelector(".messages > .main-container").classList.remove("no-conversation");
     localStorage.setItem("currentConversation", id);
     document.querySelector(".messages").classList.add("active-messages");
     previousSender = null;
     document.querySelector(".conversation-body").innerHTML = "";
-    console.log('[data-conversationid="' + id + '"]'    );
+    console.log('[data-conversationid="' + id + '"]');
     if (document.querySelector('[data-conversationid="' + id + '"]').classList.contains("not-readed")) {
         document.querySelector('[data-conversationid="' + id + '"]').classList.remove("not-readed");
     }
-    
+
     let lastUsage = document.querySelector('[data-conversationid="' + id + '"]').dataset.lastusage;
     let name = document.querySelector('[data-conversationid="' + id + '"]').dataset.name;
     let icon = document.querySelector('[data-conversationid="' + id + '"]').dataset.icon;
@@ -364,13 +373,13 @@ function openConversation(id) {
                 document.querySelector(".messages > .main-container").classList.remove("active-loading");
                 return;
             } else {
-                console.log('Parameters for conversation of 2 persons are not configure yet')
+                console.log("Parameters for conversation of 2 persons are not configure yet");
             }
             document.querySelector(".messages > .main-container").classList.remove("active-loading");
         })
         .catch((error) => console.error(error));
 }
-function findOrCreateConversation (userId) {
+function findOrCreateConversation(userId) {
     fetch(`/swiftChat/findOrCreate/${userId}`)
         .then((response) => response.json())
         .then((json) => {
@@ -447,8 +456,6 @@ function removeUser(userId, conversationId) {
         })
         .catch((error) => console.error(error));
 }
-
-
 
 function createConversationParametersElement(conversationName, conversationIcon, participants) {
     const parameterGroupIcon = document.querySelector(".group-infos > .group-profile-picture");
@@ -532,45 +539,39 @@ function createConversationParametersElement(conversationName, conversationIcon,
 
         parameterParticipantsContainer.appendChild(participantElement);
     });
-    document.querySelectorAll('.participant-options-popup').forEach((element) => {
-    element.addEventListener("click", (event) => {
-        let clickedElement = event.target;
-        while (clickedElement !== element) {
-            if (clickedElement.classList.contains("participant-option")) {
-                const conversationId = localStorage.getItem("currentConversation");
-                console.log('converasiton ID :' + conversationId)
-                const userId = clickedElement.dataset.id;
-                const option = clickedElement.dataset.option;
-                if (option === "private-message") {
-                    findOrCreateConversation(userId);
-                } else if (option === "admin") {
-                    promoteAdmin(userId, conversationId);
-                    console.log('promote admin');
-                } else if (option === "remove") {
-                    console.log('remove user')
+    document.querySelectorAll(".participant-options-popup").forEach((element) => {
+        element.addEventListener("click", (event) => {
+            let clickedElement = event.target;
+            while (clickedElement !== element) {
+                if (clickedElement.classList.contains("participant-option")) {
+                    const conversationId = localStorage.getItem("currentConversation");
+                    console.log("converasiton ID :" + conversationId);
+                    const userId = clickedElement.dataset.id;
+                    const option = clickedElement.dataset.option;
+                    if (option === "private-message") {
+                        findOrCreateConversation(userId);
+                    } else if (option === "admin") {
+                        promoteAdmin(userId, conversationId);
+                        console.log("promote admin");
+                    } else if (option === "remove") {
+                        console.log("remove user");
+                    }
+                    return;
                 }
-                return;
-            }
-            clickedElement = clickedElement.parentNode;
-        }
-    });
-
-    document.querySelectorAll('.participant-options-container').forEach((element) => {
-        window.addEventListener("click", (event) => {
-            if (
-                event.target !== element &&
-                !element.contains(event.target)
-            ) {
-                const document1 = document.querySelector(`[data-popup-conversation-id="${element.dataset.participantOptionsContainerId}"]`);
-                document1.style.display = "none";
+                clickedElement = clickedElement.parentNode;
             }
         });
 
+        document.querySelectorAll(".participant-options-container").forEach((element) => {
+            window.addEventListener("click", (event) => {
+                if (event.target !== element && !element.contains(event.target)) {
+                    const document1 = document.querySelector(`[data-popup-conversation-id="${element.dataset.participantOptionsContainerId}"]`);
+                    document1.style.display = "none";
+                }
+            });
+        });
     });
-});
-
 }
-
 
 let previousSender = null;
 function createMessageElement(message, user) {
@@ -660,6 +661,6 @@ document.querySelector(".options > img").addEventListener("click", (e) => {
 });
 
 document.querySelector(".group-profile-picture").addEventListener("click", () => {
-    console.log('click');
+    console.log("click");
     document.querySelector(".group-profile-picture-input").click();
 });
