@@ -499,68 +499,49 @@ function createConversationParametersElement(conversationName, conversationIcon,
         const participantOptionsElement = document.createElement("img");
         participantOptionsElement.src = "../../assets/global/dots.svg";
         participantOptionsElement.alt = "options icon";
-        participantOptionsElement.dataset.dotsId = participant.id;
+        participantOptionsElement.dataset.participantId = participant.id;
+        participantOptionsElement.dataset.conversationId = participant.conversationId;
+        console.log(participant);
         participantOptionsContainerElement.appendChild(participantOptionsElement);
-
-        const participantOptionsPopupElement = document.createElement("div");
-        participantOptionsPopupElement.style.display = "none";
-        participantOptionsPopupElement.classList.add("participant-options-popup");
-        participantOptionsPopupElement.dataset.popupConversationId = participant.id;
-        participantOptionsContainerElement.appendChild(participantOptionsPopupElement);
-
-        const participantOptionPrivateMessage = document.createElement("div");
-        participantOptionPrivateMessage.classList.add("participant-option");
-        participantOptionPrivateMessage.dataset.id = participant.id;
-        participantOptionPrivateMessage.dataset.option = "private-message";
-        participantOptionPrivateMessage.textContent = "Ouvrir la conversation";
-        participantOptionsPopupElement.appendChild(participantOptionPrivateMessage);
-
-        const participantOptionDivider1 = document.createElement("div");
-        participantOptionDivider1.classList.add("participant-option-divider");
-        participantOptionsPopupElement.appendChild(participantOptionDivider1);
-
-        const participantOptionAdmin = document.createElement("div");
-        participantOptionAdmin.classList.add("participant-option");
-        participantOptionAdmin.dataset.id = participant.id;
-        participantOptionAdmin.dataset.option = "admin";
-        participantOptionAdmin.textContent = "Promouvoir administrateur";
-        participantOptionsPopupElement.appendChild(participantOptionAdmin);
-
-        const participantOptionDivider2 = document.createElement("div");
-        participantOptionDivider2.classList.add("participant-option-divider");
-        participantOptionsPopupElement.appendChild(participantOptionDivider2);
-
-        const participantOptionRemove = document.createElement("div");
-        participantOptionRemove.classList.add("participant-option");
-        participantOptionRemove.dataset.id = participant.id;
-        participantOptionRemove.dataset.option = "remove";
-        participantOptionRemove.textContent = "Retirer du groupe";
-        participantOptionsPopupElement.appendChild(participantOptionRemove);
 
         parameterParticipantsContainer.appendChild(participantElement);
     });
-    document.querySelectorAll(".participant-options-popup").forEach((element) => {
+    document.querySelectorAll(".participant-options-container > img").forEach((element) => {
         element.addEventListener("click", (event) => {
             let clickedElement = event.target;
             while (clickedElement !== element) {
-                if (clickedElement.classList.contains("participant-option")) {
-                    const conversationId = localStorage.getItem("currentConversation");
-                    console.log("converasiton ID :" + conversationId);
-                    const userId = clickedElement.dataset.id;
-                    const option = clickedElement.dataset.option;
-                    if (option === "private-message") {
-                        findOrCreateConversation(userId);
-                    } else if (option === "admin") {
-                        promoteAdmin(userId, conversationId);
-                        console.log("promote admin");
-                    } else if (option === "remove") {
-                        console.log("remove user");
-                    }
+                if (clickedElement.classList.contains("participant-options-container")) {
+                    document.getElementById('participant-options-popup').style.display = "flex";
+                    document.getElementById('participant-options-popup').dataset.popupConversationId = element.dataset.participantOptionsContainerId;
                     return;
                 }
                 clickedElement = clickedElement.parentNode;
             }
         });
+    });
+
+    
+
+
+/* let clickedElement = event.target;
+while (clickedElement !== element) {
+    if (clickedElement.classList.contains("participant-option")) {
+        const conversationId = localStorage.getItem("currentConversation");
+        console.log("converasiton ID :" + conversationId);
+        const userId = clickedElement.dataset.id;
+        const option = clickedElement.dataset.option;
+        if (option === "private-message") {
+            findOrCreateConversation(userId);
+        } else if (option === "admin") {
+            promoteAdmin(userId, conversationId);
+            console.log("promote admin");
+        } else if (option === "remove") {
+            console.log("remove user");
+        }
+        return;
+    }
+    clickedElement = clickedElement.parentNode;
+} */
 
         document.querySelectorAll(".participant-options-container").forEach((element) => {
             window.addEventListener("click", (event) => {
@@ -570,8 +551,7 @@ function createConversationParametersElement(conversationName, conversationIcon,
                 }
             });
         });
-    });
-}
+    }
 
 let previousSender = null;
 function createMessageElement(message, user) {

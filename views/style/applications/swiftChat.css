@@ -195,7 +195,7 @@
                         cursor: pointer;
                     }
 
-                    > .participant-options-popup {
+                    > #participant-options-popup {
                         display: none;
                         position: absolute;
                         top: -18px;
