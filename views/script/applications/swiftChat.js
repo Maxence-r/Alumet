@@ -61,7 +61,7 @@ const createConversationElement = (user, conversation) => {
 };
 
 const createConversation = async () => {
-    if (participants.length === 0) return toast({ title: "Erreur", message: "Vous devez sélectionner au moins un utilisateur", type: "error", duration: 5000 });
+    if (participants.length === 0) return toast({ title: "Erreur", message: "Vous devez sélectionner au moins un utilisateur", type: "error", duration: 2500 });
     const conversationName = document.querySelector("#prompt-input").value;
     try {
         const response = await fetch("/swiftChat/create", {
@@ -81,7 +81,7 @@ const createConversation = async () => {
                 title: "Erreur",
                 message: `${data.error}`,
                 type: "error",
-                duration: 5000,
+                duration: 2500,
             });
         const user = await getUser(data.participants[0]);
         const conversationElement = createConversationElement(user, data);
@@ -121,39 +121,15 @@ const newConversation = (input, participantsBox, mainContainer, confirmed) => {
     const container = document.querySelector(`.${mainContainer}`);
     const confirmedParticipants = document.querySelector(`.${confirmed}`);
 
-    confirmedParticipants.addEventListener("click", (event) => {
-        let clickedElement = event.target;
-        while (clickedElement !== confirmedParticipants) {
-            if (clickedElement.classList.contains("participant")) {
-                const userId = clickedElement.dataset.id;
-                removeParticipant(userId);
-                return;
-            }
-            clickedElement = clickedElement.parentNode;
-        }
-    });
-
-    participantsContainer.addEventListener("click", (event) => {
-        let clickedElement = event.target;
-        while (clickedElement !== participantsContainer) {
-            if (clickedElement.classList.contains("participant")) {
-                const userId = clickedElement.dataset.id;
-                addParticipant(userId);
-                return;
-            }
-            clickedElement = clickedElement.parentNode;
-        }
-    });
-
     const addParticipant = (user) => {
         userElement = document.querySelector("[data-id='" + user + "']");
-        console.log(participants);
+        console.log("before", participants, "check: ", participants.includes(user));
         if (participants.includes(user)) {
             return toast({
                 title: "Erreur",
                 message: "Vous avez déjà ajouté cet utilisateur",
                 type: "error",
-                duration: 5000,
+                duration: 2500,
             });
         }
         participants.push(user);
@@ -227,6 +203,30 @@ const newConversation = (input, participantsBox, mainContainer, confirmed) => {
             debouncedSearchUsers(query);
         }
     });
+
+    confirmedParticipants.addEventListener("click", (event) => {
+        let clickedElement = event.target;
+        while (clickedElement !== confirmedParticipants) {
+            if (clickedElement.classList.contains("participant")) {
+                const userId = clickedElement.dataset.id;
+                removeParticipant(userId);
+                return;
+            }
+            clickedElement = clickedElement.parentNode;
+        }
+    });
+
+    participantsContainer.addEventListener("click", (event) => {
+        let clickedElement = event.target;
+        while (clickedElement !== participantsContainer) {
+            if (clickedElement.classList.contains("participant")) {
+                const userId = clickedElement.dataset.id;
+                addParticipant(userId);
+                return;
+            }
+            clickedElement = clickedElement.parentNode;
+        }
+    });
 };
 
 /* End search manager */
@@ -295,11 +295,9 @@ function sendMessage() {
                     title: "Erreur",
                     message: `${json.error}`,
                     type: "error",
-                    duration: 5000,
+                    duration: 2500,
                 });
-            const messageElement = createMessageElement(json.message, json.user);
-            messageElement.classList.add("new-message");
-            document.querySelector(".conversation-body").prepend(messageElement);
+            socket.emit("message", conversationId, json.message._id, JSON.parse(localStorage.getItem("user")).id);
         })
         .catch((error) => console.error(error));
 }
@@ -324,18 +322,25 @@ socket.on("connect", () => {
     console.log("Vous êtes connecté au serveur Alumet");
 });
 
+socket.on("message", (messageObject) => {
+    const { message, user } = messageObject;
+    const messageElement = createMessageElement(message, user);
+    messageElement.classList.add("new-message");
+    document.querySelector(".conversation-body").prepend(messageElement);
+});
+
 function openConversation(id) {
     if (localStorage.getItem("currentConversation")) {
         socket.emit("leaveRoom", localStorage.getItem("currentConversation"), JSON.parse(localStorage.getItem("user")).id);
     }
     socket.emit("joinRoom", id, JSON.parse(localStorage.getItem("user")).id);
+
     document.querySelector(".messages > .main-container").classList.add("active-loading");
     document.querySelector(".messages > .main-container").classList.remove("no-conversation");
     localStorage.setItem("currentConversation", id);
     document.querySelector(".messages").classList.add("active-messages");
     previousSender = null;
     document.querySelector(".conversation-body").innerHTML = "";
-    console.log('[data-conversationid="' + id + '"]');
     if (document.querySelector('[data-conversationid="' + id + '"]').classList.contains("not-readed")) {
         document.querySelector('[data-conversationid="' + id + '"]').classList.remove("not-readed");
     }
@@ -351,25 +356,20 @@ function openConversation(id) {
         .then((response) => response.json())
         .then((json) => {
             if (!json) return;
+            console.log(json);
             Promise.all(json.messages.map((message) => createMessageElement(message.message, message.user))).then((messageElements) => {
                 const conversationBody = document.querySelector(".conversation-body");
                 messageElements.forEach((messageElement) => {
                     conversationBody.prepend(messageElement);
                 });
             });
-            /** Code for the group settings */
+
             const participants = json.participants;
             const conversationName = json.conversationName;
             const conversationIcon = json.conversationIcon;
-
-            if (participants.length > 2) {
-                createConversationParametersElement(conversationName, conversationIcon, participants);
-                document.querySelectorAll(".participant-options-container").forEach((element) => {
-                    element.addEventListener("click", () => {
-                        document.querySelector(`[data-popup-conversation-id="${element.dataset.participantOptionsContainerId}"]`).style.display = "flex";
-                    });
-                });
-
+            console.log(participants.length > 2, participants.length);
+            if (json.conversationType != "private") {
+                createConversationParametersElement(conversationName, conversationIcon, participants, json.role);
                 document.querySelector(".messages > .main-container").classList.remove("active-loading");
                 return;
             } else {
@@ -379,8 +379,12 @@ function openConversation(id) {
         })
         .catch((error) => console.error(error));
 }
-function findOrCreateConversation(userId) {
-    fetch(`/swiftChat/findOrCreate/${userId}`)
+
+function getUserRole(userId) {
+    let conversationId = localStorage.getItem("currentConversation");
+    return fetch(`/swiftChat/${conversationId}/userRole/${userId}`, {
+        method: "POST",
+    })
         .then((response) => response.json())
         .then((json) => {
             if (json.error)
@@ -388,12 +392,65 @@ function findOrCreateConversation(userId) {
                     title: "Erreur",
                     message: `${json.error}`,
                     type: "error",
-                    duration: 5000,
+                    duration: 2500,
+                });
+            return json.role;
+        })
+        .catch((error) => console.error(error));
+}
+
+function displayParameter(element, arg) {
+    const text = document.getElementById(`${element}-text`);
+    const divider = document.getElementById(`${element}-divider`);
+    if (arg) {
+        text.style.display = "block";
+        if (divider) divider.style.display = "block";
+    } else {
+        text.style.display = "none";
+        if (divider) divider.style.display = "none";
+    }
+}
+async function displayParameters() {
+    let userId = JSON.parse(localStorage.getItem("user")).id;
+    let role = await getUserRole(userId);
+    if (role === "owner") {
+        displayParameter("promote-owner", true);
+        displayParameter("promote-admin", true);
+        displayParameter("demote-admin", true);
+        displayParameter("remove-user", true);
+    }
+    if (role === "administrator") {
+        displayParameter("promote-owner", false);
+        displayParameter("promote-admin", true);
+        displayParameter("demote-admin", true);
+        displayParameter("remove-user", true);
+    }
+    if (role === "member") {
+        displayParameter("promote-owner", false);
+        displayParameter("promote-admin", false);
+        displayParameter("demote-admin", false);
+        displayParameter("remove-user", false);
+        document.getElementById("private-message-divider").style.display = "none";
+    }
+}
+
+function findOrCreateConversation() {
+    let participantId = localStorage.getItem("popupParticipantId");
+    fetch(`/swiftChat/findOrCreate/${participantId}`)
+        .then((response) => response.json())
+        .then(async (json) => {
+            if (json.error)
+                return toast({
+                    title: "Erreur",
+                    message: `${json.error}`,
+                    type: "error",
+                    duration: 2500,
                 });
             if (json.conversationId === null) {
-                participants = [userId];
+                participants = [participantId];
                 closeConversation();
-                createConversation();
+                await createConversation();
+                console.log("conversation id " + json.conversationId);
                 openConversation(json.conversationId);
             } else {
                 closeConversation();
@@ -403,13 +460,34 @@ function findOrCreateConversation(userId) {
         .catch((error) => console.error(error));
 }
 
-function promoteAdmin(userId, conversationId) {
-    fetch(`/swiftChat/${conversationId}/promoteAdmin/${userId}`, {
+async function promoteOwnerPrompt() {
+    let userId = JSON.parse(localStorage.getItem("user")).id;
+    let conversationId = localStorage.getItem("currentConversation");
+    userRole = await getUserRole(userId);
+    if (userRole === "owner") {
+        createPrompt({
+            head: "Promouvoir cet utilisateur propriétaire",
+            desc: "Vous ne serez plus propriétaire de ce groupe après avoir promu cet utilisateur. Voulez-vous continuer ?",
+            action: "promoteOwner()",
+        });
+    } else {
+        toast({
+            title: "Erreur",
+            message: "Vous devez être propriétaire de ce groupe pour promouvoir un utilisateur",
+            type: "error",
+            duration: 2500,
+        });
+    }
+}
+function promoteOwner() {
+    let participantId = localStorage.getItem("popupParticipantId");
+    let conversationId = localStorage.getItem("currentConversation");
+    fetch(`/swiftChat/${conversationId}/promoteOwner/${participantId}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ conversationId, userId }),
+        body: JSON.stringify({ conversationId, participantId }),
     })
         .then((response) => response.json())
         .then((json) => {
@@ -418,25 +496,29 @@ function promoteAdmin(userId, conversationId) {
                     title: "Erreur",
                     message: `${json.error}`,
                     type: "error",
-                    duration: 5000,
+                    duration: 2500,
                 });
+            modifyUserRole("Propriétaire");
+            document.querySelector(`.participants-list > [data-participant-id="${JSON.parse(localStorage.getItem("user")).id}"] > .infos > .sub-infos > p`).textContent = "Membre";
             return toast({
                 title: "Succès",
                 message: `${json.message}`,
                 type: "success",
-                duration: 5000,
+                duration: 2500,
             });
         })
         .catch((error) => console.error(error));
 }
 
-function removeUser(userId, conversationId) {
-    fetch(`/swiftChat/${conversationId}/removeUser/${userId}`, {
+function promoteAdmin() {
+    let participantId = localStorage.getItem("popupParticipantId");
+    let conversationId = localStorage.getItem("currentConversation");
+    fetch(`/swiftChat/${conversationId}/promoteAdmin/${participantId}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ conversationId, userId }),
+        body: JSON.stringify({ conversationId, participantId }),
     })
         .then((response) => response.json())
         .then((json) => {
@@ -445,25 +527,91 @@ function removeUser(userId, conversationId) {
                     title: "Erreur",
                     message: `${json.error}`,
                     type: "error",
-                    duration: 5000,
+                    duration: 2500,
                 });
+            modifyUserRole("Administrateur");
             return toast({
                 title: "Succès",
                 message: `${json.message}`,
                 type: "success",
-                duration: 5000,
+                duration: 2500,
             });
         })
         .catch((error) => console.error(error));
 }
 
-function createConversationParametersElement(conversationName, conversationIcon, participants) {
-    const parameterGroupIcon = document.querySelector(".group-infos > .group-profile-picture");
+function demoteAdmin() {
+    let participantId = localStorage.getItem("popupParticipantId");
+    let conversationId = localStorage.getItem("currentConversation");
+    fetch(`/swiftChat/${conversationId}/demoteAdmin/${participantId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ conversationId, participantId }),
+    })
+        .then((response) => response.json())
+        .then((json) => {
+            if (json.error)
+                return toast({
+                    title: "Erreur",
+                    message: `${json.error}`,
+                    type: "error",
+                    duration: 2500,
+                });
+            modifyUserRole("Membre");
+            return toast({
+                title: "Succès",
+                message: `${json.message}`,
+                type: "success",
+                duration: 2500,
+            });
+        })
+        .catch((error) => console.error(error));
+}
+
+function removeUser() {
+    let participantId = localStorage.getItem("popupParticipantId");
+    let conversationId = localStorage.getItem("currentConversation");
+    fetch(`/swiftChat/${conversationId}/removeUser/${participantId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ conversationId, participantId }),
+    })
+        .then((response) => response.json())
+        .then((json) => {
+            if (json.error)
+                return toast({
+                    title: "Erreur",
+                    message: `${json.error}`,
+                    type: "error",
+                    duration: 2500,
+                });
+            document.querySelector(`.participants-list > [data-participant-id="${localStorage.getItem("popupParticipantId")}"]`).remove();
+            return toast({
+                title: "Succès",
+                message: `${json.message}`,
+                type: "success",
+                duration: 2500,
+            });
+        })
+        .catch((error) => console.error(error));
+}
+function modifyUserRole(role) {
+    const userId = localStorage.getItem("popupParticipantId");
+    document.querySelector(`.participants-list > [data-participant-id="${userId}"] > .infos > .sub-infos > p`).textContent = role;
+}
+function createConversationParametersElement(conversationName, conversationIcon, participants, myRole) {
+    const parameterGroupIcon = document.querySelector(".group-infos > div > #group-profile-picture");
     const parameterGroupName = document.querySelector("#parameter-group-name");
     const parameterParticipantsContainer = document.querySelector(".group-participants-container > .participants-list");
-
+    document.querySelector(".context-menu").classList.remove("owner", "administrator", "member");
+    document.querySelector(".context-menu").classList.add(`${myRole}`);
     parameterGroupIcon.src = `/cdn/u/${conversationIcon}`;
-    parameterGroupName.textContent = conversationName;
+    parameterGroupIcon.dataset.conversationIdGroupIcon = localStorage.getItem("currentConversation");
+    parameterGroupName.value = conversationName;
     parameterParticipantsContainer.innerHTML = "";
     participants.forEach((participant) => {
         const participantElement = document.createElement("div");
@@ -499,60 +647,24 @@ function createConversationParametersElement(conversationName, conversationIcon,
         const participantOptionsElement = document.createElement("img");
         participantOptionsElement.src = "../../assets/global/dots.svg";
         participantOptionsElement.alt = "options icon";
-        participantOptionsElement.dataset.participantId = participant.id;
-        participantOptionsElement.dataset.conversationId = participant.conversationId;
-        console.log(participant);
+        participantOptionsElement.setAttribute("onclick", `openParametersPopup('${participant.id}')`);
         participantOptionsContainerElement.appendChild(participantOptionsElement);
 
         parameterParticipantsContainer.appendChild(participantElement);
     });
-    document.querySelectorAll(".participant-options-container > img").forEach((element) => {
-        element.addEventListener("click", (event) => {
-            let clickedElement = event.target;
-            while (clickedElement !== element) {
-                if (clickedElement.classList.contains("participant-options-container")) {
-                    document.getElementById('participant-options-popup').style.display = "flex";
-                    document.getElementById('participant-options-popup').dataset.popupConversationId = element.dataset.participantOptionsContainerId;
-                    return;
-                }
-                clickedElement = clickedElement.parentNode;
-            }
-        });
-    });
+    displayParameters();
+}
 
-    
-
-
-/* let clickedElement = event.target;
-while (clickedElement !== element) {
-    if (clickedElement.classList.contains("participant-option")) {
-        const conversationId = localStorage.getItem("currentConversation");
-        console.log("converasiton ID :" + conversationId);
-        const userId = clickedElement.dataset.id;
-        const option = clickedElement.dataset.option;
-        if (option === "private-message") {
-            findOrCreateConversation(userId);
-        } else if (option === "admin") {
-            promoteAdmin(userId, conversationId);
-            console.log("promote admin");
-        } else if (option === "remove") {
-            console.log("remove user");
-        }
-        return;
-    }
-    clickedElement = clickedElement.parentNode;
-} */
-
-        document.querySelectorAll(".participant-options-container").forEach((element) => {
-            window.addEventListener("click", (event) => {
-                if (event.target !== element && !element.contains(event.target)) {
-                    const document1 = document.querySelector(`[data-popup-conversation-id="${element.dataset.participantOptionsContainerId}"]`);
-                    document1.style.display = "none";
-                }
-            });
-        });
-    }
-
+function closeParametersPopup() {
+    document.getElementById("participant-options-popup").classList.remove("active-popup");
+    window.removeEventListener("click", closeParametersPopup);
+    popupElement.dataset.popupParticipantId = "";
+    popupElement.dataset.popupConversationId = "";
+}
+function openParametersPopup(userId) {
+    document.querySelector(".context-menu").classList.add("active-context");
+    localStorage.setItem("popupParticipantId", userId);
+}
 let previousSender = null;
 function createMessageElement(message, user) {
     const { sender, content, createdAt } = message;
@@ -627,7 +739,7 @@ function deleteMessage(id) {
                     title: "Erreur",
                     message: `${json.error}`,
                     type: "error",
-                    duration: 5000,
+                    duration: 2500,
                 });
             document.querySelector(`[data-messageid="${id}"]`).remove();
         })
@@ -640,7 +752,80 @@ document.querySelector(".options > img").addEventListener("click", (e) => {
     document.querySelector(".messages > .main-container").classList.add("showing-group-settings");
 });
 
-document.querySelector(".group-profile-picture").addEventListener("click", () => {
+document.querySelector("#group-profile-picture").addEventListener("click", () => {
     console.log("click");
-    document.querySelector(".group-profile-picture-input").click();
+    document.querySelector("#group-profile-picture-input").click();
+});
+
+function updateGroupIcon(iconId) {
+    const conversationId = localStorage.getItem("currentConversation");
+    document.querySelector(".conversation-user-infos > img").src = `/cdn/u/${iconId}`;
+    document.querySelector(`[data-conversation-id-group-icon="${conversationId}"]`).src = `/cdn/u/${iconId}`;
+    document.querySelector(`[data-conversationid="${conversationId}"] img`).src = `/cdn/u/${iconId}`;
+    document.querySelector(`[data-conversationid="${conversationId}"]`).dataset.icon = iconId;
+}
+document.getElementById("group-profile-picture-input").addEventListener("change", async () => {
+    const file = document.getElementById("group-profile-picture-input").files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+        console.log(file);
+        let fileName = document.getElementById("group-profile-picture-input").value;
+        let fileSize = file.size;
+        let idxDot = fileName.lastIndexOf(".") + 1;
+        let extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile !== "jpg" && extFile !== "jpeg" && extFile !== "png") {
+            return toast({ title: "Erreur !", message: "Seuls les fichiers jpg, jpeg et png sont autorisés !", type: "error", duration: 2500 });
+        }
+        if (fileSize > 1 * 1024 * 1024) {
+            return toast({ title: "Erreur !", message: "La taille de l'image ne doit pas dépasser 1 Mo !", type: "error", duration: 2500 });
+        }
+
+        const response = await fetch("/cdn/upload/system", {
+            method: "POST",
+            body: formData,
+        });
+        const data = await response.json();
+        if (!data.error) {
+            const updateResponse = await fetch(`/swiftChat/${localStorage.getItem("currentConversation")}/updateicon`, {
+                method: "PUT",
+                body: JSON.stringify({
+                    icon: data.file._id,
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const updateData = await updateResponse.json();
+            if (!updateData.error) {
+                toast({ title: "Image de groupe modifiée !", message: "L'icone du groupe a bien été modifiée", type: "success", duration: 2500 });
+                console.log(updateData.icon);
+                updateGroupIcon(updateData.icon);
+            } else {
+                toast({ title: "Erreur !", message: updateData.error, type: "error", duration: 2500 });
+            }
+        } else {
+            toast({ title: "Erreur !", message: data.error, type: "error", duration: 2500 });
+        }
+    } catch (error) {
+        console.error(error);
+        toast({ title: "Erreur !", message: "Une erreur est survenue.", type: "error", duration: 2500 });
+    }
+});
+document.getElementById("leave-group-btn").addEventListener("click", async () => {
+    console.log("click");
+    const conversationId = localStorage.getItem("currentConversation");
+    fetch(`/swiftChat/${conversationId}/leave`, {
+        method: "POST",
+    })
+        .then((response) => response.json())
+        .then((json) => {
+            if (json.error) {
+                return toast({ title: "Erreur !", message: json.error, type: "error", duration: 2500 });
+            }
+            document.querySelector(`[data-conversationid="${conversationId}"]`).remove();
+            closeConversation();
+            toast({ title: "Groupe quitté !", message: "Vous avez quitté le groupe avec succès.", type: "success", duration: 2500 });
+        })
+        .catch((error) => console.error(error));
 });

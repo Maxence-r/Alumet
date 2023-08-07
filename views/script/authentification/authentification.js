@@ -70,7 +70,7 @@ function enter() {
         .then((data) => {
             if (data.error) {
                 toast({
-                    title: "Quelque chose s'est mal passé",
+                    title: "Erreur",
                     message: `${data.error}`,
                     type: "error",
                     duration: 3000,

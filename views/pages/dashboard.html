@@ -338,66 +338,25 @@
 
                         <div class="body">
                             <div class="group-infos">
-                                <img class="group-profile-picture" src="../assets/global/default_group.png" alt="file icon" />
-                                <input type="file" class="group-profile-picture-input" accept="image/png, image/jpeg">
-                                <div class="sub-infos">
-                                    <h3 id="parameter-group-name">Nom du groupe</h3>
-                                    <img src="../assets/global/edit.svg" alt="edit" />  
+                                <div>
+                                    <img id="group-profile-picture" src="../assets/global/default_group.png" alt="file icon" />
+                                    <input type="file" id="group-profile-picture-input" accept="image/png, image/jpeg" />
+                                    <input id="parameter-group-name" type="text" class="group-name" placeholder="Nom du groupe" />
                                 </div>
-                                <div id="participant-options-popup">
-                                    <div class="participant-option" data-option="private-message">Ouvrir la conversation</div>
-                                    <div class="participant-option-divider"></div>
-                                    <div class="participant-option" data-option="admin">Promouvoir administrateur</div>
-                                    <div class="participant-option-divider"></div>
-                                    <div class="participant-option" data-option="admin">Rétrograder membre</div>
-                                    <div class="participant-option-divider"></div>
-                                    <div class="participant-option" data-option="admin">Rendre propriétaire du groupe</div>
-                                    <div class="participant-option-divider"></div>
-                                    <div class="participant-option" data-option="remove">Retirer du groupe</div>
-                                </div>
+                                <button class="large greyed">Renommer</button>
+                                <button id="leave-group-btn" class="large reded">Quitter le groupe</button>
                             </div>
-                            <!-- 
-                                const participantOptionsPopupElement = document.createElement("div");
-                                participantOptionsPopupElement.style.display = "none";
-                                participantOptionsPopupElement.classList.add("participant-options-popup");
-                                participantOptionsPopupElement.dataset.popupConversationId = participant.id;
-                                participantOptionsContainerElement.appendChild(participantOptionsPopupElement);
-
-                                const participantOptionPrivateMessage = document.createElement("div");
-                                participantOptionPrivateMessage.classList.add("participant-option");
-                                participantOptionPrivateMessage.dataset.id = participant.id;
-                                participantOptionPrivateMessage.dataset.option = "private-message";
-                                participantOptionPrivateMessage.textContent = "Ouvrir la conversation";
-                                participantOptionsPopupElement.appendChild(participantOptionPrivateMessage);
-
-                                const participantOptionDivider1 = document.createElement("div");
-                                participantOptionDivider1.classList.add("participant-option-divider");
-                                participantOptionsPopupElement.appendChild(participantOptionDivider1);
-
-                                const participantOptionAdmin = document.createElement("div");
-                                participantOptionAdmin.classList.add("participant-option");
-                                participantOptionAdmin.dataset.id = participant.id;
-                                participantOptionAdmin.dataset.option = "admin";
-                                participantOptionAdmin.textContent = "Promouvoir administrateur";
-                                participantOptionsPopupElement.appendChild(participantOptionAdmin);
-
-                                const participantOptionDivider2 = document.createElement("div");
-                                participantOptionDivider2.classList.add("participant-option-divider");
-                                participantOptionsPopupElement.appendChild(participantOptionDivider2);
-
-                                const participantOptionRemove = document.createElement("div");
-                                participantOptionRemove.classList.add("participant-option");
-                                participantOptionRemove.dataset.id = participant.id;
-                                participantOptionRemove.dataset.option = "remove";
-                                participantOptionRemove.textContent = "Retirer du groupe";
-                                participantOptionsPopupElement.appendChild(participantOptionRemove);
-
-                                parameterParticipantsContainer.appendChild(participantElement);
-
-                             -->
-                            <div class="group-participants-container">
-                                <h3>Participants</h3>
-                                <div class="participants-list"></div>
+                            <div class="context-menu">
+                                <button onclick="findOrCreateConversation()" class="large greyed">Envoyer un message</button>
+                                <button onclick="promoteAdmin()" class="large greyed">Promouvoir administrateur</button>
+                                <button onclick="demoteAdmin()" class="large greyed">Retrograder administrateur</button>
+                                <button onclick="promoteOwnerPrompt()" class="large greyed">Transferer la proprieté</button>
+                                <button onclick="removeUser()" class="large greyed">Expulser du groupe</button>
+                            </div>
+                        </div>
+                        <div class="group-participants-container">
+                            <h3>Participants</h3>
+                            <div class="participants-list"></div>
                         </div>
                     </div>
                 </div>

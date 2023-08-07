@@ -3,6 +3,8 @@ const app = require("./app");
 const server = http.createServer(app);
 const io = require("socket.io")(server);
 const Conversation = require("./models/conversation");
+const Account = require("./models/account");
+const Message = require("./models/message");
 
 io.on("connection", (socket) => {
     socket.on("joinRoom", async (conversationId, userId) => {
@@ -13,7 +15,6 @@ io.on("connection", (socket) => {
                 return;
             }
             socket.join(conversationId);
-            console.log(`User ${socket.id} joined room ${conversationId}`);
         } catch (error) {
             console.error(error);
         }
@@ -21,15 +22,26 @@ io.on("connection", (socket) => {
 
     socket.on("leaveRoom", (conversationId) => {
         socket.leave(conversationId);
-        console.log(`User ${socket.id} left room ${conversationId}`);
     });
 
-    socket.on("message", (message) => {
-        console.log(`Message received on server: ${message.content}`);
-        io.to(message.conversationId).emit("message", message);
+    socket.on("message", async (conversationId, messageId, userId) => {
+        try {
+            const conversation = await Conversation.findOne({ _id: conversationId });
+            if (!conversation) {
+                console.log(`User ${socket.id} attempted to send message to unauthorized room ${conversationId}`);
+                return;
+            }
+            const user = await Account.findOne({ _id: userId }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1 });
+            const message = await Message.findOne({ _id: messageId });
+            const messageObject = { message, user };
+            io.to(conversationId).emit("message", messageObject);
+        } catch (error) {
+            console.error(error);
+        }
     });
 });
 
+global.io = io;
 module.exports = io;
 
 const normalizePort = (val) => {
