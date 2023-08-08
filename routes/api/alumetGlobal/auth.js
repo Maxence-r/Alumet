@@ -36,7 +36,8 @@ router.get("/signup", async (req, res) => {
 });
 
 router.get("/logout", async (req, res) => {
-    res.clearCookie("token").redirect("/auth/signin");
+    res.clearCookie("token");
+    res.redirect("/auth/signin");
 });
 
 router.get("/info", async (req, res) => {

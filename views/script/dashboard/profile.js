@@ -19,6 +19,8 @@ function updateInfos(userInfos) {
     userName.innerText = userInfos.name + " " + userInfos.lastname;
     userMail.innerText = userInfos.mail;
     userIcon.src = "/cdn/u/" + userInfos.icon;
+    userIcon.alt = 'user icon';
+    setPictureOnError(userIcon, "user");
     userFirstNameInput.value = userInfos.name;
     userLastNameInput.value = userInfos.lastname;
     userMailInput.value = userInfos.mail;
@@ -33,6 +35,7 @@ getMyInfos()
     .catch((error) => {
         console.error("Error retrieving user information:", error);
     });
+
 saveInfosBtn.addEventListener("click", () => {
     fetch("/profile/updateinfos", {
         method: "PUT",
@@ -191,6 +194,8 @@ document.getElementById("profile-picture-input").addEventListener("change", asyn
             if (!updateData.error) {
                 toast({ title: "Image de profil modifiée !", message: "Votre image de profil a bien été modifiée", type: "success", duration: 2500 });
                 document.getElementById("profile-picture").src = "/cdn/u/" + updateData.icon;
+                document.getElementById("profile-picture").alt = 'user icon';
+                setPictureOnError(document.getElementById("profile-picture"), "user");
                 const userInfos = JSON.parse(localStorage.getItem("user"));
                 userInfos.icon = updateData.icon;
                 localStorage.setItem("user", JSON.stringify(userInfos));

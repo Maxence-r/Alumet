@@ -1,7 +1,7 @@
 const conversationsContainer = document.querySelector(".conversations-container");
 
 const createConversationElement = (user, conversation) => {
-    const { lastUsage, isReaded, lastMessage, _id, conversationName, conversationIcon, participants } = conversation;
+    const { lastUsage, isReaded, lastMessage, _id, type, conversationName, conversationIcon, participants } = conversation;
     const { icon, name, lastname, isCertified, accountType } = user;
     const time = relativeTime(lastUsage);
     const conversationElement = document.createElement("div");
@@ -9,6 +9,7 @@ const createConversationElement = (user, conversation) => {
     conversationElement.dataset.conversationid = _id;
     conversationElement.dataset.lastusage = lastUsage;
     conversationElement.dataset.icon = conversationIcon || icon;
+    conversationElement.dataset.conversationType = type;
     if (conversationName) {
         conversationElement.dataset.name = conversationName;
     } else {
@@ -18,6 +19,11 @@ const createConversationElement = (user, conversation) => {
     const iconElement = document.createElement("img");
     iconElement.src = `/cdn/u/${conversationIcon || icon}`;
     iconElement.alt = "file icon";
+    if (type === "private") {
+        setPictureOnError(iconElement, "user")
+    } else if (type === "group") {
+        setPictureOnError(iconElement, "group")
+    }
     conversationElement.appendChild(iconElement);
 
     if (isCertified && participants.length === 1) {
@@ -50,7 +56,6 @@ const createConversationElement = (user, conversation) => {
     infosElement.appendChild(messageElement);
 
     const pingElement = document.createElement("div");
-    pingElement.classList.add("ping-conv");
     infosElement.appendChild(pingElement);
 
     if (!isReaded) {
@@ -164,6 +169,7 @@ const newConversation = (input, participantsBox, mainContainer, confirmed) => {
                 const iconElement = document.createElement("img");
                 iconElement.src = `/cdn/u/${user.icon}`;
                 iconElement.alt = "user icon";
+                setPictureOnError(iconElement, "user")
                 userElement.appendChild(iconElement);
 
                 const columnInfosElement = document.createElement("div");
@@ -351,6 +357,8 @@ function openConversation(id) {
     document.querySelector("#conversation-username").textContent = name;
     document.getElementById("conversation-lastTime").textContent = relativeTime(lastUsage);
     document.querySelector(".conversation-user-infos > img").src = `/cdn/u/${icon}`;
+    document.querySelector(".conversation-user-infos > img").alt = "user icon";
+    setPictureOnError(document.querySelector(".conversation-user-infos > img"), "user");
 
     fetch(`/swiftChat/${id}`)
         .then((response) => response.json())
@@ -397,41 +405,6 @@ function getUserRole(userId) {
             return json.role;
         })
         .catch((error) => console.error(error));
-}
-
-function displayParameter(element, arg) {
-    const text = document.getElementById(`${element}-text`);
-    const divider = document.getElementById(`${element}-divider`);
-    if (arg) {
-        text.style.display = "block";
-        if (divider) divider.style.display = "block";
-    } else {
-        text.style.display = "none";
-        if (divider) divider.style.display = "none";
-    }
-}
-async function displayParameters() {
-    let userId = JSON.parse(localStorage.getItem("user")).id;
-    let role = await getUserRole(userId);
-    if (role === "owner") {
-        displayParameter("promote-owner", true);
-        displayParameter("promote-admin", true);
-        displayParameter("demote-admin", true);
-        displayParameter("remove-user", true);
-    }
-    if (role === "administrator") {
-        displayParameter("promote-owner", false);
-        displayParameter("promote-admin", true);
-        displayParameter("demote-admin", true);
-        displayParameter("remove-user", true);
-    }
-    if (role === "member") {
-        displayParameter("promote-owner", false);
-        displayParameter("promote-admin", false);
-        displayParameter("demote-admin", false);
-        displayParameter("remove-user", false);
-        document.getElementById("private-message-divider").style.display = "none";
-    }
 }
 
 function findOrCreateConversation() {
@@ -610,6 +583,8 @@ function createConversationParametersElement(conversationName, conversationIcon,
     document.querySelector(".context-menu").classList.remove("owner", "administrator", "member");
     document.querySelector(".context-menu").classList.add(`${myRole}`);
     parameterGroupIcon.src = `/cdn/u/${conversationIcon}`;
+    parameterGroupIcon.alt = "group icon";
+    setPictureOnError(parameterGroupIcon, "group");
     parameterGroupIcon.dataset.conversationIdGroupIcon = localStorage.getItem("currentConversation");
     parameterGroupName.value = conversationName;
     parameterParticipantsContainer.innerHTML = "";
@@ -625,6 +600,7 @@ function createConversationParametersElement(conversationName, conversationIcon,
         const iconElement = document.createElement("img");
         iconElement.src = `/cdn/u/${participant.icon}`;
         iconElement.alt = "user icon";
+        setPictureOnError(iconElement, "user");
         infosElement.appendChild(iconElement);
 
         const subInfosElement = document.createElement("div");
@@ -652,7 +628,6 @@ function createConversationParametersElement(conversationName, conversationIcon,
 
         parameterParticipantsContainer.appendChild(participantElement);
     });
-    displayParameters();
 }
 
 function closeParametersPopup() {
@@ -682,6 +657,7 @@ function createMessageElement(message, user) {
     const imageElement = document.createElement("img");
     imageElement.src = `/cdn/u/` + user.icon;
     imageElement.alt = "file icon";
+    setPictureOnError(imageElement, "user");
 
     const messageDetailsElement = document.createElement("div");
     messageDetailsElement.classList.add("message-details");

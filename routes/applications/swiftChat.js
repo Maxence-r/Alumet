@@ -341,11 +341,11 @@ router.post("/:conversation/leave", async (req, res) => {
         return res.status(401).json({ error: "Vous n'êtes pas authorisé à faire cela" });
     }
     console.log(conversationObj.participants.length);
-    if (conversationObj.participants.length > 1 && conversationObj.owner.equals(req.user.id)) {
+    if (conversationObj.participants.length > 1 && conversationObj.owner === req.user.id) {
         return res.status(400).json({ error: "Vous ne pouvez pas quitter la conversation car vous en êtes le propriétaire" });
     }
-    const newParticipants = conversationObj.participants.filter((participant) => !participant.equals(req.user.id));
-    const newAdministrators = conversationObj.administrators.filter((administrator) => !administrator.equals(req.user.id));
+   const newParticipants = conversationObj.participants.filter((participant) => participant !== req.user.id);
+    const newAdministrators = conversationObj.administrators.filter((administrator) => administrator !== req.user.id);
     if (newParticipants.length === 0) {
         conversationObj
             .remove()
