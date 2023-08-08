@@ -1,8 +1,8 @@
 const conversationsContainer = document.querySelector(".conversations-container");
 
-const createConversationElement = (user, conversation) => {
+const createConversationElement = (conversation) => {
     const { lastUsage, isReaded, lastMessage, _id, type, conversationName, conversationIcon, participants } = conversation;
-    const { icon, name, lastname, isCertified, accountType } = user;
+    const { name, lastname, icon, isCertified, accountType } = conversation.userinfos;
     const time = relativeTime(lastUsage);
     const conversationElement = document.createElement("div");
     conversationElement.classList.add("conversation");
@@ -88,14 +88,15 @@ const createConversation = async () => {
                 type: "error",
                 duration: 2500,
             });
-        const user = await getUser(data.participants[0]);
-        const conversationElement = createConversationElement(user, data);
+
+        const conversationElement = createConversationElement(data);
         conversationsContainer.prepend(conversationElement);
         document.querySelector(".creating-conversation").classList.remove("creating-conversation");
         document.querySelectorAll("[data-id]").forEach((element) => {
             element.remove();
         });
         participants = [];
+        return data._id;
     } catch (error) {
         console.error(error);
     }
@@ -257,14 +258,9 @@ const getConversations = () => {
             if (hasUnreadConversations) {
                 document.getElementById("messages").classList.add("pinged");
             }
-            const promises = json.map((conversation) => getUser(conversation.participants[0]));
-            return Promise.all(promises).then((users) => {
-                const conversations = json.map((conversation, index) => ({ conversation, user: users[index] }));
-                conversations.sort((a, b) => b.conversation.lastUsage - a.conversation.lastUsage);
-                conversations.forEach(({ conversation, user }) => {
-                    const conversationElement = createConversationElement(user, conversation);
-                    conversationsContainer.appendChild(conversationElement);
-                });
+            json.forEach((conversation) => {
+                const conversationElement = createConversationElement(conversation);
+                conversationsContainer.appendChild(conversationElement);
             });
         })
         .catch((error) => console.error(error));
@@ -320,7 +316,6 @@ document.addEventListener("keydown", (event) => {
         closeConversation();
     }
 });
-closeConversation();
 
 const socket = io();
 
@@ -341,8 +336,8 @@ function openConversation(id) {
     }
     socket.emit("joinRoom", id, JSON.parse(localStorage.getItem("user")).id);
 
-    if (document.querySelector("active-context")) {
-        document.querySelector("active-context").classList.remove("active-context");
+    if (document.querySelector(".active-context")) {
+        document.querySelector(".active-context").classList.remove("active-context");
     }
     if (document.querySelector(".showing-group-settings")) {
         document.querySelector(".showing-group-settings").classList.remove("showing-group-settings");
@@ -392,25 +387,6 @@ function openConversation(id) {
         .catch((error) => console.error(error));
 }
 
-function getUserRole(userId) {
-    let conversationId = localStorage.getItem("currentConversation");
-    return fetch(`/swiftChat/${conversationId}/userRole/${userId}`, {
-        method: "POST",
-    })
-        .then((response) => response.json())
-        .then((json) => {
-            if (json.error)
-                return toast({
-                    title: "Erreur",
-                    message: `${json.error}`,
-                    type: "error",
-                    duration: 2500,
-                });
-            return json.role;
-        })
-        .catch((error) => console.error(error));
-}
-
 function findOrCreateConversation() {
     let participantId = localStorage.getItem("popupParticipantId");
     fetch(`/swiftChat/findOrCreate/${participantId}`)
@@ -424,12 +400,14 @@ function findOrCreateConversation() {
                     duration: 2500,
                 });
             if (json.conversationId === null) {
-                participants = [participantId];
-                closeConversation();
-                await createConversation();
-                console.log("conversation id " + json.conversationId);
-                openConversation(json.conversationId);
+                return toast({
+                    title: "Aucune conversation",
+                    message: "Vous n'avez aucune conversation avec cet utilisateur, creez-en une pour commencer à discuter",
+                    type: "warning",
+                    duration: 2500,
+                });
             } else {
+                document.querySelector(".context-menu").classList.remove("active-context");
                 closeConversation();
                 openConversation(json.conversationId);
             }
@@ -438,23 +416,11 @@ function findOrCreateConversation() {
 }
 
 async function promoteOwnerPrompt() {
-    let userId = JSON.parse(localStorage.getItem("user")).id;
-    let conversationId = localStorage.getItem("currentConversation");
-    userRole = await getUserRole(userId);
-    if (userRole === "owner") {
-        createPrompt({
-            head: "Promouvoir cet utilisateur propriétaire",
-            desc: "Vous ne serez plus propriétaire de ce groupe après avoir promu cet utilisateur. Voulez-vous continuer ?",
-            action: "promoteOwner()",
-        });
-    } else {
-        toast({
-            title: "Erreur",
-            message: "Vous devez être propriétaire de ce groupe pour promouvoir un utilisateur",
-            type: "error",
-            duration: 2500,
-        });
-    }
+    createPrompt({
+        head: "Promouvoir cet utilisateur propriétaire",
+        desc: "Vous ne serez plus propriétaire de ce groupe après avoir promu cet utilisateur. Voulez-vous continuer ?",
+        action: "promoteOwner()",
+    });
 }
 function promoteOwner() {
     let participantId = localStorage.getItem("popupParticipantId");
@@ -477,6 +443,7 @@ function promoteOwner() {
                 });
             modifyUserRole("Propriétaire");
             document.querySelector(`.participants-list > [data-participant-id="${JSON.parse(localStorage.getItem("user")).id}"] > .infos > .sub-infos > p`).textContent = "Membre";
+            document.querySelector(".context-menu").classList.remove("active-context");
             return toast({
                 title: "Succès",
                 message: `${json.message}`,
@@ -507,6 +474,7 @@ function promoteAdmin() {
                     duration: 2500,
                 });
             modifyUserRole("Administrateur");
+            document.querySelector(".context-menu").classList.remove("active-context");
             return toast({
                 title: "Succès",
                 message: `${json.message}`,
@@ -536,6 +504,7 @@ function demoteAdmin() {
                     type: "error",
                     duration: 2500,
                 });
+            document.querySelector(".context-menu").classList.remove("active-context");
             modifyUserRole("Membre");
             return toast({
                 title: "Succès",
@@ -567,6 +536,7 @@ function removeUser() {
                     duration: 2500,
                 });
             document.querySelector(`.participants-list > [data-participant-id="${localStorage.getItem("popupParticipantId")}"]`).remove();
+            document.querySelector(".context-menu").classList.remove("active-context");
             return toast({
                 title: "Succès",
                 message: `${json.message}`,
@@ -635,8 +605,15 @@ function createConversationParametersElement(conversationName, conversationIcon,
 }
 
 function openParametersPopup(userId) {
-    document.querySelector(".context-menu").classList.add("active-context");
     localStorage.setItem("popupParticipantId", userId);
+    if (document.querySelector(".context-menu").classList.contains("active-context")) {
+        document.querySelector(".context-menu").classList.remove("active-context");
+        setTimeout(() => {
+            document.querySelector(".context-menu").classList.add("active-context");
+        }, 300);
+        return;
+    }
+    document.querySelector(".context-menu").classList.add("active-context");
 }
 let previousSender = null;
 function createMessageElement(message, user) {
@@ -785,7 +762,6 @@ document.getElementById("group-profile-picture-input").addEventListener("change"
     }
 });
 document.getElementById("leave-group-btn").addEventListener("click", async () => {
-    console.log("click");
     const conversationId = localStorage.getItem("currentConversation");
     fetch(`/swiftChat/${conversationId}/leave`, {
         method: "POST",

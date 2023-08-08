@@ -332,7 +332,9 @@
                     <div class="sub-container conversation-settings">
                         <div class="header">
                             <h2>Paramètres de la conversation</h2>
-                            <button onclick="document.querySelector('.showing-group-settings').classList.remove('showing-group-settings')" class="large greyed">Fermer</button>
+                            <button onclick="document.querySelector('.showing-group-settings').classList.remove('showing-group-settings'), document.querySelector('.context-menu').classList.remove('active-context')" class="large greyed">
+                                Fermer
+                            </button>
                         </div>
                         <div class="divider"></div>
 

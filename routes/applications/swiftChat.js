@@ -32,7 +32,13 @@ router.post("/create", validateConversation, async (req, res) => {
     function saveConversation(conversation) {
         conversation
             .save()
-            .then((conversation) =>
+            .then(async (conversation) => {
+                let userinfos = {};
+                if (conversation.type === "private") {
+                    const otherParticipant = conversation.participants.find((participant) => participant !== req.user.id);
+                    const user = await Account.findOne({ _id: otherParticipant }, { name: 1, lastname: 1, icon: 1 });
+                    userinfos = { id: user._id, name: user.name, lastname: user.lastname, icon: user.icon };
+                }
                 res.status(201).json({
                     _id: conversation._id,
                     participants: conversation.participants,
@@ -42,8 +48,9 @@ router.post("/create", validateConversation, async (req, res) => {
                     administrators: conversation.administrators,
                     lastUsage: conversation.lastUsage,
                     conversationIcon: conversation.icon,
-                })
-            )
+                    userinfos,
+                });
+            })
             .catch((error) => res.json({ error }));
     }
     const isGroupConversation = participants.length > 2;
@@ -104,8 +111,14 @@ router.get("/", async (req, res) => {
                     isReaded = true;
                 }
                 const conversationId = conversation._id;
+                let userinfos = {};
+                if (conversation.type === "private") {
+                    const otherParticipant = conversation.participants.find((participant) => participant !== req.user.id);
+                    const user = await Account.findOne({ _id: otherParticipant }, { name: 1, lastname: 1, icon: 1 });
+                    userinfos = { id: user._id, name: user.name, lastname: user.lastname, icon: user.icon };
+                }
 
-                return { ...conversation.toObject(), participants, lastMessage: lastMessageObject, isReaded: isReaded, conversationId: conversationId, conversationName: conversation.name, conversationIcon: conversation.icon };
+                return { ...conversation.toObject(), participants, lastMessage: lastMessageObject, isReaded: isReaded, conversationId: conversationId, conversationName: conversation.name, conversationIcon: conversation.icon, userinfos };
             })
         );
         res.json(filteredConversations);
@@ -340,7 +353,7 @@ router.post("/:conversation/leave", async (req, res) => {
     if (conversationObj.participants.length > 1 && conversationObj.owner === req.user.id) {
         return res.status(400).json({ error: "Vous ne pouvez pas quitter la conversation car vous en êtes le propriétaire" });
     }
-   const newParticipants = conversationObj.participants.filter((participant) => participant !== req.user.id);
+    const newParticipants = conversationObj.participants.filter((participant) => participant !== req.user.id);
     const newAdministrators = conversationObj.administrators.filter((administrator) => administrator !== req.user.id);
     if (newParticipants.length === 0) {
         conversationObj
