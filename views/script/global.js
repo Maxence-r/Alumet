@@ -160,6 +160,18 @@ function getMyInfos() {
     });
 }
 
+function setPictureOnError(icon, parameter) {
+    icon.onerror = () => {
+        if (parameter === "user") {
+            icon.src = "../assets/global/default_user.png";
+        } else if (parameter === "group") {
+            icon.src = "../assets/global/default_group.png";
+        } else if (parameter === "file") {
+            icon.src = "../assets/global/default_file.png";
+            toast({ title: "Erreur !", message: "Fichier introuvable", type: "error", duration: 2500 });
+        }
+    }
+}
 let supportedPreviewAlumet = {
     pdf: '<img loading="lazy" src="/preview/pdf?url=*">',
     png: '<img loading="lazy" src="/preview/image?url=*">',
