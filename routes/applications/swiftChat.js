@@ -158,17 +158,13 @@ router.get("/:conversation", async (req, res) => {
                 const conversationName = conversation.name;
                 const conversationIcon = conversation.icon;
 
-                if (messages.length === 0) {
-                    return res.json({ conversationId, conversationName, conversationIcon, messages: [], participants, role: "member", conversationType: conversation.type });
-                }
-
                 const messagePromises = messages.map(async (message) => {
                     const user = await Account.findOne({ _id: message.sender }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1 });
                     return { message, user };
                 });
 
                 const messageObjects = await Promise.all(messagePromises);
-                const lastMessage = messageObjects[0].message;
+                const lastMessage = messageObjects[0] ? messageObjects[0].message : "Pas de message";
 
                 if (lastMessage && !lastMessage.isReaded && String(lastMessage.sender) !== req.user.id) {
                     await Message.findOneAndUpdate({ _id: lastMessage._id }, { isReaded: true });

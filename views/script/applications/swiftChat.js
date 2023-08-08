@@ -335,6 +335,12 @@ function openConversation(id) {
     }
     socket.emit("joinRoom", id, JSON.parse(localStorage.getItem("user")).id);
 
+    if (document.querySelector("active-context")) {
+        document.querySelector("active-context").classList.remove("active-context");
+    }
+    if (document.querySelector(".showing-group-settings")) {
+        document.querySelector(".showing-group-settings").classList.remove("showing-group-settings");
+    }
     document.querySelector(".messages > .main-container").classList.add("active-loading");
     document.querySelector(".messages > .main-container").classList.remove("no-conversation");
     localStorage.setItem("currentConversation", id);
@@ -356,7 +362,6 @@ function openConversation(id) {
         .then((response) => response.json())
         .then((json) => {
             if (!json) return;
-            console.log(json);
             Promise.all(json.messages.map((message) => createMessageElement(message.message, message.user))).then((messageElements) => {
                 const conversationBody = document.querySelector(".conversation-body");
                 messageElements.forEach((messageElement) => {
@@ -367,15 +372,14 @@ function openConversation(id) {
             const participants = json.participants;
             const conversationName = json.conversationName;
             const conversationIcon = json.conversationIcon;
-            console.log(participants.length > 2, participants.length);
             if (json.conversationType != "private") {
                 createConversationParametersElement(conversationName, conversationIcon, participants, json.role);
-                document.querySelector(".messages > .main-container").classList.remove("active-loading");
-                return;
             } else {
                 console.log("Parameters for conversation of 2 persons are not configure yet");
             }
-            document.querySelector(".messages > .main-container").classList.remove("active-loading");
+            setTimeout(() => {
+                document.querySelector(".messages > .main-container").classList.remove("active-loading");
+            }, 300);
         })
         .catch((error) => console.error(error));
 }
@@ -408,29 +412,6 @@ function displayParameter(element, arg) {
     } else {
         text.style.display = "none";
         if (divider) divider.style.display = "none";
-    }
-}
-async function displayParameters() {
-    let userId = JSON.parse(localStorage.getItem("user")).id;
-    let role = await getUserRole(userId);
-    if (role === "owner") {
-        displayParameter("promote-owner", true);
-        displayParameter("promote-admin", true);
-        displayParameter("demote-admin", true);
-        displayParameter("remove-user", true);
-    }
-    if (role === "administrator") {
-        displayParameter("promote-owner", false);
-        displayParameter("promote-admin", true);
-        displayParameter("demote-admin", true);
-        displayParameter("remove-user", true);
-    }
-    if (role === "member") {
-        displayParameter("promote-owner", false);
-        displayParameter("promote-admin", false);
-        displayParameter("demote-admin", false);
-        displayParameter("remove-user", false);
-        document.getElementById("private-message-divider").style.display = "none";
     }
 }
 
@@ -652,15 +633,8 @@ function createConversationParametersElement(conversationName, conversationIcon,
 
         parameterParticipantsContainer.appendChild(participantElement);
     });
-    displayParameters();
 }
 
-function closeParametersPopup() {
-    document.getElementById("participant-options-popup").classList.remove("active-popup");
-    window.removeEventListener("click", closeParametersPopup);
-    popupElement.dataset.popupParticipantId = "";
-    popupElement.dataset.popupConversationId = "";
-}
 function openParametersPopup(userId) {
     document.querySelector(".context-menu").classList.add("active-context");
     localStorage.setItem("popupParticipantId", userId);
@@ -753,7 +727,6 @@ document.querySelector(".options > img").addEventListener("click", (e) => {
 });
 
 document.querySelector("#group-profile-picture").addEventListener("click", () => {
-    console.log("click");
     document.querySelector("#group-profile-picture-input").click();
 });
 
@@ -799,7 +772,6 @@ document.getElementById("group-profile-picture-input").addEventListener("change"
             const updateData = await updateResponse.json();
             if (!updateData.error) {
                 toast({ title: "Image de groupe modifiée !", message: "L'icone du groupe a bien été modifiée", type: "success", duration: 2500 });
-                console.log(updateData.icon);
                 updateGroupIcon(updateData.icon);
             } else {
                 toast({ title: "Erreur !", message: updateData.error, type: "error", duration: 2500 });

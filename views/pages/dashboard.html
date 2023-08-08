@@ -347,11 +347,16 @@
                                 <button id="leave-group-btn" class="large reded">Quitter le groupe</button>
                             </div>
                             <div class="context-menu">
-                                <button onclick="findOrCreateConversation()" class="large greyed">Envoyer un message</button>
+                                <div class="row-context-menu">
+                                    <h2>Actions</h2>
+                                    <button onclick="document.querySelector('.context-menu').classList.remove('active-context')" class="large greyed">Fermer</button>
+                                </div>
+                                <div class="divider"></div>
+                                <button onclick="findOrCreateConversation()" class="large">Envoyer un message</button>
                                 <button onclick="promoteAdmin()" class="large greyed">Promouvoir administrateur</button>
                                 <button onclick="demoteAdmin()" class="large greyed">Retrograder administrateur</button>
                                 <button onclick="promoteOwnerPrompt()" class="large greyed">Transferer la proprieté</button>
-                                <button onclick="removeUser()" class="large greyed">Expulser du groupe</button>
+                                <button onclick="removeUser()" class="large reded">Expulser du groupe</button>
                             </div>
                         </div>
                         <div class="group-participants-container">
