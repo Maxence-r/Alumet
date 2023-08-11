@@ -1,59 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="icon" href="../assets/global/alumet.ico" />
+        <link rel="icon" href="../assets/global/alumet.ico" />
 
-    <meta name="description" content="Alumet, explorer d'une nouvelle façon.">
-    <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers">
-    <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation.">
-    <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://alumet.io">
-    <meta property="og:image" content="https://i.imgur.com/O9RdHj1.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:domain" content="alumet.io">
-    <meta name="twitter:url" content="https://alumet.io/">
-    <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes.">
-    <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !">
-    <meta name="twitter:image" content="https://i.imgur.com/O9RdHj1.png">
+        <meta name="description" content="Alumet, explorer d'une nouvelle façon." />
+        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers" />
+        <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation." />
+        <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://alumet.io" />
+        <meta property="og:image" content="https://i.imgur.com/O9RdHj1.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:domain" content="alumet.io" />
+        <meta name="twitter:url" content="https://alumet.io/" />
+        <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes." />
+        <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !" />
+        <meta name="twitter:image" content="https://i.imgur.com/O9RdHj1.png" />
 
-    <link href="../style/authentication.css" rel="stylesheet" type="text/css">
-    <link href="../style/global.css" rel="stylesheet" type="text/css">
+        <link href="../../style/authentification/authentication.css" rel="stylesheet" type="text/css" />
+        <link href="../../style/global.css" rel="stylesheet" type="text/css" />
 
-    <title>Alumet - Auth Portal</title>
-</head>
-<body>
-    <section class="loading">
-        <span class="loader-upload"></span>
-    </section>
+        <title>Alumet - Auth Portal</title>
+    </head>
+    <body>
+        <section class="loading">
+            <span class="loader-upload"></span>
+        </section>
 
-    <div id="toast"></div>
-    <div class="log-container">
-       <h1>Authentification</h1>
-       <h3>Cet Alumet demande un mot de passe</h3>
-        <div class="input">
-            <div class="logo"><img src="../assets/global/lock.svg"></div>
-            <input id="password" type="password" placeholder="Mot de passe">
-        </div>
-        <div class="input">
-            <div class="logo"><img src="../assets/global/username.svg"></div>
-            <input id="username" type="text" placeholder="Rejoindre en tant que">
-        </div>
-        <p>En cliquant sur "Accéder", vous accepter les <span id="link">conditions générales</span> d'utilisation</p>
-        <button id="enter" class="btn">Accéder</button>
-    </div>
-    <div class="alumet-info">
-        <div class="alumet-infos">
-            <h1>Alumet: Un endroit pour tous.</h1>
-            <h3>Créé par <span id="owner">un profresseur</span> - <span id="time">dans une galaxie lointaine</span></h3>
-        </div>
-        <img id="img" src="">
-    </div>
-</body>
-<script src="../script/authentification.js"></script>
-<script src="../script/global.js"></script>
+        <div id="toast"></div>
+        <section class="access loading">
+            <section class="full-screen">
+                <span class="loader"></span>
+            </section>
+            <div class="container not-connected">
+                <h1>Acceder à l'Alumet</h1>
+                <div class="nc" style="margin: 4% 0">
+                    <button class="large">Se connecter avec Alumet</button>
+                    <button class="large greyed">Acceder en tant que visiteur</button>
+                </div>
+                <div class="nc" style="margin: 4% 0">
+                    <div class="user-infos">
+                        <img src="../../assets/global/default_user.png" />
+                        <div class="user-details">
+                            <h3>Gabriel Lancelot</h3>
+                            <p>Connecté</p>
+                        </div>
+                    </div>
+                    <button class="large">Acceder</button>
+                </div>
+                <p>En continuant vous accepter les CGU</p>
+            </div>
+        </section>
+        <section class="alumet-infos">
+            <div class="alumet-details">
+                <h1>Histoire géographie 105</h1>
+                <p>Crée par <span id="creator">Anne Morin </span>utilisé il y a <span id="lastusage">4 jours</span></p>
+            </div>
+            <div class="layer-blur"></div>
+            <img src="../../assets/global/dev.png" />
+        </section>
+    </body>
+    <script src="../../script/authentification/authentification.js"></script>
+    <script src="../../script/global.js"></script>
 </html>

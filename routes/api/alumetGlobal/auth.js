@@ -146,37 +146,9 @@ router.post("/signup", async (req, res) => {
     }
 });
 
-router.post("/sign-mail", async (req, res) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(req.body.mail)) {
-        return res.status(400).json({
-            error: "Adresse mail invalide !",
-        });
-    }
-
-    try {
-        const mail = await Mail.findOne({ mail: req.body.mail });
-        if (mail) {
-            await mail.deleteOne({ mail: req.body.mail });
-            res.status(200).json({ message: "Mail supprimé !" });
-        } else {
-            const newMail = new Mail({
-                mail: req.body.mail,
-                level: req.body.level,
-            });
-            await newMail.save();
-            res.status(201).json({ message: "Mail ajouté !" });
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error });
-    }
-});
-
 router.post("/authorize", async (req, res) => {
     try {
         const a2f = await A2F.findOne({ owner: req.body.mail, code: req.body.code });
-        console.log(a2f);
         if (!a2f || a2f.expireAt < new Date()) {
             res.status(400).json({ error: "Code invalide !" });
         } else {

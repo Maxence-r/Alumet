@@ -299,10 +299,10 @@
                         </div>
                         <div class="divider"></div>
                         <h4>Ajouter un ou des participant(s)</h4>
-                        <input autocomplete="off" type="text" name="search-user" id="search-user" placeholder="Rechercher un utilisateur" />
-                        <div id="new-conversation" class="participants-container"></div>
+                        <input data-type="all" class="user-search-input" autocomplete="off" type="text" name="search-user" id="new-conversation-search" placeholder="Rechercher un utilisateur" />
+                        <div id="new-conversation-search-participants" class="participants-container"></div>
                         <h4>Participant(s)</h4>
-                        <div class="confirmed-participants"></div>
+                        <div id="new-conversation-search-confirmed-participants" class="confirmed-participants"></div>
                         <button onclick="document.querySelector('.messages &gt; .sub-container').classList.remove('creating-conversation')" id="cancel-conv" class="large greyed">Annuler</button>
                         <button id="create-conversation" class="large">Créer la conversation</button>
                     </div>
@@ -438,8 +438,8 @@
                 <h1 id="action">Les détails</h1>
                 <h4 id="action-detail">Nom et description</h4>
                 <div class="action-content active-action">
-                    <input required type="text" name="action" id="actionField" placeholder="Nom de l'Alumet" />
-                    <input required type="text" name="action" id="actionField" placeholder="Description de l'Alumet" />
+                    <input required type="text" name="action" id="alumet-name" placeholder="Nom de l'Alumet" />
+                    <input required type="text" name="action" id="alumet-description" placeholder="Description de l'Alumet" />
                 </div>
                 <div class="action-content">
                     <div class="alumet-background">
@@ -452,20 +452,23 @@
                     <div class="option">
                         <h1>Alumet en mode privé</h1>
                         <label class="switch">
-                            <input type="checkbox" />
+                            <input id="alumet-private" type="checkbox" />
                             <span class="slide round"></span>
                         </label>
                     </div>
                     <div class="option">
                         <h1>Messagerie publique</h1>
                         <label class="switch">
-                            <input checked type="checkbox" />
+                            <input id="alumet-chat" checked type="checkbox" />
                             <span class="slide round"></span>
                         </label>
                     </div>
                 </div>
                 <div class="action-content">
-                    <input placeholder="Chercher des collaborateurs" />
+                    <input data-type="professor" class="user-search-input" autocomplete="off" type="text" name="search-user" id="new-alumet" placeholder="Rechercher un utilisateur" />
+                    <div id="new-alumet-participants" class="participants-container"></div>
+                    <h2>Collaborateur(s)</h2>
+                    <div id="new-alumet-confirmed-participants" class="confirmed-participants"></div>
                 </div>
 
                 <button onclick="setup('create-alumet')" class="large continue-button">Continuer</button>

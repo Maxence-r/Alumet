@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require("path");
 const Conversation = require("../../models/conversation");
 const validateConversation = require("../../middlewares/modelsValidation/validateConversation");
+const { upload, uploadAndSaveToDb } = require("../../middlewares/utils/uploadHandler");
 const Message = require("../../models/message");
 const Account = require("../../models/account");
 const Upload = require("../../models/upload");
@@ -130,14 +131,27 @@ router.get("/", async (req, res) => {
 
 router.get("/search", async (req, res) => {
     const searchQuery = req.query.q.trim();
+    const searchType = req.query.type;
     if (searchQuery.length < 2) {
         return res.json([]);
     }
     const [firstName, lastName] = searchQuery.split(" ");
+    let accountTypeQuery = {};
+    if (searchType === "professor") {
+        accountTypeQuery = { accountType: "professor" };
+    } else if (searchType === "student") {
+        accountTypeQuery = { accountType: "student" };
+    }
     try {
         const contacts = await Account.find(
             {
-                $and: [{ _id: { $ne: req.user._id } }, { name: { $regex: firstName.toString(), $options: "i" } }, { lastname: { $regex: lastName ? lastName.toString() : "", $options: "i" } }],
+                $and: [
+                    { _id: { $ne: req.user._id } },
+                    {
+                        $or: [{ name: { $regex: searchQuery, $options: "i" } }, { lastname: { $regex: searchQuery, $options: "i" } }],
+                    },
+                    accountTypeQuery,
+                ],
             },
             "_id name lastname icon accountType"
         );
@@ -205,7 +219,6 @@ router.get("/:conversation", async (req, res) => {
 
 router.post("/:conversation/userRole/:user", async (req, res) => {
     const { conversation, user } = req.params;
-    console.log("conversation: " + conversation, "user :" + user);
     const conversationObj = await Conversation.findOne({ _id: conversation, participants: req.user.id });
     if (!conversationObj) return res.status(404).json({ error: "Aucune conversation trouvée" });
     if (!conversationObj.participants.includes(req.user.id)) {
@@ -227,7 +240,6 @@ router.get("/findOrCreate/:user", async (req, res) => {
         return res.status(400).json({ error: "Vous ne pouvez pas créer une conversation avec vous même !" });
     }
     const participants = [userId, user];
-    console.log(participants);
     const existingConversation = await Conversation.findOne({
         participants: {
             $size: 2,
@@ -271,8 +283,6 @@ router.post("/:conversation/promoteAdmin/:userId", async (req, res) => {
     if (!conversationObj.participants.includes(req.user.id)) {
         return res.status(401).json({ error: "Vous n'êtes pas authorisé à faire cela" });
     }
-    console.log("id user : ", req.user.id);
-    console.log("id owner : ", conversationObj.owner);
     if (conversationObj.owner !== req.user.id) {
         return res.status(401).json({ error: "Vous n'êtes pas authorisé à faire cela" });
     }
@@ -349,7 +359,6 @@ router.post("/:conversation/leave", async (req, res) => {
     if (!conversationObj.participants.includes(req.user.id)) {
         return res.status(401).json({ error: "Vous n'êtes pas authorisé à faire cela" });
     }
-    console.log(conversationObj.participants.length);
     if (conversationObj.participants.length > 1 && conversationObj.owner === req.user.id) {
         return res.status(400).json({ error: "Vous ne pouvez pas quitter la conversation car vous en êtes le propriétaire" });
     }
@@ -370,31 +379,15 @@ router.post("/:conversation/leave", async (req, res) => {
     }
 });
 
-router.put("/:conversation/updateicon", async (req, res) => {
+router.put("/:conversation/updateicon", upload.single("file"), uploadAndSaveToDb("1", ["png", "jpeg", "jpg"]), async (req, res) => {
     try {
         const conversation = await Conversation.findOne({ _id: req.params.conversation, participants: req.user.id });
-        const allowedExtensions = ["jpg", "jpeg", "png"];
-        const iconFile = await Upload.findById(req.body.icon);
-        const fileExtension = iconFile.mimetype;
 
         if (!conversation) return res.status(404).json({ error: "Aucune conversation trouvée" });
-        if (!conversation.participants.includes(req.user.id)) {
+        if (!conversation.administrators.includes(req.user.id) && conversation.owner !== req.user.id) {
             return res.status(401).json({ error: "Vous n'êtes pas authorisé à effectuer cela" });
         }
-        if (!allowedExtensions.includes(fileExtension)) {
-            return res.status(400).json({
-                error: "Seuls les fichiers jpg, jpeg et png sont autorisés !",
-            });
-        }
-
-        if (iconFile.filesize > 1 * 1024 * 1024) {
-            return res.status(400).json({
-                error: "La taille de l'image ne doit pas dépasser 1 Mo !",
-            });
-        }
-
-        console.log(req.body);
-        conversation.icon = req.body.icon;
+        conversation.icon = req.upload._id;
         await conversation.save();
         res.status(200).json({
             icon: conversation.icon,

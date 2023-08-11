@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="../../assets/global/alumet.ico" />
+        <meta name="description" content="Alumet: La flamme de l’innovation au service de l’éducation." />
+        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers, courses, classroom" />
+        <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation." />
+        <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://alumet.io" />
+        <meta property="og:image" content="https://i.imgur.com/QMtz1MF.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:domain" content="alumet.io" />
+        <meta name="twitter:url" content="https://alumet.io/" />
+        <meta name="twitter:title" content="Alumet: La flamme de l’innovation au service de l’éducation." />
+        <meta name="twitter:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France." />
+        <meta name="twitter:image" content="https://i.imgur.com/QMtz1MF.png" />
+        <link rel="stylesheet" type="text/css" href="../../style/global.css" />
+        <title>Alumet</title>
+    </head>
+    <body>
+        <section class="loading">
+            <span class="loader-upload"></span>
+        </section>
+
+        <div id="toast"></div>
+
+        <div class="layer-filter"></div>
+        <img src="../assets/global/dev.png" class="background-image" />
+    </body>
+    <script src="../script/alumet/alumet.js"></script>
+    <script src="../../script/global.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+    </script>
+</html>

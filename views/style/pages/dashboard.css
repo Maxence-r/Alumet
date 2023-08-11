@@ -331,6 +331,24 @@ body {
     width: 350px;
     margin: 2% 0;
     transition: all 0.3s ease-in-out;
+    position: relative;
+}
+.action-content > h2 {
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin: 0;
+    margin-right: auto;
+    text-align: left;
+}
+
+#new-alumet-confirmed-participants {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+#new-alumet-participants {
+    top: 60px;
+    width: calc(100% - 20px);
 }
 
 .active-action {
@@ -359,7 +377,6 @@ body {
 }
 
 .grid-user-container {
-    width: 70%;
     display: grid;
     margin: 10px 0;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -405,6 +422,11 @@ body {
 
 .participants-container {
     position: absolute;
+    opacity: 0;
+    z-index: 1000;
+    pointer-events: none;
+    transform: translateY(-20%);
+    transition: all 0.3s ease-in-out;
     top: 180px;
     padding: 0 10px;
     min-height: 50px;
@@ -430,6 +452,7 @@ body {
 .confirmed-participants {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .participant:hover {
@@ -462,15 +485,7 @@ body {
     gap: 2px;
 }
 
-.participants-container {
-    opacity: 0;
-    z-index: 1000;
-    pointer-events: none;
-    transform: translateY(-10%);
-    transition: all 0.3s ease-in-out;
-}
-
-.searching-users > .participants-container {
+.active-searching {
     opacity: 1;
     pointer-events: all !important;
     transform: translateY(0%);
@@ -997,20 +1012,6 @@ h2 {
     gap: 15px;
 }
 
-.large {
-    height: 50px;
-    white-space: nowrap;
-    padding: 0 20px;
-    background-color: #296eff;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    font-weight: 500;
-    box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-}
-
 input {
     height: 46px;
     width: 100%;
@@ -1027,11 +1028,6 @@ input:focus {
     border: 2px solid #dbdbdb;
 }
 
-.large:hover {
-    background-color: #1e54e3;
-    transform: scale(0.98);
-}
-
 h3 {
     font-size: 2.5rem;
     font-weight: 500;
@@ -1045,18 +1041,6 @@ h3 {
     flex-direction: row;
     gap: 20px;
     overflow-y: auto;
-}
-
-.greyed {
-    background-color: #f6f8fc;
-    color: #000000;
-    border-radius: 10px;
-    box-shadow: none;
-}
-
-.greyed:hover {
-    background-color: #e6e6e6;
-    border-radius: 10px;
 }
 
 .collaborator-info > h3 {

@@ -19,7 +19,7 @@ function updateInfos(userInfos) {
     userName.innerText = userInfos.name + " " + userInfos.lastname;
     userMail.innerText = userInfos.mail;
     userIcon.src = "/cdn/u/" + userInfos.icon;
-    userIcon.alt = 'user icon';
+    userIcon.alt = "user icon";
     setPictureOnError(userIcon, "user");
     userFirstNameInput.value = userInfos.name;
     userLastNameInput.value = userInfos.lastname;
@@ -175,35 +175,21 @@ document.getElementById("profile-picture-input").addEventListener("change", asyn
             return toast({ title: "Erreur !", message: "La taille de l'image ne doit pas dépasser 1 Mo !", type: "error", duration: 2500 });
         }
 
-        const response = await fetch("/cdn/upload/system", {
-            method: "POST",
+        const updateResponse = await fetch("/profile/updateicon", {
+            method: "PUT",
             body: formData,
         });
-        const data = await response.json();
-        if (!data.error) {
-            const updateResponse = await fetch("/profile/updateicon", {
-                method: "PUT",
-                body: JSON.stringify({
-                    icon: data.file._id,
-                }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-            const updateData = await updateResponse.json();
-            if (!updateData.error) {
-                toast({ title: "Image de profil modifiée !", message: "Votre image de profil a bien été modifiée", type: "success", duration: 2500 });
-                document.getElementById("profile-picture").src = "/cdn/u/" + updateData.icon;
-                document.getElementById("profile-picture").alt = 'user icon';
-                setPictureOnError(document.getElementById("profile-picture"), "user");
-                const userInfos = JSON.parse(localStorage.getItem("user"));
-                userInfos.icon = updateData.icon;
-                localStorage.setItem("user", JSON.stringify(userInfos));
-            } else {
-                toast({ title: "Erreur !", message: updateData.error, type: "error", duration: 2500 });
-            }
+        const updateData = await updateResponse.json();
+        if (!updateData.error) {
+            toast({ title: "Image de profil modifiée !", message: "Votre image de profil a bien été modifiée", type: "success", duration: 2500 });
+            document.getElementById("profile-picture").src = "/cdn/u/" + updateData.icon;
+            document.getElementById("profile-picture").alt = "user icon";
+            setPictureOnError(document.getElementById("profile-picture"), "user");
+            const userInfos = JSON.parse(localStorage.getItem("user"));
+            userInfos.icon = updateData.icon;
+            localStorage.setItem("user", JSON.stringify(userInfos));
         } else {
-            toast({ title: "Erreur !", message: data.error, type: "error", duration: 2500 });
+            toast({ title: "Erreur !", message: updateData.error, type: "error", duration: 2500 });
         }
     } catch (error) {
         console.error(error);

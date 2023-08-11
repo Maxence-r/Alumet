@@ -1,12 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const path = require("path");
 const Account = require("../../../models/account");
-const Upload = require("../../../models/upload");
 const bcrypt = require("bcrypt");
 const validateUpdateInfos = require("../../../middlewares/authentification/validateUpdateInfos");
-const mongoose = require("mongoose");
 const A2f = require("../../../models/a2f");
+const { upload, uploadAndSaveToDb } = require("../../../middlewares/utils/uploadHandler");
 
 router.put("/changepassword", async (req, res) => {
     try {
@@ -91,32 +89,10 @@ router.put("/toggleA2f", async (req, res) => {
     }
 });
 
-router.put("/updateicon", async (req, res) => {
+router.put("/updateicon", upload.single("file"), uploadAndSaveToDb("1", ["png", "jpeg", "jpg"]), async (req, res) => {
     try {
         const user = await Account.findById(req.user.id);
-        const allowedExtensions = ["jpg", "jpeg", "png"];
-        const iconFile = await Upload.findById(req.body.icon);
-        const fileExtension = iconFile.mimetype;
-
-        if (!user) {
-            return res.status(401).json({
-                error: "Utilisateur non trouvé !",
-            });
-        }
-        if (!allowedExtensions.includes(fileExtension)) {
-            return res.status(400).json({
-                error: "Seuls les fichiers jpg, jpeg et png sont autorisés !",
-            });
-        }
-
-        if (iconFile.filesize > 1 * 1024 * 1024) {
-            return res.status(400).json({
-                error: "La taille de l'image ne doit pas dépasser 1 Mo !",
-            });
-        }
-
-        console.log(req.body);
-        user.icon = req.body.icon;
+        user.icon = req.upload._id;
         await user.save();
         res.status(200).json({
             icon: user.icon,

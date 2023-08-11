@@ -317,31 +317,13 @@ const accountUpload = multer({
     },
 });
 
-router.post("/upload/:id", validateObjectId, accountUpload.single("file"), async (req, res) => {
-    if (req.connected === false || req.user === undefined) {
-        return res.status(401).json({
-            error: "Vous n'avez pas les permissions pour effectuer cette action !",
-        });
-    }
+router.post("/upload/:id", authorize("professor"), validateObjectId, accountUpload.single("file"), async (req, res) => {
     if (req.params.id) {
         try {
-            let folder;
-            if (req.params.id === "system") {
-                const systemFolder = await Folder.findOne({
-                    name: "system",
-                    owner: req.user._id.toString(),
-                });
-                folder = {
-                    name: "system",
-                    owner: req.user._id.toString(),
-                    _id: systemFolder._id,
-                };
-            } else {
-                folder = await Folder.findOne({
-                    _id: req.params.id,
-                    owner: req.user.id,
-                });
-            }
+            const folder = await Folder.findOne({
+                _id: req.params.id,
+                owner: req.user.id,
+            });
             if (!folder) {
                 return res.status(404).json({ error: "Dossier introuvable" });
             }
@@ -360,7 +342,7 @@ router.post("/upload/:id", validateObjectId, accountUpload.single("file"), async
                 res.json({ file: upload });
             } else {
                 res.status(400).json({
-                    error: "Une erreur inconnue est survenue !",
+                    error: "Une erreur inconnue est survenue ! x00",
                 });
             }
         } catch (error) {
@@ -387,7 +369,6 @@ router.get("/info/:id", validateObjectId, (req, res) => {
 });
 
 router.delete("/:id", validateObjectId, async (req, res) => {
-    console.log(req.params.id);
     try {
         const upload = await Upload.find({ _id: req.params.id });
         if (!upload[0]) {
@@ -398,7 +379,6 @@ router.delete("/:id", validateObjectId, async (req, res) => {
                 error: "Vous n'avez pas les permissions pour effectuer cette action !",
             });
         }
-        console.log(upload[0].modifiable);
         if (!upload[0].modifiable) {
             return res.status(401).json({
                 error: "Ce fichier est utilisé par un de vos Alumet, impossible de le supprimer !",

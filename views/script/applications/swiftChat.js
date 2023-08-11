@@ -102,6 +102,15 @@ const createConversation = async () => {
     }
 };
 
+function initConversation() {
+    const messagesContainer = document.querySelector(".messages");
+    const subContainer = messagesContainer.querySelector(".sub-container");
+    subContainer.classList.add("creating-conversation");
+}
+
+/* Start search manager */
+
+let participants = [];
 const debounce = (func, delay) => {
     let timeoutId;
     return (...args) => {
@@ -112,129 +121,101 @@ const debounce = (func, delay) => {
     };
 };
 
-function initConversation() {
-    const messagesContainer = document.querySelector(".messages");
-    const subContainer = messagesContainer.querySelector(".sub-container");
-    subContainer.classList.add("creating-conversation");
-    newConversation("search-user", "participants-container", "create-conversation", "confirmed-participants");
-}
-
-let participants = [];
-
-const newConversation = (input, participantsBox, mainContainer, confirmed) => {
-    const promptInput = document.getElementById(`${input}`);
-    const participantsContainer = document.querySelector(`.${participantsBox}`);
-    const container = document.querySelector(`.${mainContainer}`);
-    const confirmedParticipants = document.querySelector(`.${confirmed}`);
-
-    const addParticipant = (user) => {
-        userElement = document.querySelector("[data-id='" + user + "']");
-        console.log("before", participants, "check: ", participants.includes(user));
-        if (participants.includes(user)) {
-            return toast({
-                title: "Erreur",
-                message: "Vous avez déjà ajouté cet utilisateur",
-                type: "error",
-                duration: 2500,
-            });
-        }
-        participants.push(user);
-        confirmedParticipants.appendChild(userElement);
-        container.classList.remove("searching-users");
-        promptInput.value = "";
-    };
-
-    function removeParticipant(user) {
-        userElement = document.querySelectorAll("[data-id='" + user + "']").forEach((element) => {
-            element.remove();
-        });
-        participants.splice(participants.indexOf(user), 1);
-    }
-
-    const clearParticipants = () => {
-        document.querySelectorAll(`.${participantsBox} > div`).forEach((element) => {
-            element.remove();
-        });
-    };
-
-    const showParticipants = (users) => {
-        if (users.length === 0) {
-            container.classList.remove("searching-users");
-        } else {
-            container.classList.add("searching-users");
-            clearParticipants();
-            users.forEach((user) => {
-                const userElement = document.createElement("div");
-                userElement.classList.add("participant");
-                userElement.dataset.id = user._id;
-                const iconElement = document.createElement("img");
-                iconElement.src = `/cdn/u/${user.icon}`;
-                iconElement.alt = "user icon";
-                setPictureOnError(iconElement, "user");
-                userElement.appendChild(iconElement);
-
-                const columnInfosElement = document.createElement("div");
-                columnInfosElement.classList.add("column-infos");
-                userElement.appendChild(columnInfosElement);
-
-                const nameElement = document.createElement("h4");
-                nameElement.textContent = `${user.name} ${user.lastname}`;
-                columnInfosElement.appendChild(nameElement);
-
-                const accountTypeElement = document.createElement("span");
-                accountTypeElement.textContent = user.accountType;
-                columnInfosElement.appendChild(accountTypeElement);
-
-                participantsContainer.appendChild(userElement);
-            });
-        }
-    };
-
-    const searchUsers = async (query) => {
-        try {
-            const response = await fetch(`/swiftChat/search?q=${query}`);
-            const json = await response.json();
-            showParticipants(json);
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    const debouncedSearchUsers = debounce(searchUsers, 500);
-
-    promptInput.addEventListener("input", (event) => {
-        const query = event.target.value.trim();
-        if (query === "") {
-            participantsContainer.classList.remove("searching-users");
-        } else {
-            debouncedSearchUsers(query);
-        }
-    });
-
-    confirmedParticipants.addEventListener("click", (event) => {
-        let clickedElement = event.target;
-        while (clickedElement !== confirmedParticipants) {
-            if (clickedElement.classList.contains("participant")) {
-                const userId = clickedElement.dataset.id;
-                removeParticipant(userId);
-                return;
-            }
-            clickedElement = clickedElement.parentNode;
-        }
-    });
-
-    participantsContainer.addEventListener("click", (event) => {
-        let clickedElement = event.target;
-        while (clickedElement !== participantsContainer) {
-            if (clickedElement.classList.contains("participant")) {
-                const userId = clickedElement.dataset.id;
-                addParticipant(userId);
-                return;
-            }
-            clickedElement = clickedElement.parentNode;
-        }
+const clearParticipants = (container) => {
+    document.querySelectorAll(`#${container}-participants > div`).forEach((element) => {
+        element.remove();
     });
 };
+
+const searchUsers = async (query, container, type) => {
+    if (query.length < 2) return document.getElementById(`${container}-participants`).classList.remove("active-searching");
+    document.getElementById(`${container}-participants`).classList.add("active-searching");
+    try {
+        const response = await fetch(`/swiftChat/search?q=${query}&type=${type}`);
+        const json = await response.json();
+        clearParticipants(container);
+        json.forEach((user) => {
+            const userElement = document.createElement("div");
+            userElement.classList.add("participant");
+            userElement.dataset.id = user._id;
+            const iconElement = document.createElement("img");
+            iconElement.src = `/cdn/u/${user.icon}`;
+            iconElement.alt = "user icon";
+            setPictureOnError(iconElement, "user");
+            userElement.appendChild(iconElement);
+
+            const columnInfosElement = document.createElement("div");
+            columnInfosElement.classList.add("column-infos");
+            userElement.appendChild(columnInfosElement);
+
+            const nameElement = document.createElement("h4");
+            nameElement.textContent = `${user.name} ${user.lastname}`;
+            columnInfosElement.appendChild(nameElement);
+
+            const accountTypeElement = document.createElement("span");
+            accountTypeElement.textContent = user.accountType;
+            columnInfosElement.appendChild(accountTypeElement);
+
+            document.getElementById(`${container}-participants`).appendChild(userElement);
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+const addParticipant = (user, reference) => {
+    userElement = document.querySelector("[data-id='" + user + "']");
+    if (participants.includes(user)) {
+        return toast({
+            title: "Erreur",
+            message: "Vous avez déjà ajouté cet utilisateur",
+            type: "error",
+            duration: 2500,
+        });
+    }
+    participants.push(user);
+    document.getElementById(`${reference}-confirmed-participants`).appendChild(userElement);
+    document.getElementById(`${reference}-participants`).classList.remove("active-searching");
+    document.getElementById(`${reference}`).value = "";
+};
+
+const removeParticipant = (user, reference) => {
+    const userIndex = participants.indexOf(user);
+    if (userIndex === -1) {
+        return;
+    }
+    participants.splice(userIndex, 1);
+    document.querySelector(`[data-id='${user}']`).remove();
+};
+
+document.querySelectorAll(".user-search-input").forEach((element) => {
+    const reference = element.id;
+    let researchType = element.getAttribute("data-type");
+    element.addEventListener(
+        "input",
+        debounce(() => searchUsers(element.value, element.id, researchType), 500)
+    );
+    document.getElementById(`${reference}-participants`).addEventListener("click", (e) => {
+        let clickedElement = e.target;
+        while (clickedElement !== document.getElementById(`${reference}-participants`)) {
+            if (clickedElement.classList.contains("participant")) {
+                addParticipant(clickedElement.dataset.id, reference);
+                return;
+            }
+            clickedElement = clickedElement.parentNode;
+        }
+    });
+    document.getElementById(`${reference}-confirmed-participants`).addEventListener("click", (e) => {
+        let clickedElement = e.target;
+        while (clickedElement !== document.getElementById(`${reference}-confirmed-participants`)) {
+            if (clickedElement.classList.contains("participant")) {
+                removeParticipant(clickedElement.dataset.id, reference);
+                return;
+            }
+            clickedElement = clickedElement.parentNode;
+        }
+    });
+});
 
 /* End search manager */
 
@@ -719,8 +700,7 @@ document.getElementById("group-profile-picture-input").addEventListener("change"
     const formData = new FormData();
     formData.append("file", file);
     try {
-        console.log(file);
-        let fileName = document.getElementById("group-profile-picture-input").value;
+        let fileName = file.name;
         let fileSize = file.size;
         let idxDot = fileName.lastIndexOf(".") + 1;
         let extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
@@ -731,36 +711,23 @@ document.getElementById("group-profile-picture-input").addEventListener("change"
             return toast({ title: "Erreur !", message: "La taille de l'image ne doit pas dépasser 1 Mo !", type: "error", duration: 2500 });
         }
 
-        const response = await fetch("/cdn/upload/system", {
-            method: "POST",
+        const updateResponse = await fetch(`/swiftChat/${localStorage.getItem("currentConversation")}/updateicon`, {
+            method: "PUT",
             body: formData,
         });
-        const data = await response.json();
-        if (!data.error) {
-            const updateResponse = await fetch(`/swiftChat/${localStorage.getItem("currentConversation")}/updateicon`, {
-                method: "PUT",
-                body: JSON.stringify({
-                    icon: data.file._id,
-                }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-            const updateData = await updateResponse.json();
-            if (!updateData.error) {
-                toast({ title: "Image de groupe modifiée !", message: "L'icone du groupe a bien été modifiée", type: "success", duration: 2500 });
-                updateGroupIcon(updateData.icon);
-            } else {
-                toast({ title: "Erreur !", message: updateData.error, type: "error", duration: 2500 });
-            }
+        const updateData = await updateResponse.json();
+        if (!updateData.error) {
+            toast({ title: "Image de groupe modifiée !", message: "L'icone du groupe a bien été modifiée", type: "success", duration: 2500 });
+            updateGroupIcon(updateData.icon);
         } else {
-            toast({ title: "Erreur !", message: data.error, type: "error", duration: 2500 });
+            return toast({ title: "Erreur !", message: updateData.error, type: "error", duration: 2500 });
         }
     } catch (error) {
         console.error(error);
         toast({ title: "Erreur !", message: "Une erreur est survenue.", type: "error", duration: 2500 });
     }
 });
+
 document.getElementById("leave-group-btn").addEventListener("click", async () => {
     const conversationId = localStorage.getItem("currentConversation");
     fetch(`/swiftChat/${conversationId}/leave`, {
