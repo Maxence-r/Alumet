@@ -8,8 +8,8 @@ const { authorizedModules } = require("../../../config.json");
 const mongoose = require("mongoose");
 const validateObjectId = require("../../../middlewares/modelsValidation/validateObjectId");
 const path = require("path");
-const alumetItemsAuth = require("../../../middlewares/alumetItemsAuth");
 const authorize = require("../../../middlewares/authentification/authorize");
+const Account = require("../../../models/account");
 
 const storage = multer.diskStorage({
     destination: "./cdn",
@@ -36,18 +36,6 @@ const upload = multer({
         callback(null, true);
     },
 });
-
-/* router.post("/warn/multiple/:alumet", alumetItemsAuth, async (req, res) => {
-    if (!req.connected || req.alumetObj.owner !== req.user._id.toString()) {
-        return res.status(401).json({
-            error: "Vous n'avez pas les permissions pour effectuer cette action !",
-        });
-    }
-    global.io.emit(`warn-${req.user._id}`, req.params.alumet);
-    res.json({
-        message: "Warned",
-    });
-}); */
 
 router.post("/new/background", authorize("professor"), upload.single("background"), async (req, res) => {
     if (req.file) {
@@ -77,55 +65,6 @@ router.post("/new/background", authorize("professor"), upload.single("background
     } else {
         res.status(400).json({
             error: req.fileValidationError ? "Invalid file format" : "Please select a file to upload",
-        });
-    }
-});
-
-const { supportedTemplate } = require("../../../config.json");
-router.post("/new", authorize("professor"), async (req, res) => {
-    if (!req.body.modules) {
-        return res.status(400).json({
-            error: "Missing modules",
-        });
-    }
-    const unauthorizedModules = req.body.modules.filter((module) => !authorizedModules.includes(module));
-    if (unauthorizedModules.length > 0) {
-        return res.status(400).json({
-            error: "Invalid module",
-        });
-    }
-    if (req.body.background && !mongoose.Types.ObjectId.isValid(req.body.background)) {
-        return res.status(400).json({
-            error: "Invalid background",
-        });
-    }
-    if (req.body.name.includes("<") || req.body.description.includes("<")) {
-        return res.status(400).json({
-            error: "Invalid characters",
-        });
-    }
-    try {
-        if (!(req.body.background in supportedTemplate)) {
-            const upload = await Upload.findOne({
-                _id: req.body.background,
-            });
-            if (!upload || upload.owner !== req.user.id || (upload.mimetype !== "png" && upload.mimetype !== "jpg" && upload.mimetype !== "jpeg") || upload.filesize > 3 * 1024 * 1024) {
-                return res.status(404).json({ error: "Upload isn't valid" });
-            }
-        }
-        const alumet = new Alumet({
-            ...req.body,
-            owner: req.user.id,
-            lastUsage: Date.now(),
-        });
-        let saved = await alumet.save();
-        res.json({
-            saved,
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            error: "Failed to save alumet",
         });
     }
 });
@@ -225,13 +164,28 @@ router.get("/info/:id", validateObjectId, async (req, res) => {
             });
         }
         let finalAlumet = alumet.toObject();
-        finalAlumet.hasPassword = Boolean(alumet.password);
         if (req.cookies.alumetToken) {
             req.user = { _id: req.cookies.alumetToken };
         }
+        if (finalAlumet.private) {
+            delete finalAlumet.code;
+            delete finalAlumet.owner;
+            delete finalAlumet.collaborators;
+            delete finalAlumet.participants;
+        }
+        finalAlumet.participant = false;
+        if (req.user) {
+            const account = await Account.findOne({
+                _id: req.user.id,
+            });
+            if (account) {
+                if (alumet.participants.includes(account._id) || alumet.collaborators.includes(account._id) || alumet.owner == account._id) {
+                    finalAlumet.participant = true;
+                }
+            }
+        }
         res.json({
             finalAlumet,
-            user: req.user,
         });
     } catch (error) {
         console.error(error);
@@ -240,5 +194,4 @@ router.get("/info/:id", validateObjectId, async (req, res) => {
         });
     }
 });
-
 module.exports = router;

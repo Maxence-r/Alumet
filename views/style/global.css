@@ -98,6 +98,16 @@
     margin-bottom: 30px;
 }
 
+input {
+    width: calc(100% - 42px);
+    border-radius: 10px;
+    padding: 0 20px;
+    height: 50px;
+    font-size: 0.9rem;
+    outline-color: #e5e5e5;
+    border: 1px solid #e5e5e5;
+}
+
 .loader-upload:before,
 .loader-upload:after {
     content: "";
