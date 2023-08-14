@@ -32,15 +32,16 @@
         </section>
 
         <div id="toast"></div>
-        <section class="access">
+        <section class="access load">
             <section class="full-screen">
                 <span class="loader"></span>
+                <h3>Autorisation en cours</h3>
             </section>
-            <div class="container not-connected">
+            <div class="container">
                 <h1>Acceder à l'Alumet</h1>
                 <div class="public-nc" style="margin: 4% 0">
-                    <button class="large">Se connecter avec Alumet</button>
-                    <button class="large greyed">Acceder en tant que visiteur</button>
+                    <button class="large connect">Se connecter avec Alumet</button>
+                    <button class="large greyed guest">Acceder en tant que visiteur</button>
                 </div>
                 <div class="public-c" style="margin: 4% 0">
                     <div class="user-infos">
@@ -50,16 +51,16 @@
                             <p>Connecté</p>
                         </div>
                     </div>
-                    <button class="large">Rejoindre cet Alumet</button>
+                    <button class="large join">Rejoindre cet Alumet</button>
                 </div>
                 <div class="private-nc" style="margin: 4% 0">
                     <div class="user-infos">
                         <div class="user-details">
-                            <h3>Cette Alumet est privé</h3>
+                            <h3>Cet Alumet est privé</h3>
                             <p>Vous devez vous conneter pour continuer</p>
                         </div>
                     </div>
-                    <button class="large">Se connecter</button>
+                    <button class="large connect">Se connecter</button>
                 </div>
                 <div class="private-c" style="margin: 4% 0">
                     <div class="user-infos">
@@ -69,21 +70,22 @@
                             <p>Connecté</p>
                         </div>
                     </div>
-                    <input type="text" placeholder="Code d'accès" />
-                    <button class="large">Rejoindre cet Alumet privé</button>
+                    <input class="code" type="text" placeholder="Code d'accès" />
+                    <button class="large join">Rejoindre cet Alumet privé</button>
                 </div>
                 <p>En continuant vous accepter les CGU</p>
             </div>
         </section>
         <section class="alumet-infos">
             <div class="alumet-details">
-                <h1>Histoire géographie 105</h1>
-                <p>Crée par <span id="creator">Anne Morin </span>utilisé il y a <span id="lastusage">4 jours</span></p>
+                <h1>Alumet titre</h1>
+                <h3>Alumet description</h3>
+                <p>Crée par <span id="creator">utilisateur </span>utilisé il y a <span id="lastusage">bien logntemps</span></p>
             </div>
             <div class="layer-blur"></div>
-            <img src="../../assets/global/dev.png" />
+            <img />
         </section>
     </body>
-    <script src="../../script/authentification/authentification.js"></script>
     <script src="../../script/global.js"></script>
+    <script src="../../script/authentification/authentification.js"></script>
 </html>

@@ -1736,16 +1736,6 @@ select {
     font-weight: 500;
 }
 
-.reded {
-    background-color: #a82d17;
-    color: white;
-    box-shadow: none;
-}
-
-.reded:hover {
-    background-color: #8a1e0b;
-}
-
 .prompt-buttons > button:nth-child(2) {
     background-color: #f6f8fc;
     color: #000000;

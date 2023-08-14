@@ -163,29 +163,39 @@ router.get("/info/:id", validateObjectId, async (req, res) => {
                 error: "Alumet not found",
             });
         }
-        let finalAlumet = alumet.toObject();
         if (req.cookies.alumetToken) {
             req.user = { _id: req.cookies.alumetToken };
         }
-        if (finalAlumet.private) {
-            delete finalAlumet.code;
-            delete finalAlumet.owner;
-            delete finalAlumet.collaborators;
-            delete finalAlumet.participants;
+        if (alumet.private) {
+            delete alumet.code;
+            delete alumet.owner;
+            delete alumet.collaborators;
+            delete alumet.participants;
         }
-        finalAlumet.participant = false;
+        let participant = false;
+        let user_infos = {};
         if (req.user) {
-            const account = await Account.findOne({
-                _id: req.user.id,
-            });
+            const account = await Account.findOne(
+                {
+                    _id: req.user.id,
+                },
+                {
+                    id: 1,
+                    name: 1,
+                    icon: 1,
+                    lastname: 1,
+                }
+            );
             if (account) {
+                user_infos = { id: account._id, name: account.name, icon: account.icon, lastname: account.lastname };
                 if (alumet.participants.includes(account._id) || alumet.collaborators.includes(account._id) || alumet.owner == account._id) {
-                    finalAlumet.participant = true;
+                    participant = true;
                 }
             }
         }
         res.json({
-            finalAlumet,
+            alumet_infos: { ...alumet.toObject(), participant },
+            user_infos,
         });
     } catch (error) {
         console.error(error);

@@ -1,0 +1,19 @@
+body {
+    display: flex;
+    background-color: #f6f8fc;
+    background-image: url("../../assets/global/dev.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    backdrop-filter: blur(10px) brightness(0.8);
+    padding: 20px;
+    margin: 0;
+    overflow: hidden;
+}
+
+html,
+body {
+    height: calc(100% - 20px);
+    min-height: calc(100% - 20px);
+}

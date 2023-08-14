@@ -15,9 +15,9 @@ router.get("/:id", validateObjectId, async (req, res) => {
             if (!alumet) {
                 return res.redirect("/404");
             }
-        }
-        if (req.auth && req.alumet.id.toString() === req.params.id) {
-            return res.redirect("/a/" + req.params.id);
+            if (alumet.participants.includes(req.user.id) || alumet.owner === req.user.id || alumet.collaborators.includes(req.user.id)) {
+                return res.redirect("/a/" + req.params.id);
+            }
         }
         const filePath = path.join(__dirname, "../../../views/pages/authentification/authentication.html");
         return res.sendFile(filePath);
@@ -29,43 +29,34 @@ router.get("/:id", validateObjectId, async (req, res) => {
     }
 });
 
-router.post("/authorize", validateObjectId, async (req, res) => {
-    Alumet.findOne({
-        _id: req.body.id,
-    })
-        .then((alumet) => {
-            if (!alumet) {
-                return res.status(404).json({
-                    error: "Alumet not found",
-                });
-            }
-            if (req.body.username.length > 40 || req.body.username.includes("<")) {
-                return res.status(400).json({
-                    error: "Choississez un nom d'utilisateur plus court !",
-                });
-            }
-            if (alumet.password === req.body.password || !alumet.password) {
-                const token = jwt.sign(
-                    {
-                        id: alumet._id,
-                        username: req.body.username || "Anonyme",
-                    },
-                    process.env.TOKEN.toString()
-                );
-                res.cookie("alumetToken", token).status(200).json({
-                    message: "Connexion réussie !",
-                });
-            } else {
-                res.status(401).json({
-                    error: "Mot de passe incorrect !",
-                });
-            }
-        })
-        .catch((error) => {
-            res.status(500).json({
-                error,
+router.post("/authorize/:id", validateObjectId, async (req, res) => {
+    try {
+        const alumet = await Alumet.findById(req.params.id);
+        if (!alumet) {
+            return res.status(404).json({
+                error: "Alumet not found",
             });
+        }
+        if (alumet.private && req.body.code !== alumet.code) {
+            return res.status(401).json({
+                error: "Le code est incorrect",
+            });
+        }
+        if (alumet.participants.includes(req.user.id)) {
+            return res.status(400).json({
+                error: "User is already a participant",
+            });
+        }
+        alumet.participants.push(req.user.id);
+        await alumet.save();
+        res.status(200).json({
+            message: "Alumet joined",
         });
+    } catch (error) {
+        res.status(500).json({
+            error,
+        });
+    }
 });
 
 module.exports = router;
