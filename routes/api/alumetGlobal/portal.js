@@ -13,6 +13,7 @@ router.get("/:id", validateObjectId, async (req, res) => {
                 _id: req.params.id,
             });
             if (!alumet) {
+                console.log("Alumet not found");
                 return res.redirect("/404");
             }
             if (alumet.participants.includes(req.user.id) || alumet.owner === req.user.id || alumet.collaborators.includes(req.user.id)) {

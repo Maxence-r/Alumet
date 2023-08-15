@@ -132,16 +132,13 @@ router.patch("/update/:id", authorize("professor"), validateObjectId, async (req
     }
 });
 
-router.get("/all", async (req, res) => {
-    if (!req.connected) {
-        return res.status(401).json({
-            error: "Vous n'avez pas les permissions pour effectuer cette action !",
-        });
-    }
+router.get("/", authorize("all"), async (req, res) => {
     try {
         const alumets = await Alumet.find({
-            owner: req.user.id,
-        }).sort({ createdAt: -1 });
+            $or: [{ owner: req.user.id }, { participants: { $in: [req.user.id] } }, { collaborators: { $in: [req.user.id] } }],
+        })
+            .select("id title lastUsage background")
+            .sort({ lastUsage: -1 });
         res.json({
             alumets,
         });
