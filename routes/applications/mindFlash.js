@@ -5,6 +5,13 @@ const Account = require('../../models/account');
 const path = require('path');
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
 
+router.get('/', async (req, res) => {
+    if (!req.connected) return res.redirect('/auth/signin');
+    const filePath = path.join(__dirname, '../../views/pages/applications/mindFlash.html');
+    res.sendFile(filePath);
+});
+
+
 
 router.get('/:id', validateObjectId, async (req, res) => {
     flashCardSet.findOne({ _id: req.params.id })

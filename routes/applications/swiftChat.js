@@ -116,7 +116,9 @@ router.get("/", async (req, res) => {
                 if (conversation.type === "private") {
                     const otherParticipant = conversation.participants.find((participant) => participant !== req.user.id);
                     const user = await Account.findOne({ _id: otherParticipant }, { name: 1, lastname: 1, icon: 1 });
-                    userinfos = { id: user._id, name: user.name, lastname: user.lastname, icon: user.icon };
+                    if (user !== null) {
+                        userinfos = { id: user._id.toString(), name: user.name, lastname: user.lastname, icon: user.icon };
+                    }
                 }
 
                 return { ...conversation.toObject(), participants, lastMessage: lastMessageObject, isReaded: isReaded, conversationId: conversationId, conversationName: conversation.name, conversationIcon: conversation.icon, userinfos };

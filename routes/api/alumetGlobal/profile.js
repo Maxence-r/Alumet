@@ -89,7 +89,7 @@ router.put("/toggleA2f", async (req, res) => {
     }
 });
 
-router.put("/updateicon", upload.single("file"), uploadAndSaveToDb("1", ["png", "jpeg", "jpg"]), async (req, res) => {
+router.put("/updateicon", upload.single("file"), uploadAndSaveToDb("1", ["png", "jpeg", "jpg"], "icon"), async (req, res) => {
     try {
         const user = await Account.findById(req.user.id);
         user.icon = req.upload._id;

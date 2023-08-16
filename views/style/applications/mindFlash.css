@@ -1,0 +1,212 @@
+body {
+    display: flex;
+    flex-direction: row;
+    background-color: #f6f8fc;
+    padding: 20px;
+    margin: 0;
+    overflow: hidden;
+    height: calc(100% - 20px);
+    min-height: calc(100% - 20px);
+}
+
+.main-sub-container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-shrink: 1;
+    padding: 20px 20px;
+    min-width: 215px;
+    max-width: 260px;
+    background-color: white;
+    height: calc(100vh - 80px);
+    margin-right: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.main-sub-container {
+    > .title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        
+        > span {
+            font-size: 1.8em;
+            font-weight: bolder;
+            color: #296EFF;
+        }
+    }
+    > h3 {
+
+        font-weight: 600;
+        font-size: 1.2em;
+        margin: 0;
+        margin-top: 10px;
+    }
+}
+
+
+.flashcard-set-container {
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+    gap: 10px;
+    margin-top: 10px;
+    overflow-y: auto;
+}
+
+.flashcard-set {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 2px solid #C6C9CE;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+}
+.flashcard-set.active {
+    border: 2px solid #296EFF;
+}
+.flashcard-set > .flashcard-set-title {
+    font-size: 1em;
+    font-weight: 500;
+    color: black;
+    width: calc(100% - 8px);
+}
+.flashcard-set > .flashcard-set-infos {
+    font-size: 0.8em;
+    font-style: italic;
+    > b {
+        font-style: normal;
+        font-weight: 500;
+    }
+}
+.flashcard-set > .options {
+    position: absolute;
+    display: flex;
+    top: 8px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-sub-container-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-shrink: 1;
+    gap: 20px;
+    width: calc(100% - 40px);
+    height: calc(100vh - 40px);
+}
+
+.main-container > .infos-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    width: calc(100% - 40px);
+    padding: 0px 20px;
+    background-color: white;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+    > h2 {
+        margin: 0;
+        font-weight: 400;
+    }
+
+    .buttons-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+.main-flashcard-container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-shrink: 1;
+    background-color: white;
+    width: calc(100% - 40px);
+    height: calc(100vh - 120px);
+    padding: 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.percentage-bar {
+    display: flex;
+    position: relative;
+    gap: 2px;
+    flex-direction: row;
+    width: 100%;
+    height: 10px;
+    border-radius: 30px;
+    > div {
+        border-radius: 10px;
+    }
+    > #percentage-bar-good {
+        background-color: #296EFF;
+        width: 40%;
+    }
+    > #percentage-bar-ok {
+        background-color: #F0AC00;
+        width: 15%;
+    }
+    > #percentage-bar-bad {
+        background-color: #F00;
+        width: 23%;
+    }
+    > #percentage-bar-unrated {
+        background-color: #C6C9CE;
+        width: 32%;
+    }
+}
+
+.main-flashcard-container > .options > img {
+    width: 32px;
+    cursor: pointer;
+}
+#flashcards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: repeat(auto-fill, 220px);
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    margin: 20px 0px;
+    overflow-y: auto;
+}
+.flashcard {
+    background-color: #296EFF;
+}

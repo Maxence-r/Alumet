@@ -12,6 +12,9 @@
 }
 
 .large {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 50px;
     white-space: nowrap;
     padding: 0 20px;
@@ -20,6 +23,27 @@
     border: none;
     color: white;
     font-weight: 500;
+    box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.large-white:hover {
+    background-color: #f1f1f1;
+    transform: scale(0.98);
+}
+.large-white {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    white-space: nowrap;
+    padding: 0 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 2px solid #296EFF;
+    color: #296eff;
+    font-weight: 600;
     box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
     cursor: pointer;

@@ -1,1 +1,133 @@
-<h1>Mindlfash</h1>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../assets/global/alumet.ico" />
+    <link href="../../style/applications/mindFlash.css" rel="stylesheet" type="text/css" />
+    <link href="../../style/global.css" rel="stylesheet" type="text/css" />
+    <title>Alumet - MindFlash</title>
+</head>
+<body>
+    <div id="toast"></div>
+    <div class="main-sub-container">
+        <div class="title">
+            <img src="../../assets/global/mindFlash_logo.svg" alt="mindFlash Logo">
+            <span>MindFlash</span>
+        </div>
+        <h3>Mes jeux de flashcards</h3>
+        <div class="flashcard-set-container">
+            <div class="flashcard-set" onclick="setActive(this)">
+                <div class="flashcard-set-title">
+                  <span>Les verbes irréguliers</span>
+                </div>
+                <div class="flashcard-set-infos">
+                  31 flashcards <span>-</span> a été crée par <b>Anne Morin</b>
+                </div>
+                <div class="options">
+                  <img src="../../assets/global/dots.svg" alt="dots icon">
+                </div>
+              </div>
+              <div class="flashcard-set" onclick="setActive(this)">
+                <div class="flashcard-set-title">
+                  <span>Les capitales européennes</span>
+                </div>
+                <div class="flashcard-set-infos">
+                  44 flashcards <span>-</span> créé par <b>Lucas Dupont</b>
+                </div>
+                <div class="options">
+                  <img src="../../assets/global/dots.svg" alt="dots icon">
+                </div>
+              </div>
+              <div class="flashcard-set" onclick="setActive(this)">
+                <div class="flashcard-set-title">
+                  <span>Les éléments chimiques</span>
+                </div>
+                <div class="flashcard-set-infos">
+                  118 flashcards <span>-</span> créé par <b>Marie Martin</b>
+                </div>
+                <div class="options">
+                  <img src="../../assets/global/dots.svg" alt="dots icon">
+                </div>
+              </div>
+              <div class="flashcard-set" onclick="setActive(this)">
+                <div class="flashcard-set-title">
+                  <span>Les personnages de Game of Thrones</span>
+                </div>
+                <div class="flashcard-set-infos">
+                  50 flashcards <span>-</span> créé par <b>Thomas Lefebvre</b>
+                </div>
+                <div class="options">
+                  <img src="../../assets/global/dots.svg" alt="dots icon">
+                </div>
+              </div>
+              <div class="flashcard-set" onclick="setActive(this)">
+                <div class="flashcard-set-title">
+                  <span>Les pays d'Asie</span>
+                </div>
+                <div class="flashcard-set-infos">
+                  48 flashcards <span>-</span> créé par <b>Julie Dubois</b>
+                </div>
+                <div class="options">
+                  <img src="../../assets/global/dots.svg" alt="dots icon">
+                </div>
+              </div>
+              <div class="flashcard-set" onclick="setActive(this)">
+                <div class="flashcard-set-title">
+                  <span>Les grands écrivains français</span>
+                </div>
+                <div class="flashcard-set-infos">
+                  20 flashcards <span>-</span> créé par <b>Antoine Leroy</b>
+                </div>
+                <div class="options">
+                  <img src="../../assets/global/dots.svg" alt="dots icon">
+                </div>
+              </div>
+        </div>
+        <div class="main-sub-container-buttons">
+            <button class="create large" onclick="createFlashcardSet()">Créer un nouveau jeu de flashcard</button>
+            <button class="back-to-alumet large-white" onclick="window.location.href = '../dashboard'">Retourner sur Alumet</button>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="infos-bar">
+            <h2>LL Problématiques</h2>
+            <div class="buttons-container">
+                <button class="large-white">Ajouter des flashcards</button>
+                <button class="large">Réviser</button>
+            </div>
+        </div>
+        <div class="main-flashcard-container">
+            <div class="options">
+                <div class="percentage-bar">
+                    <div id="percentage-bar-good" ></div>
+                    <div id="percentage-bar-ok"></div>
+                    <div id="percentage-bar-bad"></div>
+                    <div id="percentage-bar-unrated"></div>
+                </div>
+                <div class="search-bar"></div>
+                <img src="../../assets/global/search-icon.svg" alt="search icon">
+                <img src="../../assets/global/filter-icon.svg" alt="filter icon">
+                <img src="../../assets/global/black-dots.svg" alt="dots">
+            </div>
+            <div id="flashcards-container">
+                <div class="flashcard">1</div>
+                <div class="flashcard">2</div>
+                <div class="flashcard">3</div>
+                <div class="flashcard">4</div>
+                <div class="flashcard">5</div>
+                <div class="flashcard">6</div>
+                <div class="flashcard">7</div>
+                <div class="flashcard">8</div>
+                <div class="flashcard">9</div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="../../script/global.js"></script>
+    <script src="../../script/applications/mindFlash.js"></script>
+    
+</body>
+</html>
