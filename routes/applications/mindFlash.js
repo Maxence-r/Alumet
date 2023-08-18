@@ -2,12 +2,82 @@ const express = require('express');
 const router = express.Router();
 const flashCardSet = require('../../models/flashcardSet');
 const flashcard = require('../../models/flashcard');
-const Account = require('../../models/account');
 const path = require('path');
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
-const { use } = require('node-vibrant');
-const { type } = require('os');
-const { stat } = require('fs');
+
+function getOrChangeFlashcardUserInfos(flashCard, userId, status, numberOfGood, lastReview, nextReview) {
+  const userIdString = userId.toString();
+  let updated = false;
+
+  const flashcardUserInfo = {
+    status: "unrated",
+    numberOfGood: 0,
+    lastReview: null,
+    nextReview: null
+  };
+
+  const existingStatus = flashCard.status.find(item => item.userId === userIdString);
+  if (existingStatus) {
+    flashcardUserInfo.status = existingStatus.status;
+  }
+
+  const existingNumberOfGood = flashCard.numberOfGood.find(item => item.userId === userIdString);
+  if (existingNumberOfGood) {
+    flashcardUserInfo.numberOfGood = existingNumberOfGood.numberOfGood;
+  }
+
+  const existingLastReview = flashCard.lastReview.find(item => item.userId === userIdString);
+  if (existingLastReview) {
+    flashcardUserInfo.lastReview = existingLastReview.lastReview;
+  }
+
+  const existingNextReview = flashCard.nextReview.find(item => item.userId === userIdString);
+  if (existingNextReview) {
+    flashcardUserInfo.nextReview = existingNextReview.nextReview;
+  }
+
+  if (status) {
+    if (existingStatus) {
+      existingStatus.status = status;
+    } else {
+      flashCard.status.push({ userId: userIdString, status });
+    }
+    updated = true;
+    flashcardUserInfo.status = status;
+  }
+
+  if (numberOfGood || numberOfGood === 0) {
+    if (existingNumberOfGood) {
+      existingNumberOfGood.numberOfGood = numberOfGood;
+    } else {
+      flashCard.numberOfGood.push({ userId: userIdString, numberOfGood });
+    }
+    updated = true;
+    flashcardUserInfo.numberOfGood = numberOfGood;
+  }
+
+  if (lastReview) {
+    if (existingLastReview) {
+      existingLastReview.lastReview = lastReview;
+    } else {
+      flashCard.lastReview.push({ userId: userIdString, lastReview });
+    }
+    updated = true;
+    flashcardUserInfo.lastReview = lastReview;
+  }
+
+  if (nextReview) {
+    if (existingNextReview) {
+      existingNextReview.nextReview = nextReview;
+    } else {
+      flashCard.nextReview.push({ userId: userIdString, nextReview });
+    }
+    updated = true;
+    flashcardUserInfo.nextReview = nextReview;
+  }
+
+  return { updated, flashcardUserInfo };
+}
 
 router.get('/', async (req, res) => {
     if (!req.connected) return res.redirect('/auth/signin');
@@ -46,36 +116,46 @@ router.post('/flashcard/create', async (req, res) => {
     }
 });
 
-function extractFlashcardUserInfo(flashCard, userId, infoSearch) {
-    if (!flashCard[infoSearch]) return null;
-    switch (infoSearch) {
-        case 'status':
-            return 
-        case 'numberOfGood':
-            return flashCard.numberOfGood.find(object => object.userId.toString() === userId);
-        case 'lastReview':
-            return flashCard.lastReview.find(object => object.userId.toString() === userId);
-        case 'nextReview':
-            return flashCard.nextReview.find(object => object.userId.toString() === userId);
-        default:
-            return null;
-    }
-}
-router.get('/:flashcardSetId', validateObjectId, async (req, res) => {
+router.get('/flashcardsets', async (req, res) => {
+    try {
+      userId = req.user._id.toString();
+      console.log('userId: ', userId);
+      //not working here yet
+      const flashcardSets = await flashCardSet.find({
+        $or: [
+          { owner: userId },
+          { participants: { $in: userId } }
+        ]
+      });
+      console.log(flashCardSets)
+      const flashcardSetsInfo = flashcardSets.map(flashcardSet => {
+          const flashcardSetInfo = {};
+          flashCardSetInfo.owner = flashCardSet.owner;
+          flashcardSetInfo.title = flashcardSet.title;
+          flashcardSetInfo.numberOfFlashcards = flashcardSet.numberOfFlashcards;
+          return flashcardSetInfo;
+      });
+      return res.status(200).json({ flashcardSets: flashcardSetsInfo });
+  } catch (err) {
+      return res.status(500).json({ error: 'Une erreur est survenue lors de la récupération des données' });
+  }
+});
+
+router.get('/getFlashcardSet/:flashcardSetId', validateObjectId, async (req, res) => {
     try {
         const flashcardSet = await flashCardSet.findById(req.params.flashcardSetId);
         if (!flashcardSet) return res.status(404).json({error: "Ce set de flashcards n'existe pas"});
         const flashcards = await flashcard.find({flashcardSetId: req.params.flashcardSetId});
         const flashcardsInfo = flashcards.map(flashcard => {
-            const flashcardInfo = {}; 
+            const flashcardInfo = {};
+
             flashcardInfo.question = flashcard.question;
             flashcardInfo.answer = flashcard.answer;
-            // Not working yet here, doesn't find the status.
-            flashcardInfo.status = flashCard.status.find(item => item.userId.toString() === req.user._id.toString());
-            console.log('tet', flashcardInfo)
-            flashcardInfo.numberOfGood = flashCard.numberOfGood.find(item => item.userId.toString() === req.user._id.toString());
-            flashcardInfo.lastReview = flashCard.lastReview.find(item => item.userId.toString() === req.user._id.toString());
-            flashcardInfo.nextReview = flashCard.nextReview.find(item => item.userId.toString() === req.user._id.toString());
+            const flashcardUserInfos = getOrChangeFlashcardUserInfos(flashcard, req.user._id.toString()).flashcardUserInfo;
+            flashcardInfo.status = flashcardUserInfos.status;
+            flashcardInfo.numberOfGood = flashcardUserInfos.numberOfGood;
+            flashcardInfo.lastReview = flashcardUserInfos.lastReview;
+            flashcardInfo.nextReview = flashcardUserInfos.nextReview;
             return flashcardInfo;
         })
         return res.status(200).json({flashcardSet, flashcards: flashcardsInfo});
@@ -87,51 +167,13 @@ router.get('/:flashcardSetId', validateObjectId, async (req, res) => {
 
 router.put('/flashcard/update/:id', async (req, res) => {
     const flashcardId = req.params.id;
-
     try {
         const updatedFlashcard = await flashcard.findById(flashcardId);
         const { userId, status, numberOfGood, lastReview, nextReview } = req.body;
-        let updated = false;
-
         if (!updatedFlashcard) {
             return res.status(404).json({ error: "Cette flashcard n'existe pas" });
         }
-        if (status) {
-            const existingStatus = updatedFlashcard.status.find(item => item.userId.toString() === userId);
-            if (existingStatus) {
-                existingStatus.status = status;
-            } else {
-                updatedFlashcard.status.push({ userId, status });
-            }
-            updated = true;
-        }
-        if (numberOfGood || numberOfGood === 0) {
-            const existingNumberOfGood = updatedFlashcard.numberOfGood.find(item => item.userId.toString() === userId);
-            if (existingNumberOfGood) {
-                existingNumberOfGood.numberOfGood = numberOfGood;
-            } else {
-                updatedFlashcard.numberOfGood.push({ userId, numberOfGood });
-            }
-            updated = true;
-        }
-        if (lastReview) {
-            const existingLastReview = updatedFlashcard.lastReview.find(item => item.userId.toString() === userId);
-            if (existingLastReview) {
-                existingLastReview.lastReview = lastReview;
-            } else {
-                updatedFlashcard.lastReview.push({ userId, lastReview });
-            }
-            updated = true;
-        }
-        if (nextReview) {
-            const existingNextReview = updatedFlashcard.nextReview.find(item => item.userId.toString() === userId);
-            if (existingNextReview) {
-                existingNextReview.nextReview = nextReview;
-            } else {
-                updatedFlashcard.nextReview.push({ userId, nextReview });
-            }
-            updated = true;
-        }
+        const updated = getOrChangeFlashcardUserInfos(updatedFlashcard, userId, status, numberOfGood, lastReview, nextReview).updated;
         if (!updated) {
             return res.status(400).json({ error: "Vous devez spécifier un paramètre à modifier" });
         }
@@ -143,9 +185,5 @@ router.put('/flashcard/update/:id', async (req, res) => {
         return res.status(500).json({ error: 'Une erreur est survenue lors de la mise à jour de la flashcard' });
     }
 });
-
-module.exports = router;
-
-
 
 module.exports = router;
