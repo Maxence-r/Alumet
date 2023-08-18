@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const flashCardSet = require('../../models/flashcardSet');
 const flashcard = require('../../models/flashcard');
+const Account = require('../../models/account');
 const path = require('path');
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
 
@@ -79,11 +80,64 @@ function getOrChangeFlashcardUserInfos(flashCard, userId, status, numberOfGood, 
   return { updated, flashcardUserInfo };
 }
 
+async function getFlashcardSetStats (req) {
+  const flashcards = await flashcard.find({flashcardSetId: req.params.flashcardSetId});
+  let numberOfFlashcards = flashcards.length;
+  let numberOfGood = 0;
+  let numberOfOk = 0;
+  let numberOfBad = 0;
+  let numberOfUnrated = 0;
+
+  
+  flashcards.forEach(flashcard => {
+    const existingStatus = flashcard.status.find(item => item.userId === req.user._id.toString());
+    if (existingStatus) {
+      switch (existingStatus.status) {
+        case 'good':
+          numberOfGood++;
+          break;
+        case 'ok':
+          numberOfOk++;
+          break;
+        case 'bad':
+          numberOfBad++;
+          break;
+        case 'unrated':
+          numberOfUnrated++;
+          break;
+      }
+    } else {
+      numberOfUnrated++;
+    }        
+  })
+
+  const calculatePercentage = (number) => { return ((number / numberOfFlashcards) * 100).toFixed(2) };
+    const stats = {
+      numberOfFlashcards,
+      numberOfGood,
+      numberOfOk,
+      numberOfBad,
+      numberOfUnrated,
+      percentageOfGood: calculatePercentage(numberOfGood),
+      percentageOfOk: calculatePercentage(numberOfOk),
+      percentageOfBad: calculatePercentage(numberOfBad),
+      percentageOfUnrated: calculatePercentage(numberOfUnrated)
+    };
+    return stats;
+}
+
 router.get('/', async (req, res) => {
     if (!req.connected) return res.redirect('/auth/signin');
     const filePath = path.join(__dirname, '../../views/pages/applications/mindFlash.html');
     res.sendFile(filePath);
 });
+
+router.get('/:flashcardSetId', validateObjectId, async (req, res) => {
+    if (!req.connected) return res.redirect('/auth/signin');
+    const filePath = path.join(__dirname, '../../views/pages/applications/mindFlash.html');
+    res.sendFile(filePath);
+});
+
 
 router.post('/create', (req, res) => {
     const newFlashCardSet = new flashCardSet();
@@ -96,7 +150,7 @@ router.post('/create', (req, res) => {
     newFlashCardSet.numberOfFlashcards = 0;
     newFlashCardSet.save((err, flashCardSet) => {
         if (err) {
-            return res.status(500).json({error: 'Une erreur est survenue lors de la création de votre set de flashcards'});
+            return res.status(500).json({error: 'Une erreur est survenue lors de la création de votre set de flashcards' + err});
         }   
         return res.status(201).json({flashCardSet});
     });
@@ -117,38 +171,37 @@ router.post('/flashcard/create', async (req, res) => {
 });
 
 router.get('/flashcardsets', async (req, res) => {
-    try {
-      userId = req.user._id.toString();
-      console.log('userId: ', userId);
-      //not working here yet
-      const flashcardSets = await flashCardSet.find({
-        $or: [
-          { owner: userId },
-          { participants: { $in: userId } }
-        ]
-      });
-      console.log(flashCardSets)
-      const flashcardSetsInfo = flashcardSets.map(flashcardSet => {
-          const flashcardSetInfo = {};
-          flashCardSetInfo.owner = flashCardSet.owner;
-          flashcardSetInfo.title = flashcardSet.title;
-          flashcardSetInfo.numberOfFlashcards = flashcardSet.numberOfFlashcards;
-          return flashcardSetInfo;
-      });
-      return res.status(200).json({ flashcardSets: flashcardSetsInfo });
+  try {
+    const userId = req.user._id.toString();
+    const flashcardSets = await flashCardSet.find({ participants: userId });
+    const flashcardSetsInfo = [];
+    for (const flashcardSet of flashcardSets) {
+      const owner = await Account.findById(flashcardSet.owner);
+      if (!owner) {
+        return res.status(404).json({ error: "Le propriétaire de ce set de flashcards n'existe pas" });
+      };
+      const flashcardSetInfo = {
+        id: flashcardSet._id,
+        owner: owner.name + ' ' + owner.lastname,
+        title: flashcardSet.title,
+        numberOfFlashcards: flashcardSet.numberOfFlashcards
+      };
+      flashcardSetsInfo.push(flashcardSetInfo);
+    }
+    return res.status(200).json({ flashcardSets: flashcardSetsInfo });
   } catch (err) {
-      return res.status(500).json({ error: 'Une erreur est survenue lors de la récupération des données' });
+    return res.status(500).json({ error: 'Une erreur est survenue lors de la récupération des données' });
   }
 });
 
-router.get('/getFlashcardSet/:flashcardSetId', validateObjectId, async (req, res) => {
+
+router.get('/getFlashcardset/:flashcardSetId', validateObjectId, async (req, res) => {
     try {
         const flashcardSet = await flashCardSet.findById(req.params.flashcardSetId);
         if (!flashcardSet) return res.status(404).json({error: "Ce set de flashcards n'existe pas"});
         const flashcards = await flashcard.find({flashcardSetId: req.params.flashcardSetId});
         const flashcardsInfo = flashcards.map(flashcard => {
             const flashcardInfo = {};
-
             flashcardInfo.question = flashcard.question;
             flashcardInfo.answer = flashcard.answer;
             const flashcardUserInfos = getOrChangeFlashcardUserInfos(flashcard, req.user._id.toString()).flashcardUserInfo;
@@ -163,6 +216,16 @@ router.get('/getFlashcardSet/:flashcardSetId', validateObjectId, async (req, res
     catch (err) {
         return res.status(500).json({error: 'Une erreur est survenue lors de la récupération des données'});
     }
+});
+
+router.get('/flashcardset/stats/:flashcardSetId', validateObjectId, async (req, res) => {
+  try {
+      return res.json(await getFlashcardSetStats(req));
+  }
+  catch (err) {
+      console.error('error : ' + err);
+      return res.status(500).json({error: 'Une erreur est survenue lors de la récupération des données'});
+  }
 });
 
 router.put('/flashcard/update/:id', async (req, res) => {

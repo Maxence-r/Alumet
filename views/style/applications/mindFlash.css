@@ -8,16 +8,31 @@ body {
     height: calc(100% - 20px);
     min-height: calc(100% - 20px);
 }
+.hidden {
+    display: none;
+}
+#loading-mindflash {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    background-color: #f6f8fc;
+}
+#loading-mindflash.active-loading {
+    display: flex !important;
+}
 
 .main-sub-container {
     display: flex;
     position: relative;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 14px;
     flex-shrink: 1;
-    padding: 20px 20px;
-    min-width: 215px;
-    max-width: 260px;
+    max-width: 250px;
     background-color: white;
     height: calc(100vh - 80px);
     margin-right: 20px;
@@ -27,173 +42,247 @@ body {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
-.main-sub-container {
-    > .title {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-        
-        > span {
-            font-size: 1.8em;
-            font-weight: bolder;
-            color: #296EFF;
-        }
-    }
-    > h3 {
-
-        font-weight: 600;
-        font-size: 1.2em;
-        margin: 0;
-        margin-top: 10px;
-    }
+.main-sub-container > .title{
+    overflow-wrap: break-word;
+    font-size: 1.6rem;
+}
+.informations-display-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+}
+.informations-display-buttons > button {
+    width: fit-content;
+    height: fit-content;
+    font-size: 0.72em;
+    padding: 10px 10px;
+    border: none;
+    box-shadow: inset 0 0 0 1px #296EFF;
 }
 
-
-.flashcard-set-container {
+.main-sub-container > .informations {
     display: flex;
     flex-direction: column;
-    height: 70%;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: 10px;
-    margin-top: 10px;
+    width: 100%;
+    height: fit-content;
+    max-height: calc(100% - 160px);
     overflow-y: auto;
 }
-
-.flashcard-set {
-    position: relative;
+.informations > section {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: 10px;
-    border: 2px solid #C6C9CE;
-    border-radius: 10px;
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    width: 100%;
+    height: fit-content;
+    margin-top: 10px;
+}
 
+#back-to-alumet-btn {
+    width: calc(100% - 40px);
+    position: absolute;
+    bottom: 20px;
 }
-.flashcard-set.active {
-    border: 2px solid #296EFF;
+section > .informations-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 14px;
+    margin-bottom: 2px;
+    width: 100%;
+    height: fit-content;
 }
-.flashcard-set > .flashcard-set-title {
-    font-size: 1em;
+.informations-box > h2 {
+    font-size: 1.4em;
     font-weight: 500;
-    color: black;
-    width: calc(100% - 8px);
+    margin: 0;
+    text-align: left;
 }
-.flashcard-set > .flashcard-set-infos {
-    font-size: 0.8em;
-    font-style: italic;
-    > b {
-        font-style: normal;
-        font-weight: 500;
+.informations-box > .percentage-bar {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+    width: 100%;
+    height: 10px;
+
+    > #percentage-bar-good {
+        background-color: #00c75a;
+        width: 37%;
+    }
+    > #percentage-bar-ok {
+        background-color: #F0AC00;
+        width: 17%;
+    }
+    > #percentage-bar-bad {
+        background-color: #F00;
+        width: 6%;
+    }
+    > #percentage-bar-unrated {
+        background-color: #C6C9CE;
+        width: 40%;
     }
 }
-.flashcard-set > .options {
-    position: absolute;
-    display: flex;
-    top: 8px;
-    right: 4px;
-    width: 20px;
-    height: 20px;
-    align-items: center;
-    justify-content: center;
-}
 
-.main-sub-container-buttons {
-    width: 100%;
+.informations-box > .stats-info-container {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-top: 18px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    height: fit-content;
 }
+.stats-info-container > .stats-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    height: fit-content;
+
+    > svg {
+        min-width: 15px;
+        min-height: 15px;
+    }
+    > p {
+        font-size: 1em;
+        font-weight: 400;
+        margin: 0;
+        text-align: left;
+    }
+}
+.informations-box > .set-informations-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 2px;
+    width: 100%;
+    height: fit-content;
+
+    > h3 {
+        font-size: 1em;
+        font-weight: 400;
+        margin: 0;
+        text-align: left;
+    }
+    > h3 > span {
+        font-style: italic;
+    }
+}
+
 
 .main-container {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-shrink: 1;
-    gap: 20px;
-    width: calc(100% - 40px);
-    height: calc(100vh - 40px);
-}
-
-.main-container > .infos-bar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 80px;
-    height: 80px;
-    width: calc(100% - 40px);
-    padding: 0px 20px;
-    background-color: white;
-    border-radius: 10px;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-
-    > h2 {
-        margin: 0;
-        font-weight: 400;
-    }
-
-    .buttons-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-    }
-}
-
-.main-flashcard-container {
-    --main-flashcard-container: calc(100% - 140px);
-    display: flex;
     position: relative;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 20px;
     flex-shrink: 1;
     background-color: white;
     width: calc(100% - 40px);
-    min-height: var(--main-flashcard-container);
-    height: var(--main-flashcard-container);
-    max-height: var(--main-flashcard-container);
+    height: calc(100vh - 80px);
     padding: 20px;
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
-
-.options {
+.main-container > .full-screen {
+    position: absolute;
+    top: 0px;
+    right: 0px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-}
-.percentage-bar {
-    display: flex;
-    position: relative;
-    gap: 2px;
-    flex-direction: row;
     width: 100%;
-    height: 10px;
-    border-radius: 30px;
-    > div {
-        border-radius: 10px;
+    height: 100%;
+    z-index: 101;
+    background-color: #fff;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+.main-container > .full-screen > h1 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+    text-align: center;
+}
+.main-container > .full-screen > p {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin: 0;
+    color: #9ea1a7;
+    text-align: center;
+}
+.loading-flashcard-infos {
+    display: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-color: #fff;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.loading-flashcard-set {
+    display: none;
+}
+.active-loading > .loading-flashcard-set, .active-loading > .loading-flashcard-infos {
+    display: flex !important;
+}
+.main-container > .loading-flashcard-set, .main-sub-container > .loading-flashcard-infos {
+    display: none;
+}
+.main-container > .infos-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: fit-content;
+    width: calc(100% - 20px);
+    padding: 0px 10px;
+    background-color: white;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+
+    > h2 {
+        margin: 0;
+        font-size: 1.8em;
+        font-weight: 400;
     }
-    > #percentage-bar-good {
-        background-color: #296EFF;
-        width: 40%;
+
+    > .buttons-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
     }
-    > #percentage-bar-ok {
-        background-color: #F0AC00;
-        width: 15%;
-    }
-    > #percentage-bar-bad {
-        background-color: #F00;
-        width: 23%;
-    }
-    > #percentage-bar-unrated {
-        background-color: #C6C9CE;
-        width: 32%;
+}
+
+.main-container > .infos-bar > .buttons-container > .buttons-container-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+
+    > img {
+        width: 32px;
+        cursor: pointer;
     }
 }
 
@@ -203,7 +292,7 @@ body {
 }
 #flashcards-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(160px, 1fr));
     gap: 20px;
     width: 100%;
@@ -218,6 +307,7 @@ body {
     justify-items: center;
     align-items: center;
     gap: 15px;
+    min-height: 115px;
     padding: 20px;
     border-radius: 12px;
     border: 3px solid #C6C9CE;
@@ -226,7 +316,7 @@ body {
 }
 
 .flashcard-good {
-    border: 3px solid #296EFF;
+    border: 3px solid #00c75a;
 }
 .flashcard-ok {
     border: 3px solid #F0AC00;
@@ -237,6 +327,7 @@ body {
 .flashcard-unrated {
     border: 3px solid #C6C9CE;
 }
+
 .flashcard > .flashcard-options {
     display: flex;
     justify-content: center;

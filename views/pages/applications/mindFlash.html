@@ -11,260 +11,115 @@
 </head>
 <body>
     <div id="toast"></div>
+    <div id="loading-mindflash">
+        <span class="loader-upload"></span>
+    </div>
     <div class="main-sub-container">
-        <div class="title">
-            <img src="../../assets/global/mindFlash_logo.svg" alt="mindFlash Logo">
-            <span>MindFlash</span>
+        <div class="loading-flashcard-infos">
+            <span class="loader-upload"></span>
         </div>
-        <h3>Mes jeux de flashcards</h3>
-        <div class="flashcard-set-container">
-            <div class="flashcard-set" onclick="setActive(this)">
-                <div class="flashcard-set-title">
-                  <span>Les verbes irréguliers</span>
-                </div>
-                <div class="flashcard-set-infos">
-                  31 flashcards <span>-</span> a été crée par <b>Anne Morin</b>
-                </div>
-                <div class="options">
-                  <img src="../../assets/global/dots.svg" alt="dots icon">
-                </div>
-              </div>
-              <div class="flashcard-set" onclick="setActive(this)">
-                <div class="flashcard-set-title">
-                  <span>Les capitales européennes</span>
-                </div>
-                <div class="flashcard-set-infos">
-                  44 flashcards <span>-</span> créé par <b>Lucas Dupont</b>
-                </div>
-                <div class="options">
-                  <img src="../../assets/global/dots.svg" alt="dots icon">
-                </div>
-              </div>
-              <div class="flashcard-set" onclick="setActive(this)">
-                <div class="flashcard-set-title">
-                  <span>Les éléments chimiques</span>
-                </div>
-                <div class="flashcard-set-infos">
-                  118 flashcards <span>-</span> créé par <b>Marie Martin</b>
-                </div>
-                <div class="options">
-                  <img src="../../assets/global/dots.svg" alt="dots icon">
-                </div>
-              </div>
-              <div class="flashcard-set" onclick="setActive(this)">
-                <div class="flashcard-set-title">
-                  <span>Les personnages de Game of Thrones</span>
-                </div>
-                <div class="flashcard-set-infos">
-                  50 flashcards <span>-</span> créé par <b>Thomas Lefebvre</b>
-                </div>
-                <div class="options">
-                  <img src="../../assets/global/dots.svg" alt="dots icon">
-                </div>
-              </div>
-              <div class="flashcard-set" onclick="setActive(this)">
-                <div class="flashcard-set-title">
-                  <span>Les pays d'Asie</span>
-                </div>
-                <div class="flashcard-set-infos">
-                  48 flashcards <span>-</span> créé par <b>Julie Dubois</b>
-                </div>
-                <div class="options">
-                  <img src="../../assets/global/dots.svg" alt="dots icon">
-                </div>
-              </div>
-              <div class="flashcard-set" onclick="setActive(this)">
-                <div class="flashcard-set-title">
-                  <span>Les grands écrivains français</span>
-                </div>
-                <div class="flashcard-set-infos">
-                  20 flashcards <span>-</span> créé par <b>Antoine Leroy</b>
-                </div>
-                <div class="options">
-                  <img src="../../assets/global/dots.svg" alt="dots icon">
-                </div>
-              </div>
+        <div class="title">LL problématiques</div>
+        <div class="informations-display-buttons">
+            <button id="informations-btn" class="large">Informations</button>
+            <button id="filtrate-btn" class="large-white">Filtrer / trier</button>
+            <button id="options-btn" class="large-white">Options</button>
         </div>
-        <div class="main-sub-container-buttons">
-            <button class="create large" onclick="createFlashcardSet()">Créer un nouveau jeu de flashcard</button>
-            <button class="back-to-alumet large-white" onclick="window.location.href = '../dashboard'">Retourner sur Alumet</button>
+        <div class="informations">
+            <section>
+                <div class="informations-box stats">
+                    <h2>Statistiques</h2>
+                    <div class="percentage-bar">
+                        <div id="percentage-bar-good"></div>
+                        <div id="percentage-bar-ok"></div>
+                        <div id="percentage-bar-bad"></div>
+                        <div id="percentage-bar-unrated"></div>
+                    </div>
+                    <div class="stats-info-container">
+                        <div class="stats-info">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                                <circle cx="7.5" cy="7.5" r="7.5" fill="#00c75a"/>
+                            </svg>
+                            <p>Bien (37%  - 38 flashcards)</p>
+                        </div>
+                        <div class="stats-info">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                                <circle cx="7.5" cy="7.5" r="7.5" fill="#F0AC00"/>
+                            </svg>
+                            <p>Ok (17%  - 9 flashcards)</p>
+                        </div>
+                        <div class="stats-info">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                                <circle cx="7.5" cy="7.5" r="7.5" fill="#F00"/>
+                            </svg>
+                            <p>Mauvaise (6%  - 3 flashcard)</p>
+                        </div>
+                        <div class="stats-info">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                                <circle cx="7.5" cy="7.5" r="7.5" fill="#C6C9CE"/>
+                            </svg>
+                            <p>Non noté (40%  - 20 flashcards)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="informations-box set-informations">
+                    <h2>Informations sur le set</h2>
+                    <div class="set-informations-container">
+                        <h3>Créatrice de ce set :</h3>
+                        <h3><span>Anne Morin</span></h3>
+                    </div>
+                    <div class="set-informations-container">
+                        <h3>Nom du set : <span>LL problématiques</span></h3>
+                    </div>
+                    <div class="set-informations-container">
+                        <h3>Description du set : <span>Ce sont mes flashcards à moi</span></h3>
+                    </div>
+                    <div class="set-informations-container">
+                        <h3>Nombre de participants : <span>18</span></h3>
+                    </div>
+                    <div class="set-informations-container">
+                        <h3>Nombre de flashcards : <span>49</span></h3>
+                    </div>
+                    <div class="set-informations-container">
+                        <h3>Matière du set : <span>Français</span></h3>
+                    </div>
+                    <div class="set-informations-container">
+                        <h3>Dernière utilisation : <span>Il y a 19 jours</span></h3>
+                    </div>
+                </div>
+            </section>
+            <button id="back-to-alumet-btn" class="large" onclick="redirectToDashboard()">Retourner sur Alumet</button>
         </div>
     </div>
     <div class="main-container">
+        <div class="full-screen">
+            <h1>Aucun set de flashcard ouvert pour l'instant.</h1>
+            <p>Cliquez sur un set de flashcard pour l'ouvrir ici !</p>
+        </div>
+        <div class="loading-flashcard-set full-screen">
+            <span class="loader-upload"></span>
+        </div>
         <div class="infos-bar">
-            <h2>LL Problématiques</h2>
+            <h2>[Set de flashcard]</h2>
             <div class="buttons-container">
-                <button class="large-white">Ajouter des flashcards</button>
-                <button class="large">Réviser</button>
-            </div>
-        </div>
-        <div class="main-flashcard-container">
-            <div class="options">
-                <div class="percentage-bar">
-                    <div id="percentage-bar-good" ></div>
-                    <div id="percentage-bar-ok"></div>
-                    <div id="percentage-bar-bad"></div>
-                    <div id="percentage-bar-unrated"></div>
-                </div>
                 <div class="search-bar"></div>
-                <img src="../../assets/global/search-icon.svg" alt="search icon">
-                <img src="../../assets/global/filter-icon.svg" alt="filter icon">
-                <img src="../../assets/global/black-dots.svg" alt="dots">
-            </div>
-            <div id="flashcards-container">
-               <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">LL1 - Extrait Manon Lescaut, mort de Manon</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">En quoi ce dénouement (qui n'est pas une surprise pour le lecteur puisqu'il était annoncé dès l'incipit) est un récit d'adieu qui conserve toute sa puissance tragique et pathétique</div>
+                <div class="buttons-container-box">
+                    <img src="../../assets/global/search-icon.svg" alt="search icon">
                 </div>
-                <div class="flashcard flashcard-good">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">When was the US President Obama born?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">He was born in 1961.</div>
-                </div>
-
-                <div class="flashcard flashcard-bad">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the capital of France?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">The capital of France is Paris.</div>
-                </div>
-
-                <div class="flashcard flashcard-ok">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the largest country in the world by land area?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">Russia is the largest country in the world by land area.</div>
-                </div>
-
-                <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the highest mountain in the world?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">Mount Everest is the highest mountain in the world.</div>
-                </div>
-
-                <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the smallest country in the world by land area?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">Vatican City is the smallest country in the world by land area.</div>
-                </div>
-
-                <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the currency of Japan?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">The currency of Japan is the yen.</div>
-                </div>
-
-                <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the largest ocean in the world?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">The Pacific Ocean is the largest ocean in the world.</div>
-                </div>
-
-                <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the largest continent in the world?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">Asia is the largest continent in the world.</div>
-                </div>
-
-                <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the smallest ocean in the world?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">The Arctic Ocean is the smallest ocean in the world.</div>
-                </div>
-
-                <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the largest river in the world by volume?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">The Amazon River is the largest river in the world by volume.</div>
-                </div>
-
-                <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the largest desert in the world?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">The Sahara Desert is the largest desert in the world.</div>
-                </div>
-
-                <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the highest waterfall in the world?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">Angel Falls is the highest waterfall in the world.</div>
-                </div>
-
-                <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the largest lake in the world by surface area?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">Lake Superior is the largest lake in the world by surface area.</div>
-                </div>
-
-                <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the largest country in South America by land area?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">Brazil is the largest country in South America by land area.</div>
-                </div>
-
-                <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the largest country in Africa by land area?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">Algeria is the largest country in Africa by land area.</div>
-                </div>
-
-                <div class="flashcard">
-                  <div class="flashcard-options">
-                    <img src="../../assets/global/dots.svg" alt="dots" class="flashcard-dots">
-                  </div>
-                  <div class="flashcard-title">What is the largest country in the world by population?</div>
-                  <div class="flashcard-divider"></div>
-                  <div class="flashcard-answer">China is the largest country in the world by population.</div>
+                <div class="buttons-container-box">
+                    <button class="large-white">Ajouter des flashcards</button>
+                    <button class="large">Réviser</button>
                 </div>
             </div>
         </div>
+        <!-- <div class="options">
+            <div class="percentage-bar">
+                <div id="percentage-bar-good" ></div>
+                <div id="percentage-bar-ok"></div>
+                <div id="percentage-bar-bad"></div>
+                <div id="percentage-bar-unrated"></div>
+            </div>
+        </div> -->
+        <div id="flashcards-container"></div>
     </div>
     
 

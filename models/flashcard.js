@@ -18,40 +18,28 @@ const flashcardSchema = mongoose.Schema({
         maxLength: 50
     },
     status: [{
-        userId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
+        userId: String,
         status: {
             type: String,
-            default: 'new'
+            default: 'unrated'
         }
     }],
     numberOfGood: [{
-        userId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
+        userId: String,
         numberOfGood: { 
             type: Number,
             default: 0
         }
     }],
     lastReview: [{
-        userId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
+        userId: String,
         lastReview: {
             type: Date,
             default: Date.now
         }
     }],
     nextReview: [{
-        userId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
+        userId: String,
         nextReview: {
             type: Date,
             default: Date.now

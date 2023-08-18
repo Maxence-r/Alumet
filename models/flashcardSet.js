@@ -17,7 +17,7 @@ const flashcardSetSchema = mongoose.Schema({
         type: String,
         required: true,
         minLength: 2,
-        maxLength: 50
+        maxLength: 300
     },
     subject: {
         type: String,
@@ -30,7 +30,7 @@ const flashcardSetSchema = mongoose.Schema({
         required: true,
         default: 0
     },
-    partipants: {
+    participants: {
         type: [String],
         required: false,
         minLength: 2,
