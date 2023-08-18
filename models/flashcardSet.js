@@ -21,9 +21,14 @@ const flashcardSetSchema = mongoose.Schema({
     },
     subject: {
         type: String,
-        required: true,
+        required: false,
         minLength: 2,
         maxLength: 50
+    },
+    numberOfFlashcards: {
+        type: Number,
+        required: true,
+        default: 0
     },
     partipants: {
         type: [String],

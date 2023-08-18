@@ -11,5 +11,15 @@ function createFlashcardSet() {
         type: "success",
         duration: 2500,
     });
+    getFlashcardSet('64de8c86191052b513979a2d'); 
     return
+}
+
+function getFlashcardSet(flashcardSetId) {
+    fetch(`/mindFlash/${flashcardSetId}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(err => console.log(err));
 }
