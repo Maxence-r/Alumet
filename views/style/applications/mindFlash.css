@@ -11,6 +11,7 @@ body {
 .hidden {
     display: none;
 }
+
 #loading-mindflash {
     position: absolute;
     display: flex;
@@ -39,7 +40,6 @@ body {
     padding: 20px;
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
 .main-sub-container > .title{
@@ -63,15 +63,15 @@ body {
 }
 
 .main-sub-container > .informations {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 10px;
     width: 100%;
-    height: fit-content;
-    max-height: calc(100% - 160px);
-    overflow-y: auto;
+    height: calc(100% - 90px);
+    max-height: calc(100% - 90px);
 }
 .informations > section {
     display: flex;
@@ -81,15 +81,19 @@ body {
     gap: 10px;
     width: 100%;
     height: fit-content;
+    max-height: calc(100% - 70px);
     margin-top: 10px;
+    overflow-y: auto;
+    transition: all 0.3s ease-in-out;
 }
 
 #back-to-alumet-btn {
-    width: calc(100% - 40px);
+    width: 100%;
     position: absolute;
-    bottom: 20px;
+    bottom: 0px;
+    min-height: 50px;
 }
-section > .informations-box {
+section > .sub-section-box {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -98,13 +102,16 @@ section > .informations-box {
     width: 100%;
     height: fit-content;
 }
-.informations-box > h2 {
+.last-section-child {
+    padding-bottom: 15px;
+}
+.sub-section-box > h2 {
     font-size: 1.4em;
     font-weight: 500;
     margin: 0;
     text-align: left;
 }
-.informations-box > .percentage-bar {
+.sub-section-box > .percentage-bar {
     display: flex;
     flex-direction: row;
     overflow: hidden;
@@ -131,7 +138,7 @@ section > .informations-box {
     }
 }
 
-.informations-box > .stats-info-container {
+.sub-section-box > .stats-info-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -159,7 +166,15 @@ section > .informations-box {
         text-align: left;
     }
 }
-.informations-box > .set-informations-container {
+.stats-info-container > .stats-info > svg > circle::before {
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #296EFF;
+}
+.sub-section-box > .set-basic-informations-container {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -179,6 +194,39 @@ section > .informations-box {
     }
 }
 
+.filter-section > .sub-section-box > .sub-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 13px;
+    width: calc(100% - 4px);
+    height: fit-content;
+    padding-left: 4px;
+
+    > p {
+        cursor: pointer;
+        margin: 0
+    }
+
+    > svg {
+        cursor: pointer;
+        min-width: 15px;
+        min-height: 15px;
+    }
+}
+.sub-box > svg > circle {
+    cx: 7.5;
+    cy: 7.5;
+    r: 7;
+    fill: white;
+    stroke: rgb(41, 110, 255);
+    transition: all 0.3s ease-in-out;
+}
+.sub-box.filter-activate > svg > circle,
+.sub-box.sort-activate > svg > circle {
+    fill: rgb(41, 110, 255);
+}
 
 .main-container {
     display: flex;
@@ -192,7 +240,6 @@ section > .informations-box {
     padding: 20px;
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 .main-container > .full-screen {
     position: absolute;
@@ -222,12 +269,12 @@ section > .informations-box {
     color: #9ea1a7;
     text-align: center;
 }
-.loading-flashcard-infos {
-    display: none;
+
+#loading-section-sub-container {
+    display: flex;
     position: absolute;
     top: 0px;
     right: 0px;
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -239,15 +286,14 @@ section > .informations-box {
     transition: all 0.3s ease-in-out;
 }
 
-.loading-flashcard-set {
-    display: none;
+
+.loading-element {
+    display: none !important;
 }
-.active-loading > .loading-flashcard-set, .active-loading > .loading-flashcard-infos {
+.active-loading > .loading-element {
     display: flex !important;
 }
-.main-container > .loading-flashcard-set, .main-sub-container > .loading-flashcard-infos {
-    display: none;
-}
+
 .main-container > .infos-bar {
     display: flex;
     flex-direction: row;

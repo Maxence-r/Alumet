@@ -17,34 +17,23 @@ const flashcardSchema = mongoose.Schema({
         minLength: 2,
         maxLength: 50
     },
-    status: [{
+    userDatas: [{
         userId: String,
-        status: {
-            type: String,
-            default: 'unrated'
-        }
-    }],
-    numberOfGood: [{
-        userId: String,
-        numberOfGood: { 
+        level: {
             type: Number,
             default: 0
-        }
-    }],
-    lastReview: [{
-        userId: String,
+        },
+        numberOfGood: {
+            type: Number,
+            default: 0
+        },
         lastReview: {
             type: Date,
-            default: Date.now
-        }
-    }],
-    nextReview: [{
-        userId: String,
+        },
         nextReview: {
             type: Date,
-            default: Date.now
         }
-    }]
+    }],
 });
 
 const flashcard = mongoose.model("flashcard", flashcardSchema);

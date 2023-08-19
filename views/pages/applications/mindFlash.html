@@ -15,18 +15,18 @@
         <span class="loader-upload"></span>
     </div>
     <div class="main-sub-container">
-        <div class="loading-flashcard-infos">
-            <span class="loader-upload"></span>
-        </div>
         <div class="title">LL problématiques</div>
         <div class="informations-display-buttons">
-            <button id="informations-btn" class="large">Informations</button>
-            <button id="filtrate-btn" class="large-white">Filtrer / trier</button>
-            <button id="options-btn" class="large-white">Options</button>
+            <button id="informations-section-btn" class="large">Informations</button>
+            <button id="filter-section-btn" class="large-white">Filtrer / trier</button>
+            <button id="options-section-btn" class="large-white">Options</button>
         </div>
         <div class="informations">
-            <section>
-                <div class="informations-box stats">
+            <div id="loading-section-sub-container" class="loading-element">
+                <span class="loader-upload"></span>
+            </div>
+            <section class="informations-section hidden">
+                <div class="sub-section-box stats">
                     <h2>Statistiques</h2>
                     <div class="percentage-bar">
                         <div id="percentage-bar-good"></div>
@@ -35,67 +35,119 @@
                         <div id="percentage-bar-unrated"></div>
                     </div>
                     <div class="stats-info-container">
-                        <div class="stats-info">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
-                                <circle cx="7.5" cy="7.5" r="7.5" fill="#00c75a"/>
-                            </svg>
-                            <p>Bien (37%  - 38 flashcards)</p>
-                        </div>
-                        <div class="stats-info">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
-                                <circle cx="7.5" cy="7.5" r="7.5" fill="#F0AC00"/>
-                            </svg>
-                            <p>Ok (17%  - 9 flashcards)</p>
-                        </div>
-                        <div class="stats-info">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
-                                <circle cx="7.5" cy="7.5" r="7.5" fill="#F00"/>
-                            </svg>
-                            <p>Mauvaise (6%  - 3 flashcard)</p>
-                        </div>
-                        <div class="stats-info">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
-                                <circle cx="7.5" cy="7.5" r="7.5" fill="#C6C9CE"/>
-                            </svg>
-                            <p>Non noté (40%  - 20 flashcards)</p>
-                        </div>
                     </div>
                 </div>
-                <div class="informations-box set-informations">
+                <div class="sub-section-box set-basic-informations last-section-child">
                     <h2>Informations sur le set</h2>
-                    <div class="set-informations-container">
-                        <h3>Créatrice de ce set :</h3>
-                        <h3><span>Anne Morin</span></h3>
+                    <div class="set-basic-informations-container">
+                        <h3>Créatrice de ce set : <span>Anne Morin</span></h3>
                     </div>
-                    <div class="set-informations-container">
+                    <div class="set-basic-informations-container">
                         <h3>Nom du set : <span>LL problématiques</span></h3>
                     </div>
-                    <div class="set-informations-container">
+                    <div class="set-basic-informations-container">
                         <h3>Description du set : <span>Ce sont mes flashcards à moi</span></h3>
                     </div>
-                    <div class="set-informations-container">
+                    <div class="set-basic-informations-container">
                         <h3>Nombre de participants : <span>18</span></h3>
                     </div>
-                    <div class="set-informations-container">
+                    <div class="set-basic-informations-container">
                         <h3>Nombre de flashcards : <span>49</span></h3>
                     </div>
-                    <div class="set-informations-container">
+                    <div class="set-basic-informations-container">
                         <h3>Matière du set : <span>Français</span></h3>
                     </div>
-                    <div class="set-informations-container">
+                    <div class="set-basic-informations-container">
                         <h3>Dernière utilisation : <span>Il y a 19 jours</span></h3>
                     </div>
                 </div>
+            </section>
+            <section class="filter-section">
+                <div class="filter-box sub-section-box">
+                    <h2>Filtrer :</h2>
+                    <div id="filter-good" class="sub-box filter-activate">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <circle/>
+                        </svg>
+                        <p>Bien</p>
+                    </div>
+                    <div id="filter-ok" class="sub-box filter-activate">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <circle/>
+                        </svg>
+                        <p>Moyen</p>
+                    </div>
+                    <div id="filter-bad" class="sub-box filter-activate">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <circle/>
+                        </svg>
+                        <p>Mauvais</p>
+                    </div>
+                    <div id="filter-unrated" class="sub-box filter-activate">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <circle/>
+                        </svg>
+                        <p>Non noté</p>
+                    </div>
+                </div>
+                <div class="sort-box sub-section-box last-section-child">
+                    <h2>Trier par :</h2>
+                    <div id="sort-question" class="sub-box sort-activate">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <circle cx="7.5" cy="7.5" r="7.5" fill="#296EFF"/>
+                        </svg>
+                        <p>Ordre alphabétiques des questions</p>
+                    </div>
+                    <div id="sort-answer" class="sub-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <circle/>
+                        </svg>
+                        <p>Ordre alphabétiques des réponses</p>
+                    </div>
+                    <div id="sort-nextReview" class="sub-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <circle/>
+                        </svg>
+                        <p>Prochaines révisions</p>
+                    </div>
+                    <div id="sort-lastReview" class="sub-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <circle/>
+                        </svg>
+                        <p>Dernières révisions</p>
+                    </div>
+                    <div id="sort-levelDecreasing"class="sub-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <circle/>
+                        </svg>
+                        <p>Niveaux de réussite (décroissant)</p>
+                    </div>
+                    <div id="sort-levelIncreasing" class="sub-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <circle/>
+                        </svg>
+                        <p>Niveaux de réussite (croissant)</p>
+                    </div>
+                    <div id="sort-random" class="sub-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <circle/>
+                        </svg>
+                        <p>Aléatoire</p>
+                    </div>
+                </div>
+            </section>
+            <section class="options-section hidden">
+                Options
             </section>
             <button id="back-to-alumet-btn" class="large" onclick="redirectToDashboard()">Retourner sur Alumet</button>
         </div>
     </div>
     <div class="main-container">
-        <div class="full-screen">
+        <div class="full-screen hidden">
             <h1>Aucun set de flashcard ouvert pour l'instant.</h1>
             <p>Cliquez sur un set de flashcard pour l'ouvrir ici !</p>
         </div>
-        <div class="loading-flashcard-set full-screen">
+        <div id="loading-flashcard-set" class="loading-element full-screen">
             <span class="loader-upload"></span>
         </div>
         <div class="infos-bar">

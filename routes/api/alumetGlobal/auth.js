@@ -121,7 +121,7 @@ router.post("/signin", async (req, res) => {
             });
         }
     } catch (error) {
-        console.log(error);
+        console.log('error: ', error);
         res.status(500).json({
             error,
         });

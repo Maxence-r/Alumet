@@ -29,7 +29,7 @@ function signin() {
         .then((data) => {
             loginContainer.classList.remove("active-loading");
             if (data.error) {
-                toast({ title: "Quelque chose s'est mal passé", message: `test ${data.error}`, type: "error", duration: 3000 });
+                toast({ title: "Quelque chose s'est mal passé", message: `${data.error}`, type: "error", duration: 3000 });
             } else if (data.a2f) {
                 a2fEnabled = true;
                 loginContainer.classList.add("active-a2f");

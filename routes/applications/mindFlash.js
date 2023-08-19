@@ -1,119 +1,131 @@
 const express = require('express');
 const router = express.Router();
-const flashCardSet = require('../../models/flashcardSet');
-const flashcard = require('../../models/flashcard');
+const mongoose = require('mongoose');
+const FlashcardSet = require('../../models/flashcardSet');
+const Flashcard = require('../../models/flashcard');
 const Account = require('../../models/account');
 const path = require('path');
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
 
-function getOrChangeFlashcardUserInfos(flashCard, userId, status, numberOfGood, lastReview, nextReview) {
-  const userIdString = userId.toString();
-  let updated = false;
-
-  const flashcardUserInfo = {
-    status: "unrated",
-    numberOfGood: 0,
-    lastReview: null,
-    nextReview: null
-  };
-
-  const existingStatus = flashCard.status.find(item => item.userId === userIdString);
-  if (existingStatus) {
-    flashcardUserInfo.status = existingStatus.status;
-  }
-
-  const existingNumberOfGood = flashCard.numberOfGood.find(item => item.userId === userIdString);
-  if (existingNumberOfGood) {
-    flashcardUserInfo.numberOfGood = existingNumberOfGood.numberOfGood;
-  }
-
-  const existingLastReview = flashCard.lastReview.find(item => item.userId === userIdString);
-  if (existingLastReview) {
-    flashcardUserInfo.lastReview = existingLastReview.lastReview;
-  }
-
-  const existingNextReview = flashCard.nextReview.find(item => item.userId === userIdString);
-  if (existingNextReview) {
-    flashcardUserInfo.nextReview = existingNextReview.nextReview;
-  }
-
-  if (status) {
-    if (existingStatus) {
-      existingStatus.status = status;
-    } else {
-      flashCard.status.push({ userId: userIdString, status });
+const flashcardFunctions = (() => {
+  const setUserDatas = (flashcard, userId) => {
+    const userIdString = userId.toString();
+    if (!toolsFunctions.checkIfAccountExist(userIdString)) {
+      return { error: "Cet utilisateur n'existe pas" };
     }
-    updated = true;
-    flashcardUserInfo.status = status;
-  }
-
-  if (numberOfGood || numberOfGood === 0) {
-    if (existingNumberOfGood) {
-      existingNumberOfGood.numberOfGood = numberOfGood;
+    const existingData = {
+      data: flashcard.userDatas.find(item => item.userId === userIdString),
+      level: flashcard.userDatas.find(item => item.userId === userIdString)?.level,
+      numberOfGood: flashcard.userDatas.find(item => item.userId === userIdString)?.numberOfGood,
+      nextReview: flashcard.userDatas.find(item => item.userId === userIdString)?.nextReview,
+      lastReview: flashcard.userDatas.find(item => item.userId === userIdString)?.lastReview
+    };
+    if (!existingData.data) {
+      flashcard.userDatas.push({ userId: userIdString, level: 0, numberOfGood: 0, lastReview: null, nextReview: null });
     } else {
-      flashCard.numberOfGood.push({ userId: userIdString, numberOfGood });
-    }
-    updated = true;
-    flashcardUserInfo.numberOfGood = numberOfGood;
-  }
-
-  if (lastReview) {
-    if (existingLastReview) {
-      existingLastReview.lastReview = lastReview;
-    } else {
-      flashCard.lastReview.push({ userId: userIdString, lastReview });
-    }
-    updated = true;
-    flashcardUserInfo.lastReview = lastReview;
-  }
-
-  if (nextReview) {
-    if (existingNextReview) {
-      existingNextReview.nextReview = nextReview;
-    } else {
-      flashCard.nextReview.push({ userId: userIdString, nextReview });
-    }
-    updated = true;
-    flashcardUserInfo.nextReview = nextReview;
-  }
-
-  return { updated, flashcardUserInfo };
-}
-
-async function getFlashcardSetStats (req) {
-  const flashcards = await flashcard.find({flashcardSetId: req.params.flashcardSetId});
-  let numberOfFlashcards = flashcards.length;
-  let numberOfGood = 0;
-  let numberOfOk = 0;
-  let numberOfBad = 0;
-  let numberOfUnrated = 0;
-
-  
-  flashcards.forEach(flashcard => {
-    const existingStatus = flashcard.status.find(item => item.userId === req.user._id.toString());
-    if (existingStatus) {
-      switch (existingStatus.status) {
-        case 'good':
-          numberOfGood++;
-          break;
-        case 'ok':
-          numberOfOk++;
-          break;
-        case 'bad':
-          numberOfBad++;
-          break;
-        case 'unrated':
-          numberOfUnrated++;
-          break;
+      if (!existingData.level) {
+        flashcard.userDatas.level = 0;
+      } else if (!existingData.numberOfGood) {
+        flashcard.userDatas.numberOfGood = 0;
+      } else if (!existingData.nextReview) {
+        flashcard.userDatas.nextReview = null;
+      } else if (!existingData.lastReview) {
+        flashcard.userDatas.lastReview = null;
       }
+    }
+    return flashcard;
+  };
+  const getOrChangeUserDatas = (flashcard, userId, level, numberOfGood, lastReview, nextReview) => {
+    let updated = false;
+    console.log('flashcard before: ', flashcard)
+    const userIdString = userId.toString();
+    if (!toolsFunctions.checkIfAccountExist(userIdString)) return res.status(500).json({ error: "Cet utilisateur n'existe pas" });
+    const existingData = {
+      data: flashcard.userDatas.find(item => item.userId === userIdString),
+      level: flashcard.userDatas.find(item => item.userId === userIdString)?.level,
+      numberOfGood: flashcard.userDatas.find(item => item.userId === userIdString)?.numberOfGood,
+      nextReview: flashcard.userDatas.find(item => item.userId === userIdString)?.nextReview,
+      lastReview: flashcard.userDatas.find(item => item.userId === userIdString)?.lastReview
+    };
+    if (!existingData.data && (level || numberOfGood || lastReview || nextReview)) {
+      flashcard.userDatas.push({ userId: userIdString, level, numberOfGood, lastReview, nextReview });
+      updated = true;
     } else {
-      numberOfUnrated++;
-    }        
-  })
+      if (level) {
+        if (existingData.level || existingData.level === 0) {
+          existingData.level = level;
+          flashcard.userDatas.find(item => item.userId === userIdString).level = level;
+        }
+        updated = true;
+      }
+      if (numberOfGood) {
+        if (existingData.numberOfGood || existingData.numberOfGood === 0) {
+          existingData.numberOfGood = numberOfGood;
+          flashcard.userDatas.find(item => item.userId === userIdString).numberOfGood = numberOfGood;
+        }
+        updated = true;
+      }
+      if (lastReview) {
+        if (existingData.lastReview) {
+          existingData.lastReview = lastReview;
+          flashcard.userDatas.find(item => item.userId === userIdString).lastReview = lastReview;
+        }
+        updated = true;
+      }
+      if (nextReview) {
+        if (existingData.nextReview) {
+          existingData.nextReview = nextReview;
+          flashcard.userDatas.find(item => item.userId === userIdString).nextReview = nextReview;
+        }
+        updated = true;
+      }
+    }
+    delete existingData.data;
+    return { updated, userDatas: existingData, flashcard };
+  }
 
-  const calculatePercentage = (number) => { return ((number / numberOfFlashcards) * 100).toFixed(2) };
+  return {
+    setUserDatas,
+    getOrChangeUserDatas
+  }
+})();
+
+const flashcardSetFunctions = (() => {
+  const getStats = async (req) => {
+    const flashcards = await Flashcard.find({flashcardSetId: req.params.flashcardSetId});
+    let numberOfflashcards = flashcards.length;
+    let numberOfGood = 0;
+    let numberOfOk = 0;
+    let numberOfBad = 0;
+    let numberOfUnrated = 0;
+
+    
+    flashcards.forEach(flashcard => {
+      const existinglevel = flashcard.userDatas.find(item => item.userId === req.user._id.toString()).level;
+      if (existinglevel) {
+        switch (existinglevel.level) {
+          case 3:
+            numberOfGood++;
+            break;
+          case 2:
+            numberOfOk++;
+            break;
+          case 1:
+            numberOfBad++;
+            break;
+          case 0:
+            numberOfUnrated++;
+            break;
+        }
+      } else {
+        numberOfUnrated++;
+      }        
+    });
+
+    const calculatePercentage = (number) => { return ((number / numberOfflashcards) * 100).toFixed(0) };
+
     const stats = {
-      numberOfFlashcards,
+      numberOfflashcards,
       numberOfGood,
       numberOfOk,
       numberOfBad,
@@ -124,67 +136,102 @@ async function getFlashcardSetStats (req) {
       percentageOfUnrated: calculatePercentage(numberOfUnrated)
     };
     return stats;
-}
+  };
+  const getInfos = async (req) => {
+    const flashcardSet = await FlashcardSet.findById(req.params.flashcardSetId);
+    if (!flashcardSet) return res.status(404).json({error: "Ce set de flashcards n'existe pas"});
+    const ownerAccount = await Account.findById(flashcardSet.owner);
+    if (!ownerAccount) {
+      return {error: "Ce set de flashcards n'existe plus, son détenteur n'a plus de compte"};
+    }
+    const lastUsage = flashcardSet.lastUsage;
+    const existingLastUsage = lastUsage.find(item => item.userId === req.user._id.toString()) || 'Jamais utilisé';
+    const flashcardSetInformations = {
+      owner: ownerAccount.name + ' ' + ownerAccount.lastname,
+      title: flashcardSet.title,
+      description: flashcardSet.description,
+      numberOfParticipants: flashcardSet.participants.length,
+      numberOfflashcards: flashcardSet.numberOfflashcards,
+      subject: flashcardSet.subject,
+      lastUsage: existingLastUsage
+    };
+    return flashcardSetInformations;
+  }
+
+  return {
+    getStats,
+    getInfos,
+  }
+})();
+
+const toolsFunctions = (() => {
+  const checkIfAccountExist = async (accountId) => {
+    if (!mongoose.Types.ObjectId.isValid(accountId)) {
+      return false;
+    }
+    const account = await Account.findById(accountId);
+    if (!account) return false;
+    return true;
+  };
+  checkIfflashcardSetExist = async (flashcardSetId) => {
+    const flashcardSet = await FlashcardSet.findById(flashcardSetId);
+    if (!flashcardSet) return false;
+    return true;
+  };
+  return {
+    checkIfAccountExist,
+    checkIfflashcardSetExist,
+  }
+})();
+
+/**************** ROUTES ****************/
+
+//ANCHOR - Routes General
 
 router.get('/', async (req, res) => {
-    if (!req.connected) return res.redirect('/auth/signin');
-    const filePath = path.join(__dirname, '../../views/pages/applications/mindFlash.html');
-    res.sendFile(filePath);
+  if (!req.connected) return res.redirect('/auth/signin');
+  const filePath = path.join(__dirname, '../../views/pages/applications/mindFlash.html');
+  res.sendFile(filePath);
 });
 
 router.get('/:flashcardSetId', validateObjectId, async (req, res) => {
-    if (!req.connected) return res.redirect('/auth/signin');
-    const filePath = path.join(__dirname, '../../views/pages/applications/mindFlash.html');
-    res.sendFile(filePath);
+  if (!req.connected) return res.redirect('/auth/signin');
+  const filePath = path.join(__dirname, '../../views/pages/applications/mindFlash.html');
+  res.sendFile(filePath);
 });
 
+// ANCHOR - Routes flashcardSet
 
-router.post('/create', (req, res) => {
-    const newFlashCardSet = new flashCardSet();
-    newFlashCardSet.owner = req.user._id;
-    newFlashCardSet.title = req.body.title;
-    newFlashCardSet.description = req.body.description;
-    newFlashCardSet.subject = req.body.subject;
-    newFlashCardSet.lastUsage = Date.now();
-    newFlashCardSet.participants = [req.user._id];
-    newFlashCardSet.numberOfFlashcards = 0;
-    newFlashCardSet.save((err, flashCardSet) => {
-        if (err) {
-            return res.status(500).json({error: 'Une erreur est survenue lors de la création de votre set de flashcards' + err});
-        }   
-        return res.status(201).json({flashCardSet});
-    });
-});
-
-router.post('/flashcard/create', async (req, res) => {
-    const { flashcardSetId, question, answer } = req.body;
-    const flashcardSet = await flashCardSet.findById(flashcardSetId);
-    const newFlashcard = new flashcard({ flashcardSetId, question, answer, status: [], numberOfGood: [], lastReview: [], nextReview: [] });
-    try {
-        await newFlashcard.save();
-        flashcardSet.numberOfFlashcards++;
-        await flashcardSet.save();
-        return res.status(201).json({ flashcard: newFlashcard });
-    } catch (err) {
-        return res.status(500).json({ error: 'Une erreur est survenue lors de la création de votre flashcard' });
-    }
+router.post('/flashcardset/create', (req, res) => {
+  const newflashcardSet = new FlashcardSet();
+  newflashcardSet.owner = req.user._id;
+  newflashcardSet.title = req.body.title;
+  newflashcardSet.description = req.body.description;
+  newflashcardSet.subject = req.body.subject;
+  newflashcardSet.lastUsage = Date.now();
+  newflashcardSet.participants = [req.user._id];
+  newflashcardSet.numberOfflashcards = 0;
+  newflashcardSet.save((err, flashcardSet) => {
+      if (err) {
+          return res.status(500).json({error: 'Une erreur est survenue lors de la création de votre set de flashcards' + err});
+      }   
+      return res.status(201).json({flashcardSet});
+  });
 });
 
 router.get('/flashcardsets', async (req, res) => {
   try {
     const userId = req.user._id.toString();
-    const flashcardSets = await flashCardSet.find({ participants: userId });
+    const flashcardSets = await FlashcardSet.find({ participants: userId });
     const flashcardSetsInfo = [];
     for (const flashcardSet of flashcardSets) {
       const owner = await Account.findById(flashcardSet.owner);
-      if (!owner) {
-        return res.status(404).json({ error: "Le propriétaire de ce set de flashcards n'existe pas" });
-      };
+      if (!toolsFunctions.checkIfAccountExist(flashcardSet.owner)) return res.status(404).json({ error: "Le propriétaire de ce set de flashcards n'existe pas" });
       const flashcardSetInfo = {
         id: flashcardSet._id,
         owner: owner.name + ' ' + owner.lastname,
         title: flashcardSet.title,
-        numberOfFlashcards: flashcardSet.numberOfFlashcards
+        numberOfflashcards: flashcardSet.numberOfflashcards
       };
       flashcardSetsInfo.push(flashcardSetInfo);
     }
@@ -194,33 +241,33 @@ router.get('/flashcardsets', async (req, res) => {
   }
 });
 
-
-router.get('/getFlashcardset/:flashcardSetId', validateObjectId, async (req, res) => {
-    try {
-        const flashcardSet = await flashCardSet.findById(req.params.flashcardSetId);
-        if (!flashcardSet) return res.status(404).json({error: "Ce set de flashcards n'existe pas"});
-        const flashcards = await flashcard.find({flashcardSetId: req.params.flashcardSetId});
-        const flashcardsInfo = flashcards.map(flashcard => {
-            const flashcardInfo = {};
-            flashcardInfo.question = flashcard.question;
-            flashcardInfo.answer = flashcard.answer;
-            const flashcardUserInfos = getOrChangeFlashcardUserInfos(flashcard, req.user._id.toString()).flashcardUserInfo;
-            flashcardInfo.status = flashcardUserInfos.status;
-            flashcardInfo.numberOfGood = flashcardUserInfos.numberOfGood;
-            flashcardInfo.lastReview = flashcardUserInfos.lastReview;
-            flashcardInfo.nextReview = flashcardUserInfos.nextReview;
-            return flashcardInfo;
-        })
-        return res.status(200).json({flashcardSet, flashcards: flashcardsInfo});
-    }
-    catch (err) {
-        return res.status(500).json({error: 'Une erreur est survenue lors de la récupération des données'});
-    }
+router.get('/getflashcardset/:flashcardSetId', validateObjectId, async (req, res) => {  
+  try {
+      const flashcardSet = await FlashcardSet.findById(req.params.flashcardSetId);
+      if (!flashcardSet) return res.status(404).json({error: "Ce set de flashcards n'existe pas"});
+      const flashcards = await Flashcard.find({flashcardSetId: req.params.flashcardSetId});
+      console.log('flashcards: ', flashcards);
+      const flashcardsInfo = flashcards.map(flashcard => {
+          const flashcardInfo = {};
+          flashcardInfo.question = flashcard.question;
+          flashcardInfo.answer = flashcard.answer;
+          const flashcardUserInfos = flashcardFunctions.getOrChangeUserDatas(flashcard, req.user._id.toString()).userDatas;
+          flashcardInfo.level = flashcardUserInfos.level;
+          flashcardInfo.numberOfGood = flashcardUserInfos.numberOfGood;
+          flashcardInfo.lastReview = flashcardUserInfos.lastReview;
+          flashcardInfo.nextReview = flashcardUserInfos.nextReview;
+          return flashcardInfo;
+      })
+      return res.status(200).json({flashcardSet, flashcards: flashcardsInfo});
+  }
+  catch (err) {
+      return res.status(500).json({error: 'Une erreur est survenue lors de la récupération des données'});
+  }
 });
 
 router.get('/flashcardset/stats/:flashcardSetId', validateObjectId, async (req, res) => {
   try {
-      return res.json(await getFlashcardSetStats(req));
+      return res.json(await flashcardSetFunctions.getStats(req));
   }
   catch (err) {
       console.error('error : ' + err);
@@ -228,25 +275,57 @@ router.get('/flashcardset/stats/:flashcardSetId', validateObjectId, async (req, 
   }
 });
 
-router.put('/flashcard/update/:id', async (req, res) => {
-    const flashcardId = req.params.id;
+router.get('/flashcardset/basicinformations/:flashcardSetId', validateObjectId, async (req, res) => {
+  try {
+      return res.json(await flashcardSetFunctions.getInfos(req));
+  }
+  catch (err) {
+    console.log('error: ', err);
+    return res.status(500).json({error: 'Une erreur est survenue lors de la récupération des données : '});
+  }
+});
+
+// ANCHOR - Routes flashcard
+
+router.post('/flashcard/create', async (req, res) => {
+    const { flashcardSetId, question, answer } = req.body;
+    if (!toolsFunctions.checkIfflashcardSetExist(flashcardSetId)) return res.status(404).json({error: "Ce set de flashcards n'existe pas"});
+    
+    const newflashcard = new Flashcard({ flashcardSetId, question, answer, userDatas: [] });
+    flashcardFunctions.setUserDatas(newflashcard, req.user.id.toString());
     try {
-        const updatedFlashcard = await flashcard.findById(flashcardId);
-        const { userId, status, numberOfGood, lastReview, nextReview } = req.body;
-        if (!updatedFlashcard) {
-            return res.status(404).json({ error: "Cette flashcard n'existe pas" });
-        }
-        const updated = getOrChangeFlashcardUserInfos(updatedFlashcard, userId, status, numberOfGood, lastReview, nextReview).updated;
-        if (!updated) {
-            return res.status(400).json({ error: "Vous devez spécifier un paramètre à modifier" });
-        }
-
-        await updatedFlashcard.save();
-        return res.status(200).json({ flashcard: updatedFlashcard });
-
+        await newflashcard.save();
+        const flashcardSet = await FlashcardSet.findById(flashcardSetId);
+        flashcardSet.numberOfflashcards++;
+        await flashcardSet.save();
+        return res.status(201).json({ flashcard: newflashcard });
     } catch (err) {
-        return res.status(500).json({ error: 'Une erreur est survenue lors de la mise à jour de la flashcard' });
+        return res.status(500).json({ error: 'Une erreur est survenue lors de la création de votre flashcard' });
     }
+});
+
+router.put('/flashcard/update/:id', async (req, res) => {
+  const flashcardId = req.params.id;
+  try {
+      let updatedflashcard = await Flashcard.findById(flashcardId);
+      const { userId, level, numberOfGood, lastReview, nextReview } = req.body;
+      const isExistantAccount = await toolsFunctions.checkIfAccountExist(userId);
+      if (isExistantAccount === false) return res.status(404).json({ error: "Cet utilisateur n'existe pas" });
+      if (!updatedflashcard) {
+          return res.status(404).json({ error: "Cette flashcard n'existe pas" });
+      }
+      userDatasFunction = flashcardFunctions.getOrChangeUserDatas(updatedflashcard, userId, level, numberOfGood, lastReview, nextReview);
+      const updated = userDatasFunction.updated;
+      updatedflashcard  = userDatasFunction.flashcard;
+      console.log('flashcard: ', updatedflashcard)
+      if (!updated) {
+          return res.status(400).json({ error: "Vous devez spécifier un paramètre à modifier" });
+      }
+      await updatedflashcard.save();
+      return res.status(200).json({ flashcard: updatedflashcard });
+  } catch (err) {
+      return res.status(500).json({ error: 'Une erreur est survenue lors de la mise à jour de la flashcard' });
+  }
 });
 
 module.exports = router;
