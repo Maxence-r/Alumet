@@ -14,6 +14,41 @@
     <div id="loading-mindflash">
         <span class="loader-upload"></span>
     </div>
+    <div class="create-flashcard-container">
+        <section class="create-one-flashcard-section hidden">
+            <h1>Nouvelle Flashcard</h1>
+            <div class="flashcard unrated">
+                <div class="flashcard-options"></div>
+                <textarea name="question-field" id="new-flashcard-question-field" class="flashcard-question" placeholder="Rentrez votre question" cols="30" rows="3" maxlength="60"></textarea>
+                <div class="flashcard-divider"></div>
+                <textarea name="answer-field" id="new-flashcard-answer-field" class="flashcard-answer" placeholder="Rentrez votre réponse" cols="30" rows="3" maxlength="60"></textarea>
+            </div>
+            <div class="create-flashcard-buttons-container">
+                <div>
+                    <button class="large-white">Annuler</button>
+                    <button class="large">Créer</button>
+                </div>
+                <button id="creating-flashcard-continue" class="large">Poursuivre (1)</button>
+            </div>
+        </section>
+        <section class="check-flashcards-section">
+            <h1>Vérifier vos flashcards</h1>
+            <div class="flashcard unrated">
+                <div class="flashcard-options"></div>
+                <textarea name="question-field" id="new-flashcard-question-field" class="flashcard-question" placeholder="Rentrez votre question" cols="30" rows="3" maxlength="60"></textarea>
+                <div class="flashcard-divider"></div>
+                <textarea name="answer-field" id="new-flashcard-answer-field" class="flashcard-answer" placeholder="Rentrez votre réponse" cols="30" rows="3" maxlength="60"></textarea>
+            </div>
+            <div class="create-flashcard-buttons-container">
+                <div>
+                    <button class="large-white">Annuler</button>
+                    <button class="large">Revenir en arrière</button>
+                </div>
+                <button id="creating-flashcard-continue" class="large">Ajouter les flashcards au set</button>
+            </div>
+        </section>
+    </div>
+    <div class="overlay"></div>
     <div class="main-sub-container">
         <div class="title">LL problématiques</div>
         <div class="informations-display-buttons">
@@ -25,7 +60,7 @@
             <div id="loading-section-sub-container" class="loading-element">
                 <span class="loader-upload"></span>
             </div>
-            <section class="informations-section hidden">
+            <section class="informations-section">
                 <div class="sub-section-box stats">
                     <h2>Statistiques</h2>
                     <div class="percentage-bar">
@@ -62,7 +97,7 @@
                     </div>
                 </div>
             </section>
-            <section class="filter-section">
+            <section class="filter-section hidden">
                 <div class="filter-box sub-section-box">
                     <h2>Filtrer :</h2>
                     <div id="filter-good" class="sub-box filter-activate">
@@ -92,7 +127,19 @@
                 </div>
                 <div class="sort-box sub-section-box last-section-child">
                     <h2>Trier par :</h2>
-                    <div id="sort-question" class="sub-box sort-activate">
+                    <div id="sort-newest" class="sub-box sort-activate">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <circle/>
+                        </svg>
+                        <p>Les plus récentes</p>
+                    </div>
+                    <div id="sort-oldest" class="sub-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <circle/>
+                        </svg>
+                        <p>Les plus anciennes</p>
+                    </div>
+                    <div id="sort-question" class="sub-box">
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
                             <circle cx="7.5" cy="7.5" r="7.5" fill="#296EFF"/>
                         </svg>
@@ -139,39 +186,39 @@
             <section class="options-section hidden">
                 Options
             </section>
-            <button id="back-to-alumet-btn" class="large" onclick="redirectToDashboard()">Retourner sur Alumet</button>
+            <button id="back-to-alumet-btn" class="large" onclick="toolsFunctions.redirectToDashboard()">Retourner sur Alumet</button>
         </div>
     </div>
     <div class="main-container">
-        <div class="full-screen hidden">
-            <h1>Aucun set de flashcard ouvert pour l'instant.</h1>
-            <p>Cliquez sur un set de flashcard pour l'ouvrir ici !</p>
-        </div>
         <div id="loading-flashcard-set" class="loading-element full-screen">
             <span class="loader-upload"></span>
         </div>
         <div class="infos-bar">
-            <h2>[Set de flashcard]</h2>
+            <div class="infos-bar-container">
+                <div><img src="../../assets/global/menu.svg" alt="menu img"></div>
+                <h2>[Set de flashcard]</h2>
+            </div>
             <div class="buttons-container">
                 <div class="search-bar"></div>
                 <div class="buttons-container-box">
-                    <img src="../../assets/global/search-icon.svg" alt="search icon">
-                </div>
-                <div class="buttons-container-box">
-                    <button class="large-white">Ajouter des flashcards</button>
+                    <button id="add-flashcards-btn" class="large-white">Ajouter des flashcards</button>
                     <button class="large">Réviser</button>
                 </div>
             </div>
         </div>
-        <!-- <div class="options">
-            <div class="percentage-bar">
-                <div id="percentage-bar-good" ></div>
-                <div id="percentage-bar-ok"></div>
-                <div id="percentage-bar-bad"></div>
-                <div id="percentage-bar-unrated"></div>
+        <div id="flashcards-container">
+            <div class="information-screen-flashcards-container hidden" onclick="filterOrSortFlashcardSet.resetFilter()">
+                <h1>Aucune flashcard affichée pour l'instant.</h1>
+                <p>Cliquer ici pour réinisialiser vos paramètres de filtrage !</p>
             </div>
-        </div> -->
-        <div id="flashcards-container"></div>
+            <div class="information-screen-flashcards-container hidden">
+                <h1>Aucune flashcard n'existe pour l'instant.</h1>
+                <p>Cliquer ici pour créer votre première flashcard !</p>
+            </div>
+            <div id="loading-flashcard-container" class="loading-element full-screen">
+                <span class="loader-upload"></span>
+            </div>
+        </div>
     </div>
     
 

@@ -37,7 +37,6 @@ const flashcardFunctions = (() => {
   };
   const getOrChangeUserDatas = (flashcard, userId, level, numberOfGood, lastReview, nextReview) => {
     let updated = false;
-    console.log('flashcard before: ', flashcard)
     const userIdString = userId.toString();
     if (!toolsFunctions.checkIfAccountExist(userIdString)) return res.status(500).json({ error: "Cet utilisateur n'existe pas" });
     const existingData = {
@@ -91,9 +90,32 @@ const flashcardFunctions = (() => {
 })();
 
 const flashcardSetFunctions = (() => {
+  const setUserDatas = (flashcardSet, userId) => {
+    const userIdString = userId.toString();
+    if (!toolsFunctions.checkIfAccountExist(userIdString)) {
+      return { error: "Cet utilisateur n'existe pas" };
+    }
+    const existingData = {
+      data: flashcardSet.userDatas.find(item => item.userId === userIdString),
+      lastReview: flashcardSet.userDatas.find(item => item.userId === userIdString)?.lastReview
+    };
+    if (!existingData.data) {
+      flashcardSet.userDatas.push({ userId: userIdString, lastReview: null });
+    } else {
+      if (!existingData.lastReview) {
+        flashcardSet.userDatas.lastReview = null;
+      }
+    }
+    return flashcardSet;
+  };
   const getStats = async (req) => {
     const flashcards = await Flashcard.find({flashcardSetId: req.params.flashcardSetId});
-    let numberOfflashcards = flashcards.length;
+    if (!flashcards) {
+      return stats = {
+        numberOfFlashcards: 0
+      };
+    }
+    let numberOfFlashcards = flashcards.length;
     let numberOfGood = 0;
     let numberOfOk = 0;
     let numberOfBad = 0;
@@ -101,9 +123,9 @@ const flashcardSetFunctions = (() => {
 
     
     flashcards.forEach(flashcard => {
-      const existinglevel = flashcard.userDatas.find(item => item.userId === req.user._id.toString()).level;
+      const existinglevel = flashcard.userDatas.find(item => item.userId === req.user._id.toString())?.level;
       if (existinglevel) {
-        switch (existinglevel.level) {
+        switch (existinglevel) {
           case 3:
             numberOfGood++;
             break;
@@ -122,10 +144,10 @@ const flashcardSetFunctions = (() => {
       }        
     });
 
-    const calculatePercentage = (number) => { return ((number / numberOfflashcards) * 100).toFixed(0) };
+    const calculatePercentage = (number) => { return ((number / numberOfFlashcards) * 100).toFixed(0) };
 
     const stats = {
-      numberOfflashcards,
+      numberOfFlashcards,
       numberOfGood,
       numberOfOk,
       numberOfBad,
@@ -144,14 +166,13 @@ const flashcardSetFunctions = (() => {
     if (!ownerAccount) {
       return {error: "Ce set de flashcards n'existe plus, son détenteur n'a plus de compte"};
     }
-    const lastUsage = flashcardSet.lastUsage;
-    const existingLastUsage = lastUsage.find(item => item.userId === req.user._id.toString()) || 'Jamais utilisé';
+    const existingLastUsage = flashcardSet.userDatas.find(item => item.userId === req.user._id.toString())?.lastUsage || 'Jamais utilisé';
     const flashcardSetInformations = {
       owner: ownerAccount.name + ' ' + ownerAccount.lastname,
       title: flashcardSet.title,
       description: flashcardSet.description,
       numberOfParticipants: flashcardSet.participants.length,
-      numberOfflashcards: flashcardSet.numberOfflashcards,
+      numberOfFlashcards: flashcardSet.numberOfFlashcards,
       subject: flashcardSet.subject,
       lastUsage: existingLastUsage
     };
@@ -159,6 +180,7 @@ const flashcardSetFunctions = (() => {
   }
 
   return {
+    setUserDatas,
     getStats,
     getInfos,
   }
@@ -174,6 +196,9 @@ const toolsFunctions = (() => {
     return true;
   };
   checkIfflashcardSetExist = async (flashcardSetId) => {
+    if (!mongoose.Types.ObjectId.isValid(flashcardSetId)) {
+      return false;
+    }
     const flashcardSet = await FlashcardSet.findById(flashcardSetId);
     if (!flashcardSet) return false;
     return true;
@@ -203,14 +228,14 @@ router.get('/:flashcardSetId', validateObjectId, async (req, res) => {
 // ANCHOR - Routes flashcardSet
 
 router.post('/flashcardset/create', (req, res) => {
-  const newflashcardSet = new FlashcardSet();
+  let newflashcardSet = new FlashcardSet();
   newflashcardSet.owner = req.user._id;
   newflashcardSet.title = req.body.title;
   newflashcardSet.description = req.body.description;
   newflashcardSet.subject = req.body.subject;
-  newflashcardSet.lastUsage = Date.now();
   newflashcardSet.participants = [req.user._id];
-  newflashcardSet.numberOfflashcards = 0;
+  newflashcardSet.numberOfFlashcards = 0;
+  newflashcardSet = flashcardSetFunctions.setUserDatas(newflashcardSet, req.user._id.toString());
   newflashcardSet.save((err, flashcardSet) => {
       if (err) {
           return res.status(500).json({error: 'Une erreur est survenue lors de la création de votre set de flashcards' + err});
@@ -231,7 +256,7 @@ router.get('/flashcardsets', async (req, res) => {
         id: flashcardSet._id,
         owner: owner.name + ' ' + owner.lastname,
         title: flashcardSet.title,
-        numberOfflashcards: flashcardSet.numberOfflashcards
+        numberOfFlashcards: flashcardSet.numberOfFlashcards
       };
       flashcardSetsInfo.push(flashcardSetInfo);
     }
@@ -246,7 +271,6 @@ router.get('/getflashcardset/:flashcardSetId', validateObjectId, async (req, res
       const flashcardSet = await FlashcardSet.findById(req.params.flashcardSetId);
       if (!flashcardSet) return res.status(404).json({error: "Ce set de flashcards n'existe pas"});
       const flashcards = await Flashcard.find({flashcardSetId: req.params.flashcardSetId});
-      console.log('flashcards: ', flashcards);
       const flashcardsInfo = flashcards.map(flashcard => {
           const flashcardInfo = {};
           flashcardInfo.question = flashcard.question;
@@ -256,6 +280,7 @@ router.get('/getflashcardset/:flashcardSetId', validateObjectId, async (req, res
           flashcardInfo.numberOfGood = flashcardUserInfos.numberOfGood;
           flashcardInfo.lastReview = flashcardUserInfos.lastReview;
           flashcardInfo.nextReview = flashcardUserInfos.nextReview;
+          flashcardInfo.dateCreated = flashcard.dateCreated;
           return flashcardInfo;
       })
       return res.status(200).json({flashcardSet, flashcards: flashcardsInfo});
@@ -280,7 +305,6 @@ router.get('/flashcardset/basicinformations/:flashcardSetId', validateObjectId, 
       return res.json(await flashcardSetFunctions.getInfos(req));
   }
   catch (err) {
-    console.log('error: ', err);
     return res.status(500).json({error: 'Une erreur est survenue lors de la récupération des données : '});
   }
 });
@@ -291,12 +315,13 @@ router.post('/flashcard/create', async (req, res) => {
     const { flashcardSetId, question, answer } = req.body;
     if (!toolsFunctions.checkIfflashcardSetExist(flashcardSetId)) return res.status(404).json({error: "Ce set de flashcards n'existe pas"});
     
-    const newflashcard = new Flashcard({ flashcardSetId, question, answer, userDatas: [] });
+    const dateCreated = Date.now();
+    const newflashcard = new Flashcard({ flashcardSetId, question, answer, dateCreated,  userDatas: [] });
     flashcardFunctions.setUserDatas(newflashcard, req.user.id.toString());
     try {
         await newflashcard.save();
         const flashcardSet = await FlashcardSet.findById(flashcardSetId);
-        flashcardSet.numberOfflashcards++;
+        flashcardSet.numberOfFlashcards++;
         await flashcardSet.save();
         return res.status(201).json({ flashcard: newflashcard });
     } catch (err) {
@@ -317,7 +342,6 @@ router.put('/flashcard/update/:id', async (req, res) => {
       userDatasFunction = flashcardFunctions.getOrChangeUserDatas(updatedflashcard, userId, level, numberOfGood, lastReview, nextReview);
       const updated = userDatasFunction.updated;
       updatedflashcard  = userDatasFunction.flashcard;
-      console.log('flashcard: ', updatedflashcard)
       if (!updated) {
           return res.status(400).json({ error: "Vous devez spécifier un paramètre à modifier" });
       }

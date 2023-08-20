@@ -1,54 +1,67 @@
-window.addEventListener('load', () => {
-    loading.disable.mainContainer();
-    loading.disable.subContainerSection();
-    loading.disable.fullScreen();
-});
-
+//ANCHOR - Global functions
+const informationsScreen = (() => {
+    const noFlashcardDisplayed = () => {
+        const container = document.querySelector('#flashcards-container :first-child.information-screen-flashcards-container');
+        container.classList.remove('hidden');
+    };
+    const noFlashcardInSet = (() => {
+        const container = document.querySelector('#flashcards-container :nth-child(2).information-screen-flashcards-container');
+        container.classList.remove('hidden');
+    })();
+    const flashcardDisplayed = () => {
+        const firstContainer = document.querySelector('#flashcards-container :first-child.information-screen-flashcards-container');
+        const lastContainer = document.querySelector('#flashcards-container :nth-child(2).information-screen-flashcards-container');
+        firstContainer.classList.add('hidden');
+        lastContainer.classList.add('hidden');
+  };
+return {
+    noFlashcardDisplayed,
+    noFlashcardInSet,
+    flashcardDisplayed,
+}    
+})();
 const loading = (() => {
-    const noFlashcardSet = () => {
-        document.querySelector('.main-container > .full-screen').classList.remove('hidden');
-    }
-    const flashcardSetOpen = () => {
-        document.querySelector('.main-container > .full-screen').classList.add('hidden');
-    }
     const enable = (() => {
         const fullScreen = () => document.getElementById('loading-mindflash').style.display = 'flex';
         const mainContainer = () => document.querySelector('.main-container').classList.add('active-loading');
         const subContainerSection = () => document.querySelector('.main-sub-container > .informations').classList.add('active-loading');
+        const flashcardContainer = () => document.getElementById('flashcards-container').classList.add('active-loading');
         return {
             fullScreen,
             mainContainer,
             subContainerSection,
+            flashcardContainer,
         }
     })();
     const disable = (() => {
         const fullScreen = () => document.getElementById('loading-mindflash').style.display = 'none';
         const mainContainer = () => document.querySelector('.main-container').classList.remove('active-loading');
         const subContainerSection = () => document.querySelector('.main-sub-container > .informations').classList.remove('active-loading');
+        const flashcardContainer = () => document.getElementById('flashcards-container').classList.remove('active-loading');
         return {
             fullScreen,
             mainContainer,
             subContainerSection,
+            flashcardContainer,
         }
     })();
     return {
         enable,
         disable,
-        noFlashcardSet,
-        flashcardSetOpen,
     }
 })();
-
 const loadFlashcardSet = (() => {
     const title = (title) => {
-        const titleElement = document.querySelector('.main-container > .infos-bar > h2');
+        const titleElement = document.querySelector('.main-container > .infos-bar > .infos-bar-container > h2');
         titleElement.textContent = title ? title : '';
     };
     const stats = async (flashCardSetId) => {
         try {
             const res = await fetch(`/mindFlash/flashcardset/stats/${flashCardSetId}`);
             const data = await res.json();
-    
+            if (data.numberOfFlashcards === 0) {
+                console.log('no flashcard');
+            }
             const percentageBar = document.querySelector('.informations-section > .stats > .percentage-bar');
             const goodPercentage = document.getElementById('percentage-bar-good');
             const okPercentage = document.getElementById('percentage-bar-ok');
@@ -147,11 +160,13 @@ const loadFlashcardSet = (() => {
     }
     const informationsSection = (flashCardSetId) => {
     loading.enable.subContainerSection();
-    stats(flashCardSetId);
-    setBasicInformations(flashCardSetId).then(() => {
-        loading.disable.subContainerSection();
-    });
-    }
+    loadFlashcardSet.stats(flashCardSetId);
+    loadFlashcardSet.setBasicInformations(flashCardSetId)
+        .then(() => {
+            loading.disable.subContainerSection();
+        })
+        .catch(err => console.log(err));
+    };
     return {
         title,
         stats,
@@ -159,19 +174,29 @@ const loadFlashcardSet = (() => {
         informationsSection,
     }
 })();
-
 const createElement = (() => {
-    const flashcard = (question, answer, status, nextReview, lastReview) => {
+    const flashcard = (flashcardData) => {
+        console.log(flashcardData)
+        const { question, answer, level, nextReview, lastReview, dateCreated } = flashcardData; 
         const flashcardContainer = document.getElementById('flashcards-container');
         const flashcard = document.createElement('div');
         flashcard.dataset.nextReview = nextReview;
         flashcard.dataset.lastReview = lastReview;
+        flashcard.dataset.dateCreated = dateCreated;
         flashcard.classList.add('flashcard');
-        if (status) {
-            flashcard.classList.add(`flashcard-${status}`);
-        } else {
-            flashcard.classList.add('unrated');
-        }
+        switch (level) {
+            case 3:
+                flashcard.classList.add('flashcard-good');
+                break;
+            case 2:
+                flashcard.classList.add('flashcard-ok');
+                break;
+            case 1:
+                flashcard.classList.add('flashcard-bad');
+                break;
+            default:
+                flashcard.classList.add('unrated');
+        };
         
         const options = document.createElement('div');
         options.classList.add('flashcard-options');
@@ -185,7 +210,7 @@ const createElement = (() => {
         flashcard.appendChild(options);
 
         const title = document.createElement('div');
-        title.classList.add('flashcard-title');
+        title.classList.add('flashcard-question');
         title.textContent = question;
 
         flashcard.appendChild(title);
@@ -209,44 +234,49 @@ const createElement = (() => {
 })();
 const filterOrSortFlashcardSet = (() => {
     const toggleFilterBtn = (btn) => {
-        let status = false;
         if (btn.classList.contains('filter-activate')) {
             btn.classList.remove('filter-activate');
-            status = false;
         } else {
             btn.classList.add('filter-activate');
-            status = true;
         }
     };
     const toggleSortBtn = (btn) => {
-        let status = false;
         if (btn.classList.contains('sort-activate')) {
             btn.classList.remove('sort-activate');
-            status = false;
         } else {
             btn.classList.add('sort-activate');
-            status = true;
         }
     };
     const filterFlashcards = (goodFilter, okFilter, badFilter, unratedFilter) => {
         const flashcards = document.querySelectorAll('.flashcard');
+        let flashcardsDisplayed = false; // Initialize a variable to track if any flashcards are displayed
         flashcards.forEach(flashcard => {
             const status = flashcard.classList[1].split('-').pop();
             if (status === 'good' && goodFilter) {
-                flashcard.classList.remove('hidden');
+            flashcard.classList.remove('hidden');
+            flashcardsDisplayed = true; // Set the variable to true if a flashcard is displayed
             } else if (status === 'ok' && okFilter) {
-                flashcard.classList.remove('hidden');
+            flashcard.classList.remove('hidden');
+            flashcardsDisplayed = true;
             } else if (status === 'bad' && badFilter) {
-                flashcard.classList.remove('hidden');
+            flashcard.classList.remove('hidden');
+            flashcardsDisplayed = true;
             } else if (status === 'unrated' && unratedFilter) {
-                flashcard.classList.remove('hidden');
+            flashcard.classList.remove('hidden');
+            flashcardsDisplayed = true;
             } else {
-                flashcard.classList.add('hidden');
+            flashcard.classList.add('hidden');
             }
         });
+        
+        if (!flashcardsDisplayed) { // Check if no flashcards are displayed
+            informationsScreen.noFlashcardDisplayed();
+        } else {
+            informationsScreen.flashcardDisplayed();
+        }
     };
     const sortFlashcards = (sort) => {
-        const flashcards = Array.from(document.querySelectorAll('.flashcard'));
+        const flashcards = Array.from(document.querySelectorAll('#flashcards-container > .flashcard'));
 
         function giveLevelNumber(level) {
         if (level === 'good') {
@@ -261,12 +291,15 @@ const filterOrSortFlashcardSet = (() => {
         }
 
         flashcards.sort((a, b) => {
-        if (sort === 'random') {
-            return Math.random() - 0.5;
-        } else if (sort === 'question') {
-            return a.querySelector('.flashcard-title').textContent.localeCompare(b.querySelector('.flashcard-title').textContent);
+        if (sort === 'newest') {
+            return b.dataset.dateCreated.localeCompare(a.dataset.dateCreated);
+        } else if (sort === 'oldest') {
+            return a.dataset.dateCreated.localeCompare(b.dataset.dateCreated);
+        }
+         else if (sort === 'question') {
+            return a.querySelector('.flashcard-question').textContent.localeCompare(b.querySelector('.flashcard-question').textContent);
         } else if (sort === 'answer') {
-            return b.querySelector('.flashcard-answer').textContent.localeCompare(a.querySelector('.flashcard-answer').textContent);
+            return a.querySelector('.flashcard-answer').textContent.localeCompare(b.querySelector('.flashcard-answer').textContent);
         } else if (sort === 'nextReview') {
             return a.dataset.nextReview.localeCompare(b.dataset.nextReview);
         } else if (sort === 'lastReview') {
@@ -279,6 +312,8 @@ const filterOrSortFlashcardSet = (() => {
             const aLevel = giveLevelNumber(a.classList[1].split('-').pop());
             const bLevel = giveLevelNumber(b.classList[1].split('-').pop());
             return bLevel.toString().localeCompare(aLevel.toString());
+        } else if (sort === 'random') {
+            return Math.random() - 0.5;
         } else {
             return 0;
         }
@@ -286,60 +321,147 @@ const filterOrSortFlashcardSet = (() => {
         flashcards.forEach(flashcard => {
             flashcard.parentNode.appendChild(flashcard);
         });
-    }
+        if (flashcards.length === 0) {
+            informationsScreen.noFlashcardDisplayed();
+        } else {
+            informationsScreen.flashcardDisplayed();
+        }
+        loading.disable.flashcardContainer();
+    };
+    const resetFilter = () => {
+        const filterBtns = document.querySelectorAll('.filter-section > .filter-box > div');
+        filterBtns.forEach(btn => {
+            btn.classList.add('filter-activate');
+        });
+        const flashcards = document.querySelectorAll('.flashcard');
+        flashcards.forEach(flashcard => {
+            flashcard.classList.remove('hidden');
+        });
+        if (flashcards.length === 0) {
+            informationsScreen.noFlashcardDisplayed();
+        } else {
+            informationsScreen.flashcardDisplayed();
+        }
+    };
     return {
         toggleFilterBtn,
         filterFlashcards,
         toggleSortBtn,
         sortFlashcards,
+        resetFilter,
     }
 })();
-function getFlashcardSet(flashcardSetId) {
-    loading.enable.mainContainer();
-    fetch(`/mindFlash/getFlashcardset/${flashcardSetId}`)
-        .then(res => res.json())
-        .then(data => {
-            loadFlashcardSet.title(data.flashcardSet.title);
-            loadFlashcardSet.informationsSection(data.flashcardSet._id)
-
-            const flashcards = data.flashcards;
-            flashcards.forEach(flashcard => {
-                createElement.flashcard(flashcard.question, flashcard.answer, flashcard.status, flashcard.nextReview, flashcard.lastReview);
-            });
-            loading.flashcardSetOpen();
-            loading.disable.mainContainer();
+const toolsFunctions = (() => {
+    const redirectToDashboard = () => {
+        window.location.href = '/dashboard';
+    };
+    const setSubMainContainerSectionActive = (btn, section) => {
+        sectionBtns.forEach(btn => {
+            btn.classList.remove('large'); 
+            btn.classList.add('large-white')
         })
-        .catch(err => console.log(err));
-}
+        btn.classList.remove('large-white');
+        btn.classList.add('large');
+    
+        document.querySelectorAll('.informations > section').forEach(section => {
+            section.classList.add('hidden');
+        });
+        document.querySelector(`.${section}-section`).classList.remove('hidden');
+    }
+    return {
+        redirectToDashboard,
+        setSubMainContainerSectionActive,
+    }
+})();
+const manageElementDisplay = (() => {
+    const disable = (() => {
+        const createFlashcardContainer = () => {
+            const overlay = document.querySelector('body > .overlay');
+            overlay.removeEventListener('click', () => disable.createFlashcardContainer());
+            overlay.style.visibility = 'hidden';
 
-function redirectToDashboard(){
-    window.location.href = '/dashboard';
-}
+            const createFlashcardContainer = document.querySelector('.create-flashcard-container');
+            createFlashcardContainer.classList.remove('prompt-active');
+        }
+        return {
+            createFlashcardContainer,
+        }
+    })();
+    const enable = (() => {
+        const createFlashcardContainer = () => {
+            const overlay = document.querySelector('body > .overlay');
+            overlay.addEventListener('click', () => disable.createFlashcardContainer());
+            overlay.style.visibility = 'visible';
+
+            const createFlashcardContainer = document.querySelector('.create-flashcard-container');
+            createFlashcardContainer.classList.add('prompt-active');
+        }
+        return {
+            createFlashcardContainer,
+        }
+    })();
+    return {
+        enable,
+        disable,
+    }
+})();
+const flashcardSetFunctions = (() => {
+    const generateFlashcardSet = (flashcardSetId) => {
+        loading.enable.mainContainer();
+        loading.enable.flashcardContainer();
+        fetch(`/mindFlash/getFlashcardset/${flashcardSetId}`)
+            .then(res => res.json())
+            .then(data => {
+                loadFlashcardSet.title(data.flashcardSet.title);
+                loadFlashcardSet.informationsSection(data.flashcardSet._id)
+    
+                const flashcards = data.flashcards;
+                flashcards.forEach(flashcard => {
+                    createElement.flashcard(flashcard);
+                });
+                
+                const sortBtn = document.querySelector('.filter-section > .sort-box > .sort-activate');
+                document.querySelectorAll('.filter-section > .sort-box > div').forEach(btn => {
+                    btn.classList.remove('sort-activate');
+                });
+                sortBtn.classList.add('sort-activate');
+                filterOrSortFlashcardSet.sortFlashcards(sortBtn.id.split('-')[1]);
+
+                filterOrSortFlashcardSet.resetFilter();
+            })
+            .then (() => {
+                loading.disable.mainContainer();
+                loading.disable.flashcardContainer();
+            })
+            .catch(err => console.log(err));
+    };
+    return {
+        generateFlashcardSet,
+    }
+})();
+
+//ANCHOR - Initiator code
+loading.enable.fullScreen();
+loading.enable.mainContainer();
+loading.enable.subContainerSection();
+window.addEventListener('load', () => {
+    loading.disable.fullScreen();
+});
+
 const currentUrl = window.location.href;
 const flashcardSetId = currentUrl.split('/mindflash/').pop();
-console.log('flashcardSetId : ', flashcardSetId);
 if (flashcardSetId && flashcardSetId.length === 24 && !flashcardSetId.includes('/')) {
-    getFlashcardSet(flashcardSetId);
+    informationsScreen.noFlashcardInSet;
+    flashcardSetFunctions.generateFlashcardSet(flashcardSetId);
 }
 
-function setSectionActive(btn, section) {    
-    sectionBtns.forEach(btn => {
-        btn.classList.remove('large'); 
-        btn.classList.add('large-white')
-    })
-    btn.classList.remove('large-white');
-    btn.classList.add('large');
 
-    document.querySelectorAll('.informations > section').forEach(section => {
-        section.classList.add('hidden');
-    });
-    document.querySelector(`.${section}-section`).classList.remove('hidden');
-}
+//ANCHOR - Sub Main container section buttons
 const sectionBtns = document.querySelectorAll('.informations-display-buttons > button');
 sectionBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     const section = btn.id.split('-')[0];
-    setSectionActive(btn, section);
+    toolsFunctions.setSubMainContainerSectionActive(btn, section);
   });
 });
 
@@ -351,10 +473,6 @@ filterBtns.forEach(btn => {
         const okFilter = document.getElementById('filter-ok').classList.contains('filter-activate');
         const badFilter = document.getElementById('filter-bad').classList.contains('filter-activate');
         const unratedFilter = document.getElementById('filter-unrated').classList.contains('filter-activate');
-        console.log('goodFilter : ', goodFilter);
-        console.log('okFilter : ', okFilter);
-        console.log('badFilter : ', badFilter);
-        console.log('unratedFilter : ', unratedFilter);
         filterOrSortFlashcardSet.filterFlashcards(goodFilter, okFilter, badFilter, unratedFilter);        
     });
 });
@@ -368,7 +486,20 @@ sortBtns.forEach(btn => {
         btn.classList.add('sort-activate');
         const sort = btn.id.split('-')[1];
         filterOrSortFlashcardSet.sortFlashcards(sort);
-        
-        console.log('sort : ', sort);
     });
 });
+
+//ANCHOR - Test code
+
+const addFlashcardBtn = document.getElementById('add-flashcards-btn');
+addFlashcardBtn.addEventListener('click', () => manageElementDisplay.enable.createFlashcardContainer());
+
+/* const overlay = document.querySelector('body > .overlay');
+overlay.addEventListener('mouseover', () => {
+    console.log('here')
+    document.querySelector('.create-flashcard-container').style.transform = 'translateX(0)';
+});
+
+overlay.addEventListener('mouseout', () => {
+    document.querySelector('.create-flashcard-container').style.transform = 'translateX(100%)';
+}); */

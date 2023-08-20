@@ -1,3 +1,7 @@
+* {
+    user-select: none;
+}
+
 body {
     display: flex;
     flex-direction: row;
@@ -9,7 +13,7 @@ body {
     min-height: calc(100% - 20px);
 }
 .hidden {
-    display: none;
+    visibility: hidden;
 }
 
 #loading-mindflash {
@@ -20,12 +24,99 @@ body {
     align-items: center;
     width: 100vw;
     height: 100vh;
-    z-index: 1000;
+    z-index: 100000;
     background-color: #f6f8fc;
 }
 #loading-mindflash.active-loading {
     display: flex !important;
 }
+
+.overlay {
+    position: absolute;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    background: #0000004c;
+    height: 200vh;
+    width: 200vw;
+    transition: all 0.3s ease-in-out;
+    visibility: hidden;
+    cursor: pointer;
+}
+.prompt-active {
+    visibility: visible !important;
+    transform: translate(50%,-50%) scale(1) !important;
+    opacity: 1 !important;
+}
+.create-flashcard-container {
+    position: absolute;
+    z-index: 1000;
+    right: 50%;
+    top: 50%;
+    display: flex;
+    flex-direction: column;
+    background: #FFF;
+    padding: 30px 50px;
+    height: fit-content;
+    width: fit-content;
+    transition: all 0.3s ease-in-out;
+    transform: translate(50%,-50%) scale(0.6);
+    opacity: 0;
+    visibility: hidden;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.create-flashcard-container > section {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    align-items: flex-start;
+    justify-content: center;
+    width: fit-content;
+    gap: 32px;
+}
+.create-flashcard-container > section > h1 {
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 0;
+}
+.create-flashcard-container > section > .create-flashcard-buttons-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    align-self: flex-end;
+    justify-content: space-between;
+
+    > div {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+}
+.create-flashcard-container > section > .flashcard {
+    max-width: 70%;
+    height: fit-content;
+    gap: 20px;
+    min-width: 500px;
+    min-height: 180px;
+}
+.create-flashcard-container > section > .flashcard > textarea {
+    width: 90%;
+    padding: 10px;
+    resize: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+
+
+
 
 .main-sub-container {
     display: flex;
@@ -203,14 +294,13 @@ section > .sub-section-box {
     width: calc(100% - 4px);
     height: fit-content;
     padding-left: 4px;
+    cursor: pointer;
 
     > p {
-        cursor: pointer;
         margin: 0
     }
 
     > svg {
-        cursor: pointer;
         min-width: 15px;
         min-height: 15px;
     }
@@ -270,7 +360,8 @@ section > .sub-section-box {
     text-align: center;
 }
 
-#loading-section-sub-container {
+#loading-section-sub-container,
+#loading-flashcard-container {
     display: flex;
     position: absolute;
     top: 0px;
@@ -285,7 +376,6 @@ section > .sub-section-box {
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
 }
-
 
 .loading-element {
     display: none !important;
@@ -306,12 +396,36 @@ section > .sub-section-box {
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
 
-    > h2 {
-        margin: 0;
-        font-size: 1.8em;
-        font-weight: 400;
-    }
+    .infos-bar-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+        height: fit-content;
+        width: fit-content;
 
+        > div {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            height: 32px;
+            width: 32px;
+            cursor: pointer;
+
+            > img {
+                width: 32px;
+                color: #000;
+            }
+        }
+        > h2 {
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 400;
+        }
+
+    }
     > .buttons-container {
         display: flex;
         flex-direction: row;
@@ -337,6 +451,7 @@ section > .sub-section-box {
     cursor: pointer;
 }
 #flashcards-container {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(160px, 1fr));
@@ -346,11 +461,45 @@ section > .sub-section-box {
     margin: 20px 0px;
     overflow-y: auto;
 }
+#flashcards-container > .information-screen-flashcards-container {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    background-color: #fff;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+#flashcards-container > .information-screen-flashcards-container > h1 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+    text-align: center;
+}
+#flashcards-container > .information-screen-flashcards-container > p {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin: 0;
+    color: #9ea1a7;
+    text-align: center;
+}
+#flashcards-container > .information-screen-flashcards-container:hover {
+    transform: scale(0.98);
+    background-color: #0000000a;
+}
 .flashcard {
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-items: center;
+    justify-content: center;
     align-items: center;
     gap: 15px;
     min-height: 115px;
@@ -385,7 +534,7 @@ section > .sub-section-box {
     top: 10px;
     right: 8px;
 }
-.flashcard > .flashcard-title {
+.flashcard > .flashcard-question {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -419,3 +568,6 @@ section > .sub-section-box {
     line-height: normal;
 }
 
+@media (max-width: 1200px) {
+    
+}

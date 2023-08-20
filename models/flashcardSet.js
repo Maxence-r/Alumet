@@ -36,13 +36,12 @@ const flashcardSetSchema = mongoose.Schema({
         minLength: 2,
         maxLength: 50
     },
-    lastReview: [{
+    userDatas: [{
         userId: String,
         lastReview: {
             type: Date,
-            default: Date.now
         }
-    }],
+    }]
 });
 
 const flashCardSet = mongoose.model("flashCardSet", flashcardSetSchema);

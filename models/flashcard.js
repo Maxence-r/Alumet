@@ -17,6 +17,10 @@ const flashcardSchema = mongoose.Schema({
         minLength: 2,
         maxLength: 50
     },
+    dateCreated: {
+        type: Date,
+        default: Date.now
+    },
     userDatas: [{
         userId: String,
         level: {
