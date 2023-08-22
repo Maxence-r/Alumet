@@ -7,6 +7,9 @@ const Account = require('../../models/account');
 const path = require('path');
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
 
+/* -------------------------------------------------------------------------- */
+/*                              Define functions                              */
+/* -------------------------------------------------------------------------- */
 const flashcardFunctions = (() => {
   const setUserDatas = (flashcard, userId) => {
     const userIdString = userId.toString();
@@ -209,7 +212,9 @@ const toolsFunctions = (() => {
   }
 })();
 
-/**************** ROUTES ****************/
+/* -------------------------------------------------------------------------- */
+/*                                   Routes                                   */
+/* -------------------------------------------------------------------------- */
 
 //ANCHOR - Routes General
 
@@ -328,7 +333,13 @@ router.post('/flashcard/create', async (req, res) => {
         return res.status(500).json({ error: 'Une erreur est survenue lors de la création de votre flashcard' });
     }
 });
-
+router.post('/flashcard/create/verify', async (req, res) => {
+  const { question, answer } = req.body;
+  if (!question || !answer) return res.status(400).json({error: "Vous devez spécifier une question et une réponse"});
+  if (question.length < 4 || question.length > 60) return res.status(400).json({error: "La question doit contenir entre 4 et 60 caractères"});
+  if (answer.length < 4 || answer.length > 60) return res.status(400).json({error: "La réponse doit contenir entre 4 et 60 caractères"});
+  return res.status(200).json({message: "La question et la réponse sont valides"});
+});
 router.put('/flashcard/update/:id', async (req, res) => {
   const flashcardId = req.params.id;
   try {

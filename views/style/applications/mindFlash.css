@@ -12,9 +12,6 @@ body {
     height: calc(100% - 20px);
     min-height: calc(100% - 20px);
 }
-.hidden {
-    visibility: hidden;
-}
 
 #loading-mindflash {
     position: absolute;
@@ -56,7 +53,7 @@ body {
     display: flex;
     flex-direction: column;
     background: #FFF;
-    padding: 30px 50px;
+    padding: 25px 35px 30px;
     height: fit-content;
     width: fit-content;
     transition: all 0.3s ease-in-out;
@@ -70,11 +67,39 @@ body {
 .create-flashcard-container > section {
     display: flex;
     flex-direction: column;
-    height: fit-content;
     align-items: flex-start;
     justify-content: center;
-    width: fit-content;
-    gap: 32px;
+    width: 750px;
+    height: 460px;
+    gap: 35px;
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+}
+.create-flashcard-container {
+    > :first-child {
+        transform: translateX(0%);
+        opacity: 1;
+        z-index: 1;
+    }
+    > :first-child.hidden {
+        position: absolute;
+        display: flex !important;
+        transform: translateX(-5%);
+        opacity: 0;
+        z-index: 0;
+    }
+    > :last-child {
+        transform: translateX(0%);
+        opacity: 1;
+        z-index: 1;
+    }
+    > :last-child.hidden {
+        position: absolute;
+        display: flex !important;
+        transform: translateX(5%);
+        opacity: 0;
+        z-index: 0;
+    }
 }
 .create-flashcard-container > section > h1 {
     font-size: 2rem;
@@ -96,21 +121,33 @@ body {
     }
 }
 .create-flashcard-container > section > .flashcard {
-    max-width: 70%;
+    width: calc(100% - 45px);
     height: fit-content;
     gap: 20px;
-    min-width: 500px;
     min-height: 180px;
+    align-self: center;
 }
 .create-flashcard-container > section > .flashcard > textarea {
+    caret-color: #858585;
     width: 90%;
+    height: 85px;
     padding: 10px;
     resize: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.4em;
 }
 
+#check-flashcards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(137px, calc(50% - 10px)));
+    grid-template-rows: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
 
 
 
@@ -508,7 +545,20 @@ section > .sub-section-box {
     border: 3px solid #C6C9CE;
     background: #FFF;
     text-align: center;
+    transition: all 0.3s ease-in-out;
 }
+.flashcard.flashcard.active-selection {
+    cursor: pointer;
+}
+.flashcard.active-selection:hover {
+    transform: scale(0.95);
+    background-color: #00000004;
+}
+.flashcard.flashcard-selected {
+    transform: scale(0.95);
+    background-color: #0000000a;
+}
+
 
 .flashcard-good {
     border: 3px solid #00c75a;

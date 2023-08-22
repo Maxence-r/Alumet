@@ -15,9 +15,9 @@
         <span class="loader-upload"></span>
     </div>
     <div class="create-flashcard-container">
-        <section class="create-one-flashcard-section hidden">
+        <section class="create-one-flashcard-section">
             <h1>Nouvelle Flashcard</h1>
-            <div class="flashcard unrated">
+            <div class="flashcard">
                 <div class="flashcard-options"></div>
                 <textarea name="question-field" id="new-flashcard-question-field" class="flashcard-question" placeholder="Rentrez votre question" cols="30" rows="3" maxlength="60"></textarea>
                 <div class="flashcard-divider"></div>
@@ -25,26 +25,21 @@
             </div>
             <div class="create-flashcard-buttons-container">
                 <div>
-                    <button class="large-white">Annuler</button>
-                    <button class="large">Créer</button>
+                    <button class="large-white" onclick="manageElementDisplay.disable.createFlashcardContainer()">Annuler</button>
+                    <button id="creating-flashcard-continue-btn" class="large" onclick="flashcardFunctions.createFlashcard.createNewFlashcardList()">Poursuivre (0)</button>
                 </div>
-                <button id="creating-flashcard-continue" class="large">Poursuivre (1)</button>
+                <button class="large" onclick="flashcardFunctions.createFlashcard.addNewFlashcardToNewFlashcardsList();">Créer la flashcard</button>
             </div>
         </section>
-        <section class="check-flashcards-section">
+        <section class="check-flashcards-section hidden">
             <h1>Vérifier vos flashcards</h1>
-            <div class="flashcard unrated">
-                <div class="flashcard-options"></div>
-                <textarea name="question-field" id="new-flashcard-question-field" class="flashcard-question" placeholder="Rentrez votre question" cols="30" rows="3" maxlength="60"></textarea>
-                <div class="flashcard-divider"></div>
-                <textarea name="answer-field" id="new-flashcard-answer-field" class="flashcard-answer" placeholder="Rentrez votre réponse" cols="30" rows="3" maxlength="60"></textarea>
+            <div id="check-flashcards-container">
             </div>
             <div class="create-flashcard-buttons-container">
                 <div>
-                    <button class="large-white">Annuler</button>
-                    <button class="large">Revenir en arrière</button>
+                    <button class="large-white" onclick="manageElementDisplay.enable.createFlashcard.section1()">Revenir en arrière</button>
                 </div>
-                <button id="creating-flashcard-continue" class="large">Ajouter les flashcards au set</button>
+                <button id="creating-flashcards-btn" class="large">Ajouter les flashcards au set</button>
             </div>
         </section>
     </div>
@@ -201,7 +196,7 @@
             <div class="buttons-container">
                 <div class="search-bar"></div>
                 <div class="buttons-container-box">
-                    <button id="add-flashcards-btn" class="large-white">Ajouter des flashcards</button>
+                    <button id="add-flashcards-btn" class="large-white" onclick="manageElementDisplay.enable.createFlashcard.container()">Ajouter des flashcards</button>
                     <button class="large">Réviser</button>
                 </div>
             </div>

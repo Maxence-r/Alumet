@@ -1,5 +1,5 @@
 node_modules
+.VSCodeCounter
 cdn
 .idea
 .env
-ideas.txt
