@@ -2,6 +2,23 @@ window.addEventListener("load", function () {
     document.querySelector("body > section").style.display = "none";
 });
 
+const navButtons = document.querySelectorAll(".navbar > button");
+const sections = document.querySelectorAll(".modules_container > section");
+
+navButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        if (button.id == "home") {
+            document.querySelector(".brightness-layer").classList.remove("active-layer");
+        } else {
+            document.querySelector(".brightness-layer").classList.add("active-layer");
+        }
+        navButtons.forEach((button) => button.classList.remove("active"));
+        button.classList.add("active");
+        sections.forEach((section) => section.classList.remove("active-section"));
+        document.querySelector(`.${button.id}`).classList.add("active-section");
+    });
+});
+
 let cards = document.querySelectorAll(".card");
 let lists = document.querySelectorAll(".list");
 

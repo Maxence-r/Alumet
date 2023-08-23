@@ -1,6 +1,7 @@
 body {
     display: flex;
     flex-direction: row;
+    position: relative;
     background-color: #f6f8fc;
     background-image: url("../../assets/global/dev.jpg");
     background-repeat: no-repeat;
@@ -20,6 +21,35 @@ body {
     min-height: calc(100% - 20px);
 }
 
+.modules_container {
+    position: absolute;
+    right: 115px;
+    border-radius: 10px;
+    width: 30%;
+    height: calc(100% - 40px);
+    background-color: #fff;
+    z-index: 10;
+}
+
+.brightness-layer {
+    pointer-events: none;
+    opacity: 0;
+    z-index: 5;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: all 0.3s ease-in-out;
+}
+
+.active-layer {
+    display: block;
+    pointer-events: all;
+    opacity: 1;
+}
+
 .alumet {
     display: flex;
     flex-direction: column;
@@ -29,18 +59,14 @@ body {
     overflow: hidden;
 }
 
-.alumet-heading {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
 .alumet-content {
     gap: 16px;
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
     overflow: auto;
+    height: 100%;
+    border-radius: 10px;
 }
 
 .list {
@@ -78,25 +104,58 @@ body {
     font-weight: bold;
     margin-bottom: 10px;
 }
-
-.alumet-heading > h1 {
-    font-size: 22px;
-    font-weight: 400;
-    margin: 0;
-    height: 60px;
+.navbar {
     display: flex;
+    position: relative;
+    flex-direction: column;
     align-items: center;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 0 20px;
+    min-width: 75px;
+    background-color: white;
+    height: 100%;
     border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    z-index: 10;
 }
 
-.navbar {
-    width: 80px;
-    height: 100%;
-    background-color: white;
+.active > img {
+    filter: brightness(0) invert(1);
+}
+
+.navbar > img {
+    width: 26px;
+    margin-top: 40px;
+    cursor: pointer;
+    filter: invert(0.5);
+}
+
+.navbar > button {
+    position: relative;
     border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    width: 53px;
+    height: 53px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 10px 0;
+    background: transparent;
+    border: none;
+    z-index: 10;
+}
+
+.navbar > button > img {
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar > button:nth-child(1) {
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+    .modules_container {
+        width: calc(100% - 135px);
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -105,13 +164,26 @@ body {
         padding: 10px;
         gap: 10px;
     }
+    .navbar > img {
+        margin: 0;
+        margin-left: 10%;
+    }
     .navbar {
         height: 80px;
+        flex-direction: row;
         width: 100%;
     }
     html,
     body {
         height: calc(100% - 10px);
         min-height: calc(100% - 10px);
+    }
+    .navbar > button:nth-child(1) {
+        margin-left: 3%;
+    }
+    .modules_container {
+        width: calc(100% - 20px);
+        height: calc(100% - 105px);
+        right: 10px;
     }
 }
