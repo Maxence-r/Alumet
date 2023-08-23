@@ -317,27 +317,34 @@ router.get('/flashcardset/basicinformations/:flashcardSetId', validateObjectId, 
 // ANCHOR - Routes flashcard
 
 router.post('/flashcard/create', async (req, res) => {
-    const { flashcardSetId, question, answer } = req.body;
-    if (!toolsFunctions.checkIfflashcardSetExist(flashcardSetId)) return res.status(404).json({error: "Ce set de flashcards n'existe pas"});
-    
-    const dateCreated = Date.now();
-    const newflashcard = new Flashcard({ flashcardSetId, question, answer, dateCreated,  userDatas: [] });
-    flashcardFunctions.setUserDatas(newflashcard, req.user.id.toString());
-    try {
-        await newflashcard.save();
-        const flashcardSet = await FlashcardSet.findById(flashcardSetId);
-        flashcardSet.numberOfFlashcards++;
-        await flashcardSet.save();
-        return res.status(201).json({ flashcard: newflashcard });
-    } catch (err) {
-        return res.status(500).json({ error: 'Une erreur est survenue lors de la création de votre flashcard' });
-    }
+  const userId = req.user._id.toString();
+  const flashcardList = req.body.flashcards;
+  const flashcardSetId = req.body.flashcardSetId;
+  if (!toolsFunctions.checkIfflashcardSetExist(flashcardSetId)) return res.status(404).json({error: "Ce set de flashc3ards n'existe pas"});
+
+  try {
+    flashcardList.forEach(async flashcard => {
+      const { question, answer } = flashcard;
+      const dateCreated = Date.now();
+      const newflashcard = new Flashcard({ flashcardSetId, question, answer, dateCreated,  userDatas: [] });
+      flashcardFunctions.setUserDatas(newflashcard, userId);
+      await newflashcard.save();
+      const flashcardSet = await FlashcardSet.findById(flashcardSetId);
+      flashcardSet.numberOfFlashcards++;
+      await flashcardSet.save();
+      console.log({ flashcard: newflashcard });
+    });
+    return res.status(201).json({ message: "Les flashcards ont bien été créées" });
+  }
+  catch (err) {
+    return res.status(500).json({ error: 'Une erreur est survenue lors de la création de vos flashcards' });
+  }
 });
 router.post('/flashcard/create/verify', async (req, res) => {
   const { question, answer } = req.body;
-  if (!question || !answer) return res.status(400).json({error: "Vous devez spécifier une question et une réponse"});
-  if (question.length < 4 || question.length > 60) return res.status(400).json({error: "La question doit contenir entre 4 et 60 caractères"});
-  if (answer.length < 4 || answer.length > 60) return res.status(400).json({error: "La réponse doit contenir entre 4 et 60 caractères"});
+  if (!question || !answer) return res.status(200).json({error: "Vous devez spécifier une question et une réponse"});
+  if (question.length < 4 || question.length > 60) return res.status(200).json({error: "La question doit contenir entre 4 et 60 caractères"});
+  if (answer.length < 4 || answer.length > 60) return res.status(200).json({error: "La réponse doit contenir entre 4 et 60 caractères"});
   return res.status(200).json({message: "La question et la réponse sont valides"});
 });
 router.put('/flashcard/update/:id', async (req, res) => {

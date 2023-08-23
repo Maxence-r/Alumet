@@ -1,5 +1,20 @@
 * {
     user-select: none;
+    z-index: 1;
+}
+.hidden-left {
+    position: absolute;
+    display: flex !important;
+    transform: translateX(-5%) !important;
+    opacity: 0 !important;
+    z-index: 0 !important;
+}
+.hidden-right {
+    position: absolute;
+    display: flex !important;
+    transform: translateX(5%) !important;
+    opacity: 0 !important;
+    z-index: 0 !important;
 }
 
 body {
@@ -76,29 +91,10 @@ body {
     transition: all 0.3s ease-in-out;
 }
 .create-flashcard-container {
-    > :first-child {
+    > section {
         transform: translateX(0%);
         opacity: 1;
         z-index: 1;
-    }
-    > :first-child.hidden {
-        position: absolute;
-        display: flex !important;
-        transform: translateX(-5%);
-        opacity: 0;
-        z-index: 0;
-    }
-    > :last-child {
-        transform: translateX(0%);
-        opacity: 1;
-        z-index: 1;
-    }
-    > :last-child.hidden {
-        position: absolute;
-        display: flex !important;
-        transform: translateX(5%);
-        opacity: 0;
-        z-index: 0;
     }
 }
 .create-flashcard-container > section > h1 {
@@ -547,16 +543,32 @@ section > .sub-section-box {
     text-align: center;
     transition: all 0.3s ease-in-out;
 }
-.flashcard.flashcard.active-selection {
+.flashcard-overlay {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+.flashcard.active-selection {
     cursor: pointer;
 }
 .flashcard.active-selection:hover {
-    transform: scale(0.95);
+    transform: scale(0.98);
     background-color: #00000004;
 }
 .flashcard.flashcard-selected {
+    cursor: pointer;
     transform: scale(0.95);
     background-color: #0000000a;
+    border: 3px solid #1e54e3;
 }
 
 
@@ -599,7 +611,7 @@ section > .sub-section-box {
     width: 95%;
 }
 .flashcard > .flashcard-divider {
-    width: 230px;
+    width: 80%;
     height: 1px;
     background: #c6c9ce;    
 }

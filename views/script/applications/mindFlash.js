@@ -233,6 +233,11 @@ const createElement = (() => {
         const flashcard = document.createElement('div');
         flashcard.classList.add('flashcard', 'active-selection');
 
+        const flashcardOverlay = document.createElement('div');
+        flashcardOverlay.classList.add('flashcard-overlay', 'active-selection');
+
+        flashcard.appendChild(flashcardOverlay);
+
         const flashcardquestion = document.createElement('div');
         flashcardquestion.classList.add('flashcard-question');
         flashcardquestion.textContent = question;
@@ -273,7 +278,7 @@ const filterOrSortFlashcardSet = (() => {
         }
     };
     const filterFlashcards = (goodFilter, okFilter, badFilter, unratedFilter) => {
-        const flashcards = document.querySelectorAll('.flashcard');
+        const flashcards = document.querySelectorAll('#flashcards-container > .flashcard');
         let flashcardsDisplayed = false; // Initialize a variable to track if any flashcards are displayed
         flashcards.forEach(flashcard => {
             const status = flashcard.classList[1].split('-').pop();
@@ -340,7 +345,7 @@ const filterOrSortFlashcardSet = (() => {
         } else if (sort === 'random') {
             return Math.random() - 0.5;
         } else {
-            return 0;
+            return b.dataset.dateCreated.localeCompare(a.dataset.dateCreated);
         }
         });
         flashcards.forEach(flashcard => {
@@ -407,12 +412,9 @@ const manageElementDisplay = (() => {
             const overlay = document.querySelector('body > .overlay');
             overlay.style.visibility = 'hidden';
 
-            enable.createFlashcard.section1();
-            manageEventListener.disable.createFlashcardSection1();
-            manageEventListener.disable.overlay();
+            manageEventListener.createFlashcardSection.removeListener();
 
             localStorage.removeItem('newFlashcardsList');
-            console.log(localStorage);
         };
         return {
             createFlashcardContainer,
@@ -424,36 +426,113 @@ const manageElementDisplay = (() => {
                 if (localStorage.getItem('newFlashcardsList')) {
                     localStorage.removeItem('newFlashcardsList');
                 };
+                enable.createFlashcard.section1();
+                enable.createFlashcard.section2Buttons(1);
+
                 const continueBtn = document.getElementById('creating-flashcard-continue-btn');
                 continueBtn.textContent = `Poursuivre (0)`;
-
                 const overlay = document.querySelector('body > .overlay');
                 overlay.style.visibility = 'visible';
-                manageEventListener.enable.overlay();
-
-
+                
                 const createFlashcardContainer = document.querySelector('.create-flashcard-container');
                 createFlashcardContainer.classList.add('prompt-active');
 
-                manageEventListener.enable.createFlashcardSection1();
-            }
+                manageEventListener.createFlashcardSection.addListener();
+            };
             const section1 = () => {
                 const section1 = document.querySelector('body > .create-flashcard-container > .create-one-flashcard-section');
                 const section2 = document.querySelector('body > .create-flashcard-container > .check-flashcards-section');
-                section1.classList.remove('hidden');
-                section2.classList.add('hidden');
-            }
+                const section3 = document.querySelector('body > .create-flashcard-container > .modify-flashcard-section');
+                section1.classList.remove('hidden-left', 'hidden-right');
+                section1.classList.add('active-section');
+                section2.classList.add('hidden-right');
+                section2.classList.remove('active-section');
+                section3.classList.add('hidden-right');
+                section3.classList.remove('active-section');
+            };
             const section2 = () => {
                 const section1 = document.querySelector('body > .create-flashcard-container > .create-one-flashcard-section');
                 const section2 = document.querySelector('body > .create-flashcard-container > .check-flashcards-section');
-                section1.classList.add('hidden');
-                section2.classList.remove('hidden');
-            }
+                const section3 = document.querySelector('body > .create-flashcard-container > .modify-flashcard-section');
+                section1.classList.add('hidden-left');
+                section1.classList.remove('active-section');
+                section2.classList.remove('hidden-right', 'hidden-left');
+                section2.classList.add('active-section');
+                section3.classList.add('hidden-right');
+                section3.classList.remove('active-section');
+            };
+            const section3 = () => {
+                const section1 = document.querySelector('body > .create-flashcard-container > .create-one-flashcard-section');
+                const section2 = document.querySelector('body > .create-flashcard-container > .check-flashcards-section');
+                const section3 = document.querySelector('body > .create-flashcard-container > .modify-flashcard-section');
+                section1.classList.add('hidden-left');
+                section1.classList.remove('active-section');
+                section2.classList.add('hidden-left');
+                section2.classList.remove('active-section');
+                section3.classList.remove('hidden-right', 'hidden-left');
+                section3.classList.add('active-section');
 
+                const flashcard = document.querySelector('#check-flashcards-container > .flashcard.flashcard-selected');
+                const flashcardQuestion = flashcard.querySelector('.flashcard-question').textContent;
+                const flashcardAnswer = flashcard.querySelector('.flashcard-answer').textContent;
+                const modifyFlashcardQuestionField = document.getElementById('modify-flashcard-question-field');
+                const modifyFlashcardAnswerField = document.getElementById('modify-flashcard-answer-field');
+                if (!modifyFlashcardQuestionField || !modifyFlashcardAnswerField) return
+                modifyFlashcardQuestionField.value = flashcardQuestion;
+                modifyFlashcardAnswerField.value = flashcardAnswer;
+            };
+            const section2Buttons = (state) => {
+                const goBackButton = document.getElementById('go-back-btn-new-flashcard');
+                const modifyButton = document.getElementById('modify-btn-new-flashcard');
+                const deleteButton = document.getElementById('delete-btn-new-flashcard');
+                const addFlashcardsButton = document.getElementById('creating-flashcards-btn');
+                console.log(addFlashcardsButton)
+                addFlashcardsButton.style.right = '0';
+                goBackButton.style.left = '0';
+                modifyButton.style.left = '1px';
+                deleteButton.style.left = '1px';
+                function disableButton(button) {
+                    button.style.opacity = '0';
+                    button.disabled = true;
+                    button.style.cursor = 'default';
+
+                    setTimeout(() => {
+                        button.style.position = 'absolute';
+                        button.classList.add('hidden-right');
+                    }, 300);
+                };
+                function enableButton(button) {
+                    button.classList.remove('hidden-right');
+                    button.style.position = 'relative';
+                    
+                    button.style.opacity = '1';
+                    button.disabled = false;
+                    button.style.cursor = 'pointer';
+                };
+
+                if (state !== 1 && state !== 2) return;
+                if (state === 1) {
+                    disableButton(modifyButton);
+                    disableButton(deleteButton);
+                    enableButton(addFlashcardsButton);
+                    setTimeout(() => {
+                        enableButton(goBackButton);
+                    }, 301);
+                } else if (state === 2) {
+                    disableButton(addFlashcardsButton);
+                    disableButton(goBackButton);
+                    setTimeout(() => {
+                        enableButton(modifyButton);
+                        enableButton(deleteButton);
+                    }, 301);
+                };
+            };
             return {
                 container,
                 section1,
                 section2,
+                section3,
+                section2Buttons,
             }
         })();
         return {
@@ -466,90 +545,128 @@ const manageElementDisplay = (() => {
     }
 })();
 const manageEventListener = (() => {
-    const enable = (() => {
+    const eventListenerActions = (() => {
         const overlay = () => {
-            const overlay = document.querySelector('body > .overlay');
-            overlay.addEventListener('click', () => {
-                manageElementDisplay.disable.createFlashcardContainer()
-            });
+            manageElementDisplay.disable.createFlashcardContainer();
         };
-        const createFlashcardSection1 = () => {
-            const questionField = document.getElementById('new-flashcard-question-field');
-            const answerField = document.getElementById('new-flashcard-answer-field');
-            const fields = [questionField, answerField];
-
-            questionField.addEventListener('keydown', (event) => {
-            if (event.key === 'Tab') {
+        const handleKeyDown = (() => {
+            let canCreateFlashcard = true;
+          
+            const fields = (event) => {
+              if (event.key === 'Enter' && canCreateFlashcard) {
                 event.preventDefault();
-                answerField.focus();
-            }
-            });
-
-            answerField.addEventListener('keydown', (event) => {
-                if (event.key === 'Tab' && event.shiftKey) {
+                document.querySelector('section.active-section > .create-flashcard-buttons-container > button.right-button').click();
+                canCreateFlashcard = false;
+                setTimeout(() => {
+                canCreateFlashcard = true;
+                }, 1000);
+              }
+            };
+             
+            const questionField = (event) => {
+                if (event.key === 'Enter') {
                     event.preventDefault();
-                    questionField.focus();
+                    fields(event, document.querySelector('.create-flashcard-container > section.active-section > .flashcard > textarea.flashcard-question'))
+                } else if (event.key === 'Tab' && !event.shiftKey) {
+                    document.querySelector('.create-flashcard-container > section.active-section > .flashcard > textarea.flashcard-answer').focus();
                 }
-                });
-    
-                fields.forEach((field) => {
-                    field.addEventListener('keydown', (event) => {
-                        if (event.key === 'Enter') {
-                            event.preventDefault();
-                            flashcardFunctions.createFlashcard.addNewFlashcardToNewFlashcardsList();
-                        }
-                    })
-                })
-        };
+            };
+          
+            const answerField = (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    fields(event, document.querySelector('.create-flashcard-container > section.active-section > .flashcard > textarea.flashcard-answer'))
+                } else if (event.key === 'Tab' && event.shiftKey) {
+                    document.querySelector('.create-flashcard-container > section.active-section > .flashcard > textarea.flashcard-question').focus();
+                }
+            };
+          
+            const window = (event) => {
+              if (event.key === 'Escape') {
+                manageElementDisplay.disable.createFlashcardContainer();
+              }
+            };
+          
+            return {
+              questionField,
+              answerField,
+              window
+            }
+        })();
+        const modifyNewFlashcardButton = (event) => {
+            const flashcardTargetOverlay = event.target;
+            const flashcardTarget = flashcardTargetOverlay.parentElement;
+            const flashcardTargetClass = flashcardTarget.classList[1];
+
+            const flashcards = document.querySelectorAll('#check-flashcards-container > .flashcard');
+            flashcards.forEach((flashcard) => {
+                flashcard.classList.remove('flashcard-selected');
+                flashcard.classList.add('active-selection');
+                flashcardTargetOverlay.classList.remove('flashcard-selected');
+                flashcardTargetOverlay.classList.add('active-selection');
+            });
+            if (flashcardTarget.classList.contains(flashcardTargetClass)) {
+                flashcardTarget.classList.add('flashcard-selected');
+                flashcardTarget.classList.remove('active-selection');
+                flashcardTargetOverlay.classList.add('flashcard-selected');
+                flashcardTargetOverlay.classList.remove('active-selection');
+            } else {
+                flashcardTarget.classList.add('active-selection');
+                flashcardTarget.classList.remove('flashcard-selected');
+                flashcardTargetOverlay.classList.add('active-selection');
+                flashcardTargetOverlay.classList.remove('flashcard-selected');
+            };
+
+            const selectedFlashcard = document.querySelector('#check-flashcards-container > .flashcard.flashcard-selected');
+            if (selectedFlashcard) {
+                manageElementDisplay.enable.createFlashcard.section2Buttons(2);
+            } else {
+                manageElementDisplay.enable.createFlashcard.section2Buttons(1);
+            }   
+        }
         return {
             overlay,
-            createFlashcardSection1,
+            handleKeyDown,
+            modifyNewFlashcardButton,
         }
     })();
-    const disable = (() => {
-        const overlay = () => {
-            const overlay = document.querySelector('body > .overlay');
-            overlay.removeEventListener('click', () => {
-                manageElementDisplay.disable.createFlashcard.container()
+    const createFlashcardSection = (() => {
+        const questionFields = document.querySelectorAll('.create-flashcard-container > section > .flashcard > .flashcard-question');
+        const answerFields = document.querySelectorAll('.create-flashcard-container > section > .flashcard > .flashcard-answer');
+        const overlay = document.querySelector('body > .overlay');
+        const flashcardsContainer = document.getElementById('check-flashcards-container');
+
+        const addListener = () => {
+            window.addEventListener('keydown', eventListenerActions.handleKeyDown.window);
+            overlay.addEventListener('click', eventListenerActions.overlay);
+            flashcardsContainer.addEventListener('click', eventListenerActions.modifyNewFlashcardButton);
+            questionFields.forEach(field => {
+                field.addEventListener('keydown', eventListenerActions.handleKeyDown.questionField);
+                console.log('event listener added')
+            });
+            answerFields.forEach(field => {
+                field.addEventListener('keydown', eventListenerActions.handleKeyDown.answerField);
             });
         };
-        const createFlashcardSection1 = () => {
-            const questionField = document.getElementById('new-flashcard-question-field');
-            const answerField = document.getElementById('new-flashcard-answer-field');
-            const fields = [questionField, answerField];
-
-            questionField.removeEventListener('keydown', (event) => {
-            if (event.key === 'Tab') {
-                event.preventDefault();
-                answerField.focus();
-            }
+        const removeListener = () => {
+            window.removeEventListener('keydown', eventListenerActions.handleKeyDown.window);
+            overlay.removeEventListener('click', eventListenerActions.overlay);
+            flashcardsContainer.removeEventListener('click', eventListenerActions.modifyNewFlashcardButton);
+            questionFields.forEach(field => {
+                field.removeEventListener('keydown', eventListenerActions.handleKeyDown.questionField);
             });
-
-            answerField.removeEventListener('keydown', (event) => {
-            if (event.key === 'Tab' && event.shiftKey) {
-                event.preventDefault();
-                questionField.focus();
-            }
+            answerFields.forEach(field => {
+                field.removeEventListener('keydown', eventListenerActions.handleKeyDown.answerField);
             });
-
-            fields.forEach((field) => {
-                field.removeEventListener('keydown', (event) => {
-                    if (event.key === 'Enter') {
-                        event.preventDefault();
-                        flashcardFunctions.createFlashcard.addNewFlashcardToNewFlashcardsList();
-                    }
-                })
-            })
-
         };
         return {
-            overlay,
-            createFlashcardSection1,
+            addListener,
+            removeListener,
         }
     })();
     return {
-        enable,
-        disable,
+        eventListenerActions,
+        createFlashcardSection,
     }
 })();
 const flashcardSetFunctions = (() => {
@@ -588,52 +705,47 @@ const flashcardSetFunctions = (() => {
 })();
 const flashcardFunctions = (() => {
     const createFlashcard = (() => {
-        const addNewFlashcardToNewFlashcardsList = async () => {
-            // creating the newFlashcardList on localstorage if doesn't exist yet
-            if (!localStorage.getItem('newFlashcardsList')) {
-                localStorage.setItem('newFlashcardsList', JSON.stringify([]));
-            }
-
+        const addNewFlashcardToList = async () => {
             const question = document.getElementById('new-flashcard-question-field').value;
             const answer = document.getElementById('new-flashcard-answer-field').value;
             try {
                 const response = await fetch(`/mindFlash/flashcard/create/verify`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ question, answer })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ question, answer })
                 });
                 const data = await response.json();
                 if (data.error) {
-                    toast({
-                        title: "Erreur",
-                        message: data.error,
-                        type: "error",
-                        duration: 2500,
-                    });
-                } else {
-                    const newFlashcard = {
-                        question: question,
-                        answer: answer,
-                    };
-                    const newFlashcardsList = JSON.parse(localStorage.getItem('newFlashcardsList'));
-                    newFlashcardsList.push(newFlashcard);
-                    localStorage.setItem('newFlashcardsList', JSON.stringify(newFlashcardsList));
+                toast({
+                    title: "Erreur",
+                    message: data.error,
+                    type: "error",
+                    duration: 2500,
+                });
+                return;
+                }
+                const newFlashcard = { question, answer };
+                const newFlashcardsList = JSON.parse(localStorage.getItem('newFlashcardsList') || '[]');
+                console.log('before: ', newFlashcardsList);
+                newFlashcardsList.push(newFlashcard);
+                console.log('after: ', newFlashcardsList);
+                localStorage.setItem('newFlashcardsList', JSON.stringify(newFlashcardsList));
 
-                    //Modify the number display on the button
-                    const continueBtn = document.getElementById('creating-flashcard-continue-btn');
-                    continueBtn.textContent = `Poursuivre (${newFlashcardsList.length})`;
-                    //reset the fields
-                    document.getElementById('new-flashcard-question-field').value = '';
-                    document.getElementById('new-flashcard-answer-field').value = '';
-                    document.getElementById('new-flashcard-question-field').focus();
+                const continueBtn = document.getElementById('creating-flashcard-continue-btn');
+                continueBtn.textContent = `Poursuivre (${newFlashcardsList.length})`;
 
-                }                                        
+                document.getElementById('new-flashcard-question-field').value = '';
+                document.getElementById('new-flashcard-answer-field').value = '';
+                document.getElementById('new-flashcard-question-field').focus();
             } catch (err) {
                 console.log(err);
             }
         };
+        const deleteNewFlashcardFromList = (flascard) => {
+            
+        }
         const createNewFlashcardList = () => {
             const newFlashcardsList = JSON.parse(localStorage.getItem('newFlashcardsList'));
             if (!newFlashcardsList || newFlashcardsList.length === 0) {
@@ -651,10 +763,80 @@ const flashcardFunctions = (() => {
                 });
                 manageElementDisplay.enable.createFlashcard.section2();
             }
+        };
+        const toggleSelection = (flashcard) => {
+            if (flashcard.classList.contains('active-selection')) {
+                flashcard.classList.remove('active-selection');
+                flashcard.classList.add('flashcard-selected');
+            } else if (flashcard.classList.contains('flashcard-selected')) {
+                flashcard.classList.remove('flashcard-selected');
+                setTimeout(() => {
+                    flashcard.classList.add('active-selection');
+                }, 400);
+            }
+        };
+        const modifyFlashcards = (flashcard) => {
+            
+        };
+        const createFlashcards = () => {
+            const newFlashcardList = JSON.parse(localStorage.getItem('newFlashcardsList'));
+            if (!newFlashcardList) {
+                toast({
+                    title: "Erreur",
+                    message: "Vous n'avez pas créé de flashcard",
+                    type: "error",
+                    duration: 2500,
+                });
+                manageElementDisplay.enable.createFlashcard.section1();
+                return;
+            };
+            try {
+                fetch('/mindflash/flashcard/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ flashcardSetId: flashcardSetId, flashcards: newFlashcardList })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        toast({
+                            title: "Erreur",
+                            message: data.error,
+                            type: "error",
+                            duration: 2500,
+                            });
+                        return
+                    }
+                    toast({
+                        title: "Succès",
+                        message: data.message,
+                        type: "success",
+                        duration: 2500,
+                    });
+                    manageElementDisplay.disable.createFlashcardContainer();
+                    
+                    newFlashcardList.forEach(flashcard => {
+                        createElement.flashcard(flashcard);
+                    });
+                    filterOrSortFlashcardSet.sortFlashcards();
+                });
+            }
+            catch {
+                toast({
+                    title: "Erreur",
+                    message: "Une erreur est survenue",
+                    type: "error",
+                    duration: 2500,
+                });
+            }         
         }
         return {
-            addNewFlashcardToNewFlashcardsList,
+            addNewFlashcardToList,
             createNewFlashcardList,
+            createFlashcards,
+            toggleSelection,
         }
     })();
     return {

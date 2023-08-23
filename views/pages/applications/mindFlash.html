@@ -13,12 +13,11 @@
     <div id="toast"></div>
     <div id="loading-mindflash">
         <span class="loader-upload"></span>
-    </div>
+    </div>.create-flashcard-container > section.active-section
     <div class="create-flashcard-container">
         <section class="create-one-flashcard-section">
             <h1>Nouvelle Flashcard</h1>
             <div class="flashcard">
-                <div class="flashcard-options"></div>
                 <textarea name="question-field" id="new-flashcard-question-field" class="flashcard-question" placeholder="Rentrez votre question" cols="30" rows="3" maxlength="60"></textarea>
                 <div class="flashcard-divider"></div>
                 <textarea name="answer-field" id="new-flashcard-answer-field" class="flashcard-answer" placeholder="Rentrez votre réponse" cols="30" rows="3" maxlength="60"></textarea>
@@ -28,18 +27,34 @@
                     <button class="large-white" onclick="manageElementDisplay.disable.createFlashcardContainer()">Annuler</button>
                     <button id="creating-flashcard-continue-btn" class="large" onclick="flashcardFunctions.createFlashcard.createNewFlashcardList()">Poursuivre (0)</button>
                 </div>
-                <button class="large" onclick="flashcardFunctions.createFlashcard.addNewFlashcardToNewFlashcardsList();">Créer la flashcard</button>
+                <button class="large right-button" onclick="flashcardFunctions.createFlashcard.addNewFlashcardToList();">Créer la flashcard</button>
             </div>
         </section>
-        <section class="check-flashcards-section hidden">
+        <section class="check-flashcards-section hidden-right">
             <h1>Vérifier vos flashcards</h1>
             <div id="check-flashcards-container">
             </div>
             <div class="create-flashcard-buttons-container">
                 <div>
-                    <button class="large-white" onclick="manageElementDisplay.enable.createFlashcard.section1()">Revenir en arrière</button>
+                    <button id="go-back-btn-new-flashcard" class="large-white" onclick="manageElementDisplay.enable.createFlashcard.section1()">Revenir en arrière</button>
+                    <button id="modify-btn-new-flashcard" class="large hidden-right" onclick="manageElementDisplay.enable.createFlashcard.section3()">Modifier la flashcard</button>
+                    <button id="delete-btn-new-flashcard" class="large hidden-right" onclick="">Supprimer la flashcard</button>
                 </div>
-                <button id="creating-flashcards-btn" class="large">Ajouter les flashcards au set</button>
+                <button id="creating-flashcards-btn" class="large right-button" onclick="flashcardFunctions.createFlashcard.createFlashcards()">Ajouter les flashcards au set</button>
+            </div>
+        </section>
+        <section class="modify-flashcard-section hidden-right">
+            <h1>Modifier la flashcard</h1>
+            <div class="flashcard">
+                <textarea name="question-field" id="modify-flashcard-question-field" class="flashcard-question" placeholder="Rentrez votre question" cols="30" rows="3" maxlength="60"></textarea>
+                <div class="flashcard-divider"></div>
+                <textarea name="answer-field" id="modify-flashcard-answer-field" class="flashcard-answer" placeholder="Rentrez votre réponse" cols="30" rows="3" maxlength="60"></textarea>
+            </div>
+            <div class="create-flashcard-buttons-container">
+                <div>
+                    <button class="large-white" onclick="manageElementDisplay.enable.createFlashcard.section2()">Revenir en arrière</button>
+                </div>
+                <button class="large right-button" onclick="">Modifier la flashcard</button>
             </div>
         </section>
     </div>
