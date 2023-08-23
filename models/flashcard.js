@@ -8,14 +8,14 @@ const flashcardSchema = mongoose.Schema({
     question: {
         type: String,
         required: true,
-        minLength: 2,
-        maxLength: 50
+        minLength: 1,
+        maxLength: 60
     },
     answer: {
         type: String,
         required: true,
-        minLength: 2,
-        maxLength: 50
+        minLength: 1,
+        maxLength: 60
     },
     dateCreated: {
         type: Date,
