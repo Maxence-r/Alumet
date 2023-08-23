@@ -13,7 +13,7 @@
     <div id="toast"></div>
     <div id="loading-mindflash">
         <span class="loader-upload"></span>
-    </div>.create-flashcard-container > section.active-section
+    </div>
     <div class="create-flashcard-container">
         <section class="create-one-flashcard-section">
             <h1>Nouvelle Flashcard</h1>
@@ -38,7 +38,7 @@
                 <div>
                     <button id="go-back-btn-new-flashcard" class="large-white" onclick="manageElementDisplay.enable.createFlashcard.section1()">Revenir en arrière</button>
                     <button id="modify-btn-new-flashcard" class="large hidden-right" onclick="manageElementDisplay.enable.createFlashcard.section3()">Modifier la flashcard</button>
-                    <button id="delete-btn-new-flashcard" class="large hidden-right" onclick="">Supprimer la flashcard</button>
+                    <button id="delete-btn-new-flashcard" class="large hidden-right" onclick="flashcardFunctions.createFlashcard.deleteFlashcard()">Supprimer la flashcard</button>
                 </div>
                 <button id="creating-flashcards-btn" class="large right-button" onclick="flashcardFunctions.createFlashcard.createFlashcards()">Ajouter les flashcards au set</button>
             </div>
@@ -54,13 +54,12 @@
                 <div>
                     <button class="large-white" onclick="manageElementDisplay.enable.createFlashcard.section2()">Revenir en arrière</button>
                 </div>
-                <button class="large right-button" onclick="">Modifier la flashcard</button>
+                <button class="large right-button" onclick="flashcardFunctions.createFlashcard.modifyFlashcard()">Modifier la flashcard</button>
             </div>
         </section>
     </div>
     <div class="overlay"></div>
     <div class="main-sub-container">
-        <div class="title">LL problématiques</div>
         <div class="informations-display-buttons">
             <button id="informations-section-btn" class="large">Informations</button>
             <button id="filter-section-btn" class="large-white">Filtrer / trier</button>
@@ -194,9 +193,12 @@
                 </div>
             </section>
             <section class="options-section hidden">
-                Options
+                <button id="add-flashcards-btn" class="large-white" onclick="manageElementDisplay.enable.createFlashcard.container()">Ajouter des flashcards</button>
             </section>
-            <button id="back-to-alumet-btn" class="large" onclick="toolsFunctions.redirectToDashboard()">Retourner sur Alumet</button>
+            <div class="sub-container-buttons">
+                <button id="back-to-alumet-btn" class="large" onclick="toolsFunctions.redirectToDashboard()">Retourner sur Alumet</button>
+                <button id="close-sub-container-btn" class="large-white">Fermer</button>
+            </div>
         </div>
     </div>
     <div class="main-container">
@@ -204,26 +206,20 @@
             <span class="loader-upload"></span>
         </div>
         <div class="infos-bar">
-            <div class="infos-bar-container">
-                <div><img src="../../assets/global/menu.svg" alt="menu img"></div>
-                <h2>[Set de flashcard]</h2>
-            </div>
+            <h2>[Set de flashcard]</h2>
             <div class="buttons-container">
-                <div class="search-bar"></div>
-                <div class="buttons-container-box">
-                    <button id="add-flashcards-btn" class="large-white" onclick="manageElementDisplay.enable.createFlashcard.container()">Ajouter des flashcards</button>
-                    <button class="large">Réviser</button>
-                </div>
+                <button id="open-sub-container-btn" class="large-white">Ouvrir le menu</button>
+                <button class="large">Réviser</button>
             </div>
         </div>
         <div id="flashcards-container">
             <div class="information-screen-flashcards-container hidden" onclick="filterOrSortFlashcardSet.resetFilter()">
                 <h1>Aucune flashcard affichée pour l'instant.</h1>
-                <p>Cliquer ici pour réinisialiser vos paramètres de filtrage !</p>
+                <p>Cliquez ici pour réinisialiser vos paramètres de filtrage !</p>
             </div>
-            <div class="information-screen-flashcards-container hidden">
+            <div class="information-screen-flashcards-container hidden" onclick="manageElementDisplay.enable.createFlashcard.container()">
                 <h1>Aucune flashcard n'existe pour l'instant.</h1>
-                <p>Cliquer ici pour créer votre première flashcard !</p>
+                <p>Cliquez ici pour créer votre première flashcard !</p>
             </div>
             <div id="loading-flashcard-container" class="loading-element full-screen">
                 <span class="loader-upload"></span>

@@ -57,7 +57,6 @@ body {
 }
 .prompt-active {
     visibility: visible !important;
-    transform: translate(50%,-50%) scale(1) !important;
     opacity: 1 !important;
 }
 .create-flashcard-container {
@@ -72,7 +71,7 @@ body {
     height: fit-content;
     width: fit-content;
     transition: all 0.3s ease-in-out;
-    transform: translate(50%,-50%) scale(0.6);
+    transform: translate(50%,-50%);
     opacity: 0;
     visibility: hidden;
     border-radius: 10px;
@@ -105,6 +104,7 @@ body {
 .create-flashcard-container > section > .create-flashcard-buttons-container {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap-reverse;
     gap: 10px;
     width: 100%;
     align-self: flex-end;
@@ -113,6 +113,7 @@ body {
     > div {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         gap: 10px;
     }
 }
@@ -137,11 +138,11 @@ body {
 
 #check-flashcards-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(137px, calc(50% - 10px)));
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(160px, 1fr));
     gap: 20px;
     width: 100%;
-    height: 100%;
+    height: 300px;
     overflow-y: auto;
 }
 
@@ -165,7 +166,6 @@ body {
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
 }
-
 .main-sub-container > .title{
     overflow-wrap: break-word;
     font-size: 1.6rem;
@@ -178,7 +178,7 @@ body {
     gap: 6px;
 }
 .informations-display-buttons > button {
-    width: fit-content;
+    width: 33.33%;
     height: fit-content;
     font-size: 0.72em;
     padding: 10px 10px;
@@ -194,8 +194,8 @@ body {
     align-items: flex-start;
     gap: 10px;
     width: 100%;
-    height: calc(100% - 90px);
-    max-height: calc(100% - 90px);
+    height: calc(100% - 50px);
+    max-height: calc(100% - 50px);
 }
 .informations > section {
     display: flex;
@@ -210,12 +210,18 @@ body {
     overflow-y: auto;
     transition: all 0.3s ease-in-out;
 }
-
-#back-to-alumet-btn {
+.informations > .sub-container-buttons {
     width: 100%;
     position: absolute;
     bottom: 0px;
     min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > :last-child {
+        display: none;
+    }
 }
 section > .sub-section-box {
     display: flex;
@@ -358,7 +364,7 @@ section > .sub-section-box {
     gap: 20px;
     flex-shrink: 1;
     background-color: white;
-    width: calc(100% - 40px);
+    width: calc(100vw - 390px);
     height: calc(100vh - 80px);
     padding: 20px;
     border-radius: 10px;
@@ -420,63 +426,32 @@ section > .sub-section-box {
 .main-container > .infos-bar {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
     justify-content: space-between;
     align-items: center;
     height: fit-content;
-    width: calc(100% - 20px);
-    padding: 0px 10px;
+    width: calc(100% - 10px);
+    padding-left: 10px;
     background-color: white;
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
 
-    .infos-bar-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 10px;
-        height: fit-content;
-        width: fit-content;
-
-        > div {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            height: 32px;
-            width: 32px;
-            cursor: pointer;
-
-            > img {
-                width: 32px;
-                color: #000;
-            }
-        }
-        > h2 {
-            margin: 0;
-            font-size: 1.8em;
-            font-weight: 400;
-        }
-
+    > h2 {
+        margin: 0;
+        font-size: 1.8em;
+        font-weight: 400;
     }
     > .buttons-container {
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 20px;
+        gap: 10px;
     }
 }
 
-.main-container > .infos-bar > .buttons-container > .buttons-container-box {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-
-    > img {
-        width: 32px;
-        cursor: pointer;
-    }
+#open-sub-container-btn {
+    display: none;
 }
 
 .main-flashcard-container > .options > img {
@@ -486,7 +461,7 @@ section > .sub-section-box {
 #flashcards-container {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(160px, 1fr));
     gap: 20px;
     width: 100%;
@@ -596,25 +571,8 @@ section > .sub-section-box {
     top: 10px;
     right: 8px;
 }
-.flashcard > .flashcard-question {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #000;
-    text-align: center;
-    font-family: Plus Jakarta Sans;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    height: 100%;
-    width: 95%;
-}
-.flashcard > .flashcard-divider {
-    width: 80%;
-    height: 1px;
-    background: #c6c9ce;    
-}
+
+.flashcard > .flashcard-question,
 .flashcard > .flashcard-answer {
     display: flex;
     justify-content: center;
@@ -624,12 +582,102 @@ section > .sub-section-box {
     color: #000;
     text-align: center;
     font-family: Plus Jakarta Sans;
-    font-size: 18px;
+    font-size: 1.4rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+
+    transition: all ease-in-out 500ms;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-@media (max-width: 1200px) {
-    
+.flashcard > .flashcard-divider {
+    width: 80%;
+    height: 1px;
+    background: #c6c9ce;    
+}
+
+@media (min-width: 1000px) {
+    .main-container,
+    .main-sub-container {
+        display: flex !important;
+    }
+}
+@media (max-width: 1000px) {
+    #toast {
+        position: absolute !important;
+        top: 20px !important;
+        right: 20px !important;
+        max-width: calc(100% - 80px);
+    }
+    .main-container,
+    .main-sub-container {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        padding: 10px;
+        width: calc(100% - 80px);
+        max-width: calc(100% - 80px);
+        height: calc(100vh - 80px);
+    }
+    .main-sub-container {
+        opacity: 0;
+        z-index: 0;
+        position: absolute;
+        transform: translateY(100%);
+    }
+    .main-container {
+        opacity: 1;
+        z-index: 1;
+    }
+    body.active-sub-container {
+        > .main-container {
+            opacity: 0;
+            z-index: 0;
+        }
+        > .main-sub-container {
+            opacity: 1;
+            z-index: 1;
+            transform: translateY(0%);
+        }
+    }
+    body.active-prompt {
+        > .main-container {
+            opacity: 0;
+            z-index: 0;
+        }
+        > .main-sub-container {
+            opacity: 0;
+            z-index: 0;
+            transform: translateY(100%);
+        }
+    }
+    .infos-bar > div {
+        display: flex !important;
+    }
+    .sub-section-box.stats > .percentage-bar {
+        max-width: 400px;
+    }
+    .informations > section {
+        max-height: calc(100% - 130px);
+    }
+    .sub-container-buttons :last-child {
+        display: flex !important;
+    }
+    #open-sub-container-btn {
+        display: flex !important;
+    }
+
+    .create-flashcard-container {
+        width: calc(100% - 110px);
+
+        > section {
+            height: fit-content;
+            min-height: 460px;
+            width: fit-content;
+            min-width: calc(100% - 45px);
+        }
+    }
 }

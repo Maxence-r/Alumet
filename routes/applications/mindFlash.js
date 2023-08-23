@@ -317,36 +317,43 @@ router.get('/flashcardset/basicinformations/:flashcardSetId', validateObjectId, 
 // ANCHOR - Routes flashcard
 
 router.post('/flashcard/create', async (req, res) => {
-  const userId = req.user._id.toString();
-  const flashcardList = req.body.flashcards;
-  const flashcardSetId = req.body.flashcardSetId;
-  if (!toolsFunctions.checkIfflashcardSetExist(flashcardSetId)) return res.status(404).json({error: "Ce set de flashc3ards n'existe pas"});
+  const { _id: userId } = req.user;
+  const { flashcards, flashcardSetId } = req.body;
 
   try {
-    flashcardList.forEach(async flashcard => {
+    const flashcardSet = await FlashcardSet.findById(flashcardSetId);
+    if (!flashcardSet) {
+      return res.status(404).json({ error: "Ce set de flashcards n'existe pas" });
+    }
+
+    for (const flashcard of flashcards) {
       const { question, answer } = flashcard;
+      if (question.length < 1 || answer.length < 1) {
+        console.log(question.length, answer.length);
+        return res.status(400).json({ error: 'Vous devez spécifier une question et une réponse pour chacune de vos flashcards' });
+      }
+      if (question.length > 60 || answer.length > 60) {
+        return res.status(400).json({ error: `La question et la réponse doivent faire moins de 60 caractères, flashcard : ${flashcard.question}` });
+      }
       const dateCreated = Date.now();
-      const newflashcard = new Flashcard({ flashcardSetId, question, answer, dateCreated,  userDatas: [] });
-      flashcardFunctions.setUserDatas(newflashcard, userId);
-      await newflashcard.save();
-      const flashcardSet = await FlashcardSet.findById(flashcardSetId);
+      const newFlashcard = new Flashcard({ flashcardSetId, question, answer, dateCreated, userDatas: [] });
+      flashcardFunctions.setUserDatas(newFlashcard, userId);
+      await newFlashcard.save();
       flashcardSet.numberOfFlashcards++;
-      await flashcardSet.save();
-      console.log({ flashcard: newflashcard });
-    });
+      console.log('number of flashcards', flashcardSet.numberOfFlashcards);
+    }
+
+    await flashcardSet.save();
     return res.status(201).json({ message: "Les flashcards ont bien été créées" });
-  }
-  catch (err) {
+  } catch (err) {
+    console.log(err);
+    if (flashcards.length === 1) {
+      return res.status(500).json({ error: 'Une erreur est survenue lors de la création de votre flashcard' });
+    }
     return res.status(500).json({ error: 'Une erreur est survenue lors de la création de vos flashcards' });
   }
 });
-router.post('/flashcard/create/verify', async (req, res) => {
-  const { question, answer } = req.body;
-  if (!question || !answer) return res.status(200).json({error: "Vous devez spécifier une question et une réponse"});
-  if (question.length < 4 || question.length > 60) return res.status(200).json({error: "La question doit contenir entre 4 et 60 caractères"});
-  if (answer.length < 4 || answer.length > 60) return res.status(200).json({error: "La réponse doit contenir entre 4 et 60 caractères"});
-  return res.status(200).json({message: "La question et la réponse sont valides"});
-});
+
 router.put('/flashcard/update/:id', async (req, res) => {
   const flashcardId = req.params.id;
   try {
