@@ -19,9 +19,18 @@ navButtons.forEach((button) => {
     });
 });
 
-let cards = document.querySelectorAll(".card");
-let lists = document.querySelectorAll(".list");
+const navbarMenu = document.getElementById("menu");
+const burgerMenu = document.getElementById("burger");
 
+if (burgerMenu && navbarMenu) {
+    burgerMenu.addEventListener("click", () => {
+        burgerMenu.classList.toggle("is-active");
+        navbarMenu.classList.toggle("is-active");
+    });
+}
+
+let cards = document.querySelectorAll(".card");
+let lists = document.querySelectorAll(".draggingContainer");
 cards.forEach((card) => {
     registerEventsOnCard(card);
 });

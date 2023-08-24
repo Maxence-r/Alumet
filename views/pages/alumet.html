@@ -54,6 +54,7 @@
 
                 <div class="list">
                     <h1>In Progress</h1>
+                    <button>Ajouter</button>
                     <div class="draggingContainer">
                         <div class="card" draggable="true">
                             <div class="title">Task number 5</div>
@@ -87,20 +88,32 @@
                 </div>
             </div>
         </div>
-        <div class="modules_container">
-            <section class="messages"></section>
-            <section class="mindFlash"></section>
-            <section class="ideaFlow"></section>
-        </div>
-        <div class="brightness-layer"></div>
+
         <div class="navbar">
-            <button class="active" id="home"><img src="../assets/global/home.svg" alt="home" /></button>
-            <button id="messages">
-                <img src="../assets/global/chat.svg" alt="messagerie" />
+            <div class="burger" id="burger">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+            </div>
+            <div id="menu"></div>
+            <button class="navbar-active" id="home">
+                <img src="../assets/global/home_a.svg" alt="home" />
+                <p>Accueil</p>
+            </button>
+            <button id="messages ">
+                <img src="../assets/global/messages_a.svg" alt="messagerie" />
+                <p>Messages</p>
                 <div class="ping"></div>
             </button>
-            <button id="mindFlash"><img src="../assets/global/group.svg" alt="communauté des professeurs" /></button>
-            <button id="ideaFlow"><img src="../assets/global/profile.svg" alt="paramètres" /></button>
+            <button id="mindFlash">
+                <img src="../assets/global/mindFlash_a.svg" />
+                <p>Flashcards</p>
+            </button>
+            <button id="ideaFlow">
+                <img src="../assets/global/ideaFlow_a.svg" alt="paramètres" />
+                <p>Cartes Mentales</p>
+            </button>
+            <button class="force" id="profile"><img src="../assets/global/default_user.png" /></button>
         </div>
     </body>
     <script src="../script/alumet/alumet.js"></script>
