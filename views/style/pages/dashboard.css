@@ -97,6 +97,7 @@ body {
     height: 100%;
     overflow: hidden;
     transition: all 0.2s ease-in-out;
+    justify-content: center;
     opacity: 0;
     transform: translateY(10%);
     border-radius: 10px;
@@ -226,9 +227,10 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    position: absolute;
+    position: relative;
     bottom: 40px;
     width: 80%;
+    margin-top: 10%;
 }
 
 .progression-item {
@@ -313,20 +315,13 @@ body {
     margin-top: -45px;
 }
 
-.abstract-background {
-    position: absolute;
-    z-index: -1;
-    width: 100%;
-    max-width: 600px;
-}
-
 .action-content {
     display: none;
     flex-direction: column;
     align-items: center;
     gap: 10px;
     width: 350px;
-    margin: 2% 0;
+    margin: 1% 0;
     transition: all 0.3s ease-in-out;
     position: relative;
 }
@@ -2134,7 +2129,7 @@ select {
     }
 }
 
-@media screen and (max-height: 600px) {
+@media screen and (max-height: 550px) {
     .drop-box {
         display: none;
     }
@@ -2174,6 +2169,8 @@ select {
     .progression-container {
         flex-direction: column;
         gap: 10px;
+        width: 100%;
+        margin-top: auto;
         align-items: start;
         left: 15px;
         bottom: 15px;

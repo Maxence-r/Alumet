@@ -54,7 +54,7 @@
 
                 <div class="list">
                     <h1>In Progress</h1>
-                    <button>Ajouter</button>
+                    <button id="post" class="add">Ajouter</button>
                     <div class="draggingContainer">
                         <div class="card" draggable="true">
                             <div class="title">Task number 5</div>
@@ -86,9 +86,18 @@
                         </div>
                     </div>
                 </div>
+                <button id="wall" class="add">Ajouter un mur</button>
             </div>
         </div>
-
+        <div class="overlay">
+            <div class="overlay-content menu"></div>
+            <div class="overlay-content messages"></div>
+            <div class="overlay-content wall"></div>
+            <div class="overlay-content mindFlash"></div>
+            <div class="overlay-content ideaFlow"></div>
+            <div class="overlay-content profile"></div>
+            <div class="overlay-content post"></div>
+        </div>
         <div class="navbar">
             <div class="burger" id="burger">
                 <span class="burger-line"></span>
