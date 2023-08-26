@@ -10,6 +10,8 @@ const validateObjectId = require("../../../middlewares/modelsValidation/validate
 const path = require("path");
 const authorize = require("../../../middlewares/authentification/authorize");
 const Account = require("../../../models/account");
+const Wall = require("../../../models/wall");
+const Post = require("../../../models/post");
 
 const storage = multer.diskStorage({
     destination: "./cdn",
@@ -67,6 +69,23 @@ router.post("/new/background", authorize("professor"), upload.single("background
             error: req.fileValidationError ? "Invalid file format" : "Please select a file to upload",
         });
     }
+});
+
+router.get("/test", (req, res) => {
+    const sanitizeHtml = require("sanitize-html");
+
+    const formattedText = '<div id="editor" spellcheck="false" contenteditable="true"><b>azgz<i>aga<u>zg</u></i></b></div>';
+    const sanitizedText = sanitizeHtml(formattedText, {
+        allowedTags: ["b", "i", "u"],
+        allowedAttributes: {
+            b: ["style"],
+            i: ["style"],
+            u: ["style"],
+        },
+        allowedStyles: {},
+    });
+    console.log(sanitizedText);
+    res.send(sanitizedText);
 });
 
 router.patch("/update/:id", authorize("professor"), validateObjectId, async (req, res) => {
@@ -146,6 +165,53 @@ router.get("/", authorize("all"), async (req, res) => {
         console.log(error);
         res.status(500).json({
             error: "Failed to get alumets",
+        });
+    }
+});
+
+router.get("/:alumet/content", authorize("alumetPrivacy"), validateObjectId, async (req, res) => {
+    try {
+        const alumet = await Alumet.findOne({
+            _id: req.params.alumet,
+        });
+        let alumetContent = alumet.toObject();
+        if (req.connected) {
+            if (alumet.owner === req.user.id || alumet.collaborators.includes(req.user.id)) {
+                alumetContent.admin = true;
+            }
+            if (alumet.participants.includes(req.user.id)) {
+                alumetContent.participant = true;
+            }
+            const account = await Account.findOne(
+                {
+                    _id: req.user.id,
+                },
+                {
+                    id: 1,
+                    name: 1,
+                    icon: 1,
+                    lastname: 1,
+                }
+            );
+            if (account) {
+                alumetContent.user_infos = { id: account._id, name: account.name, icon: account.icon, lastname: account.lastname };
+            }
+        }
+        const walls = await Wall.find({ alumetReference: req.params.alumet }).sort({ position: 1 }).lean();
+
+        for (let wall of walls) {
+            const posts = await Post.find({ wallId: wall._id }).sort({ position: -1 }).lean();
+            wall.posts = posts;
+        }
+
+        delete alumetContent.code;
+
+        alumetContent.walls = walls;
+        res.json(alumetContent);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            error: "Failed to get alumet",
         });
     }
 });

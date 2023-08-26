@@ -15,7 +15,7 @@
             <span class="loader-upload"></span>
         </div>
         <div class="create-flashcard-container">
-            <section class="create-one-flashcard-section">
+            <section class="create-one-flashcard-section hidden-left">
                 <h1>Nouvelle Flashcard</h1>
                 <div class="flashcard">
                     <textarea name="question-field" id="new-flashcard-question-field" class="flashcard-question" placeholder="Rentrez votre question" cols="30" rows="3" maxlength="60"></textarea>
@@ -26,17 +26,47 @@
                     <div>
                         <button class="large-white" onclick="manageElementDisplay.disable.createFlashcardContainer()">Annuler</button>
                         <button id="creating-flashcard-continue-btn" class="large" onclick="flashcardFunctions.createFlashcard.createNewFlashcardList()">Poursuivre (0)</button>
+                        <div id="creating-with-ai-btn" class="large" onclick="manageElementDisplay.enable.createFlashcard.section(2.1)">
+                            <img src="../../assets/global/ai_sparkles.png" alt="ai sparkles" />
+                            <p>Créer avec l'IA</p>
+                        </div>
                     </div>
                     <button class="large right-button" onclick="flashcardFunctions.createFlashcard.addNewFlashcardToList();">Créer la flashcard</button>
                 </div>
+            </section>
+            <section class="create-flashcard-ia hidden-right">
+                <h1>MindFlash AI</h1>
+                <p>Sélectionner le document PDF à partir duquel le jeu de flashcards sera généré.</p>
+                <div class="from-device">
+                    <h3>Le fichier est sur votre appareil ?</h3>
+                    <button class="large greyed">Charger le fichier</button>
+                </div>
+                <select name="folder" id="folder-selection" class="connected"></select>
+                <div class="files-header">
+                    <h3>Nom du fichier</h3>
+                    <h3>Taille</h3>
+                    <h3>Mise en ligne</h3>
+                    <input id="search-bar" placeholder="Rechercher un fichier" type="text" name="search" />
+                </div>
+                <div class="files-items">
+                    <div class="loader-container">
+                        <span class="loader-upload"></span>
+                    </div>
+                </div>
+            </section>
+            <section class="loading-flashcards-ia hidden-right">
+                <h1>Génération en cours...</h1>
+                <p>L'Intelligence Artificielle va créer un jeu de flashcards à partir du document PDF que vous nous avez fournis. Ce processus est généralement achevé en environ 2 minutes en moyenne.</p>
+                <span class="loader-bar"></span>
+                <div class="warning-box">Il est impératif de vérifier le contenu des cartes flash, car il peut arriver que l'intelligence artificielle produise occasionnellement des résultats erronés.</div>
             </section>
             <section class="check-flashcards-section hidden-right">
                 <h1>Vérifier vos flashcards</h1>
                 <div id="check-flashcards-container"></div>
                 <div class="create-flashcard-buttons-container">
                     <div>
-                        <button id="go-back-btn-new-flashcard" class="large-white" onclick="manageElementDisplay.enable.createFlashcard.section(1)">Revenir en arrière</button>
-                        <button id="modify-btn-new-flashcard" class="large hidden-right" onclick="manageElementDisplay.enable.createFlashcard.section(3)">Modifier la flashcard</button>
+                        <button id="go-back-btn-new-flashcard" class="large-white" onclick="manageElementDisplay.enable.createFlashcard.section(1.1)">Revenir en arrière</button>
+                        <button id="modify-btn-new-flashcard" class="large hidden-right" onclick="manageElementDisplay.enable.createFlashcard.section(1.3)">Modifier la flashcard</button>
                         <button id="delete-btn-new-flashcard" class="large hidden-right" onclick="flashcardFunctions.createFlashcard.deleteFlashcard()">Supprimer la flashcard</button>
                     </div>
                     <button id="creating-flashcards-btn" class="large right-button" onclick="flashcardFunctions.createFlashcard.createFlashcards()">Ajouter les flashcards au set</button>
@@ -51,7 +81,23 @@
                 </div>
                 <div class="create-flashcard-buttons-container">
                     <div>
-                        <button class="large-white" onclick="manageElementDisplay.enable.createFlashcard.section(2)">Revenir en arrière</button>
+                        <button class="large-white" onclick="manageElementDisplay.enable.createFlashcard.section(1.2)">Revenir en arrière</button>
+                    </div>
+                    <button class="large right-button" onclick="flashcardFunctions.createFlashcard.modifyFlashcard()">Modifier la flashcard</button>
+                </div>
+            </section>
+        </div>
+        <div class="modify-flashcard-container">
+            <section class="modify-flashcard-section hidden-right">
+                <h1>Modifier la flashcard</h1>
+                <div class="flashcard">
+                    <textarea name="question-field" id="modify-flashcard-question-field" class="flashcard-question" placeholder="Rentrez votre question" cols="30" rows="3" maxlength="60"></textarea>
+                    <div class="flashcard-divider"></div>
+                    <textarea name="answer-field" id="modify-flashcard-answer-field" class="flashcard-answer" placeholder="Rentrez votre réponse" cols="30" rows="3" maxlength="60"></textarea>
+                </div>
+                <div class="create-flashcard-buttons-container">
+                    <div>
+                        <button class="large-white" onclick="manageElementDisplay.enable.createFlashcard.section(1.2)">Revenir en arrière</button>
                     </div>
                     <button class="large right-button" onclick="flashcardFunctions.createFlashcard.modifyFlashcard()">Modifier la flashcard</button>
                 </div>

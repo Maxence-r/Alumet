@@ -25,78 +25,147 @@
         <title>Alumet</title>
     </head>
     <body>
-        <section class="loading">
+        <section class="loading" style="display: flex">
             <span class="loader-upload"></span>
         </section>
 
         <div id="toast"></div>
         <div class="alumet">
             <div class="alumet-content">
-                <div class="list">
-                    <h1>TODO</h1>
-                    <div class="draggingContainer">
-                        <div class="card" draggable="true">
-                            <div class="title">Complete Header Design</div>
-                            <div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet volutpat dui. Cras sed vulputate augue, vel egestas quam. Donec condimentum vitae orci sed bibendum.</div>
-                        </div>
-
-                        <div class="card" draggable="true">
-                            <div class="title">Task number 2</div>
-                            <div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet volutpat dui. Cras sed vulputate augue, vel egestas quam. Donec condimentum vitae orci sed bibendum.</div>
-                        </div>
-
-                        <div class="card" draggable="true">
-                            <div class="title">Task number 3</div>
-                            <div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet volutpat dui. Cras sed vulputate augue, vel egestas quam. Donec condimentum vitae orci sed bibendum.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="list">
-                    <h1>In Progress</h1>
-                    <button id="post" class="add">Ajouter</button>
-                    <div class="draggingContainer">
-                        <div class="card" draggable="true">
-                            <div class="title">Task number 5</div>
-                            <div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet volutpat dui. Cras sed vulputate augue, vel egestas quam. Donec condimentum vitae orci sed bibendum.</div>
-                        </div>
-                        <div class="card" draggable="true">
-                            <div class="title">Task number 6</div>
-                            <div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet volutpat dui. Cras sed vulputate augue, vel egestas quam. Donec condimentum vitae orci sed bibendum.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="list">
-                    <h1>In Review</h1>
-                    <div class="draggingContainer">
-                        <div class="card" draggable="true">
-                            <div class="title">Task number 7</div>
-                            <div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet volutpat dui. Cras sed vulputate augue, vel egestas quam. Donec condimentum vitae orci sed bibendum.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="list">
-                    <h1>Done</h1>
-                    <div class="draggingContainer">
-                        <div class="card" draggable="true">
-                            <div class="title">Task number 8</div>
-                            <div class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet volutpat dui. Cras sed vulputate augue, vel egestas quam. Donec condimentum vitae orci sed bibendum.</div>
-                        </div>
-                    </div>
-                </div>
-                <button id="wall" class="add">Ajouter un mur</button>
+                <button onclick="navbar('wall')" id="wall" class="add">Ajouter un mur</button>
             </div>
         </div>
         <div class="overlay">
             <div class="overlay-content menu"></div>
+            <div class="overlay-content loadfile">
+                <div class="loading full-screen">
+                    <span class="loader"></span>
+                </div>
+                <h1>Choisir un fichier</h1>
+                <div class="divider"></div>
+                <div class="from-device">
+                    <h3>Le fichier est sur votre appareil ?</h3>
+                    <button id="load-post-file" class="large greyed">Charger le fichier</button>
+                    <input type="file" style="display: none" id="post-file" />
+                </div>
+                <select name="folder" id="folder-selection" class="connected"></select>
+                <div class="files-header">
+                    <h3>Nom du fichier</h3>
+                    <h3>Taille</h3>
+                    <h3>Mise en ligne</h3>
+                    <input id="search-bar" placeholder="Rechercher un fichier" type="text" name="search" />
+                </div>
+                <div class="files-items">
+                    <div class="loader-container">
+                        <span class="loader-upload"></span>
+                    </div>
+                </div>
+                <button onclick="navbar('post')" class="large greyed">Annuler</button>
+            </div>
             <div class="overlay-content messages"></div>
-            <div class="overlay-content wall"></div>
+            <div class="overlay-content latex">
+                <div id="equation-editor">
+                    <div id="history"></div>
+                    <div id="toolbar"></div>
+                    <div id="latexInput" placeholder="Write Equation here..."></div>
+                    <div id="equation-output">
+                        <img id="output" />
+                    </div>
+                </div>
+            </div>
+            <div class="overlay-content wall">
+                <div class="loading rounded">
+                    <span class="loader"></span>
+                </div>
+                <h1>Créer un mur</h1>
+                <div class="divider"></div>
+                <input id="wallTitle" type="text" placeholder="Nom du mur" />
+                <div class="toggle">
+                    <h3>Autoriser les commantaire</h3>
+                    <label class="switch">
+                        <input id="postCommentAuthorized" type="checkbox" />
+                        <span class="slide round"></span>
+                    </label>
+                </div>
+                <button onclick="createWall()" class="large confirm">Créer le mur</button>
+            </div>
             <div class="overlay-content mindFlash"></div>
             <div class="overlay-content ideaFlow"></div>
             <div class="overlay-content profile"></div>
-            <div class="overlay-content post"></div>
+            <div class="overlay-content post">
+                <div class="loading full-screen">
+                    <span class="loader"></span>
+                    <h3>Patientez quelques instants</h3>
+                </div>
+                <h1>Créer une publication</h1>
+                <div class="divider"></div>
+                <input id="postTitle" type="text" placeholder="Titre de la publication" />
+                <div id="toolbar">
+                    <div>
+                        <button onclick="navbar('latex')" id="latex">
+                            <img src="../assets/global/latex.svg" />
+                        </button>
+                    </div>
+                    <div>
+                        <button id="bold" onclick="makeBold()">Gras</button>
+                        <button id="italic" onclick="makeItalic()">Italique</button>
+                        <button id="underline" onclick="doUnderline()">Souligner</button>
+                    </div>
+                </div>
+                <div class="description-container">
+                    <div id="editor" spellcheck="false" contenteditable="">Ecrivez ici le contenu</div>
+                    <div contenteditable="false" class="link-preview">
+                        <div class="loading rounded">
+                            <span class="loader"></span>
+                            <h3>Chargement d'un aperçu</h3>
+                        </div>
+                        <h2>salute & Sammy Virji - 'Peach' (Official Audio)</h2>
+                        <p>youtube.com</p>
+                        <div class="reader-gradient"></div>
+                    </div>
+                </div>
+                <div class="drop-box">
+                    <div class="indications">
+                        <h3>
+                            Cliquer ici pour selectionner un fichier<br />
+                            Vous pouvez envoyer 1 ficher par publication
+                        </h3>
+                    </div>
+                    <div class="sending-box rts">
+                        <div class="loading-box reponsive-hide"><img src="../assets/global/tick.svg" alt="tick" /></div>
+                        <div class="file-sending-infos">
+                            <h3>methodologie_2023<span id="file-upload-ext">.pdf</span></h3>
+                        </div>
+                        <div class="send-actions"><button onclick="cancelSend()" id="cancel-send" class="large">Annuler</button></div>
+                    </div>
+                </div>
+                <div class="toggle">
+                    <h3>Autoriser les commantaire</h3>
+                    <label class="switch">
+                        <input id="postCommentAuthorized" type="checkbox" />
+                        <span class="slide round"></span>
+                    </label>
+                </div>
+                <div class="toggle">
+                    <h3>Seul les administrateurs voient.</h3>
+                    <label class="switch">
+                        <input id="administatorsAuthorized" type="checkbox" />
+                        <span class="slide round"></span>
+                    </label>
+                </div>
+                <div class="toggle">
+                    <h3>Date de publication automatique</h3>
+                    <label class="switch">
+                        <input id="publicationDate" type="checkbox" />
+                        <span class="slide round"></span>
+                    </label>
+                </div>
+                <div class="date">
+                    <input type="date" id="dateFormat" />
+                    <input type="time" id="timeFormat" />
+                </div>
+                <button onclick="createPost()" class="large confirm">Publier</button>
+            </div>
         </div>
         <div class="navbar">
             <div class="burger" id="burger">
@@ -105,27 +174,29 @@
                 <span class="burger-line"></span>
             </div>
             <div id="menu"></div>
-            <button class="navbar-active" id="home">
+            <button onclick="navbar('home')" class="navbar-active" id="home">
                 <img src="../assets/global/home_a.svg" alt="home" />
                 <p>Accueil</p>
             </button>
-            <button id="messages ">
+            <button onclick="navbar('messages')" id="messages">
                 <img src="../assets/global/messages_a.svg" alt="messagerie" />
                 <p>Messages</p>
                 <div class="ping"></div>
             </button>
-            <button id="mindFlash">
+            <button onclick="navbar('mindFlash')" id="mindFlash">
                 <img src="../assets/global/mindFlash_a.svg" />
                 <p>Flashcards</p>
             </button>
-            <button id="ideaFlow">
+            <button onclick="navbar('ideaFlow')" id="ideaFlow">
                 <img src="../assets/global/ideaFlow_a.svg" alt="paramètres" />
                 <p>Cartes Mentales</p>
             </button>
-            <button class="force" id="profile"><img src="../assets/global/default_user.png" /></button>
+            <button onclick="navbar('profile')" class="force" id="profile"><img src="../assets/global/default_user.png" /></button>
         </div>
     </body>
     <script src="../script/alumet/alumet.js"></script>
+    <script src="../script/alumet/contentManager.js"></script>
+
     <script src="../../script/global.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>

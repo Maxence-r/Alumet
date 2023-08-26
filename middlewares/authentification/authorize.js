@@ -1,3 +1,5 @@
+const Alumet = require("../../models/alumet");
+
 const authorize = (type) => {
     return async (req, res, next) => {
         /* 
@@ -8,7 +10,7 @@ const authorize = (type) => {
         */
         if (type === "professor") {
             if (!req.connected || (req.user.accountType !== "professor" && req.user.accountType !== "staff")) {
-                return res.status(401).json({ error: "Cette action ne peux pas être réaliser par votre compte (STUDENT account)" });
+                return res.status(401).json({ error: "Cette action ne peux pas être réaliser par votre compte (compte ELEVE)" });
             }
         } else if (type === "student") {
             if (!req.connected || (req.user.accountType !== "student" && req.user.accountType !== "staff")) {
@@ -21,6 +23,16 @@ const authorize = (type) => {
         } else if (type === "staff") {
             if (!req.connected || req.user.accountType !== "staff") {
                 return res.status(401).json({ error: "Unauthorized x004" });
+            }
+        } else if (type === "alumetAdmins") {
+            const alumet = await Alumet.findOne({ _id: req.params.alumet });
+            if (!req.connected || !alumet || (alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user._id))) {
+                return res.status(401).json({ error: "Unauthorized x005" });
+            }
+        } else if (type === "alumetPrivacy") {
+            const alumet = await Alumet.findOne({ _id: req.params.alumet });
+            if (alumet.private && (!req.connected || (alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user._id) && !alumet.participants.includes(req.user._id)))) {
+                return res.status(401).json({ error: "Unauthorized x006" });
             }
         }
         next();

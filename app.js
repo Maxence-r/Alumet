@@ -24,6 +24,8 @@ const wall = require("./routes/api/alumet/wall");
 const post = require("./routes/api/alumet/post");
 const notifications = require("./routes/api/alumet/notifications");
 
+const mindFlashAi = require("./routes/openai/mindFlash");
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -84,5 +86,7 @@ app.use("/api/notifications", notifications);
 
 app.use("/api/homeworks", homeworks);
 app.use("/api/board", board);
+
+app.use("/openai/mindFlash", mindFlashAi);
 
 module.exports = app;

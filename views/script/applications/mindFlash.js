@@ -424,7 +424,7 @@ const manageElementDisplay = (() => {
                 if (localStorage.getItem("newFlashcardList")) {
                     localStorage.removeItem("newFlashcardList");
                 }
-                enable.createFlashcard.section(1);
+                enable.createFlashcard.section(1.1);
                 enable.createFlashcard.section2Buttons(1);
 
                 const continueBtn = document.getElementById("creating-flashcard-continue-btn");
@@ -441,35 +441,61 @@ const manageElementDisplay = (() => {
                 const section1 = document.querySelector("body > .create-flashcard-container > .create-one-flashcard-section");
                 const section2 = document.querySelector("body > .create-flashcard-container > .check-flashcards-section");
                 const section3 = document.querySelector("body > .create-flashcard-container > .modify-flashcard-section");
+                const sectionIA1 = document.querySelector("body > .create-flashcard-container > .create-flashcard-ia");
+                const sectionIA2 = document.querySelector("body > .create-flashcard-container > .loading-flashcards-ia");
+                const allSections = [section1, section2, section3, sectionIA1, sectionIA2];
+
+                function setSectionActive(section) {
+                    allSections.forEach((section) => {
+                        section.classList.remove("active-section");
+                    });
+                    section.classList.add("active-section");
+                }
+                function setSectionHiddenLeft(sections) {
+                    sections.forEach((section) => {
+                        section.classList.remove("hidden-right");
+                        section.classList.add("hidden-left");
+                    });
+                }
+                function setSectionHiddenRight(sections) {
+                    sections.forEach((section) => {
+                        section.classList.remove("hidden-left");
+                        section.classList.add("hidden-right");
+                    });
+                }
 
                 switch (sectionNumber) {
-                    case 1:
-                        section1.classList.remove("hidden-left", "hidden-right");
-                        section1.classList.add("active-section");
-                        section2.classList.add("hidden-right");
-                        section2.classList.remove("active-section");
-                        section3.classList.add("hidden-right");
-                        section3.classList.remove("active-section");
+                    /** 1: Création normale, 2: IA création */
+                    case 1.1:
+                        setSectionActive(section1);
+                        setSectionHiddenRight(allSections.filter((section) => section !== section1));
 
                         const newFlashcardList = JSON.parse(localStorage.getItem("newFlashcardList") || "[]");
                         const continueBtn = document.getElementById("creating-flashcard-continue-btn");
                         continueBtn.textContent = `Poursuivre (${newFlashcardList.length})`;
                         break;
-                    case 2:
-                        section1.classList.add("hidden-left");
-                        section1.classList.remove("active-section");
-                        section2.classList.remove("hidden-right", "hidden-left");
-                        section2.classList.add("active-section");
-                        section3.classList.add("hidden-right");
-                        section3.classList.remove("active-section");
+                    case 2.1:
+                        setSectionActive(sectionIA1);
+                        setSectionHiddenLeft([section1]);
+                        setSectionHiddenRight(allSections.filter((section) => section !== (sectionIA1 || section1)));
                         break;
-                    case 3:
+                    case 2.2:
+                        setSectionActive(sectionIA2);
+                        setSectionHiddenLeft([section1, sectionIA1]);
+                        setSectionHiddenRight(allSections.filter((section) => section !== (sectionIA2 || sectionLeft)));
+                        break;
+                    case 1.2:
+                        setSectionActive(section2);
+                        setSectionHiddenLeft([section1, sectionIA1]);
+                        setSectionHiddenRight(allSections.filter((section) => section !== (section2 || section1 || sectionIA1)));
+                        break;
+                    case 1.3:
                         section1.classList.add("hidden-left");
                         section1.classList.remove("active-section");
                         section2.classList.add("hidden-left");
                         section2.classList.remove("active-section");
-                        section3.classList.remove("hidden-right", "hidden-left");
-                        section3.classList.add("active-section");
+                        setSectionActive(section3);
+                        setSectionHiddenLeft(allSections.filter((section) => section !== section3));
 
                         const flashcard = document.querySelector("#check-flashcards-container > .flashcard.flashcard-selected");
                         const flashcardQuestion = flashcard.querySelector(".flashcard-question").textContent;
@@ -497,11 +523,8 @@ const manageElementDisplay = (() => {
                     button.style.opacity = "0";
                     button.disabled = true;
                     button.style.cursor = "default";
-
-                    setTimeout(() => {
-                        button.style.position = "absolute";
-                        button.classList.add("hidden-right");
-                    }, 300);
+                    button.style.position = "absolute";
+                    button.classList.add("hidden-right");
                 }
                 function enableButton(button) {
                     button.classList.remove("hidden-right");
@@ -517,16 +540,12 @@ const manageElementDisplay = (() => {
                     disableButton(modifyButton);
                     disableButton(deleteButton);
                     enableButton(addFlashcardsButton);
-                    setTimeout(() => {
-                        enableButton(goBackButton);
-                    }, 301);
+                    enableButton(goBackButton);
                 } else if (state === 2) {
                     disableButton(addFlashcardsButton);
                     disableButton(goBackButton);
-                    setTimeout(() => {
-                        enableButton(modifyButton);
-                        enableButton(deleteButton);
-                    }, 301);
+                    enableButton(modifyButton);
+                    enableButton(deleteButton);
                 }
             };
             return {
@@ -796,7 +815,7 @@ const flashcardFunctions = (() => {
             const selectedFlashcard = document.querySelector("#check-flashcards-container > .flashcard.flashcard-selected");
 
             if (!newFlashcardList) {
-                manageElementDisplay.enable.createFlashcard.section(1);
+                manageElementDisplay.enable.createFlashcard.section(1.1);
                 toast({ title: "Erreur", message: "Veuillez recommencer la création de votre flashcard", type: "error", duration: 2500 });
                 return;
             }
@@ -822,7 +841,7 @@ const flashcardFunctions = (() => {
             selectedFlashcardFields.question.textContent = flashcardQuestion;
             selectedFlashcardFields.answer.textContent = flashcardAnswer;
 
-            manageElementDisplay.enable.createFlashcard.section(2);
+            manageElementDisplay.enable.createFlashcard.section(1.2);
             manageEventListener.eventListenerActions.modifyNewFlashcardButton({ target: selectedFlashcard });
             selectedFlashcard.classList.remove("flashcard-selected");
 
@@ -833,7 +852,7 @@ const flashcardFunctions = (() => {
             const selectedFlashcard = document.querySelector("#check-flashcards-container > .flashcard.flashcard-selected");
 
             if (!newFlashcardList) {
-                manageElementDisplay.enable.createFlashcard.section(1);
+                manageElementDisplay.enable.createFlashcard.section(1.1);
                 toast({ title: "Erreur", message: "Veuillez recommencer la création de votre flashcard", type: "error", duration: 2500 });
                 return;
             }
@@ -849,7 +868,7 @@ const flashcardFunctions = (() => {
             selectedFlashcard.remove();
 
             if (newFlashcardList.length === 0) {
-                manageElementDisplay.enable.createFlashcard.section(1);
+                manageElementDisplay.enable.createFlashcard.section(1.1);
             }
 
             manageElementDisplay.enable.createFlashcard.section2Buttons(1);
@@ -870,14 +889,14 @@ const flashcardFunctions = (() => {
                 newFlashcardList.forEach((flashcard) => {
                     createElement.flashcardInCreation(flashcard);
                 });
-                manageElementDisplay.enable.createFlashcard.section(2);
+                manageElementDisplay.enable.createFlashcard.section(1.2);
             }
         };
         const createFlashcards = async () => {
             const newFlashcardList = JSON.parse(localStorage.getItem("newFlashcardList"));
             if (!newFlashcardList) {
                 toast({ title: "Erreur", message: "Vous n'avez pas créé de flashcard", type: "error", duration: 2500 });
-                manageElementDisplay.enable.createFlashcard.section(1);
+                manageElementDisplay.enable.createFlashcard.section(1.1);
                 return;
             }
 
@@ -975,5 +994,109 @@ sortBtns.forEach((btn) => {
         btn.classList.add("sort-activate");
         const sort = btn.id.split("-")[1];
         filterOrSortFlashcardSet.sortFlashcards(sort);
+    });
+});
+
+//ANCHOR - Test
+
+function chooseFile(id) {
+    manageElementDisplay.enable.createFlashcard.section(2.2);
+}
+
+function createFileElement(file) {
+    const div = document.createElement("div");
+    div.dataset.id = file._id;
+    div.dataset.name = file.displayname;
+    div.dataset.ext = file.mimetype;
+    div.dataset.size = (file.filesize / 1024 / 1024).toFixed(2) + " Mo";
+    div.dataset.date = file.date.split("T")[0];
+    div.setAttribute("onclick", `chooseFile('${file._id}')`);
+    div.classList.add("file-item");
+    const subDiv = document.createElement("div");
+    subDiv.classList.add("file-name");
+    const img = document.createElement("img");
+    let imgRef = fileIconReference[file.mimetype];
+    if (imgRef) {
+        img.src = `${fileIconReference[file.mimetype]}`;
+    } else {
+        img.src = "../assets/files-icons/unknow.png";
+        imgRef = "../assets/files-icons/unknow.png";
+    }
+    div.dataset.imgRef = imgRef;
+    img.alt = "file icon";
+    const h4 = document.createElement("h4");
+    const span = document.createElement("span");
+    span.innerText = file.displayname.split(".")[0];
+    h4.appendChild(span);
+    h4.innerText += `.${file.displayname.split(".").pop()}`;
+    subDiv.appendChild(img);
+    subDiv.appendChild(h4);
+    div.appendChild(subDiv);
+    const sizeH4 = document.createElement("h4");
+    sizeH4.innerText = (file.filesize / 1024 / 1024).toFixed(2) + " Mo";
+    div.appendChild(sizeH4);
+    const dateH4 = document.createElement("h4");
+    dateH4.innerText = file.date.split("T")[0];
+    div.appendChild(dateH4);
+    return div;
+}
+
+const folderSelection = document.getElementById("folder-selection");
+
+folderSelection.addEventListener("change", (e) => {
+    loadFolder(e.currentTarget.value);
+});
+
+fetch("/cdn/folder/list", {
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json",
+    },
+})
+    .then((res) => res.json())
+    .then((data) => {
+        data.forEach(addFolder);
+        loadFolder(localStorage.getItem("currentFolder"));
+    });
+
+function addFolder(folder) {
+    folderSelection.appendChild(createOption(folder));
+}
+
+function createOption(folder) {
+    const option = document.createElement("option");
+    option.value = folder._id;
+    option.innerText = folder.name;
+    return option;
+}
+
+function loadFolder(id) {
+    localStorage.setItem("currentFolder", id);
+    fetch(`/cdn/folder/${id}?type=pdf`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            document.querySelectorAll(".file-item").forEach((file) => file.remove());
+            data.forEach((file) => {
+                const fileElement = createFileElement(file);
+                document.querySelector(".files-items").appendChild(fileElement);
+            });
+        });
+}
+
+document.getElementById("search-bar").addEventListener("input", (e) => {
+    const search = e.currentTarget.value.toLowerCase();
+    const allFiles = document.querySelectorAll(".file-item");
+    allFiles.forEach((file) => {
+        const fileName = file.dataset.name.toLowerCase();
+        if (fileName.includes(search)) {
+            file.style.display = "flex";
+        } else {
+            file.style.display = "none";
+        }
     });
 });

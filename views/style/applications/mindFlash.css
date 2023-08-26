@@ -71,7 +71,7 @@ body {
     display: flex;
     flex-direction: column;
     background: #fff;
-    height: fit-content;
+    max-height: 80%;
     width: fit-content;
     transition: all 0.3s ease-in-out;
     transform: translate(50%, -50%);
@@ -82,6 +82,24 @@ body {
     align-items: center;
     overflow: hidden;
 }
+.active-section > p {
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0;
+    color: #454545;
+    margin-bottom: 5px;
+}
+
+.warning-box {
+    font-size: 0.9rem;
+    color: rgb(0, 0, 0);
+    background-color: #cc7e714e;
+    margin-top: 10px;
+    border: 1px solid #cc7e71;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
 .create-flashcard-container > section {
     display: flex;
     flex-direction: column;
@@ -89,7 +107,8 @@ body {
     justify-content: center;
     width: 750px;
     height: fit-content;
-    gap: 20px;
+    gap: 10px;
+    overflow-y: auto;
     padding: 20px;
     opacity: 1;
     transition: all 0.3s ease-in-out;
@@ -120,6 +139,15 @@ body {
     flex-wrap: wrap;
     gap: 10px;
 }
+#creating-with-ai-btn {
+    background: linear-gradient(133deg, #296eff 0%, #553bf1 53.13%, #7c36d7 100%);
+    padding-left: 6px;
+    font-size: 0.85em;
+}
+#creating-with-ai-btn > img {
+    width: 45px;
+    height: 45px;
+}
 #delete-btn-new-flashcard {
     background-color: #c02b10;
 }
@@ -142,6 +170,25 @@ body {
     font-size: 1.4em;
 }
 
+.create-flashcard-container > section > .upload-document-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0px;
+    width: calc(100% - 20px);
+    height: 290px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px dashed #c6c9ce;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    text-align: center;
+}
+.create-flashcard-container > section > .upload-document-container:hover {
+    background-color: #0000000a;
+}
+
 #check-flashcards-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
@@ -150,6 +197,37 @@ body {
     width: 100%;
     height: 300px;
     overflow-y: auto;
+}
+
+.loader-bar {
+    width: 100%;
+    height: 4.8px;
+    display: inline-block;
+    position: relative;
+    background: rgba(118, 118, 118, 0.15);
+    overflow: hidden;
+}
+.loader-bar::after {
+    content: "";
+    width: 192px;
+    height: 4.8px;
+    background: #296eff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    animation: animloader 1s ease-in-out infinite;
+}
+
+@keyframes animloader {
+    0% {
+        left: 0;
+        transform: translateX(-100%);
+    }
+    100% {
+        left: 100%;
+        transform: translateX(0%);
+    }
 }
 
 .main-sub-container {
@@ -353,9 +431,6 @@ section > .sub-section-box {
     min-height: 15px;
 }
 .sub-box > svg > circle {
-    cx: 7.5;
-    cy: 7.5;
-    r: 7;
     fill: white;
     stroke: rgb(41, 110, 255);
     transition: all 0.3s ease-in-out;
@@ -620,12 +695,16 @@ section > .sub-section-box {
         width: calc(100% - 20px);
     }
     .create-flashcard-buttons-container > div {
+        flex-direction: column !important;
         flex-wrap: nowrap !important;
         width: 100%;
     }
     .create-flashcard-buttons-container > button,
     .create-flashcard-buttons-container > div > button {
         width: 100%;
+    }
+    .create-flashcard-buttons-container > div > div {
+        padding: 0 20px;
     }
     body {
         padding: 10px;

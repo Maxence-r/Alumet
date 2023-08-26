@@ -200,7 +200,7 @@ router.get("/folder/:id", validateObjectId, (req, res) => {
             if (!folder) return res.status(404).json({ error: "Dossier introuvable" });
             folder.lastUsage = Date.now();
             folder.save();
-            Upload.find({ folder: folder._id })
+            Upload.find({ folder: folder._id, mimetype: req.query.type || { $exists: true } })
                 .sort({ _id: -1 })
                 .then((uploads) => res.json(uploads))
                 .catch((error) => res.json({ error }));

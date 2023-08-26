@@ -170,7 +170,7 @@ function setPictureOnError(icon, parameter) {
             icon.src = "../assets/global/default_file.png";
             toast({ title: "Erreur !", message: "Fichier introuvable", type: "error", duration: 2500 });
         }
-    }
+    };
 }
 let supportedPreviewAlumet = {
     pdf: '<img loading="lazy" src="/preview/pdf?url=*">',

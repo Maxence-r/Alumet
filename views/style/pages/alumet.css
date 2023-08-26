@@ -3,7 +3,6 @@ body {
     flex-direction: row;
     position: relative;
     background-color: #f6f8fc;
-    background-image: url("../../assets/global/dev.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -140,6 +139,7 @@ body {
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
     z-index: 10;
+    overflow-y: auto;
 }
 
 .active > img {
@@ -257,17 +257,228 @@ body {
 
 .overlay-content {
     position: absolute;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     right: 120px;
     top: 20px;
     width: 30%;
-    height: calc(100% - 40px);
+    padding: 20px;
+    height: calc(100% - 80px);
     background-color: #fff;
     border-radius: 10px;
     animation: fadeOut 0.3s ease-in-out forwards;
 }
 
+.overlay-content > button {
+    min-height: 50px;
+}
+
+.overlay-content > select {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.overlay-content > h1 {
+    font-size: 28px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.overlay-content > input {
+    min-height: 50px;
+}
+
+.overlay-content > .divider {
+    width: 100%;
+    min-height: 1px;
+    background-color: #eaeaea;
+    margin: 15px 0 20px 0;
+}
+
+.overlay-content > .toggle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 8px 0;
+}
+
+.overlay-content > .toggle > h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+    margin-right: 10px;
+}
+
+.overlay-content > .drop-box {
+    margin: 0;
+    margin: 10px 0;
+}
+
+.confirm {
+    width: 100%;
+    min-height: 50px;
+    margin-top: auto;
+}
+
 .active-section {
     animation: fadeIn 0.3s ease-in-out forwards !important;
+    z-index: 10;
+}
+
+#title {
+    color: #fff;
+    font: bold 10pt "Merriweather Sans", sans-serif;
+    margin: 0.5em 16px 0 16px;
+    float: left;
+    clear: none;
+}
+
+.description-container {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    min-height: 120px;
+}
+
+#editor {
+    outline: none;
+    font-size: 0.9rem;
+    padding: 10px;
+}
+
+.reader-gradient {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%);
+    z-index: 5;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+#toolbar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.active-link-preview {
+    display: flex !important;
+    transform: translate(0, 0) !important;
+    opacity: 1 !important;
+}
+
+.link-preview {
+    display: none;
+    position: relative;
+    flex-direction: column;
+    justify-content: end;
+    width: calc(100% - 40px);
+    height: 125px;
+    background-image: url("https://i.ytimg.com/vi/yAv5pLO37mE/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLC0JimiwPuMVKKTg7uXCAA88sQMtA");
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    transform: translate(0, 20%);
+    opacity: 0;
+}
+
+.date {
+    display: none;
+    margin-top: 10px;
+}
+
+.active-date {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.loading > h3 {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+    color: #000000;
+    margin-top: 20px;
+}
+
+#wallTitle {
+    margin-bottom: 10px;
+}
+
+.rounded {
+    border-radius: 8px;
+}
+
+.link-preview:hover {
+    transform: scale(0.98);
+}
+
+.link-preview > h2 {
+    z-index: 10;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.link-preview > p {
+    z-index: 10;
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+    color: #fff;
+}
+
+#toolbar > div {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+#toolbar > div > input {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+#toolbar > div > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    background-color: #f6f8fc;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+#toolbar > div > button:hover {
+    background-color: #eaeaea;
+}
+
+#toolbar > div > button > img {
+    height: 14px;
+}
+
+.files-header > h3:nth-child(2) {
+    display: none;
+}
+.files-header > h3:nth-child(3) {
+    display: none;
 }
 
 @keyframes fadeOut {
@@ -292,10 +503,10 @@ body {
 
 @media screen and (max-width: 1200px) {
     .overlay-content {
-        width: calc(100% - 140px);
+        width: calc(100% - 180px);
         top: 20px;
         left: 20px;
-        height: calc(100% - 40px);
+        height: calc(100% - 80px);
     }
 }
 
@@ -304,6 +515,9 @@ body {
         flex-direction: column-reverse;
         padding: 10px;
         gap: 10px;
+    }
+    #toolbar > div:nth-of-type(2) {
+        display: none;
     }
     .navbar > img {
         margin: 0;
@@ -323,10 +537,10 @@ body {
         min-height: calc(100% - 10px);
     }
     .overlay-content {
-        width: calc(100% - 20px);
+        width: calc(100% - 60px);
         left: 10px;
         top: 80px;
-        height: calc(100% - 90px);
+        height: calc(100% - 130px);
     }
     .navbar > button {
         margin: 0;
