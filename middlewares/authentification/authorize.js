@@ -29,10 +29,15 @@ const authorize = (type) => {
             if (!req.connected || !alumet || (alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user._id))) {
                 return res.status(401).json({ error: "Unauthorized x005" });
             }
-        } else if (type === "alumetPrivacy") {
+        } else if (type === "alumetPrivate") {
             const alumet = await Alumet.findOne({ _id: req.params.alumet });
             if (alumet.private && (!req.connected || (alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user._id) && !alumet.participants.includes(req.user._id)))) {
                 return res.status(401).json({ error: "Unauthorized x006" });
+            }
+        } else if (type === "alumetParticipants") {
+            const alumet = await Alumet.findOne({ _id: req.params.alumet });
+            if (!req.connected || !alumet || (alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user._id) && !alumet.participants.includes(req.user._id))) {
+                return res.status(401).json({ error: "Unauthorized x007" });
             }
         }
         next();

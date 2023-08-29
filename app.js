@@ -49,21 +49,6 @@ app.use(authentification);
 app.get("/", (req, res) => {
     res.sendFile("main.html", { root: "./views/pages" });
 });
-app.use("/404", (_, res) => {
-    res.sendFile("404.html", { root: "./views/pages" });
-});
-
-app.use("/project", (_, res) => {
-    res.sendFile("project.html", { root: "./views/pages" });
-});
-
-app.use("/update", (_, res) => {
-    res.sendFile("update.html", { root: "./views/pages" });
-});
-
-app.use("/adopter", (_, res) => {
-    res.sendFile("why-adopt.html", { root: "./views/pages" });
-});
 
 app.use("/a", alumetRender);
 app.use("/portal", portal);

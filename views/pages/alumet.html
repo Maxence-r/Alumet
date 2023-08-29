@@ -28,7 +28,11 @@
         <section class="loading" style="display: flex">
             <span class="loader-upload"></span>
         </section>
-
+        <div class="stream-info">
+            <span class="loader-bar"></span>
+            <h1>Déconnecté</h1>
+            <h3>Vous avez été déconnecté des serveurs d'Alumet, nous essayons de vous y reconnecter.</h3>
+        </div>
         <div id="toast"></div>
         <div class="alumet">
             <div class="alumet-content">
@@ -64,14 +68,12 @@
             </div>
             <div class="overlay-content messages"></div>
             <div class="overlay-content latex">
-                <div id="equation-editor">
-                    <div id="history"></div>
-                    <div id="toolbar"></div>
-                    <div id="latexInput" placeholder="Write Equation here..."></div>
-                    <div id="equation-output">
-                        <img id="output" />
-                    </div>
-                </div>
+                <h1>Ecrire au format LaTeX</h1>
+                <div class="divider"></div>
+                <input id="latexInput" type="text" placeholder="Ecrivez votre formule" />
+                <div class="divider"></div>
+                <img id="latexPreview" src="https://latex.codecogs.com/svg.image?" />
+                <button onclick="insertLatex()" class="large confirm">Inserer la formule</button>
             </div>
             <div class="overlay-content wall">
                 <div class="loading rounded">
@@ -83,7 +85,7 @@
                 <div class="toggle">
                     <h3>Autoriser les commantaire</h3>
                     <label class="switch">
-                        <input id="postCommentAuthorized" type="checkbox" />
+                        <input id="postAuthorized" type="checkbox" />
                         <span class="slide round"></span>
                     </label>
                 </div>
@@ -95,11 +97,11 @@
             <div class="overlay-content post">
                 <div class="loading full-screen">
                     <span class="loader"></span>
-                    <h3>Patientez quelques instants</h3>
+                    <h3>Nous mettons en ligne votre publication<br />Patientez quelques instants</h3>
                 </div>
                 <h1>Créer une publication</h1>
                 <div class="divider"></div>
-                <input id="postTitle" type="text" placeholder="Titre de la publication" />
+                <input maxlength="300" id="postTitle" type="text" placeholder="Titre de la publication" />
                 <div id="toolbar">
                     <div>
                         <button onclick="navbar('latex')" id="latex">
@@ -113,14 +115,14 @@
                     </div>
                 </div>
                 <div class="description-container">
-                    <div id="editor" spellcheck="false" contenteditable="">Ecrivez ici le contenu</div>
-                    <div contenteditable="false" class="link-preview">
+                    <div id="editor" spellcheck="false" contenteditable="true" onkeypress="return (this.innerText.length <= 4000)">Ecrivez ici le contenu</div>
+                    <div onclick="removeLink()" contenteditable="false" class="link-preview">
                         <div class="loading rounded">
                             <span class="loader"></span>
                             <h3>Chargement d'un aperçu</h3>
                         </div>
-                        <h2>salute & Sammy Virji - 'Peach' (Official Audio)</h2>
-                        <p>youtube.com</p>
+                        <h2 id="preview-title">Website Title</h2>
+                        <p id="preview-link">https://domain.com</p>
                         <div class="reader-gradient"></div>
                     </div>
                 </div>
@@ -161,8 +163,8 @@
                     </label>
                 </div>
                 <div class="date">
-                    <input type="date" id="dateFormat" />
-                    <input type="time" id="timeFormat" />
+                    <input type="date" placeholder="MM/JJ/AAAA" id="dateFormat" />
+                    <input type="time" placeholder="HH:MM" id="timeFormat" />
                 </div>
                 <button onclick="createPost()" class="large confirm">Publier</button>
             </div>
@@ -194,12 +196,12 @@
             <button onclick="navbar('profile')" class="force" id="profile"><img src="../assets/global/default_user.png" /></button>
         </div>
     </body>
-    <script src="../script/alumet/alumet.js"></script>
-    <script src="../script/alumet/contentManager.js"></script>
-
-    <script src="../../script/global.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
     </script>
+    <script src="../script/alumet/alumet.js"></script>
+    <script src="../script/alumet/contentManager.js"></script>
+
+    <script src="../../script/global.js"></script>
 </html>

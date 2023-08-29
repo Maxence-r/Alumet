@@ -50,12 +50,55 @@ body {
 }
 
 .alumet-content {
+    position: relative;
     gap: 16px;
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
     overflow: auto;
     height: 100%;
+}
+
+.stream-info {
+    position: absolute;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    padding: 20px;
+    top: 0;
+    left: 0;
+    background-color: #d93025;
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: end;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.stream-info > .loader-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #d93025;
+}
+
+.stream-info > .loader-bar::after {
+    animation-duration: 3s !important;
+    background: white;
+}
+
+.stream-info > h1 {
+    font-size: 3rem;
+    color: white;
+    font-weight: 600;
+    margin: 0;
+}
+
+.stream-info > h3 {
+    font-size: 1.2rem;
+    color: white;
+    font-weight: 400;
+    margin: 0;
 }
 
 #profile {
@@ -116,9 +159,12 @@ body {
     border-radius: 5px;
 }
 .card {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     background-color: #fff;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 8px;
+    border-radius: 10px;
 }
 .card.dragging {
     opacity: 0.4;
@@ -248,11 +294,13 @@ body {
     top: 0;
     right: 0;
     width: 100%;
+    z-index: 10;
     height: 100%;
     pointer-events: none;
     opacity: 0;
     background-color: rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease-in-out;
+    overflow: hidden;
 }
 
 .overlay-content {
@@ -262,16 +310,29 @@ body {
     flex-direction: column;
     right: 120px;
     top: 20px;
-    width: 30%;
+    width: 450px;
     padding: 20px;
     height: calc(100% - 80px);
     background-color: #fff;
     border-radius: 10px;
-    animation: fadeOut 0.3s ease-in-out forwards;
+    opacity: 0;
+    transform: translateX(10%);
+    transition: all 0.3s ease-in-out;
 }
 
 .overlay-content > button {
     min-height: 50px;
+}
+
+#latexInput {
+    font-family: "Courier New", sans-serif;
+}
+
+latex {
+    font-family: "Courier New", sans-serif;
+    color: #af0000;
+    font-weight: 600;
+    font-size: 1rem;
 }
 
 .overlay-content > select {
@@ -322,8 +383,9 @@ body {
 }
 
 .active-section {
-    animation: fadeIn 0.3s ease-in-out forwards !important;
+    opacity: 1;
     z-index: 10;
+    transform: translateX(0) !important;
 }
 
 #title {
@@ -339,10 +401,10 @@ body {
     padding: 10px;
     border: 1px solid #e5e5e5;
     border-radius: 10px;
-    min-height: 120px;
 }
 
 #editor {
+    min-height: 50px;
     outline: none;
     font-size: 0.9rem;
     padding: 10px;
@@ -354,7 +416,7 @@ body {
     left: 0;
     bottom: 0;
     height: 100%;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 70%);
     z-index: 5;
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
@@ -375,14 +437,57 @@ body {
     opacity: 1 !important;
 }
 
+.active-link-loading > .loading {
+    display: flex;
+}
+
+.post-rich-content {
+    display: flex;
+    background-color: #f6f8fc;
+    position: relative;
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: end;
+    width: calc(100% - 22px);
+    height: calc(125px - 2px);
+    background-size: cover;
+    background-position: center;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid #e5e5e5;
+}
+
+.post-rich-content:hover {
+    transform: scale(0.98);
+}
+
+.post-rich-content > h2 {
+    z-index: 10;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.post-rich-content > p {
+    z-index: 10;
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin: 0;
+    color: #fff;
+}
+
 .link-preview {
     display: none;
+    background-color: #f6f8fc;
     position: relative;
     flex-direction: column;
     justify-content: end;
     width: calc(100% - 40px);
     height: 125px;
-    background-image: url("https://i.ytimg.com/vi/yAv5pLO37mE/hqdefault.jpg?sqp=-oaymwEWCKgBEF5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLC0JimiwPuMVKKTg7uXCAA88sQMtA");
     background-size: cover;
     background-position: center;
     padding: 20px;
@@ -390,13 +495,14 @@ body {
     margin-top: 10px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    border: 1px solid #e5e5e5;
     transform: translate(0, 20%);
     opacity: 0;
 }
 
 .date {
     display: none;
-    margin-top: 10px;
+    margin: 10px 0;
 }
 
 .active-date {
@@ -411,6 +517,7 @@ body {
     margin: 0;
     color: #000000;
     margin-top: 20px;
+    text-align: center;
 }
 
 #wallTitle {

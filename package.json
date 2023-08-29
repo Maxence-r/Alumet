@@ -29,10 +29,8 @@
     "fluent-ffmpeg": "^2.1.2",
     "js-beautify": "^1.14.7",
     "jsonwebtoken": "^9.0.0",
-    "metadata-scraper": "^0.2.61",
     "mongoose": "^6.8.0",
     "multer": "^1.4.5-lts.1",
-    "node-fetch": "^3.3.0",
     "node-vibrant": "^3.2.1-alpha.1",
     "nodemailer": "^6.9.4",
     "nodemon": "^2.0.22",
@@ -40,11 +38,11 @@
     "pdf-img-convert": "^1.2.1",
     "pdfjs": "^2.5.2",
     "pdfjs-dist": "^3.9.179",
-    "puppeteer": "^20.2.0",
     "sanitize-html": "^2.11.0",
-    "sharp": "^0.32.0",
+    "sharp": "^0.28.3",
     "simple-thumbnail": "^1.6.5",
     "socket.io": "^4.6.1",
+    "url-metadata": "^3.0.3",
     "uuid": "^9.0.0"
   }
 }

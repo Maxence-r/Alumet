@@ -1,9 +1,14 @@
+localStorage.removeItem("file-ts");
+localStorage.removeItem("link");
 const navButtons = document.querySelectorAll(".navbar > button");
 const sections = document.querySelectorAll(".overlay > div");
 const navbarMenu = document.querySelector(".menu");
 const burgerMenu = document.getElementById("burger");
 
-function navbar(id) {
+function navbar(id, currentItem) {
+    if (currentItem) {
+        localStorage.setItem("currentItem", currentItem);
+    }
     if (id == "home") {
         document.querySelector(".overlay").classList.remove("active-layer");
     } else {
@@ -23,9 +28,15 @@ function navbar(id) {
 
 if (burgerMenu && navbarMenu) {
     burgerMenu.addEventListener("click", () => {
-        burgerMenu.classList.toggle("is-active");
-        navbarMenu.classList.toggle("active-section");
-        document.querySelector(".overlay").classList.toggle("active-layer");
+        if (burgerMenu.classList.contains("is-active")) {
+            burgerMenu.classList.remove("is-active");
+            sections.forEach((section) => section.classList.remove("active-section"));
+            document.querySelector(".overlay").classList.remove("active-layer");
+        } else {
+            burgerMenu.classList.add("is-active");
+            navbarMenu.classList.add("active-section");
+            document.querySelector(".overlay").classList.add("active-layer");
+        }
     });
 }
 
@@ -42,8 +53,28 @@ function registerEventsOnList(list) {
         }
     });
     list.addEventListener("drop", (e) => {
+        let draggedCard = document.querySelector(".dragging");
         let listId = e.currentTarget.getAttribute("data-id");
-        console.log(`Post dropped in list with id ${listId}`);
+        let postPosition = [...e.currentTarget.querySelectorAll(".card")].indexOf(e.currentTarget.querySelector(".dragging"));
+        fetch("/api/post/move/" + JSON.parse(localStorage.getItem("alumet"))._id + "/" + listId + "/" + draggedCard.dataset.id, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                position: postPosition,
+            }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.error) {
+                    return toast({
+                        title: "Erreur",
+                        message: data.error,
+                        type: "error",
+                    });
+                }
+            });
     });
 }
 
@@ -88,6 +119,7 @@ overlayContent.forEach(function (content) {
 overlay.addEventListener("click", function (event) {
     if (!event.target.closest(".overlay-content") && !isMouseDownOnOverlayContent) {
         overlay.classList.remove("active-layer");
+        sections.forEach((section) => section.classList.remove("active-section"));
         navButtons.forEach((button) => button.classList.remove("navbar-active"));
         document.getElementById("home").classList.add("navbar-active");
     }
@@ -142,14 +174,53 @@ editor.addEventListener("input", function () {
     while ((match = linkRegex.exec(text)) !== null) {
         const link = match[1];
         if (link !== oldLink) {
+            let x = editor.innerHTML;
+            x = x.replace(/&amp;/g, "&");
+            editor.innerHTML = x = x.replace(link, "");
             handleLink(link);
         }
-        oldLink = match[1];
+        oldLink = link;
     }
 });
 
 function handleLink(link) {
-    console.log(`Link detected: ${link}`);
+    document.querySelector(".link-preview").classList.add("active-link-loading", "active-link-preview");
+    fetch("/preview/meta?url=" + link)
+        .then((res) => res.json())
+        .then((data) => {
+            document.getElementById("preview-title").innerText = data.title || data["og:title"] || getDomainFromUrl(link);
+            document.querySelector(".link-preview").style.backgroundImage = `url(${data.image || data["og:image"] || ""})`;
+            document.getElementById("preview-link").innerText = data.url || link;
+            document.querySelector(".link-preview").classList.remove("active-link-loading");
+            localStorage.setItem("link", link);
+        });
+}
+
+function removeLink() {
+    document.querySelector(".link-preview").classList.remove("active-link-preview");
+    oldLink = null;
+    localStorage.removeItem("link");
+}
+
+document.getElementById("latexInput").addEventListener("input", (e) => {
+    const latex = e.currentTarget.value;
+    const latexPreview = document.getElementById("latexPreview");
+    latexPreview.src = `https://latex.codecogs.com/svg.latex?${latex}`;
+});
+
+function insertLatex() {
+    const latex = document.getElementById("latexInput").value;
+    const latexBlock = document.createElement("latex");
+    latexBlock.setAttribute("contenteditable", false);
+    latexBlock.innerText = latex;
+    document.getElementById("editor").appendChild(latexBlock);
+    navbar("post");
+}
+
+function getDomainFromUrl(url) {
+    const a = document.createElement("a");
+    a.href = url;
+    return a.hostname;
 }
 
 function createFileElement(file) {
@@ -253,4 +324,12 @@ document.getElementById("search-bar").addEventListener("input", (e) => {
             file.style.display = "none";
         }
     });
+});
+
+socket.on("connect", () => {
+    document.querySelector(".stream-info").style.display = "none";
+});
+
+socket.on("disconnect", () => {
+    document.querySelector(".stream-info").style.display = "flex";
 });

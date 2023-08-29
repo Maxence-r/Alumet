@@ -71,23 +71,6 @@ router.post("/new/background", authorize("professor"), upload.single("background
     }
 });
 
-router.get("/test", (req, res) => {
-    const sanitizeHtml = require("sanitize-html");
-
-    const formattedText = '<div id="editor" spellcheck="false" contenteditable="true"><b>azgz<i>aga<u>zg</u></i></b></div>';
-    const sanitizedText = sanitizeHtml(formattedText, {
-        allowedTags: ["b", "i", "u"],
-        allowedAttributes: {
-            b: ["style"],
-            i: ["style"],
-            u: ["style"],
-        },
-        allowedStyles: {},
-    });
-    console.log(sanitizedText);
-    res.send(sanitizedText);
-});
-
 router.patch("/update/:id", authorize("professor"), validateObjectId, async (req, res) => {
     req.body = req.body.body;
     const unauthorizedModules = req.body.modules.filter((module) => !authorizedModules.includes(module));
@@ -169,7 +152,7 @@ router.get("/", authorize("all"), async (req, res) => {
     }
 });
 
-router.get("/:alumet/content", authorize("alumetPrivacy"), validateObjectId, async (req, res) => {
+router.get("/:alumet/content", authorize("alumetPrivate"), validateObjectId, async (req, res) => {
     try {
         const alumet = await Alumet.findOne({
             _id: req.params.alumet,

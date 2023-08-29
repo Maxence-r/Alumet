@@ -27,7 +27,7 @@ router.post("/new", authorize("professor"), upload.single("file"), uploadAndSave
             title: req.body.title,
             description: req.body.description,
             background: req.upload ? req.upload._id : undefined,
-            collaborators: req.body.participants,
+            collaborators: req.body.collaborators,
             private: req.body.private,
             swiftchat: req.body.chat,
         });

@@ -69,9 +69,10 @@ async function createAlumet() {
     formData.append("file", file);
     formData.append("title", document.getElementById("alumet-name").value);
     formData.append("description", document.getElementById("alumet-description").value);
-    formData.append("participants", JSON.stringify(participants));
+    formData.append("collaborators", JSON.stringify(participants));
     formData.append("private", document.getElementById("alumet-private").checked);
     formData.append("chat", document.getElementById("alumet-chat").checked);
+    console.log(formData);
     fetch("/a/new", {
         method: "POST",
         body: formData,
