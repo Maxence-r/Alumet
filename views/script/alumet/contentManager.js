@@ -32,7 +32,40 @@ function createTaskList(post) {
     card.draggable = true;
     card.dataset.position = post.position;
     card.dataset.id = post._id;
+    author = document.createElement("div");
+    author.classList.add("author");
+    author.textContent = post.owner.name + " " + post.owner.lastname;
+    if (post.owner.isCertified) {
+        const certified = document.createElement("img");
+        certified.src = `/assets/global/${post.owner.accountType}-certified.svg`;
+        certified.classList.add("certified");
+        certified.setAttribute("draggable", false);
+        author.appendChild(certified);
+    }
 
+    const editButton = document.createElement("img");
+    editButton.classList.add("edit");
+    editButton.src = "/assets/global/edit.svg";
+    editButton.setAttribute("onclick", `alert("test")`);
+    author.appendChild(editButton);
+    card.appendChild(author);
+
+    if (post.file) {
+        const filePreview = document.createElement("div");
+        filePreview.style.backgroundImage = `url("/preview?id=${post.file._id}")`;
+        filePreview.classList.add("post-rich-content");
+        const filePreviewTitle = document.createElement("h2");
+        filePreviewTitle.textContent = post.file.displayname;
+        const filePreviewExt = document.createElement("div");
+        filePreviewExt.classList.add("ext");
+        filePreviewExt.textContent = post.file.mimetype.toUpperCase();
+        const gradient = document.createElement("div");
+        gradient.classList.add("reader-gradient");
+        filePreview.appendChild(filePreviewTitle);
+        filePreview.appendChild(filePreviewExt);
+        filePreview.appendChild(gradient);
+        card.appendChild(filePreview);
+    }
     if (post.link) {
         const linkPreview = document.createElement("div");
         if (post.link.image) {

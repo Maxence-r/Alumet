@@ -66,6 +66,7 @@ router.put("/move/:alumet/:wall/:post", authorize("alumetAdmins"), async (req, r
         await Post.findOneAndUpdate({ _id: req.params.post }, { position: posts[position - 1].position - 1, wallId: req.params.wall }, { new: true });
         return res.json({ message: "Success" });
     } catch (error) {
+        console.error(error);
         res.json({
             error,
         });

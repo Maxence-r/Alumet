@@ -181,9 +181,25 @@ router.get("/:alumet/content", authorize("alumetPrivate"), validateObjectId, asy
             }
         }
         const walls = await Wall.find({ alumetReference: req.params.alumet }).sort({ position: 1 }).lean();
+        if (req.connected && (alumet.owner === req.user.id || alumet.collaborators.includes(req.user.id))) {
+            walls.forEach((wall) => {
+                wall.postAuthorized = true;
+            });
+        }
 
         for (let wall of walls) {
             const posts = await Post.find({ wallId: wall._id }).sort({ position: -1 }).lean();
+            for (let post of posts) {
+                Account.populate(post, { path: "owner", select: "id name icon lastname accountType isCertified" });
+                if (post.file) {
+                    const upload = await Upload.findOne({
+                        _id: post.file,
+                    });
+                    if (upload) {
+                        post.file = upload;
+                    }
+                }
+            }
             wall.posts = posts;
         }
 

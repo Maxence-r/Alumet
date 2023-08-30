@@ -172,8 +172,32 @@ body {
 
 .card .title {
     font-weight: bold;
-    margin-bottom: 10px;
 }
+
+.author {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+.certified {
+    width: 13px;
+}
+
+.card:hover .author .edit {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.author > .edit {
+    width: 13px;
+    margin-left: auto;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
 .navbar {
     display: flex;
     position: relative;
@@ -396,6 +420,10 @@ latex {
     clear: none;
 }
 
+.description {
+    font-size: 0.95rem;
+}
+
 .description-container {
     width: calc(100% - 22px);
     padding: 10px;
@@ -404,10 +432,38 @@ latex {
 }
 
 #editor {
+    position: relative;
     min-height: 50px;
     outline: none;
     font-size: 0.9rem;
     padding: 10px;
+}
+
+.navbar > button:nth-of-type(1) {
+    margin-top: 20px;
+}
+
+.ext {
+    position: absolute;
+    font-size: 0.8rem;
+    top: 8px;
+    right: 8px;
+    border-radius: 5px;
+    padding: 5px;
+    z-index: 10;
+    font-weight: 400;
+    margin: 0;
+    color: #ffffff;
+    background-color: #00000084;
+}
+
+#editor[placeholder]:empty:before {
+    content: attr(placeholder);
+    color: #555;
+}
+
+#editor[placeholder]:empty:focus:before {
+    content: "";
 }
 
 .reader-gradient {
@@ -418,7 +474,7 @@ latex {
     height: 100%;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 70%);
     z-index: 5;
-    border-radius: 10px;
+    border-radius: 8px;
     transition: all 0.3s ease-in-out;
 }
 
@@ -429,16 +485,6 @@ latex {
     gap: 5px;
     justify-content: space-between;
     margin: 10px 0;
-}
-
-.active-link-preview {
-    display: flex !important;
-    transform: translate(0, 0) !important;
-    opacity: 1 !important;
-}
-
-.active-link-loading > .loading {
-    display: flex;
 }
 
 .post-rich-content {
@@ -456,7 +502,7 @@ latex {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #dddddd;
 }
 
 .post-rich-content:hover {
@@ -469,6 +515,7 @@ latex {
     font-weight: 500;
     margin: 0;
     margin-bottom: 5px;
+    word-break: break-all;
     color: #fff;
 }
 
@@ -496,8 +543,14 @@ latex {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     border: 1px solid #e5e5e5;
-    transform: translate(0, 20%);
-    opacity: 0;
+}
+
+.active-link-preview {
+    display: flex;
+}
+
+.active-link-loading > .loading {
+    display: flex;
 }
 
 .date {
