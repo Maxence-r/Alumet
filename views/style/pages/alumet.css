@@ -33,6 +33,10 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
+.loadingRessources > .loading {
+    display: flex;
+}
+
 .active-layer {
     display: block;
     pointer-events: all !important;
@@ -148,15 +152,67 @@ body {
     overflow-x: auto;
     height: 100%;
 }
-.list > h1 {
-    font-size: 18px;
-    font-weight: 500;
-    position: sticky;
-    top: 0;
-    margin: 0;
+
+.titleList {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     background-color: white;
     padding: 10px 14px;
     border-radius: 5px;
+    position: sticky;
+    top: 0;
+}
+.list > .titleList > h1 {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.list > .titleList > img {
+    width: 14px;
+    margin-left: auto;
+    opacity: 0;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.list > .titleList:hover > img {
+    opacity: 1;
+}
+
+.positions {
+    display: none;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.positions > button {
+    width: 100%;
+}
+
+.actions {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.actions > button {
+    width: 100%;
+}
+
+.editing > .positions {
+    display: flex;
+}
+
+.editing > .actions {
+    display: flex;
+}
+
+.editing > .large {
+    display: none;
 }
 .card {
     display: flex;
@@ -171,7 +227,8 @@ body {
 }
 
 .card .title {
-    font-weight: bold;
+    font-size: 1.1rem;
+    font-weight: 500;
 }
 
 .author {
@@ -422,6 +479,7 @@ latex {
 
 .description {
     font-size: 0.95rem;
+    word-break: break-word;
 }
 
 .description-container {
@@ -464,6 +522,18 @@ latex {
 
 #editor[placeholder]:empty:focus:before {
     content: "";
+}
+
+.post-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+.post-buttons > .reded {
+    display: none;
 }
 
 .reader-gradient {
@@ -697,10 +767,11 @@ latex {
         min-height: calc(100% - 10px);
     }
     .overlay-content {
-        width: calc(100% - 60px);
+        padding: 10px;
+        width: calc(100% - 40px);
         left: 10px;
         top: 80px;
-        height: calc(100% - 130px);
+        height: calc(100% - 110px);
     }
     .navbar > button {
         margin: 0;

@@ -18,36 +18,51 @@ const validatePost = async (req, res, next) => {
     try {
         const alumet = await Alumet.findOne({ _id: req.params.alumet });
         const wall = await Wall.findOne({ _id: req.params.wall });
-        if (!wall.postAuthorized && alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user._id)) {
-            return res.status(400).json({ error: "Unauthorized wall x001" });
-        }
-
-        if (req.body.postDate) {
-            const publicationDate = new Date(req.body.postDate);
-            if (isNaN(publicationDate.getTime()) || publicationDate <= new Date()) {
-                return res.status(400).json({ error: "La date de publication est déja passé" });
+        let error = null;
+        if (req.body.postId) {
+            const post = await Post.findOne({ _id: req.body.postId });
+            if (!post) {
+                error = { error: "Unable to proceed your requests x002" };
+            } else if (post.owner !== req.user.id && !alumet.collaborators.includes(req.user._id) && alumet.owner !== req.user.id) {
+                error = { error: "Unauthorized post x001" };
             }
         }
+        if ((!wall && !req.body.postId) || (!wall.postAuthorized && alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user._id))) {
+            error = { error: "Unauthorized wall x001" };
+        }
+        if (error) {
+            return res.status(400).json(error);
+        }
+        if (req.body.postDate) {
+            const publicationDate = new Date(new Date(req.body.postDate).getTime() + 2 * 60 * 60 * 1000);
+            const publicationDateString = publicationDate.toISOString();
+            if (isNaN(publicationDate.getTime()) || publicationDateString <= new Date()) {
+                return res.status(400).json({ error: "La date de publication est déja passé" });
+            }
+            req.body.postDate = publicationDateString;
+        }
 
-        let formattedText = req.body.content;
-        formattedText = formattedText.replace(/<\/div>(?=\w)/g, "<br>");
-        const sanitizedText = sanitizeHtml(formattedText, {
-            allowedTags: ["b", "i", "u", "br", "latex"],
-            allowedAttributes: {
-                b: ["style"],
-                i: ["style"],
-                u: ["style"],
-            },
-            allowedStyles: {},
-        });
-        req.body.content = sanitizedText;
+        if (typeof req.body.content === "string") {
+            let formattedText = req.body.content;
+            formattedText = formattedText.replace(/<\/div>(?=\w)/g, "<br>");
+            const sanitizedText = sanitizeHtml(formattedText, {
+                allowedTags: ["b", "i", "u", "br", "latex"],
+                allowedAttributes: {
+                    b: ["style"],
+                    i: ["style"],
+                    u: ["style"],
+                },
+                allowedStyles: {},
+            });
+            req.body.content = sanitizedText;
+        }
 
         const position = await Post.find({ wallId: req.params.wall }).sort({ position: -1 }).limit(1);
 
         req.body.position = position.length > 0 ? position[0].position + 1 : 1;
 
         if (req.body.file) {
-            const upload = await Upload.findOne({ _id: req.body.file, owner: req.user.id });
+            const upload = await Upload.findOne({ _id: req.body.file });
             if (!upload) {
                 return res.status(400).json({ error: "Unable to proceed your requests x001" });
             }
@@ -58,19 +73,27 @@ const validatePost = async (req, res, next) => {
             if (!urlRegex.test(req.body.link)) {
                 return res.status(400).json({ error: "Invalid link format" });
             }
-            const metadata = await urlMetadata(req.body.link);
-            req.body.link = {
-                url: req.body.link,
-                title: metadata.title || metadata["og:title"] || getDomainFromUrl(req.body.link),
-                description: getDomainFromUrl(req.body.link),
-                image: metadata.image || metadata["og:image"] || null,
-            };
+            try {
+                const metadata = await urlMetadata(req.body.link);
+                req.body.link = {
+                    url: req.body.link,
+                    title: metadata.title || metadata["og:title"] || getDomainFromUrl(req.body.link),
+                    description: getDomainFromUrl(req.body.link),
+                    image: metadata.image || metadata["og:image"] || null,
+                };
+            } catch (error) {
+                req.body.link = {
+                    url: req.body.link,
+                    title: getDomainFromUrl(req.body.link),
+                    description: getDomainFromUrl(req.body.link),
+                    image: null,
+                };
+            }
         }
     } catch (error) {
         console.log(error);
         return res.status(404).json({ error: "Unable to proceed your requests x004" });
     }
-    console.log(req.body);
     next();
 };
 

@@ -40,7 +40,7 @@ const PostSchema = mongoose.Schema({
     adminsOnly: {
         type: Boolean,
         required: true,
-        default: true,
+        default: false,
     },
     postDate: {
         type: Date,

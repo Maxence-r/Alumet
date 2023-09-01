@@ -10,30 +10,41 @@ const Upload = require("../../../models/upload");
 const notification = require("../../../middlewares/utils/notification");
 const authorize = require("../../../middlewares/authentification/authorize");
 const Wall = require("../../../models/wall");
+const Account = require("../../../models/account");
 
-router.post("/:alumet/:wall", authorize("alumetParticipants"), validatePost, (req, res) => {
-    const post = new Post({
+router.put("/:alumet/:wall", authorize("alumetParticipants"), validatePost, async (req, res) => {
+    const postId = req.body.postId;
+    const postFields = {
         title: req.body.title,
         content: req.body.content,
         owner: req.user.id,
-        file: req.body.file,
+        file: req.body.file || null,
         link: req.body.link,
         color: req.body.color,
         position: req.body.position,
         wallId: req.params.wall,
         adminsOnly: req.body.adminsOnly,
-        postDate: req.body.postDate,
+        postDate: req.body.postDate || null,
         commentAuthorized: req.body.commentAuthorized,
-    });
-    post.save()
-        .then((post) => {
-            res.json(post);
-        })
-        .catch((error) => {
-            res.json({
-                error,
-            });
+    };
+    try {
+        let post;
+        if (postId) {
+            delete postFields.position;
+            post = await Post.findByIdAndUpdate(postId, postFields, { new: true });
+        } else {
+            post = new Post(postFields);
+            await post.save();
+        }
+        await Account.populate(postFields, { path: "owner", select: "id name icon lastname accountType isCertified" });
+        await Upload.populate(postFields, { path: "file", select: "displayname mimetype" });
+        postFields._id = post._id;
+        res.json(postFields);
+    } catch (error) {
+        res.json({
+            error,
         });
+    }
 });
 
 router.put("/move/:alumet/:wall/:post", authorize("alumetAdmins"), async (req, res) => {
@@ -47,7 +58,6 @@ router.put("/move/:alumet/:wall/:post", authorize("alumetAdmins"), async (req, r
         }
         const topPost = await Post.findOne({ wallId: wall._id }).sort({ position: -1 });
         if (!topPost) {
-            console.log("GAY");
             await Post.findOneAndUpdate({ _id: req.params.post }, { position: 0, wallId: req.params.wall }, { new: true });
             return res.json({ message: "Success" });
         }
@@ -62,7 +72,6 @@ router.put("/move/:alumet/:wall/:post", authorize("alumetAdmins"), async (req, r
             post.position += 1;
             await post.save();
         }
-        console.log("updated", req.params.post, "to", position, "in", wall._id);
         await Post.findOneAndUpdate({ _id: req.params.post }, { position: posts[position - 1].position - 1, wallId: req.params.wall }, { new: true });
         return res.json({ message: "Success" });
     } catch (error) {
@@ -108,7 +117,7 @@ router.get("/:alumet/:wall", validateObjectId, async (req, res) => {
         });
 
         const sendPosts = await Promise.all(
-            posts.map(async (post) => {
+            posts.map(async post => {
                 let editedPost = {
                     ...post._doc,
                 };
@@ -169,50 +178,31 @@ router.patch("/:alumet/:wall/:post", validateObjectId, validatePost, notificatio
         .then(() => {
             Post.findOne({
                 _id: req.params.post,
-            }).then((post) => {
+            }).then(post => {
                 res.json(post);
             });
         })
-        .catch((error) =>
+        .catch(error =>
             res.json({
                 error,
             })
         );
 });
 
-router.delete("/:alumet/:wall/:post", validateObjectId, notification("A supprimé un post"), async (req, res) => {
+router.delete("/:alumet/:post", async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.alumet);
-
-        if (!alumet) {
-            return res.status(404).json({
-                error: "Unable to proceed your requests",
-            });
-        }
-
-        if (!req.connected && !req.auth) {
+        if (!req.connected) {
             return res.status(404).json({
                 error: "Vous n'avez pas les permissions pour effectuer cette action !",
             });
         }
 
         const post = await Post.findById(req.params.post);
-
-        if (req.auth && req.cookies.alumetToken !== post.owner) {
+        console.log(post);
+        if (!post || (post.owner !== req.user.id && alumet.participants.includes(res.user.id) && alumet.owner !== req.user.id)) {
             return res.status(404).json({
                 error: "Vous n'avez pas les permissions pour effectuer cette action !",
-            });
-        }
-
-        if (!post) {
-            return res.status(404).json({
-                error: "Post not found",
-            });
-        }
-
-        if (req.connected && alumet.owner !== req.user.id && post.owner !== req.user.id) {
-            return res.status(404).json({
-                error: "UVous n'avez pas les permissions pour effectuer cette action !",
             });
         }
 

@@ -1,11 +1,11 @@
 const navButtons = document.querySelectorAll(".nav > button");
 const sections = document.querySelectorAll(".sections-container > section");
 
-navButtons.forEach((button) => {
+navButtons.forEach(button => {
     button.addEventListener("click", () => {
-        navButtons.forEach((button) => button.classList.remove("active"));
+        navButtons.forEach(button => button.classList.remove("active"));
         button.classList.add("active");
-        sections.forEach((section) => section.classList.remove("active-section"));
+        sections.forEach(section => section.classList.remove("active-section"));
         document.querySelector(`.${button.id}`).classList.add("active-section");
     });
 });
@@ -29,22 +29,21 @@ let setupProgress = 0;
 let setupNameCurrent = null;
 function setup(setupName) {
     if (!setupNameCurrent || setupNameCurrent !== setupName || !document.querySelector(`.${setupName}`).classList.contains("active-section")) {
-        console.log("reset");
         document.querySelector(`.${setupName}`).classList.add("active-section");
         participants = [];
         setupProgress = 0;
     }
     const inputs = document.querySelectorAll(`.${setupName} > .active-action > input[required]`);
-    if (inputs && !Array.from(inputs).every((input) => input.value)) {
+    if (inputs && !Array.from(inputs).every(input => input.value)) {
         return toast({ title: "Erreur", message: `Veuillez remplir tous les champs`, type: "error", duration: 2500 });
     }
     setupNameCurrent = setupName;
     setupProgress++;
     const nextActionContent = document.querySelector(`.${setupName} > .action-content:nth-of-type(${setupProgress + 1}n)`);
     if (nextActionContent) {
-        document.querySelectorAll(".active-action").forEach((element) => element.classList.remove("active-action"));
+        document.querySelectorAll(".active-action").forEach(element => element.classList.remove("active-action"));
         nextActionContent.classList.add("active-action");
-        document.querySelectorAll(".completed").forEach((element) => element.classList.remove("completed"));
+        document.querySelectorAll(".completed").forEach(element => element.classList.remove("completed"));
         const actionDetails = document.querySelector(`.${setupName} > .progression-container > .progression-item:nth-child(${setupProgress + 1}n) > .action-details`);
         actionDetails.classList.add("completed");
         document.querySelector(`.${setupName} > h1`).textContent = actionDetails.querySelector("h3").textContent;
@@ -72,13 +71,12 @@ async function createAlumet() {
     formData.append("collaborators", JSON.stringify(participants));
     formData.append("private", document.getElementById("alumet-private").checked);
     formData.append("chat", document.getElementById("alumet-chat").checked);
-    console.log(formData);
     fetch("/a/new", {
         method: "POST",
         body: formData,
     })
-        .then((response) => response.json())
-        .then((data) => {
+        .then(response => response.json())
+        .then(data => {
             if (data.error) {
                 toast({ title: "Erreur", message: data.error, type: "error", duration: 7500 });
                 setTimeout(() => {
@@ -91,7 +89,7 @@ async function createAlumet() {
                 }, 2500);
             }
         })
-        .catch((error) => {
+        .catch(error => {
             console.error(error);
         });
 }
@@ -112,10 +110,10 @@ document.getElementById("alumet-background").addEventListener("change", () => {
 });
 
 fetch("/alumet")
-    .then((response) => response.json())
-    .then((data) => {
+    .then(response => response.json())
+    .then(data => {
         if (data.alumets.length !== 0) document.querySelector(".alumets").innerHTML = "";
-        data.alumets.forEach((alumet) => {
+        data.alumets.forEach(alumet => {
             const alumetBox = createAlumetBox(alumet.title, alumet.lastUsage, alumet.background, alumet._id);
             document.querySelector(".alumets").appendChild(alumetBox);
         });
@@ -146,6 +144,6 @@ function createAlumetBox(title, lastUsage, background, id) {
     return alumetBox;
 }
 
-openAlumet = (alumetId) => {
+openAlumet = alumetId => {
     window.open(`/portal/${alumetId}`, "_blank");
 };

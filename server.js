@@ -6,7 +6,7 @@ const Conversation = require("./models/conversation");
 const Account = require("./models/account");
 const Message = require("./models/message");
 
-io.on("connection", (socket) => {
+io.on("connection", socket => {
     socket.on("joinRoom", async (conversationId, userId) => {
         try {
             const conversation = await Conversation.findOne({ _id: conversationId, participants: userId });
@@ -20,7 +20,7 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("leaveRoom", (conversationId) => {
+    socket.on("leaveRoom", conversationId => {
         socket.leave(conversationId);
     });
 
@@ -41,10 +41,7 @@ io.on("connection", (socket) => {
     });
 });
 
-global.io = io;
-module.exports = io;
-
-const normalizePort = (val) => {
+const normalizePort = val => {
     const port = parseInt(val, 10);
 
     if (isNaN(port)) {
@@ -58,7 +55,7 @@ const normalizePort = (val) => {
 const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
-const errorHandler = (error) => {
+const errorHandler = error => {
     if (error.syscall !== "listen") {
         throw error;
     }
@@ -68,11 +65,9 @@ const errorHandler = (error) => {
         case "EACCES":
             console.error(bind + " requires elevated privileges.");
             process.exit(1);
-            break;
         case "EADDRINUSE":
             console.error(bind + " is already in use.");
             process.exit(1);
-            break;
         default:
             throw error;
     }
@@ -87,4 +82,5 @@ server.on("listening", () => {
 
 server.listen(port);
 
+module.exports = io;
 module.exports = server;

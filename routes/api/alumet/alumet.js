@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
     },
 });
 
-const sanitizeFilename = (filename) => {
+const sanitizeFilename = filename => {
     return filename.replace(/[^a-zA-Z0-9_.-]/g, "_");
 };
 
@@ -73,7 +73,7 @@ router.post("/new/background", authorize("professor"), upload.single("background
 
 router.patch("/update/:id", authorize("professor"), validateObjectId, async (req, res) => {
     req.body = req.body.body;
-    const unauthorizedModules = req.body.modules.filter((module) => !authorizedModules.includes(module));
+    const unauthorizedModules = req.body.modules.filter(module => !authorizedModules.includes(module));
     if (unauthorizedModules.length > 0) {
         return res.status(400).json({
             error: "Invalid module",
@@ -181,16 +181,30 @@ router.get("/:alumet/content", authorize("alumetPrivate"), validateObjectId, asy
             }
         }
         const walls = await Wall.find({ alumetReference: req.params.alumet }).sort({ position: 1 }).lean();
-        if (req.connected && (alumet.owner === req.user.id || alumet.collaborators.includes(req.user.id))) {
-            walls.forEach((wall) => {
-                wall.postAuthorized = true;
-            });
-        }
 
         for (let wall of walls) {
-            const posts = await Post.find({ wallId: wall._id }).sort({ position: -1 }).lean();
+            let posts;
+            if (req.connected && (alumet.owner === req.user.id || alumet.collaborators.includes(req.user.id) || alumet.owner === req.user.id)) {
+                posts = await Post.find({ wallId: wall._id }).sort({ position: -1 }).lean();
+            } else {
+                posts = await Post.find({
+                    wallId: wall._id,
+
+                    $and: [
+                        {
+                            $or: [{ adminsOnly: false }, { owner: req.user?.id }],
+                        },
+                        {
+                            $or: [{ owner: req.user?.id }, { postDate: { $exists: false } }, { postDate: null }, { postDate: { $lt: new Date(Date.now() + new Date().getTimezoneOffset() * -60000).toISOString() } }],
+                        },
+                    ],
+                })
+                    .sort({ position: -1 })
+                    .lean();
+            }
             for (let post of posts) {
-                Account.populate(post, { path: "owner", select: "id name icon lastname accountType isCertified" });
+                await Account.populate(post, { path: "owner", select: "id name icon lastname accountType isCertified" });
+
                 if (post.file) {
                     const upload = await Upload.findOne({
                         _id: post.file,

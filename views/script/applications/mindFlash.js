@@ -52,15 +52,14 @@ const loading = (() => {
     };
 })();
 const loadFlashcardSet = (() => {
-    const title = (title) => {
+    const title = title => {
         const titleElement = document.querySelector(".main-container > .infos-bar > h2");
         titleElement.textContent = title ? title : "";
     };
-    const stats = async (flashCardSetId) => {
+    const stats = async flashCardSetId => {
         try {
             const res = await fetch(`/mindFlash/flashcardset/stats/${flashCardSetId}`);
             const data = await res.json();
-            console.log(data);
             const subSectionBoxStats = document.querySelector(".sub-section-box.stats");
             subSectionBoxStats.classList.toggle("hidden", data.numberOfFlashcards === 0);
             const percentageBar = document.querySelector(".informations-section > .stats > .percentage-bar");
@@ -83,7 +82,7 @@ const loadFlashcardSet = (() => {
                 { label: "Non noté", percentage: data.percentageOfUnrated, count: data.numberOfUnrated },
             ];
             statsInfoContainer.innerHTML = "";
-            statsInfo.forEach((info) => {
+            statsInfo.forEach(info => {
                 if (info.count === 0) return;
 
                 const statsInfoItem = document.createElement("div");
@@ -126,7 +125,7 @@ const loadFlashcardSet = (() => {
             console.log(err);
         }
     };
-    const setBasicInformations = async (flashcardSetId) => {
+    const setBasicInformations = async flashcardSetId => {
         try {
             const res = await fetch(`/mindFlash/flashcardset/basicinformations/${flashcardSetId}`);
             const data = await res.json();
@@ -147,7 +146,7 @@ const loadFlashcardSet = (() => {
                 { label: "Matière du set", value: data.subject },
                 { label: "Dernière utilisation", value: data.lastUsage },
             ];
-            setBasicInformations.forEach((element) => {
+            setBasicInformations.forEach(element => {
                 const setBasicInformationsContainer = document.createElement("div");
                 setBasicInformationsContainer.classList.add("set-basic-informations-container");
 
@@ -165,7 +164,7 @@ const loadFlashcardSet = (() => {
             console.log(err);
         }
     };
-    const informationsSection = (flashCardSetId) => {
+    const informationsSection = flashCardSetId => {
         loading.enable.subContainerSection();
         loadFlashcardSet.stats(flashCardSetId);
         loadFlashcardSet
@@ -173,7 +172,7 @@ const loadFlashcardSet = (() => {
             .then(() => {
                 loading.disable.subContainerSection();
             })
-            .catch((err) => console.log(err));
+            .catch(err => console.log(err));
     };
     return {
         title,
@@ -183,7 +182,7 @@ const loadFlashcardSet = (() => {
     };
 })();
 const createElement = (() => {
-    const flashcard = (flashcardData) => {
+    const flashcard = flashcardData => {
         const { question, answer, level, nextReview, lastReview, dateCreated } = flashcardData;
         const flashcardContainer = document.getElementById("flashcards-container");
         const flashcard = document.createElement("div");
@@ -235,7 +234,7 @@ const createElement = (() => {
 
         flashcardContainer.appendChild(flashcard);
     };
-    const flashcardInCreation = (flashcardData) => {
+    const flashcardInCreation = flashcardData => {
         const { question, answer } = flashcardData;
         const flashcardContainer = document.getElementById("check-flashcards-container");
         const flashcard = document.createElement("div");
@@ -271,14 +270,14 @@ const createElement = (() => {
     };
 })();
 const filterOrSortFlashcardSet = (() => {
-    const toggleFilterBtn = (btn) => {
+    const toggleFilterBtn = btn => {
         if (btn.classList.contains("filter-activate")) {
             btn.classList.remove("filter-activate");
         } else {
             btn.classList.add("filter-activate");
         }
     };
-    const toggleSortBtn = (btn) => {
+    const toggleSortBtn = btn => {
         if (btn.classList.contains("sort-activate")) {
             btn.classList.remove("sort-activate");
         } else {
@@ -288,7 +287,7 @@ const filterOrSortFlashcardSet = (() => {
     const filterFlashcards = (goodFilter, okFilter, badFilter, unratedFilter) => {
         const flashcards = document.querySelectorAll("#flashcards-container > .flashcard");
         let flashcardsDisplayed = false;
-        flashcards.forEach((flashcard) => {
+        flashcards.forEach(flashcard => {
             const status = flashcard.classList[1].split("-").pop();
             if (status === "good" && goodFilter) {
                 flashcard.classList.remove("hidden");
@@ -314,7 +313,7 @@ const filterOrSortFlashcardSet = (() => {
             informationsScreen.flashcardDisplayed();
         }
     };
-    const sortFlashcards = (sort) => {
+    const sortFlashcards = sort => {
         const flashcards = Array.from(document.querySelectorAll("#flashcards-container > .flashcard"));
         if (flashcards.length === 0) {
             return informationsScreen.noFlashcardInSet();
@@ -358,7 +357,7 @@ const filterOrSortFlashcardSet = (() => {
                 return b.dataset.dateCreated.localeCompare(a.dataset.dateCreated);
             }
         });
-        flashcards.forEach((flashcard) => {
+        flashcards.forEach(flashcard => {
             flashcard.parentNode.appendChild(flashcard);
         });
         if (flashcards.length === 0) {
@@ -370,11 +369,11 @@ const filterOrSortFlashcardSet = (() => {
     };
     const resetFilter = () => {
         const filterBtns = document.querySelectorAll(".filter-section > .filter-box > div");
-        filterBtns.forEach((btn) => {
+        filterBtns.forEach(btn => {
             btn.classList.add("filter-activate");
         });
         const flashcards = document.querySelectorAll("#flashcards-container > .flashcard");
-        flashcards.forEach((flashcard) => {
+        flashcards.forEach(flashcard => {
             flashcard.classList.remove("hidden");
         });
 
@@ -437,7 +436,7 @@ const manageElementDisplay = (() => {
 
                 manageEventListener.createFlashcardSection.addListener();
             };
-            const section = (sectionNumber) => {
+            const section = sectionNumber => {
                 const section1 = document.querySelector("body > .create-flashcard-container > .create-one-flashcard-section");
                 const section2 = document.querySelector("body > .create-flashcard-container > .check-flashcards-section");
                 const section3 = document.querySelector("body > .create-flashcard-container > .modify-flashcard-section");
@@ -446,19 +445,19 @@ const manageElementDisplay = (() => {
                 const allSections = [section1, section2, section3, sectionIA1, sectionIA2];
 
                 function setSectionActive(section) {
-                    allSections.forEach((section) => {
+                    allSections.forEach(section => {
                         section.classList.remove("active-section");
                     });
                     section.classList.add("active-section");
                 }
                 function setSectionHiddenLeft(sections) {
-                    sections.forEach((section) => {
+                    sections.forEach(section => {
                         section.classList.remove("hidden-right");
                         section.classList.add("hidden-left");
                     });
                 }
                 function setSectionHiddenRight(sections) {
-                    sections.forEach((section) => {
+                    sections.forEach(section => {
                         section.classList.remove("hidden-left");
                         section.classList.add("hidden-right");
                     });
@@ -468,7 +467,7 @@ const manageElementDisplay = (() => {
                     /** 1: Création normale, 2: IA création */
                     case 1.1:
                         setSectionActive(section1);
-                        setSectionHiddenRight(allSections.filter((section) => section !== section1));
+                        setSectionHiddenRight(allSections.filter(section => section !== section1));
 
                         const newFlashcardList = JSON.parse(localStorage.getItem("newFlashcardList") || "[]");
                         const continueBtn = document.getElementById("creating-flashcard-continue-btn");
@@ -477,17 +476,17 @@ const manageElementDisplay = (() => {
                     case 2.1:
                         setSectionActive(sectionIA1);
                         setSectionHiddenLeft([section1]);
-                        setSectionHiddenRight(allSections.filter((section) => section !== (sectionIA1 || section1)));
+                        setSectionHiddenRight(allSections.filter(section => section !== (sectionIA1 || section1)));
                         break;
                     case 2.2:
                         setSectionActive(sectionIA2);
                         setSectionHiddenLeft([section1, sectionIA1]);
-                        setSectionHiddenRight(allSections.filter((section) => section !== (sectionIA2 || sectionLeft)));
+                        setSectionHiddenRight(allSections.filter(section => section !== (sectionIA2 || sectionLeft)));
                         break;
                     case 1.2:
                         setSectionActive(section2);
                         setSectionHiddenLeft([section1, sectionIA1]);
-                        setSectionHiddenRight(allSections.filter((section) => section !== (section2 || section1 || sectionIA1)));
+                        setSectionHiddenRight(allSections.filter(section => section !== (section2 || section1 || sectionIA1)));
                         break;
                     case 1.3:
                         section1.classList.add("hidden-left");
@@ -495,7 +494,7 @@ const manageElementDisplay = (() => {
                         section2.classList.add("hidden-left");
                         section2.classList.remove("active-section");
                         setSectionActive(section3);
-                        setSectionHiddenLeft(allSections.filter((section) => section !== section3));
+                        setSectionHiddenLeft(allSections.filter(section => section !== section3));
 
                         const flashcard = document.querySelector("#check-flashcards-container > .flashcard.flashcard-selected");
                         const flashcardQuestion = flashcard.querySelector(".flashcard-question").textContent;
@@ -510,7 +509,7 @@ const manageElementDisplay = (() => {
                         return;
                 }
             };
-            const section2Buttons = (state) => {
+            const section2Buttons = state => {
                 const goBackButton = document.getElementById("go-back-btn-new-flashcard");
                 const modifyButton = document.getElementById("modify-btn-new-flashcard");
                 const deleteButton = document.getElementById("delete-btn-new-flashcard");
@@ -560,7 +559,7 @@ const manageElementDisplay = (() => {
             const filterSection = document.querySelector(".informations > .filter-section");
             const optionsSection = document.querySelector(".informations > .options-section");
 
-            sectionBtns.forEach((btn) => {
+            sectionBtns.forEach(btn => {
                 btn.classList.remove("large");
                 btn.classList.add("large-white");
             });
@@ -605,7 +604,7 @@ const manageEventListener = (() => {
         const handleKeyDown = (() => {
             let canCreateFlashcard = true;
 
-            const fields = (event) => {
+            const fields = event => {
                 if (event.key === "Enter" && canCreateFlashcard) {
                     event.preventDefault();
                     document.querySelector("section.active-section > .create-flashcard-buttons-container > button.right-button").click();
@@ -616,7 +615,7 @@ const manageEventListener = (() => {
                 }
             };
 
-            const questionField = (event) => {
+            const questionField = event => {
                 if (event.key === "Enter") {
                     event.preventDefault();
                     fields(event, document.querySelector(".create-flashcard-container > section.active-section > .flashcard > textarea.flashcard-question"));
@@ -625,7 +624,7 @@ const manageEventListener = (() => {
                 }
             };
 
-            const answerField = (event) => {
+            const answerField = event => {
                 if (event.key === "Enter") {
                     event.preventDefault();
                     fields(event, document.querySelector(".create-flashcard-container > section.active-section > .flashcard > textarea.flashcard-answer"));
@@ -634,7 +633,7 @@ const manageEventListener = (() => {
                 }
             };
 
-            const window = (event) => {
+            const window = event => {
                 if (event.key === "Escape") {
                     manageElementDisplay.disable.createFlashcardContainer();
                 }
@@ -646,13 +645,13 @@ const manageEventListener = (() => {
                 window,
             };
         })();
-        const modifyNewFlashcardButton = (event) => {
+        const modifyNewFlashcardButton = event => {
             const flashcardTargetOverlay = event.target;
             const flashcardTarget = flashcardTargetOverlay.parentElement;
             const flashcardTargetClass = flashcardTarget.classList[1];
 
             const flashcards = document.querySelectorAll("#check-flashcards-container > .flashcard");
-            flashcards.forEach((flashcard) => {
+            flashcards.forEach(flashcard => {
                 flashcard.classList.remove("flashcard-selected");
                 flashcard.classList.add("active-selection");
                 flashcardTargetOverlay.classList.remove("flashcard-selected");
@@ -693,10 +692,10 @@ const manageEventListener = (() => {
             window.addEventListener("keydown", eventListenerActions.handleKeyDown.window);
             overlay.addEventListener("click", eventListenerActions.overlay);
             flashcardsContainer.addEventListener("click", eventListenerActions.modifyNewFlashcardButton);
-            questionFields.forEach((field) => {
+            questionFields.forEach(field => {
                 field.addEventListener("keydown", eventListenerActions.handleKeyDown.questionField);
             });
-            answerFields.forEach((field) => {
+            answerFields.forEach(field => {
                 field.addEventListener("keydown", eventListenerActions.handleKeyDown.answerField);
             });
         };
@@ -704,10 +703,10 @@ const manageEventListener = (() => {
             window.removeEventListener("keydown", eventListenerActions.handleKeyDown.window);
             overlay.removeEventListener("click", eventListenerActions.overlay);
             flashcardsContainer.removeEventListener("click", eventListenerActions.modifyNewFlashcardButton);
-            questionFields.forEach((field) => {
+            questionFields.forEach(field => {
                 field.removeEventListener("keydown", eventListenerActions.handleKeyDown.questionField);
             });
-            answerFields.forEach((field) => {
+            answerFields.forEach(field => {
                 field.removeEventListener("keydown", eventListenerActions.handleKeyDown.answerField);
             });
         };
@@ -722,12 +721,12 @@ const manageEventListener = (() => {
     };
 })();
 const flashcardSetFunctions = (() => {
-    const generateFlashcardSet = (flashcardSetId) => {
+    const generateFlashcardSet = flashcardSetId => {
         loading.enable.mainContainer();
         loading.enable.flashcardContainer();
         fetch(`/mindFlash/getFlashcardset/${flashcardSetId}`)
-            .then((res) => res.json())
-            .then((data) => {
+            .then(res => res.json())
+            .then(data => {
                 loadFlashcardSet.title(data.flashcardSet.title);
                 loadFlashcardSet.informationsSection(data.flashcardSet._id);
 
@@ -739,12 +738,12 @@ const flashcardSetFunctions = (() => {
                     loading.disable.flashcardContainer();
                     return;
                 }
-                flashcards.forEach((flashcard) => {
+                flashcards.forEach(flashcard => {
                     createElement.flashcard(flashcard);
                 });
 
                 const sortBtn = document.querySelector(".filter-section > .sort-box > .sort-activate");
-                document.querySelectorAll(".filter-section > .sort-box > div").forEach((btn) => {
+                document.querySelectorAll(".filter-section > .sort-box > div").forEach(btn => {
                     btn.classList.remove("sort-activate");
                 });
                 sortBtn.classList.add("sort-activate");
@@ -756,7 +755,7 @@ const flashcardSetFunctions = (() => {
                 loading.disable.mainContainer();
                 loading.disable.flashcardContainer();
             })
-            .catch((err) => console.log(err));
+            .catch(err => console.log(err));
     };
     return {
         generateFlashcardSet,
@@ -764,7 +763,7 @@ const flashcardSetFunctions = (() => {
 })();
 const flashcardFunctions = (() => {
     const createFlashcard = (() => {
-        const checkFlashcardValidity = (flascard) => {
+        const checkFlashcardValidity = flascard => {
             const { question, answer } = flascard;
             if (question.length < 1 || answer.length < 1) {
                 return "noQuestionOrAnswer";
@@ -886,7 +885,7 @@ const flashcardFunctions = (() => {
             } else {
                 const checkFlashcardsContainer = document.getElementById("check-flashcards-container");
                 checkFlashcardsContainer.innerHTML = "";
-                newFlashcardList.forEach((flashcard) => {
+                newFlashcardList.forEach(flashcard => {
                     createElement.flashcardInCreation(flashcard);
                 });
                 manageElementDisplay.enable.createFlashcard.section(1.2);
@@ -966,7 +965,7 @@ openSubContainerBtn.addEventListener("click", toggleSubContainer);
 closeSubContainerBtn.addEventListener("click", toggleSubContainer);
 
 const sectionBtns = document.querySelectorAll(".informations-display-buttons > button");
-sectionBtns.forEach((btn) => {
+sectionBtns.forEach(btn => {
     btn.addEventListener("click", () => {
         const section = btn.id.split("-")[0];
         manageElementDisplay.enable.subContainerSection(btn, section);
@@ -974,7 +973,7 @@ sectionBtns.forEach((btn) => {
 });
 
 const filterBtns = document.querySelectorAll(".filter-section > .filter-box > div");
-filterBtns.forEach((btn) => {
+filterBtns.forEach(btn => {
     btn.addEventListener("click", () => {
         filterOrSortFlashcardSet.toggleFilterBtn(btn);
         const goodFilter = document.getElementById("filter-good").classList.contains("filter-activate");
@@ -986,9 +985,9 @@ filterBtns.forEach((btn) => {
 });
 
 const sortBtns = document.querySelectorAll(".filter-section > .sort-box > div");
-sortBtns.forEach((btn) => {
+sortBtns.forEach(btn => {
     btn.addEventListener("click", () => {
-        sortBtns.forEach((btn) => {
+        sortBtns.forEach(btn => {
             btn.classList.remove("sort-activate");
         });
         btn.classList.add("sort-activate");
@@ -1043,7 +1042,7 @@ function createFileElement(file) {
 
 const folderSelection = document.getElementById("folder-selection");
 
-folderSelection.addEventListener("change", (e) => {
+folderSelection.addEventListener("change", e => {
     loadFolder(e.currentTarget.value);
 });
 
@@ -1053,8 +1052,8 @@ fetch("/cdn/folder/list", {
         "Content-Type": "application/json",
     },
 })
-    .then((res) => res.json())
-    .then((data) => {
+    .then(res => res.json())
+    .then(data => {
         data.forEach(addFolder);
         loadFolder(localStorage.getItem("currentFolder"));
     });
@@ -1078,20 +1077,20 @@ function loadFolder(id) {
             "Content-Type": "application/json",
         },
     })
-        .then((response) => response.json())
-        .then((data) => {
-            document.querySelectorAll(".file-item").forEach((file) => file.remove());
-            data.forEach((file) => {
+        .then(response => response.json())
+        .then(data => {
+            document.querySelectorAll(".file-item").forEach(file => file.remove());
+            data.forEach(file => {
                 const fileElement = createFileElement(file);
                 document.querySelector(".files-items").appendChild(fileElement);
             });
         });
 }
 
-document.getElementById("search-bar").addEventListener("input", (e) => {
+document.getElementById("search-bar").addEventListener("input", e => {
     const search = e.currentTarget.value.toLowerCase();
     const allFiles = document.querySelectorAll(".file-item");
-    allFiles.forEach((file) => {
+    allFiles.forEach(file => {
         const fileName = file.dataset.name.toLowerCase();
         if (fileName.includes(search)) {
             file.style.display = "flex";

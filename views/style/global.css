@@ -281,18 +281,12 @@
 }
 
 .send-actions {
-    position: absolute;
     right: 10px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    margin-left: 10px;
     gap: 10px;
-}
-
-.send-actions > button:nth-child(1) {
-    background-color: #f6f8fc;
-    color: #000000;
-    box-shadow: none;
 }
 
 .loading-box {

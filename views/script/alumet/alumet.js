@@ -5,7 +5,7 @@ const sections = document.querySelectorAll(".overlay > div");
 const navbarMenu = document.querySelector(".menu");
 const burgerMenu = document.getElementById("burger");
 
-function navbar(id, currentItem) {
+function navbar(id, currentItem, newItem) {
     if (currentItem) {
         localStorage.setItem("currentItem", currentItem);
     }
@@ -14,12 +14,22 @@ function navbar(id, currentItem) {
     } else {
         document.querySelector(".overlay").classList.add("active-layer");
     }
-    navButtons.forEach((button) => button.classList.remove("navbar-active"));
+    if (newItem == "post") {
+        postToEdit = null;
+        document.querySelector(".post-buttons > .reded").style.display = "none";
+        clearPost();
+    } else if (newItem == "wall") {
+        document.querySelector(".wall").classList.remove("editing");
+        wallToEdit = null;
+        clearWall();
+    }
+
+    navButtons.forEach(button => button.classList.remove("navbar-active"));
     const element = document.getElementById(id);
     if (element) {
         element.classList.add("navbar-active");
     }
-    sections.forEach((section) => section.classList.remove("active-section"));
+    sections.forEach(section => section.classList.remove("active-section"));
     if (id !== "home") {
         burgerMenu.classList.add("is-active");
         document.querySelector(`.${id}`).classList.add("active-section");
@@ -30,7 +40,7 @@ if (burgerMenu && navbarMenu) {
     burgerMenu.addEventListener("click", () => {
         if (burgerMenu.classList.contains("is-active")) {
             burgerMenu.classList.remove("is-active");
-            sections.forEach((section) => section.classList.remove("active-section"));
+            sections.forEach(section => section.classList.remove("active-section"));
             document.querySelector(".overlay").classList.remove("active-layer");
         } else {
             burgerMenu.classList.add("is-active");
@@ -42,7 +52,7 @@ if (burgerMenu && navbarMenu) {
 
 function registerEventsOnList(list) {
     list.setAttribute("data-id", list.id);
-    list.addEventListener("dragover", (e) => {
+    list.addEventListener("dragover", e => {
         e.preventDefault();
         let draggingCard = document.querySelector(".dragging");
         let cardAfterDraggingCard = getCardAfterDraggingCard(list, e.clientY);
@@ -52,7 +62,7 @@ function registerEventsOnList(list) {
             list.appendChild(draggingCard);
         }
     });
-    list.addEventListener("drop", (e) => {
+    list.addEventListener("drop", e => {
         let draggedCard = document.querySelector(".dragging");
         let listId = e.currentTarget.getAttribute("data-id");
         let postPosition = [...e.currentTarget.querySelectorAll(".card")].indexOf(e.currentTarget.querySelector(".dragging"));
@@ -65,8 +75,8 @@ function registerEventsOnList(list) {
                 position: postPosition,
             }),
         })
-            .then((res) => res.json())
-            .then((data) => {
+            .then(res => res.json())
+            .then(data => {
                 if (data.error) {
                     return toast({
                         title: "Erreur",
@@ -97,11 +107,11 @@ function getCardAfterDraggingCard(list, yDraggingCard) {
 }
 
 function registerEventsOnCard(card) {
-    card.addEventListener("dragstart", (e) => {
+    card.addEventListener("dragstart", e => {
         card.classList.add("dragging");
     });
 
-    card.addEventListener("dragend", (e) => {
+    card.addEventListener("dragend", e => {
         card.classList.remove("dragging");
     });
 }
@@ -119,8 +129,8 @@ overlayContent.forEach(function (content) {
 overlay.addEventListener("click", function (event) {
     if (!event.target.closest(".overlay-content") && !isMouseDownOnOverlayContent) {
         overlay.classList.remove("active-layer");
-        sections.forEach((section) => section.classList.remove("active-section"));
-        navButtons.forEach((button) => button.classList.remove("navbar-active"));
+        sections.forEach(section => section.classList.remove("active-section"));
+        navButtons.forEach(button => button.classList.remove("navbar-active"));
         document.getElementById("home").classList.add("navbar-active");
     }
     isMouseDownOnOverlayContent = false;
@@ -159,7 +169,7 @@ function doUnderline() {
     }
 }
 
-document.querySelector(".drop-box").addEventListener("click", (e) => {
+document.querySelector(".drop-box").addEventListener("click", e => {
     if (e.target.classList.contains("drop-box")) {
         navbar("loadfile");
     }
@@ -186,8 +196,8 @@ editor.addEventListener("input", function () {
 function handleLink(link) {
     document.querySelector(".link-preview").classList.add("active-link-loading", "active-link-preview");
     fetch("/preview/meta?url=" + link)
-        .then((res) => res.json())
-        .then((data) => {
+        .then(res => res.json())
+        .then(data => {
             document.getElementById("preview-title").innerText = data.title || data["og:title"] || getDomainFromUrl(link);
             document.querySelector(".link-preview").style.backgroundImage = `url(${data.image || data["og:image"] || ""})`;
             document.getElementById("preview-link").innerText = data.url || link;
@@ -202,7 +212,7 @@ function removeLink() {
     localStorage.removeItem("link");
 }
 
-document.getElementById("latexInput").addEventListener("input", (e) => {
+document.getElementById("latexInput").addEventListener("input", e => {
     const latex = e.currentTarget.value;
     const latexPreview = document.getElementById("latexPreview");
     latexPreview.src = `https://latex.codecogs.com/svg.latex?${latex}`;
@@ -263,7 +273,7 @@ function createFileElement(file) {
 
 const folderSelection = document.getElementById("folder-selection");
 
-folderSelection.addEventListener("change", (e) => {
+folderSelection.addEventListener("change", e => {
     loadFolder(e.currentTarget.value);
 });
 
@@ -274,8 +284,8 @@ function loadFiles() {
             "Content-Type": "application/json",
         },
     })
-        .then((res) => res.json())
-        .then((data) => {
+        .then(res => res.json())
+        .then(data => {
             data.forEach(addFolder);
             localStorage.setItem("currentFolder", data[0]._id);
             loadFolder(localStorage.getItem("currentFolder"));
@@ -302,10 +312,10 @@ function loadFolder(id) {
             "Content-Type": "application/json",
         },
     })
-        .then((response) => response.json())
-        .then((data) => {
-            document.querySelectorAll(".file-item").forEach((file) => file.remove());
-            data.forEach((file) => {
+        .then(response => response.json())
+        .then(data => {
+            document.querySelectorAll(".file-item").forEach(file => file.remove());
+            data.forEach(file => {
                 const fileElement = createFileElement(file);
                 document.querySelector(".files-items").appendChild(fileElement);
             });
@@ -313,10 +323,10 @@ function loadFolder(id) {
         });
 }
 
-document.getElementById("search-bar").addEventListener("input", (e) => {
+document.getElementById("search-bar").addEventListener("input", e => {
     const search = e.currentTarget.value.toLowerCase();
     const allFiles = document.querySelectorAll(".file-item");
-    allFiles.forEach((file) => {
+    allFiles.forEach(file => {
         const fileName = file.dataset.name.toLowerCase();
         if (fileName.includes(search)) {
             file.style.display = "flex";
