@@ -1,60 +1,59 @@
-
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const AccountSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
         minLength: 2,
-        maxLength: 50
+        maxLength: 50,
     },
     lastname: {
         type: String,
         required: true,
         minLength: 2,
-        maxLength: 50
+        maxLength: 50,
     },
-    mail : {
+    mail: {
         type: String,
         required: true,
-        minLength: 5
-    }, 
+        minLength: 5,
+    },
     password: {
         type: String,
         required: true,
         minLength: 4,
-        default: "default"
+        default: 'default',
     },
     accountType: {
         type: String,
-        required: true
+        required: true,
     },
     isCertified: {
         type: Boolean,
         required: true,
-        default: false
+        default: false,
     },
     isA2FEnabled: {
         type: Boolean,
         required: true,
-        default: false
+        default: false,
     },
     subjects: {
         type: Array,
         required: false,
-        default: []
+        default: [],
     },
     icon: {
         type: String,
         required: false,
-        default: "default"
+        default: 'default',
     },
     notifications: {
         type: Array,
         required: false,
-        default: ['messages']
+        default: ['messages'],
     },
 });
 
-const Account = mongoose.model("Account", AccountSchema);
+const Account = mongoose.model('Account', AccountSchema);
 module.exports = Account;

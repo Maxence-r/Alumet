@@ -114,9 +114,9 @@ body {
     transition: all 0.3s ease-in-out;
 }
 .create-flashcard-container > section {
-    transform: translateX(0%);
-    opacity: 1;
-    z-index: 1;
+    transform: translateX(0%) !important;
+    opacity: 1 !important;
+    z-index: 1 !important;
 }
 .create-flashcard-container > section > h1 {
     font-size: 2rem;

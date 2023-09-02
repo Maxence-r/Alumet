@@ -1,24 +1,22 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const FolderSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 50
+        maxLength: 50,
     },
     owner: {
         type: String,
-        required: true
+        required: true,
     },
     lastUsage: {
         type: Date,
         required: true,
-        default: Date.now()
+        default: Date.now(),
     },
 });
 
-
-
-const Folder = mongoose.model("Folder", FolderSchema);
+const Folder = mongoose.model('Folder', FolderSchema);
 module.exports = Folder;

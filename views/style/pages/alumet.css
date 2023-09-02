@@ -169,6 +169,10 @@ body {
     margin: 0;
 }
 
+.card > .description > .latexImg {
+    height: 20px;
+}
+
 .list > .titleList > img {
     width: 14px;
     margin-left: auto;
@@ -183,12 +187,19 @@ body {
 
 .positions {
     display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.positions > div {
+    display: flex;
     flex-direction: row;
     gap: 10px;
     margin-top: 10px;
 }
 
-.positions > button {
+.positions > button,
+.positions > div > button {
     width: 100%;
 }
 
@@ -228,6 +239,7 @@ body {
 
 .card .title {
     font-size: 1.1rem;
+    word-break: break-word;
     font-weight: 500;
 }
 
@@ -406,11 +418,11 @@ body {
 }
 
 #latexInput {
-    font-family: "Courier New", sans-serif;
+    font-family: 'Courier New', sans-serif;
 }
 
 latex {
-    font-family: "Courier New", sans-serif;
+    font-family: 'Courier New', sans-serif;
     color: #af0000;
     font-weight: 600;
     font-size: 1rem;
@@ -471,7 +483,7 @@ latex {
 
 #title {
     color: #fff;
-    font: bold 10pt "Merriweather Sans", sans-serif;
+    font: bold 10pt 'Merriweather Sans', sans-serif;
     margin: 0.5em 16px 0 16px;
     float: left;
     clear: none;
@@ -479,6 +491,7 @@ latex {
 
 .description {
     font-size: 0.95rem;
+    overflow-y: auto;
     word-break: break-word;
 }
 
@@ -521,7 +534,7 @@ latex {
 }
 
 #editor[placeholder]:empty:focus:before {
-    content: "";
+    content: '';
 }
 
 .post-buttons {

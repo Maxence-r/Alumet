@@ -1,44 +1,46 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const flashcardSchema = mongoose.Schema({
     flashcardSetId: {
         type: String,
-        required: true
+        required: true,
     },
     question: {
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 60
+        maxLength: 60,
     },
     answer: {
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 60
+        maxLength: 60,
     },
     dateCreated: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
-    userDatas: [{
-        userId: String,
-        level: {
-            type: Number,
-            default: 0
+    userDatas: [
+        {
+            userId: String,
+            level: {
+                type: Number,
+                default: 0,
+            },
+            numberOfGood: {
+                type: Number,
+                default: 0,
+            },
+            lastReview: {
+                type: Date,
+            },
+            nextReview: {
+                type: Date,
+            },
         },
-        numberOfGood: {
-            type: Number,
-            default: 0
-        },
-        lastReview: {
-            type: Date,
-        },
-        nextReview: {
-            type: Date,
-        }
-    }],
+    ],
 });
 
-const flashcard = mongoose.model("flashcard", flashcardSchema);
+const flashcard = mongoose.model('flashcard', flashcardSchema);
 module.exports = flashcard;

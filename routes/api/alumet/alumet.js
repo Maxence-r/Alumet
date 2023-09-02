@@ -1,27 +1,27 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const Alumet = require("../../../models/alumet");
-const multer = require("multer");
-const { v4: uuidv4 } = require("uuid");
-const Upload = require("../../../models/upload");
-const { authorizedModules } = require("../../../config.json");
-const mongoose = require("mongoose");
-const validateObjectId = require("../../../middlewares/modelsValidation/validateObjectId");
-const path = require("path");
-const authorize = require("../../../middlewares/authentification/authorize");
-const Account = require("../../../models/account");
-const Wall = require("../../../models/wall");
-const Post = require("../../../models/post");
+const Alumet = require('../../../models/alumet');
+const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');
+const Upload = require('../../../models/upload');
+const { authorizedModules } = require('../../../config.json');
+const mongoose = require('mongoose');
+const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
+const path = require('path');
+const authorize = require('../../../middlewares/authentification/authorize');
+const Account = require('../../../models/account');
+const Wall = require('../../../models/wall');
+const Post = require('../../../models/post');
 
 const storage = multer.diskStorage({
-    destination: "./cdn",
+    destination: './cdn',
     filename: (req, file, cb) => {
         cb(null, uuidv4() + path.extname(file.originalname));
     },
 });
 
 const sanitizeFilename = filename => {
-    return filename.replace(/[^a-zA-Z0-9_.-]/g, "_");
+    return filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
 };
 
 const upload = multer({
@@ -32,17 +32,17 @@ const upload = multer({
     },
     fileFilter: function (req, file, callback) {
         let ext = path.extname(file.originalname);
-        if (ext !== ".png" && ext !== ".jpg" && ext !== ".jpeg") {
-            return callback(new Error("Invalid file format"));
+        if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+            return callback(new Error('Invalid file format'));
         }
         callback(null, true);
     },
 });
 
-router.post("/new/background", authorize("professor"), upload.single("background"), async (req, res) => {
+router.post('/new/background', authorize('professor'), upload.single('background'), async (req, res) => {
     if (req.file) {
         const file = req.file;
-        const ext = file.originalname.split(".").pop();
+        const ext = file.originalname.split('.').pop();
         const sanitizedFilename = sanitizeFilename(file.originalname);
 
         const upload = new Upload({
@@ -61,27 +61,27 @@ router.post("/new/background", authorize("professor"), upload.single("background
         } catch (error) {
             console.log(error);
             res.status(500).json({
-                error: "Failed to save file",
+                error: 'Failed to save file',
             });
         }
     } else {
         res.status(400).json({
-            error: req.fileValidationError ? "Invalid file format" : "Please select a file to upload",
+            error: req.fileValidationError ? 'Invalid file format' : 'Please select a file to upload',
         });
     }
 });
 
-router.patch("/update/:id", authorize("professor"), validateObjectId, async (req, res) => {
+router.patch('/update/:id', authorize('professor'), validateObjectId, async (req, res) => {
     req.body = req.body.body;
     const unauthorizedModules = req.body.modules.filter(module => !authorizedModules.includes(module));
     if (unauthorizedModules.length > 0) {
         return res.status(400).json({
-            error: "Invalid module",
+            error: 'Invalid module',
         });
     }
     if (req.body.background && !mongoose.Types.ObjectId.isValid(req.body.background)) {
         return res.status(400).json({
-            error: "Invalid background",
+            error: 'Invalid background',
         });
     }
     try {
@@ -90,7 +90,7 @@ router.patch("/update/:id", authorize("professor"), validateObjectId, async (req
         });
         if (!alumet) {
             return res.status(404).json({
-                error: "Alumet not found",
+                error: 'Alumet not found',
             });
         }
         if (alumet.owner != req.user.id) {
@@ -104,7 +104,7 @@ router.patch("/update/:id", authorize("professor"), validateObjectId, async (req
                     _id: req.body.background,
                 });
 
-                if (!upload || upload.owner !== req.user.id || (upload.mimetype !== "png" && upload.mimetype !== "jpg" && upload.mimetype !== "jpeg") || upload.filesize > 3 * 1024 * 1024) {
+                if (!upload || upload.owner !== req.user.id || (upload.mimetype !== 'png' && upload.mimetype !== 'jpg' && upload.mimetype !== 'jpeg') || upload.filesize > 3 * 1024 * 1024) {
                     return res.status(404).json({ error: "Upload isn't valid" });
                 }
             }
@@ -129,17 +129,17 @@ router.patch("/update/:id", authorize("professor"), validateObjectId, async (req
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            error: "Failed to update alumet",
+            error: 'Failed to update alumet',
         });
     }
 });
 
-router.get("/", authorize("all"), async (req, res) => {
+router.get('/', authorize(), async (req, res) => {
     try {
         const alumets = await Alumet.find({
             $or: [{ owner: req.user.id }, { participants: { $in: [req.user.id] } }, { collaborators: { $in: [req.user.id] } }],
         })
-            .select("id title lastUsage background")
+            .select('id title lastUsage background')
             .sort({ lastUsage: -1 });
         res.json({
             alumets,
@@ -147,12 +147,12 @@ router.get("/", authorize("all"), async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            error: "Failed to get alumets",
+            error: 'Failed to get alumets',
         });
     }
 });
 
-router.get("/:alumet/content", authorize("alumetPrivate"), validateObjectId, async (req, res) => {
+router.get('/:alumet/content', authorize('alumetPrivate'), validateObjectId, async (req, res) => {
     try {
         const alumet = await Alumet.findOne({
             _id: req.params.alumet,
@@ -203,7 +203,7 @@ router.get("/:alumet/content", authorize("alumetPrivate"), validateObjectId, asy
                     .lean();
             }
             for (let post of posts) {
-                await Account.populate(post, { path: "owner", select: "id name icon lastname accountType isCertified" });
+                await Account.populate(post, { path: 'owner', select: 'id name icon lastname accountType isCertified' });
 
                 if (post.file) {
                     const upload = await Upload.findOne({
@@ -224,19 +224,19 @@ router.get("/:alumet/content", authorize("alumetPrivate"), validateObjectId, asy
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            error: "Failed to get alumet",
+            error: 'Failed to get alumet',
         });
     }
 });
 
-router.get("/info/:id", validateObjectId, async (req, res) => {
+router.get('/info/:id', validateObjectId, async (req, res) => {
     try {
         const alumet = await Alumet.findOne({
             _id: req.params.id,
         });
         if (!alumet) {
             return res.status(404).json({
-                error: "Alumet not found",
+                error: 'Alumet not found',
             });
         }
         if (req.cookies.alumetToken) {
@@ -276,7 +276,7 @@ router.get("/info/:id", validateObjectId, async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: "Failed to get alumet",
+            error: 'Failed to get alumet',
         });
     }
 });

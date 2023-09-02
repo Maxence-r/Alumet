@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const ConversationSchema = mongoose.Schema({
     participants: {
@@ -14,7 +14,7 @@ const ConversationSchema = mongoose.Schema({
     type: {
         type: String,
         required: true,
-        enum: ["group", "private"],
+        enum: ['group', 'private'],
     },
     owner: {
         type: String,
@@ -37,5 +37,5 @@ const ConversationSchema = mongoose.Schema({
     },
 });
 
-const Conversation = mongoose.model("Conversation", ConversationSchema);
+const Conversation = mongoose.model('Conversation', ConversationSchema);
 module.exports = Conversation;

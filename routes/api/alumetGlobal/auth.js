@@ -1,23 +1,23 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const path = require("path");
-const Account = require("../../../models/account");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const A2F = require("../../../models/a2f");
-const { sendMail } = require("../../api/alumetGlobal/mailing");
+const path = require('path');
+const Account = require('../../../models/account');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const A2F = require('../../../models/a2f');
+const { sendMail } = require('../../api/alumetGlobal/mailing');
 
-router.get("/signin", async (req, res) => {
-    if (req.connected) return res.redirect("/dashboard");
-    const filePath = path.join(__dirname, "../../../views/pages/authentification/signin.html");
+router.get('/signin', async (req, res) => {
+    if (req.connected) return res.redirect('/dashboard');
+    const filePath = path.join(__dirname, '../../../views/pages/authentification/signin.html');
     res.sendFile(filePath);
 });
 
-router.get("/u/:id", (req, res) => {
+router.get('/u/:id', (req, res) => {
     Account.findOne({ _id: req.params.id })
-        .then((user) => {
-            if (!user) return res.status(404).json({ error: "Utilisateur non trouvé !" });
+        .then(user => {
+            if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé !' });
             res.status(200).json({
                 name: user.name,
                 lastname: user.lastname,
@@ -26,28 +26,28 @@ router.get("/u/:id", (req, res) => {
                 accountType: user.accountType,
             });
         })
-        .catch((error) => res.status(500).json({ error }));
+        .catch(error => res.status(500).json({ error }));
 });
 
-router.get("/signup", async (req, res) => {
-    if (req.connected) return res.redirect("/dashboard");
-    const filePath = path.join(__dirname, "../views/pages/signup.html");
+router.get('/signup', async (req, res) => {
+    if (req.connected) return res.redirect('/dashboard');
+    const filePath = path.join(__dirname, '../views/pages/signup.html');
     res.sendFile(filePath);
 });
 
-router.get("/logout", async (req, res) => {
-    res.clearCookie("token");
-    res.redirect("/auth/signin");
+router.get('/logout', async (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/auth/signin');
 });
 
-router.get("/info", async (req, res) => {
+router.get('/info', async (req, res) => {
     const token = req.cookies.token;
-    if (!token) return res.redirect("/auth/signin");
+    if (!token) return res.redirect('/auth/signin');
     const decodedToken = jwt.verify(token, process.env.TOKEN.toString());
     const userId = decodedToken.userId;
     Account.findOne({ _id: userId })
-        .then((user) => {
-            if (!user) return res.redirect("/auth/signin");
+        .then(user => {
+            if (!user) return res.redirect('/auth/signin');
             res.status(200).json({
                 lastname: user.lastname,
                 name: user.name,
@@ -59,7 +59,7 @@ router.get("/info", async (req, res) => {
                 isA2FEnabled: user.isA2FEnabled,
             });
         })
-        .catch((error) => res.status(500).json({ error }));
+        .catch(error => res.status(500).json({ error }));
 });
 
 async function sendA2FCode(mail, res) {
@@ -71,7 +71,7 @@ async function sendA2FCode(mail, res) {
         } else {
             const code = Math.floor(Math.random() * 1000000)
                 .toString()
-                .padStart(6, "0");
+                .padStart(6, '0');
             const now = new Date();
             const fifteenMinutesLater = new Date(now.getTime() + 15 * 60 * 1000);
             const a2f = new A2F({
@@ -80,8 +80,8 @@ async function sendA2FCode(mail, res) {
                 expireAt: fifteenMinutesLater,
             });
             await a2f.save();
-            await sendMail(mail, "Code de vérification", `Votre code de vérification est : ${code}`);
-            res.json({ a2f: "Code envoyé par mail!" });
+            await sendMail(mail, 'Code de vérification', `Votre code de vérification est : ${code}`);
+            res.json({ a2f: 'Code envoyé par mail!' });
         }
     } catch (error) {
         console.log(error);
@@ -89,18 +89,18 @@ async function sendA2FCode(mail, res) {
     }
 }
 
-router.post("/signin", async (req, res) => {
+router.post('/signin', async (req, res) => {
     try {
         const user = await Account.findOne({ mail: req.body.mail });
         if (!user) {
             return res.status(401).json({
-                error: "Utilisateur non trouvé !",
+                error: 'Utilisateur non trouvé !',
             });
         }
         const validPassword = await bcrypt.compare(req.body.password, user.password);
         if (!validPassword) {
             return res.status(400).json({
-                error: "Mot de passe incorrect !",
+                error: 'Mot de passe incorrect !',
             });
         }
         if (user.isA2FEnabled) {
@@ -113,11 +113,11 @@ router.post("/signin", async (req, res) => {
                 },
                 process.env.TOKEN.toString(),
                 {
-                    expiresIn: "24h",
+                    expiresIn: '24h',
                 }
             );
-            res.cookie("token", token).status(200).json({
-                message: "Connexion réussie !",
+            res.cookie('token', token).status(200).json({
+                message: 'Connexion réussie !',
             });
         }
     } catch (error) {
@@ -128,7 +128,7 @@ router.post("/signin", async (req, res) => {
     }
 });
 
-router.post("/signup", async (req, res) => {
+router.post('/signup', async (req, res) => {
     const account = new Account({
         name: req.body.name,
         lastname: req.body.lastname,
@@ -146,11 +146,11 @@ router.post("/signup", async (req, res) => {
     }
 });
 
-router.post("/authorize", async (req, res) => {
+router.post('/authorize', async (req, res) => {
     try {
         const a2f = await A2F.findOne({ owner: req.body.mail, code: req.body.code });
         if (!a2f || a2f.expireAt < new Date()) {
-            res.status(400).json({ error: "Code invalide !" });
+            res.status(400).json({ error: 'Code invalide !' });
         } else {
             const user = await Account.findOne({ mail: a2f.owner });
             const token = jwt.sign(
@@ -160,12 +160,12 @@ router.post("/authorize", async (req, res) => {
                 },
                 process.env.TOKEN.toString(),
                 {
-                    expiresIn: "24h",
+                    expiresIn: '24h',
                 }
             );
             await A2F.deleteOne({ owner: a2f.owner });
-            res.cookie("token", token).status(200).json({
-                message: "Connexion réussie !",
+            res.cookie('token', token).status(200).json({
+                message: 'Connexion réussie !',
             });
         }
     } catch (error) {
@@ -174,32 +174,32 @@ router.post("/authorize", async (req, res) => {
     }
 });
 
-router.post("/a2f", async (req, res) => {
+router.post('/a2f', async (req, res) => {
     sendA2FCode(req.user.mail, res);
 });
 
-router.post("/resetpassword", async (req, res) => {
+router.post('/resetpassword', async (req, res) => {
     const user = await Account.findOne({ mail: req.body.mail });
     if (!user) {
         return res.status(401).json({
-            error: "Utilisateur non trouvé !",
+            error: 'Utilisateur non trouvé !',
         });
     }
     sendA2FCode(req.body.mail, res);
 });
 
-router.post("/resetpassword/confirm", async (req, res) => {
+router.post('/resetpassword/confirm', async (req, res) => {
     try {
         const a2f = await A2F.findOne({ owner: req.body.mail, code: req.body.code });
         if (!a2f || a2f.expireAt < new Date()) {
-            res.status(400).json({ error: "Code invalide !" });
+            res.status(400).json({ error: 'Code invalide !' });
         } else {
             const user = await Account.findOne({ mail: a2f.owner });
             const hash = await bcrypt.hash(req.body.password, 10);
             user.password = hash;
             await user.save();
             await A2F.deleteOne({ owner: a2f.owner });
-            res.status(200).json({ message: "Mot de passe modifié !" });
+            res.status(200).json({ message: 'Mot de passe modifié !' });
         }
     } catch (error) {
         console.log(error);

@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Decimal128 } = mongoose.Types;
 
 function randomNumericCode() {
-    let code = "";
+    let code = '';
     for (let i = 0; i < 6; i++) {
         code += Math.floor(Math.random() * 6);
     }
@@ -53,12 +53,12 @@ const AlumetSchema = mongoose.Schema({
     font: {
         type: String,
         required: true,
-        default: "pjs",
+        default: 'pjs',
     },
     background: {
         type: String,
         required: true,
-        default: "644a1e2b71748e4521eba8a3",
+        default: '644a1e2b71748e4521eba8a3',
     },
     customsLinks: {
         type: Array,
@@ -82,5 +82,5 @@ const AlumetSchema = mongoose.Schema({
     },
 });
 
-const Alumet = mongoose.model("Alumet", AlumetSchema);
+const Alumet = mongoose.model('Alumet', AlumetSchema);
 module.exports = Alumet;

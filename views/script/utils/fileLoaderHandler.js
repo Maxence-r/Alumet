@@ -7,8 +7,10 @@ function createFileElement(file) {
     div.dataset.date = file.date.split("T")[0];
     div.setAttribute("onclick", `openDetails('${file._id}')`);
     div.classList.add("file-item");
+
     const subDiv = document.createElement("div");
     subDiv.classList.add("file-name");
+
     const img = document.createElement("img");
     let imgRef = fileIconReference[file.mimetype];
     if (imgRef) {
@@ -19,6 +21,7 @@ function createFileElement(file) {
     }
     div.dataset.imgRef = imgRef;
     img.alt = "file icon";
+
     const h4 = document.createElement("h4");
     const span = document.createElement("span");
     span.innerText = file.displayname.split(".")[0];
@@ -45,10 +48,10 @@ function loadFolder(id) {
             "Content-Type": "application/json",
         },
     })
-        .then((response) => response.json())
-        .then((data) => {
-            document.querySelectorAll(".file-item").forEach((file) => file.remove());
-            data.forEach((file) => {
+        .then(response => response.json())
+        .then(data => {
+            document.querySelectorAll(".file-item").forEach(file => file.remove());
+            data.forEach(file => {
                 const fileElement = createFileElement(file);
                 document.querySelector(".files-items").appendChild(fileElement);
             });
@@ -60,7 +63,7 @@ loadFolder(localStorage.getItem("currentFolder"));
 
 const folderSelection = document.getElementById("folder-selection");
 
-folderSelection.addEventListener("change", (e) => {
+folderSelection.addEventListener("change", e => {
     loadFolder(e.currentTarget.value);
 });
 
@@ -70,8 +73,8 @@ fetch("/cdn/folder/list", {
         "Content-Type": "application/json",
     },
 })
-    .then((res) => res.json())
-    .then((data) => {
+    .then(res => res.json())
+    .then(data => {
         data.forEach(addFolder);
     });
 

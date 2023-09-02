@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const Account = require('../../models/account');
 require('dotenv').config();
 
-
 const authentification = async (req, res, next) => {
     const token = req.cookies.token;
     req.connected = false;
@@ -29,6 +28,5 @@ const authentification = async (req, res, next) => {
         return next();
     }
 };
-
 
 module.exports = authentification;

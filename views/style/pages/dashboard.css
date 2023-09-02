@@ -1013,7 +1013,9 @@ input {
 }
 
 input:focus {
-    border: 2px solid #dbdbdb;
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: #0597ff;
 }
 
 h3 {

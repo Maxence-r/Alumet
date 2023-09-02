@@ -1,18 +1,18 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const Post = require("../../../models/post");
-const validateObjectId = require("../../../middlewares/modelsValidation/validateObjectId");
-const validatePost = require("../../../middlewares/modelsValidation/validatePost");
-const Alumet = require("../../../models/alumet");
-require("dotenv").config();
-const jwt = require("jsonwebtoken");
-const Upload = require("../../../models/upload");
-const notification = require("../../../middlewares/utils/notification");
-const authorize = require("../../../middlewares/authentification/authorize");
-const Wall = require("../../../models/wall");
-const Account = require("../../../models/account");
+const Post = require('../../../models/post');
+const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
+const validatePost = require('../../../middlewares/modelsValidation/validatePost');
+const Alumet = require('../../../models/alumet');
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
+const Upload = require('../../../models/upload');
+const notification = require('../../../middlewares/utils/notification');
+const authorize = require('../../../middlewares/authentification/authorize');
+const Wall = require('../../../models/wall');
+const Account = require('../../../models/account');
 
-router.put("/:alumet/:wall", authorize("alumetParticipants"), validatePost, async (req, res) => {
+router.put('/:alumet/:wall', authorize('alumetParticipants'), validatePost, async (req, res) => {
     const postId = req.body.postId;
     const postFields = {
         title: req.body.title,
@@ -36,8 +36,8 @@ router.put("/:alumet/:wall", authorize("alumetParticipants"), validatePost, asyn
             post = new Post(postFields);
             await post.save();
         }
-        await Account.populate(postFields, { path: "owner", select: "id name icon lastname accountType isCertified" });
-        await Upload.populate(postFields, { path: "file", select: "displayname mimetype" });
+        await Account.populate(postFields, { path: 'owner', select: 'id name icon lastname accountType isCertified' });
+        await Upload.populate(postFields, { path: 'file', select: 'displayname mimetype' });
         postFields._id = post._id;
         res.json(postFields);
     } catch (error) {
@@ -47,23 +47,23 @@ router.put("/:alumet/:wall", authorize("alumetParticipants"), validatePost, asyn
     }
 });
 
-router.put("/move/:alumet/:wall/:post", authorize("alumetAdmins"), async (req, res) => {
+router.put('/move/:alumet/:wall/:post', authorize('alumetAdmins'), async (req, res) => {
     const { position } = req.body;
     try {
         const wall = await Wall.findOne({ _id: req.params.wall });
         if (!wall) {
             return res.status(404).json({
-                error: "Unable to proceed your requests",
+                error: 'Unable to proceed your requests',
             });
         }
         const topPost = await Post.findOne({ wallId: wall._id }).sort({ position: -1 });
         if (!topPost) {
             await Post.findOneAndUpdate({ _id: req.params.post }, { position: 0, wallId: req.params.wall }, { new: true });
-            return res.json({ message: "Success" });
+            return res.json({ message: 'Success' });
         }
         if (position === 0) {
             await Post.findOneAndUpdate({ _id: req.params.post }, { position: topPost.position + 1, wallId: req.params.wall }, { new: true });
-            return res.json({ message: "Success POSITION 0" });
+            return res.json({ message: 'Success POSITION 0' });
         }
         const posts = await Post.find({ wallId: wall._id, _id: { $ne: req.params.post } })
             .sort({ position: -1 })
@@ -73,7 +73,7 @@ router.put("/move/:alumet/:wall/:post", authorize("alumetAdmins"), async (req, r
             await post.save();
         }
         await Post.findOneAndUpdate({ _id: req.params.post }, { position: posts[position - 1].position - 1, wallId: req.params.wall }, { new: true });
-        return res.json({ message: "Success" });
+        return res.json({ message: 'Success' });
     } catch (error) {
         console.error(error);
         res.json({
@@ -82,13 +82,13 @@ router.put("/move/:alumet/:wall/:post", authorize("alumetAdmins"), async (req, r
     }
 });
 
-router.get("/:alumet/:wall", validateObjectId, async (req, res) => {
+router.get('/:alumet/:wall', validateObjectId, async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.alumet);
 
         if (!alumet) {
             return res.status(404).json({
-                error: "Unable to proceed your requests",
+                error: 'Unable to proceed your requests',
             });
         }
 
@@ -121,7 +121,7 @@ router.get("/:alumet/:wall", validateObjectId, async (req, res) => {
                 let editedPost = {
                     ...post._doc,
                 };
-                if (post.ownerType !== "teacher") {
+                if (post.ownerType !== 'teacher') {
                     if (req.cookies.alumetToken === editedPost.owner || req.connected) {
                         editedPost.owning = true;
                     }
@@ -130,7 +130,7 @@ router.get("/:alumet/:wall", validateObjectId, async (req, res) => {
                 } else if (req.connected && alumet.owner === req.user.id) {
                     editedPost.owning = true;
                 }
-                if (post.type === "file") {
+                if (post.type === 'file') {
                     const upload = await Upload.findById(post.typeContent);
 
                     if (upload) {
@@ -145,7 +145,7 @@ router.get("/:alumet/:wall", validateObjectId, async (req, res) => {
                         return editedPost;
                     } else {
                         return {
-                            content: "Ce post est uniquement visible par le professeur",
+                            content: 'Ce post est uniquement visible par le professeur',
                             color: editedPost.color,
                         };
                     }
@@ -161,7 +161,7 @@ router.get("/:alumet/:wall", validateObjectId, async (req, res) => {
     }
 });
 
-router.patch("/:alumet/:wall/:post", validateObjectId, validatePost, notification("A modifié un post"), (req, res) => {
+router.patch('/:alumet/:wall/:post', validateObjectId, validatePost, notification('A modifié un post'), (req, res) => {
     Post.findOneAndUpdate(
         {
             _id: req.params.post,
@@ -189,7 +189,7 @@ router.patch("/:alumet/:wall/:post", validateObjectId, validatePost, notificatio
         );
 });
 
-router.delete("/:alumet/:post", async (req, res) => {
+router.delete('/:alumet/:post', async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.alumet);
         if (!req.connected) {

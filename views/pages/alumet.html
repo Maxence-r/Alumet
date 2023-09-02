@@ -93,8 +93,11 @@
                     </label>
                 </div>
                 <div class="positions">
-                    <button class="large greyed">Déplacer a gauche</button>
-                    <button class="large greyed">Déplacer a droite</button>
+                    <div>
+                        <button onclick="patchWall('left')" class="large greyed">Déplacer a gauche</button>
+                        <button onclick="patchWall('right')" class="large greyed">Déplacer a droite</button>
+                    </div>
+                    <button onclick="patchWall('first')" class="large greyed">Mettre en première position</button>
                 </div>
                 <div class="actions">
                     <button onclick="deleteWall()" class="large reded">Supprimer le mur</button>

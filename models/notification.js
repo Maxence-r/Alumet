@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const NotificationSchema = mongoose.Schema({
     action: {
         type: String,
         required: true,
         minLength: 2,
-        maxLength: 500
+        maxLength: 500,
     },
     owner: {
         type: String,
@@ -19,9 +19,9 @@ const NotificationSchema = mongoose.Schema({
     date: {
         type: Date,
         required: true,
-        default: Date.now
-    }
+        default: Date.now,
+    },
 });
 
-const Notification = mongoose.model("Notification", NotificationSchema);
+const Notification = mongoose.model('Notification', NotificationSchema);
 module.exports = Notification;

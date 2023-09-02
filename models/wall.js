@@ -1,29 +1,27 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const WallSchema = mongoose.Schema({
     title: {
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 150
+        maxLength: 150,
     },
     postAuthorized: {
         type: Boolean,
         required: true,
-        default: false
+        default: false,
     },
     position: {
         type: Number,
         required: true,
-        default: 0
+        default: 0,
     },
     alumetReference: {
         type: String,
         required: true,
-    }
+    },
 });
 
-
-
-const Wall = mongoose.model("Wall", WallSchema);
+const Wall = mongoose.model('Wall', WallSchema);
 module.exports = Wall;

@@ -16,10 +16,8 @@ const alumetItemsAuth = async (req, res, next) => {
         next();
     } catch (err) {
         next(err);
-    } 
+    }
     return null;
 };
-
-
 
 module.exports = alumetItemsAuth;

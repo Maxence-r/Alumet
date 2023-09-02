@@ -1,57 +1,57 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const path = require("path");
-const jwt = require("jsonwebtoken");
-const Alumet = require("../../../models/alumet");
-require("dotenv").config();
-const validateObjectId = require("../../../middlewares/modelsValidation/validateObjectId");
+const path = require('path');
+const jwt = require('jsonwebtoken');
+const Alumet = require('../../../models/alumet');
+require('dotenv').config();
+const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
 
-router.get("/:id", validateObjectId, async (req, res) => {
+router.get('/:id', validateObjectId, async (req, res) => {
     try {
         if (req.connected) {
             const alumet = await Alumet.findOne({
                 _id: req.params.id,
             });
             if (!alumet) {
-                console.log("Alumet not found");
-                return res.redirect("/404");
+                console.log('Alumet not found');
+                return res.redirect('/404');
             }
             if (alumet.participants.includes(req.user.id) || alumet.owner === req.user.id || alumet.collaborators.includes(req.user.id)) {
-                return res.redirect("/a/" + req.params.id);
+                return res.redirect('/a/' + req.params.id);
             }
         }
-        const filePath = path.join(__dirname, "../../../views/pages/authentification/authentication.html");
+        const filePath = path.join(__dirname, '../../../views/pages/authentification/authentication.html');
         return res.sendFile(filePath);
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            error: "Internal Server Error",
+            error: 'Internal Server Error',
         });
     }
 });
 
-router.post("/authorize/:id", validateObjectId, async (req, res) => {
+router.post('/authorize/:id', validateObjectId, async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.id);
         if (!alumet) {
             return res.status(404).json({
-                error: "Alumet not found",
+                error: 'Alumet not found',
             });
         }
         if (alumet.private && req.body.code !== alumet.code) {
             return res.status(401).json({
-                error: "Le code est incorrect",
+                error: 'Le code est incorrect',
             });
         }
         if (alumet.participants.includes(req.user.id)) {
             return res.status(400).json({
-                error: "User is already a participant",
+                error: 'User is already a participant',
             });
         }
         alumet.participants.push(req.user.id);
         await alumet.save();
         res.status(200).json({
-            message: "Alumet joined",
+            message: 'Alumet joined',
         });
     } catch (error) {
         res.status(500).json({

@@ -3,7 +3,6 @@ const router = express.Router();
 const Notification = require('../../../models/notification');
 const Alumet = require('../../../models/alumet');
 
-
 router.get('/', async (req, res) => {
     if (!req.connected) return res.status(401).json({ error: 'Not connected' });
     try {
@@ -24,9 +23,7 @@ router.get('/', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.json({ error });
-    } 
+    }
 });
-
-
 
 module.exports = router;

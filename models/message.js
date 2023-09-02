@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const MessageSchema = mongoose.Schema({
     sender: {
@@ -9,23 +9,23 @@ const MessageSchema = mongoose.Schema({
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 2000
+        maxLength: 2000,
     },
     createdAt: {
         type: Date,
         required: true,
-        default: Date.now
+        default: Date.now,
     },
-    reference : {
+    reference: {
         type: String,
-        required: true
+        required: true,
     },
     isReaded: {
         type: Boolean,
         required: true,
-        default: false
-    }
+        default: false,
+    },
 });
 
-const Message = mongoose.model("Message", MessageSchema);
+const Message = mongoose.model('Message', MessageSchema);
 module.exports = Message;
