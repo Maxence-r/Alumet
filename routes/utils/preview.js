@@ -24,6 +24,7 @@ router.get('/meta', (req, res) => {
 
 router.get('/', async (req, res) => {
     const upload = await Upload.findOne({ _id: req.query.id });
+    console.log(upload);
     if (!upload) {
         res.sendFile('unknow.png', { root: './views/assets/preview' });
     } else {

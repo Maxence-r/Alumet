@@ -26,14 +26,12 @@ function openDetails(id) {
     document.querySelector('.file-info').classList.remove('no-selected-file');
     document.querySelector('.file-basic-info > img').src = file.dataset.imgRef;
     document.querySelector('.file-basic-info > img').alt = 'file icon';
-    const endpoint = endpointReference[file.dataset.ext];
-    if (endpoint) {
-        document.querySelector('.file-preview > img').src = `${endpoint.replace('*', id)}`;
-    } else {
-        document.querySelector('.file-preview > img').src = '../assets/files-icons/not-supported.png';
-    }
+    document.querySelector('.file-preview').classList.add('loading-fp');
+    document.querySelector('.file-preview > img').src = `/preview?id=${id}`;
+    document.querySelector('.file-preview > img').onload = () => {
+        document.querySelector('.file-preview').classList.remove('loading-fp');
+    };
     document.querySelector('.file-preview > img').alt = 'file preview';
-    setPictureOnError(document.querySelector('.file-preview > img'), 'file');
     document.querySelector('.right-container').classList.add('active-sub-container');
 }
 

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="../assets/global/alumet.ico" />
+        <meta name="description" content="Alumet: La flamme de l’innovation au service de l’éducation." />
+        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers" />
+        <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation." />
+        <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://alumet.io" />
+        <meta property="og:image" content="https://i.imgur.com/WZO8U8s.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:domain" content="alumet.io" />
+        <meta name="twitter:url" content="https://alumet.io/" />
+        <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes." />
+        <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !" />
+        <meta name="twitter:image" content="https://i.imgur.com/WZO8U8s.png" />
+        <link href="../style/pages/viewer.css" rel="stylesheet" type="text/css" />
+        <link href="../style/global.css" rel="stylesheet" type="text/css" />
+
+        <title>Alumet</title>
+    </head>
+    <body>
+        <section style="display: flex" class="loading">
+            <span class="loader-upload"></span>
+        </section>
+        <div id="toast"></div>
+        <div class="stream-info">
+            <span class="loader-bar"></span>
+            <h1>Fichier introuvable</h1>
+            <h3>Le fichier que vous tentez d'ouvrir n'existe plus, cette page vas être automatiquement fermé.</h3>
+        </div>
+
+        <div class="file-viewer">
+            <div class="main-container">
+                <div class="full-screen-infos">
+                    <span class="loader-bar"></span>
+                    <h3>Ouverture du fichier</h3>
+                </div>
+                <div id="default" style="display: none" class="full-screen-infos">
+                    <h3>Le ficher ne peut pas être ouvert en ligne</h3>
+                    <button class="large" id="download-file">Télécharger</button>
+                </div>
+            </div>
+            <div class="sub-container active-infos">
+                <h2>Informations</h2>
+                <div class="divider"></div>
+                <h3>Nom du ficher</h3>
+                <p id="file-name"></p>
+                <h3>Propriétaire</h3>
+                <p id="file-owner"></p>
+                <h3>Création</h3>
+                <p id="file-creation"></p>
+                <h3>Taille du fichier</h3>
+                <p id="file-size"></p>
+                <div class="actions-column">
+                    <button class="large" id="download-file">Télécharger</button>
+                    <button class="large reded" id="delete-file">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="../script/global.js"></script>
+    <script src="../script/utils/viewer.js"></script>
+</html>

@@ -185,6 +185,7 @@ function createTaskList(post) {
 
     if (post.file) {
         const filePreview = document.createElement('div');
+        filePreview.setAttribute('onclick', `window.open("/viewer/${post.file._id}")`);
         filePreview.style.backgroundImage = `url("/preview?id=${post.file._id}")`;
         filePreview.classList.add('post-rich-content');
         const filePreviewTitle = document.createElement('h2');

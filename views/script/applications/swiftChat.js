@@ -56,6 +56,7 @@ const createConversationElement = conversation => {
     infosElement.appendChild(messageElement);
 
     const pingElement = document.createElement('div');
+    pingElement.classList.add('ping-conv');
     infosElement.appendChild(pingElement);
 
     if (!isReaded) {

@@ -739,10 +739,24 @@ h2 {
 }
 
 .file-preview {
+    display: flex;
     width: calc(100% - 2px);
     height: 40%;
     border: 1px solid #f3f3f3;
     border-radius: 10px 10px 0 0;
+}
+
+.filePreview-loading {
+    display: none;
+}
+
+.loading-fp > .filePreview-loading {
+    display: flex;
+    margin: auto;
+}
+
+.loading-fp > img {
+    display: none;
 }
 
 .file-basic-info {
@@ -1008,13 +1022,12 @@ input {
     border-radius: 10px;
     padding: 0 20px;
     outline: none;
-    transition: all 0.3s ease-in-out;
     font-size: 0.9em;
 }
 
 input:focus {
     outline-style: solid;
-    outline-width: 2px;
+    outline-width: 1px;
     outline-color: #0597ff;
 }
 

@@ -1,0 +1,200 @@
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: #f6f8fc;
+    padding: 20px;
+    gap: 20px;
+    margin: 0;
+    overflow: hidden;
+}
+
+html,
+body {
+    height: calc(100% - 20px);
+    min-height: calc(100% - 20px);
+}
+
+h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #000000;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #656565;
+    margin-bottom: 10px;
+}
+
+.file-viewer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+.main-container {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.main-container > img {
+    width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.full-screen-infos {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+.full-screen-infos > .loader-bar {
+    width: 50%;
+    border-radius: 10px;
+}
+
+.full-screen-infos > h3 {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 20px;
+    color: #1a1a1a;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-left: auto;
+}
+
+.actions > img {
+    width: 22px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.actions > img:hover {
+    transform: scale(0.95);
+}
+
+iframe {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.sub-container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    padding: 20px;
+    height: calc(100% - 40px);
+    width: calc(100% - 40px);
+    background-color: white;
+    max-width: 350px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.actions-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.actions > button {
+    width: 100%;
+}
+
+.sub-container > h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin: 0;
+    color: #000000;
+}
+
+.divider {
+    width: 100%;
+    min-height: 2px;
+    margin: 10px 0;
+    background-color: #e6e6e6;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+audio {
+    width: 90%;
+    margin: auto;
+}
+
+#download-file {
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 1000px) {
+    body {
+        padding: 10px;
+        gap: 10px;
+        height: 100%;
+        flex-direction: column;
+    }
+    .full-screen-infos > .loader-bar {
+        width: 70%;
+    }
+    .file-viewer {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .main-container {
+        height: calc(95% - 40px);
+        transition: all 0.5s ease-in-out;
+    }
+    .sub-container {
+        height: 40px;
+        max-width: calc(100% - 40px);
+        height: 5%;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .active-infos > .main-container {
+        width: 100%;
+        height: 50%;
+    }
+
+    .active-infos > .sub-container {
+        height: calc(50% - 40px);
+        overflow: auto;
+    }
+}

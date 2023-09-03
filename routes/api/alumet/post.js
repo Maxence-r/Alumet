@@ -63,7 +63,7 @@ router.put('/move/:alumet/:wall/:post', authorize('alumetAdmins'), async (req, r
         }
         if (position === 0) {
             await Post.findOneAndUpdate({ _id: req.params.post }, { position: topPost.position + 1, wallId: req.params.wall }, { new: true });
-            return res.json({ message: 'Success POSITION 0' });
+            return res.json({ message: 'Success' });
         }
         const posts = await Post.find({ wallId: wall._id, _id: { $ne: req.params.post } })
             .sort({ position: -1 })

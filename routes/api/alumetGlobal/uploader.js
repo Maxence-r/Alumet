@@ -11,6 +11,7 @@ const { supportedTemplate } = require('../../../config.json');
 const Post = require('../../../models/post');
 const Folder = require('../../../models/folder');
 const authorize = require('../../../middlewares/authentification/authorize');
+const Account = require('../../../models/account');
 
 // Creating Functions
 
@@ -238,38 +239,6 @@ const upload = multer({
     },
 });
 
-router.post('/upload/guest', upload.single('file'), (req, res) => {
-    if (!req.auth)
-        return res.status(401).json({
-            error: "Vous n'avez pas les permissions pour effectuer cette action !",
-        });
-    if (req.file) {
-        const file = req.file;
-        const ext = file.originalname.split('.').pop();
-        const sanitizedFilename = sanitizeFilename(file.originalname);
-        const upload = new Upload({
-            filename: file.filename,
-            displayname: sanitizedFilename,
-            mimetype: ext.toLowerCase(),
-            filesize: file.size,
-            owner: req.cookies.alumetToken,
-            date: Date.now(),
-        });
-        upload
-            .save()
-            .then(file => res.json({ file: file }))
-            .catch(error => console.log(error));
-    } else {
-        if (req.fileValidationError) {
-            res.status(400).json({ error: req.fileValidationError });
-        } else {
-            res.status(400).json({
-                error: 'Please select a file to upload',
-            });
-        }
-    }
-});
-
 router.patch('/update/:id', validateObjectId, (req, res) => {
     if (req.connected === false)
         return res.status(401).json({
@@ -359,25 +328,25 @@ router.post('/upload/:id', authorize('professor'), validateObjectId, accountUplo
 });
 
 router.get('/info/:id', validateObjectId, (req, res) => {
-    Upload.find({ _id: req.params.id })
+    Upload.findOne({ _id: req.params.id })
         .then(upload => {
             if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
-            response = upload[0];
-            res.json({ response });
+            Account.findOne({ _id: upload.owner })
+                .select('name lastname isCertified accountType')
+                .then(account => {
+                    if (!account) return res.status(404).json({ error: 'Compte non trouvé' });
+                    res.json({ upload, account });
+                })
+                .catch(error => res.json({ error }));
         })
         .catch(error => res.json({ error }));
 });
 
-router.delete('/:id', validateObjectId, async (req, res) => {
+router.delete('/:id', authorize(), validateObjectId, async (req, res) => {
     try {
         const upload = await Upload.find({ _id: req.params.id });
         if (!upload[0]) {
             return res.status(404).json({ error: 'Fichier non trouvé' });
-        }
-        if (req.connected === false) {
-            return res.status(401).json({
-                error: "Vous n'avez pas les permissions pour effectuer cette action !",
-            });
         }
         if (!upload[0].modifiable) {
             return res.status(401).json({

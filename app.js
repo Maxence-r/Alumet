@@ -14,6 +14,7 @@ const auth = require('./routes/api/alumetGlobal/auth');
 const portal = require('./routes/api/alumetGlobal/portal');
 const alumetRender = require('./routes/routing/alumet');
 const preview = require('./routes/utils/preview');
+const viewer = require('./routes/utils/viewer');
 
 const homeworks = require('./routes/applications/eduTasker');
 const board = require('./routes/applications/ideaFlow');
@@ -61,6 +62,7 @@ app.use('/swiftChat', swiftChat);
 app.use('/mindFlash', mindFlash);
 
 app.use('/preview', preview);
+app.use('/viewer', viewer);
 
 app.use('/cdn', uploader);
 app.use('/preview', preview);

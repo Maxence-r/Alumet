@@ -63,48 +63,6 @@ body {
     height: 100%;
 }
 
-.stream-info {
-    position: absolute;
-    width: calc(100% - 40px);
-    height: calc(100% - 40px);
-    padding: 20px;
-    top: 0;
-    left: 0;
-    background-color: #d93025;
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    justify-content: end;
-    overflow: hidden;
-    z-index: 1000;
-}
-
-.stream-info > .loader-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #d93025;
-}
-
-.stream-info > .loader-bar::after {
-    animation-duration: 3s !important;
-    background: white;
-}
-
-.stream-info > h1 {
-    font-size: 3rem;
-    color: white;
-    font-weight: 600;
-    margin: 0;
-}
-
-.stream-info > h3 {
-    font-size: 1.2rem;
-    color: white;
-    font-weight: 400;
-    margin: 0;
-}
-
 #profile {
     margin-top: auto;
     margin-bottom: 15px;
@@ -139,6 +97,10 @@ body {
 #wall {
     height: 43px;
     min-width: 250px;
+}
+
+.send-actions {
+    margin-left: auto;
 }
 
 .add:hover {
