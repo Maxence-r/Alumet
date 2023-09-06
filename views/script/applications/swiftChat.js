@@ -369,34 +369,6 @@ function openConversation(id) {
         .catch(error => console.error(error));
 }
 
-function findOrCreateConversation() {
-    let participantId = localStorage.getItem('popupParticipantId');
-    fetch(`/swiftChat/findOrCreate/${participantId}`)
-        .then(response => response.json())
-        .then(async json => {
-            if (json.error)
-                return toast({
-                    title: 'Erreur',
-                    message: `${json.error}`,
-                    type: 'error',
-                    duration: 2500,
-                });
-            if (json.conversationId === null) {
-                return toast({
-                    title: 'Aucune conversation',
-                    message: "Vous n'avez aucune conversation avec cet utilisateur, creez-en une pour commencer à discuter",
-                    type: 'warning',
-                    duration: 2500,
-                });
-            } else {
-                document.querySelector('.context-menu').classList.remove('active-context');
-                closeConversation();
-                openConversation(json.conversationId);
-            }
-        })
-        .catch(error => console.error(error));
-}
-
 async function promoteOwnerPrompt() {
     createPrompt({
         head: 'Promouvoir cet utilisateur propriétaire',
@@ -625,7 +597,7 @@ function createMessageElement(message, user) {
 
     if (user.isCertified) {
         const certifiedElement = document.createElement('img');
-        certifiedElement.src = `../assets/global/${user.accountType}-certified.svg`;
+        certifiedElement.src = `../assets/badges/certified/${user.accountType}-certified.svg`;
         certifiedElement.alt = 'certified icon';
         userNameElement.appendChild(certifiedElement);
     }

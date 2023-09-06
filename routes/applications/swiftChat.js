@@ -6,7 +6,6 @@ const validateConversation = require('../../middlewares/modelsValidation/validat
 const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
 const Message = require('../../models/message');
 const Account = require('../../models/account');
-const Upload = require('../../models/upload');
 
 router.post('/create', validateConversation, async (req, res) => {
     const { participants, name, icon } = req.body;
@@ -188,7 +187,7 @@ router.get('/:conversation', async (req, res) => {
                 const conversationIcon = conversation.icon;
 
                 const messagePromises = messages.map(async message => {
-                    const user = await Account.findOne({ _id: message.sender }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1 });
+                    const user = await Account.findOne({ _id: message.sender }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1, badges: 1 });
                     return { message, user };
                 });
 
@@ -217,42 +216,6 @@ router.get('/:conversation', async (req, res) => {
         console.error(error);
         res.json({ error });
     }
-});
-
-router.post('/:conversation/userRole/:user', async (req, res) => {
-    const { conversation, user } = req.params;
-    const conversationObj = await Conversation.findOne({ _id: conversation, participants: req.user.id });
-    if (!conversationObj) return res.status(404).json({ error: 'Aucune conversation trouvée' });
-    if (!conversationObj.participants.includes(req.user.id)) {
-        return res.status(401).json({ error: "Vous n'êtes pas authorisé à faire cela" });
-    }
-    if (conversationObj.owner === user) {
-        return res.json({ role: 'owner' });
-    }
-    if (conversationObj.administrators.includes(user)) {
-        return res.json({ role: 'administrator' });
-    }
-    return res.json({ role: 'member' });
-});
-
-router.get('/findOrCreate/:user', async (req, res) => {
-    const { user } = req.params;
-    const userId = req.user._id.toString();
-    if (user === userId) {
-        return res.status(400).json({ error: 'Vous ne pouvez pas créer une conversation avec vous même !' });
-    }
-    const participants = [userId, user];
-    const existingConversation = await Conversation.findOne({
-        participants: {
-            $size: 2,
-            $all: participants,
-        },
-        type: 'private',
-    });
-    if (existingConversation) {
-        return res.json({ conversationId: existingConversation._id });
-    }
-    return res.json({ conversationId: null });
 });
 
 router.post('/:conversation/promoteOwner/:userId', async (req, res) => {
@@ -408,7 +371,7 @@ router.post('/send', async (req, res) => {
     const reference = conversationId;
     const isReaded = false;
     const newMessage = new Message({ sender, content: message, reference, isReaded });
-    const user = await Account.findOne({ _id: sender }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1 });
+    const user = await Account.findOne({ _id: sender }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1, badges: 1 });
     newMessage
         .save()
         .then(message => {

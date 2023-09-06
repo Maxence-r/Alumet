@@ -45,6 +45,7 @@ function loadViewer(mimetype, id) {
         case 'mp4':
         case 'webm':
         case 'ogg':
+        case 'mov':
             const video = document.createElement('video');
             video.src = '/cdn/u/' + id;
             video.controls = true;

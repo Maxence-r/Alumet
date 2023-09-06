@@ -14,10 +14,13 @@ let changePasswordBtn = document.getElementById('changePasswordBtn');
 let toggleA2FBtn = document.getElementById('toggleA2FBtn');
 let deleteAccountBtn = document.getElementById('deleteAccountBtn');
 
+let welcomeUsername = document.getElementById('username');
 /** Get the user informations and display them*/
 function updateInfos(userInfos) {
+    console.log(userInfos);
     userName.innerText = userInfos.name + ' ' + userInfos.lastname;
     userMail.innerText = userInfos.mail;
+    welcomeUsername.innerText = userInfos.name;
     userIcon.src = '/cdn/u/' + userInfos.icon;
     userIcon.alt = 'user icon';
     setPictureOnError(userIcon, 'user');
@@ -25,6 +28,13 @@ function updateInfos(userInfos) {
     userLastNameInput.value = userInfos.lastname;
     userMailInput.value = userInfos.mail;
     toggleA2FBtn.innerText = userInfos.isA2FEnabled ? 'Désactiver la verification par mail' : 'Activer la verification par mail';
+    if (userInfos.isCertified) {
+        const certified = document.createElement('img');
+        certified.src = `/assets/badges/certified/${userInfos.accountType}-certified.svg`;
+        certified.title = 'Compte ' + userInfos.accountType + ' certifié';
+        certified.classList.add('badge');
+        userName.appendChild(certified);
+    }
 }
 
 getMyInfos()

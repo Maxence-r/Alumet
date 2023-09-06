@@ -332,7 +332,7 @@ router.get('/info/:id', validateObjectId, (req, res) => {
         .then(upload => {
             if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
             Account.findOne({ _id: upload.owner })
-                .select('name lastname isCertified accountType')
+                .select('name lastname isCertified accountType badges')
                 .then(account => {
                     if (!account) return res.status(404).json({ error: 'Compte non trouvé' });
                     res.json({ upload, account });

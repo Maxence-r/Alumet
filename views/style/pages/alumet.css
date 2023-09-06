@@ -213,8 +213,8 @@ body {
     font-size: 0.8rem;
 }
 
-.certified {
-    width: 13px;
+.badge {
+    width: 14px;
 }
 
 .card:hover .author .edit {

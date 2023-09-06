@@ -203,7 +203,7 @@ router.get('/:alumet/content', authorize('alumetPrivate'), validateObjectId, asy
                     .lean();
             }
             for (let post of posts) {
-                await Account.populate(post, { path: 'owner', select: 'id name icon lastname accountType isCertified' });
+                await Account.populate(post, { path: 'owner', select: 'id name icon lastname accountType isCertified badges' });
 
                 if (post.file) {
                     const upload = await Upload.findOne({

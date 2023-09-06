@@ -44,13 +44,7 @@ router.put('/:alumet', validateObjectId, authorize('alumetAdmins'), (req, res) =
     }
 });
 
-router.patch('/:alumet/:wall/move', validateObjectId, alumetItemsAuth, (req, res) => {
-    if (!req.connected || req.alumetObj.owner.toString() !== req.user.id) {
-        return res.status(401).json({
-            error: "Vous n'avez pas les permissions pour effectuer cette action !",
-        });
-    }
-
+router.patch('/:alumet/:wall/move', validateObjectId, authorize('alumetAdmins'), (req, res) => {
     const { direction } = req.query;
     const { wall } = req.params;
 

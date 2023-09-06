@@ -39,11 +39,6 @@
     margin: 0;
 }
 
-.sub-infos > h4 > img {
-    width: 16px;
-    margin-left: 3px;
-}
-
 .sub-infos > p {
     font-size: 0.8rem;
     color: #9ea1a7;
@@ -79,7 +74,7 @@
     overflow-y: auto;
 }
 
-.body > .group-infos {
+.group-infos {
     display: flex;
     flex-direction: row;
     align-items: center;

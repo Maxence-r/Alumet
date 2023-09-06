@@ -70,7 +70,6 @@ function patchWall(position) {
                 navbar('home');
             }, 1000);
             const wall = document.querySelector(`.list[data-id="${data._id}"]`);
-            wall.dataset.position = data.position;
         });
 }
 
@@ -168,11 +167,21 @@ function createTaskList(post) {
     author.textContent = post.owner.name + ' ' + post.owner.lastname;
     if (post.owner.isCertified) {
         const certified = document.createElement('img');
-        certified.src = `/assets/global/${post.owner.accountType}-certified.svg`;
+        certified.src = `/assets/badges/certified/${post.owner.accountType}-certified.svg`;
         certified.title = 'Compte ' + post.owner.accountType + ' certifié';
-        certified.classList.add('certified');
+        certified.classList.add('badge');
         certified.setAttribute('draggable', false);
         author.appendChild(certified);
+    }
+    if (post.owner.badges) {
+        post.owner.badges.forEach(badge => {
+            const badgeImg = document.createElement('img');
+            badgeImg.src = `/assets/badges/specials/${badge}.svg`;
+            badgeImg.title = badge;
+            badgeImg.classList.add('badge');
+            badgeImg.setAttribute('draggable', false);
+            author.appendChild(badgeImg);
+        });
     }
     if (alumet.admin || alumet.user_infos?.id === post.owner._id) {
         const editButton = document.createElement('img');

@@ -57,6 +57,7 @@ router.get('/info', async (req, res) => {
                 icon: user.icon,
                 isCertified: user.isCertified,
                 isA2FEnabled: user.isA2FEnabled,
+                badges: user.badges,
             });
         })
         .catch(error => res.status(500).json({ error }));

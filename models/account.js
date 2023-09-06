@@ -53,6 +53,11 @@ const AccountSchema = mongoose.Schema({
         required: false,
         default: ['messages'],
     },
+    badges: {
+        type: Array,
+        required: true,
+        default: [],
+    },
 });
 
 const Account = mongoose.model('Account', AccountSchema);

@@ -24,7 +24,7 @@
         <title>Alumet - Tableau de bord</title>
     </head>
     <body>
-        <section class="loading">
+        <section style="display: flex" class="loading">
             <span class="loader-upload"></span>
         </section>
         <div id="toast"></div>
@@ -52,7 +52,7 @@
             <section class="home active-section">
                 <div class="main-container">
                     <!--- <div class="warning-box">Attention : Cette version n'est pas représentative du produit final et est sujette à de nombreux changements. Elle comporte également des bugs. Merci de nous laisser vos retours d'amélioration.</div> =-->
-                    <h1 class="welcomer">Bonjour, <span id="username">Gabriel</span></h1>
+                    <h1 class="welcomer">Bonjour, <span id="username">prénom</span></h1>
                     <div class="items-container">
                         <div class="items-container-header">
                             <div>
@@ -345,7 +345,7 @@
                         <div class="conversation-body"></div>
                         <div class="conversation-footer"><input autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message" /> <img id="send-text" src="../assets/global/send.svg" alt="send icon" /></div>
                     </div>
-                    <div class="sub-container conversation-settings">
+                    <div class="conversation-settings">
                         <div class="header">
                             <h2>Paramètres de la conversation</h2>
                             <button onclick="document.querySelector('.showing-group-settings').classList.remove('showing-group-settings'), document.querySelector('.context-menu').classList.remove('active-context')" class="large greyed">
@@ -353,8 +353,7 @@
                             </button>
                         </div>
                         <div class="divider"></div>
-
-                        <div class="body">
+                        <div class="group">
                             <div class="group-infos">
                                 <div>
                                     <img id="group-profile-picture" src="../assets/global/default_group.png" alt="file icon" />
@@ -370,17 +369,19 @@
                                     <button onclick="document.querySelector('.context-menu').classList.remove('active-context')" class="large greyed">Fermer</button>
                                 </div>
                                 <div class="divider"></div>
-                                <button onclick="findOrCreateConversation()" class="large">Envoyer un message</button>
-                                <button onclick="promoteAdmin()" class="large greyed">Promouvoir administrateur</button>
+                                <button onclick="promoteAdmin()" class="large">Promouvoir administrateur</button>
                                 <button onclick="demoteAdmin()" class="large greyed">Retrograder administrateur</button>
                                 <button onclick="promoteOwnerPrompt()" class="large greyed">Transferer la proprieté</button>
                                 <button onclick="removeUser()" class="large reded">Expulser du groupe</button>
                             </div>
+
+                            <div class="group-participants-container">
+                                <h3>Participants</h3>
+                                <div class="participants-list"></div>
+                            </div>
                         </div>
-                        <div class="group-participants-container">
-                            <h3>Participants</h3>
-                            <div class="participants-list"></div>
-                        </div>
+                        <div class="private">Yes</div>
+                        <div class="alumet">No</div>
                     </div>
                 </div>
             </section>

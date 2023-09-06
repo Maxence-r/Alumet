@@ -1,13 +1,13 @@
-const http = require("http");
-const app = require("./app");
+const http = require('http');
+const app = require('./app');
 const server = http.createServer(app);
-const io = require("socket.io")(server);
-const Conversation = require("./models/conversation");
-const Account = require("./models/account");
-const Message = require("./models/message");
+const io = require('socket.io')(server);
+const Conversation = require('./models/conversation');
+const Account = require('./models/account');
+const Message = require('./models/message');
 
-io.on("connection", socket => {
-    socket.on("joinRoom", async (conversationId, userId) => {
+io.on('connection', socket => {
+    socket.on('joinRoom', async (conversationId, userId) => {
         try {
             const conversation = await Conversation.findOne({ _id: conversationId, participants: userId });
             if (!conversation) {
@@ -20,21 +20,21 @@ io.on("connection", socket => {
         }
     });
 
-    socket.on("leaveRoom", conversationId => {
+    socket.on('leaveRoom', conversationId => {
         socket.leave(conversationId);
     });
 
-    socket.on("message", async (conversationId, messageId, userId) => {
+    socket.on('message', async (conversationId, messageId, userId) => {
         try {
             const conversation = await Conversation.findOne({ _id: conversationId });
             if (!conversation) {
                 console.log(`User ${socket.id} attempted to send message to unauthorized room ${conversationId}`);
                 return;
             }
-            const user = await Account.findOne({ _id: userId }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1 });
+            const user = await Account.findOne({ _id: userId }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1, badges: 1 });
             const message = await Message.findOne({ _id: messageId });
             const messageObject = { message, user };
-            io.to(conversationId).emit("message", messageObject);
+            io.to(conversationId).emit('message', messageObject);
         } catch (error) {
             console.error(error);
         }
@@ -52,32 +52,32 @@ const normalizePort = val => {
     }
     return false;
 };
-const port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
 const errorHandler = error => {
-    if (error.syscall !== "listen") {
+    if (error.syscall !== 'listen') {
         throw error;
     }
     const address = server.address();
-    const bind = typeof address === "string" ? "pipe " + address : "port: " + port;
+    const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
     switch (error.code) {
-        case "EACCES":
-            console.error(bind + " requires elevated privileges.");
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges.');
             process.exit(1);
-        case "EADDRINUSE":
-            console.error(bind + " is already in use.");
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use.');
             process.exit(1);
         default:
             throw error;
     }
 };
 
-server.on("error", errorHandler);
-server.on("listening", () => {
+server.on('error', errorHandler);
+server.on('listening', () => {
     const address = server.address();
-    const bind = typeof address === "string" ? "pipe " + address : "port " + port;
-    console.log("Serveur prêt sur le port: " + bind);
+    const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
+    console.log('Serveur prêt sur le port: ' + bind);
 });
 
 server.listen(port);
