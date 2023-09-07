@@ -359,7 +359,7 @@ router.delete('/:id', authorize(), validateObjectId, async (req, res) => {
             });
         }
         await upload[0].deleteOne();
-        await Post.deleteMany({ typeContent: req.params.id });
+        await Post.deleteMany({ file: req.params.id });
         fs.unlink(`./cdn/${upload[0].filename}`, err => {
             if (err) {
                 console.error(err);

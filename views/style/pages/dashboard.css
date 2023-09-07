@@ -19,6 +19,29 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
+.group > .group-content {
+    display: flex;
+}
+
+.private > .private-content {
+    display: flex;
+}
+
+.alumet > .alumet-content {
+    display: flex;
+}
+
+.group-content,
+.private-content,
+.alumet-content {
+    display: none;
+}
+
+.conversation-settings > .group-content,
+.conversation-settings > .private-content,
+.conversation-settings > .alumet-content {
+    flex-direction: column;
+}
 .pinged > .ping {
     display: block;
 }

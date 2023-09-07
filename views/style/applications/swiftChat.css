@@ -67,13 +67,6 @@
     margin-right: 6px;
 }
 
-.conversation-settings > .body {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    overflow-y: auto;
-}
-
 .group-infos {
     display: flex;
     flex-direction: row;

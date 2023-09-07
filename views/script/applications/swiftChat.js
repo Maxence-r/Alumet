@@ -357,6 +357,8 @@ function openConversation(id) {
             const participants = json.participants;
             const conversationName = json.conversationName;
             const conversationIcon = json.conversationIcon;
+            document.querySelector('.conversation-settings').classList.remove('private', 'group', 'alumet');
+            document.querySelector('.conversation-settings').classList.add(`${json.conversationType}`);
             if (json.conversationType != 'private') {
                 createConversationParametersElement(conversationName, conversationIcon, participants, json.role);
             } else {
