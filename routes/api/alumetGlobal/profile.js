@@ -51,7 +51,6 @@ router.put('/updateinfos', validateUpdateInfos, async (req, res) => {
         }
         user.name = name;
         user.lastname = lastname;
-        user.mail = mail;
         await user.save();
         res.status(200).json({ message: 'Informations modifiées avec succès !' });
     } catch (err) {
