@@ -36,7 +36,6 @@ const UploadSchema = mongoose.Schema({
     },
     folder: {
         type: String,
-        default: 'root',
         minLength: 1,
     },
 });

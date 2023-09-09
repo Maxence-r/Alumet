@@ -33,6 +33,7 @@
             <h1>Déconnecté</h1>
             <h3>Vous avez été déconnecté des serveurs d'Alumet, nous essayons de vous y reconnecter.</h3>
         </div>
+        <pre id="content" style="white-space: pre-wrap"></pre>
         <div id="toast"></div>
         <div class="alumet">
             <div class="alumet-content">
@@ -51,6 +52,10 @@
                     <h3>Le fichier est sur votre appareil ?</h3>
                     <button id="load-post-file" class="large greyed">Charger le fichier</button>
                     <input type="file" style="display: none" id="post-file" />
+                </div>
+                <div onclick="handleAuthClick()" class="g_drive">
+                    <img src="../assets/global/g_drive.png" />
+                    <div>BETA</div>
                 </div>
                 <select name="folder" id="folder-selection" class="connected"></select>
                 <div class="files-header">
@@ -217,4 +222,8 @@
     <script src="../script/alumet/contentManager.js"></script>
 
     <script src="../../script/global.js"></script>
+
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <script src="../script/alumet/g_drive.js"></script>
 </html>

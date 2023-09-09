@@ -39,14 +39,12 @@ const uploadAndSaveToDb =
             return res.status(400).json({ error: `File type not allowed. Allowed types are: ${allowedExtensions.join(', ')}.` });
         }
         try {
-            const folder = await Folder.findOne({ name: 'system' });
             const upload = new Upload({
                 filename: req.file.filename,
                 displayname: sanitizedFilename,
                 mimetype: ext.toLowerCase(),
                 filesize: req.file.size,
                 owner: req.user.id,
-                folder: folder._id,
             });
             await upload.save();
             req.upload = upload;

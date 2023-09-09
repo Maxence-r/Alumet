@@ -14,6 +14,7 @@ const authorize = type => {
             if (alumet.private && (!req.connected || (alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user._id) && !alumet.participants.includes(req.user._id)))) {
                 return res.status(401).json({ error: 'Unauthorized x006' });
             }
+            return next();
         }
 
         if (!req.connected) return res.status(401).json({ error: 'Unauthorized x001' });

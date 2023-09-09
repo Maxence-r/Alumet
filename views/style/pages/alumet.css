@@ -203,6 +203,43 @@ body {
     opacity: 0.4;
 }
 
+.g_drive {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px 0 15px;
+    min-height: 50px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #e5e5e5;
+    width: calc(100% - 27px);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.g_drive > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    border-radius: 6px;
+    margin: 10px 0;
+    height: calc(100% - 20px);
+    color: white;
+    font-size: 0.75rem;
+    background-color: #296eff;
+}
+
+.g_drive:hover {
+    background-color: #f6f8fc;
+}
+
+.g_drive > img {
+    height: 18px;
+}
+
 .card .title {
     font-size: 1.1rem;
     word-break: break-word;

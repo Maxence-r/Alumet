@@ -29,24 +29,45 @@ function getContent() {
 }
 
 function getPostData(id, replace) {
+    let post;
     for (let wall of alumet.walls) {
-        let post = wall.posts.find(post => post._id === id);
+        post = wall.posts.find(post => post._id === id);
         if (post) {
-            if (replace) {
-                const wallIndex = alumet.walls.findIndex(wall => wall._id === post.wallId);
-                const postIndex = alumet.walls[wallIndex].posts.findIndex(p => p._id === id);
-                alumet.walls[wallIndex].posts[postIndex] = replace;
-            }
-            return post;
+            break;
         }
     }
-    if (replace) {
+
+    if (post) {
+        if (replace) {
+            const wallIndex = alumet.walls.findIndex(wall => wall._id === post.wallId);
+            const postIndex = alumet.walls[wallIndex].posts.findIndex(p => p._id === id);
+            alumet.walls[wallIndex].posts[postIndex] = replace;
+        }
+        return post;
+    } else {
         const wallId = replace.wallId;
         const wallIndex = alumet.walls.findIndex(wall => wall._id === wallId);
         if (wallIndex !== -1) {
             alumet.walls[wallIndex].posts.push(replace);
             return replace;
         }
+    }
+    return null;
+}
+function getWallData(id, replace) {
+    const wallIndex = alumet.walls.findIndex(wall => wall._id === id);
+    if (wallIndex !== -1) {
+        const wall = alumet.walls[wallIndex];
+        if (replace) {
+            alumet.walls[wallIndex] = replace;
+            alumet.walls[wallIndex].posts = wall.posts;
+        }
+        return wall;
+    }
+    if (replace) {
+        replace.posts = [];
+        alumet.walls.push(replace);
+        return replace;
     }
     return null;
 }
@@ -73,22 +94,6 @@ function patchWall(position) {
         });
 }
 
-function getWallData(id, replace) {
-    const wallIndex = alumet.walls.findIndex(wall => wall._id === id);
-    if (wallIndex !== -1) {
-        const wall = alumet.walls[wallIndex];
-        if (replace) {
-            alumet.walls[wallIndex] = replace;
-        }
-        return wall;
-    }
-    if (replace) {
-        replace.posts = [];
-        alumet.walls.push(replace);
-        return replace;
-    }
-    return null;
-}
 let wallToEdit;
 async function editWall(id) {
     wallToEdit = id;
@@ -149,7 +154,8 @@ async function editPost(id) {
         const dateInput = document.getElementById('dateFormat');
         const timeInput = document.getElementById('timeFormat');
         dateInput.value = date.toLocaleDateString('fr-CA');
-        timeInput.value = date.toLocaleTimeString('fr-CA');
+        console.log(date);
+        timeInput.value = date.toString().split(' ')[4].slice(0, 5);
     }
     navbar('post');
     document.querySelector('.post-buttons > .reded').style.display = 'flex';
@@ -323,6 +329,7 @@ document.getElementById('publicationDate').addEventListener('change', e => {
 
 function cancelSend() {
     localStorage.removeItem('file-ts');
+    localStorage.removeItem('gDrive');
     document.getElementById('post-file').value = '';
     document.querySelector('.ready-to-send').classList.remove('ready-to-send');
 }
@@ -330,6 +337,7 @@ function cancelSend() {
 async function createPost() {
     let fileFromDevice = document.getElementById('post-file').files[0];
     let fileFromCloud = localStorage.getItem('file-ts');
+    let fileFromGdrive = JSON.parse(localStorage.getItem('gDrive'));
     let title = document.getElementById('postTitle').value;
     let content = document.getElementById('editor').innerHTML;
     let commentAuthorized = document.getElementById('postCommentAuthorized').checked;
@@ -338,7 +346,7 @@ async function createPost() {
     let postTime = document.getElementById('timeFormat').value;
     let link = localStorage.getItem('link');
 
-    if (!title && (!content || content === 'Ecrivez ici le contenu') && !fileFromDevice && !fileFromCloud && !link) {
+    if (!title && (!content || content === 'Ecrivez ici le contenu') && !fileFromDevice && !fileFromCloud && !link && !fileFromGdrive) {
         return toast({
             title: 'Erreur',
             message: "Vous n'avez pas spécifié de contenu pour cette publication",
@@ -370,6 +378,9 @@ async function createPost() {
         body.file = fileUrl;
     } else if (fileFromCloud) {
         body.file = fileFromCloud;
+    } else if (fileFromGdrive) {
+        body.drive = true;
+        body.file = fileFromGdrive;
     }
 
     try {
@@ -466,6 +477,7 @@ function clearPost() {
     oldLink = '';
     document.querySelector('.link-preview').classList.remove('active-link-preview');
     localStorage.removeItem('file-ts');
+    localStorage.removeItem('gDrive');
     localStorage.removeItem('link');
 }
 

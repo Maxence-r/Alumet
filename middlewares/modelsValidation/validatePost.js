@@ -4,6 +4,7 @@ const Upload = require('../../models/upload');
 const Wall = require('../../models/wall');
 const sanitizeHtml = require('sanitize-html');
 const urlMetadata = require('url-metadata');
+const uploadGoogleDrive = require('../utils/uploadGoogleDrive');
 
 function getDomainFromUrl(url) {
     const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
@@ -62,11 +63,16 @@ const validatePost = async (req, res, next) => {
 
         req.body.position = position.length > 0 ? position[0].position + 1 : 1;
 
-        if (req.body.file) {
+        if (req.body.file && req.body.drive == false) {
+            console.log('file');
             const upload = await Upload.findOne({ _id: req.body.file });
             if (!upload) {
                 return res.status(400).json({ error: 'Unable to proceed your requests x001' });
             }
+        } else if (req.body.drive && req.body.file) {
+            console.log('drive');
+            await uploadGoogleDrive(req.body.file);
+            console.log('uploadGoogleDrive 2');
         }
 
         if (req.body.link) {

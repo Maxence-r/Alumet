@@ -12,6 +12,7 @@ const Post = require('../../../models/post');
 const Folder = require('../../../models/folder');
 const authorize = require('../../../middlewares/authentification/authorize');
 const Account = require('../../../models/account');
+const mongoose = require('mongoose');
 
 // Creating Functions
 
@@ -286,8 +287,8 @@ const accountUpload = multer({
     },
 });
 
-router.post('/upload/:id', authorize('professor'), validateObjectId, accountUpload.single('file'), async (req, res) => {
-    if (req.params.id) {
+router.post('/upload/:id', authorize('professor'), accountUpload.single('file'), async (req, res) => {
+    if (req.params.id && mongoose.Types.ObjectId.isValid(req.params.id)) {
         try {
             const folder = await Folder.findOne({
                 _id: req.params.id,
