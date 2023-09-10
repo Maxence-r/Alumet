@@ -614,6 +614,7 @@ input:checked + .slide:before {
     background-color: #f6f8fc;
     color: #000000;
     border-radius: 10px;
+    min-height: 50px;
     box-shadow: none;
 }
 
@@ -621,6 +622,128 @@ input:checked + .slide:before {
     background-color: #e6e6e6;
     border-radius: 10px;
 }
+
+.not-available {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+
+.popup {
+    top: 0;
+    left: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - 20px);
+    padding: 10px;
+    height: calc(100% - 20px);
+    position: absolute;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.prompt-buttons {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.active-popup {
+    display: flex !important;
+}
+
+.active-popup > .prompt {
+    animation: popup 0.3s ease-in-out;
+}
+
+@keyframes popup {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.prompt {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 550px;
+}
+
+.prompt-buttons > button:nth-child(1) {
+    position: absolute;
+    left: 0;
+    display: none;
+    background-color: #a82d17;
+    color: #ffffff;
+    box-shadow: none;
+}
+
+#prompt-desc {
+    display: block;
+    font-size: 1rem;
+    color: #474747ec;
+    margin: 0;
+    font-weight: 500;
+}
+
+.prompt-buttons > button:nth-child(2) {
+    background-color: #f6f8fc;
+    color: #000000;
+    box-shadow: none;
+}
+
+.prompt > h1 {
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.not-available > h3 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+    color: #000000;
+}
+
+.not-available > p {
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0;
+    margin-top: 10px;
+    text-align: center;
+    color: #000000;
+}
+
+.beta {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 30px;
+    border-radius: 6px;
+    color: white;
+    font-size: 0.75rem;
+    background-color: #296eff;
+}
+
 .loader {
     width: 30px;
     height: 30px;
@@ -744,10 +867,6 @@ input:checked + .slide:before {
     align-items: center;
     justify-content: center;
     background-color: white;
-}
-
-.row-fm-header > select {
-    width: 100%;
 }
 
 select {

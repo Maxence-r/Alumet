@@ -22,6 +22,12 @@ function getContent() {
                 parent.insertBefore(list, button);
             });
             if (data.user_infos) {
+                if (data.admin) {
+                    document.querySelectorAll('.admin').forEach(el => {
+                        el.style.display = 'block';
+                    });
+                }
+                document.querySelector('#profile > img').src = '/cdn/u/' + data.user_infos.icon;
                 loadFiles();
             }
             document.querySelector('body > section').style.display = 'none';
@@ -170,8 +176,12 @@ function createTaskList(post) {
 
     author = document.createElement('div');
     author.classList.add('author');
-    author.textContent = post.owner.name + ' ' + post.owner.lastname;
-    if (post.owner.isCertified) {
+    if (post.owner) {
+        author.textContent = post.owner.name + ' ' + post.owner.lastname;
+    } else {
+        author.textContent = 'Anonyme';
+    }
+    if (post.owner?.isCertified) {
         const certified = document.createElement('img');
         certified.src = `/assets/badges/certified/${post.owner.accountType}-certified.svg`;
         certified.title = 'Compte ' + post.owner.accountType + ' certifié';
@@ -179,7 +189,7 @@ function createTaskList(post) {
         certified.setAttribute('draggable', false);
         author.appendChild(certified);
     }
-    if (post.owner.badges) {
+    if (post.owner?.badges) {
         post.owner.badges.forEach(badge => {
             const badgeImg = document.createElement('img');
             badgeImg.src = `/assets/badges/specials/${badge}.svg`;
@@ -189,7 +199,7 @@ function createTaskList(post) {
             author.appendChild(badgeImg);
         });
     }
-    if (alumet.admin || alumet.user_infos?.id === post.owner._id) {
+    if (alumet.admin || (alumet.user_infos?.id === post.owner?._id && alumet.user_infos)) {
         const editButton = document.createElement('img');
         editButton.classList.add('edit');
         editButton.src = '/assets/global/edit.svg';
@@ -334,7 +344,15 @@ function cancelSend() {
     document.querySelector('.ready-to-send').classList.remove('ready-to-send');
 }
 
-async function createPost() {
+async function createPost(confirmed) {
+    if (!alumet.user_infos && !confirmed) {
+        return createPrompt({
+            head: "Vous n'êtes pas connecté",
+            desc: 'Vous ne serez plus en capacité de modifier cette publication une fois créée',
+            action: 'createPost(true)',
+        });
+    }
+    document.querySelector('.prompt-popup').classList.remove('active-popup');
     let fileFromDevice = document.getElementById('post-file').files[0];
     let fileFromCloud = localStorage.getItem('file-ts');
     let fileFromGdrive = JSON.parse(localStorage.getItem('gDrive'));

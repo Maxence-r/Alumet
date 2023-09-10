@@ -4,7 +4,6 @@ const Upload = require('../../models/upload');
 const Wall = require('../../models/wall');
 const sanitizeHtml = require('sanitize-html');
 const urlMetadata = require('url-metadata');
-const uploadGoogleDrive = require('../utils/uploadGoogleDrive');
 
 function getDomainFromUrl(url) {
     const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
@@ -17,6 +16,9 @@ function getDomainFromUrl(url) {
 
 const validatePost = async (req, res, next) => {
     try {
+        if (req.body.postId && !req.connected) {
+            return res.status(401).json({ error: 'Unauthorized x001' });
+        }
         const alumet = await Alumet.findOne({ _id: req.params.alumet });
         const wall = await Wall.findOne({ _id: req.params.wall });
         let error = null;

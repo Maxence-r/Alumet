@@ -190,11 +190,11 @@ audio {
 
     .active-infos > .main-container {
         width: 100%;
-        height: 50%;
+        height: 70%;
     }
 
     .active-infos > .sub-container {
-        height: calc(50% - 40px);
+        height: calc(30% - 40px);
         overflow: auto;
     }
 }

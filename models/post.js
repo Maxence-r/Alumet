@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const PostSchema = mongoose.Schema({
     title: {
@@ -11,7 +11,9 @@ const PostSchema = mongoose.Schema({
     },
     owner: {
         type: String,
-        required: true,
+    },
+    IP: {
+        type: String,
     },
     file: {
         type: String,
@@ -26,7 +28,7 @@ const PostSchema = mongoose.Schema({
     color: {
         type: String,
         required: true,
-        default: "ffffff",
+        default: 'ffffff',
     },
     position: {
         type: Number,
@@ -52,5 +54,5 @@ const PostSchema = mongoose.Schema({
     },
 });
 
-const Post = mongoose.model("Post", PostSchema);
+const Post = mongoose.model('Post', PostSchema);
 module.exports = Post;

@@ -77,8 +77,8 @@ app.use('/api/board', board);
 app.use('/openai/mindFlash', mindFlashAi);
 
 const path = require('path');
-app.get('/test', async (req, res) => {
-    const filePath = path.join(__dirname, './views/pages/test.html');
+app.get('*', async (req, res) => {
+    const filePath = path.join(__dirname, './views/pages/404.html');
     res.sendFile(filePath);
 });
 

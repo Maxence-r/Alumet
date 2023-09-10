@@ -244,7 +244,7 @@ body {
 }
 
 .professors_community {
-    background-color: yellow;
+    background-color: white;
 }
 
 .setup-modal {
@@ -403,7 +403,7 @@ body {
 
 .grid-user-container {
     display: grid;
-    margin: 10px 0;
+    margin-top: 10px;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-gap: 10px;
 }
@@ -608,7 +608,8 @@ body {
 
 .divider {
     width: 100%;
-    height: 2px;
+    margin: 10px 0;
+    min-height: 2px;
     background-color: #ebebeb;
 }
 
@@ -619,11 +620,57 @@ body {
 .main-container {
     width: calc(100% - 40px);
     display: flex;
+    position: relative;
     flex-direction: column;
     overflow-x: scroll;
     background-color: white;
     border-radius: 10px;
     padding: 20px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.alumetPreview {
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.alumetPreview:hover {
+    transform: scale(0.99);
+    filter: brightness(0.9);
+}
+
+.action-row {
+    position: absolute;
+    bottom: 0;
+    width: calc(100% - 40px);
+    display: flex;
+    bottom: 20px;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.action-row > button {
+    width: 100%;
+}
+
+.alumetPreview > img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.options-alumet {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .sub-container {
@@ -965,70 +1012,42 @@ h2 {
     font-size: 3rem;
 }
 
-.notification-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 50px;
-    min-width: 50px;
-    height: 50px;
-    place-items: center;
-    background-color: #d9d9d9;
-    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+#username {
+    font-weight: 600;
 }
 
-.notification-icon > img {
+.new-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.home > .sub-container {
+    max-width: 325px;
+}
+
+.new-item > img {
     width: 100%;
-    height: 100%;
+    max-height: 130px;
     object-fit: cover;
-    border-radius: 5px;
-}
-.notifications {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    margin-top: 20px;
-    gap: 20px;
-    max-height: 30%;
-    overflow: scroll;
+    object-position: top;
+    border-radius: 10px;
+    border: 1px solid #dbdbdb;
 }
 
-.bottom-gradient {
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-    min-height: 100px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
-    z-index: 10;
-}
-
-.notification {
-    display: flex;
-    flex-direction: row;
-}
-
-.notification-infos {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-    justify-content: center;
-}
-.notification-infos > h3 {
-    font-size: 1.1rem;
+.new-item-infos > h3 {
+    font-size: 1.2rem;
     font-weight: 500;
     margin: 0;
+    color: #000000;
 }
 
-.notification-infos > p {
-    font-size: 0.8rem;
+.new-item-infos > p {
+    font-size: 0.9rem;
     font-weight: 400;
     margin: 0;
     color: #9ea1a7;
-}
-
-#username {
-    font-weight: 600;
 }
 
 .items-container {
@@ -1089,7 +1108,7 @@ h3 {
 .no-items {
     display: flex;
     flex-direction: column;
-    margin: 40px auto;
+    margin: 70px auto;
 }
 
 .no-items > h1 {
@@ -1359,92 +1378,8 @@ h3 {
     transition: all 0.5s ease-in-out;
 }
 
-.popup {
-    top: 0;
-    left: 0;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 1000;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.prompt-buttons {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: flex-end;
-}
-
-.active-popup {
-    display: flex !important;
-}
-
-.active-popup > .prompt {
-    animation: popup 0.3s ease-in-out;
-}
-
-@keyframes popup {
-    0% {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-.prompt {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 550px;
-}
-
-.prompt-buttons > button:nth-child(1) {
-    position: absolute;
-    left: 0;
-    display: none;
-    background-color: #a82d17;
-    color: #ffffff;
-    box-shadow: none;
-}
-
-#prompt-desc {
-    display: block;
-    font-size: 1rem;
-    color: #474747ec;
-    margin: 0;
-    font-weight: 500;
-}
-
-.prompt-buttons > button:nth-child(2) {
-    background-color: #f6f8fc;
-    color: #000000;
-    box-shadow: none;
-}
-
-.prompt > h1 {
-    font-size: 2rem;
-    font-weight: 500;
-    margin: 0;
-}
-
 #files-upload {
     display: none;
-}
-
-.prompt > input {
-    margin-top: 10px;
-    width: calc(100% - 40px);
 }
 
 .header > .large {
@@ -1570,8 +1505,10 @@ h3 {
     flex-direction: column;
     gap: 5px;
     position: absolute;
-    width: calc(100% - 40px);
-    height: calc(100% - 20px);
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 100%;
     z-index: 1500;
     align-items: center;
     justify-content: center;
@@ -1728,6 +1665,11 @@ h3 {
     margin-top: 10px;
 }
 
+.participants-show {
+    display: none !important;
+    margin-bottom: 60px;
+}
+
 @keyframes new-message {
     0% {
         opacity: 0;
@@ -1739,7 +1681,10 @@ h3 {
     }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1100px) {
+    .participants-show {
+        display: flex !important;
+    }
     .messages > .main-container {
         transform: translateY(110%);
         transition: all 0.3s ease-in-out;
@@ -1795,6 +1740,12 @@ h3 {
 }
 
 @media (max-width: 600px) {
+    .action-row {
+        position: fixed;
+        width: calc(100% - 20px);
+        bottom: 10px;
+        gap: 10px;
+    }
     .context-menu > button {
         width: 100%;
     }
@@ -1858,10 +1809,6 @@ h3 {
     }
     .right-message > img {
         display: none !important;
-    }
-    .loading-conversation {
-        width: calc(100% - 20px);
-        height: 100%;
     }
     .left-message > img {
         display: none !important;

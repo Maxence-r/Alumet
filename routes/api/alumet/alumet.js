@@ -242,7 +242,7 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
         if (req.cookies.alumetToken) {
             req.user = { _id: req.cookies.alumetToken };
         }
-        if (alumet.private) {
+        if (alumet.private && alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user.id) && !alumet.participants.includes(req.user.id)) {
             delete alumet.code;
             delete alumet.owner;
             delete alumet.collaborators;

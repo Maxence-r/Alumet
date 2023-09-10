@@ -348,7 +348,7 @@ section > .sub-section-box {
     text-align: left;
 }
 .stats-info-container > .stats-info > svg > circle::before {
-    content: "";
+    content: '';
     display: inline-block;
     width: 15px;
     height: 15px;
@@ -436,6 +436,7 @@ section > .sub-section-box {
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
 }
+
 .main-container > .full-screen > h1 {
     font-size: 1.2rem;
     font-weight: 500;

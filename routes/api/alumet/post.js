@@ -12,12 +12,13 @@ const authorize = require('../../../middlewares/authentification/authorize');
 const Wall = require('../../../models/wall');
 const Account = require('../../../models/account');
 
-router.put('/:alumet/:wall', authorize('alumetParticipants'), validatePost, async (req, res) => {
+router.put('/:alumet/:wall', validatePost, async (req, res) => {
     const postId = req.body.postId;
     const postFields = {
         title: req.body.title,
         content: req.body.content,
-        owner: req.user.id,
+        owner: req.user?.id,
+        IP: req.ip,
         file: req.body.file || null,
         link: req.body.link,
         color: req.body.color,
@@ -82,113 +83,6 @@ router.put('/move/:alumet/:wall/:post', authorize('alumetAdmins'), async (req, r
     }
 });
 
-router.get('/:alumet/:wall', validateObjectId, async (req, res) => {
-    try {
-        const alumet = await Alumet.findById(req.params.alumet);
-
-        if (!alumet) {
-            return res.status(404).json({
-                error: 'Unable to proceed your requests',
-            });
-        }
-
-        if (!req.connected && !req.auth) {
-            return res.status(404).json({
-                error: "Vous n'avez pas les permissions pour effectuer cette action !",
-            });
-        }
-
-        if (req.connected && !req.auth && alumet.owner !== req.user.id) {
-            return res.status(404).json({
-                error: "Vous n'avez pas les permissions pour effectuer cette action !",
-            });
-        }
-
-        if (req.auth && !req.connected && alumet._id.toString() !== req.alumet.id) {
-            return res.status(404).json({
-                error: "Vous n'avez pas les permissions pour effectuer cette action !",
-            });
-        }
-
-        const posts = await Post.find({
-            wallId: req.params.wall,
-        }).sort({
-            position: -1,
-        });
-
-        const sendPosts = await Promise.all(
-            posts.map(async post => {
-                let editedPost = {
-                    ...post._doc,
-                };
-                if (post.ownerType !== 'teacher') {
-                    if (req.cookies.alumetToken === editedPost.owner || req.connected) {
-                        editedPost.owning = true;
-                    }
-                    const decodedToken = jwt.verify(post.owner, process.env.TOKEN.toString());
-                    editedPost.owner = decodedToken.username;
-                } else if (req.connected && alumet.owner === req.user.id) {
-                    editedPost.owning = true;
-                }
-                if (post.type === 'file') {
-                    const upload = await Upload.findById(post.typeContent);
-
-                    if (upload) {
-                        editedPost.fileName = upload.displayname;
-                        editedPost.fileExt = upload.mimetype;
-                    }
-                }
-                if (editedPost.isVisible === false) {
-                    return editedPost;
-                } else if (req.auth && !req.connected && editedPost.isVisible === true) {
-                    if (req.cookies.alumetToken === post.owner) {
-                        return editedPost;
-                    } else {
-                        return {
-                            content: 'Ce post est uniquement visible par le professeur',
-                            color: editedPost.color,
-                        };
-                    }
-                } else if (req.connected && alumet.owner === req.user.id) {
-                    return editedPost;
-                }
-                return editedPost;
-            })
-        );
-        res.json(sendPosts);
-    } catch (error) {
-        console.error(error);
-    }
-});
-
-router.patch('/:alumet/:wall/:post', validateObjectId, validatePost, notification('A modifié un post'), (req, res) => {
-    Post.findOneAndUpdate(
-        {
-            _id: req.params.post,
-        },
-        {
-            title: req.body.title,
-            content: req.body.content,
-            color: req.body.color,
-        },
-        {
-            runValidators: true,
-        }
-    )
-        .then(() => {
-            Post.findOne({
-                _id: req.params.post,
-            }).then(post => {
-                res.json(post);
-            });
-        })
-        .catch(error =>
-            res.json({
-                error,
-            })
-        );
-});
-
 router.delete('/:alumet/:post', async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.alumet);
@@ -200,7 +94,7 @@ router.delete('/:alumet/:post', async (req, res) => {
 
         const post = await Post.findById(req.params.post);
         console.log(post);
-        if (!post || (post.owner !== req.user.id && alumet.participants.includes(res.user.id) && alumet.owner !== req.user.id)) {
+        if (!post || (post.owner && post.owner !== req.user.id && alumet.participants.includes(res.user.id) && alumet.owner !== req.user.id)) {
             return res.status(404).json({
                 error: "Vous n'avez pas les permissions pour effectuer cette action !",
             });

@@ -113,6 +113,10 @@ function modifyFile() {
     });
 }
 
+function openFile() {
+    window.open(`/viewer/${localStorage.getItem('currentFile')}`, '_blank');
+}
+
 function deleteFile() {
     fetch(`/cdn/${localStorage.getItem('currentFile')}`, {
         method: 'DELETE',
