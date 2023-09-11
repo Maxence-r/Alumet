@@ -325,10 +325,6 @@ body {
     z-index: 100;
 }
 
-#alumet-background {
-    display: none;
-}
-
 #action-detail {
     font-size: 1rem;
     font-weight: 400;
@@ -398,17 +394,6 @@ body {
 
 .action-content > input {
     height: 48px;
-    width: calc(100% - 40px);
-}
-
-.grid-user-container {
-    display: grid;
-    margin-top: 10px;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    grid-gap: 10px;
-}
-
-.grid-user-container > input {
     width: calc(100% - 40px);
 }
 
@@ -571,20 +556,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2px;
-}
-
-.option {
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.option > h1 {
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 0;
 }
 
 .user-options-infos > h4 {
@@ -765,23 +736,6 @@ h2 {
     flex-direction: column;
     gap: 10px;
     margin-bottom: 20px;
-}
-
-.item {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.item > h3 {
-    font-size: 1rem;
-    font-weight: 400;
-    color: #9ea1a7;
-    margin: 0;
-}
-
-.item > input {
-    width: calc(100% - 40px);
 }
 
 .file-info {
@@ -1084,12 +1038,6 @@ input {
     font-size: 0.9em;
 }
 
-input:focus {
-    outline-style: solid;
-    outline-width: 2px;
-    outline-color: #0597ff;
-}
-
 h3 {
     font-size: 2.5rem;
     font-weight: 500;
@@ -1108,6 +1056,7 @@ h3 {
 .no-items {
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin: 70px auto;
 }
 

@@ -277,6 +277,14 @@ folderSelection.addEventListener('change', e => {
     loadFolder(e.currentTarget.value);
 });
 
+function commentPost(id) {
+    return toast({
+        title: 'Fonctionnalitée indisponible',
+        message: 'Cette fonctionnalitée rencontre actuellement des problèmes.',
+        type: 'warning',
+    });
+}
+
 function loadFiles() {
     fetch('/cdn/folder/list', {
         method: 'GET',

@@ -401,8 +401,8 @@ textarea {
     position: fixed;
     margin-left: auto;
     margin-right: auto;
-    top: 32px;
-    right: 32px;
+    top: 20px;
+    right: 20px;
     margin-left: 32px;
     display: flex;
     flex-direction: column-reverse;
@@ -413,6 +413,34 @@ textarea {
     background-color: #c02b10;
     color: white;
     box-shadow: none;
+}
+
+.grid-user-container {
+    display: grid;
+    margin-top: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 10px;
+}
+
+.grid-user-container > input {
+    width: calc(100% - 40px);
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.item > h3 {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #9ea1a7;
+    margin: 0;
+}
+
+.item > input {
+    width: calc(100% - 40px);
 }
 
 .switch {
@@ -460,10 +488,30 @@ input:focus + .slide {
     box-shadow: 0 0 1px #1e54e3;
 }
 
+.option {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.option > h1 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+}
+
 input:checked + .slide:before {
     -webkit-transform: translateX(20px);
     -ms-transform: translateX(20px);
     transform: translateX(20px);
+}
+
+input:focus {
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: #0597ff;
 }
 
 .slide.round {
@@ -586,6 +634,10 @@ input:checked + .slide:before {
 
 .toast__icon {
     padding: 0 16px;
+}
+
+#alumet-background {
+    display: none;
 }
 
 .toast__body {

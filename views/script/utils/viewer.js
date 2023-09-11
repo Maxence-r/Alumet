@@ -1,8 +1,8 @@
 window.addEventListener('load', () => {});
 
-document.querySelector('.sub-container').addEventListener('click', e => {
+/* document.querySelector('.sub-container').addEventListener('click', e => {
     document.querySelector('.file-viewer').classList.toggle('active-infos');
-});
+}); */
 
 fetch('/cdn/info/' + window.location.href.split('/')[4])
     .then(res => res.json())
@@ -15,10 +15,10 @@ fetch('/cdn/info/' + window.location.href.split('/')[4])
                 window.close();
             }, 10000);
         }
-        document.getElementById('file-name').innerText = data.upload.displayname.split('.').slice(0, -1).join('.') + '.' + data.upload.mimetype;
+        /* document.getElementById('file-name').innerText = data.upload.displayname.split('.').slice(0, -1).join('.') + '.' + data.upload.mimetype;
         document.getElementById('file-owner').innerText = data.account.name + ' ' + data.account.lastname;
         document.getElementById('file-creation').innerText = relativeTime(data.upload.date);
-        document.getElementById('file-size').innerText = (data.upload.filesize / 1000 / 1000).toFixed(2) + ' Mo';
+        document.getElementById('file-size').innerText = (data.upload.filesize / 1000 / 1000).toFixed(2) + ' Mo'; */
         loadViewer(data.upload.mimetype, data.upload._id);
     })
     .catch(err => console.log(err));
@@ -74,7 +74,7 @@ function loadViewer(mimetype, id) {
         case 'xlsx':
         case 'xls':
             const iframe = document.createElement('iframe');
-            iframe.src = 'https://view.officeapps.live.com/op/embed.aspx?src=https://alumet.io/cdn/u/' + id;
+            iframe.src = `https://view.officeapps.live.com/op/embed.aspx?src=${window.location.origin}/cdn/u/${id}`;
             document.querySelector('.main-container').appendChild(iframe);
             break;
         default:

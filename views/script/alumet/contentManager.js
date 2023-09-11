@@ -10,6 +10,15 @@ function getContent() {
             alumet = data;
             localStorage.setItem('alumet', JSON.stringify(data));
             document.querySelector('body').style.backgroundImage = `url(/cdn/u/${data.background})`;
+            document.querySelector('.settings > img').src = `/cdn/u/${data.background}`;
+            document.getElementById('alumetName').value = data.title;
+            document.querySelector('.header-setting > h1').innerText = data.title;
+            document.getElementById('alumetDescription').value = data.description;
+            if (data.private && data.code) {
+                document.getElementById('invitationCode').value = data.code;
+            }
+            document.getElementById('alumet-private').checked = data.private;
+            document.getElementById('alumet-chat').checked = data.swiftchat;
             data.walls.forEach(wall => {
                 const list = createInList(wall.title, wall.postAuthorized, wall._id);
                 const draggingContainer = list.querySelector('.draggingContainer');
@@ -33,6 +42,75 @@ function getContent() {
             document.querySelector('body > section').style.display = 'none';
         });
 }
+
+async function modifyAlumet() {
+    toast({ title: "Modification de l'Alumet", message: 'Cette opération peut prendre un peu de temps...', type: 'info', duration: 5000 });
+    const file = document.getElementById('alumet-background').files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('title', document.getElementById('alumetName').value);
+    formData.append('description', document.getElementById('alumetDescription').value);
+    formData.append('private', document.getElementById('alumet-private').checked);
+    formData.append('chat', document.getElementById('alumet-chat').checked);
+    formData.append('alumet', alumet._id);
+    fetch('/a/new', {
+        method: 'PUT',
+        body: formData,
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
+            } else {
+                navbar('loadingRessources');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 5000);
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+function engageDeletion() {
+    createPrompt({
+        head: "Suppression de l'Alumet",
+        desc: 'Êtes-vous sûr de vouloir supprimer cet alumet ? Cette action est irréversible et entraînera la suppression de toutes les données associées à cet alumet.',
+        action: 'deleteAlumet()',
+    });
+}
+
+function deleteAlumet() {
+    fetch('/a/' + alumet._id, {
+        method: 'DELETE',
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 5000 });
+            }
+            toast({ title: 'Succès', message: "L'alumet a bien été supprimé !", type: 'success', duration: 2500 });
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 2500);
+        });
+}
+
+document.querySelector('.settings > img').addEventListener('click', () => {
+    document.getElementById('alumet-background').click();
+});
+
+document.getElementById('alumet-background').addEventListener('change', () => {
+    const file = document.getElementById('alumet-background').files[0];
+    const fileType = file.type.split('/')[0];
+    const fileSize = file.size / 1024 / 1024;
+    if (fileType !== 'image' || fileSize > 3) {
+        document.getElementById('alumet-background').value = '';
+        return toast({ title: 'Erreur', message: 'Veuillez sélectionner une image de moins de 3MB', type: 'error', duration: 2500 });
+    }
+    document.querySelector('.settings > img').src = URL.createObjectURL(file);
+});
 
 function getPostData(id, replace) {
     let post;
@@ -265,6 +343,14 @@ function createTaskList(post) {
 
         cardDescription.innerHTML = content;
         card.appendChild(cardDescription);
+    }
+    if (post.commentAuthorized) {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'Laisser un commentaire';
+        input.classList.add('comment-input');
+        input.setAttribute('onkeydown', `if (event.keyCode === 13) { commentPost("${post._id}") }`);
+        card.appendChild(input);
     }
 
     if (!navigator.userAgent.includes('Mobile')) {
@@ -503,7 +589,7 @@ async function uploadFile(file) {
     return new Promise((resolve, reject) => {
         const formData = new FormData();
         formData.append('file', file);
-        fetch('/cdn/upload/' + localStorage.getItem('currentFolder'), {
+        fetch('/cdn/upload/default', {
             method: 'POST',
             body: formData,
         })

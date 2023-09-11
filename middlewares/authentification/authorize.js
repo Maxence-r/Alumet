@@ -10,6 +10,7 @@ const authorize = type => {
         AlumetAdmins: Check if the user is connected and if his account type is staff or if he is the owner of the alumet
         */
         const alumet = await Alumet.findOne({ _id: req.params.alumet });
+
         if (type === 'alumetPrivate') {
             if (alumet.private && (!req.connected || (alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user._id) && !alumet.participants.includes(req.user._id)))) {
                 return res.status(401).json({ error: 'Unauthorized x006' });

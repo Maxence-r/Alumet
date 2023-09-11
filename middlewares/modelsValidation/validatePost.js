@@ -65,16 +65,11 @@ const validatePost = async (req, res, next) => {
 
         req.body.position = position.length > 0 ? position[0].position + 1 : 1;
 
-        if (req.body.file && req.body.drive == false) {
-            console.log('file');
+        if (req.body.file) {
             const upload = await Upload.findOne({ _id: req.body.file });
             if (!upload) {
                 return res.status(400).json({ error: 'Unable to proceed your requests x001' });
             }
-        } else if (req.body.drive && req.body.file) {
-            console.log('drive');
-            await uploadGoogleDrive(req.body.file);
-            console.log('uploadGoogleDrive 2');
         }
 
         if (req.body.link) {

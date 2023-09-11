@@ -51,7 +51,10 @@
         <section class="sections-container">
             <section class="home active-section">
                 <div class="main-container">
-                    <!--- <div class="warning-box">Attention : Cette version n'est pas représentative du produit final et est sujette à de nombreux changements. Elle comporte également des bugs. Merci de nous laisser vos retours d'amélioration.</div> =-->
+                    <div class="warning-box">
+                        Cette version n'est PAS représentative du produit final et est sujette à de NOMBREUX changements. Elle comporte également des bugs et de nombreuses instabilitées. De nombreuses fonctionnalitées sont déjà prêtes, mais nous
+                        avons fait le choix de restreindre au strict minimum les fonctionnalitées afin d'assurer le déploiement de celle-ci sans problèmes.
+                    </div>
                     <h1 class="welcomer">Bonjour, <span id="username">prénom</span></h1>
                     <div class="items-container">
                         <div class="items-container-header">
@@ -139,6 +142,12 @@
                     <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
                 </div>
                 <div class="main-container">
+                    <div class="full-screen">
+                        <div class="no-items">
+                            <h1>Aucun dossiers</h1>
+                            <p>Commencez par en créer un et envoyer vos fichiers !</p>
+                        </div>
+                    </div>
                     <div class="row-fm-header">
                         <select name="folder" id="folder-selection"></select>
                         <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>

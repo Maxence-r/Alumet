@@ -19,23 +19,51 @@ router.get('/:id', validateObjectId, async (req, res) => {
     const filePath = path.join(__dirname, '../../views/pages/alumet.html');
     res.sendFile(filePath);
 });
-
-router.post('/new', authorize('professor'), upload.single('file'), uploadAndSaveToDb('3', ['png', 'jpeg', 'jpg']), validateAlumet, async (req, res) => {
+router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveToDb('3', ['png', 'jpeg', 'jpg']), validateAlumet, async (req, res) => {
     try {
-        const alumet = new Alumet({
-            owner: req.user.id,
-            title: req.body.title,
-            description: req.body.description,
-            background: req.upload ? req.upload._id : undefined,
-            collaborators: req.body.collaborators,
-            private: req.body.private,
-            swiftchat: req.body.chat,
-        });
-        await alumet.save();
+        let alumet;
+        if (!req.body.alumet) {
+            alumet = new Alumet({
+                owner: req.user.id,
+                title: req.body.title,
+                description: req.body.description,
+                background: req.upload ? req.upload._id : undefined,
+                collaborators: req.body.collaborators,
+                private: req.body.private,
+                swiftchat: req.body.chat,
+            });
+            await alumet.save();
+        } else {
+            alumet = await Alumet.findByIdAndUpdate(req.body.alumet, {
+                title: req.body.title,
+                description: req.body.description,
+                background: req.upload ? req.upload._id : undefined,
+                collaborators: req.body.collaborators,
+                private: req.body.private,
+                swiftchat: req.body.chat,
+            });
+        }
         res.json({ alumet });
     } catch (error) {
         console.error(error);
         res.status(400).json({ error: 'An error occurred while creating the alumet.' });
+    }
+});
+
+router.delete('/:id', authorize('professor'), validateObjectId, async (req, res) => {
+    try {
+        const alumet = await Alumet.findOne({ _id: req.params.id });
+        if (!alumet) {
+            return res.status(404).json({ error: 'Unable to proceed your requests' });
+        }
+        if (alumet.owner !== req.user.id) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        await alumet.remove();
+        res.json({ success: true });
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ error: 'An error occurred while deleting the alumet.' });
     }
 });
 

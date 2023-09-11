@@ -187,6 +187,7 @@ router.get('/:alumet/content', authorize('alumetPrivate'), validateObjectId, asy
             if (req.connected && (alumet.owner === req.user.id || alumet.collaborators.includes(req.user.id) || alumet.owner === req.user.id)) {
                 posts = await Post.find({ wallId: wall._id }).sort({ position: -1 }).lean();
             } else {
+                delete alumetContent.code;
                 posts = await Post.find({
                     wallId: wall._id,
 
@@ -216,8 +217,6 @@ router.get('/:alumet/content', authorize('alumetPrivate'), validateObjectId, asy
             }
             wall.posts = posts;
         }
-
-        delete alumetContent.code;
 
         alumetContent.walls = walls;
         res.json(alumetContent);

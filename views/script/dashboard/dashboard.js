@@ -72,7 +72,7 @@ async function createAlumet() {
     formData.append('private', document.getElementById('alumet-private').checked);
     formData.append('chat', document.getElementById('alumet-chat').checked);
     fetch('/a/new', {
-        method: 'POST',
+        method: 'PUT',
         body: formData,
     })
         .then(response => response.json())

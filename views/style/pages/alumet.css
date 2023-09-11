@@ -212,8 +212,64 @@ body {
     padding: 8px;
     border-radius: 10px;
 }
+
+.card > input {
+    display: flex;
+    height: 12px;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    border-radius: 5px;
+    padding: 10px;
+    width: calc(100% - 22px);
+}
 .card.dragging {
     opacity: 0.4;
+}
+
+.header-setting {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settings {
+    overflow-y: auto;
+}
+
+.settings > img {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    max-height: 200px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.row-bottom-buttons {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.switch-options {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 20px 0;
+}
+
+.row-bottom-buttons > button {
+    width: 100%;
+}
+
+.settings > img:hover {
+    transform: scale(0.98);
+    filter: brightness(0.8);
 }
 
 .card .title {
@@ -412,7 +468,7 @@ latex {
     margin: 10px 0;
 }
 
-.overlay-content > h1 {
+h1 {
     font-size: 28px;
     font-weight: 500;
     margin: 0;

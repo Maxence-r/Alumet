@@ -161,12 +161,9 @@ router.delete('/folder/delete/:id', validateObjectId, (req, res) => {
         });
     Folder.findOne({ _id: req.params.id, owner: req.user.id })
         .then(folder => {
-            if (folder.name === 'system')
-                return res.status(403).json({
-                    error: "Vous n'avez pas la permission de modifier un dossier système !",
-                });
             if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
             folder.remove();
+            Upload.deleteMany({ folder: folder._id });
             res.json(folder);
         })
         .catch(error => res.json({ error }));
@@ -179,10 +176,6 @@ router.post('/folder/rename/:id', validateObjectId, (req, res) => {
         });
     Folder.findOne({ _id: req.params.id, owner: req.user.id })
         .then(folder => {
-            if (folder.name === 'system')
-                return res.status(403).json({
-                    error: "Vous n'avez pas la permission de modifier un dossier système !",
-                });
             if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
             if (!req.body.name) return res.status(400).json({ error: 'Veuillez spéficier un nouveau nom' });
             folder.name = req.body.name;
@@ -288,42 +281,37 @@ const accountUpload = multer({
 });
 
 router.post('/upload/:id', authorize('professor'), accountUpload.single('file'), async (req, res) => {
-    if (req.params.id && mongoose.Types.ObjectId.isValid(req.params.id)) {
-        try {
-            const folder = await Folder.findOne({
+    try {
+        let folder;
+        if (req.params.id && mongoose.Types.ObjectId.isValid(req.params.id)) {
+            folder = await Folder.findOne({
                 _id: req.params.id,
                 owner: req.user.id,
             });
-            if (!folder) {
-                return res.status(404).json({ error: 'Dossier introuvable' });
-            }
-            if (req.file) {
-                const ext = req.file.originalname.split('.').pop();
-                const sanitizedFilename = sanitizeFilename(req.file.originalname);
-                const upload = new Upload({
-                    filename: req.file.filename,
-                    displayname: sanitizedFilename,
-                    mimetype: ext.toLowerCase(),
-                    filesize: req.file.size,
-                    owner: req.user.id,
-                    folder: folder._id,
-                });
-                await upload.save();
-                res.json({ file: upload });
-            } else {
-                res.status(400).json({
-                    error: 'Une erreur inconnue est survenue ! x00',
-                });
-            }
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                error: "Une erreur est survenue lors de l'enregistrement du fichier",
+        }
+
+        if (req.file) {
+            const ext = req.file.originalname.split('.').pop();
+            const sanitizedFilename = sanitizeFilename(req.file.originalname);
+            const upload = new Upload({
+                filename: req.file.filename,
+                displayname: sanitizedFilename,
+                mimetype: ext.toLowerCase(),
+                filesize: req.file.size,
+                owner: req.user.id,
+                folder: folder?._id || null,
+            });
+            await upload.save();
+            res.json({ file: upload });
+        } else {
+            res.status(400).json({
+                error: 'Une erreur inconnue est survenue ! x00',
             });
         }
-    } else {
-        res.status(400).json({
-            error: 'Une erreur inconnue est survenue !',
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            error: "Une erreur est survenue lors de l'enregistrement du fichier",
         });
     }
 });

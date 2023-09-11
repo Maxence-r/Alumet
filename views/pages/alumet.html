@@ -138,6 +138,49 @@
                 </div>
             </div>
             <div class="overlay-content settings">
+                <div class="header-setting">
+                    <h1>AlumetName</h1>
+                    <button onclick="modifyAlumet()" class="large">Enregistrer</button>
+                </div>
+                <div class="divider"></div>
+                <img src="../assets/global/dev.png" />
+                <input type="file" name="alumet-background" id="alumet-background" accept="image/png, image/jpeg" />
+                <div class="grid-user-container">
+                    <div class="item">
+                        <h3>Nom de l'Alumet</h3>
+                        <input type="text" name="alumetName" id="alumetName" placeholder="Nom de l'Alumet" autocomplete="on" />
+                    </div>
+                    <div class="item">
+                        <h3>Description de l'Alumet</h3>
+                        <input type="text" name="alumetDescription" id="alumetDescription" placeholder="Description de l'Alumet" autocomplete="on" />
+                    </div>
+                    <div class="item">
+                        <h3>Code d'invitation</h3>
+                        <input disabled="true" type="text" name="invitationCode" autocomplete="on" id="invitationCode" placeholder="Aucun code d'invitation" />
+                    </div>
+                </div>
+                <div class="switch-options">
+                    <div class="option">
+                        <h1>Alumet en mode privé</h1>
+                        <label class="switch">
+                            <input id="alumet-private" type="checkbox" />
+                            <span class="slide round"></span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <h1>Messagerie publique</h1>
+                        <label class="switch">
+                            <input id="alumet-chat" checked="" type="checkbox" />
+                            <span class="slide round"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="row-bottom-buttons">
+                    <button onclick="navbar('participants')" class="large greyed">Gerer les participants</button>
+                    <button onclick="engageDeletion()" class="large reded">Supprimer l'Alumet</button>
+                </div>
+            </div>
+            <div class="overlay-content participants">
                 <div class="not-available">
                     <img src="../assets/global/locked.svg" />
                     <h3>
