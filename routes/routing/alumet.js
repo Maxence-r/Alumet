@@ -31,6 +31,7 @@ router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveT
                 collaborators: req.body.collaborators,
                 private: req.body.private,
                 swiftchat: req.body.chat,
+                lastUsage: Date.now(),
             });
             await alumet.save();
         } else {
@@ -41,6 +42,7 @@ router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveT
                 collaborators: req.body.collaborators,
                 private: req.body.private,
                 swiftchat: req.body.chat,
+                lastUsage: Date.now(),
             });
         }
         res.json({ alumet });

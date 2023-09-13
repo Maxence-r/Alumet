@@ -19,6 +19,7 @@ section.access {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     width: 40%;
     height: 100%;
     border-radius: 20px;
@@ -26,8 +27,51 @@ section.access {
     background-color: rgb(255, 255, 255);
 }
 
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.options > div {
+    display: flex;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    width: calc(100% - 22px);
+    border: 1px solid rgb(214, 214, 214);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.options > div:hover {
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: #0597ff;
+}
+
+.options > div > img {
+    width: 20px;
+}
+
+.options > div > h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgb(0, 0, 0);
+    margin: 0;
+    margin-top: 10px;
+}
+
+.options > div > p {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: rgb(124, 124, 124);
+    margin: 0;
+}
+
 .container {
     width: 90%;
+
     max-width: 350px;
 }
 
@@ -163,9 +207,9 @@ section.alumet-infos {
     width: 100%;
     height: 100%;
     border-radius: 20px;
-    backdrop-filter: blur(10px) brightness(0.8);
+    backdrop-filter: blur(5px) brightness(0.8);
     z-index: 1;
-    --webkit-backdrop-filter: blur(10px) brightness(0.8);
+    --webkit-backdrop-filter: blur(5px) brightness(0.8);
 }
 
 .alumet-infos > img {

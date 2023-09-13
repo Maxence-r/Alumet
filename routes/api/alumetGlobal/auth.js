@@ -14,6 +14,12 @@ router.get('/signin', async (req, res) => {
     res.sendFile(filePath);
 });
 
+router.get('/signup', async (req, res) => {
+    if (req.connected) return res.redirect('/dashboard');
+    const filePath = path.join(__dirname, '../../../views/pages/authentification/signup.html');
+    res.sendFile(filePath);
+});
+
 router.get('/u/:id', (req, res) => {
     Account.findOne({ _id: req.params.id })
         .then(user => {
@@ -27,12 +33,6 @@ router.get('/u/:id', (req, res) => {
             });
         })
         .catch(error => res.status(500).json({ error }));
-});
-
-router.get('/signup', async (req, res) => {
-    if (req.connected) return res.redirect('/dashboard');
-    const filePath = path.join(__dirname, '../views/pages/signup.html');
-    res.sendFile(filePath);
 });
 
 router.get('/logout', async (req, res) => {

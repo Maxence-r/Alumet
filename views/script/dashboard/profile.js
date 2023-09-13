@@ -17,7 +17,6 @@ let deleteAccountBtn = document.getElementById('deleteAccountBtn');
 let welcomeUsername = document.getElementById('username');
 /** Get the user informations and display them*/
 function updateInfos(userInfos) {
-    console.log(userInfos);
     userName.innerText = userInfos.name + ' ' + userInfos.lastname;
     userMail.innerText = userInfos.mail;
     welcomeUsername.innerText = userInfos.name;

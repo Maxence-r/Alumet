@@ -146,6 +146,7 @@ body {
     font-size: 18px;
     font-weight: 500;
     margin: 0;
+    word-break: break-all;
 }
 
 .card > .description > .latexImg {

@@ -146,6 +146,7 @@
                         <div class="no-items">
                             <h1>Aucun dossiers</h1>
                             <p>Commencez par en créer un et envoyer vos fichiers !</p>
+                            <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
                         </div>
                     </div>
                     <div class="row-fm-header">
@@ -261,17 +262,16 @@
                     <div class="messages-head-option">
                         <input placeholder="Rechercher une conversation" type="text" name="search-conv" id="search-conv" />
                     </div>
-                    <div class="conversations-container">
-                        <div class="not-available">
-                            <img src="../assets/global/locked.svg" />
-                            <h3>
-                                Bientôt disponible en
-                                <div class="beta">BETA</div>
-                            </h3>
-                            <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
-                        </div>
+                    <div class="conversations-container"></div>
+                    <div class="not-available">
+                        <img src="../assets/global/locked.svg" />
+                        <h3>
+                            Bientôt disponible en
+                            <div class="beta">BETA</div>
+                        </h3>
+                        <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
                     </div>
-                    <button onclick="initConversation()" disabled="true" id="new-conv" class="large">Nouvelle conversation</button>
+                    <!-- <button onclick="initConversation()" disabled="true" id="new-conv" class="large">Nouvelle conversation</button> -->
                     <div class="sub-container create-conversation">
                         <div class="header">
                             <h2>Nouvelle conversation</h2>
@@ -289,7 +289,7 @@
                 <div class="main-container no-conversation showing-group-settings">
                     <div class="full-screen">
                         <h1>Cliquer sur une conversation pour commencer !</h1>
-                        <p>Alumet garantie la sécurité de vos données accessible ou que vous soyez !</p>
+                        <p>Amélioré, Alumet garantit la sécurité de vos données, où que vous soyez !</p>
                     </div>
                     <div class="loading-conversation full-screen">
                         <span class="loader-upload"></span>
@@ -441,6 +441,7 @@
                     </div>
                 </div>
                 <div class="action-content">
+                    <div class="warning-box">Pour le moment, la création de comptes est limitée. N'utilisez pas cette fonctionnalité si vous souhaitez partager le lien de cet Alumet.</div>
                     <div class="option">
                         <h1>Alumet en mode privé</h1>
                         <label class="switch">
