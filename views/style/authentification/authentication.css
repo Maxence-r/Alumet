@@ -38,10 +38,18 @@ section.access {
     cursor: pointer;
     flex-direction: column;
     justify-content: center;
-    width: calc(100% - 22px);
+    width: calc(100% - 42px);
     border: 1px solid rgb(214, 214, 214);
-    padding: 10px;
+    padding: 20px;
     border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.selectedOption {
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: #0597ff;
+    transform: scale(0.98);
 }
 
 .options > div:hover {
@@ -50,16 +58,11 @@ section.access {
     outline-color: #0597ff;
 }
 
-.options > div > img {
-    width: 20px;
-}
-
 .options > div > h3 {
     font-size: 1rem;
     font-weight: 500;
     color: rgb(0, 0, 0);
     margin: 0;
-    margin-top: 10px;
 }
 
 .options > div > p {
@@ -88,6 +91,10 @@ section.access {
     flex-direction: column;
     align-items: center;
     gap: 10px;
+}
+
+.container > div > select {
+    width: 100%;
 }
 .user-infos {
     display: flex;

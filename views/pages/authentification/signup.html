@@ -38,57 +38,93 @@
                 <h3>Patientez, nous y sommes presque !</h3>
             </section>
             <div class="container">
-                <h1>Inscription à l'Alumet</h1>
+                <h1>Alumet Education</h1>
                 <div class="public-nc" style="margin: 4% 0">
                     <button class="large connect">Se connecter avec Alumet</button>
                     <button class="large greyed guest">Acceder en tant que visiteur</button>
                 </div>
-                <div class="public-c" style="margin: 4% 0; display: flex">
+                <div class="choose" style="margin: 4% 0; display: flex">
                     <div class="options">
-                        <div>
-                            <img src="../../assets/global/profile.svg" />
-                            <h3>Compte élève</h3>
-                            <p>Pour profiter de puissants outils pour réussir votre scolarité</p>
-                        </div>
-                        <div>
-                            <img src="../../assets/global/profile.svg" />
+                        <div id="teacher">
                             <h3>Compte professeur</h3>
                             <p>Pour profiter de puissants outils pour réussir votre scolarité</p>
                         </div>
-                    </div>
-                    <button class="large join">Continuer</button>
-                </div>
-                <div class="public-c" style="margin: 4% 0">
-                    <div class="user-infos">
-                        <img src="../../assets/global/default_user.png" />
-                        <div class="user-details">
-                            <h3>Gabriel Lancelot</h3>
-                            <p>Connecté</p>
+                        <div id="student">
+                            <h3>Compte élève</h3>
+                            <p>Pour profiter de puissants outils pour réussir votre scolarité</p>
                         </div>
                     </div>
-                    <button class="large join">Rejoindre cet Alumet</button>
+                    <button class="large continue">Continuer</button>
                 </div>
-                <div class="private-nc" style="margin: 4% 0">
+
+                <div id="0" style="margin: 4% 0">
                     <div class="user-infos">
                         <div class="user-details">
-                            <h3>Cet Alumet est privé</h3>
-                            <p>Vous devez vous conneter pour continuer</p>
+                            <h3>Confirmer votre e-mail</h3>
+                            <p>Un code de sécurité vous a été envoyé</p>
                         </div>
                     </div>
-                    <button class="large connect">Se connecter</button>
+                    <input type="text" placeholder="Code de sécurité" />
+
+                    <button class="large confirm">Rejoindre Alumet</button>
                 </div>
-                <div class="private-c" style="margin: 4% 0">
-                    <div class="user-infos">
-                        <img src="../../assets/global/default_user.png" />
-                        <div class="user-details">
-                            <h3>Gabriel Lancelot</h3>
-                            <p>Connecté</p>
-                        </div>
+                <div id="1" class="student" style="margin: 4% 0">
+                    <input type="text" placeholder="Prénom" />
+                    <input type="text" placeholder="Nom" />
+                    <button onclick="next('1', '2')" class="large">Continuer</button>
+                </div>
+                <div id="2" style="margin: 4% 0">
+                    <input type="text" placeholder="Adresse e-mail" />
+                    <input type="text" placeholder="Code d'invation" />
+                    <button onclick="next('2', '3')" class="large">Continuer</button>
+                </div>
+                <div id="3" style="margin: 4% 0">
+                    <input type="text" placeholder="Mot de passe" />
+                    <input type="text" placeholder="Repetez le mot de passe" />
+
+                    <button onclick="next('3', '0')" class="large">Continuer</button>
+                </div>
+
+                <div id="4" class="teacher" style="margin: 4% 0">
+                    <input type="text" placeholder="Prénom" />
+                    <input type="text" placeholder="Nom" />
+                    <button onclick="next('4', '5')" class="large">Continuer</button>
+                </div>
+                <div id="5" style="margin: 4% 0">
+                    <input type="text" placeholder="Adresse e-mail professionelle" />
+                    <select>
+                        <option value="0">Mathématiques</option>
+                        <option value="1">Français</option>
+                        <option value="2">Espagnol</option>
+                        <option value="3">Anglais</option>
+                        <option value="4">Histoire Géographie</option>
+                        <option value="6">Physique Chimie</option>
+                        <option value="7">Philosophie</option>
+                        <option value="8">HLP</option>
+                        <option value="8">SES</option>
+                        <option value="8">SVT</option>
+                        <option value="9">Technologie</option>
+                        <option value="10">Musique</option>
+                        <option value="11">Arts plastiques</option>
+                        <option value="12">EPS</option>
+                        <option value="13">Latin</option>
+                        <option value="14">Grec</option>
+                        <option value="15">Allemand</option>
+                        <option value="16">Italien</option>
+                        <option value="17">Autre</option>
+                    </select>
+                    <div class="user-details">
+                        <p>Choissisez la matière que vous enseigné le plus, cela n'influera pas sur l'usage de l'application</p>
                     </div>
-                    <input class="code" type="text" placeholder="Code d'accès" />
-                    <button class="large join">Rejoindre cet Alumet privé</button>
+                    <button onclick="next('5', '6')" class="large">Continuer</button>
                 </div>
-                <p>En continuant vous accepter les CGU</p>
+                <div id="6" style="margin: 4% 0">
+                    <input type="text" placeholder="Mot de passe" />
+                    <input type="text" placeholder="Repetez le mot de passe" />
+
+                    <button onclick="next('6', '0')" class="large">Continuer</button>
+                </div>
+                <p>En continuant vous accepter les CGU d'Alumet</p>
             </div>
         </section>
         <section class="alumet-infos">
@@ -97,8 +133,9 @@
             </div>
             <div class="layer-blur"></div>
 
-            <img src="https://school-news.com.au/wp-content/uploads/2021/01/AdobeStock_183481501.jpeg" />
+            <img src="https://res.cloudinary.com/highereducation/images/w_1024,h_683,c_scale/f_auto,q_auto/v1659634851/BestColleges.com/BC_7-Myths-About-College-Professors_21985533c7/BC_7-Myths-About-College-Professors-1024x683.jpg" />
         </section>
     </body>
     <script src="../../script/global.js"></script>
+    <script src="../../script/authentification/signup.js"></script>
 </html>
