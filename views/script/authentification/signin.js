@@ -1,150 +1,117 @@
-const mailInput = document.getElementById("mail");
-const passwordInput = document.getElementById("password");
-const loginContainer = document.querySelector(".login-container");
-const loginBtn = document.getElementById("login-btn");
-const a2fLog = document.getElementById("a2f-log");
-const a2fCodeInput = document.getElementById("a2f-code");
-const forgotPasswordBtn = document.getElementById("forgot-password");
-const resetPasswordBtn = document.getElementById("log-reset-password");
-const codeResetPasswordInput = document.getElementById("code-reset-password");
-const newPasswordInput = document.getElementById("new-password-input");
-
-let a2fEnabled = false;
-
-function signin() {
-    const mail = mailInput.value;
-    const password = passwordInput.value;
-    loginContainer.classList.add("active-loading");
-    fetch("/auth/signin", {
-        method: "POST",
+function login() {
+    document.querySelector('.full-screen').style.display = 'flex';
+    fetch('/auth/signin', {
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            mail,
-            password,
+            mail: document.getElementById('mail').value,
+            password: document.getElementById('password').value,
         }),
     })
-        .then((res) => res.json())
-        .then((data) => {
-            loginContainer.classList.remove("active-loading");
+        .then(res => res.json())
+        .then(data => {
             if (data.error) {
-                toast({ title: "Quelque chose s'est mal passé", message: `${data.error}`, type: "error", duration: 3000 });
-            } else if (data.a2f) {
-                a2fEnabled = true;
-                loginContainer.classList.add("active-a2f");
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 2500 });
+                document.querySelector('.full-screen').style.display = 'none';
+            } else if (data.a2f == true) {
+                document.querySelector('.login-container').classList.remove('activeStep');
+                document.querySelector('.verify').classList.add('activeStep');
+                document.querySelector('.full-screen').style.display = 'none';
             } else {
+                toast({ title: 'Succès', message: 'Vous êtes connecté !', type: 'success', duration: 2500 });
                 handleRedirect();
             }
         })
-        .catch((error) => console.error(error));
+        .catch(err => {
+            toast({ title: 'Erreur', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
+        });
 }
 
-function authorize() {
-    const mail = mailInput.value;
-    const code = a2fCodeInput.value;
-    loginContainer.classList.add("active-loading");
-    fetch("/auth/authorize", {
-        method: "POST",
+function authorizeCode() {
+    document.querySelector('.full-screen').style.display = 'flex';
+    fetch('/auth/authorize', {
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            mail,
-            code,
+            mail: document.getElementById('mail').value,
+            code: document.getElementById('code').value,
         }),
     })
-        .then((res) => res.json())
-        .then((data) => {
-            loginContainer.classList.remove("active-loading");
+        .then(res => res.json())
+        .then(data => {
             if (data.error) {
-                toast({ title: "Quelque chose s'est mal passé", message: `${data.error}`, type: "error", duration: 30000 });
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+                document.querySelector('.full-screen').style.display = 'none';
             } else {
+                toast({ title: 'Succès', message: 'Vous êtes connecté !', type: 'success', duration: 2500 });
                 handleRedirect();
             }
-        })
-        .catch((error) => console.error(error));
+        });
+}
+
+function handleReset() {
+    document.querySelector('.full-screen').style.display = 'flex';
+    if (document.getElementById('mail').value == '') {
+        return toast({ title: 'Erreur', message: 'Veuillez entrer une adresse mail.', type: 'error', duration: 6000 });
+    }
+    fetch('/auth/a2f', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            mail: document.getElementById('mail').value,
+        }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+                document.querySelector('.full-screen').style.display = 'none';
+            } else {
+                document.querySelector('.login-container').classList.remove('activeStep');
+                document.querySelector('.fg-passwd').classList.add('activeStep');
+                document.querySelector('.full-screen').style.display = 'none';
+            }
+        });
+}
+
+function resetPassword() {
+    document.querySelector('.full-screen').style.display = 'flex';
+    fetch('/auth/resetpassword', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            mail: document.getElementById('mail').value,
+            code: document.getElementById('auth-code').value,
+            password: document.getElementById('new-password').value,
+        }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+                document.querySelector('.full-screen').style.display = 'none';
+            } else {
+                window.location.reload();
+            }
+        });
 }
 
 function handleRedirect() {
     const urlParams = new URLSearchParams(window.location.search);
-    const redirect = urlParams.get("redirect");
-    if (redirect === "loginCallback") {
+    const redirect = urlParams.get('redirect');
+    if (redirect === 'loginCallback') {
         window.close();
     } else {
-        window.location = "../dashboard";
+        setTimeout(() => {
+            window.location.href = '/dashboard';
+        }, 2500);
     }
 }
-
-loginBtn.addEventListener("click", () => {
-    if (!a2fEnabled) {
-        signin();
-    } else {
-        authorize();
-    }
-});
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        if (!a2fEnabled) {
-            signin();
-        } else {
-            authorize();
-        }
-    }
-});
-
-a2fLog.addEventListener("click", () => {
-    authorize();
-});
-
-forgotPasswordBtn.addEventListener("click", () => {
-    if (mailInput.value === "") {
-        toast({ title: "Quelque chose s'est mal passé", message: "Veuillez entrer votre adresse mail", type: "error", duration: 3000 });
-        return;
-    }
-    fetch("/auth/resetpassword", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            mail: mailInput.value,
-        }),
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            if (data.error) {
-                toast({ title: "Quelque chose s'est mal passé", message: `${data.error}`, type: "error", duration: 3000 });
-            } else {
-                toast({ title: "Code envoyé", message: "Un code de réinitialisation vous a été envoyé par mail", type: "success", duration: 3000 });
-                loginContainer.classList.add("active-forgot-password");
-            }
-        })
-        .catch((error) => console.error(error));
-});
-
-resetPasswordBtn.addEventListener("click", () => {
-    fetch("/auth/resetpassword/confirm", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            mail: mailInput.value,
-            code: codeResetPasswordInput.value,
-            password: newPasswordInput.value,
-        }),
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            if (data.error) {
-                toast({ title: "Quelque chose s'est mal passé", message: `${data.error}`, type: "error", duration: 3000 });
-            } else {
-                toast({ title: "Mot de passe modifié", message: "Votre mot de passe a bien été modifié", type: "success", duration: 3000 });
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2500);
-            }
-        });
-});

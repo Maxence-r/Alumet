@@ -203,22 +203,28 @@ router.get('/folder/:id', validateObjectId, (req, res) => {
         .catch(error => res.json({ error }));
 });
 
+router.get('/u/defUser', (req, res) => {
+    const filePath = path.join(__dirname, './../../../views/assets/default/default_user.png');
+    res.sendFile(filePath);
+});
+
+router.get('/u/defaultAlumet', (req, res) => {
+    const filePath = path.join(__dirname, './../../../views/assets/default/default_alumet.jpg');
+    res.sendFile(filePath);
+});
+
 router.get('/u/:id', validateObjectId, (req, res) => {
-    if (Object.prototype.hasOwnProperty.call(supportedTemplate, req.params.id)) {
-        res.sendFile(path.join(__dirname, supportedTemplate[req.params.id]));
-    } else {
-        Upload.find({ _id: req.params.id })
-            .then(upload => {
-                if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
-                const filePath = path.join(__dirname, './../../../cdn/' + upload[0].filename);
-                if (fs.existsSync(filePath)) {
-                    res.sendFile(filePath);
-                } else {
-                    res.redirect('/404');
-                }
-            })
-            .catch(error => res.json({ error }));
-    }
+    Upload.find({ _id: req.params.id })
+        .then(upload => {
+            if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
+            const filePath = path.join(__dirname, './../../../cdn/' + upload[0].filename);
+            if (fs.existsSync(filePath)) {
+                res.sendFile(filePath);
+            } else {
+                res.redirect('/404');
+            }
+        })
+        .catch(error => res.json({ error }));
 });
 
 const sanitizeFilename = filename => {
@@ -321,7 +327,7 @@ router.get('/info/:id', validateObjectId, (req, res) => {
         .then(upload => {
             if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
             Account.findOne({ _id: upload.owner })
-                .select('name lastname isCertified accountType badges')
+                .select('name lastname isCertified accountType badges username')
                 .then(account => {
                     if (!account) return res.status(404).json({ error: 'Compte non trouvé' });
                     res.json({ upload, account });

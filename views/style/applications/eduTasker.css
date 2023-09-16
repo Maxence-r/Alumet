@@ -32,7 +32,7 @@
     margin-bottom: 5px;
 }
 
-.teacher-hw-layer {
+.professor-hw-layer {
     display: none;
     align-items: center;
     position: absolute;
@@ -42,10 +42,10 @@
     opacity: 0;
 }
 
-.teacher-hw-layer:hover {
+.professor-hw-layer:hover {
     opacity: 1;
 }
 
-.teacher-hw-layer > .quick-actions {
+.professor-hw-layer > .quick-actions {
     justify-content: flex-end;
 }

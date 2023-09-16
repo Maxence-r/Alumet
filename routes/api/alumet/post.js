@@ -37,7 +37,7 @@ router.put('/:alumet/:wall', validatePost, async (req, res) => {
             post = new Post(postFields);
             await post.save();
         }
-        await Account.populate(postFields, { path: 'owner', select: 'id name icon lastname accountType isCertified badges' });
+        await Account.populate(postFields, { path: 'owner', select: 'id name icon lastname accountType isCertified badges username' });
         await Upload.populate(postFields, { path: 'file', select: 'displayname mimetype' });
         postFields._id = post._id;
         res.json(postFields);

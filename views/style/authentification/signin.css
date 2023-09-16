@@ -111,10 +111,7 @@ body {
     margin-bottom: 8px;
 }
 
-textarea:focus,
-input:focus {
-    outline-color: #296eff;
-}
+
 
 button {
     width: 100%;

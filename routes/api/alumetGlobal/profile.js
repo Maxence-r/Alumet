@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Account = require('../../../models/account');
 const bcrypt = require('bcrypt');
-const validateUpdateInfos = require('../../../middlewares/authentification/validateUpdateInfos');
+
 const A2f = require('../../../models/a2f');
 const { upload, uploadAndSaveToDb } = require('../../../middlewares/utils/uploadHandler');
 
@@ -39,18 +39,17 @@ router.put('/changepassword', async (req, res) => {
     }
 });
 
-router.put('/updateinfos', validateUpdateInfos, async (req, res) => {
+router.put('/updateinfos', async (req, res) => {
     try {
-        const { name, lastname, mail } = req.body;
+        const { username } = req.body;
         const user = await Account.findById(req.user.id);
         if (!user) {
             return res.status(401).json({ error: 'Utilisateur non trouvé !' });
         }
-        if (name === user.name && lastname === user.lastname && mail === user.mail) {
-            return res.status(400).json({ error: "Vous n'avez modifié aucune information" });
+        if (username.length < 4 || username.length > 60) {
+            return res.status(400).json({ error: "Le nom d'utilisateur est trop court ou trop long" });
         }
-        user.name = name;
-        user.lastname = lastname;
+        user.username = username;
         await user.save();
         res.status(200).json({ message: 'Informations modifiées avec succès !' });
     } catch (err) {

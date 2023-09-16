@@ -33,6 +33,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
 router.post('/authorize/:id', validateObjectId, async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.id);
+        console.log(alumet.private && req.body.code !== alumet.code);
         if (!alumet) {
             return res.status(404).json({
                 error: 'Alumet not found',

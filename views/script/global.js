@@ -82,6 +82,8 @@ function toast({ title = '', message = '', type = 'info', duration = 3000 }) {
         toast.appendChild(toastBody);
         main.appendChild(toast);
     }
+    let audioNotif = new Audio('../assets/global/soft.mp3');
+    audioNotif.play();
 }
 
 function createPrompt(object) {
@@ -160,21 +162,14 @@ function getMyInfos() {
     });
 }
 
-function setPictureOnError(icon, parameter) {
-    icon.onerror = () => {
-        if (parameter === 'user') {
-            icon.src = '../assets/global/default_user.png';
-        } else if (parameter === 'group') {
-            icon.src = '../assets/global/default_group.png';
-        } else if (parameter === 'file') {
-            icon.src = '../assets/global/default_file.png';
-            toast({ title: 'Erreur !', message: 'Fichier introuvable', type: 'error', duration: 2500 });
-        }
-    };
-}
-
 document.addEventListener('keydown', function (event) {
     if (event.key === 'Tab') {
         event.preventDefault();
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        document.querySelector('.loading').style.display = 'none';
+    }, 500);
 });

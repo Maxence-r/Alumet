@@ -19,11 +19,7 @@ const createConversationElement = conversation => {
     const iconElement = document.createElement('img');
     iconElement.src = `/cdn/u/${conversationIcon || icon}`;
     iconElement.alt = 'file icon';
-    if (type === 'private') {
-        setPictureOnError(iconElement, 'user');
-    } else if (type === 'group') {
-        setPictureOnError(iconElement, 'group');
-    }
+
     conversationElement.appendChild(iconElement);
 
     if (isCertified && participants.length === 1) {
@@ -142,7 +138,7 @@ const searchUsers = async (query, container, type) => {
             const iconElement = document.createElement('img');
             iconElement.src = `/cdn/u/${user.icon}`;
             iconElement.alt = 'user icon';
-            setPictureOnError(iconElement, 'user');
+
             userElement.appendChild(iconElement);
 
             const columnInfosElement = document.createElement('div');
@@ -299,8 +295,6 @@ document.addEventListener('keydown', event => {
     }
 });
 
-const socket = io();
-
 socket.on('connect', () => {
     console.log('Vous êtes connecté au serveur Alumet');
 });
@@ -314,9 +308,9 @@ socket.on('message', messageObject => {
 
 function openConversation(id) {
     if (localStorage.getItem('currentConversation')) {
-        socket.emit('leaveRoom', localStorage.getItem('currentConversation'), JSON.parse(localStorage.getItem('user')).id);
+        socket.emit('LeaveChatRoom', localStorage.getItem('currentConversation'), JSON.parse(localStorage.getItem('user')).id);
     }
-    socket.emit('joinRoom', id, JSON.parse(localStorage.getItem('user')).id);
+    socket.emit('joinChatRoom', id, JSON.parse(localStorage.getItem('user')).id);
 
     if (document.querySelector('.active-context')) {
         document.querySelector('.active-context').classList.remove('active-context');
@@ -341,7 +335,6 @@ function openConversation(id) {
     document.getElementById('conversation-lastTime').textContent = relativeTime(lastUsage);
     document.querySelector('.conversation-user-infos > img').src = `/cdn/u/${icon}`;
     document.querySelector('.conversation-user-infos > img').alt = 'user icon';
-    setPictureOnError(document.querySelector('.conversation-user-infos > img'), 'user');
 
     fetch(`/swiftChat/${id}`)
         .then(response => response.json())
@@ -514,7 +507,7 @@ function createConversationParametersElement(conversationName, conversationIcon,
     document.querySelector('.context-menu').classList.add(`${myRole}`);
     parameterGroupIcon.src = `/cdn/u/${conversationIcon}`;
     parameterGroupIcon.alt = 'group icon';
-    setPictureOnError(parameterGroupIcon, 'group');
+
     parameterGroupIcon.dataset.conversationIdGroupIcon = localStorage.getItem('currentConversation');
     parameterGroupName.value = conversationName;
     parameterParticipantsContainer.innerHTML = '';
@@ -530,7 +523,7 @@ function createConversationParametersElement(conversationName, conversationIcon,
         const iconElement = document.createElement('img');
         iconElement.src = `/cdn/u/${participant.icon}`;
         iconElement.alt = 'user icon';
-        setPictureOnError(iconElement, 'user');
+
         infosElement.appendChild(iconElement);
 
         const subInfosElement = document.createElement('div');
@@ -588,7 +581,6 @@ function createMessageElement(message, user) {
     const imageElement = document.createElement('img');
     imageElement.src = `/cdn/u/` + user.icon;
     imageElement.alt = 'file icon';
-    setPictureOnError(imageElement, 'user');
 
     const messageDetailsElement = document.createElement('div');
     messageDetailsElement.classList.add('message-details');

@@ -61,7 +61,7 @@
                             <div>
                                 <h3>Vos Alumets</h3>
                             </div>
-                            <div><input placeholder="Chercher dans vos Alumets" /> <button onclick="setup('create-alumet')" class="large">Créer un alumet</button></div>
+                            <div><input placeholder="Chercher dans vos Alumets" /> <button onclick="window.location.href='/setup/alumet'" class="large">Créer un alumet</button></div>
                         </div>
                         <div class="items alumets">
                             <div class="no-items">
@@ -142,13 +142,6 @@
                     <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
                 </div>
                 <div class="main-container">
-                    <div class="full-screen">
-                        <div class="no-items">
-                            <h1>Aucun dossiers</h1>
-                            <p>Commencez par en créer un et envoyer vos fichiers !</p>
-                            <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
-                        </div>
-                    </div>
                     <div class="row-fm-header">
                         <select name="folder" id="folder-selection"></select>
                         <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
@@ -249,6 +242,13 @@
                             <p>Séléctionner un fichier pour obtenir des informations</p>
                         </div>
                         <div class="actions-buttons-file"><button onclick="modifyFile()" class="large">Modifier</button> <button id="openFileBtn" class="large">Ouvrir le fichier</button></div>
+                    </div>
+                </div>
+                <div class="full-screen">
+                    <div class="no-items">
+                        <h1>Aucun dossiers</h1>
+                        <p>Commencez par en créer un et envoyer vos fichiers !</p>
+                        <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
                     </div>
                 </div>
             </section>
@@ -383,12 +383,16 @@
                         <div class="divider"></div>
                         <div class="grid-user-container">
                             <div class="item">
+                                <h3>Nom d'utilisateur</h3>
+                                <input spellcheck="false" type="text" name="username" id="usernameField" placeholder="Nom d'utilisateur" autocomplete="on" />
+                            </div>
+                            <div class="item">
                                 <h3>Prénom</h3>
-                                <input type="text" name="firstname" id="firstnameField" placeholder="Prénom" autocomplete="on" />
+                                <input disabled="true" type="text" name="firstname" id="firstnameField" placeholder="Prénom" autocomplete="on" />
                             </div>
                             <div class="item">
                                 <h3>Nom</h3>
-                                <input type="text" name="lastname" id="lastnameField" placeholder="Nom" autocomplete="on" />
+                                <input disabled="true" type="text" name="lastname" id="lastnameField" placeholder="Nom" autocomplete="on" />
                             </div>
                             <div class="item">
                                 <h3>Adresse e-mail</h3>
@@ -614,6 +618,9 @@
             </section>
         </section>
         <script src="/socket.io/socket.io.js"></script>
+        <script>
+            const socket = io();
+        </script>
         <script src="../script/global.js"></script>
         <script src="../script/dashboard/dashboard.js"></script>
         <script src="../script/dashboard/cloud.js"></script>

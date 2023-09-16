@@ -239,7 +239,7 @@ function deleteFolder(id) {
             const folder = folderList.querySelector(`h2[data-id="${localStorage.getItem('currentFolder')}"]`);
             folder.remove();
             if (document.querySelector('.folder-list > h2')) document.querySelector('.folder-list > h2:first-child').click();
-            else document.querySelector('.cloud > .main-container > .full-screen').style.display = 'flex';
+            else document.querySelector('.cloud > .full-screen').style.display = 'flex';
             document.querySelector('.active-popup').classList.remove('active-popup');
         });
 }
@@ -344,7 +344,7 @@ function createFolder() {
                 });
                 return;
             }
-            document.querySelector('.cloud > .main-container > .full-screen').style.display = 'none';
+            document.querySelector('.cloud > .full-screen').style.display = 'none';
             addFolder(data);
             triggerFolder();
             const folder = folderList.querySelector(`h2[data-id="${data._id}"]`);
@@ -372,16 +372,12 @@ fetch('/cdn/folder/list', {
     .then(data => {
         data.forEach(addFolder);
         if (data.length === 0) {
-            return (document.querySelector('.cloud > .main-container > .full-screen').style.display = 'flex');
+            return (document.querySelector('.cloud > .full-screen').style.display = 'flex');
         }
         document.querySelector('.folder-list > h2:first-child').classList.add('active-folder');
         loadFolder(data[0]._id);
         triggerFolder();
     });
-
-window.addEventListener('load', () => {
-    document.querySelector('.loading').style.display = 'none';
-});
 
 document.querySelectorAll('.files-items > div').forEach(file => {
     file.addEventListener('click', e => {

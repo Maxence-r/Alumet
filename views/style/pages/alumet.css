@@ -451,6 +451,7 @@ body {
 
 .overlay-content > button {
     min-height: 50px;
+    margin-top: auto;
 }
 
 #latexInput {

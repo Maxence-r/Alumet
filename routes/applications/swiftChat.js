@@ -187,7 +187,7 @@ router.get('/:conversation', async (req, res) => {
                 const conversationIcon = conversation.icon;
 
                 const messagePromises = messages.map(async message => {
-                    const user = await Account.findOne({ _id: message.sender }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1, badges: 1 });
+                    const user = await Account.findOne({ _id: message.sender }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1, badges: 1, username: 1 });
                     return { message, user };
                 });
 
@@ -371,7 +371,7 @@ router.post('/send', async (req, res) => {
     const reference = conversationId;
     const isReaded = false;
     const newMessage = new Message({ sender, content: message, reference, isReaded });
-    const user = await Account.findOne({ _id: sender }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1, badges: 1 });
+    const user = await Account.findOne({ _id: sender }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1, badges: 1, username: 1 });
     newMessage
         .save()
         .then(message => {

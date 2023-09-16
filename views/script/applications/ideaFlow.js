@@ -97,10 +97,6 @@ itemContents.forEach(itemContent => {
     });
 });
 
-window.onload = () => {
-    document.querySelector('.loading').style.display = 'none';
-};
-
 document.querySelector('.tool-bar').addEventListener('click', () => {
     toast({
         title: 'Pas encore prêt',

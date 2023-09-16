@@ -58,7 +58,7 @@ const AlumetSchema = mongoose.Schema({
     background: {
         type: String,
         required: true,
-        default: '644a1e2b71748e4521eba8a3',
+        default: 'defaultAlumet',
     },
     customsLinks: {
         type: Array,

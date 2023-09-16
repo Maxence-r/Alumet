@@ -31,6 +31,7 @@ section.access {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
 }
 
 .options > div {
@@ -75,33 +76,70 @@ section.access {
 .container {
     width: 90%;
 
-    max-width: 350px;
+    max-width: 425px;
 }
 
-.container > p {
+.footer-infos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer-infos > p {
     font-size: 0.8rem;
     font-weight: 400;
+    cursor: pointer;
     color: rgb(124, 124, 124);
     margin: 0;
-    margin-bottom: 10px;
 }
 .container > div {
     display: none;
     width: 100%;
     flex-direction: column;
+    margin: 3% 0 4% 0;
     align-items: center;
     gap: 10px;
+}
+
+#step3 > img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+#step3 > img:hover {
+    filter: brightness(0.9);
+    transform: scale(0.98);
+}
+
+.alumet-infos > .layer-blur {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    backdrop-filter: blur(5px) brightness(0.8);
+    z-index: 1;
+    --webkit-backdrop-filter: blur(5px) brightness(0.8);
 }
 
 .container > div > select {
     width: 100%;
 }
+
 .user-infos {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
-    height: 50px;
+    margin-right: auto;
+}
+
+.container > div > .user-details {
     margin-right: auto;
 }
 
@@ -129,6 +167,30 @@ section.access {
     color: rgb(0, 0, 0);
     margin: 0;
     margin-top: 20px;
+    text-align: center;
+}
+
+.switch-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.switch-options > div {
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 0 15px;
+    height: 52px;
+    width: calc(100% - 32px);
+}
+
+.switch-options > p {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: rgb(124, 124, 124);
+    margin: 0;
 }
 
 .alumet-details {
@@ -180,12 +242,16 @@ section.access {
 }
 
 .container > h1 {
-    font-size: 1.9rem;
-    font-weight: 500;
+    font-size: 2.1rem;
+    font-weight: 600;
     color: rgb(0, 0, 0);
     margin-bottom: 20px;
     margin: 0;
     margin-right: auto;
+}
+
+.container > h1 > span {
+    color: #296eff;
 }
 
 .full-screen {
@@ -202,21 +268,15 @@ section.access {
 }
 
 section.alumet-infos {
+    overflow: hidden;
     position: relative;
     width: 60%;
     height: 100%;
     border-radius: 20px;
     background-color: rgb(255, 255, 255);
-}
-
-.alumet-infos > .layer-blur {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-    backdrop-filter: blur(5px) brightness(0.8);
-    z-index: 1;
-    --webkit-backdrop-filter: blur(5px) brightness(0.8);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .alumet-infos > img {
@@ -225,9 +285,25 @@ section.alumet-infos {
     height: 100%;
     border-radius: 20px;
     object-fit: cover;
+    object-position: center;
 }
 
-@media screen and (max-width: 900px) {
+.row-inputs {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+}
+
+.row-inputs > select {
+    width: 40%;
+}
+
+.activeStep {
+    display: flex !important;
+}
+
+@media screen and (max-width: 1300px) {
     body {
         flex-direction: column-reverse;
         padding: 10px;

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="icon" href="../assets/global/alumet.ico" />
+
+        <meta name="description" content="Alumet, explorer d'une nouvelle façon." />
+        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers" />
+        <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation." />
+        <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://alumet.io" />
+        <meta property="og:image" content="https://i.imgur.com/O9RdHj1.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:domain" content="alumet.io" />
+        <meta name="twitter:url" content="https://alumet.io/" />
+        <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes." />
+        <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !" />
+        <meta name="twitter:image" content="https://i.imgur.com/O9RdHj1.png" />
+
+        <link href="../../style/authentification/authentication.css" rel="stylesheet" type="text/css" />
+        <link href="../../style/global.css" rel="stylesheet" type="text/css" />
+
+        <title>Alumet - Auth Portal</title>
+    </head>
+    <body>
+        <section style="display: flex" class="loading">
+            <span class="loader-upload"></span>
+        </section>
+
+        <div id="toast"></div>
+        <section class="access load">
+            <section style="display: none" class="full-screen">
+                <span class="loader"></span>
+                <h3>Patientez quelques instants</h3>
+            </section>
+            <div class="container">
+                <h1>Créer un Alumet</h1>
+                <div id="step1" class="activeStep">
+                    <div class="user-details">
+                        <h3>Un nom et une description</h3>
+                        <p>Cela vous permettra facilement d'identifier vos Alumets</p>
+                    </div>
+                    <input id="alumet-name" required type="text" placeholder="Nom de l'Alumet" />
+                    <input id="alumet-description" type="text" placeholder="Description de l'Alumet" />
+
+                    <button onclick="next(1, 2)" class="large">Continuer</button>
+                </div>
+                <div id="step2">
+                    <div class="user-details">
+                        <h3>Options</h3>
+                        <p>Utiliser le mode privé si vous souhaitez seulement que certaines personne rejoignent avec un code. Désactiver la messagerie publique pour limiter les interactions des utilisateurs de l'Alumet.</p>
+                    </div>
+                    <div class="switch-options">
+                        <div class="option">
+                            <h1>Alumet en mode privé</h1>
+                            <label class="switch">
+                                <input id="alumet-private" type="checkbox" />
+                                <span class="slide round"></span>
+                            </label>
+                        </div>
+
+                        <div class="option">
+                            <h1>Messagerie publique</h1>
+                            <label class="switch">
+                                <input id="alumet-chat" checked="" type="checkbox" />
+                                <span class="slide round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <button onclick="next(2, 3)" class="large">Continuer</button>
+                </div>
+                <div id="step3">
+                    <div class="user-details">
+                        <h3>Du style</h3>
+                        <p>Définisser une image de fond de votre Alumet, celle si sera légèrement flouter pour rendre le contenu plus visible.</p>
+                    </div>
+                    <img class="alumet-background load-background" src="../../assets/global/dev.JPG" />
+                    <input id="alumet-background" type="file" accept="image/*" />
+                    <button class="large greyed load-background">Charger un fichier</button>
+                    <button onclick="createAlumet()" class="large connect">Créer l'Alumet</button>
+                </div>
+                <span class="footer-infos">
+                    <p>Besoin d'aide ?</p>
+                </span>
+            </div>
+        </section>
+        <section style="background-image: url('../../assets/global/alumet.jpg')" class="alumet-infos"></section>
+    </body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+    </script>
+    <script src="../../script/global.js"></script>
+    <script src="../../script/setup/alumet.js"></script>
+</html>

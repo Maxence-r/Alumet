@@ -5,13 +5,19 @@ const AccountSchema = mongoose.Schema({
         type: String,
         required: true,
         minLength: 2,
-        maxLength: 50,
+        maxLength: 30,
     },
     lastname: {
         type: String,
         required: true,
         minLength: 2,
-        maxLength: 50,
+        maxLength: 30,
+    },
+    username: {
+        type: String,
+        required: true,
+        minLength: 2,
+        maxLength: 60,
     },
     mail: {
         type: String,
@@ -21,8 +27,7 @@ const AccountSchema = mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minLength: 4,
-        default: 'default',
+        minLength: 6,
     },
     accountType: {
         type: String,
@@ -46,7 +51,7 @@ const AccountSchema = mongoose.Schema({
     icon: {
         type: String,
         required: false,
-        default: 'default',
+        default: 'defaultUser',
     },
     notifications: {
         type: Array,

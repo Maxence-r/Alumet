@@ -1,5 +1,3 @@
-window.addEventListener('load', () => {});
-
 /* document.querySelector('.sub-container').addEventListener('click', e => {
     document.querySelector('.file-viewer').classList.toggle('active-infos');
 }); */
@@ -7,7 +5,6 @@ window.addEventListener('load', () => {});
 fetch('/cdn/info/' + window.location.href.split('/')[4])
     .then(res => res.json())
     .then(data => {
-        document.querySelector('.loading').style.display = 'none';
         if (data.error) {
             console.log(data.error);
             document.querySelector('.stream-info').style.display = 'flex';

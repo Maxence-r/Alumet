@@ -9,8 +9,8 @@
 
         <meta name="description" content="Alumet, explorer d'une nouvelle façon." />
         <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers" />
-        <meta property="og:title" content="Alumet: Explorer d'une nouvelle façon." />
-        <meta property="og:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !" />
+        <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation." />
+        <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://alumet.io" />
         <meta property="og:image" content="https://i.imgur.com/O9RdHj1.png" />
@@ -21,48 +21,71 @@
         <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !" />
         <meta name="twitter:image" content="https://i.imgur.com/O9RdHj1.png" />
 
-        <link rel="stylesheet" href="../style/authentification/signin.css" />
-        <link rel="stylesheet" type="text/css" href="../style/global.css" />
+        <link href="../../style/authentification/authentication.css" rel="stylesheet" type="text/css" />
+        <link href="../../style/global.css" rel="stylesheet" type="text/css" />
 
-        <title>Alumet - Connexion</title>
+        <title>Alumet - Auth Portal</title>
     </head>
     <body>
+        <section style="display: flex" class="loading">
+            <span class="loader-upload"></span>
+        </section>
+
         <div id="toast"></div>
-        <div class="login-container">
-            <div class="forgot-password full-screen">
-                <h1>Mot de passe oublié</h1>
-                <p>Un code de sécurité vous a été envoyé sur votre adresse email.</p>
-                <input autocomplete="off" type="text" name="code-reset-password" id="code-reset-password" placeholder="Entrez le code de sécurité" />
-                <input autocomplete="off" type="password" name="new-password-input" id="new-password-input" placeholder="Entrez votre nouveau mot de passe" />
-                <button class="large" type="submit" id="log-reset-password">Modifier mon mot de passe</button>
-            </div>
-
-            <div class="loading-login full-screen">
+        <section class="access load">
+            <section style="display: none" class="full-screen">
                 <span class="loader"></span>
-            </div>
+                <h3>Nous essayons de vous connecter à votre compte</h3>
+            </section>
+            <div class="container">
+                <h1>Alumet <span>Education</span></h1>
+                <div class="login-container activeStep">
+                    <div class="user-details">
+                        <h3>Portail de connexion</h3>
+                        <p>Fournissez vos identifiants pour acceder à votre espace.</p>
+                    </div>
+                    <input id="mail" type="email" placeholder="Adresse mail" />
+                    <input id="password" type="password" placeholder="Mot de passe" />
+                    <button onclick="login()" id="login" class="large">Se connecter</button>
+                </div>
 
-            <div class="a2f-challenge full-screen">
-                <h1>Défi de sécurité</h1>
-                <p>Une code de sécurité vous a été envoyé sur votre adresse email.</p>
-                <input autocomplete="off" type="text" name="a2f-code" id="a2f-code" placeholder="Entrez le code de sécurité" />
-                <button class="large" type="submit" id="a2f-log">Se connecter</button>
-            </div>
+                <div class="verify">
+                    <div class="user-infos">
+                        <div class="user-details">
+                            <h3>Défis de sécurité</h3>
+                            <p>Un code de sécurité vous a été envoyé</p>
+                        </div>
+                    </div>
+                    <input id="code" type="text" placeholder="Code de sécurité" />
 
-            <img src="../../assets/global/branding.png" />
-            <h1>Se connecter à Alumet</h1>
-            <p>Alumet, vous donner les outils pour enseigner +, Mashallah</p>
-            <div class="input-container">
-                <label for="mail">Adresse mail</label>
-                <input type="text" name="mail" id="mail" placeholder="Entrez votre adresse mail" />
+                    <button onclick="authorizeCode()" class="large">Confirmer le code</button>
+                </div>
+
+                <!-- ------------------------------------ -->
+
+                <div class="fg-passwd">
+                    <div class="user-details">
+                        <h3>Confirmer votre identité</h3>
+                        <p>Un code de sécurité vous a été envoyé</p>
+                    </div>
+                    <input id="auth-code" type="text" placeholder="Code" />
+                    <input id="new-password" type="password" placeholder="Nouveau mot de passe" />
+                    <button onclick="resetPassword()" class="large">Changer de mot de passe</button>
+                </div>
+
+                <!-- ------------------------------------ -->
+                <span class="footer-infos">
+                    <p onclick="handleReset()">Mot de passe oublié ?</p>
+                    <p onclick="window.location.href='/auth/signup'">Pas de compte ?</p>
+                </span>
             </div>
-            <div class="input-container">
-                <label for="password">Mot de passe</label>
-                <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe" />
+        </section>
+        <section style="background-image: url('../../assets/global/hands.jpg')" class="alumet-infos">
+            <div class="alumet-details">
+                <p>Crée par Maxence.R, Gabriel.L</p>
             </div>
-            <button class="large" type="submit" id="login-btn">Se connecter</button>
-            <h4 id="forgot-password">Mot de passe oublié ?</h4>
-        </div>
+        </section>
     </body>
-    <script src="../../script/authentification/signin.js"></script>
     <script src="../../script/global.js"></script>
+    <script src="../../script/authentification/signin.js"></script>
 </html>

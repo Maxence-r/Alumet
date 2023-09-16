@@ -294,6 +294,14 @@ function loadFiles() {
     })
         .then(res => res.json())
         .then(data => {
+            if (data.length === 0) {
+                if (data.length === 0) {
+                    document.querySelector('.files-header').style.display = 'none';
+                    document.querySelector('.files-items').style.display = 'none';
+                    document.getElementById('folder-selection').style.display = 'none';
+                    return;
+                }
+            }
             data.forEach(addFolder);
             localStorage.setItem('currentFolder', data[0]._id);
             loadFolder(localStorage.getItem('currentFolder'));

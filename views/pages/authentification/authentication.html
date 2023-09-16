@@ -27,7 +27,7 @@
         <title>Alumet - Auth Portal</title>
     </head>
     <body>
-        <section class="loading">
+        <section style="display: flex" class="loading">
             <span class="loader-upload"></span>
         </section>
 
@@ -38,12 +38,12 @@
                 <h3>Autorisation en cours</h3>
             </section>
             <div class="container">
-                <h1>Acceder à l'Alumet</h1>
-                <div class="public-nc" style="margin: 4% 0">
+                <h1>Accès à l'Alumet</h1>
+                <div class="public-nc">
                     <button class="large connect">Se connecter avec Alumet</button>
                     <button class="large greyed guest">Acceder en tant que visiteur</button>
                 </div>
-                <div class="public-c" style="margin: 4% 0">
+                <div class="public-c">
                     <div class="user-infos">
                         <img src="../../assets/global/default_user.png" />
                         <div class="user-details">
@@ -53,7 +53,7 @@
                     </div>
                     <button class="large join">Rejoindre cet Alumet</button>
                 </div>
-                <div class="private-nc" style="margin: 4% 0">
+                <div class="private-nc">
                     <div class="user-infos">
                         <div class="user-details">
                             <h3>Cet Alumet est privé</h3>
@@ -62,7 +62,7 @@
                     </div>
                     <button class="large connect">Se connecter</button>
                 </div>
-                <div class="private-c" style="margin: 4% 0">
+                <div class="private-c">
                     <div class="user-infos">
                         <img src="../../assets/global/default_user.png" />
                         <div class="user-details">
@@ -73,7 +73,10 @@
                     <input class="code" type="text" placeholder="Code d'accès" />
                     <button class="large join">Rejoindre cet Alumet privé</button>
                 </div>
-                <p>En continuant vous accepter les CGU</p>
+                <span class="footer-infos">
+                    <p>Besoin d'aide ?</p>
+                    <p onclick="window.location.href='/auth/signup'">Pas de compte ?</p>
+                </span>
             </div>
         </section>
         <section class="alumet-infos">

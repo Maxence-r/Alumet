@@ -39,6 +39,7 @@ function getContent() {
                 document.querySelector('#profile > img').src = '/cdn/u/' + data.user_infos.icon;
                 loadFiles();
             }
+            socket.emit('joinAlumet', alumet.user_infos?._id || 'Anonyme', alumet._id);
             document.querySelector('body > section').style.display = 'none';
         });
 }
@@ -255,7 +256,7 @@ function createTaskList(post) {
     author = document.createElement('div');
     author.classList.add('author');
     if (post.owner) {
-        author.textContent = post.owner.name + ' ' + post.owner.lastname;
+        author.textContent = post.owner.username;
     } else {
         author.textContent = 'Anonyme';
     }
@@ -353,7 +354,7 @@ function createTaskList(post) {
         card.appendChild(input);
     }
 
-    if (!navigator.userAgent.includes('Mobile')) {
+    if (!navigator.userAgent.includes('Mobile') && alumet.admin) {
         registerEventsOnCard(card);
     }
     return card;
@@ -388,7 +389,7 @@ function createInList(title, postAuthorized, id) {
         titleEl.appendChild(imgEdit);
     }
     list.appendChild(draggingContainer);
-    if (!navigator.userAgent.includes('Mobile')) {
+    if (!navigator.userAgent.includes('Mobile') && alumet.admin) {
         registerEventsOnList(draggingContainer);
     }
     return list;

@@ -8,6 +8,7 @@ let userIcon = document.querySelector('.user-infos > img');
 let userFirstNameInput = document.getElementById('firstnameField');
 let userLastNameInput = document.getElementById('lastnameField');
 let userMailInput = document.getElementById('mailField');
+let usernameField = document.getElementById('usernameField');
 
 let saveInfosBtn = document.getElementById('saveInfosBtn');
 let changePasswordBtn = document.getElementById('changePasswordBtn');
@@ -19,10 +20,11 @@ let welcomeUsername = document.getElementById('username');
 function updateInfos(userInfos) {
     userName.innerText = userInfos.name + ' ' + userInfos.lastname;
     userMail.innerText = userInfos.mail;
+    usernameField.value = userInfos.username;
     welcomeUsername.innerText = userInfos.name;
     userIcon.src = '/cdn/u/' + userInfos.icon;
     userIcon.alt = 'user icon';
-    setPictureOnError(userIcon, 'user');
+
     userFirstNameInput.value = userInfos.name;
     userLastNameInput.value = userInfos.lastname;
     userMailInput.value = userInfos.mail;
@@ -39,6 +41,7 @@ function updateInfos(userInfos) {
 getMyInfos()
     .then(() => {
         const userInfos = JSON.parse(localStorage.getItem('user'));
+        socket.emit('joinDashboard', JSON.parse(localStorage.getItem('user')).id);
         updateInfos(userInfos);
     })
     .catch(error => {
@@ -52,9 +55,7 @@ saveInfosBtn.addEventListener('click', () => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            name: userFirstNameInput.value,
-            lastname: userLastNameInput.value,
-            mail: userMailInput.value,
+            username: usernameField.value,
         }),
     })
         .then(res => res.json())
@@ -62,13 +63,10 @@ saveInfosBtn.addEventListener('click', () => {
             if (!data.error) {
                 const userInfos = JSON.parse(localStorage.getItem('user'));
                 toast({ title: 'Informations modifiées !', message: 'Vos informations ont bien été modifiées.', type: 'success', duration: 2500 });
-                userInfos.name = userFirstNameInput.value;
-                userInfos.lastname = userLastNameInput.value;
-                userInfos.mail = userMailInput.value;
-                localStorage.setItem('user', JSON.stringify(userInfos));
-                updateInfos(userInfos);
+                localStorage.setItem('user', JSON.stringify({ ...userInfos, username: usernameField.value }));
             } else {
                 toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
+                usernameField.value = JSON.parse(localStorage.getItem('user')).username;
             }
         });
 });
@@ -193,7 +191,6 @@ document.getElementById('profile-picture-input').addEventListener('change', asyn
             toast({ title: 'Image de profil modifiée !', message: 'Votre image de profil a bien été modifiée', type: 'success', duration: 2500 });
             document.getElementById('profile-picture').src = '/cdn/u/' + updateData.icon;
             document.getElementById('profile-picture').alt = 'user icon';
-            setPictureOnError(document.getElementById('profile-picture'), 'user');
             const userInfos = JSON.parse(localStorage.getItem('user'));
             userInfos.icon = updateData.icon;
             localStorage.setItem('user', JSON.stringify(userInfos));
