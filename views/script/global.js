@@ -82,7 +82,7 @@ function toast({ title = '', message = '', type = 'info', duration = 3000 }) {
         toast.appendChild(toastBody);
         main.appendChild(toast);
     }
-    let audioNotif = new Audio('../assets/global/soft.mp3');
+    let audioNotif = new Audio('../assets/sounds/soft.mp3');
     audioNotif.play();
 }
 
@@ -137,14 +137,6 @@ function relativeTime(timestamp) {
 
 function cancelLoading(classLoading) {
     document.querySelector(`.${classLoading}`).classList.remove('button--loading');
-}
-
-function getUser(id) {
-    return fetch('/auth/u/' + id)
-        .then(response => response.json())
-        .then(data => {
-            return data;
-        });
 }
 
 function getMyInfos() {

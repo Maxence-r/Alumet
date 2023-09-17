@@ -2,13 +2,6 @@ const Alumet = require('../../models/alumet');
 
 const authorize = type => {
     return async (req, res, next) => {
-        /* 
-        Professor: Check if the user is connected and if his account type is professor or staff
-        Student: Check if the user is connected and if his account type is student or staff
-        All: Check if the user is connected
-        Staff: Check if the user is connected and if his account type is staff
-        AlumetAdmins: Check if the user is connected and if his account type is staff or if he is the owner of the alumet
-        */
         const alumet = await Alumet.findOne({ _id: req.params.alumet });
 
         if (type === 'alumetPrivate') {

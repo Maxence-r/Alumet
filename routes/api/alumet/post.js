@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../../../models/post');
-const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
+
 const validatePost = require('../../../middlewares/modelsValidation/validatePost');
 const Alumet = require('../../../models/alumet');
 require('dotenv').config();
-const jwt = require('jsonwebtoken');
+
 const Upload = require('../../../models/upload');
-const notification = require('../../../middlewares/utils/notification');
+
 const authorize = require('../../../middlewares/authentification/authorize');
 const Wall = require('../../../models/wall');
 const Account = require('../../../models/account');

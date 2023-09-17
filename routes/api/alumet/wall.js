@@ -2,9 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Wall = require('../../../models/wall');
 const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
-const alumetItemsAuth = require('../../../middlewares/alumetItemsAuth');
 const authorize = require('../../../middlewares/authentification/authorize');
-const Alumet = require('../../../models/alumet');
 
 router.put('/:alumet', validateObjectId, authorize('alumetAdmins'), (req, res) => {
     if (req.body.wallToEdit) {

@@ -23,7 +23,6 @@ const swiftChat = require('./routes/applications/swiftChat');
 
 const wall = require('./routes/api/alumet/wall');
 const post = require('./routes/api/alumet/post');
-const notifications = require('./routes/api/alumet/notifications');
 
 const mindFlashAi = require('./routes/openai/mindFlash');
 
@@ -71,7 +70,6 @@ app.use('/preview', preview);
 
 app.use('/api/wall', wall);
 app.use('/api/post', post);
-app.use('/api/notifications', notifications);
 
 app.use('/api/homeworks', homeworks);
 app.use('/api/board', board);

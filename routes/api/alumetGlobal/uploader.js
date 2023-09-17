@@ -129,10 +129,6 @@ const storage = multer.diskStorage({
     },
 });
 
-router.get('/supported', (req, res) => {
-    res.json(supported);
-});
-
 router.post('/folder/create', authorize('professor'), (req, res) => {
     const folder = new Folder({
         name: req.body.name,
@@ -231,14 +227,6 @@ const sanitizeFilename = filename => {
     return filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
 };
 
-const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 50 * 1024 * 1024,
-        files: 10,
-    },
-});
-
 router.patch('/update/:id', validateObjectId, (req, res) => {
     if (req.connected === false)
         return res.status(401).json({
@@ -264,18 +252,6 @@ router.patch('/update/:id', validateObjectId, (req, res) => {
         .catch(error => {
             console.error(error);
             res.status(500).json({ error });
-        });
-});
-
-router.get('/files', (req, res) => {
-    if (!req.connected)
-        return res.status(401).json({
-            error: "Vous n'avez pas les permissions pour effectuer cette action !",
-        });
-    Upload.find({ owner: req.user.id })
-        .sort({ date: -1 })
-        .then(uploads => {
-            res.json({ uploads });
         });
 });
 
@@ -365,10 +341,6 @@ router.delete('/:id', authorize(), validateObjectId, async (req, res) => {
         console.error(error);
         return res.status(500).json({ error: 'Server error' });
     }
-});
-
-router.get('/templates', (req, res) => {
-    res.json({ templates: supportedTemplate });
 });
 
 router.get('/stats', async (req, res) => {

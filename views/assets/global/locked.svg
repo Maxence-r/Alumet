@@ -29,7 +29,6 @@
                             fill: #ffc41f;
                         }
 
-                        .cls-8 {
                             stroke: #000;
                             stroke-miterlimit: 10;
                             stroke-width: 1.0897px;
