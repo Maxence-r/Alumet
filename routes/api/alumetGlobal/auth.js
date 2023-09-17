@@ -9,6 +9,7 @@ const A2F = require('../../../models/a2f');
 const { sendMail } = require('../../api/alumetGlobal/mailing');
 const authorizeA2F = require('../../../middlewares/authentification/authorizeA2f');
 const validateAccount = require('../../../middlewares/modelsValidation/validateAccount');
+const authorize = require('../../../middlewares/authentification/authorize');
 
 router.get('/signin', async (req, res) => {
     if (req.connected) return res.redirect('/dashboard');
@@ -174,8 +175,11 @@ router.post('/a2f', async (req, res) => {
     }
 });
 
-router.post('/resetpassword', authorizeA2F, async (req, res) => {
+router.post('/resetpassword', authorizeA2F, authorize(), async (req, res) => {
     try {
+        if (req.body.password.length < 6) {
+            return res.status(400).json({ error: 'Le mot de passe doit contenir au moins 6 caractères !' });
+        }
         const user = await Account.findOne({ mail: req.body.mail });
         const hash = await bcrypt.hash(req.body.password, 10);
         user.password = hash;

@@ -6,8 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const Upload = require('../../../models/upload');
 const fs = require('fs');
 const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
-const { supported } = require('../../../config.json');
-const { supportedTemplate } = require('../../../config.json');
+
 const Post = require('../../../models/post');
 const Folder = require('../../../models/folder');
 const authorize = require('../../../middlewares/authentification/authorize');
@@ -129,7 +128,7 @@ const storage = multer.diskStorage({
     },
 });
 
-router.post('/folder/create', authorize('professor'), (req, res) => {
+router.post('/folder/create', authorize(), (req, res) => {
     const folder = new Folder({
         name: req.body.name,
         owner: req.user.id,
@@ -140,17 +139,13 @@ router.post('/folder/create', authorize('professor'), (req, res) => {
         .catch(error => res.json({ error }));
 });
 
-router.get('/folder/list', (req, res) => {
-    if (!req.connected)
-        return res.status(401).json({
-            error: "Vous n'avez pas les permissions pour effectuer cette action !",
-        });
+router.get('/folder/list', authorize(), (req, res) => {
     Folder.find({ owner: req.user.id })
         .sort({ lastUsage: -1 })
         .then(folders => res.json(folders))
         .catch(error => res.json({ error }));
 });
-router.delete('/folder/delete/:id', validateObjectId, (req, res) => {
+router.delete('/folder/delete/:id', authorize(), validateObjectId, (req, res) => {
     if (!req.connected)
         return res.status(401).json({
             error: "Vous n'avez pas les permissions pour effectuer cette action !",
@@ -165,11 +160,7 @@ router.delete('/folder/delete/:id', validateObjectId, (req, res) => {
         .catch(error => res.json({ error }));
 });
 
-router.post('/folder/rename/:id', validateObjectId, (req, res) => {
-    if (!req.connected)
-        return res.status(401).json({
-            error: "Vous n'avez pas les permissions pour effectuer cette action !",
-        });
+router.post('/folder/rename/:id', authorize(), validateObjectId, (req, res) => {
     Folder.findOne({ _id: req.params.id, owner: req.user.id })
         .then(folder => {
             if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
@@ -181,11 +172,7 @@ router.post('/folder/rename/:id', validateObjectId, (req, res) => {
         .catch(error => res.json({ error }));
 });
 
-router.get('/folder/:id', validateObjectId, (req, res) => {
-    if (!req.connected)
-        return res.status(401).json({
-            error: "Vous n'avez pas les permissions pour effectuer cette action !",
-        });
+router.get('/folder/:id', authorize(), (req, res) => {
     Folder.findOne({ _id: req.params.id, owner: req.user.id })
         .then(folder => {
             if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
@@ -223,15 +210,25 @@ router.get('/u/:id', validateObjectId, (req, res) => {
         .catch(error => res.json({ error }));
 });
 
+router.get('/u/:id/download', validateObjectId, (req, res) => {
+    Upload.find({ _id: req.params.id })
+        .then(upload => {
+            if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
+            const filePath = path.join(__dirname, './../../../cdn/' + upload[0].filename);
+            if (fs.existsSync(filePath)) {
+                res.download(filePath, upload[0].originalname);
+            } else {
+                res.redirect('/404');
+            }
+        })
+        .catch(error => res.json({ error }));
+});
+
 const sanitizeFilename = filename => {
     return filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
 };
 
-router.patch('/update/:id', validateObjectId, (req, res) => {
-    if (req.connected === false)
-        return res.status(401).json({
-            error: "Vous n'avez pas les permissions pour effectuer cette action !",
-        });
+router.patch('/update/:id', authorize(), validateObjectId, (req, res) => {
     if (!req.body.displayname) return res.status(400).json({ error: 'Veuillez spéficier un nouveau nom' });
     Upload.find({ _id: req.params.id })
         .then(upload => {
@@ -262,7 +259,7 @@ const accountUpload = multer({
     },
 });
 
-router.post('/upload/:id', authorize('professor'), accountUpload.single('file'), async (req, res) => {
+router.post('/upload/:id', authorize(), accountUpload.single('file'), async (req, res) => {
     try {
         let folder;
         if (req.params.id && mongoose.Types.ObjectId.isValid(req.params.id)) {

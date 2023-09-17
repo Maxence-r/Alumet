@@ -51,10 +51,11 @@ router.get('/:alumet/content', authorize('alumetPrivate'), validateObjectId, asy
                     name: 1,
                     icon: 1,
                     lastname: 1,
+                    username: 1,
                 }
             );
             if (account) {
-                alumetContent.user_infos = { id: account._id, name: account.name, icon: account.icon, lastname: account.lastname };
+                alumetContent.user_infos = { id: account._id, name: account.name, icon: account.icon, lastname: account.lastname, username: account.username };
             }
         }
         const walls = await Wall.find({ alumetReference: req.params.alumet }).sort({ position: 1 }).lean();

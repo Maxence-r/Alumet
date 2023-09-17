@@ -353,3 +353,28 @@ document.getElementById('search-bar').addEventListener('input', e => {
         }
     });
 });
+
+function promptLeave() {
+    createPrompt({
+        head: "Quitter l'alumet",
+        desc: 'Êtes-vous sûr de vouloir quitter cet alumet ? Vous ne pourrez plus y accéder.',
+        action: 'leaveAlumet()',
+    });
+}
+
+function leaveAlumet() {
+    fetch('/portal/leave/' + alumet._id, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(res => res.json())
+        .then(data => {
+            document.querySelector('.prompt-popup').classList.remove('active-popup');
+            if (data.error) {
+                return toast({ title: 'Erreur', message: data.error, type: 'error' });
+            }
+            window.location.href = '/dashboard';
+        });
+}

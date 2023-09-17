@@ -3,9 +3,9 @@ const app = require('./app');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 
-const chatSocket = require('./socket/chatSocket')(io);
-const dashboardSocket = require('./socket/dashboardSocket.js')(io);
-const alumetSocket = require('./socket/alumetSocket.js')(io);
+chatSocket = require('./socket/chatSocket')(io);
+dashboardSocket = require('./socket/dashboardSocket.js')(io);
+alumetSocket = require('./socket/alumetSocket.js')(io);
 
 const normalizePort = val => {
     const port = parseInt(val, 10);

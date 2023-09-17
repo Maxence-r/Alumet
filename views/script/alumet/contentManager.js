@@ -37,6 +37,10 @@ function getContent() {
                     });
                 }
                 document.querySelector('#profile > img').src = '/cdn/u/' + data.user_infos.icon;
+                document.querySelector('.user-infos > img').src = '/cdn/u/' + data.user_infos.icon;
+                document.querySelector('.user-details > h3').innerText = data.user_infos.username;
+                document.querySelector('.user-details > p').innerText = 'Connecté';
+                document.querySelector('.profile > .row-bottom-buttons').classList.add('connected');
                 loadFiles();
             }
 

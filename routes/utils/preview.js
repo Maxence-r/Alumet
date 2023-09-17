@@ -4,7 +4,7 @@ const urlMetadata = require('url-metadata');
 const pdf2img = require('pdf-img-convert');
 const sharp = require('sharp');
 const axios = require('axios');
-const { supportedPreviewAlumet } = require('../../config.json');
+
 const Upload = require('../../models/upload');
 
 router.get('/meta', (req, res) => {

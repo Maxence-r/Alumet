@@ -294,7 +294,7 @@ function triggerFolder() {
             folderElements.forEach(folder => folder.classList.remove('active-folder'));
             folder.classList.add('active-folder');
             const selector = document.querySelector('.selector');
-            selector.style.top = `${folder.getBoundingClientRect().top - 31.5}px`;
+            selector.style.top = `${folder.getBoundingClientRect().top - 26.5}px`;
             loadFolder(folder.dataset.id);
         });
     });
@@ -387,7 +387,7 @@ document.querySelectorAll('.files-items > div').forEach(file => {
 
 document.querySelector('.folder-selector').addEventListener('scroll', () => {
     let top = document.querySelector('.active-folder').getClientRects()[0].top;
-    document.querySelector('.selector').style.top = `${top - 31.5}px`;
+    document.querySelector('.selector').style.top = `${top - 26.5}px`;
 });
 
 function updateStats() {

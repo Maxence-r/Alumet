@@ -343,7 +343,7 @@
 }
 
 .loading-box > img {
-    width: 24px;
+    width: 20px;
 }
 .indications > h3 {
     font-size: 0.9rem;
@@ -730,7 +730,7 @@ select:focus {
     flex-direction: column;
     gap: 10px;
     background-color: white;
-    padding: 20px;
+    padding: 15px;
     border-radius: 10px;
     width: 550px;
 }

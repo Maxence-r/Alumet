@@ -15,13 +15,12 @@ let changePasswordBtn = document.getElementById('changePasswordBtn');
 let toggleA2FBtn = document.getElementById('toggleA2FBtn');
 let deleteAccountBtn = document.getElementById('deleteAccountBtn');
 
-let welcomeUsername = document.getElementById('username');
 /** Get the user informations and display them*/
 function updateInfos(userInfos) {
     userName.innerText = userInfos.name + ' ' + userInfos.lastname;
     userMail.innerText = userInfos.mail;
     usernameField.value = userInfos.username;
-    welcomeUsername.innerText = userInfos.name;
+
     userIcon.src = '/cdn/u/' + userInfos.icon;
     userIcon.alt = 'user icon';
 
@@ -72,46 +71,68 @@ saveInfosBtn.addEventListener('click', () => {
 });
 
 /** Change the password */
-changePasswordBtn.addEventListener('click', () => {
-    createPrompt({
-        head: 'Confirmez votre mot de passe',
-        placeholder: 'Tapez votre mot de passe',
-        placeholderType: 'password',
-        action: 'confirmPassword()',
-    });
-});
-function confirmPassword() {
-    let oldPassword = document.getElementById('prompt-input').value;
-    createPrompt({
-        head: 'Nouveau mot de passe',
-        placeholder: 'Tapez votre nouveau mot de passe',
-        placeholderType: 'password',
-        action: `changePassword("${oldPassword}")`,
-    });
-}
-function changePassword(oldPassword) {
-    let newPassword = document.getElementById('prompt-input').value;
-    fetch('/profile/changepassword', {
-        method: 'PUT',
+
+function handleReset() {
+    fetch('/auth/a2f', {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            oldPassword: oldPassword,
-            newPassword: newPassword,
+            mail: JSON.parse(localStorage.getItem('user')).mail,
         }),
     })
         .then(res => res.json())
         .then(data => {
-            if (!data.error) {
-                toast({ title: 'Mot de passe modifié !', message: 'Votre mot de passe a bien été modifié.', type: 'success', duration: 2500 });
+            if (data.error) {
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+                document.querySelector('.full-screen').style.display = 'none';
             } else {
-                toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
+                return toast({ title: 'Code envoyé !', message: 'Un code de vérification vous a été envoyé par mail.', type: 'success', duration: 2500 });
             }
-        })
-        .catch(err => {
-            toast({ title: 'Erreur !', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
         });
+}
+
+function resetPassword(code) {
+    document.querySelector('.full-screen').style.display = 'flex';
+    fetch('/auth/resetpassword', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            mail: JSON.parse(localStorage.getItem('user')).mail,
+            code: code,
+            password: document.getElementById('prompt-input').value,
+        }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+            } else {
+                return toast({ title: 'Mot de passe modifié !', message: 'Votre mot de passe a bien été modifié.', type: 'success', duration: 2500 });
+            }
+        });
+}
+changePasswordBtn.addEventListener('click', () => {
+    handleReset();
+    createPrompt({
+        head: 'Un code de sécurité vous a été envoyer',
+        placeholder: 'Entrez le code reçu par mail',
+        desc: 'Veuillez entrer le code de sécurité que vous avez reçu par mail.',
+        action: 'confirmPassword()',
+    });
+});
+function confirmPassword() {
+    let code = document.getElementById('prompt-input').value;
+    createPrompt({
+        head: 'Nouveau mot de passe',
+        desc: 'Veuillez entrer votre nouveau mot de passe sécurisé de 6 caractères minimum.',
+        placeholder: 'Tapez votre nouveau mot de passe',
+        placeholderType: 'password',
+        action: `resetPassword('${code}')`,
+    });
 }
 
 /** Toggle the 2FA */

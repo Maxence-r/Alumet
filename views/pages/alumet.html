@@ -201,13 +201,19 @@
                 </div>
             </div>
             <div class="overlay-content profile">
-                <div class="not-available">
-                    <img src="../assets/global/locked.svg" />
-                    <h3>
-                        Bientôt disponible en
-                        <div class="beta">BETA</div>
-                    </h3>
-                    <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
+                <h1>Profile</h1>
+                <div class="divider"></div>
+                <div class="user-infos">
+                    <img src="../assets/default/default_user.png" />
+                    <div class="user-details">
+                        <h3>Anonyme</h3>
+                        <p>Déconnecté</p>
+                    </div>
+                </div>
+                <div class="row-bottom-buttons">
+                    <button onclick="window.location.href='/dashboard'" class="large greyed">Retour au tableau de bord</button>
+                    <button onclick="promptLeave()" class="large reded">Quitter cet Alumet</button>
+                    <button onclick="connect()" class="large">Se connecter</button>
                 </div>
             </div>
             <div class="overlay-content post">
@@ -246,7 +252,7 @@
                         </h3>
                     </div>
                     <div class="sending-box rts">
-                        <div class="loading-box reponsive-hide"><img src="../assets/global/tick.svg" alt="tick" /></div>
+                        <div class="loading-box reponsive-hide"><img src="../assets/global/file_rts.svg" alt="tick" /></div>
                         <div class="file-sending-infos">
                             <h3>file_name<span id="file-upload-ext">.ext</span></h3>
                         </div>

@@ -1,8 +1,9 @@
 body {
     display: flex;
     flex-direction: row;
+    gap: 15px;
     background-color: #f6f8fc;
-    padding: 20px;
+    padding: 15px 15px 15px 15px;
     margin: 0;
     overflow: hidden;
 }
@@ -92,8 +93,8 @@ body {
 
 html,
 body {
-    height: calc(100% - 20px);
-    min-height: calc(100% - 20px);
+    height: calc(100% - 15px);
+    min-height: calc(100% - 15px);
 }
 
 .nav > button > img {
@@ -112,7 +113,6 @@ body {
     width: 100%;
     height: 100%;
     position: relative;
-    margin-left: 20px;
     border-radius: 10px;
 }
 
@@ -121,6 +121,7 @@ body {
     display: flex;
     flex-direction: row;
     width: 100%;
+    gap: 15px;
     height: 100%;
     overflow: hidden;
     transition: all 0.2s ease-in-out;
@@ -159,7 +160,7 @@ body {
 
 .cloud > .sub-container:nth-child(1) {
     margin: 0;
-    margin-right: 20px;
+
     min-width: 14%;
 }
 
@@ -173,8 +174,8 @@ body {
 
 .cloud > .sub-container > button {
     position: absolute;
-    bottom: 20px;
-    width: calc(100% - 40px);
+    bottom: 15px;
+    width: calc(100% - 30px);
     border-radius: 6px;
 }
 
@@ -186,7 +187,6 @@ body {
     max-width: 365px;
     position: relative;
     margin: 0;
-    margin-right: 20px;
 }
 
 .showing-group-settings > .conversation-settings {
@@ -212,11 +212,11 @@ body {
     margin-left: 0 !important;
     top: 0;
     left: 0;
-    padding: 20px;
-    gap: 20px;
+    padding: 15px;
+
     background-color: white;
-    width: calc(100% - 40px);
-    height: calc(100% - 40px);
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
     position: relative;
     margin: 0;
     min-width: 14%;
@@ -589,14 +589,14 @@ body {
 }
 
 .main-container {
-    width: calc(100% - 40px);
+    width: calc(100% - 25px);
     display: flex;
     position: relative;
     flex-direction: column;
     overflow-x: scroll;
     background-color: white;
     border-radius: 10px;
-    padding: 20px;
+    padding: 15px;
 }
 
 .row {
@@ -648,11 +648,10 @@ body {
     display: flex;
     flex-direction: column;
     min-width: 325px;
-    margin-left: 20px;
     overflow: hidden;
     background-color: white;
     border-radius: 10px;
-    padding: 20px;
+    padding: 15px;
 }
 
 .graph {
@@ -960,12 +959,6 @@ h2 {
     margin-bottom: 15px;
 }
 
-.welcomer {
-    font-weight: 400;
-    margin: 0;
-    font-size: 3rem;
-}
-
 #username {
     font-weight: 600;
 }
@@ -974,7 +967,7 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin: 10px 0;
+    margin-bottom: 20px;
 }
 
 .home > .sub-container {
@@ -1007,7 +1000,7 @@ h2 {
 .items-container {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    gap: 10px;
 }
 
 .items-container-header {
@@ -1017,14 +1010,15 @@ h2 {
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
-    gap: 20px;
+    gap: 10px;
 }
 
 .items-container-header > div {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 15px;
+
+    gap: 10px;
 }
 
 input {
@@ -1040,13 +1034,11 @@ input {
 
 h3 {
     font-size: 2.5rem;
-    font-weight: 500;
+    font-weight: 700;
     margin: 0;
 }
 
 .items {
-    margin-top: 20px;
-    margin-bottom: 20px;
     display: flex;
     flex-direction: row;
     gap: 20px;
@@ -1173,7 +1165,7 @@ h3 {
 .folder-selector {
     display: flex;
     flex-direction: row;
-    margin: 20px 0;
+    margin: 10px 0;
     width: 100%;
     height: calc(100% - 150px);
     overflow-y: auto;
@@ -1227,7 +1219,7 @@ h3 {
     position: absolute;
     width: 100%;
     height: 40px;
-    top: 60px;
+    top: 48px;
     display: flex;
     flex-direction: row;
     transition: all 0.3s ease-in-out;
@@ -1237,7 +1229,6 @@ h3 {
     width: 2px;
     height: 100%;
     background-color: #296eff;
-    margin-left: 8px;
 }
 
 .selector-box {
@@ -1249,7 +1240,7 @@ h3 {
     margin-left: 10px;
     border-radius: 5px;
     height: 100%;
-    width: calc(100% - 60px);
+    width: calc(100% - 40px);
 }
 
 .folder-selector:hover > .selector > .selector-box > img {
@@ -1282,14 +1273,12 @@ h3 {
     width: 2px;
     height: 100%;
     background-color: #f6f8fc;
-    margin-left: 8px;
 }
 
 .sub-item > h4 {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 500;
     margin: 0;
-    margin-left: 10px;
 }
 
 .spinner {
@@ -1355,7 +1344,7 @@ h3 {
     gap: 20px;
     width: 100%;
     height: 100%;
-    margin-top: 20px;
+    margin-top: 10px;
     overflow: auto;
     overflow-x: none;
     margin-bottom: 3%;
@@ -1370,7 +1359,7 @@ h3 {
     position: relative;
     flex-direction: row;
     align-items: center;
-    gap: 16px;
+    gap: 15px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
@@ -1439,8 +1428,9 @@ h3 {
     object-fit: cover;
     width: 55px;
     min-width: 55px;
+    border: 1px solid #e5e5e5;
     height: 55px;
-    border-radius: 50%;
+    border-radius: 10px;
 }
 
 .message > img {
@@ -1771,7 +1761,8 @@ h3 {
     }
     body {
         flex-direction: column;
-        padding: 10px;
+        padding: 15px 10px 10px 10px;
+        gap: 10px;
     }
     html,
     body {
@@ -1786,10 +1777,7 @@ h3 {
         width: 100%;
         height: 80px;
     }
-    .sections-container {
-        margin-left: 0;
-        margin-top: 10px;
-    }
+
     .main-container {
         padding: 10px;
         width: calc(100% - 20px);
@@ -1807,14 +1795,17 @@ h3 {
         margin-top: 0;
         margin-left: 3%;
     }
-    .welcomer {
+
+    h3 {
         font-size: 2rem;
     }
-    h3 {
-        font-size: 1.5rem;
-    }
     .items-container-header > div {
+        flex-wrap: wrap;
         width: 100%;
+    }
+
+    .items-container-header > div > div > button {
+        width: 46%;
     }
     #profile {
         position: absolute;

@@ -61,3 +61,45 @@ function createAlumetBox(title, lastUsage, background, id) {
 openAlumet = alumetId => {
     window.open(`/portal/${alumetId}`, '_blank');
 };
+
+function joinAlumet() {
+    createPrompt({
+        head: 'Rejoindre un alumet',
+        desc: "Si l'alumet est privé, vous devez entrez un code d'invitation ici.",
+        placeholder: 'Entrer le code ici',
+        action: 'authorizeAlumet()',
+    });
+}
+
+function authorizeAlumet() {
+    fetch('/portal/authorize/join', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            code: document.getElementById('prompt-input').value,
+        }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                return toast({
+                    title: 'Erreur',
+                    message: data.error,
+                    type: 'error',
+                    duration: 2500,
+                });
+            }
+            toast({
+                title: 'Succès',
+                message: "Vous avez rejoint l'alumet !",
+                type: 'success',
+                duration: 2500,
+            });
+            setTimeout(() => {
+                window.location.reload();
+            }, 2500);
+        })
+        .catch(err => console.log(err));
+}

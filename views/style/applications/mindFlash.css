@@ -90,16 +90,6 @@ body {
     margin-bottom: 5px;
 }
 
-.warning-box {
-    font-size: 0.9rem;
-    color: rgb(0, 0, 0);
-    background-color: #cc7e714e;
-    margin-top: 10px;
-    border: 1px solid #cc7e71;
-    padding: 10px 15px;
-    border-radius: 5px;
-}
-
 .create-flashcard-container > section {
     display: flex;
     flex-direction: column;

@@ -1,11 +1,13 @@
 const conversationsContainer = document.querySelector('.conversations-container');
 
 const createConversationElement = conversation => {
+    console.log(conversation);
     const { lastUsage, isReaded, lastMessage, _id, type, conversationName, conversationIcon, participants } = conversation;
     const { name, lastname, icon, isCertified, accountType } = conversation.userinfos;
     const time = relativeTime(lastUsage);
     const conversationElement = document.createElement('div');
     conversationElement.classList.add('conversation');
+    console.log(_id);
     conversationElement.dataset.conversationid = _id;
     conversationElement.dataset.lastusage = lastUsage;
     conversationElement.dataset.icon = conversationIcon || icon;

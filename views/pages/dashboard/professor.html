@@ -51,17 +51,16 @@
         <section class="sections-container">
             <section class="home active-section">
                 <div class="main-container">
-                    <div class="warning-box">
-                        Cette version n'est PAS représentative du produit final et est sujette à de NOMBREUX changements. Elle comporte également des bugs et de nombreuses instabilitées. De nombreuses fonctionnalitées sont déjà prêtes, mais nous
-                        avons fait le choix de restreindre au strict minimum les fonctionnalitées afin d'assurer le déploiement de celle-ci sans problèmes.
-                    </div>
-                    <h1 class="welcomer">Bonjour, <span id="username">prénom</span></h1>
                     <div class="items-container">
                         <div class="items-container-header">
                             <div>
                                 <h3>Vos Alumets</h3>
                             </div>
-                            <div><input placeholder="Chercher dans vos Alumets" /> <button onclick="window.location.href='/setup/alumet'" class="large">Créer un alumet</button></div>
+                            <div>
+                                <input placeholder="Chercher dans vos Alumets" />
+                                <button onclick="joinAlumet()" class="large">Rejoindre un alumet</button>
+                                <button onclick="window.location.href='/setup/alumet'" class="large">Créer un alumet</button>
+                            </div>
                         </div>
                         <div class="items alumets">
                             <div class="no-items">
@@ -99,7 +98,6 @@
                                 <p>Commencer par en creer un !</p>
                             </div>
                         </div>
-                        <div class="divider"></div>
                     </div> -->
                 </div>
                 <div class="sub-container">
@@ -128,8 +126,7 @@
             <section class="cloud">
                 <div class="sub-container">
                     <div class="sub-item">
-                        <img src="../assets/global/folder.svg" alt="folder icon" />
-                        <h4>Dossiers</h4>
+                        <h4>Mes dossiers</h4>
                     </div>
                     <div class="folder-selector">
                         <div class="selector">
@@ -164,7 +161,7 @@
                             <div class="progress"></div>
                         </div>
                         <div class="sending-box rts">
-                            <div class="loading-box reponsive-hide"><img src="../assets/global/tick.svg" alt="tick" /></div>
+                            <div class="loading-box reponsive-hide"><img src="../assets/global/file_rts.svg" alt="tick" /></div>
                             <div class="file-sending-infos">
                                 <h3><span id="numbers-of-files">14</span> fichiers<span id="file-upload-ext">prêt à l'envoi</span></h3>
                             </div>
@@ -241,7 +238,7 @@
                             <h4>Aucun fichier sélectionné</h4>
                             <p>Séléctionner un fichier pour obtenir des informations</p>
                         </div>
-                        <div class="actions-buttons-file"><button onclick="modifyFile()" class="large">Modifier</button> <button id="openFileBtn" class="large">Ouvrir le fichier</button></div>
+                        <div class="actions-buttons-file"><button onclick="modifyFile()" class="large">Modifier</button> <button id="openFileBtn" onclick="openFile()" class="large">Ouvrir le fichier</button></div>
                     </div>
                 </div>
                 <div class="full-screen">
@@ -418,201 +415,6 @@
                             <button class="large">Enregistrer</button>
                         </div>
                         <div class="divider"></div> -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- ================== editAlumet =================== -->
-            <section class="editAlumet"></section>
-
-            <section class="setup-modal create-alumet">
-                <div class="creating full-screen">
-                    <span class="loader-upload"></span>
-                    <h1>Nous préparons votre Alumet</h1>
-                    <p>C'est ici que tous commence !</p>
-                </div>
-                <h1 id="action">Les détails</h1>
-                <h4 id="action-detail">Nom et description</h4>
-                <div class="action-content">
-                    <input required type="text" name="action" id="alumet-name" placeholder="Nom de l'Alumet" />
-                    <input required type="text" name="action" id="alumet-description" placeholder="Description de l'Alumet" />
-                </div>
-                <div class="action-content">
-                    <div class="alumet-background">
-                        <img src="../assets/global/dev.png" />
-                        <button id="load-background" class="large greyed">Charger une image</button>
-                        <input type="file" name="alumet-background" id="alumet-background" accept="image/png, image/jpeg" />
-                    </div>
-                </div>
-                <div class="action-content">
-                    <div class="warning-box">Pour le moment, la création de comptes est limitée. N'utilisez pas cette fonctionnalité si vous souhaitez partager le lien de cet Alumet.</div>
-                    <div class="option">
-                        <h1>Alumet en mode privé</h1>
-                        <label class="switch">
-                            <input id="alumet-private" type="checkbox" />
-                            <span class="slide round"></span>
-                        </label>
-                    </div>
-                    <div class="option">
-                        <h1>Messagerie publique</h1>
-                        <label class="switch">
-                            <input id="alumet-chat" checked type="checkbox" />
-                            <span class="slide round"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="action-content">
-                    <!--  <input data-type="professor" class="user-search-input" autocomplete="off" type="text" name="search-user" id="new-alumet" placeholder="Rechercher un utilisateur" />
-                    <div id="new-alumet-participants" class="participants-container"></div>
-                    <h2>Collaborateur(s)</h2>
-                    <div id="new-alumet-confirmed-participants" class="confirmed-participants"></div> -->
-                    <div class="not-available">
-                        <h3>
-                            Bientôt disponible en
-                            <div class="beta">BETA</div>
-                        </h3>
-                        <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
-                    </div>
-                </div>
-
-                <button onclick="setup('create-alumet')" class="large continue-button">Continuer</button>
-                <div class="progression-container">
-                    <div class="progression-bar"></div>
-                    <div class="progression-item">
-                        <img src="../assets/global/userdetails.svg" />
-                        <div class="action-details completed">
-                            <h3>Les détails</h3>
-                            <p>Nom et description</p>
-                        </div>
-                    </div>
-                    <div class="progression-item">
-                        <img src="../assets/global/passwordcheck.svg" />
-                        <div class="action-details">
-                            <h3>Un peu de style</h3>
-                            <p>Une image de fond</p>
-                        </div>
-                    </div>
-                    <div class="progression-item">
-                        <img src="../assets/global/tickcircle.svg" />
-                        <div class="action-details">
-                            <h3>Paramètres</h3>
-                            <p>Sécurité & modules</p>
-                        </div>
-                    </div>
-                    <div class="progression-item">
-                        <img src="../assets/global/tickcircle.svg" />
-                        <div class="action-details">
-                            <h3>Collaboration</h3>
-                            <p>Travailler avec d'autres enseignants</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="setup-modal create-flashcards">
-                <div class="creating full-screen">
-                    <span class="loader-upload"></span>
-                    <h1>Nous préparons votre jeu de flashcards</h1>
-                    <p>C'est ici que tous commence !</p>
-                </div>
-                <h1 id="action">Les détails</h1>
-                <h4 id="action-detail">Nom et description</h4>
-                <div class="action-content">
-                    <input required type="text" name="action" id="flashcards-name" placeholder="Nom du jeu de flashcards" />
-                    <input required type="text" name="action" id="flashcards-description" placeholder="Description du jeu" />
-                </div>
-                <div class="action-content">
-                    <div class="option">
-                        <h1>Afficher les résultats des élèves</h1>
-                        <label class="switch">
-                            <input id="private-results" type="checkbox" />
-                            <span class="slide round"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="action-content">
-                    <input data-type="professor" class="user-search-input" autocomplete="off" type="text" name="search-user" id="new-flashcards" placeholder="Rechercher un utilisateur" />
-                    <div id="new-flashcards-participants" class="participants-container"></div>
-                    <h2>Collaborateur(s)</h2>
-                    <div id="new-flashcards-confirmed-participants" class="confirmed-participants"></div>
-                </div>
-
-                <button onclick="setup('create-flashcards')" class="large continue-button">Continuer</button>
-                <div class="progression-container">
-                    <div class="progression-bar"></div>
-                    <div class="progression-item">
-                        <img src="../assets/global/userdetails.svg" />
-                        <div class="action-details completed">
-                            <h3>Les détails</h3>
-                            <p>Nom et description</p>
-                        </div>
-                    </div>
-                    <div class="progression-item">
-                        <img src="../assets/global/tickcircle.svg" />
-                        <div class="action-details">
-                            <h3>Paramètres</h3>
-                            <p>Quelques détails</p>
-                        </div>
-                    </div>
-                    <div class="progression-item">
-                        <img src="../assets/global/tickcircle.svg" />
-                        <div class="action-details">
-                            <h3>Collaboration</h3>
-                            <p>Laisser d'autres enseignants ou élèves modifier ce jeu de flashcards</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="setup-modal create-mc">
-                <div class="creating full-screen">
-                    <span class="loader-upload"></span>
-                    <h1>Nous préparons votre carte mental</h1>
-                    <p>C'est ici que tous commence !</p>
-                </div>
-                <h1 id="action">Les détails</h1>
-                <h4 id="action-detail">Nom et description</h4>
-                <div class="action-content">
-                    <input required type="text" name="action" id="alumet-name" placeholder="Nom de l'Alumet" />
-                    <input required type="text" name="action" id="alumet-description" placeholder="Description de l'Alumet" />
-                </div>
-                <div class="action-content">
-                    <div class="option">
-                        <h1>Autoriser les élèves à interagir</h1>
-                        <label class="switch">
-                            <input id="alumet-private" type="checkbox" />
-                            <span class="slide round"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="action-content">
-                    <input data-type="professor" class="user-search-input" autocomplete="off" type="text" name="search-user" id="new-alumet" placeholder="Rechercher un utilisateur" />
-                    <div id="new-alumet-participants" class="participants-container"></div>
-                    <h2>Collaborateur(s)</h2>
-                    <div id="new-alumet-confirmed-participants" class="confirmed-participants"></div>
-                </div>
-
-                <button onclick="setup('create-mc')" class="large continue-button">Continuer</button>
-                <div class="progression-container">
-                    <div class="progression-bar"></div>
-                    <div class="progression-item">
-                        <img src="../assets/global/userdetails.svg" />
-                        <div class="action-details completed">
-                            <h3>Les détails</h3>
-                            <p>Nom et description</p>
-                        </div>
-                    </div>
-                    <div class="progression-item">
-                        <img src="../assets/global/tickcircle.svg" />
-                        <div class="action-details">
-                            <h3>Paramètres</h3>
-                            <p>Sécurité</p>
-                        </div>
-                    </div>
-                    <div class="progression-item">
-                        <img src="../assets/global/tickcircle.svg" />
-                        <div class="action-details">
-                            <h3>Collaboration</h3>
-                            <p>Travailler avec d'autres enseignants</p>
-                        </div>
                     </div>
                 </div>
             </section>

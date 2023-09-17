@@ -6,17 +6,14 @@ module.exports = function (io) {
             try {
                 const alumet = await Alumet.findOne({ _id: alumetId });
                 if (!alumet) {
-                    console.log(`User ${socket.id} attempted to join unauthorized room ${alumetId}`);
                     return;
                 }
                 if (alumet.isPrivate && (!req.connected || (!alumet.participants.includes(req.user.id) && !alumet.collaborators.includes(req.user.id) && alumet.owner != req.user.id))) {
-                    console.log(`User ${socket.id} attempted to join unauthorized room ${alumetId}`);
                     return;
                 }
-                console.log(`User ${socket.id} joined room ${alumetId}`);
+
                 socket.join(alumetId);
                 if (alumet.collaborators.includes(userId) || alumet.owner == userId) {
-                    console.log(`User ${socket.id} joined room admin-${alumetId}`);
                     socket.join(`admin-${alumetId}`);
                 }
             } catch (error) {

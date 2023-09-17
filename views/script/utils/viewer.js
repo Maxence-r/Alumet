@@ -81,3 +81,7 @@ function loadViewer(mimetype, id) {
         document.querySelector('.full-screen-infos').style.display = 'none';
     }, 3000);
 }
+
+function downloadFile() {
+    window.open('/cdn/u/' + window.location.href.split('/')[4] + '/download', '_blank');
+}
