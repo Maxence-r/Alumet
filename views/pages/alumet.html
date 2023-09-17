@@ -275,8 +275,7 @@
                     </label>
                 </div>
                 <div class="date">
-                    <input type="date" placeholder="MM/JJ/AAAA" id="dateFormat" />
-                    <input type="time" placeholder="HH:MM" id="timeFormat" />
+                    <input type="datetime-local" id="date" />
                 </div>
                 <div class="post-buttons">
                     <button onclick="deletePost()" class="large reded confirm">Supprimer la publication</button>
@@ -312,13 +311,14 @@
                 <img src="../assets/global/settings.svg" alt="paramètres" />
                 <p>Paramètres</p>
             </button>
-            <button onclick="navbar('profile')" class="force" id="profile"><img src="../assets/global/default_user.png" /></button>
+            <button onclick="navbar('profile')" class="force" id="profile"><img src="../assets/default/default_user.png" /></button>
         </div>
     </body>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
     </script>
+    <script src="../script/socket/alumet.js"></script>
     <script src="../script/alumet/alumet.js"></script>
     <script src="../script/alumet/contentManager.js"></script>
 

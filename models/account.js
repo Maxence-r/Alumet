@@ -17,7 +17,7 @@ const AccountSchema = mongoose.Schema({
         type: String,
         required: true,
         minLength: 2,
-        maxLength: 60,
+        maxLength: 25,
     },
     mail: {
         type: String,

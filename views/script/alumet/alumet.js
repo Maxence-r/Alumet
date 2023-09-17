@@ -10,6 +10,7 @@ function navbar(id, currentItem, newItem) {
         localStorage.setItem('currentItem', currentItem);
     }
     if (id == 'home') {
+        burgerMenu.classList.remove('is-active');
         document.querySelector('.overlay').classList.remove('active-layer');
     } else {
         document.querySelector('.overlay').classList.add('active-layer');
@@ -84,6 +85,7 @@ function registerEventsOnList(list) {
                         type: 'error',
                     });
                 }
+                socket.emit('movePost', JSON.parse(localStorage.getItem('alumet'))._id, listId, draggedCard.dataset.id, postPosition);
             });
     });
 }
@@ -350,12 +352,4 @@ document.getElementById('search-bar').addEventListener('input', e => {
             file.style.display = 'none';
         }
     });
-});
-
-socket.on('connect', () => {
-    document.querySelector('.stream-info').style.display = 'none';
-});
-
-socket.on('disconnect', () => {
-    document.querySelector('.stream-info').style.display = 'flex';
 });

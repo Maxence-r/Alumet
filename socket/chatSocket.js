@@ -1,12 +1,11 @@
-const Account = require('../models/account');
 const Conversation = require('../models/conversation');
+const Account = require('../models/account');
 const Message = require('../models/message');
 
-module.exports = function (server) {
-    const io = require('socket.io')(server);
-
+module.exports = function (io) {
     io.on('connection', socket => {
         socket.on('joinChatRoom', async (conversationId, userId) => {
+            console.log(`User ${socket.id} joined room ${conversationId}`);
             try {
                 const conversation = await Conversation.findOne({ _id: conversationId, participants: userId });
                 if (!conversation) {
@@ -14,7 +13,6 @@ module.exports = function (server) {
                     return;
                 }
                 socket.join(conversationId);
-                console.log(`User ${socket.id} joined room ${conversationId}`);
             } catch (error) {
                 console.error(error);
             }
@@ -24,18 +22,6 @@ module.exports = function (server) {
             socket.leave(conversationId);
         });
 
-        socket.on('joinDashboard', async userId => {
-            try {
-                const user = await Account.findOne({ _id: userId });
-                if (!user) {
-                    console.log(`User ${socket.id} attempted to join unauthorized room ${userId}`);
-                    return;
-                }
-                socket.join(userId);
-            } catch (error) {
-                console.error(error);
-            }
-        });
         socket.on('message', async (conversationId, messageId, userId) => {
             try {
                 const conversation = await Conversation.findOne({ _id: conversationId });
@@ -52,6 +38,4 @@ module.exports = function (server) {
             }
         });
     });
-
-    return io;
 };

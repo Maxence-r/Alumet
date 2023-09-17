@@ -169,7 +169,5 @@ document.addEventListener('keydown', function (event) {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        document.querySelector('.loading').style.display = 'none';
-    }, 500);
+    document.querySelector('.loading').style.display = 'none';
 });

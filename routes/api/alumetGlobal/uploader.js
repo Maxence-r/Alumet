@@ -203,7 +203,7 @@ router.get('/folder/:id', validateObjectId, (req, res) => {
         .catch(error => res.json({ error }));
 });
 
-router.get('/u/defUser', (req, res) => {
+router.get('/u/defaultUser', (req, res) => {
     const filePath = path.join(__dirname, './../../../views/assets/default/default_user.png');
     res.sendFile(filePath);
 });

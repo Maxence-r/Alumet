@@ -46,8 +46,8 @@ router.put('/updateinfos', async (req, res) => {
         if (!user) {
             return res.status(401).json({ error: 'Utilisateur non trouvé !' });
         }
-        if (username.length < 4 || username.length > 60) {
-            return res.status(400).json({ error: "Le nom d'utilisateur est trop court ou trop long" });
+        if (username.length < 2 || username.length > 25) {
+            return res.status(400).json({ error: "Le nom d'utilisateur est trop court" });
         }
         user.username = username;
         await user.save();

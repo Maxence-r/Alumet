@@ -39,13 +39,13 @@ function getContent() {
                 document.querySelector('#profile > img').src = '/cdn/u/' + data.user_infos.icon;
                 loadFiles();
             }
-            socket.emit('joinAlumet', alumet.user_infos?._id || 'Anonyme', alumet._id);
+
+            socket.emit('joinAlumet', alumet._id, alumet.user_infos?.id);
             document.querySelector('body > section').style.display = 'none';
         });
 }
 
 async function modifyAlumet() {
-    toast({ title: "Modification de l'Alumet", message: 'Cette opération peut prendre un peu de temps...', type: 'info', duration: 5000 });
     const file = document.getElementById('alumet-background').files[0];
     const formData = new FormData();
     formData.append('file', file);
@@ -235,12 +235,13 @@ async function editPost(id) {
     if (postData.postDate) {
         document.getElementById('publicationDate').checked = true;
         document.querySelector('.date').classList.add('active-date');
-        const date = new Date(postData.postDate);
-        const dateInput = document.getElementById('dateFormat');
-        const timeInput = document.getElementById('timeFormat');
-        dateInput.value = date.toLocaleDateString('fr-CA');
-        console.log(date);
-        timeInput.value = date.toString().split(' ')[4].slice(0, 5);
+        const dateInput = document.getElementById('date');
+        const postDate = new Date(postData.postDate);
+        const formattedDate = `${postDate.getFullYear()}-${(postDate.getMonth() + 1).toString().padStart(2, '0')}-${postDate.getDate().toString().padStart(2, '0')}T${postDate.getHours().toString().padStart(2, '0')}:${postDate
+            .getMinutes()
+            .toString()
+            .padStart(2, '0')}`;
+        dateInput.value = formattedDate;
     }
     navbar('post');
     document.querySelector('.post-buttons > .reded').style.display = 'flex';
@@ -447,8 +448,7 @@ async function createPost(confirmed) {
     let content = document.getElementById('editor').innerHTML;
     let commentAuthorized = document.getElementById('postCommentAuthorized').checked;
     let adminsOnly = document.getElementById('administatorsAuthorized').checked;
-    let postDate = document.getElementById('dateFormat').value;
-    let postTime = document.getElementById('timeFormat').value;
+    let postDate = document.getElementById('date').value;
     let link = localStorage.getItem('link');
 
     if (!title && (!content || content === 'Ecrivez ici le contenu') && !fileFromDevice && !fileFromCloud && !link && !fileFromGdrive) {
@@ -474,8 +474,8 @@ async function createPost(confirmed) {
         body.postId = postToEdit;
     }
 
-    if (document.getElementById('publicationDate').checked && postDate && postTime) {
-        body.postDate = convertToISODate(postDate, postTime);
+    if (document.getElementById('publicationDate').checked && postDate) {
+        body.postDate = postDate;
     }
 
     if (fileFromDevice) {
@@ -508,14 +508,11 @@ async function createPost(confirmed) {
         }
         const newPost = createTaskList(data);
         if (postToEdit) {
-            const post = document.querySelector(`.card[data-id="${postToEdit}"]`);
-            post.parentNode.replaceChild(newPost, post);
-            getPostData(data._id, data);
+            socket.emit('editPost', JSON.parse(localStorage.getItem('alumet'))._id, data);
         } else {
-            const list = document.getElementById(data.wallId);
-            list.prepend(newPost);
-            getPostData(data._id, data);
+            socket.emit('addPost', JSON.parse(localStorage.getItem('alumet'))._id, data);
         }
+
         setTimeout(() => {
             navbar('home');
         }, 1000);
@@ -539,9 +536,8 @@ function deletePost() {
                     duration: 5000,
                 });
             }
+            socket.emit('deletePost', JSON.parse(localStorage.getItem('alumet'))._id, data);
             setTimeout(() => {
-                const post = document.querySelector(`.card[data-id="${postToEdit}"]`);
-                post.parentNode.removeChild(post);
                 navbar('home');
             }, 1000);
         });

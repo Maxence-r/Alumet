@@ -26,6 +26,7 @@ function login() {
         })
         .catch(err => {
             toast({ title: 'Erreur', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
+            document.querySelector('.full-screen').style.display = 'none';
         });
 }
 

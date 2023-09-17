@@ -196,7 +196,7 @@ router.get('/:alumet/content', authorize('alumetPrivate'), validateObjectId, asy
                             $or: [{ adminsOnly: false }, { owner: req.user?.id }],
                         },
                         {
-                            $or: [{ owner: req.user?.id }, { postDate: { $exists: false } }, { postDate: null }, { postDate: { $lt: new Date(Date.now() + new Date().getTimezoneOffset() * -60000).toISOString() } }],
+                            $or: [{ owner: req.user?.id }, { postDate: { $exists: false } }, { postDate: null }, { postDate: { $lt: new Date().toISOString() } }],
                         },
                     ],
                 })
@@ -241,12 +241,7 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
         if (req.cookies.alumetToken) {
             req.user = { _id: req.cookies.alumetToken };
         }
-        if (alumet.private && alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user.id) && !alumet.participants.includes(req.user.id)) {
-            delete alumet.code;
-            delete alumet.owner;
-            delete alumet.collaborators;
-            delete alumet.participants;
-        }
+
         let participant = false;
         let user_infos = {};
         if (req.user) {
@@ -268,6 +263,20 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
                 }
             }
         }
+        alumet.code = null;
+        alumet.participants = null;
+        alumet.collaborators = null;
+        let ownerInfo = await Account.findOne(
+            {
+                _id: alumet.owner,
+            },
+            {
+                name: 1,
+                lastname: 1,
+                icon: 1,
+            }
+        );
+        alumet.owner = ownerInfo.name + ' ' + ownerInfo.lastname;
         res.json({
             alumet_infos: { ...alumet.toObject(), participant },
             user_infos,
