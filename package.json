@@ -40,6 +40,7 @@
     "pdf-img-convert": "^1.2.1",
     "pdfjs": "^2.5.2",
     "pdfjs-dist": "^3.9.179",
+    "purify-css": "^1.2.5",
     "sanitize-html": "^2.11.0",
     "sharp": "^0.28.3",
     "simple-thumbnail": "^1.6.5",

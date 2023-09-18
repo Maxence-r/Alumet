@@ -45,6 +45,10 @@ const AlumetSchema = mongoose.Schema({
         required: true,
         default: true,
     },
+    chat: {
+        type: String,
+        required: true,
+    },
     lastUsage: {
         type: Date,
         required: true,

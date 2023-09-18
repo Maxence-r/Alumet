@@ -125,8 +125,9 @@ function relativeTime(timestamp) {
     const diffInMinutes = Math.floor(diffInMs / 60000);
     const diffInHours = Math.floor(diffInMinutes / 60);
     const diffInDays = Math.floor(diffInHours / 24);
-
-    if (diffInMinutes < 60) {
+    if (diffInMinutes === 0) {
+        return "À l'instant";
+    } else if (diffInMinutes < 60) {
         return 'Il y a ' + diffInMinutes + 'min';
     } else if (diffInHours < 24) {
         return 'Il y a ' + diffInHours + 'h';

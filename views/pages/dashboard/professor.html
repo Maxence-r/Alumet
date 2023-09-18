@@ -180,7 +180,11 @@
                     </div>
                     <div class="files-items connected">
                         <div class="loader-container">
-                            <span class="loader-upload"></span>
+                            <span class="loader"></span>
+                        </div>
+                        <div class="full-screen">
+                            <h1>Pas de fichiers</h1>
+                            <p>Ce dossier ne contient pas de fichiers</p>
                         </div>
                     </div>
                 </div>
@@ -234,8 +238,8 @@
                                 <p id="file-date">2 semaines</p>
                             </div>
                         </div>
-                        <div class="no-file">
-                            <h4>Aucun fichier sélectionné</h4>
+                        <div class="full-screen">
+                            <h1>Aucun fichier sélectionné</h1>
                             <p>Séléctionner un fichier pour obtenir des informations</p>
                         </div>
                         <div class="actions-buttons-file"><button onclick="modifyFile()" class="large">Modifier</button> <button id="openFileBtn" onclick="openFile()" class="large">Ouvrir le fichier</button></div>
@@ -260,7 +264,7 @@
                         <input placeholder="Rechercher une conversation" type="text" name="search-conv" id="search-conv" />
                     </div>
                     <div class="conversations-container"></div>
-                    <div class="not-available">
+                    <div class="information">
                         <img src="../assets/global/locked.svg" />
                         <h3>
                             Bientôt disponible en
@@ -302,7 +306,12 @@
                             </div>
                             <div class="options"><button id="close-conversation-button" class="large greyed">Fermer</button> <img src="../assets/global/dots.svg" alt="dots" /></div>
                         </div>
-                        <div class="conversation-body"></div>
+                        <div class="conversation-body">
+                            <div class="information">
+                                <img src="../assets/global/locked.svg" />
+                                <h3>Tous commence ici</h3>
+                            </div>
+                        </div>
                         <div class="conversation-footer"><input autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message" /> <img id="send-text" src="../assets/global/send.svg" alt="send icon" /></div>
                     </div>
                     <div class="conversation-settings">
@@ -348,7 +357,7 @@
 
             <!-- ================== Professor Community =================== -->
             <section class="professors_community">
-                <div class="not-available">
+                <div class="information">
                     <img src="../assets/global/locked.svg" />
                     <h3>
                         Bientôt disponible en
@@ -424,6 +433,7 @@
             const socket = io();
         </script>
         <script src="../script/global.js"></script>
+        <script src="../../script/socket/chat.js"></script>
         <script src="../script/dashboard/dashboard.js"></script>
         <script src="../script/dashboard/cloud.js"></script>
         <script src="../script/dashboard/profile.js"></script>

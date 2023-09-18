@@ -20,6 +20,7 @@
         <meta name="twitter:image" content="https://i.imgur.com/QMtz1MF.png" />
 
         <link rel="stylesheet" type="text/css" href="../style/pages/alumet.css" />
+        <link rel="stylesheet" type="text/css" href="../style/applications/swiftChat.css" />
         <link rel="stylesheet" type="text/css" href="../../style/global.css" />
 
         <title>Alumet</title>
@@ -86,13 +87,14 @@
                 </div>
             </div>
             <div class="overlay-content messages">
-                <div class="not-available">
-                    <img src="../assets/global/locked.svg" />
-                    <h3>
-                        Bientôt disponible en
-                        <div class="beta">BETA</div>
-                    </h3>
-                    <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
+                <div class="conversation-container">
+                    <div class="conversation-body">
+                        <div class="information">
+                            <img src="../assets/global/locked.svg" />
+                            <h3>Tous commence ici</h3>
+                        </div>
+                    </div>
+                    <div class="conversation-footer"><input autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message" /> <img id="send-text" src="../assets/global/send.svg" alt="send icon" /></div>
                 </div>
             </div>
             <div class="overlay-content latex">
@@ -128,7 +130,7 @@
                 <button onclick="createWall()" class="large confirm">Créer le mur</button>
             </div>
             <div class="overlay-content mindFlash">
-                <div class="not-available">
+                <div class="information">
                     <img src="../assets/global/locked.svg" />
                     <h3>
                         Bientôt disponible en
@@ -181,7 +183,7 @@
                 </div>
             </div>
             <div class="overlay-content participants">
-                <div class="not-available">
+                <div class="information">
                     <img src="../assets/global/locked.svg" />
                     <h3>
                         Bientôt disponible en
@@ -191,7 +193,7 @@
                 </div>
             </div>
             <div class="overlay-content ideaFlow">
-                <div class="not-available">
+                <div class="information">
                     <img src="../assets/global/locked.svg" />
                     <h3>
                         Bientôt disponible en
@@ -325,7 +327,9 @@
         const socket = io();
     </script>
     <script src="../script/socket/alumet.js"></script>
+    <script src="../script/socket/chat.js"></script>
     <script src="../script/alumet/alumet.js"></script>
+    <script src="../script/applications/swiftChat.js"></script>
     <script src="../script/alumet/contentManager.js"></script>
 
     <script src="../../script/global.js"></script>

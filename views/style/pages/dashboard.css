@@ -98,6 +98,8 @@ body {
 }
 
 .nav > button > img {
+    width: 26px;
+    height: 26px;
     transition: all 0.3s ease-in-out;
 }
 
@@ -227,6 +229,7 @@ body {
 .header {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .conversation-settings > .header > button {
@@ -370,11 +373,6 @@ body {
 #new-alumet-participants {
     top: 60px;
     width: calc(100% - 20px);
-}
-
-.active-action {
-    display: flex;
-    animation: arrive 0.3s ease-in-out;
 }
 
 @keyframes arrive {
@@ -646,6 +644,7 @@ body {
 
 .sub-container {
     display: flex;
+    position: relative;
     flex-direction: column;
     min-width: 325px;
     overflow: hidden;
@@ -751,6 +750,10 @@ h2 {
 
 .no-selected-file > .actions-buttons-file {
     display: none;
+}
+
+.no-selected-file > .full-screen {
+    display: flex;
 }
 
 .no-file {
@@ -1341,7 +1344,7 @@ h3 {
 .conversations-container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     width: 100%;
     height: 100%;
     margin-top: 10px;
@@ -1392,10 +1395,6 @@ h3 {
     right: 0;
 }
 
-.user-name {
-    display: none;
-}
-
 .conversation-infos > h4 {
     white-space: nowrap;
     display: flex;
@@ -1433,10 +1432,6 @@ h3 {
     border-radius: 10px;
 }
 
-.message > img {
-    display: none;
-}
-
 .profile > .main-container {
     width: 100%;
     padding: 0 !important;
@@ -1446,7 +1441,6 @@ h3 {
 .full-screen {
     display: none;
     flex-direction: column;
-    gap: 5px;
     position: absolute;
     width: 100%;
     top: 0;
@@ -1578,10 +1572,6 @@ h3 {
     background-color: #adadad;
 }
 
-.new-message {
-    animation: new-message 0.5s ease-in-out;
-}
-
 .alumet-background {
     display: flex;
     flex-direction: column;
@@ -1613,17 +1603,6 @@ h3 {
     margin-bottom: 60px;
 }
 
-@keyframes new-message {
-    0% {
-        opacity: 0;
-        transform: translateY(30%);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 @media (max-width: 1100px) {
     .participants-show {
         display: flex !important;
@@ -1631,6 +1610,12 @@ h3 {
     .messages > .main-container {
         transform: translateY(110%);
         transition: all 0.3s ease-in-out;
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: calc(100% - 30px);
+        height: calc(100% - 30px);
     }
     .grid-user-container {
         width: 100%;
@@ -1662,14 +1647,6 @@ h3 {
         display: flex;
         min-width: calc(100% - 40px);
         margin: 0;
-    }
-    .messages > .main-container {
-        display: flex;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: calc(100% - 40px);
-        height: calc(100% - 40px);
     }
 }
 
@@ -1744,18 +1721,7 @@ h3 {
     .banner {
         height: 15%;
     }
-    .right-message > .message-details > .message-content {
-        margin: 0 !important;
-    }
-    .left-message > .message-details > .message-content {
-        margin: 0 !important;
-    }
-    .right-message > img {
-        display: none !important;
-    }
-    .left-message > img {
-        display: none !important;
-    }
+
     .user-options-infos > p {
         display: none;
     }

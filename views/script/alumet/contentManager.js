@@ -36,6 +36,8 @@ function getContent() {
                         el.style.display = 'block';
                     });
                 }
+                currentConversation = data.chat;
+                loadConversation(data.chat);
                 document.querySelector('#profile > img').src = '/cdn/u/' + data.user_infos.icon;
                 document.querySelector('.user-infos > img').src = '/cdn/u/' + data.user_infos.icon;
                 document.querySelector('.user-details > h3').innerText = data.user_infos.username;
@@ -658,4 +660,20 @@ function createWall() {
                 navbar('home');
             }, 1000);
         });
+}
+
+function loadConversation(id) {
+    fetch(`/swiftChat/` + id)
+        .then(response => response.json())
+        .then(json => {
+            if (!json) return;
+            Promise.all(json.messages.map(message => createMessageElement(message.message, message.user))).then(messageElements => {
+                const conversationBody = document.querySelector('.conversation-body');
+                messageElements.forEach(messageElement => {
+                    conversationBody.prepend(messageElement);
+                });
+            });
+            joinSocketRoom(id, JSON.parse(localStorage.getItem('user')).id);
+        })
+        .catch(error => console.error(error));
 }

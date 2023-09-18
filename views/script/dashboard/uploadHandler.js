@@ -52,6 +52,7 @@ async function sendFiles() {
         let audio = new Audio('../assets/sounds/success.mp3');
         audio.play();
         progress.style.width = '0%';
+        document.querySelector('.files-items > .full-screen').style.display = 'none';
         setTimeout(() => {
             document.querySelector('.drop-box').classList.remove('sending-data');
             document.querySelector('.drop-box').classList.remove('success-upload');

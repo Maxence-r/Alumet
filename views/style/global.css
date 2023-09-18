@@ -677,7 +677,7 @@ select:focus {
     border-radius: 10px;
 }
 
-.not-available {
+.information {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -764,7 +764,7 @@ select:focus {
     margin: 0;
 }
 
-.not-available > h3 {
+.information > h3 {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -775,7 +775,7 @@ select:focus {
     color: #000000;
 }
 
-.not-available > p {
+.information > p {
     font-size: 1rem;
     font-weight: 400;
     margin: 0;
@@ -917,7 +917,7 @@ select:focus {
     width: 100%;
     display: none;
     height: 100%;
-    z-index: 15;
+    z-index: 2000;
     align-items: center;
     justify-content: center;
     background-color: white;

@@ -84,6 +84,11 @@ function loadFolder(id) {
     })
         .then(response => response.json())
         .then(data => {
+            if (data.length === 0) {
+                document.querySelector('.files-items > .full-screen').style.display = 'flex';
+            } else {
+                document.querySelector('.files-items > .full-screen').style.display = 'none';
+            }
             document.querySelectorAll('.file-item').forEach(file => file.remove());
             data.forEach(file => {
                 const fileElement = createFileElement(file);

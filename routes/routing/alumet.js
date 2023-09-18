@@ -6,6 +6,7 @@ const validateObjectId = require('../../middlewares/modelsValidation/validateObj
 const authorize = require('../../middlewares/authentification/authorize');
 const validateAlumet = require('../../middlewares/modelsValidation/validateAlumet');
 const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
+const Conversation = require('../../models/conversation');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     let alumet = await Alumet.findById(req.params.id);
@@ -33,6 +34,16 @@ router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveT
                 swiftchat: req.body.chat,
                 lastUsage: Date.now(),
             });
+            const conversation = new Conversation({
+                participants: alumet.collaborators,
+                name: alumet.title,
+                type: 'alumet',
+                owner: alumet.owner,
+                administrators: alumet.collaborators,
+                icon: alumet.background,
+            });
+            await conversation.save();
+            alumet.chat = conversation._id;
             await alumet.save();
         } else {
             alumet = await Alumet.findByIdAndUpdate(req.body.alumet, {
@@ -44,7 +55,12 @@ router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveT
                 swiftchat: req.body.chat,
                 lastUsage: Date.now(),
             });
+            await Conversation.findByIdAndUpdate(alumet.chat, {
+                name: req.body.title,
+                icon: req.upload ? req.upload._id : undefined,
+            });
         }
+
         res.json({ alumet });
     } catch (error) {
         console.error(error);

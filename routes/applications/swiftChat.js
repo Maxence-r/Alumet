@@ -6,6 +6,7 @@ const validateConversation = require('../../middlewares/modelsValidation/validat
 const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
 const Message = require('../../models/message');
 const Account = require('../../models/account');
+const authorize = require('../../middlewares/authentification/authorize');
 
 router.post('/create', validateConversation, async (req, res) => {
     const { participants, name, icon } = req.body;
@@ -90,7 +91,9 @@ router.delete('/delete', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        const conversations = await Conversation.find({ participants: req.user.id }).sort({ lastUsage: -1 });
+        const conversations = await Conversation.find({
+            $or: [{ participants: req.user.id }, { administrators: req.user.id }, { owner: req.user.id }],
+        }).sort({ lastUsage: -1 });
         const filteredConversations = await Promise.all(
             conversations.map(async conversation => {
                 const participants = conversation.participants.filter(participant => participant !== req.user.id);
@@ -165,11 +168,12 @@ router.get('/search', async (req, res) => {
 
 router.get('/:conversation', async (req, res) => {
     try {
-        const conversation = await Conversation.findOne({ _id: req.params.conversation, participants: req.user.id });
+        const conversation = await Conversation.findOne({
+            _id: req.params.conversation,
+            $or: [{ participants: req.user.id }, { administrators: req.user.id }, { owner: req.user.id }],
+        });
         if (!conversation) return res.status(404).json({ error: 'Conversation not found' });
-        if (!conversation.participants.includes(req.user.id)) {
-            return res.status(401).json({ error: 'Not authorized' });
-        }
+
         const conversationOwner = conversation.owner;
         const conversationAdministrators = conversation.administrators;
         const participantsPromises = conversation.participants.map(async participant => {
@@ -346,12 +350,13 @@ router.post('/:conversation/leave', async (req, res) => {
 
 router.put('/:conversation/updateicon', upload.single('file'), uploadAndSaveToDb('1', ['png', 'jpeg', 'jpg']), async (req, res) => {
     try {
-        const conversation = await Conversation.findOne({ _id: req.params.conversation, participants: req.user.id });
+        const conversation = await Conversation.findOne({
+            _id: req.params.conversation,
+            $or: [{ administrators: req.user.id }, { owner: req.user.id }],
+        });
 
-        if (!conversation) return res.status(404).json({ error: 'Aucune conversation trouvée' });
-        if (!conversation.administrators.includes(req.user.id) && conversation.owner !== req.user.id) {
-            return res.status(401).json({ error: "Vous n'êtes pas authorisé à effectuer cela" });
-        }
+        if (!conversation) return res.status(404).json({ error: "Vous n'avez pas la permission" });
+
         conversation.icon = req.upload._id;
         await conversation.save();
         res.status(200).json({
@@ -365,8 +370,14 @@ router.put('/:conversation/updateicon', upload.single('file'), uploadAndSaveToDb
     }
 });
 
-router.post('/send', async (req, res) => {
-    const { message, conversationId } = req.body;
+router.post('/send/:conversation', authorize(), async (req, res) => {
+    const conversation = await Conversation.findOne({
+        _id: req.params.conversation,
+        $or: [{ participants: req.user.id }, { administrators: req.user.id }, { owner: req.user.id }],
+    });
+    if (!conversation) return res.status(404).json({ error: 'Unauthorized area' });
+    const { message } = req.body;
+    const { conversation: conversationId } = req.params;
     const sender = req.user.id;
     const reference = conversationId;
     const isReaded = false;
@@ -379,9 +390,14 @@ router.post('/send', async (req, res) => {
                 .then(() => {
                     res.status(201).json({ message, user });
                 })
-                .catch(error => res.json({ error }));
+                .catch(error => {
+                    console.error(error);
+                    res.json({ error });
+                });
         })
-        .catch(error => res.json({ error }));
+        .catch(error => {
+            res.json({ error });
+        });
 });
 
 router.delete('/:message', async (req, res) => {
