@@ -1,19 +1,8 @@
-const Account = require('../../models/account');
 const Alumet = require('../../models/alumet');
 
 async function validateAlumet(req, res, next) {
     try {
         let responseSent = false;
-        if (req.body.collaborators) {
-            const collaborators = JSON.parse(req.body.collaborators);
-            for (const collaborator of collaborators) {
-                const account = await Account.findById(collaborator);
-                if (!account || (account.accountType !== 'professor' && account.accountType !== 'staff')) {
-                    responseSent = true;
-                    return res.status(400).json({ error: 'An error occurred while adding a collaborator.' });
-                }
-            }
-        }
         if ((req.body.title && req.body.title.length > 150) || req.body.title.length < 2) {
             responseSent = true;
             return res.status(400).json({ error: 'Le titre est trop long ou trop court' });

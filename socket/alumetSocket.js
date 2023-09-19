@@ -26,6 +26,9 @@ module.exports = function (io) {
         socket.on('movePost', async (alumetId, wallId, blockId, position) => {
             try {
                 let post = await Post.findOne({ _id: blockId });
+                if (!post) {
+                    return;
+                }
                 const postDate = new Date(post.postDate);
                 const currentDate = new Date();
                 if (post.adminsOnly || postDate > currentDate) {
@@ -65,6 +68,13 @@ module.exports = function (io) {
                 const currentDate = new Date();
                 const room = data.adminsOnly || postDate > currentDate ? `admin-${alumetId}` : alumetId;
                 io.to(room).emit('editPost', data);
+            } catch (error) {
+                console.error(error);
+            }
+        });
+        socket.on('newWall', async (alumetId, wall) => {
+            try {
+                io.to(`${alumetId}`).emit('newWall', wall);
             } catch (error) {
                 console.error(error);
             }

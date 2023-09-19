@@ -178,7 +178,7 @@ router.get('/:conversation', async (req, res) => {
         const conversationAdministrators = conversation.administrators;
 
         const participantsPromises = conversation.participants.map(async participant => {
-            const role = participant === conversationOwner ? 'owner' : conversationAdministrators.includes(participant) ? 'administrator' : 'member';ne
+            const role = participant === conversationOwner ? 'owner' : conversationAdministrators.includes(participant) ? 'administrator' : 'member';
             const user = await Account.findOne({ _id: participant }, { name: 1, lastname: 1, icon: 1 });
             return { id: user._id, name: user.name, lastname: user.lastname, icon: user.icon, role };
         });

@@ -29,17 +29,14 @@ router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveT
                 title: req.body.title,
                 description: req.body.description,
                 background: req.upload ? req.upload._id : undefined,
-                collaborators: req.body.collaborators,
                 private: req.body.private,
                 swiftchat: req.body.chat,
                 lastUsage: Date.now(),
             });
             const conversation = new Conversation({
-                participants: JSON.parse(alumet.collaborators),
                 name: alumet.title,
                 type: 'alumet',
                 owner: alumet.owner,
-                administrators: alumet.collaborators,
                 icon: alumet.background,
             });
             await conversation.save();
@@ -50,7 +47,6 @@ router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveT
                 title: req.body.title,
                 description: req.body.description,
                 background: req.upload ? req.upload._id : undefined,
-                collaborators: req.body.collaborators,
                 private: req.body.private,
                 swiftchat: req.body.chat,
                 lastUsage: Date.now(),
