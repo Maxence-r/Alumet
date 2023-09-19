@@ -35,7 +35,7 @@ router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveT
                 lastUsage: Date.now(),
             });
             const conversation = new Conversation({
-                participants: alumet.collaborators,
+                participants: JSON.parse(alumet.collaborators),
                 name: alumet.title,
                 type: 'alumet',
                 owner: alumet.owner,

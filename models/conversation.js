@@ -14,7 +14,7 @@ const ConversationSchema = mongoose.Schema({
     type: {
         type: String,
         required: true,
-        enum: ['group', 'private'],
+        enum: ['group', 'private', 'alumet'],
     },
     owner: {
         type: String,

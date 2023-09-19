@@ -1,14 +1,4 @@
-const endpointReference = {
-    png: '/preview/image?id=*',
-    jpg: '/preview/image?id=*',
-    jpeg: '/preview/image?id=*',
-    gif: '/cdn/u/*',
-    apng: '/cdn/u/*',
-    avif: '/cdn/u/*',
-    webp: '/cdn/u/*',
-    svg: '/cdn/u/*',
-    pdf: '/preview/pdf?id=*',
-};
+let retried = false;
 
 const fileIconReference = {
     png: '../assets/files-icons/img.png',
@@ -125,7 +115,7 @@ function relativeTime(timestamp) {
     const diffInMinutes = Math.floor(diffInMs / 60000);
     const diffInHours = Math.floor(diffInMinutes / 60);
     const diffInDays = Math.floor(diffInHours / 24);
-    if (diffInMinutes === 0) {
+    if (diffInMinutes <= 0) {
         return "À l'instant";
     } else if (diffInMinutes < 60) {
         return 'Il y a ' + diffInMinutes + 'min';

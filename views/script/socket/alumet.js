@@ -1,4 +1,3 @@
-let retried = false;
 socket.on('connect', () => {
     document.querySelector('.stream-info').style.display = 'none';
     console.log(`Vous êtes connecté en temps réel`);

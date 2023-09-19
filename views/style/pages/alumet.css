@@ -67,10 +67,6 @@ body {
     height: 100%;
 }
 
-.profile {
-    height: 30% !important;
-}
-
 .user-infos {
     display: flex;
     flex-direction: row;
