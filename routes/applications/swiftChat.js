@@ -63,7 +63,7 @@ router.post('/create', validateConversation, async (req, res) => {
             administrators: [],
             name: isGroupConversation ? name || 'Groupe sans nom' : null,
             lastUsage: Date.now(),
-            icon: isGroupConversation ? '64c6a4a24ee85cf03846170d' : icon,
+            icon: 'defaultGroup',
         });
         saveConversation(conversation);
     } else {

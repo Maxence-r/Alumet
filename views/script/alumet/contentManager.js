@@ -512,13 +512,6 @@ async function createPost(confirmed) {
                 duration: 5000,
             });
         }
-        const newPost = createTaskList(data);
-        if (postToEdit) {
-            socket.emit('editPost', JSON.parse(localStorage.getItem('alumet'))._id, data);
-        } else {
-            socket.emit('addPost', JSON.parse(localStorage.getItem('alumet'))._id, data);
-        }
-
         setTimeout(() => {
             navbar('home');
         }, 1000);
@@ -542,7 +535,6 @@ function deletePost() {
                     duration: 5000,
                 });
             }
-            socket.emit('deletePost', JSON.parse(localStorage.getItem('alumet'))._id, data);
             setTimeout(() => {
                 navbar('home');
             }, 1000);
@@ -565,8 +557,6 @@ function deleteWall() {
                 });
             }
             setTimeout(() => {
-                const wall = document.querySelector(`.list[data-id="${wallToEdit}"]`);
-                wall.parentNode.removeChild(wall);
                 navbar('home');
             }, 1000);
         });
@@ -649,11 +639,6 @@ function createWall() {
             if (wallToEdit) {
                 const wall = document.querySelector(`.list[data-id="${data._id}"]`);
                 wall.querySelector('h1').innerText = data.title;
-            } else {
-                const list = createInList(data.title, data.postAuthorized, data._id);
-                const button = document.getElementById('wall');
-                const parent = button.parentNode;
-                parent.insertBefore(list, button);
             }
             getWallData(data._id, data);
             setTimeout(() => {

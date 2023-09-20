@@ -7,7 +7,6 @@ const Alumet = require('../../../models/alumet');
 require('dotenv').config();
 
 const Upload = require('../../../models/upload');
-
 const authorize = require('../../../middlewares/authentification/authorize');
 const Wall = require('../../../models/wall');
 const Account = require('../../../models/account');
@@ -17,7 +16,7 @@ router.put('/:alumet/:wall', validatePost, async (req, res) => {
     const postFields = {
         title: req.body.title,
         content: req.body.content,
-        owner: req.user?.id,
+        owner: req.user && req.user.id,
         IP: req.ip,
         file: req.body.file || null,
         link: req.body.link,
@@ -37,12 +36,21 @@ router.put('/:alumet/:wall', validatePost, async (req, res) => {
             post = new Post(postFields);
             await post.save();
         }
-        await Account.populate(postFields, { path: 'owner', select: 'id name icon lastname accountType isCertified badges username' });
-        await Upload.populate(postFields, { path: 'file', select: 'displayname mimetype' });
+        postFields.owner = await Account.findById(postFields.owner).select('id name icon lastname accountType isCertified badges username');
+        postFields.file = await Upload.findById(postFields.file).select('displayname mimetype');
         postFields._id = post._id;
+        const postDate = new Date(postFields.postDate);
+        const currentDate = new Date();
+        const room = postFields.adminsOnly || postDate > currentDate ? `admin-${req.params.alumet}` : req.params.alumet;
+        if (postId) {
+            global.io.to(room).emit('editPost', postFields);
+        } else {
+            global.io.to(room).emit('addPost', postFields);
+        }
 
         res.json(postFields);
     } catch (error) {
+        console.error(error);
         res.json({
             error,
         });
@@ -59,12 +67,23 @@ router.put('/move/:alumet/:wall/:post', authorize('alumetAdmins'), async (req, r
             });
         }
         const topPost = await Post.findOne({ wallId: wall._id }).sort({ position: -1 });
+        const post = await Post.findOne({ _id: req.params.post });
+        if (!post) {
+            return res.status(404).json({
+                error: 'Unable to proceed your requests',
+            });
+        }
+        const postDate = new Date(post.postDate);
+        const currentDate = new Date();
+        const room = post.adminsOnly || postDate > currentDate ? `admin-${req.params.alumet}` : req.params.alumet;
         if (!topPost) {
             await Post.findOneAndUpdate({ _id: req.params.post }, { position: 0, wallId: req.params.wall }, { new: true });
+            global.io.to(room).emit('movePost', req.params.wall, req.params.post, position);
             return res.json({ message: 'Success' });
         }
         if (position === 0) {
             await Post.findOneAndUpdate({ _id: req.params.post }, { position: topPost.position + 1, wallId: req.params.wall }, { new: true });
+            global.io.to(room).emit('movePost', req.params.wall, req.params.post, position);
             return res.json({ message: 'Success' });
         }
         const posts = await Post.find({ wallId: wall._id, _id: { $ne: req.params.post } })
@@ -74,7 +93,9 @@ router.put('/move/:alumet/:wall/:post', authorize('alumetAdmins'), async (req, r
             post.position += 1;
             await post.save();
         }
+
         await Post.findOneAndUpdate({ _id: req.params.post }, { position: posts[position - 1].position - 1, wallId: req.params.wall }, { new: true });
+        global.io.to(room).emit('movePost', req.params.wall, req.params.post, position);
         return res.json({ message: 'Success' });
     } catch (error) {
         console.error(error);
@@ -102,6 +123,7 @@ router.delete('/:alumet/:post', async (req, res) => {
         }
 
         const deletedPost = await Post.findByIdAndDelete(req.params.post);
+        global.io.to(req.params.alumet).emit('deletePost', req.params.post);
         res.json(deletedPost);
     } catch (error) {
         console.error(error);

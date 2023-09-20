@@ -85,7 +85,6 @@ function registerEventsOnList(list) {
                         type: 'error',
                     });
                 }
-                socket.emit('movePost', JSON.parse(localStorage.getItem('alumet'))._id, listId, draggedCard.dataset.id, postPosition);
             });
     });
 }

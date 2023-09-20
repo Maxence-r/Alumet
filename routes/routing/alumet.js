@@ -7,6 +7,7 @@ const authorize = require('../../middlewares/authentification/authorize');
 const validateAlumet = require('../../middlewares/modelsValidation/validateAlumet');
 const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
 const Conversation = require('../../models/conversation');
+const sendInvitations = require('../../middlewares/utils/sendInvitations');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     let alumet = await Alumet.findById(req.params.id);
@@ -41,6 +42,8 @@ router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveT
             });
             await conversation.save();
             alumet.chat = conversation._id;
+            req.alumetId = alumet._id;
+            sendInvitations(req, res, () => {});
             await alumet.save();
         } else {
             alumet = await Alumet.findByIdAndUpdate(req.body.alumet, {
@@ -72,6 +75,10 @@ router.delete('/:id', authorize('professor'), validateObjectId, async (req, res)
         }
         if (alumet.owner !== req.user.id) {
             return res.status(401).json({ error: 'Unauthorized' });
+        }
+        let conversation = await Conversation.findOne({ _id: alumet.chat });
+        if (conversation) {
+            await conversation.remove();
         }
         await alumet.remove();
         res.json({ success: true });

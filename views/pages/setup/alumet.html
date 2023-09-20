@@ -30,7 +30,25 @@
         <section style="display: flex" class="loading">
             <span class="loader-upload"></span>
         </section>
-
+        <div class="user-popup popup">
+            <div class="prompt">
+                <h1>Ajouter des collaborateurs</h1>
+                <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Entrez un nom ou prénom" />
+                <div class="users-fetch">
+                    <div class="details loading-users">
+                        <span class="loader"></span>
+                    </div>
+                    <div class="details no-result">
+                        <h1>Aucun resultats</h1>
+                        <p>Affiner votre recherche</p>
+                    </div>
+                </div>
+                <div class="prompt-buttons">
+                    <button class="large">Supprimer</button> <button class="large" onclick="document.querySelector('.user-popup').classList.remove('active-popup')">Annuler</button>
+                    <button onclick="document.querySelector('.user-popup').classList.remove('active-popup')" class="large">Confirmer</button>
+                </div>
+            </div>
+        </div>
         <div id="toast"></div>
         <section class="access load">
             <section style="display: none" class="full-screen">
@@ -74,6 +92,14 @@
                     <button onclick="next(2, 3)" class="large">Continuer</button>
                 </div>
                 <div id="step3">
+                    <div class="user-details">
+                        <h3>Collaborer avec d'autres enseignants</h3>
+                        <p>Les utilisateurs que vous ajouterez recevront un mail d'invitation a rejoindre votre Alumet</p>
+                    </div>
+                    <button onclick="document.querySelector('.user-popup').classList.add('active-popup')" class="large greyed">Ajouter des collaborateurs</button>
+                    <button onclick="next(3, 4)" class="large connect">Continuer</button>
+                </div>
+                <div id="step4">
                     <div class="user-details">
                         <h3>Du style</h3>
                         <p>Définisser une image de fond de votre Alumet, celle si sera légèrement flouter pour rendre le contenu plus visible.</p>

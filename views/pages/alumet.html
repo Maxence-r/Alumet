@@ -53,7 +53,14 @@
             </div>
         </div>
         <div class="overlay">
-            <div class="overlay-content menu"></div>
+            <div class="overlay-content menu">
+                <button class="large" onclick="navbar('home')">Accueil</button>
+                <button class="large" onclick="navbar('messages')">Messages</button>
+                <button class="large" onclick="navbar('mindFlash')">Flashcards</button>
+                <button class="large" onclick="navbar('ideaFlow')">Cartes Mentales</button>
+                <button class="large" onclick="navbar('settings')">Paramètres</button>
+                <button class="large" onclick="navbar('profile')">Profile</button>
+            </div>
             <div class="overlay-content loadfile">
                 <div class="loading full-screen">
                     <span class="loader"></span>
@@ -90,8 +97,8 @@
                 <div class="conversation-container">
                     <div class="conversation-body">
                         <div class="information">
-                            <img src="../assets/global/locked.svg" />
-                            <h3>Tous commence ici</h3>
+                            <img src="../assets/global/messages_top.svg" />
+                            <p>La discussion commence ici !</p>
                         </div>
                     </div>
                     <div class="conversation-footer"><input autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message" /> <img id="send-text" src="../assets/global/send.svg" alt="send icon" /></div>

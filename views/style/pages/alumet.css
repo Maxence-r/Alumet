@@ -59,7 +59,7 @@ body {
 
 .alumet-content {
     position: relative;
-    gap: 16px;
+    gap: 15px;
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
@@ -276,6 +276,7 @@ body {
 
 .settings > img {
     width: 100%;
+    min-height: 150px;
     border-radius: 10px;
     object-fit: cover;
     max-height: 200px;
@@ -287,6 +288,7 @@ body {
     margin-top: auto;
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     gap: 10px;
 }
@@ -832,6 +834,12 @@ h1 {
 }
 
 @media screen and (max-width: 600px) {
+    .alumet-content {
+        gap: 10px;
+    }
+    .list {
+        gap: 10px;
+    }
     .overlay-content > .divider {
         margin: 10px 0 15px 0;
     }

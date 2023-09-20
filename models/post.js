@@ -12,7 +12,7 @@ const PostSchema = mongoose.Schema({
     owner: {
         type: String,
     },
-    IP: {
+    ip: {
         type: String,
     },
     file: {

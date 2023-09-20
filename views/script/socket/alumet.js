@@ -20,8 +20,8 @@ socket.on('addPost', data => {
     getPostData(data._id, data);
 });
 
-socket.on('deletePost', data => {
-    const post = document.querySelector(`.card[data-id="${data._id}"]`);
+socket.on('deletePost', id => {
+    const post = document.querySelector(`.card[data-id="${id}"]`);
     if (!post) {
         return;
     }
@@ -50,4 +50,36 @@ socket.on('editPost', data => {
     }
     post.parentNode.replaceChild(newPost, post);
     getPostData(data._id, data);
+});
+
+socket.on('addWall', data => {
+    const list = createInList(data.title, data.postAuthorized, data._id);
+    const button = document.getElementById('wall');
+    const parent = button.parentNode;
+    parent.insertBefore(list, button);
+});
+
+socket.on('editWall', data => {
+    const wall = document.querySelector(`.list[data-id="${data._id}"]`);
+    wall.querySelector('h1').innerText = data.title;
+    if (!data.postAuthorized && !alumet.admin) {
+        wall.querySelectorAll('button').forEach(button => {
+            button.parentNode.removeChild(button);
+        });
+    } else if (!alumet.admin) {
+        let button = document.createElement('button');
+        button.classList.add('add');
+        button.setAttribute('onclick', `navbar('post', '${data._id}')`, 'post');
+        button.innerText = 'Ajouter une publication';
+        const dragginContainer = wall.querySelector('.draggingContainer');
+        dragginContainer.parentNode.insertBefore(button, dragginContainer);
+    }
+});
+
+socket.on('deleteWall', id => {
+    const wall = document.querySelector(`.list[data-id="${id}"]`);
+    if (!wall) {
+        return;
+    }
+    wall.parentNode.removeChild(wall);
 });

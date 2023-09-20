@@ -684,6 +684,42 @@ select:focus {
     margin: auto;
 }
 
+.information > img {
+    width: 50%;
+    max-width: 500px;
+    margin-bottom: 20px;
+}
+
+.details {
+    height: 100px;
+    justify-content: center;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loading-users {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.details > h1 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+    color: #000000;
+}
+
+.details > p {
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin: 0;
+    color: #6a6a6a;
+}
+
 .popup {
     top: 0;
     left: 0;
@@ -744,7 +780,7 @@ select:focus {
     box-shadow: none;
 }
 
-#prompt-desc {
+.prompt > h4 {
     display: block;
     font-size: 1rem;
     color: #474747ec;
@@ -773,6 +809,87 @@ select:focus {
     font-weight: 500;
     margin: 0;
     color: #000000;
+}
+
+.users-fetch {
+    position: relative;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    min-height: 60px;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.searching > .loading-users {
+    display: flex !important;
+    z-index: 1501;
+}
+
+.user {
+    display: flex;
+    width: calc(100% - 20px);
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    margin: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.selected-user > img {
+    display: flex;
+}
+
+.ticked-user {
+    display: none;
+    margin-left: auto;
+}
+
+.selected-user > .ticked-user {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.user:hover {
+    transform: scale(0.98);
+}
+
+.user > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.user > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.no-result {
+    display: flex;
+    margin: auto;
+}
+
+.user > div > h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+    color: #000000;
+}
+
+.user > div > p {
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin: 0;
+    color: #6a6a6a;
+}
+
+.users-fetch > .full-screen {
+    border-radius: 10px;
 }
 
 .information > p {

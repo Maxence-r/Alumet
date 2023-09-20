@@ -2,7 +2,7 @@ const http = require('http');
 const app = require('./app');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
-
+global.io = io;
 chatSocket = require('./socket/chatSocket')(io);
 dashboardSocket = require('./socket/dashboardSocket.js')(io);
 alumetSocket = require('./socket/alumetSocket.js')(io);
@@ -48,5 +48,4 @@ server.on('listening', () => {
 
 server.listen(port);
 
-module.exports = io;
 module.exports = server;

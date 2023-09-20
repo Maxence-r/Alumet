@@ -32,7 +32,6 @@ const ConversationSchema = mongoose.Schema({
     },
     icon: {
         type: String,
-        required: false,
         minLength: 1,
     },
 });

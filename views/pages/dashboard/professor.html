@@ -40,6 +40,25 @@
                 <datalist id="users"> </datalist>
             </div>
         </div>
+        <div class="user-popup popup">
+            <div class="prompt">
+                <h1>Creer une discussion</h1>
+                <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Entrez un nom ou prénom" />
+                <div class="users-fetch">
+                    <div class="details loading-users">
+                        <span class="loader"></span>
+                    </div>
+                    <div class="details no-result">
+                        <h1>Aucun resultats</h1>
+                        <p>Affiner votre recherche</p>
+                    </div>
+                </div>
+                <div class="prompt-buttons">
+                    <button class="large">Supprimer</button> <button class="large" onclick="document.querySelector('.user-popup').classList.remove('active-popup')">Annuler</button>
+                    <button onclick="createConversation()" class="large">Confirmer</button>
+                </div>
+            </div>
+        </div>
         <div class="nav">
             <button class="active" id="home"><img src="../assets/global/home.svg" alt="home" /></button> <button id="cloud"><img src="../assets/global/cloud.svg" alt="gestionnaire de fichiers" /></button>
             <button id="messages">
@@ -246,11 +265,9 @@
                     </div>
                 </div>
                 <div class="full-screen">
-                    <div class="no-items">
-                        <h1>Aucun dossiers</h1>
-                        <p>Commencez par en créer un et envoyer vos fichiers !</p>
-                        <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
-                    </div>
+                    <h1>Aucun dossiers</h1>
+                    <p>Commencez par en créer un et envoyer vos fichiers !</p>
+                    <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
                 </div>
             </section>
             <!-- ================= Swift Chat ======================= -->
@@ -265,20 +282,7 @@
                     </div>
                     <div class="conversations-container"></div>
 
-                    <!-- <button onclick="initConversation()" disabled="true" id="new-conv" class="large">Nouvelle conversation</button> -->
-                    <div class="sub-container create-conversation">
-                        <div class="header">
-                            <h2>Nouvelle conversation</h2>
-                        </div>
-                        <div class="divider"></div>
-                        <h4>Ajouter un ou des participant(s)</h4>
-                        <input data-type="all" class="user-search-input" autocomplete="off" type="text" name="search-user" id="new-conversation-search" placeholder="Rechercher un utilisateur" />
-                        <div id="new-conversation-search-participants" class="participants-container"></div>
-                        <h4>Participant(s)</h4>
-                        <div id="new-conversation-search-confirmed-participants" class="confirmed-participants"></div>
-                        <button onclick="document.querySelector('.messages &gt; .sub-container').classList.remove('creating-conversation')" id="cancel-conv" class="large greyed">Annuler</button>
-                        <button id="create-conversation" class="large">Créer la conversation</button>
-                    </div>
+                    <button onclick="initConversation()" id="new-conv" class="large">Nouvelle conversation</button>
                 </div>
                 <div class="main-container no-conversation showing-group-settings">
                     <div class="full-screen">
@@ -286,7 +290,7 @@
                         <p>Amélioré, Alumet garantit la sécurité de vos données, où que vous soyez !</p>
                     </div>
                     <div class="loading-conversation full-screen">
-                        <span class="loader-upload"></span>
+                        <span class="loader"></span>
                     </div>
                     <div class="conversation-container">
                         <div class="conversation-header">
@@ -301,8 +305,8 @@
                         </div>
                         <div class="conversation-body">
                             <div class="information">
-                                <img src="../assets/global/locked.svg" />
-                                <h3>Tous commence ici</h3>
+                                <img src="../../assets/global/messages_top.svg" />
+                                <p>La discussion commence ici !</p>
                             </div>
                         </div>
                         <div class="conversation-footer"><input autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message" /> <img id="send-text" src="../assets/global/send.svg" alt="send icon" /></div>
@@ -322,7 +326,7 @@
                                     <input type="file" id="group-profile-picture-input" accept="image/png, image/jpeg" />
                                     <input id="parameter-group-name" type="text" class="group-name" placeholder="Nom du groupe" />
                                 </div>
-                                <button class="large greyed">Renommer</button>
+                                <!-- <button class="large greyed">Renommer</button> -->
                                 <button id="leave-group-btn" class="large reded">Quitter le groupe</button>
                             </div>
                             <div class="context-menu">
@@ -342,8 +346,26 @@
                                 <div class="participants-list"></div>
                             </div>
                         </div>
-                        <div class="private-content">Yes</div>
-                        <div class="alumet-content">No</div>
+                        <div class="private-content">
+                            <div class="information">
+                                <img src="../assets/global/locked.svg" />
+                                <h3>
+                                    Bientôt disponible en
+                                    <div class="beta">BETA</div>
+                                </h3>
+                                <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
+                            </div>
+                        </div>
+                        <div class="alumet-content">
+                            <div class="information">
+                                <img src="../assets/global/locked.svg" />
+                                <h3>
+                                    Bientôt disponible en
+                                    <div class="beta">BETA</div>
+                                </h3>
+                                <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

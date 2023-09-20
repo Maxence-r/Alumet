@@ -169,7 +169,27 @@ const createConversationElement = conversation => {
     return conversationElement;
 };
 
-const createConversation = async () => {
+function initConversation() {
+    document.querySelector('.user-popup').classList.add('active-popup');
+}
+
+const getConversations = () => {
+    fetch('/swiftChat')
+        .then(response => response.json())
+        .then(json => {
+            const hasUnreadConversations = Array.isArray(json) && json.some(conversation => conversation.isReaded === false);
+            if (hasUnreadConversations) {
+                document.getElementById('messages').classList.add('pinged');
+            }
+            json.forEach(conversation => {
+                const conversationElement = createConversationElement(conversation);
+                conversationsContainer.appendChild(conversationElement);
+            });
+        })
+        .catch(error => console.error(error));
+};
+
+async function createConversation() {
     if (participants.length === 0) return toast({ title: 'Erreur', message: 'Vous devez sélectionner au moins un utilisateur', type: 'error', duration: 2500 });
     const conversationName = document.querySelector('#prompt-input').value;
     try {
@@ -195,161 +215,19 @@ const createConversation = async () => {
 
         const conversationElement = createConversationElement(data);
         conversationsContainer.prepend(conversationElement);
-        document.querySelector('.creating-conversation').classList.remove('creating-conversation');
-        document.querySelectorAll('[data-id]').forEach(element => {
+
+        participants = [];
+        document.querySelectorAll('.users-fetch > .user').forEach(element => {
             element.remove();
         });
-        participants = [];
-        return data._id;
+        document.getElementById('user-prompt').value = '';
+        document.querySelector('.user-popup').classList.remove('active-popup');
     } catch (error) {
         console.error(error);
     }
-};
-
-function initConversation() {
-    const messagesContainer = document.querySelector('.messages');
-    const subContainer = messagesContainer.querySelector('.sub-container');
-    subContainer.classList.add('creating-conversation');
 }
 
-const getConversations = () => {
-    fetch('/swiftChat')
-        .then(response => response.json())
-        .then(json => {
-            const hasUnreadConversations = Array.isArray(json) && json.some(conversation => conversation.isReaded === false);
-            if (hasUnreadConversations) {
-                document.getElementById('messages').classList.add('pinged');
-            }
-            json.forEach(conversation => {
-                const conversationElement = createConversationElement(conversation);
-                conversationsContainer.appendChild(conversationElement);
-            });
-        })
-        .catch(error => console.error(error));
-};
-
-/* Start search manager */
-
-let participants = [];
-const debounce = (func, delay) => {
-    let timeoutId;
-    return (...args) => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-            func.apply(null, args);
-        }, delay);
-    };
-};
-
-const clearParticipants = container => {
-    document.querySelectorAll(`#${container}-participants > div`).forEach(element => {
-        element.remove();
-    });
-};
-
-const searchUsers = async (query, container, type) => {
-    if (query.length < 2) return document.getElementById(`${container}-participants`).classList.remove('active-searching');
-    document.getElementById(`${container}-participants`).classList.add('active-searching');
-    try {
-        const response = await fetch(`/swiftChat/search?q=${query}&type=${type}`);
-        const json = await response.json();
-        clearParticipants(container);
-        json.forEach(user => {
-            const userElement = document.createElement('div');
-            userElement.classList.add('participant');
-            userElement.dataset.id = user._id;
-            const iconElement = document.createElement('img');
-            iconElement.src = `/cdn/u/${user.icon}`;
-            iconElement.alt = 'user icon';
-
-            userElement.appendChild(iconElement);
-
-            const columnInfosElement = document.createElement('div');
-            columnInfosElement.classList.add('column-infos');
-            userElement.appendChild(columnInfosElement);
-
-            const nameElement = document.createElement('h4');
-            nameElement.textContent = `${user.name} ${user.lastname}`;
-            columnInfosElement.appendChild(nameElement);
-
-            const accountTypeElement = document.createElement('span');
-            accountTypeElement.textContent = user.accountType;
-            columnInfosElement.appendChild(accountTypeElement);
-
-            document.getElementById(`${container}-participants`).appendChild(userElement);
-        });
-    } catch (err) {
-        console.error(err);
-    }
-};
-
-const addParticipant = (user, reference) => {
-    userElement = document.querySelector("[data-id='" + user + "']");
-    if (participants.includes(user)) {
-        return toast({
-            title: 'Erreur',
-            message: 'Vous avez déjà ajouté cet utilisateur',
-            type: 'error',
-            duration: 2500,
-        });
-    }
-    participants.push(user);
-    document.getElementById(`${reference}-confirmed-participants`).appendChild(userElement);
-    document.getElementById(`${reference}-participants`).classList.remove('active-searching');
-    document.getElementById(`${reference}`).value = '';
-};
-
-const removeParticipant = (user, reference) => {
-    const userIndex = participants.indexOf(user);
-    if (userIndex === -1) {
-        return;
-    }
-    participants.splice(userIndex, 1);
-    document.querySelector(`[data-id='${user}']`).remove();
-};
-
-document.querySelectorAll('.user-search-input').forEach(element => {
-    const reference = element.id;
-    let researchType = element.getAttribute('data-type');
-    element.addEventListener(
-        'input',
-        debounce(() => searchUsers(element.value, element.id, researchType), 500)
-    );
-    document.getElementById(`${reference}-participants`).addEventListener('click', e => {
-        let clickedElement = e.target;
-        while (clickedElement !== document.getElementById(`${reference}-participants`)) {
-            if (clickedElement.classList.contains('participant')) {
-                addParticipant(clickedElement.dataset.id, reference);
-                return;
-            }
-            clickedElement = clickedElement.parentNode;
-        }
-    });
-    document.getElementById(`${reference}-confirmed-participants`).addEventListener('click', e => {
-        let clickedElement = e.target;
-        while (clickedElement !== document.getElementById(`${reference}-confirmed-participants`)) {
-            if (clickedElement.classList.contains('participant')) {
-                removeParticipant(clickedElement.dataset.id, reference);
-                return;
-            }
-            clickedElement = clickedElement.parentNode;
-        }
-    });
-});
-
 /* End search manager */
-
-document.getElementById('create-conversation').addEventListener('click', () => {
-    if (participants.length >= 2) {
-        return createPrompt({
-            head: 'Nom de la converstion',
-            desc: 'Veuillez donner un nom a cette conversation de groupe',
-            placeholder: 'Nom de la conversation',
-            action: 'createConversation()',
-        });
-    }
-    createConversation();
-});
 
 function closeConversation() {
     document.querySelector('.messages > .main-container').classList.remove('showing-group-settings');
@@ -649,7 +527,7 @@ document.getElementById('leave-group-btn').addEventListener('click', async () =>
 
 function openConversation(id) {
     if (currentConversation) {
-        socket.emit('LeaveChatRoom', currentConversation, JSON.parse(localStorage.getItem('user')).id);
+        socket.emit('leaveChatRoom', currentConversation, JSON.parse(localStorage.getItem('user')).id);
     }
     joinSocketRoom(id, JSON.parse(localStorage.getItem('user')).id);
 
@@ -706,3 +584,16 @@ function openConversation(id) {
         })
         .catch(error => console.error(error));
 }
+
+const userPrompt = document.querySelector('#user-prompt');
+const debounceDelay = 500;
+let debounceTimeoutId;
+
+userPrompt.addEventListener('input', e => {
+    clearTimeout(debounceTimeoutId);
+    debounceTimeoutId = setTimeout(() => {
+        const query = e.target.value;
+        const type = 'user';
+        searchUsers(query, type);
+    }, debounceDelay);
+});

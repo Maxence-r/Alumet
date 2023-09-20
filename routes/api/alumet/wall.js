@@ -14,7 +14,10 @@ router.put('/:alumet', validateObjectId, authorize('alumetAdmins'), (req, res) =
                 wall.title = req.body.title;
                 wall.postAuthorized = req.body.postAuthorized;
                 wall.save()
-                    .then(wall => res.json(wall))
+                    .then(wall => {
+                        global.io.to(req.params.alumet).emit('editWall', wall);
+                        res.json(wall);
+                    })
                     .catch(error => res.json({ error }));
             })
             .catch(error => res.json({ error }));
@@ -34,9 +37,13 @@ router.put('/:alumet', validateObjectId, authorize('alumetAdmins'), (req, res) =
                     position: position,
                     alumetReference: req.params.alumet,
                 });
+
                 wallObject
                     .save()
-                    .then(wall => res.json(wall))
+                    .then(wall => {
+                        global.io.to(req.params.alumet).emit('addWall', wall);
+                        res.json(wall);
+                    })
                     .catch(error => res.json({ error }));
             });
     }
@@ -101,6 +108,7 @@ router.delete('/:alumet/:wall', authorize('alumetAdmins'), (req, res) => {
             if (!wall) {
                 return res.status(404).json({ error: 'Wall not found' });
             }
+            global.io.to(req.params.alumet).emit('deleteWall', wall._id);
             res.status(200).json({ message: 'Wall deleted' });
         })
         .catch(error => res.json({ error }));

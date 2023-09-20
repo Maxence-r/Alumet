@@ -196,6 +196,11 @@ router.get('/u/defaultAlumet', (req, res) => {
     res.sendFile(filePath);
 });
 
+router.get('/u/defaultGroup', (req, res) => {
+    const filePath = path.join(__dirname, './../../../views/assets/default/default_group.png');
+    res.sendFile(filePath);
+});
+
 router.get('/u/:id', validateObjectId, (req, res) => {
     Upload.find({ _id: req.params.id })
         .then(upload => {

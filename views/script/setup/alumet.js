@@ -16,7 +16,7 @@ function next(current, next) {
         document.querySelector('.full-screen').style.display = 'none';
     }, 500);
 }
-let participants = [];
+
 async function createAlumet() {
     document.querySelector('.full-screen').style.display = 'flex';
     const file = document.getElementById('alumet-background').files[0];
@@ -66,4 +66,17 @@ document.getElementById('alumet-background').addEventListener('change', () => {
         return toast({ title: 'Erreur', message: 'Veuillez sélectionner une image de moins de 3MB', type: 'error', duration: 2500 });
     }
     document.querySelector('.alumet-background').src = URL.createObjectURL(file);
+});
+
+const userPrompt = document.querySelector('#user-prompt');
+const debounceDelay = 500;
+let debounceTimeoutId;
+
+userPrompt.addEventListener('input', e => {
+    clearTimeout(debounceTimeoutId);
+    debounceTimeoutId = setTimeout(() => {
+        const query = e.target.value;
+        const type = 'user';
+        searchUsers(query, type);
+    }, debounceDelay);
 });

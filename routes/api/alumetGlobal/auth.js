@@ -175,12 +175,15 @@ router.post('/a2f', async (req, res) => {
     }
 });
 
-router.post('/resetpassword', authorizeA2F, authorize(), async (req, res) => {
+router.post('/resetpassword', authorizeA2F, async (req, res) => {
     try {
         if (req.body.password.length < 6) {
             return res.status(400).json({ error: 'Le mot de passe doit contenir au moins 6 caractères !' });
         }
         const user = await Account.findOne({ mail: req.body.mail });
+        if (!user) {
+            return res.status(400).json({ error: "L'utilisateur n'existe pas !" });
+        }
         const hash = await bcrypt.hash(req.body.password, 10);
         user.password = hash;
         await user.save();
