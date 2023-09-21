@@ -389,6 +389,7 @@ router.post('/send/:conversation', authorize(), async (req, res) => {
         .then(message => {
             Conversation.findOneAndUpdate({ _id: conversationId }, { lastUsage: Date.now() })
                 .then(() => {
+                    io.to(req.params.conversation).emit('message', message, user);
                     res.status(201).json({ message, user });
                 })
                 .catch(error => {

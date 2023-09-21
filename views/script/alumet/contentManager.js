@@ -263,6 +263,20 @@ function createTaskList(post) {
 
     author = document.createElement('div');
     author.classList.add('author');
+
+    if (post.postDate && new Date(post.postDate) > Date.now()) {
+        const date = document.createElement('h3');
+        date.classList.add('info');
+        date.textContent = 'Programmé: ' + new Date(post.postDate).toLocaleString();
+        card.appendChild(date);
+    }
+    if (post.adminsOnly) {
+        const date = document.createElement('h3');
+        date.classList.add('info');
+        date.textContent = 'Visible par les administrateurs';
+        card.appendChild(date);
+    }
+
     if (post.owner) {
         author.textContent = post.owner.username;
     } else {
@@ -659,7 +673,7 @@ function loadConversation(id) {
                     conversationBody.prepend(messageElement);
                 });
             });
-            joinSocketRoom(id, user.id);
+            joinSocketRoom(id, user._id);
         })
         .catch(error => console.error(error));
 }

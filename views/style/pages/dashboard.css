@@ -524,6 +524,27 @@ body {
     margin: 0% 3%;
 }
 
+.news-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow: auto;
+}
+
+.notifications-container {
+    display: flex;
+    position: relative;
+    gap: 15px;
+    margin-bottom: 10px;
+    overflow: auto;
+    flex-direction: column;
+    min-height: 100px;
+}
+
+.notifications-container > .full-screen {
+    display: flex;
+}
+
 .main-container {
     width: calc(100% - 25px);
     display: flex;
@@ -908,7 +929,7 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 20px;
+    width: calc(100% - 2px);
 }
 
 .home > .sub-container {
@@ -941,7 +962,7 @@ h2 {
 .items-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
 .items-container-header {
@@ -981,9 +1002,54 @@ h3 {
 
 .items {
     display: flex;
+    position: relative;
     flex-direction: row;
-    gap: 20px;
+    min-height: 175px;
+    gap: 15px;
     overflow-y: auto;
+}
+
+.notification {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.invitation {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    align-items: center;
+}
+
+.invitation > button {
+    height: 30px;
+}
+
+.invitation > div > h3 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+    color: #000000;
+}
+
+.invitation > div > p {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin: 0;
+    color: #9ea1a7;
+}
+
+.invitation > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    object-fit: cover;
+    background-color: white;
+}
+
+.items > .full-screen {
+    display: flex;
 }
 
 .no-items {

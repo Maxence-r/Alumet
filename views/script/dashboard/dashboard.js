@@ -269,7 +269,7 @@ function promoteOwner() {
                     duration: 2500,
                 });
             modifyUserRole('Propriétaire');
-            document.querySelector(`.participants-list > [data-participant-id="${user.id}"] > .infos > .sub-infos > p`).textContent = 'Membre';
+            document.querySelector(`.participants-list > [data-participant-id="${user._id}"] > .infos > .sub-infos > p`).textContent = 'Membre';
             document.querySelector('.context-menu').classList.remove('active-context');
             return toast({
                 title: 'Succès',
@@ -527,9 +527,9 @@ document.getElementById('leave-group-btn').addEventListener('click', async () =>
 
 function openConversation(id) {
     if (currentConversation) {
-        socket.emit('leaveChatRoom', currentConversation, user.id);
+        socket.emit('leaveChatRoom', currentConversation, user._id);
     }
-    joinSocketRoom(id, user.id);
+    joinSocketRoom(id, user._id);
 
     if (document.querySelector('.active-context')) {
         document.querySelector('.active-context').classList.remove('active-context');
@@ -575,8 +575,6 @@ function openConversation(id) {
             document.querySelector('.conversation-settings').classList.add(`${json.conversationType}`);
             if (json.conversationType != 'private') {
                 createConversationParametersElement(conversationName, conversationIcon, participants, json.role);
-            } else {
-                console.log('Parameters for conversation of 2 persons are not configure yet');
             }
             setTimeout(() => {
                 document.querySelector('.messages > .main-container').classList.remove('active-loading');

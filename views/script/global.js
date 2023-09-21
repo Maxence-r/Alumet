@@ -136,8 +136,8 @@ function getMyInfos() {
         fetch('/auth/info')
             .then(response => response.json())
             .then(json => {
-                user = json;
-                resolve('cela fonctionne');
+                user = json.user;
+                resolve(json);
             })
             .catch(error => {
                 console.error(error);

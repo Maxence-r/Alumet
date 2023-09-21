@@ -37,11 +37,39 @@ function updateInfos(userInfos) {
     }
 }
 
+function createNotifications(invitations) {
+    if (invitations.length !== 0) {
+        document.querySelector('.notifications-container > .full-screen').style.display = 'none';
+    }
+    invitations.forEach(invitation => {
+        document.querySelector('.notifications-container').style.display = 'flex';
+        const notificationElement = document.createElement('div');
+        notificationElement.classList.add('notification');
+
+        let invitationElement = document.createElement('div');
+        invitationElement.classList.add('invitation');
+
+        let subInfosElement = document.createElement('div');
+        let nameElement = document.createElement('h3');
+
+        nameElement.textContent = invitation.alumetInfos.title;
+        let roleElement = document.createElement('p');
+        roleElement.textContent = invitation.ownerInfos.name + ' ' + invitation.ownerInfos.lastname + ' vous à invité';
+        subInfosElement.appendChild(nameElement);
+        subInfosElement.appendChild(roleElement);
+
+        invitationElement.appendChild(subInfosElement);
+        notificationElement.appendChild(invitationElement);
+
+        document.querySelector('.notifications-container').appendChild(notificationElement);
+    });
+}
+
 getMyInfos()
-    .then(() => {
-        const userInfos = user;
-        socket.emit('joinDashboard', user.id);
-        updateInfos(userInfos);
+    .then(json => {
+        createNotifications(json.invitationsToSend);
+        socket.emit('joinDashboard', user._id);
+        updateInfos(user);
     })
     .catch(error => {
         console.error('Error retrieving user information:', error);
@@ -60,9 +88,9 @@ saveInfosBtn.addEventListener('click', () => {
         .then(res => res.json())
         .then(data => {
             if (!data.error) {
-                const userInfos = user.id;
+                const userInfos = user._id;
                 toast({ title: 'Informations modifiées !', message: 'Vos informations ont bien été modifiées.', type: 'success', duration: 2500 });
-                user = userInfos;   
+                user = userInfos;
             } else {
                 toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
                 usernameField.value = user.username;

@@ -57,6 +57,17 @@ body {
     flex: 1;
 }
 
+.info {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: black;
+    background-color: rgba(255, 0, 0, 0.199);
+    border: 1px solid #af0000;
+    padding: 6px;
+    border-radius: 5px;
+}
+
 .alumet-content {
     position: relative;
     gap: 15px;

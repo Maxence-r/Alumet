@@ -32,27 +32,26 @@ function sendMessage() {
                     type: 'error',
                     duration: 2500,
                 });
-            socket.emit('message', currentConversation, json.message._id, user.id);
         })
         .catch(error => console.error(error));
 }
 
 let previousSender = null;
-function createMessageElement(message, user) {
+function createMessageElement(message, userSender) {
     const { sender, content, createdAt } = message;
     const messageElement = document.createElement('div');
     messageElement.dataset.messageid = message._id;
     if (previousSender !== sender) {
         messageElement.classList.add('first');
     }
-    if (sender === user.id) {
+    if (sender === user._id) {
         messageElement.classList.add('right-message', 'message');
     } else {
         messageElement.classList.add('left-message', 'message');
     }
 
     const imageElement = document.createElement('img');
-    imageElement.src = `/cdn/u/` + user.icon;
+    imageElement.src = `/cdn/u/` + userSender.icon;
     imageElement.alt = 'file icon';
 
     const messageDetailsElement = document.createElement('div');
@@ -60,11 +59,11 @@ function createMessageElement(message, user) {
 
     const userNameElement = document.createElement('p');
     userNameElement.classList.add('user-name');
-    userNameElement.textContent = user.name + ' ' + user.lastname;
+    userNameElement.textContent = userSender.name + ' ' + userSender.lastname;
 
     if (user.isCertified) {
         const certifiedElement = document.createElement('img');
-        certifiedElement.src = `../assets/badges/certified/${user.accountType}-certified.svg`;
+        certifiedElement.src = `../assets/badges/certified/${userSender.accountType}-certified.svg`;
         certifiedElement.alt = 'certified icon';
         userNameElement.appendChild(certifiedElement);
     }

@@ -66,7 +66,7 @@ socket.on('editWall', data => {
         wall.querySelectorAll('button').forEach(button => {
             button.parentNode.removeChild(button);
         });
-    } else if (!alumet.admin && !wall) {
+    } else if (!alumet.admin && !wall.querySelector('.add')) {
         let button = document.createElement('button');
         button.classList.add('add');
         button.setAttribute('onclick', `navbar('post', '${data._id}')`, 'post');

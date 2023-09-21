@@ -11,6 +11,7 @@ const authorizeA2F = require('../../../middlewares/authentification/authorizeA2f
 const validateAccount = require('../../../middlewares/modelsValidation/validateAccount');
 const authorize = require('../../../middlewares/authentification/authorize');
 const Invitation = require('../../../models/invitation');
+const Alumet = require('../../../models/alumet');
 
 router.get('/signin', async (req, res) => {
     if (req.connected) return res.redirect('/dashboard');
@@ -29,37 +30,25 @@ router.get('/logout', async (req, res) => {
     res.redirect('/auth/signin');
 });
 
-router.get('/info', async (req, res) => {
-    const invitation = await Invitation.findOne({ mail: req.user.mail });
-    const token = req.cookies.token;
-    if (!token) return res.redirect('/auth/signin');
-    const decodedToken = jwt.verify(token, process.env.TOKEN.toString());
-    const userId = decodedToken.userId;
-    Account.findOne({ _id: userId })
-        .then(user => {
-            if (!user) return res.redirect('/auth/signin');
-            res.status(200).json({
-                lastname: user.lastname,
-                name: user.name,
-                id: user._id,
-                mail: user.mail,
-                accountType: user.accountType,
-                icon: user.icon,
-                isCertified: user.isCertified,
-                isA2FEnabled: user.isA2FEnabled,
-                badges: user.badges,
-                username: user.username,
-                invitation: invitation ? true : false,
-            });
-        })
-        .catch(error => console.error(error));
+router.get('/info', authorize(), async (req, res) => {
+    const invitations = await Invitation.find({ mail: req.user.mail });
+    let invitationsToSend = [];
+    for (let invitation of invitations) {
+        console.log(invitation.alumet);
+        const owner = await Account.findOne({ _id: invitation.owner }, { name: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isCertified: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1 });
+        const alumet = await Alumet.findOne({ _id: invitation.alumet }, { _id: 1, title: 1, background: 1 });
+        if (!owner || !alumet) {
+            continue;
+        }
+        invitationsToSend.push({ ownerInfos: owner, alumetInfos: alumet });
+    }
+    const user = await Account.findOne({ _id: req.user.id }, { name: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isCertified: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1 });
+    res.json({ user, invitationsToSend });
 });
-
 async function sendA2FCode(mail, res) {
     try {
         const existingCode = await A2F.findOne({ owner: mail }).sort({ expireAt: -1 });
         if (existingCode && existingCode.expireAt > new Date()) {
-            const remainingTime = Math.ceil((existingCode.expireAt - new Date()) / 1000 / 60);
             res.status(400).json({ a2f: true });
         } else {
             const code = Math.floor(Math.random() * 1000000)
