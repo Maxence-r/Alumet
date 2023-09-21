@@ -39,8 +39,8 @@ function updateInfos(userInfos) {
 
 getMyInfos()
     .then(() => {
-        const userInfos = JSON.parse(localStorage.getItem('user'));
-        socket.emit('joinDashboard', JSON.parse(localStorage.getItem('user')).id);
+        const userInfos = user;
+        socket.emit('joinDashboard', user.id);
         updateInfos(userInfos);
     })
     .catch(error => {
@@ -60,12 +60,12 @@ saveInfosBtn.addEventListener('click', () => {
         .then(res => res.json())
         .then(data => {
             if (!data.error) {
-                const userInfos = JSON.parse(localStorage.getItem('user'));
+                const userInfos = user.id;
                 toast({ title: 'Informations modifiées !', message: 'Vos informations ont bien été modifiées.', type: 'success', duration: 2500 });
-                localStorage.setItem('user', JSON.stringify({ ...userInfos, username: usernameField.value }));
+                user = userInfos;   
             } else {
                 toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
-                usernameField.value = JSON.parse(localStorage.getItem('user')).username;
+                usernameField.value = user.username;
             }
         });
 });
@@ -79,7 +79,7 @@ function handleReset() {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            mail: JSON.parse(localStorage.getItem('user')).mail,
+            mail: user.mail,
         }),
     })
         .then(res => res.json())
@@ -101,7 +101,7 @@ function resetPassword(code) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            mail: JSON.parse(localStorage.getItem('user')).mail,
+            mail: user.mail,
             code: code,
             password: document.getElementById('prompt-input').value,
         }),
@@ -172,7 +172,7 @@ function confirmA2F() {
         .then(res => res.json())
         .then(data => {
             if (!data.error) {
-                document.getElementById('toggleA2FBtn').innerText = !JSON.parse(localStorage.getItem('user')).isA2FEnabled ? 'Désactiver la verification par mail' : 'Activer la verification par mail';
+                document.getElementById('toggleA2FBtn').innerText = !user.isA2FEnabled ? 'Désactiver la verification par mail' : 'Activer la verification par mail';
                 toast({ title: 'A2F modifié !', message: "Vos paramètres d'authentification à double facteur ont bien été modifiés.", type: 'success', duration: 2500 });
             } else {
                 toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
@@ -212,9 +212,9 @@ document.getElementById('profile-picture-input').addEventListener('change', asyn
             toast({ title: 'Image de profil modifiée !', message: 'Votre image de profil a bien été modifiée', type: 'success', duration: 2500 });
             document.getElementById('profile-picture').src = '/cdn/u/' + updateData.icon;
             document.getElementById('profile-picture').alt = 'user icon';
-            const userInfos = JSON.parse(localStorage.getItem('user'));
+            const userInfos = user;
             userInfos.icon = updateData.icon;
-            localStorage.setItem('user', JSON.stringify(userInfos));
+            user = userInfos;
         } else {
             toast({ title: 'Erreur !', message: updateData.error, type: 'error', duration: 2500 });
         }

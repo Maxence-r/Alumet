@@ -10,6 +10,7 @@ const { sendMail } = require('../../api/alumetGlobal/mailing');
 const authorizeA2F = require('../../../middlewares/authentification/authorizeA2f');
 const validateAccount = require('../../../middlewares/modelsValidation/validateAccount');
 const authorize = require('../../../middlewares/authentification/authorize');
+const Invitation = require('../../../models/invitation');
 
 router.get('/signin', async (req, res) => {
     if (req.connected) return res.redirect('/dashboard');
@@ -29,6 +30,7 @@ router.get('/logout', async (req, res) => {
 });
 
 router.get('/info', async (req, res) => {
+    const invitation = await Invitation.findOne({ mail: req.user.mail });
     const token = req.cookies.token;
     if (!token) return res.redirect('/auth/signin');
     const decodedToken = jwt.verify(token, process.env.TOKEN.toString());
@@ -47,9 +49,10 @@ router.get('/info', async (req, res) => {
                 isA2FEnabled: user.isA2FEnabled,
                 badges: user.badges,
                 username: user.username,
+                invitation: invitation ? true : false,
             });
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch(error => console.error(error));
 });
 
 async function sendA2FCode(mail, res) {

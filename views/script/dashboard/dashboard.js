@@ -269,7 +269,7 @@ function promoteOwner() {
                     duration: 2500,
                 });
             modifyUserRole('Propriétaire');
-            document.querySelector(`.participants-list > [data-participant-id="${JSON.parse(localStorage.getItem('user')).id}"] > .infos > .sub-infos > p`).textContent = 'Membre';
+            document.querySelector(`.participants-list > [data-participant-id="${user.id}"] > .infos > .sub-infos > p`).textContent = 'Membre';
             document.querySelector('.context-menu').classList.remove('active-context');
             return toast({
                 title: 'Succès',
@@ -527,9 +527,9 @@ document.getElementById('leave-group-btn').addEventListener('click', async () =>
 
 function openConversation(id) {
     if (currentConversation) {
-        socket.emit('leaveChatRoom', currentConversation, JSON.parse(localStorage.getItem('user')).id);
+        socket.emit('leaveChatRoom', currentConversation, user.id);
     }
-    joinSocketRoom(id, JSON.parse(localStorage.getItem('user')).id);
+    joinSocketRoom(id, user.id);
 
     if (document.querySelector('.active-context')) {
         document.querySelector('.active-context').classList.remove('active-context');

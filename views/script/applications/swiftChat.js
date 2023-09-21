@@ -32,7 +32,7 @@ function sendMessage() {
                     type: 'error',
                     duration: 2500,
                 });
-            socket.emit('message', currentConversation, json.message._id, JSON.parse(localStorage.getItem('user')).id);
+            socket.emit('message', currentConversation, json.message._id, user.id);
         })
         .catch(error => console.error(error));
 }
@@ -45,7 +45,7 @@ function createMessageElement(message, user) {
     if (previousSender !== sender) {
         messageElement.classList.add('first');
     }
-    if (sender === JSON.parse(localStorage.getItem('user')).id) {
+    if (sender === user.id) {
         messageElement.classList.add('right-message', 'message');
     } else {
         messageElement.classList.add('left-message', 'message');

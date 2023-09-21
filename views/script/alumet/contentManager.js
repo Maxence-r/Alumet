@@ -31,6 +31,7 @@ function getContent() {
                 parent.insertBefore(list, button);
             });
             if (data.user_infos) {
+                user = data.user_infos;
                 if (data.admin) {
                     document.querySelectorAll('.admin').forEach(el => {
                         el.style.display = 'block';
@@ -658,7 +659,7 @@ function loadConversation(id) {
                     conversationBody.prepend(messageElement);
                 });
             });
-            joinSocketRoom(id, JSON.parse(localStorage.getItem('user')).id);
+            joinSocketRoom(id, user.id);
         })
         .catch(error => console.error(error));
 }

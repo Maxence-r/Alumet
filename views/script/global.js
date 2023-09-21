@@ -1,6 +1,6 @@
 let retried = false;
 let participants = [];
-
+let user;
 const fileIconReference = {
     png: '../assets/files-icons/img.png',
     jpg: '../assets/files-icons/img.png',
@@ -136,7 +136,7 @@ function getMyInfos() {
         fetch('/auth/info')
             .then(response => response.json())
             .then(json => {
-                localStorage.setItem('user', JSON.stringify(json));
+                user = json;
                 resolve('cela fonctionne');
             })
             .catch(error => {
