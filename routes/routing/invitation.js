@@ -19,7 +19,7 @@ router.get('/info/:id', authorize(), async (req, res) => {
         return res.status(404).json({ message: 'Invitation not found' });
     }
     const owner = await Account.findOne({ _id: invitation.owner }, { name: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isCertified: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1 });
-    const alumet = await Alumet.findOne({ _id: invitation.alumet }, { _id: 1, title: 1, background: 1 });
+    const alumet = await Alumet.findOne({ _id: invitation.alumet }, { _id: 1, title: 1, description: 1, background: 1 });
     if (!owner || !alumet) {
         return res.status(404).json({ message: 'Owner or Alumet not found' });
     }

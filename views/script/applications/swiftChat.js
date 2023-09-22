@@ -105,5 +105,6 @@ function deleteMessage(id) {
 }
 
 function joinSocketRoom(id, userId) {
+    console.log(id, userId);
     socket.emit('joinChatRoom', id, userId);
 }

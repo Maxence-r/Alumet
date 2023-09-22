@@ -31,7 +31,7 @@ router.get('/logout', async (req, res) => {
 });
 
 router.get('/info', authorize(), async (req, res) => {
-    const invitations = await Invitation.find({ mail: req.user.mail });
+    const invitations = await Invitation.find({ mail: req.user.mail }).sort({ createdAt: -1 });
     let invitationsToSend = [];
     for (let invitation of invitations) {
         console.log(invitation.alumet);

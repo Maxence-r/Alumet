@@ -18,7 +18,7 @@ function fetchAlumetInfos() {
 function loadAlumetInfos(alumet, inviter, invitation) {
     document.querySelector('.alumet-infos > img').src = '/cdn/u/' + alumet.background;
     document.querySelector('.alumet-details > h1').innerText = alumet.title;
-    document.querySelector('.alumet-details > h3').innerText = alumet.description;
+    document.querySelector('.alumet-details > h3').innerText = alumet.description || 'Aucune description';
     document.getElementById('creator').innerText = 'Invité par ' + inviter.name + ' ' + inviter.lastname;
     document.getElementById('lastusage').innerText = relativeTime(invitation.createdAt);
     const img = new Image();
