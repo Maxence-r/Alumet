@@ -105,4 +105,44 @@ router.get('/leave/:id', authorize(), async (req, res) => {
     }
 });
 
+router.post('/accept/:id', authorize(), async (req, res) => {
+    try {
+        const invitation = await Invitation.findOne({
+            _id: req.params.id,
+            mail: req.user.mail,
+        });
+        if (!invitation) {
+            return res.status(404).json({
+                error: 'Invitation not found',
+            });
+        }
+        const alumet = await Alumet.findById(invitation.alumet);
+        if (!alumet) {
+            return res.status(404).json({
+                error: 'Alumet not found',
+            });
+        }
+        if (alumet.participants.includes(req.user.id)) {
+            return res.status(400).json({
+                error: 'User is already a participant',
+            });
+        }
+
+        alumet.participants.push(req.user.id);
+        alumet.collaborators.push(req.user.id);
+        let conversation = await Conversation.findOne({ _id: alumet.chat });
+        conversation.participants.push(req.user.id);
+        await conversation.save();
+        await alumet.save();
+        await invitation.remove();
+        res.status(200).json({
+            message: 'Invitation accepted',
+        });
+    } catch (error) {
+        res.status(500).json({
+            error,
+        });
+    }
+});
+
 module.exports = router;

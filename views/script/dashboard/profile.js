@@ -52,14 +52,16 @@ function createNotifications(invitations) {
         let subInfosElement = document.createElement('div');
         let nameElement = document.createElement('h3');
 
-        nameElement.textContent = invitation.alumetInfos.title;
+        nameElement.textContent = invitation.ownerInfos.name + ' ' + invitation.ownerInfos.lastname + ' vous à invité à collaborer sur ' + invitation.alumetInfos.title + '.';
         let roleElement = document.createElement('p');
-        roleElement.textContent = invitation.ownerInfos.name + ' ' + invitation.ownerInfos.lastname + ' vous à invité';
+        roleElement.textContent = relativeTime(invitation.invitation.createdAt);
         subInfosElement.appendChild(nameElement);
         subInfosElement.appendChild(roleElement);
 
         invitationElement.appendChild(subInfosElement);
         notificationElement.appendChild(invitationElement);
+
+        notificationElement.setAttribute('onclick', `window.location.href = '/invitation/${invitation.invitation._id}'`);
 
         document.querySelector('.notifications-container').appendChild(notificationElement);
     });

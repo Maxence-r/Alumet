@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="../assets/global/alumet.ico" />
+
+        <meta name="description" content="Alumet, explorer d'une nouvelle façon." />
+        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers" />
+        <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation." />
+        <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://alumet.io" />
+        <meta property="og:image" content="https://i.imgur.com/O9RdHj1.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:domain" content="alumet.io" />
+        <meta name="twitter:url" content="https://alumet.io/" />
+        <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes." />
+        <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !" />
+        <meta name="twitter:image" content="https://i.imgur.com/O9RdHj1.png" />
+
+        <link href="../../style/authentification/authentication.css" rel="stylesheet" type="text/css" />
+        <link href="../../style/global.css" rel="stylesheet" type="text/css" />
+
+        <title>Alumet - Invivation</title>
+    </head>
+    <body>
+        <section style="display: flex" class="loading">
+            <span class="loader-upload"></span>
+        </section>
+        <div class="compatibility">
+            <p></p>
+            <div>No compatible</div>
+        </div>
+
+        <div id="toast"></div>
+        <section class="access load">
+            <section class="full-screen">
+                <span class="loader"></span>
+                <h3>Autorisation en cours</h3>
+            </section>
+            <div class="container">
+                <h1>Invivation à collaborer</h1>
+
+                <div style="display: flex">
+                    <div class="user-infos">
+                        <div class="user-infos">
+                            <img src="../../assets/default/default_user.png" />
+                            <div class="user-details">
+                                <h3>Gabriel Lancelot</h3>
+                                <p>Connecté</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="acceptInvite()" class="large connect">Accepter</button>
+                    <button class="large greyed">Refuser</button>
+                </div>
+                <span class="footer-infos">
+                    <p>Besoin d'aide ?</p>
+                </span>
+            </div>
+        </section>
+        <section class="alumet-infos">
+            <div class="alumet-details">
+                <h1>Alumet titre</h1>
+                <h3>Alumet description</h3>
+                <p><span id="creator">utilisateur </span> il y a <span id="lastusage">bien logntemps</span></p>
+            </div>
+            <div class="layer-blur"></div>
+            <img />
+        </section>
+    </body>
+    <script src="../script/global.js"></script>
+    <script src="../script/invitation.js"></script>
+</html>

@@ -534,7 +534,7 @@ body {
 .notifications-container {
     display: flex;
     position: relative;
-    gap: 15px;
+    gap: 10px;
     margin-bottom: 10px;
     overflow: auto;
     flex-direction: column;
@@ -1015,26 +1015,35 @@ h3 {
     gap: 10px;
 }
 
+.notification > button {
+    height: 30px;
+}
+
 .invitation {
     display: flex;
     gap: 10px;
     flex-direction: row;
     align-items: center;
+    border: 2px solid #ebebeb;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 15px;
+    transition: all 0.3s ease-in-out;
 }
 
-.invitation > button {
-    height: 30px;
+.invitation:hover {
+    transform: scale(0.98);
 }
 
 .invitation > div > h3 {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
     margin: 0;
     color: #000000;
 }
 
 .invitation > div > p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 400;
     margin: 0;
     color: #9ea1a7;

@@ -27,6 +27,7 @@ const post = require('./routes/api/alumet/post');
 const mindFlashAi = require('./routes/openai/mindFlash');
 
 const setup = require('./routes/api/alumetGlobal/setup.js');
+const invitation = require('./routes/routing/invitation.js');
 
 app.use(cookieParser());
 app.use(express.json());
@@ -77,6 +78,8 @@ app.use('/api/board', board);
 app.use('/openai/mindFlash', mindFlashAi);
 
 app.use('/setup', setup);
+app.use('/invitation', invitation);
+
 const path = require('path');
 app.get('*', async (req, res) => {
     const filePath = path.join(__dirname, './views/pages/404.html');
