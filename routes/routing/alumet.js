@@ -13,10 +13,10 @@ router.get('/:id', validateObjectId, async (req, res) => {
     let alumet = await Alumet.findById(req.params.id);
     if (!alumet) return res.redirect('/404');
     if (alumet.private === true && (!req.connected || (!alumet.collaborators.includes(req.user.id) && !alumet.participants.includes(req.user.id) && req.user.id !== alumet.owner))) {
-        return res.redirect('/portal/' + req.params.id);
+        return res.redirect('/portal/' + req.params.id + '?code=' + req.query.code);
     }
     if ((req.connected && !alumet.collaborators.includes(req.user.id) && !alumet.participants.includes(req.user.id) && req.user.id !== alumet.owner) || (!req.connected && req.query.guest !== 'true')) {
-        return res.redirect('/portal/' + req.params.id);
+        return res.redirect('/portal/' + req.params.id + '?code=' + req.query.code);
     }
     const filePath = path.join(__dirname, '../../views/pages/alumet.html');
     res.sendFile(filePath);

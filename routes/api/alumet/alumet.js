@@ -10,6 +10,7 @@ const authorize = require('../../../middlewares/authentification/authorize');
 const Account = require('../../../models/account');
 const Wall = require('../../../models/wall');
 const Post = require('../../../models/post');
+const sendInvitations = require('../../../middlewares/utils/sendInvitations');
 
 router.get('/', authorize(), async (req, res) => {
     try {
@@ -59,6 +60,16 @@ router.get('/:alumet/content', authorize('alumetPrivate'), validateObjectId, asy
             }
         }
         const walls = await Wall.find({ alumetReference: req.params.alumet }).sort({ position: 1 }).lean();
+        for (let i = 0; i < alumetContent.participants.length; i++) {
+            let participant = alumetContent.participants[i];
+            let user = await Account.findOne({ _id: participant }, { name: 1, lastname: 1, icon: 1, username: 1 });
+            alumetContent.participants[i] = user;
+        }
+        for (let i = 0; i < alumetContent.collaborators.length; i++) {
+            let collaborator = alumetContent.collaborators[i];
+            let user = await Account.findOne({ _id: collaborator }, { name: 1, lastname: 1, icon: 1, username: 1 });
+            alumetContent.collaborators[i] = user;
+        }
 
         for (let wall of walls) {
             let posts;
@@ -165,5 +176,11 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
             error: 'Failed to get alumet',
         });
     }
+});
+
+router.put('/collaborators/:alumet', authorize('alumetAdmins'), sendInvitations, async (req, res) => {
+    res.json({
+        message: 'Collaborators updated',
+    });
 });
 module.exports = router;

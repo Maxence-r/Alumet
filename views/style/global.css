@@ -397,13 +397,24 @@ textarea {
     display: none !important;
 }
 
+.warning-box {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    z-index: 20;
+    text-align: center;
+}
+
 #toast {
-    position: fixed;
-    margin-left: auto;
-    margin-right: auto;
-    top: 20px;
-    right: 20px;
-    margin-left: 32px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
     display: flex;
     flex-direction: column-reverse;
     z-index: 999999;
@@ -820,6 +831,10 @@ select:focus {
     overflow-y: auto;
 }
 
+.users-fetch > .user {
+    margin: 10px;
+}
+
 .searching > .loading-users {
     display: flex !important;
     z-index: 1501;
@@ -831,7 +846,6 @@ select:focus {
     flex-direction: row;
     gap: 10px;
     align-items: center;
-    margin: 10px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }

@@ -7,6 +7,7 @@ const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHan
 const Message = require('../../models/message');
 const Account = require('../../models/account');
 const authorize = require('../../middlewares/authentification/authorize');
+const moderation = require('../../middlewares/utils/moderation');
 
 router.post('/create', validateConversation, async (req, res) => {
     const { participants, name, icon } = req.body;

@@ -30,6 +30,11 @@ function getContent() {
                 const parent = button.parentNode;
                 parent.insertBefore(list, button);
             });
+            if (!data.admin) {
+                document.querySelectorAll('.adminsOnly').forEach(el => {
+                    el.style.display = 'none';
+                });
+            }
             if (data.user_infos) {
                 user = data.user_infos;
                 if (data.admin) {
@@ -45,11 +50,69 @@ function getContent() {
                 document.querySelector('.user-details > p').innerText = 'Connecté';
                 document.querySelector('.profile > .row-bottom-buttons').classList.add('connected');
                 loadFiles();
+            } else {
+                console.log('not connected');
+                document.querySelectorAll('.connectedOnly').forEach(el => {
+                    el.style.display = 'none';
+                });
             }
 
-            socket.emit('joinAlumet', alumet._id, alumet.user_infos?.id);
+            loadParticipants(data.participants, data.collaborators);
+
+            socket.emit('joinAlumet', alumet._id, data.user_infos?._id);
             document.querySelector('body > section').style.display = 'none';
         });
+}
+
+function loadParticipants(participants, collaborators) {
+    const participantsContainer = document.querySelector('.participants-container');
+    if (participants.length === 0 && collaborators.length === 0) {
+        return;
+    }
+    participantsContainer.innerHTML = '';
+
+    participants.forEach(participant => {
+        const user = document.createElement('div');
+        user.classList.add('user');
+        user.dataset.id = participant._id;
+
+        const userImage = document.createElement('img');
+        userImage.src = `/cdn/u/${participant.icon}`;
+
+        const userInfo = document.createElement('div');
+        const userName = document.createElement('h3');
+        userName.textContent = `${participant.name} ${participant.lastname}`;
+        const userRole = document.createElement('p');
+        userRole.textContent = 'Participant';
+        userInfo.appendChild(userName);
+        userInfo.appendChild(userRole);
+
+        user.appendChild(userImage);
+        user.appendChild(userInfo);
+        participantsContainer.prepend(user);
+    });
+
+    collaborators.forEach(collaborator => {
+        const user = document.createElement('div');
+        user.classList.add('user');
+        user.dataset.id = collaborator._id;
+        user.onclick = () => manageParticipant(collaborator._id);
+
+        const userImage = document.createElement('img');
+        userImage.src = `/cdn/u/${collaborator.icon}`;
+
+        const userInfo = document.createElement('div');
+        const userName = document.createElement('h3');
+        userName.textContent = `${collaborator.name} ${collaborator.lastname}`;
+        const userRole = document.createElement('p');
+        userRole.textContent = 'Collaborateur';
+        userInfo.appendChild(userName);
+        userInfo.appendChild(userRole);
+
+        user.appendChild(userImage);
+        user.appendChild(userInfo);
+        participantsContainer.prepend(user);
+    });
 }
 
 async function modifyAlumet() {
@@ -666,13 +729,20 @@ function loadConversation(id) {
     fetch(`/swiftChat/` + id)
         .then(response => response.json())
         .then(json => {
+            const conversationBody = document.querySelector('.conversation-body');
+
             if (!json) return;
             Promise.all(json.messages.map(message => createMessageElement(message.message, message.user))).then(messageElements => {
-                const conversationBody = document.querySelector('.conversation-body');
                 messageElements.forEach(messageElement => {
                     conversationBody.prepend(messageElement);
                 });
+
+                let warningBox = document.createElement('div');
+                warningBox.classList.add('warning-box');
+                warningBox.innerText = 'Cet espace est privé et accessible uniquement aux membres de cet Alumet. La conversation est automatiquement modérée par une intelligence artificielle.';
+                conversationBody.prepend(warningBox);
             });
+
             joinSocketRoom(id, user._id);
         })
         .catch(error => console.error(error));

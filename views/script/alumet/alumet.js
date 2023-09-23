@@ -377,3 +377,64 @@ function leaveAlumet() {
             window.location.href = '/dashboard';
         });
 }
+
+function addCollaborators() {
+    document.querySelector('.user-popup').classList.add('active-popup');
+}
+
+function confirmCollaborators() {
+    fetch('/alumet/collaborators/' + alumet._id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ collaborators: participants }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            document.querySelector('.user-popup').classList.remove('active-popup');
+            if (data.error) {
+                return toast({ title: 'Erreur', message: data.error, type: 'error' });
+            }
+            toast({ title: 'Succès', message: 'Les invitations ont bien été envoyées', type: 'success' });
+        });
+}
+
+function addParticipants() {
+    createPrompt({
+        head: 'Ajouter des participants',
+        desc: 'Coller le lien ci dessous et partager le pour inviter des participants à votre alumet.',
+        placeholder: "Lien d'invitation",
+        disabled: true,
+        action: 'copyLink()',
+    });
+    document.getElementById('prompt-input').value = window.location.href + '?code=' + alumet.code || '';
+}
+
+function copyLink() {
+    const promptInput = document.getElementById('prompt-input');
+    document.querySelector('.prompt-popup').classList.remove('active-popup');
+    promptInput.select();
+    navigator.clipboard
+        .writeText(promptInput.value)
+        .then(() => {
+            toast({ title: 'Succès', message: 'Le lien a bien été copié', type: 'success' });
+        })
+        .catch(err => {
+            console.error('Failed to copy link: ', err);
+            toast({ title: 'Erreur', message: 'Impossible de copier le lien', type: 'error' });
+        });
+}
+
+const userPrompt = document.querySelector('#user-prompt');
+const debounceDelay = 500;
+let debounceTimeoutId;
+
+userPrompt.addEventListener('input', e => {
+    clearTimeout(debounceTimeoutId);
+    debounceTimeoutId = setTimeout(() => {
+        const query = e.target.value;
+        const type = 'user';
+        searchUsers(query, type);
+    }, debounceDelay);
+});

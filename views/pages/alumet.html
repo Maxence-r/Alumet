@@ -46,6 +46,25 @@
                 <datalist id="users"> </datalist>
             </div>
         </div>
+        <div class="user-popup popup">
+            <div class="prompt">
+                <h1>Ajouter des collaborateurs</h1>
+                <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Entrez un nom ou prénom" />
+                <div class="users-fetch">
+                    <div class="details loading-users">
+                        <span class="loader"></span>
+                    </div>
+                    <div class="details no-result">
+                        <h1>Aucun resultats</h1>
+                        <p>Affiner votre recherche</p>
+                    </div>
+                </div>
+                <div class="prompt-buttons">
+                    <button class="large">Supprimer</button> <button class="large" onclick="document.querySelector('.user-popup').classList.remove('active-popup')">Annuler</button>
+                    <button onclick="confirmCollaborators()" class="large">Confirmer</button>
+                </div>
+            </div>
+        </div>
         <div id="toast"></div>
         <div class="alumet">
             <div class="alumet-content">
@@ -59,6 +78,7 @@
                 <button class="large" onclick="navbar('mindFlash')">Flashcards</button>
                 <button class="large" onclick="navbar('ideaFlow')">Cartes Mentales</button>
                 <button class="large" onclick="navbar('settings')">Paramètres</button>
+                <button class="large" onclick="navbar('participants')">Participants</button>
                 <button class="large" onclick="navbar('profile')">Profile</button>
             </div>
             <div class="overlay-content loadfile">
@@ -149,7 +169,7 @@
             <div class="overlay-content settings">
                 <div class="header-setting">
                     <h1>AlumetName</h1>
-                    <button onclick="modifyAlumet()" class="large">Enregistrer</button>
+                    <button onclick="modifyAlumet()" class="large adminsOnly">Enregistrer</button>
                 </div>
                 <div class="divider"></div>
                 <img src="../assets/global/dev.png" />
@@ -184,19 +204,26 @@
                         </label>
                     </div>
                 </div>
-                <div class="row-bottom-buttons">
+                <div class="row-bottom-buttons adminsOnly">
                     <button onclick="navbar('participants')" class="large greyed">Gerer les participants</button>
                     <button onclick="engageDeletion()" class="large reded">Supprimer l'Alumet</button>
                 </div>
             </div>
             <div class="overlay-content participants">
-                <div class="information">
-                    <img src="../assets/global/locked.svg" />
-                    <h3>
-                        Bientôt disponible en
-                        <div class="beta">BETA</div>
-                    </h3>
-                    <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
+                <div class="header-setting">
+                    <h1>Participants</h1>
+                </div>
+                <div class="divider"></div>
+                <div class="participants-container">
+                    <div class="information">
+                        <img src="../assets/global/collaboration.svg" />
+                        <h3>Aucun participants</h3>
+                        <p>Les participants et collaborateurs de votre Alumet seront afficher ici, vous pourrez ensuite les gerer, commencer par en ajouter.</p>
+                    </div>
+                </div>
+                <div class="row-bottom-buttons adminsOnly">
+                    <button onclick="addCollaborators()" class="large greyed">Ajouter un collaborateur</button>
+                    <button onclick="addParticipants()" class="large">Ajouteur des participants</button>
                 </div>
             </div>
             <div class="overlay-content ideaFlow">
@@ -253,7 +280,7 @@
                         <div class="reader-gradient"></div>
                     </div>
                 </div>
-                <div class="drop-box">
+                <div class="drop-box connectedOnly">
                     <div class="indications">
                         <h3>
                             Cliquer ici pour selectionner un fichier<br />
@@ -309,7 +336,7 @@
                 <img src="../assets/global/home_a.svg" alt="home" />
                 <p>Accueil</p>
             </button>
-            <button onclick="navbar('messages')" id="messages">
+            <button onclick="navbar('messages')" class="connectedOnly" id="messages">
                 <img src="../assets/global/messages_a.svg" alt="messagerie" />
                 <p>Messages</p>
                 <div class="ping"></div>
@@ -319,8 +346,12 @@
                 <p>Flashcards</p>
             </button>
             <button onclick="navbar('ideaFlow')" id="ideaFlow">
-                <img src="../assets/global/ideaFlow_a.svg" alt="paramètres" />
+                <img src="../assets/global/ideaFlow_a.svg" alt="Cartes mentales" />
                 <p>Cartes Mentales</p>
+            </button>
+            <button onclick="navbar('participants')" id="participants">
+                <img src="../assets/global/participants.svg" alt="Participants" />
+                <p>Participants</p>
             </button>
             <button onclick="navbar('settings')" id="settings">
                 <img src="../assets/global/settings.svg" alt="paramètres" />

@@ -35,7 +35,29 @@ function acceptInvite() {
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
+            if (data.error) {
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 2500 });
+            } else {
+                window.location.href = '/dashboard';
+            }
+        })
+        .catch(err => console.log(err));
+}
+
+function declineInvite() {
+    fetch('/portal/decline/' + id, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 2500 });
+            } else {
+                window.location.href = '/dashboard';
+            }
         })
         .catch(err => console.log(err));
 }

@@ -1,9 +1,9 @@
 function next(current, next) {
     let hasEmptyInput = false;
     document.querySelectorAll('.activeStep > input').forEach(input => {
-        if (input.value === '' && input.required) {
+        if (input.value.length < 2 && input.required) {
             hasEmptyInput = true;
-            return toast({ title: 'Erreur', message: 'Veuillez remplir tous les champs', type: 'error', duration: 2500 });
+            return toast({ title: 'Erreur', message: 'Veuillez remplir tous les champs avec 2 caractères minimum', type: 'error', duration: 2500 });
         }
     });
     if (hasEmptyInput) {

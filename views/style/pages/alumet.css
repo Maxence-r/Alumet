@@ -299,9 +299,8 @@ body {
     margin-top: auto;
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
     flex-direction: row;
-    gap: 10px;
+    gap: 15px;
 }
 
 .profile > .row-bottom-buttons > button:nth-of-type(1),
@@ -824,6 +823,13 @@ h1 {
     display: none;
 }
 
+.participants-container {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    gap: 15px;
+}
+
 @keyframes fadeOut {
     0% {
         opacity: 1;
@@ -845,6 +851,10 @@ h1 {
 }
 
 @media screen and (max-width: 600px) {
+    .row-bottom-buttons {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
     .alumet-content {
         gap: 10px;
     }

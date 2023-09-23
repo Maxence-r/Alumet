@@ -2,7 +2,7 @@ socket.on('connect', () => {
     document.querySelector('.stream-info').style.display = 'none';
     console.log(`Vous êtes connecté en temps réel`);
     if (retried) {
-        socket.emit('joinAlumet', alumet._id, alumet.user_infos?.id);
+        socket.emit('joinAlumet', alumet._id, user?.id);
     }
 });
 

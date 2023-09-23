@@ -7,7 +7,7 @@ require('dotenv').config();
 const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
 const authorize = require('../../../middlewares/authentification/authorize');
 const Conversation = require('../../../models/conversation');
-
+const Invitation = require('../../../models/invitation');
 router.get('/:id', validateObjectId, async (req, res) => {
     try {
         if (req.connected) {
@@ -118,17 +118,13 @@ router.post('/accept/:id', authorize(), async (req, res) => {
         }
         const alumet = await Alumet.findById(invitation.alumet);
         if (!alumet) {
-            return res.status(404).json({
-                error: 'Alumet not found',
-            });
-        }
-        if (alumet.participants.includes(req.user.id)) {
-            return res.status(400).json({
-                error: 'User is already a participant',
-            });
+            invitation.remove();
+            setTimeout(() => {
+                return res.redirect('/dashboard');
+            }, 1000);
         }
 
-        alumet.participants.push(req.user.id);
+        alumet.participants = alumet.participants.filter(participant => participant !== req.user.id);
         alumet.collaborators.push(req.user.id);
         let conversation = await Conversation.findOne({ _id: alumet.chat });
         conversation.participants.push(req.user.id);
@@ -139,8 +135,32 @@ router.post('/accept/:id', authorize(), async (req, res) => {
             message: 'Invitation accepted',
         });
     } catch (error) {
+        console.error(error);
         res.status(500).json({
             error,
+        });
+    }
+});
+
+router.post('/decline/:id', authorize(), async (req, res) => {
+    try {
+        const invitation = await Invitation.findOne({
+            _id: req.params.id,
+            mail: req.user.mail,
+        });
+        if (!invitation) {
+            return res.status(404).json({
+                error: 'Invitation not found',
+            });
+        }
+        await invitation.remove();
+        res.status(200).json({
+            message: 'Invitation declined',
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Internal server error',
         });
     }
 });
