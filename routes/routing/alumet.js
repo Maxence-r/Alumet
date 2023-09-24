@@ -13,10 +13,10 @@ router.get('/:id', validateObjectId, async (req, res) => {
     let alumet = await Alumet.findById(req.params.id);
     if (!alumet) return res.redirect('/404');
     if (alumet.private === true && (!req.connected || (!alumet.collaborators.includes(req.user.id) && !alumet.participants.includes(req.user.id) && req.user.id !== alumet.owner))) {
-        return res.redirect('/portal/' + req.params.id + '?code=' + req.query.code);
+        return res.redirect('/portal/' + req.params.id);
     }
     if ((req.connected && !alumet.collaborators.includes(req.user.id) && !alumet.participants.includes(req.user.id) && req.user.id !== alumet.owner) || (!req.connected && req.query.guest !== 'true')) {
-        return res.redirect('/portal/' + req.params.id + '?code=' + req.query.code);
+        return res.redirect('/portal/' + req.params.id);
     }
     const filePath = path.join(__dirname, '../../views/pages/alumet.html');
     res.sendFile(filePath);
@@ -43,8 +43,9 @@ router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveT
             await conversation.save();
             alumet.chat = conversation._id;
             req.alumetId = alumet._id;
-            sendInvitations(req, res, () => {});
             await alumet.save();
+            sendInvitations(req, res, () => {});
+            res.json({ alumet });
         } else {
             alumet = await Alumet.findByIdAndUpdate(req.body.alumet, {
                 title: req.body.title,
@@ -58,9 +59,8 @@ router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveT
                 name: req.body.title,
                 icon: req.upload ? req.upload._id : undefined,
             });
+            res.json({ alumet });
         }
-
-        res.json({ alumet });
     } catch (error) {
         console.error(error);
         res.status(400).json({ error: 'An error occurred while creating the alumet.' });

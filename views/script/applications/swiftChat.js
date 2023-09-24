@@ -61,11 +61,20 @@ function createMessageElement(message, userSender) {
     userNameElement.classList.add('user-name');
     userNameElement.textContent = userSender.name + ' ' + userSender.lastname;
 
-    if (user.isCertified) {
+    if (userSender.isCertified) {
         const certifiedElement = document.createElement('img');
         certifiedElement.src = `../assets/badges/certified/${userSender.accountType}-certified.svg`;
         certifiedElement.alt = 'certified icon';
         userNameElement.appendChild(certifiedElement);
+    }
+    if (userSender.badges) {
+        userSender.badges.forEach(badge => {
+            const badgeImg = document.createElement('img');
+            badgeImg.src = `/assets/badges/specials/${badge}.svg`;
+            badgeImg.title = badge;
+            badgeImg.classList.add('badge');
+            userNameElement.appendChild(badgeImg);
+        });
     }
 
     const createAt = document.createElement('span');

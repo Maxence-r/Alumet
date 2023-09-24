@@ -16,7 +16,6 @@ function moderation(req, res, next) {
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             if (!data.results[0]) {
                 next();
             } else if (data.results[0].flagged) {

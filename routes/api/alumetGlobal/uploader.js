@@ -264,7 +264,7 @@ const accountUpload = multer({
     },
 });
 
-router.post('/upload/:id', authorize(), accountUpload.single('file'), async (req, res) => {
+router.post('/upload/:id', accountUpload.single('file'), async (req, res) => {
     try {
         let folder;
         if (req.params.id && mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -282,7 +282,7 @@ router.post('/upload/:id', authorize(), accountUpload.single('file'), async (req
                 displayname: sanitizedFilename,
                 mimetype: ext.toLowerCase(),
                 filesize: req.file.size,
-                owner: req.user.id,
+                owner: req.user?.id || req.ip,
                 folder: folder?._id || null,
             });
             await upload.save();
@@ -304,14 +304,9 @@ router.get('/info/:id', validateObjectId, (req, res) => {
     Upload.findOne({ _id: req.params.id })
         .then(upload => {
             if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
-            Account.findOne({ _id: upload.owner })
-                .select('name lastname isCertified accountType badges username')
-                .then(account => {
-                    if (!account) return res.status(404).json({ error: 'Compte non trouvé' });
-                    res.json({ upload, account });
-                })
-                .catch(error => res.json({ error }));
+            res.json({ upload });
         })
+
         .catch(error => res.json({ error }));
 });
 

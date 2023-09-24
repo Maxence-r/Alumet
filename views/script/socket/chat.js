@@ -1,8 +1,5 @@
 socket.on('connect', () => {
-    console.log('Vous êtes connecté au serveur Alumet');
-    if (retried) {
-        socket.emit('joinChatRoom', currentConversation, user._id);
-    }
+    console.log('Chat socket connected');
 });
 
 socket.on('message', (messageObject, user) => {

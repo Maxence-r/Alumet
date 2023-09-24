@@ -58,15 +58,23 @@ function registerEventsOnList(list) {
         let draggingCard = document.querySelector('.dragging');
         let cardAfterDraggingCard = getCardAfterDraggingCard(list, e.clientY);
         if (cardAfterDraggingCard) {
-            cardAfterDraggingCard.parentNode.insertBefore(draggingCard, cardAfterDraggingCard);
+            if (draggingCard instanceof Node) {
+                cardAfterDraggingCard.parentNode.insertBefore(draggingCard, cardAfterDraggingCard);
+            }
         } else {
-            list.appendChild(draggingCard);
+            if (draggingCard instanceof Node) {
+                list.appendChild(draggingCard);
+            }
         }
     });
     list.addEventListener('drop', e => {
         let draggedCard = document.querySelector('.dragging');
+        if (!draggedCard) {
+            return;
+        }
         let listId = e.currentTarget.getAttribute('data-id');
         let postPosition = [...e.currentTarget.querySelectorAll('.card')].indexOf(e.currentTarget.querySelector('.dragging'));
+
         fetch('/api/post/move/' + JSON.parse(localStorage.getItem('alumet'))._id + '/' + listId + '/' + draggedCard.dataset.id, {
             method: 'PUT',
             headers: {
@@ -408,7 +416,7 @@ function addParticipants() {
         disabled: true,
         action: 'copyLink()',
     });
-    document.getElementById('prompt-input').value = window.location.href + '?code=' + alumet.code || '';
+    document.getElementById('prompt-input').value = window.location.host + '/portal/' + alumet._id + '?code=' + alumet.code;
 }
 
 function copyLink() {

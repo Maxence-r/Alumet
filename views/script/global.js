@@ -1,4 +1,3 @@
-let retried = false;
 let participants = [];
 let user;
 const fileIconReference = {

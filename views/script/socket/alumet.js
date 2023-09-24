@@ -1,16 +1,12 @@
 socket.on('connect', () => {
     document.querySelector('.stream-info').style.display = 'none';
-    console.log(`Vous êtes connecté en temps réel`);
-    if (retried) {
-        socket.emit('joinAlumet', alumet._id, user?.id);
-    }
+    console.log(`Alumet socket connected`);
 });
 
 socket.on('disconnect', () => {
     document.querySelector('.stream-info').style.display = 'flex';
     console.log(`Vous êtes déconnecté en temps réel`);
     socket.emit('leaveAlumet', alumet._id);
-    retried = true;
 });
 
 socket.on('addPost', data => {
@@ -43,6 +39,7 @@ socket.on('movePost', (listId, blockId, position) => {
 });
 
 socket.on('editPost', data => {
+    console.log(data);
     const newPost = createTaskList(data);
     const post = document.querySelector(`.card[data-id="${data._id}"]`);
     if (!post) {
@@ -53,6 +50,7 @@ socket.on('editPost', data => {
 });
 
 socket.on('addWall', data => {
+    getWallData(data._id, data);
     const list = createInList(data.title, data.postAuthorized, data._id);
     const button = document.getElementById('wall');
     const parent = button.parentNode;
@@ -60,6 +58,7 @@ socket.on('addWall', data => {
 });
 
 socket.on('editWall', data => {
+    getWallData(data._id, data);
     const wall = document.querySelector(`.list[data-id="${data._id}"]`);
     wall.querySelector('h1').innerText = data.title;
     if (!data.postAuthorized && !alumet.admin) {

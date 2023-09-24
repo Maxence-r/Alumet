@@ -505,7 +505,7 @@ body {
 .divider {
     width: 100%;
     margin: 10px 0;
-    min-height: 2px;
+    min-height: 1px;
     background-color: #ebebeb;
 }
 
@@ -659,10 +659,6 @@ body {
     flex-direction: column;
 }
 
-.sub-container > .divider {
-    margin: 10px 0;
-}
-
 .sub-container > .header {
     display: flex;
     justify-content: space-between;
@@ -671,8 +667,9 @@ body {
 }
 
 h2 {
-    font-size: 1.8rem;
-    font-weight: 500;
+    font-size: 1.4em;
+    font-weight: 800;
+    text-transform: uppercase;
     margin: 0;
     color: #000000;
 }

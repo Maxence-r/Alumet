@@ -51,7 +51,6 @@ function getContent() {
                 document.querySelector('.profile > .row-bottom-buttons').classList.add('connected');
                 loadFiles();
             } else {
-                console.log('not connected');
                 document.querySelectorAll('.connectedOnly').forEach(el => {
                     el.style.display = 'none';
                 });
@@ -96,7 +95,6 @@ function loadParticipants(participants, collaborators) {
         const user = document.createElement('div');
         user.classList.add('user');
         user.dataset.id = collaborator._id;
-        user.onclick = () => manageParticipant(collaborator._id);
 
         const userImage = document.createElement('img');
         userImage.src = `/cdn/u/${collaborator.icon}`;
@@ -363,7 +361,7 @@ function createTaskList(post) {
             author.appendChild(badgeImg);
         });
     }
-    if (alumet.admin || (alumet.user_infos?.id === post.owner?._id && alumet.user_infos)) {
+    if (alumet.admin || (alumet.user_infos?._id === post.owner?._id && alumet.user_infos)) {
         const editButton = document.createElement('img');
         editButton.classList.add('edit');
         editButton.src = '/assets/global/edit.svg';
@@ -423,7 +421,6 @@ function createTaskList(post) {
             imgLatex.src = `https://latex.codecogs.com/svg.latex?\\dpi{300}&space;${match[1]}`;
             imgLatex.alt = 'LaTeX equation';
             imgLatex.classList.add('latexImg');
-            console.log(imgLatex);
             content = content.replace(match[0], imgLatex.outerHTML);
         }
 
@@ -592,7 +589,7 @@ async function createPost(confirmed) {
         }
         setTimeout(() => {
             navbar('home');
-        }, 1000);
+        }, 500);
     } catch (error) {
         console.error(error);
     }
@@ -718,7 +715,6 @@ function createWall() {
                 const wall = document.querySelector(`.list[data-id="${data._id}"]`);
                 wall.querySelector('h1').innerText = data.title;
             }
-            getWallData(data._id, data);
             setTimeout(() => {
                 navbar('home');
             }, 1000);

@@ -348,7 +348,8 @@ body {
 }
 
 .badge {
-    width: 14px;
+    width: 16px;
+    height: 16px;
 }
 
 .card:hover .author .edit {

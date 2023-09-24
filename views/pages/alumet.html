@@ -249,7 +249,7 @@
                 <div class="row-bottom-buttons">
                     <button onclick="window.location.href='/dashboard'" class="large greyed">Retour au tableau de bord</button>
                     <button onclick="promptLeave()" class="large reded">Quitter cet Alumet</button>
-                    <button onclick="connect()" class="large">Se connecter</button>
+                    <button onclick="window.location.href=`/portal/${alumet._id}`" class="large">Se connecter</button>
                 </div>
             </div>
             <div class="overlay-content post">
@@ -280,7 +280,7 @@
                         <div class="reader-gradient"></div>
                     </div>
                 </div>
-                <div class="drop-box connectedOnly">
+                <div class="drop-box">
                     <div class="indications">
                         <h3>
                             Cliquer ici pour selectionner un fichier<br />
@@ -364,11 +364,10 @@
     <script>
         const socket = io();
     </script>
+    <script src="../../script/global.js"></script>
     <script src="../script/socket/alumet.js"></script>
     <script src="../script/socket/chat.js"></script>
     <script src="../script/alumet/alumet.js"></script>
     <script src="../script/applications/swiftChat.js"></script>
     <script src="../script/alumet/contentManager.js"></script>
-
-    <script src="../../script/global.js"></script>
 </html>
