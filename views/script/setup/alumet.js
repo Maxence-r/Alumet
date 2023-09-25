@@ -38,7 +38,7 @@ async function createAlumet() {
                 toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
                 setTimeout(() => {
                     window.location.reload();
-                }, 7500);
+                }, 500);
             } else {
                 toast({ title: 'Succès', message: "L'alumet a bien été créé !", type: 'success', duration: 2500 });
                 setTimeout(() => {

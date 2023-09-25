@@ -113,6 +113,6 @@ function handleRedirect() {
     } else {
         setTimeout(() => {
             window.location.href = '/dashboard';
-        }, 2500);
+        }, 500);
     }
 }

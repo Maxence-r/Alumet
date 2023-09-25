@@ -57,6 +57,12 @@ body {
     flex: 1;
 }
 
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .info {
     margin: 0;
     font-size: 0.8rem;
@@ -195,7 +201,7 @@ body {
 }
 
 .card > .description > .latexImg {
-    height: 20px;
+    height: 40px;
 }
 
 .list > .titleList > img {
