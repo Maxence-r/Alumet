@@ -392,6 +392,7 @@ function createTaskList(post) {
         if (post.link.image) {
             linkPreview.style.backgroundImage = `url(${post.link.image})`;
         }
+        linkPreview.setAttribute('onclick', `window.open("${post.link.url}")`);
         linkPreview.classList.add('post-rich-content');
         const linkPreviewTitle = document.createElement('h2');
         linkPreviewTitle.textContent = post.link.title;
