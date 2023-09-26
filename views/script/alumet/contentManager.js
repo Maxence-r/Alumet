@@ -273,6 +273,7 @@ function clearWall() {
 
 let postToEdit;
 async function editPost(id) {
+    clearPost();
     let postData = await getPostData(id);
     if (!postData) {
         toast({
