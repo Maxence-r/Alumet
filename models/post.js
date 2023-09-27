@@ -52,6 +52,11 @@ const PostSchema = mongoose.Schema({
         required: true,
         default: false,
     },
+    createdAt: {
+        type: Date,
+        required: true,
+        default: Date.now,
+    },
 });
 
 const Post = mongoose.model('Post', PostSchema);

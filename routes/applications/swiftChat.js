@@ -8,6 +8,7 @@ const Message = require('../../models/message');
 const Account = require('../../models/account');
 const authorize = require('../../middlewares/authentification/authorize');
 const moderation = require('../../middlewares/utils/moderation');
+const Alumet = require('../../models/alumet');
 
 router.post('/create', validateConversation, async (req, res) => {
     const { participants, name, icon } = req.body;
@@ -377,6 +378,13 @@ router.post('/send/:conversation', authorize(), async (req, res) => {
         _id: req.params.conversation,
         $or: [{ participants: req.user.id }, { administrators: req.user.id }, { owner: req.user.id }],
     });
+
+    if (conversation.type == 'alumet') {
+        let alumet = await Alumet.findOne({ chat: conversation._id });
+        if (alumet.swiftchat == false && alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user.id)) {
+            return res.status(400).json({ error: 'La discussion a été desactiver pour cet Alumet' });
+        }
+    }
     if (!conversation) return res.status(404).json({ error: 'Unauthorized area' });
     const { message } = req.body;
     const { conversation: conversationId } = req.params;

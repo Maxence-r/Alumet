@@ -13,7 +13,6 @@ if (sendMessageButton) {
 
 function sendMessage() {
     const message = document.getElementById('message').value;
-    const conversationId = currentConversation;
     if (document.getElementById('message').value === '') return;
     document.getElementById('message').value = '';
     fetch('/swiftChat/send/' + currentConversation, {

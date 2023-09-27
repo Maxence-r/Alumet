@@ -328,26 +328,6 @@ function createOption(folder) {
     return option;
 }
 
-function loadFolder(id) {
-    document.querySelector('.files-items').classList.add('loading-files');
-    localStorage.setItem('currentFolder', id);
-    fetch(`/cdn/folder/${id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(response => response.json())
-        .then(data => {
-            document.querySelectorAll('.file-item').forEach(file => file.remove());
-            data.forEach(file => {
-                const fileElement = createFileElement(file);
-                document.querySelector('.files-items').appendChild(fileElement);
-            });
-            document.querySelector('.files-items').classList.remove('loading-files');
-        });
-}
-
 document.getElementById('search-bar').addEventListener('input', e => {
     const search = e.currentTarget.value.toLowerCase();
     const allFiles = document.querySelectorAll('.file-item');

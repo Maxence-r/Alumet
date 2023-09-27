@@ -1448,35 +1448,6 @@ h3 {
     overflow-x: hidden;
 }
 
-.full-screen {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
-    height: 100%;
-    z-index: 1500;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-}
-
-.full-screen > h1 {
-    font-size: 1.2rem;
-    font-weight: 500;
-    margin: 0;
-    text-align: center;
-}
-
-.full-screen > p {
-    font-size: 0.9rem;
-    font-weight: 400;
-    margin: 0;
-    color: #9ea1a7;
-    text-align: center;
-}
-
 .no-conversation > .full-screen:nth-child(1) {
     display: flex;
 }

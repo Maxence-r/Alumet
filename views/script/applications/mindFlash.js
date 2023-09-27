@@ -1069,24 +1069,6 @@ function createOption(folder) {
     return option;
 }
 
-function loadFolder(id) {
-    localStorage.setItem('currentFolder', id);
-    fetch(`/cdn/folder/${id}?type=pdf`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(response => response.json())
-        .then(data => {
-            document.querySelectorAll('.file-item').forEach(file => file.remove());
-            data.forEach(file => {
-                const fileElement = createFileElement(file);
-                document.querySelector('.files-items').appendChild(fileElement);
-            });
-        });
-}
-
 document.getElementById('search-bar').addEventListener('input', e => {
     const search = e.currentTarget.value.toLowerCase();
     const allFiles = document.querySelectorAll('.file-item');

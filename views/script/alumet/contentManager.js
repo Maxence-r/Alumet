@@ -23,7 +23,7 @@ function getContent() {
                 const list = createInList(wall.title, wall.postAuthorized, wall._id);
                 const draggingContainer = list.querySelector('.draggingContainer');
                 wall.posts.forEach(post => {
-                    const card = createTaskList(post);
+                    const card = createPostElement(post);
                     draggingContainer.appendChild(card);
                 });
                 const button = document.getElementById('wall');
@@ -315,7 +315,7 @@ async function editPost(id) {
     document.querySelector('.post-buttons > .reded').style.display = 'flex';
 }
 
-function createTaskList(post) {
+function createPostElement(post) {
     const card = document.createElement('div');
     card.classList.add('card');
     card.draggable = true;
@@ -343,6 +343,7 @@ function createTaskList(post) {
     } else {
         author.textContent = 'Anonyme';
     }
+
     if (post.owner?.isCertified) {
         const certified = document.createElement('img');
         certified.src = `/assets/badges/certified/${post.owner.accountType}-certified.svg`;
@@ -361,6 +362,10 @@ function createTaskList(post) {
             author.appendChild(badgeImg);
         });
     }
+    const creationDate = document.createElement('p');
+    creationDate.classList.add('creationDate');
+    creationDate.textContent = relativeTime(post.createdAt);
+    author.appendChild(creationDate);
     if (alumet.admin || (alumet.user_infos?._id === post.owner?._id && alumet.user_infos)) {
         const editButton = document.createElement('img');
         editButton.classList.add('edit');
@@ -368,6 +373,7 @@ function createTaskList(post) {
         editButton.setAttribute('onclick', `editPost("${post._id}")`);
         author.appendChild(editButton);
     }
+
     card.appendChild(author);
 
     if (post.file) {
@@ -428,17 +434,25 @@ function createTaskList(post) {
         card.appendChild(cardDescription);
     }
     if (post.commentAuthorized) {
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.placeholder = 'Laisser un commentaire';
-        input.classList.add('comment-input');
-        input.setAttribute('onkeydown', `if (event.keyCode === 13) { commentPost("${post._id}") }`);
-        card.appendChild(input);
+        const divider = document.createElement('div');
+        divider.classList.add('divider');
+        card.appendChild(divider);
+        const actionRow = document.createElement('div');
+        actionRow.classList.add('actionRow');
+        const commentIcon = document.createElement('img');
+        commentIcon.src = '/assets/global/comment.svg';
+        const likeIcon = document.createElement('img');
+        likeIcon.src = '/assets/global/like.svg';
+        likeIcon.classList.add('icon');
+        actionRow.appendChild(likeIcon);
+        actionRow.appendChild(commentIcon);
+        card.appendChild(actionRow);
     }
 
     if (!navigator.userAgent.includes('Mobile') && alumet.admin) {
         registerEventsOnCard(card);
     }
+
     return card;
 }
 
@@ -735,7 +749,12 @@ function loadConversation(id) {
 
                 let warningBox = document.createElement('div');
                 warningBox.classList.add('warning-box');
-                warningBox.innerText = 'Cet espace est privé et accessible uniquement aux membres de cet Alumet. La conversation est automatiquement modérée par une intelligence artificielle.';
+                if (alumet.swiftchat) {
+                    warningBox.innerText = 'Cet espace est privé et accessible uniquement aux membres de cet Alumet. La conversation est automatiquement modérée par une intelligence artificielle.';
+                } else {
+                    warningBox.innerText = "La discussion à été désactivée par l'administrateur de cet Alumet. Seul les administrateurs peuvent écrire.";
+                }
+
                 conversationBody.prepend(warningBox);
             });
 

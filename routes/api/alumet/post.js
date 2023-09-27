@@ -26,6 +26,7 @@ router.put('/:alumet/:wall', validatePost, async (req, res) => {
         adminsOnly: req.body.adminsOnly,
         postDate: req.body.postDate || null,
         commentAuthorized: req.body.commentAuthorized,
+        createdAt: Date.now(),
     };
     try {
         let post;
@@ -42,13 +43,12 @@ router.put('/:alumet/:wall', validatePost, async (req, res) => {
         const postDate = new Date(postFields.postDate);
         const currentDate = new Date();
         const room = postFields.adminsOnly || postDate > currentDate ? `admin-${req.params.alumet}` : req.params.alumet;
-        console.log(room);
+
         if (postId) {
             global.io.to(room).emit('editPost', postFields);
         } else {
             global.io.to(room).emit('addPost', postFields);
         }
-
         res.json(postFields);
     } catch (error) {
         console.error(error);

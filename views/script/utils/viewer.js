@@ -6,8 +6,12 @@ fetch('/cdn/info/' + window.location.href.split('/')[4])
     .then(res => res.json())
     .then(data => {
         if (data.error) {
-            console.log(data.error);
-            document.querySelector('.stream-info').style.display = 'flex';
+            toast({
+                title: 'Erreur',
+                message: data.error,
+                type: 'error',
+                duration: 2500,
+            });
             return setTimeout(() => {
                 window.close();
             }, 10000);

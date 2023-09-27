@@ -29,11 +29,7 @@
         <section class="loading" style="display: flex">
             <span class="loader-upload"></span>
         </section>
-        <div class="stream-info">
-            <span class="loader-bar"></span>
-            <h1>Déconnecté</h1>
-            <h3>Vous avez été déconnecté des serveurs d'Alumet, nous essayons de vous y reconnecter.</h3>
-        </div>
+
         <div class="prompt-popup popup">
             <div class="prompt">
                 <h1 id="prompt-head">Prompt name</h1>
@@ -104,8 +100,21 @@
                     <div class="loader-container">
                         <span class="loader-upload"></span>
                     </div>
+                    <div class="full-screen" style="display: flex">
+                        <h1>Pas de fichiers</h1>
+                        <p>Ce dossier ne contient pas de fichiers</p>
+                    </div>
                 </div>
                 <button onclick="navbar('post')" class="large greyed">Annuler</button>
+            </div>
+            <div class="overlay-content disconnected">
+                <h1>Connexion au serveur perdu</h1>
+                <div class="divider"></div>
+                <div class="information">
+                    <img src="../assets/global/disconnect.svg" />
+                    <h3>Vous êtes déconnecté</h3>
+                    <p>Actualiser cette page pour recevoir les modifications en temps réel lorsque votre connexion sera de retour !</p>
+                </div>
             </div>
             <div class="overlay-content loadingRessources">
                 <div class="loading full-screen">
@@ -137,7 +146,7 @@
                 <div class="divider"></div>
                 <input id="wallTitle" type="text" placeholder="Nom du mur" />
                 <div class="toggle">
-                    <h3>Autoriser les commantaire</h3>
+                    <h3>Autoriser les commentaires</h3>
                     <label class="switch">
                         <input id="postAuthorized" type="checkbox" />
                         <span class="slide round"></span>
@@ -197,7 +206,7 @@
                         </label>
                     </div>
                     <div class="option">
-                        <h1>Messagerie publique</h1>
+                        <h1>Messagerie de l'Alumet</h1>
                         <label class="switch">
                             <input id="alumet-chat" checked="" type="checkbox" />
                             <span class="slide round"></span>
@@ -295,27 +304,31 @@
                         <div class="send-actions"><button onclick="cancelSend()" id="cancel-send" class="large greyed">Retirer</button></div>
                     </div>
                 </div>
-                <div class="toggle">
-                    <h3>Autoriser les commantaire</h3>
-                    <label class="switch">
-                        <input id="postCommentAuthorized" type="checkbox" />
-                        <span class="slide round"></span>
-                    </label>
+                <div class="switch-options">
+                    <div class="option">
+                        <h1>Autoriser les commentaires</h1>
+                        <label class="switch">
+                            <input id="postCommentAuthorized" type="checkbox" />
+                            <span class="slide round"></span>
+                        </label>
+                    </div>
+
+                    <div class="option">
+                        <h1>Seul les administrateurs voient</h1>
+                        <label class="switch">
+                            <input id="administatorsAuthorized" checked="" type="checkbox" />
+                            <span class="slide round"></span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <h1>Date de publication automatique</h1>
+                        <label class="switch">
+                            <input id="publicationDate" checked="" type="checkbox" />
+                            <span class="slide round"></span>
+                        </label>
+                    </div>
                 </div>
-                <div class="toggle">
-                    <h3>Seul les administrateurs voient.</h3>
-                    <label class="switch">
-                        <input id="administatorsAuthorized" type="checkbox" />
-                        <span class="slide round"></span>
-                    </label>
-                </div>
-                <div class="toggle">
-                    <h3>Date de publication automatique</h3>
-                    <label class="switch">
-                        <input id="publicationDate" type="checkbox" />
-                        <span class="slide round"></span>
-                    </label>
-                </div>
+
                 <div class="date">
                     <input type="datetime-local" id="date" />
                 </div>

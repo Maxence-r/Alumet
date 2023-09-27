@@ -1,17 +1,15 @@
 socket.on('connect', () => {
-    document.querySelector('.stream-info').style.display = 'none';
     console.log(`Alumet socket connected`);
 });
 
 socket.on('disconnect', () => {
-    document.querySelector('.stream-info').style.display = 'flex';
-    console.log(`Vous êtes déconnecté en temps réel`);
+    navbar('disconnected');
     socket.emit('leaveAlumet', alumet._id);
 });
 
 socket.on('addPost', data => {
     const list = document.getElementById(data.wallId);
-    const newPost = createTaskList(data);
+    const newPost = createPostElement(data);
     list.prepend(newPost);
     getPostData(data._id, data);
 });
@@ -40,7 +38,7 @@ socket.on('movePost', (listId, blockId, position) => {
 
 socket.on('editPost', data => {
     console.log(data);
-    const newPost = createTaskList(data);
+    const newPost = createPostElement(data);
     const post = document.querySelector(`.card[data-id="${data._id}"]`);
     if (!post) {
         return;

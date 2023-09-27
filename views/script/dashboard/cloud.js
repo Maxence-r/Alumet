@@ -73,31 +73,6 @@ function createFileElement(file) {
     return div;
 }
 
-function loadFolder(id) {
-    document.querySelector('.files-items').classList.add('loading-files');
-    localStorage.setItem('currentFolder', id);
-    fetch(`/cdn/folder/${id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.length === 0) {
-                document.querySelector('.files-items > .full-screen').style.display = 'flex';
-            } else {
-                document.querySelector('.files-items > .full-screen').style.display = 'none';
-            }
-            document.querySelectorAll('.file-item').forEach(file => file.remove());
-            data.forEach(file => {
-                const fileElement = createFileElement(file);
-                document.querySelector('.files-items').appendChild(fileElement);
-            });
-            document.querySelector('.files-items').classList.remove('loading-files');
-        });
-}
-
 function editFolder() {
     createPrompt({
         head: 'Renommer le dossier',
