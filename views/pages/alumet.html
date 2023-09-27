@@ -197,23 +197,27 @@
                         <h3>Code d'invitation</h3>
                         <input disabled="true" type="text" name="invitationCode" autocomplete="on" id="invitationCode" placeholder="Aucun code d'invitation" />
                     </div>
-                </div>
-                <div class="switch-options">
-                    <div class="option">
-                        <h1>Alumet en mode privé</h1>
-                        <label class="switch">
-                            <input id="alumet-private" type="checkbox" />
-                            <span class="slide round"></span>
-                        </label>
+                    <div class="item">
+                        <h3>Option d'administrations</h3>
+                        <div class="switch-options">
+                            <div class="option">
+                                <h1>Alumet en mode privé</h1>
+                                <label class="switch">
+                                    <input id="alumet-private" type="checkbox" />
+                                    <span class="slide round"></span>
+                                </label>
+                            </div>
+                            <div class="option">
+                                <h1>Messagerie de l'Alumet</h1>
+                                <label class="switch">
+                                    <input id="alumet-chat" checked="" type="checkbox" />
+                                    <span class="slide round"></span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="option">
-                        <h1>Messagerie de l'Alumet</h1>
-                        <label class="switch">
-                            <input id="alumet-chat" checked="" type="checkbox" />
-                            <span class="slide round"></span>
-                        </label>
-                    </div>
                 </div>
+
                 <div class="row-bottom-buttons adminsOnly">
                     <button onclick="navbar('participants')" class="large greyed">Gerer les participants</button>
                     <button onclick="engageDeletion()" class="large reded">Supprimer l'Alumet</button>
