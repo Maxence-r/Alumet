@@ -134,7 +134,7 @@ async function modifyAlumet() {
                 navbar('loadingRessources');
                 setTimeout(() => {
                     window.location.reload();
-                }, 5000);
+                }, 2000);
             }
         })
         .catch(error => {
@@ -162,7 +162,7 @@ function deleteAlumet() {
             toast({ title: 'Succès', message: "L'alumet a bien été supprimé !", type: 'success', duration: 2500 });
             setTimeout(() => {
                 window.location.href = '/dashboard';
-            }, 2500);
+            }, 500);
         });
 }
 
@@ -242,7 +242,7 @@ function patchWall(position) {
             }
             setTimeout(() => {
                 navbar('home');
-            }, 1000);
+            }, 500);
             const wall = document.querySelector(`.list[data-id="${data._id}"]`);
         });
 }
@@ -273,6 +273,7 @@ function clearWall() {
 
 let postToEdit;
 async function editPost(id) {
+    clearPost();
     let postData = await getPostData(id);
     if (!postData) {
         toast({
@@ -398,6 +399,7 @@ function createPostElement(post) {
         if (post.link.image) {
             linkPreview.style.backgroundImage = `url(${post.link.image})`;
         }
+        linkPreview.setAttribute('onclick', `window.open("${post.link.url}")`);
         linkPreview.classList.add('post-rich-content');
         const linkPreviewTitle = document.createElement('h2');
         linkPreviewTitle.textContent = post.link.title;
@@ -626,7 +628,7 @@ function deletePost() {
             }
             setTimeout(() => {
                 navbar('home');
-            }, 1000);
+            }, 500);
         });
 }
 
@@ -647,7 +649,7 @@ function deleteWall() {
             }
             setTimeout(() => {
                 navbar('home');
-            }, 1000);
+            }, 500);
         });
 }
 
@@ -731,7 +733,7 @@ function createWall() {
             }
             setTimeout(() => {
                 navbar('home');
-            }, 1000);
+            }, 500);
         });
 }
 

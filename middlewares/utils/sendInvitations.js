@@ -17,7 +17,7 @@ async function sendInvitations(req, res, next) {
             let alumet = await Alumet.findById(req.alumetId ? req.alumetId : req.params.alumet);
             let invitationCheck = await Invitation.findOne({ to: participant, alumet: req.alumetId ? req.alumetId : req.params.alumet });
 
-            if (!account || invitationCheck || alumet.collaborators.includes(participant) || (account.accountType !== 'professor' && account.accountType !== 'staff')) {
+            if (!account || invitationCheck || alumet.collaborators.includes(participant)) {
                 continue;
             }
             const invitation = new Invitation({

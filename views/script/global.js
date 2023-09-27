@@ -195,43 +195,42 @@ const searchUsers = async (query, type) => {
         } else {
             document.querySelector('.no-result').style.display = 'none';
         }
-        setTimeout(() => {
-            json.forEach(user => {
-                if (participants.includes(user._id)) {
-                    return;
-                }
-                const userElement = document.createElement('div');
-                userElement.classList.add('user');
-                userElement.dataset.id = user._id;
-                userElement.setAttribute('onclick', `toggleParticipant('${user._id}')`);
-                const iconElement = document.createElement('img');
-                iconElement.src = `/cdn/u/${user.icon}`;
 
-                userElement.appendChild(iconElement);
+        json.forEach(user => {
+            if (participants.includes(user._id)) {
+                return;
+            }
+            const userElement = document.createElement('div');
+            userElement.classList.add('user');
+            userElement.dataset.id = user._id;
+            userElement.setAttribute('onclick', `toggleParticipant('${user._id}')`);
+            const iconElement = document.createElement('img');
+            iconElement.src = `/cdn/u/${user.icon}`;
 
-                const subInfosElement = document.createElement('div');
+            userElement.appendChild(iconElement);
 
-                userElement.appendChild(subInfosElement);
+            const subInfosElement = document.createElement('div');
 
-                const nameElement = document.createElement('h3');
-                nameElement.textContent = `${user.name} ${user.lastname}`;
-                subInfosElement.appendChild(nameElement);
+            userElement.appendChild(subInfosElement);
 
-                const roleElement = document.createElement('p');
-                roleElement.textContent = user.accountType;
-                subInfosElement.appendChild(roleElement);
+            const nameElement = document.createElement('h3');
+            nameElement.textContent = `${user.name} ${user.lastname}`;
+            subInfosElement.appendChild(nameElement);
 
-                const selected = document.createElement('img');
-                selected.src = '../../assets/global/selected.svg';
-                selected.alt = 'selected icon';
-                selected.classList.add('ticked-user');
-                userElement.appendChild(selected);
+            const roleElement = document.createElement('p');
+            roleElement.textContent = user.accountType;
+            subInfosElement.appendChild(roleElement);
 
-                document.querySelector('.users-fetch').appendChild(userElement);
-            });
+            const selected = document.createElement('img');
+            selected.src = '../../assets/global/selected.svg';
+            selected.alt = 'selected icon';
+            selected.classList.add('ticked-user');
+            userElement.appendChild(selected);
 
-            return document.querySelector('.users-fetch').classList.remove('searching');
-        }, 500);
+            document.querySelector('.users-fetch').appendChild(userElement);
+        });
+
+        return document.querySelector('.users-fetch').classList.remove('searching');
     } catch (err) {
         console.error(err);
     }
