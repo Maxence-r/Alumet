@@ -506,8 +506,12 @@ input:focus + .slide {
     border: 1px solid #e5e5e5;
     border-radius: 10px;
     padding: 0 15px;
-    height: 46px;
+    height: 48px;
     width: calc(100% - 32px);
+}
+
+.switch-options > select {
+    width: 100%;
 }
 
 .option > h1 {
@@ -1058,7 +1062,7 @@ select:focus {
 }
 
 select {
-    min-height: 50px;
+    height: 50px;
     border: none;
     outline: none;
     background-color: #f6f8fc;
