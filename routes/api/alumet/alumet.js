@@ -10,7 +10,7 @@ const authorize = require('../../../middlewares/authentification/authorize');
 const Account = require('../../../models/account');
 const Wall = require('../../../models/wall');
 const Post = require('../../../models/post');
-const sendInvitations = require('../../../middlewares/utils/sendInvitations');
+const sendInvitations = require('../../../middlewares/mailManager/sendInvitations');
 
 router.get('/', authorize(), async (req, res) => {
     try {

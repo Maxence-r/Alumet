@@ -442,6 +442,7 @@ function createPostElement(post) {
         const actionRow = document.createElement('div');
         actionRow.classList.add('actionRow');
         const commentIcon = document.createElement('img');
+        commentIcon.setAttribute('onclick', `openPost("${post._id}")`);
         commentIcon.src = '/assets/global/comment.svg';
         const likeIcon = document.createElement('img');
         likeIcon.src = '/assets/global/like.svg';
@@ -763,4 +764,9 @@ function loadConversation(id) {
             joinSocketRoom(id, user._id);
         })
         .catch(error => console.error(error));
+}
+
+function openPost(id) {
+    let postData = getPostData(id);
+    console.log(postData);
 }

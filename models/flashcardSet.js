@@ -25,25 +25,16 @@ const flashcardSetSchema = mongoose.Schema({
         minLength: 2,
         maxLength: 50,
     },
-    numberOfFlashcards: {
-        type: Number,
+    isPublic: {
+        type: Boolean,
         required: true,
-        default: 0,
     },
-    participants: {
+    collaborators: {
         type: [String],
         required: false,
         minLength: 2,
         maxLength: 50,
     },
-    userDatas: [
-        {
-            userId: String,
-            lastReview: {
-                type: Date,
-            },
-        },
-    ],
 });
 
 const flashCardSet = mongoose.model('flashCardSet', flashcardSetSchema);

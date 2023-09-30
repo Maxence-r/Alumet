@@ -373,12 +373,12 @@ router.put('/:conversation/updateicon', upload.single('file'), uploadAndSaveToDb
     }
 });
 
-router.post('/send/:conversation', authorize(), async (req, res) => {
+router.post('/send/:conversation', authorize(), moderation, async (req, res) => {
     const conversation = await Conversation.findOne({
         _id: req.params.conversation,
         $or: [{ participants: req.user.id }, { administrators: req.user.id }, { owner: req.user.id }],
     });
-
+    if (!conversation) return res.status(404).json({ error: 'Unauthorized area' });
     if (conversation.type == 'alumet') {
         let alumet = await Alumet.findOne({ chat: conversation._id });
         if (alumet.swiftchat == false && alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user.id)) {

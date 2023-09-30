@@ -161,8 +161,6 @@ audio {
 
 @media screen and (max-width: 1000px) {
     body {
-        padding: 10px;
-        gap: 10px;
         height: 100%;
         flex-direction: column;
     }

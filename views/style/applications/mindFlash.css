@@ -32,7 +32,7 @@ body {
     min-height: calc(100% - 20px);
 }
 
-#loading-mindflash {
+#loading-flashcards {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -43,7 +43,7 @@ body {
     z-index: 100000;
     background-color: #f6f8fc;
 }
-#loading-mindflash.active-loading {
+#loading-flashcards.active-loading {
     display: flex !important;
 }
 

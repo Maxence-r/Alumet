@@ -221,13 +221,13 @@ const toolsFunctions = (() => {
 
 router.get('/', async (req, res) => {
     if (!req.connected) return res.redirect('/auth/signin');
-    const filePath = path.join(__dirname, '../../views/pages/applications/mindFlash.html');
+    const filePath = path.join(__dirname, '../../views/pages/applications/flashcards.html');
     res.sendFile(filePath);
 });
 
 router.get('/:flashcardSetId', validateObjectId, async (req, res) => {
     if (!req.connected) return res.redirect('/auth/signin');
-    const filePath = path.join(__dirname, '../../views/pages/applications/mindFlash.html');
+    const filePath = path.join(__dirname, '../../views/pages/applications/flashcards.html');
     res.sendFile(filePath);
 });
 

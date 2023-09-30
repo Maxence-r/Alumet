@@ -39,77 +39,6 @@ section.access {
     flex-direction: column;
 }
 
-.themeSelector {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.themeSelector > div {
-    position: relative;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-#rouge {
-    background: rgb(181, 1, 1);
-    background: -moz-linear-gradient(135deg, rgba(181, 1, 1, 1) 0%, rgba(255, 0, 0, 1) 100%);
-    background: -webkit-linear-gradient(135deg, rgba(181, 1, 1, 1) 0%, rgba(255, 0, 0, 1) 100%);
-    background: linear-gradient(135deg, rgba(181, 1, 1, 1) 0%, rgba(255, 0, 0, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b50101",endColorstr="#ff0000",GradientType=1);
-}
-
-#bleu {
-    background: rgb(1, 1, 181);
-    background: -moz-linear-gradient(135deg, rgba(1, 1, 181, 1) 0%, rgba(0, 0, 255, 1) 100%);
-    background: -webkit-linear-gradient(135deg, rgba(1, 1, 181, 1) 0%, rgba(0, 0, 255, 1) 100%);
-    background: linear-gradient(135deg, rgba(1, 1, 181, 1) 0%, rgba(0, 0, 255, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0101b5",endColorstr="#0000ff",GradientType=1);
-}
-
-#vert {
-    background: rgb(1, 181, 1);
-    background: -moz-linear-gradient(135deg, rgba(1, 181, 1, 1) 0%, rgba(0, 255, 0, 1) 100%);
-    background: -webkit-linear-gradient(135deg, rgba(1, 181, 1, 1) 0%, rgba(0, 255, 0, 1) 100%);
-    background: linear-gradient(135deg, rgba(1, 181, 1, 1) 0%, rgba(0, 255, 0, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#01b501",endColorstr="#00ff00",GradientType=1);
-}
-
-#violet {
-    background: rgb(181, 1, 181);
-    background: -moz-linear-gradient(135deg, rgba(181, 1, 181, 1) 0%, rgba(255, 0, 255, 1) 100%);
-    background: -webkit-linear-gradient(135deg, rgba(181, 1, 181, 1) 0%, rgba(255, 0, 255, 1) 100%);
-    background: linear-gradient(135deg, rgba(181, 1, 181, 1) 0%, rgba(255, 0, 255, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b501b5",endColorstr="#ff00ff",GradientType=1);
-}
-
-#cyan {
-    background: rgb(1, 181, 181);
-    background: -moz-linear-gradient(135deg, rgba(1, 181, 181, 1) 0%, rgba(0, 255, 255, 1) 100%);
-    background: -webkit-linear-gradient(135deg, rgba(1, 181, 181, 1) 0%, rgba(0, 255, 255, 1) 100%);
-    background: linear-gradient(135deg, rgba(1, 181, 181, 1) 0%, rgba(0, 255, 255, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#01b5b5",endColorstr="#00ffff",GradientType=1);
-}
-
-#orange {
-    background: rgb(181, 91, 1);
-    background: -moz-linear-gradient(135deg, rgba(181, 91, 1, 1) 0%, rgba(255, 128, 0, 1) 100%);
-    background: -webkit-linear-gradient(135deg, rgba(181, 91, 1, 1) 0%, rgba(255, 128, 0, 1) 100%);
-    background: linear-gradient(135deg, rgba(181, 91, 1, 1) 0%, rgba(255, 128, 0, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b55b01",endColorstr="#ff8000",GradientType=1);
-}
-
-.selectedTheme {
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
-}
-
-.selectedTheme > img {
-    opacity: 1;
-}
-
 .compatibility > p {
     margin: 0;
     width: 0;
@@ -377,10 +306,14 @@ section.alumet-infos {
 }
 
 @media screen and (max-width: 1300px) {
+    html,
+    body {
+        height: calc(100% - 10px);
+        min-height: calc(100% - 10px);
+    }
     body {
         flex-direction: column-reverse;
         padding: 10px;
-        height: 100%;
         gap: 10px;
     }
 

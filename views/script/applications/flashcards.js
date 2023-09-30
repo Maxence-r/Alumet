@@ -23,7 +23,7 @@ const informationsScreen = (() => {
 })();
 const loading = (() => {
     const enable = (() => {
-        const fullScreen = () => (document.getElementById('loading-mindflash').style.display = 'flex');
+        const fullScreen = () => (document.getElementById('loading-flashcards').style.display = 'flex');
         const mainContainer = () => document.querySelector('.main-container').classList.add('active-loading');
         const subContainerSection = () => document.querySelector('.main-sub-container > .informations').classList.add('active-loading');
         const flashcardContainer = () => document.getElementById('flashcards-container').classList.add('active-loading');
@@ -35,7 +35,7 @@ const loading = (() => {
         };
     })();
     const disable = (() => {
-        const fullScreen = () => (document.getElementById('loading-mindflash').style.display = 'none');
+        const fullScreen = () => (document.getElementById('loading-flashcards').style.display = 'none');
         const mainContainer = () => document.querySelector('.main-container').classList.remove('active-loading');
         const subContainerSection = () => document.querySelector('.main-sub-container > .informations').classList.remove('active-loading');
         const flashcardContainer = () => document.getElementById('flashcards-container').classList.remove('active-loading');
@@ -58,7 +58,7 @@ const loadFlashcardSet = (() => {
     };
     const stats = async flashCardSetId => {
         try {
-            const res = await fetch(`/mindFlash/flashcardset/stats/${flashCardSetId}`);
+            const res = await fetch(`/flashcards/flashcardset/stats/${flashCardSetId}`);
             const data = await res.json();
             const subSectionBoxStats = document.querySelector('.sub-section-box.stats');
             subSectionBoxStats.classList.toggle('hidden', data.numberOfFlashcards === 0);
@@ -127,7 +127,7 @@ const loadFlashcardSet = (() => {
     };
     const setBasicInformations = async flashcardSetId => {
         try {
-            const res = await fetch(`/mindFlash/flashcardset/basicinformations/${flashcardSetId}`);
+            const res = await fetch(`/flashcards/flashcardset/basicinformations/${flashcardSetId}`);
             const data = await res.json();
             console.log('info data', data);
 
@@ -724,7 +724,7 @@ const flashcardSetFunctions = (() => {
     const generateFlashcardSet = flashcardSetId => {
         loading.enable.mainContainer();
         loading.enable.flashcardContainer();
-        fetch(`/mindFlash/getFlashcardset/${flashcardSetId}`)
+        fetch(`/flashcards/getFlashcardset/${flashcardSetId}`)
             .then(res => res.json())
             .then(data => {
                 loadFlashcardSet.title(data.flashcardSet.title);
@@ -900,7 +900,7 @@ const flashcardFunctions = (() => {
             }
 
             try {
-                const res = await fetch('/mindflash/flashcard/create', {
+                const res = await fetch('/flashcards/flashcard/create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ flashcardSetId, flashcards: newFlashcardList }),
@@ -943,7 +943,7 @@ window.addEventListener('load', () => {
 });
 
 const currentUrl = window.location.href;
-const flashcardSetId = currentUrl.split('/mindflash/').pop();
+const flashcardSetId = currentUrl.split('/flashcards/').pop();
 if (flashcardSetId && flashcardSetId.length === 24 && !flashcardSetId.includes('/')) {
     informationsScreen.noFlashcardInSet;
     flashcardSetFunctions.generateFlashcardSet(flashcardSetId);

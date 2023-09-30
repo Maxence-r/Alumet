@@ -14,7 +14,12 @@ const InvitationSchema = mongoose.Schema({
         required: true,
         default: Date.now(),
     },
-    alumet: {
+    type: {
+        type: String,
+        required: true,
+        enum: ['alumet', 'flashcards'],
+    },
+    reference: {
         type: String,
         required: true,
     },

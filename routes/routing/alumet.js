@@ -7,7 +7,7 @@ const authorize = require('../../middlewares/authentification/authorize');
 const validateAlumet = require('../../middlewares/modelsValidation/validateAlumet');
 const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
 const Conversation = require('../../models/conversation');
-const sendInvitations = require('../../middlewares/utils/sendInvitations');
+const sendInvitations = require('../../middlewares/mailManager/sendInvitations');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     let alumet = await Alumet.findById(req.params.id);
@@ -44,7 +44,8 @@ router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveT
             alumet.chat = conversation._id;
             req.alumetId = alumet._id;
             await alumet.save();
-            sendInvitations(req, res, () => {});
+            console.log(alumet);
+            sendInvitations(req, res, 'alumet', alumet._id);
             res.json({ alumet });
         } else {
             alumet = await Alumet.findByIdAndUpdate(req.body.alumet, {

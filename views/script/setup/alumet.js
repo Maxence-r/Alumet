@@ -1,22 +1,3 @@
-function next(current, next) {
-    let hasEmptyInput = false;
-    document.querySelectorAll('.activeStep > input').forEach(input => {
-        if (input.value.length < 2 && input.required) {
-            hasEmptyInput = true;
-            return toast({ title: 'Erreur', message: 'Veuillez remplir tous les champs avec 2 caractères minimum', type: 'error', duration: 2500 });
-        }
-    });
-    if (hasEmptyInput) {
-        return;
-    }
-    document.querySelector('.full-screen').style.display = 'flex';
-    document.getElementById(`step${current}`).classList.remove('activeStep');
-    document.getElementById(`step${next}`).classList.add('activeStep');
-    setTimeout(() => {
-        document.querySelector('.full-screen').style.display = 'none';
-    }, 500);
-}
-
 async function createAlumet() {
     document.querySelector('.full-screen').style.display = 'flex';
     const file = document.getElementById('alumet-background').files[0];

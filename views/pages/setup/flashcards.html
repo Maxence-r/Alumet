@@ -74,10 +74,10 @@
                     </div>
                     <div class="switch-options">
                         <select id="flashcards-subject">
-                            <option value="maths">Mathématiques</option>
-                            <option value="francais">Français</option>
+                            <option value="mathématiques">Mathématiques</option>
+                            <option value="français">Français</option>
                             <option value="histoire">Histoire</option>
-                            <option value="geographie">Géographie</option>
+                            <option value="géographie">Géographie</option>
                             <option value="physique">Physique</option>
                             <option value="svt">SVT</option>
                             <option value="technologie">Technologie</option>
@@ -93,7 +93,7 @@
                         <div class="option">
                             <h1>Rendre public pour d'autres élèves</h1>
                             <label class="switch">
-                                <input id="alumet-chat" checked="" type="checkbox" />
+                                <input id="flashcards-public" checked="" type="checkbox" />
                                 <span class="slide round"></span>
                             </label>
                         </div>
@@ -109,23 +109,9 @@
                         </p>
                     </div>
                     <button onclick="document.querySelector('.user-popup').classList.add('active-popup')" class="large greyed">Ajouter des collaborateurs</button>
-                    <button onclick="next(3, 4)" class="large connect">Continuer</button>
+                    <button onclick="createFlashcards()" class="large connect">Continuer</button>
                 </div>
-                <div id="step4">
-                    <div class="user-details">
-                        <h3>Du style</h3>
-                        <p>Définisser un thème</p>
-                    </div>
-                    <div class="themeSelector">
-                        <div id="rouge" class="selectedTheme"></div>
-                        <div id="bleu"></div>
-                        <div id="vert"></div>
-                        <div id="violet"></div>
-                        <div id="cyan"></div>
-                        <div id="orange"></div>
-                    </div>
-                    <button onclick="createAlumet()" class="large connect">Créer l'Alumet</button>
-                </div>
+
                 <span class="footer-infos">
                     <p>Besoin d'aide ?</p>
                 </span>
@@ -138,5 +124,5 @@
         const socket = io();
     </script>
     <script src="../../script/global.js"></script>
-    <script src="../../script/setup/alumet.js"></script>
+    <script src="../../script/setup/flashcards.js"></script>
 </html>

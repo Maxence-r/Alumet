@@ -18,13 +18,13 @@ const viewer = require('./routes/utils/viewer');
 
 const homeworks = require('./routes/applications/eduTasker');
 const board = require('./routes/applications/ideaFlow');
-const mindFlash = require('./routes/applications/mindFlash');
+const flashcards = require('./routes/applications/flashcards');
 const swiftChat = require('./routes/applications/swiftChat');
 
 const wall = require('./routes/api/alumet/wall');
 const post = require('./routes/api/alumet/post');
 
-const mindFlashAi = require('./routes/openai/mindFlash');
+const flashcardsAi = require('./routes/openai/flashcards');
 
 const setup = require('./routes/api/alumetGlobal/setup.js');
 const invitation = require('./routes/routing/invitation.js');
@@ -61,7 +61,7 @@ app.use('/auth', auth);
 app.use('/profile', profile);
 
 app.use('/swiftChat', swiftChat);
-app.use('/mindFlash', mindFlash);
+app.use('/flashcards', flashcards);
 
 app.use('/preview', preview);
 app.use('/viewer', viewer);
@@ -75,7 +75,7 @@ app.use('/api/post', post);
 app.use('/api/homeworks', homeworks);
 app.use('/api/board', board);
 
-app.use('/openai/mindFlash', mindFlashAi);
+app.use('/openai/flashcards', flashcardsAi);
 
 app.use('/setup', setup);
 app.use('/invitation', invitation);
