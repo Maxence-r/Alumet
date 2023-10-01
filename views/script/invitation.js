@@ -1,7 +1,7 @@
 const path = window.location.pathname;
 const id = path.substring(path.lastIndexOf('/') + 1);
 
-function fetchAlumetInfos() {
+function fetchReferenceInfos() {
     fetch('/invitation/info/' + id, {
         method: 'GET',
         headers: {
@@ -10,19 +10,19 @@ function fetchAlumetInfos() {
     })
         .then(res => res.json())
         .then(data => {
-            loadAlumetInfos(data.alumetInfos, data.inviter, data.invitation);
+            loadReferenceInfos(data.referenceInfos, data.inviter, data.invitation);
         })
         .catch(err => console.log(err));
 }
 
-function loadAlumetInfos(alumet, inviter, invitation) {
-    document.querySelector('.alumet-infos > img').src = '/cdn/u/' + alumet.background;
-    document.querySelector('.alumet-details > h1').innerText = alumet.title;
-    document.querySelector('.alumet-details > h3').innerText = alumet.description || 'Aucune description';
+function loadReferenceInfos(reference, inviter, invitation) {
+    document.querySelector('.alumet-infos > img').src = reference.background ? '/cdn/u/' + reference.background : '../assets/global/hands.jpg';
+    document.querySelector('.alumet-details > h1').innerText = reference.title;
+    document.querySelector('.alumet-details > h3').innerText = reference.description || 'Aucune description';
     document.getElementById('creator').innerText = 'Invité par ' + inviter.name + ' ' + inviter.lastname;
     document.getElementById('lastusage').innerText = relativeTime(invitation.createdAt);
     const img = new Image();
-    img.src = '/cdn/u/' + alumet.background;
+    img.src = '/cdn/u/' + reference.background;
     document.querySelector('.access > .full-screen').style.display = 'none';
 }
 
@@ -62,4 +62,4 @@ function declineInvite() {
         .catch(err => console.log(err));
 }
 
-fetchAlumetInfos();
+fetchReferenceInfos();

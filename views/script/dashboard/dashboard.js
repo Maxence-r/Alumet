@@ -23,13 +23,18 @@ if (redirect) {
     }
 }
 
-fetch('/alumet')
+fetch('/dashboard/items')
     .then(response => response.json())
     .then(data => {
         if (data.alumets.length !== 0) document.querySelector('.alumets').innerHTML = '';
         data.alumets.forEach(alumet => {
             const alumetBox = createAlumetBox(alumet.title, alumet.lastUsage, alumet.background, alumet._id);
             document.querySelector('.alumets').appendChild(alumetBox);
+        });
+        if (data.flashcardSets.length !== 0) document.querySelector('.flashcards').innerHTML = '';
+        data.flashcardSets.forEach(flashcardSet => {
+            const flashcardsBox = createFlashcardsBox(flashcardSet.subject, flashcardSet.likes.length, flashcardSet.title, flashcardSet.description);
+            document.querySelector('.flashcards').appendChild(flashcardsBox);
         });
     });
 
@@ -56,6 +61,40 @@ function createAlumetBox(title, lastUsage, background, id) {
     alumetBox.setAttribute('onclick', `openAlumet('${id}')`);
 
     return alumetBox;
+}
+
+function createFlashcardsBox(subject, likes, title, description) {
+    const flashcardsBox = document.createElement('div');
+    flashcardsBox.classList.add('flashcards-box');
+
+    const innerDiv = document.createElement('div');
+
+    const subjectDiv = document.createElement('div');
+    subjectDiv.classList.add('subject');
+    subjectDiv.textContent = subject;
+
+    const likesDiv = document.createElement('div');
+    const likesP = document.createElement('p');
+    likesP.textContent = likes;
+    const likesImg = document.createElement('img');
+    likesImg.src = '../../assets/global/like.svg';
+    likesDiv.appendChild(likesP);
+    likesDiv.appendChild(likesImg);
+
+    innerDiv.appendChild(subjectDiv);
+    innerDiv.appendChild(likesDiv);
+
+    const titleH1 = document.createElement('h1');
+    titleH1.textContent = title;
+
+    const descriptionP = document.createElement('p');
+    descriptionP.textContent = description || 'Pas de description';
+
+    flashcardsBox.appendChild(innerDiv);
+    flashcardsBox.appendChild(titleH1);
+    flashcardsBox.appendChild(descriptionP);
+
+    return flashcardsBox;
 }
 
 openAlumet = alumetId => {

@@ -21,6 +21,12 @@ router.post('/create', validateConversation, async (req, res) => {
         return res.status(400).json({ error: 'Vous ne pouvez pas créer une conversation avec vous même !' });
     }
 
+    const participantsCheck = await Account.find({ _id: { $in: participants } }, { accountType: 1 });
+    console.log(participantsCheck);
+    if (req.user.accountType === 'student' && participantsCheck.some(participant => participant.accountType === 'professor')) {
+        return res.status(400).json({ error: 'Les étudiants ne peuvent pas créer de conversation avec des professeurs !' });
+    }
+
     participants.push(userId);
     const existingConversation = await Conversation.findOne({
         participants: {
@@ -373,7 +379,7 @@ router.put('/:conversation/updateicon', upload.single('file'), uploadAndSaveToDb
     }
 });
 
-router.post('/send/:conversation', authorize(), moderation, async (req, res) => {
+router.post('/send/:conversation', authorize(), async (req, res) => {
     const conversation = await Conversation.findOne({
         _id: req.params.conversation,
         $or: [{ participants: req.user.id }, { administrators: req.user.id }, { owner: req.user.id }],

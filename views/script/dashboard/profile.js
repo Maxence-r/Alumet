@@ -52,7 +52,7 @@ function createNotifications(invitations) {
         let subInfosElement = document.createElement('div');
         let nameElement = document.createElement('h3');
 
-        nameElement.textContent = invitation.ownerInfos.name + ' ' + invitation.ownerInfos.lastname + ' vous à invité à collaborer sur ' + invitation.alumetInfos.title + '.';
+        nameElement.textContent = invitation.ownerInfos.name + ' ' + invitation.ownerInfos.lastname + ' vous à invité à collaborer sur ' + invitation.referenceInfos.title + '.';
         let roleElement = document.createElement('p');
         roleElement.textContent = relativeTime(invitation.invitation.createdAt);
         subInfosElement.appendChild(nameElement);

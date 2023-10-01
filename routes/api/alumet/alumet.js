@@ -12,24 +12,6 @@ const Wall = require('../../../models/wall');
 const Post = require('../../../models/post');
 const sendInvitations = require('../../../middlewares/mailManager/sendInvitations');
 
-router.get('/', authorize(), async (req, res) => {
-    try {
-        const alumets = await Alumet.find({
-            $or: [{ owner: req.user.id }, { participants: { $in: [req.user.id] } }, { collaborators: { $in: [req.user.id] } }],
-        })
-            .select('id title lastUsage background')
-            .sort({ lastUsage: -1 });
-        res.json({
-            alumets,
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            error: 'Failed to get alumets',
-        });
-    }
-});
-
 router.get('/:alumet/content', authorize('alumetPrivate'), validateObjectId, async (req, res) => {
     try {
         const alumet = await Alumet.findOne({

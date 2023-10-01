@@ -986,11 +986,79 @@ h3 {
     margin: 0;
 }
 
+.flashcards-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+    padding: 10px;
+    min-width: calc(325px - 22px);
+    max-width: calc(325px - 22px);
+    border: 1px solid #ebebeb;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.flashcards-box > h1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+    color: #000000;
+}
+
+.flashcards-box > div > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.flashcards-box > div > div > p {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin: 0;
+    color: #9ea1a7;
+}
+
+.flashcards-box > div > div > img {
+    height: 13px;
+}
+
+.flashcards-box > p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin: 0;
+    color: #9ea1a7;
+}
+
+.flashcards-box > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.flashcards-box > div > .subject {
+    border: 1px solid #cacaca;
+    padding: 4px 6px;
+    background-color: #f3f3f3;
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+    font-size: 0.7rem;
+}
+
 .items {
     display: flex;
     position: relative;
     flex-direction: row;
-    min-height: 175px;
     gap: 15px;
     overflow-y: auto;
 }
@@ -1051,7 +1119,7 @@ h3 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 70px auto;
+    margin: 40px auto;
 }
 
 .no-items > button {

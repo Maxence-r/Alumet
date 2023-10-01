@@ -1,13 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const FlashcardSet = require('../../models/flashcardSet');
-const Flashcard = require('../../models/flashcard');
-const Account = require('../../models/account');
+const sendInvitations = require('../../middlewares/mailManager/sendInvitations');
+const { default: mongoose } = require('mongoose');
 const path = require('path');
-const authorize = require('../../middlewares/authentification/authorize');
-
-router.post('/set', authorize, async (req, res) => {
+router.post('/set', async (req, res) => {
+    console.log(req.body);
     try {
         const { name, description, subject, isPublic } = req.body;
         const flashcardSet = new FlashcardSet({
@@ -18,7 +16,21 @@ router.post('/set', authorize, async (req, res) => {
             isPublic,
         });
         await flashcardSet.save();
+        sendInvitations(req, res, 'flashcards', flashcardSet._id);
         res.json({ flashcardSet });
+    } catch (error) {
+        console.log(error);
+        res.json({ error });
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    try {
+        if (mongoose.Types.ObjectId.isValid(req.params.id) === false) return res.redirect('/404');
+        const flashcardSet = await FlashcardSet.findById(req.params.id);
+        if (!flashcardSet) return res.redirect('/404');
+        const filePath = path.join(__dirname, '../../views/pages/applications/flashcards.html');
+        res.sendFile(filePath);
     } catch (error) {
         console.log(error);
         res.json({ error });

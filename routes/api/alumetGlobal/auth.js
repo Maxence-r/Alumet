@@ -12,6 +12,7 @@ const validateAccount = require('../../../middlewares/modelsValidation/validateA
 const authorize = require('../../../middlewares/authentification/authorize');
 const Invitation = require('../../../models/invitation');
 const Alumet = require('../../../models/alumet');
+const flashCardSet = require('../../../models/flashcardSet');
 
 router.get('/signin', async (req, res) => {
     if (req.connected) return res.redirect('/dashboard');
@@ -34,17 +35,23 @@ router.get('/info', authorize(), async (req, res) => {
     const invitations = await Invitation.find({ to: req.user.id }).sort({ createdAt: -1 });
     let invitationsToSend = [];
     for (let invitation of invitations) {
-        console.log(invitation.alumet);
         const owner = await Account.findOne({ _id: invitation.owner }, { name: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isCertified: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1 });
-        const alumet = await Alumet.findOne({ _id: invitation.alumet }, { _id: 1, title: 1, background: 1 });
-        if (!owner || !alumet) {
+        let referenceDetails;
+        if (invitation.type === 'flashcards') {
+            referenceDetails = await flashCardSet.findById(invitation.reference).select('_id title');
+        } else if (invitation.type === 'alumet') {
+            referenceDetails = await Alumet.findById(invitation.reference).select('_id title background');
+        }
+
+        if (!owner || !referenceDetails) {
             continue;
         }
-        invitationsToSend.push({ ownerInfos: owner, alumetInfos: alumet, invitation: invitation });
+        invitationsToSend.push({ ownerInfos: owner, referenceInfos: referenceDetails, invitation: invitation });
     }
     const user = await Account.findOne({ _id: req.user.id }, { name: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isCertified: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1 });
     res.json({ user, invitationsToSend });
 });
+
 async function sendA2FCode(mail, res) {
     try {
         const existingCode = await A2F.findOne({ owner: mail }).sort({ expireAt: -1 });
