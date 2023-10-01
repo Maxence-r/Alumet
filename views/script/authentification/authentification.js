@@ -78,7 +78,7 @@ document.querySelector('.guest').addEventListener('click', () => {
     setTimeout(() => {
         document.querySelector('.access').classList.remove('load');
         window.location.href = '/a/' + id + '?guest=true';
-    }, 1000);
+    }, 500);
 });
 
 document.querySelectorAll('.join').forEach(e => {

@@ -1,13 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
 const Conversation = require('../../models/conversation');
 const validateConversation = require('../../middlewares/modelsValidation/validateConversation');
 const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
 const Message = require('../../models/message');
 const Account = require('../../models/account');
 const authorize = require('../../middlewares/authentification/authorize');
-const moderation = require('../../middlewares/utils/moderation');
 const Alumet = require('../../models/alumet');
 
 router.post('/create', validateConversation, async (req, res) => {

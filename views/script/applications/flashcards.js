@@ -611,7 +611,7 @@ const manageEventListener = (() => {
                     canCreateFlashcard = false;
                     setTimeout(() => {
                         canCreateFlashcard = true;
-                    }, 1000);
+                    }, 500);
                 }
             };
 

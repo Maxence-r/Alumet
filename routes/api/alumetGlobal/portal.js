@@ -130,7 +130,7 @@ router.post('/accept/:id', authorize(), async (req, res) => {
             invitation.remove();
             setTimeout(() => {
                 return res.redirect('/dashboard');
-            }, 1000);
+            }, 500);
         }
         if (invitation.type === 'alumet') {
             referenceDetails.participants = referenceDetails.participants.filter(participant => participant !== req.user.id);

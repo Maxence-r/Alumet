@@ -19,12 +19,12 @@ async function createAlumet() {
                 toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
                 setTimeout(() => {
                     window.location.reload();
-                }, 500);
+                }, 3500);
             } else {
                 toast({ title: 'Succès', message: "L'alumet a bien été créé !", type: 'success', duration: 2500 });
                 setTimeout(() => {
                     window.location.href = `/dashboard`;
-                }, 2500);
+                }, 1000);
             }
         })
         .catch(error => {

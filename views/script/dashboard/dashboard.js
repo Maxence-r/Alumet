@@ -33,7 +33,7 @@ fetch('/dashboard/items')
         });
         if (data.flashcardSets.length !== 0) document.querySelector('.flashcards').innerHTML = '';
         data.flashcardSets.forEach(flashcardSet => {
-            const flashcardsBox = createFlashcardsBox(flashcardSet.subject, flashcardSet.likes.length, flashcardSet.title, flashcardSet.description);
+            const flashcardsBox = createFlashcardsBox(flashcardSet.subject, flashcardSet.likes.length, flashcardSet.title, flashcardSet.description, flashcardSet._id);
             document.querySelector('.flashcards').appendChild(flashcardsBox);
         });
     });
@@ -63,7 +63,7 @@ function createAlumetBox(title, lastUsage, background, id) {
     return alumetBox;
 }
 
-function createFlashcardsBox(subject, likes, title, description) {
+function createFlashcardsBox(subject, likes, title, description, id) {
     const flashcardsBox = document.createElement('div');
     flashcardsBox.classList.add('flashcards-box');
 
@@ -93,12 +93,16 @@ function createFlashcardsBox(subject, likes, title, description) {
     flashcardsBox.appendChild(innerDiv);
     flashcardsBox.appendChild(titleH1);
     flashcardsBox.appendChild(descriptionP);
-
+    flashcardsBox.setAttribute('onclick', `openFlashcards('${id}')`);
     return flashcardsBox;
 }
 
 openAlumet = alumetId => {
     window.open(`/portal/${alumetId}`, '_blank');
+};
+
+openFlashcards = flashcardsId => {
+    window.open(`/flashcards/${flashcardsId}`, '_blank');
 };
 
 function joinAlumet() {
@@ -138,7 +142,7 @@ function authorizeAlumet() {
             });
             setTimeout(() => {
                 window.location.reload();
-            }, 2500);
+            }, 1000);
         })
         .catch(err => console.log(err));
 }
