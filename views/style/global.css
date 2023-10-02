@@ -346,8 +346,7 @@
     height: 100px;
 }
 
-input,
-textarea {
+input {
     width: calc(100% - 42px);
     border-radius: 10px;
     padding: 0 20px;
@@ -355,6 +354,20 @@ textarea {
     font-size: 0.9rem;
     outline-color: #e5e5e5;
     border: 1px solid #e5e5e5;
+}
+
+textarea {
+    width: calc(100% - 42px);
+    height: calc(50px - 30px);
+    border-radius: 10px;
+    resize: none;
+    font-size: 0.9rem;
+    outline-color: #e5e5e5;
+    border: 1px solid #e5e5e5;
+}
+
+textarea[placeholder] {
+    padding: 20px;
 }
 
 .loader-upload:before,

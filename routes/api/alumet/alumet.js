@@ -64,16 +64,17 @@ router.get('/:alumet/content', authorize('alumetPrivate'), validateObjectId, asy
 
                     $and: [
                         {
-                            $or: [{ adminsOnly: false }, { owner: req.user?.id }],
+                            $or: [{ adminsOnly: false }, { owner: { $exists: true, $eq: req.user?.id } }, { ip: req.ip }],
                         },
                         {
-                            $or: [{ owner: req.user?.id }, { postDate: { $exists: false } }, { postDate: null }, { postDate: { $lt: new Date().toISOString() } }],
+                            $or: [{ owner: req.user?.id }, { postDate: { $exists: false }, adminsOnly: false }, { postDate: null, adminsOnly: false }, { postDate: { $lt: new Date().toISOString() }, adminsOnly: false }],
                         },
                     ],
                 })
                     .sort({ position: -1 })
                     .lean();
             }
+
             for (let post of posts) {
                 await Account.populate(post, { path: 'owner', select: 'id name icon lastname accountType isCertified badges username' });
 

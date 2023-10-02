@@ -43,11 +43,13 @@ body {
 }
 
 .postContent {
-    height: 100%;
     overflow: auto;
+    max-height: 45%;
 }
 
 .commentsContent {
+    display: flex;
+    max-height: 55%;
     height: 100%;
     overflow: auto;
 }
@@ -568,7 +570,7 @@ h1 {
     width: 100%;
     min-height: 1px;
     background-color: #eaeaea;
-    margin: 15px 0 20px 0;
+    margin: 15px 0;
 }
 
 .overlay-content > .toggle {

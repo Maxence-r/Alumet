@@ -17,7 +17,7 @@ router.put('/:alumet/:wall', validatePost, async (req, res) => {
         title: req.body.title,
         content: req.body.content,
         owner: req.user && req.user.id,
-        IP: req.ip,
+        ip: req.ip,
         file: req.body.file || null,
         link: req.body.link,
         color: req.body.color,
@@ -43,7 +43,6 @@ router.put('/:alumet/:wall', validatePost, async (req, res) => {
         const postDate = new Date(postFields.postDate);
         const currentDate = new Date();
         const room = postFields.adminsOnly || postDate > currentDate ? `admin-${req.params.alumet}` : req.params.alumet;
-
         if (postId) {
             global.io.to(room).emit('editPost', postFields);
         } else {

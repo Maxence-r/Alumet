@@ -8,6 +8,7 @@ socket.on('disconnect', () => {
 });
 
 socket.on('addPost', data => {
+    if (data.owner?._id === alumet.user_infos?._id) return;
     const list = document.getElementById(data.wallId);
     const newPost = createPostElement(data);
     list.prepend(newPost);
@@ -37,7 +38,6 @@ socket.on('movePost', (listId, blockId, position) => {
 });
 
 socket.on('editPost', data => {
-    console.log(data);
     const newPost = createPostElement(data);
     const post = document.querySelector(`.card[data-id="${data._id}"]`);
     if (!post) {

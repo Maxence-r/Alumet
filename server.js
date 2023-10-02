@@ -3,6 +3,7 @@ const app = require('./app');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 global.io = io;
+io.setMaxListeners(5000);
 chatSocket = require('./socket/chatSocket')(io);
 dashboardSocket = require('./socket/dashboardSocket.js')(io);
 alumetSocket = require('./socket/alumetSocket.js')(io);

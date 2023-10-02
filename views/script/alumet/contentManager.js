@@ -604,6 +604,12 @@ async function createPost(confirmed) {
                 duration: 5000,
             });
         }
+        if (!postToEdit) {
+            const list = document.getElementById(data.wallId);
+            const newPost = createPostElement(data);
+            list.prepend(newPost);
+            getPostData(data._id, data);
+        }
         setTimeout(() => {
             navbar('home');
         }, 500);
