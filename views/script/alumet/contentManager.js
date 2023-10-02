@@ -767,6 +767,12 @@ function loadConversation(id) {
 }
 
 function openPost(id) {
-    let postData = getPostData(id);
-    console.log(postData);
+    navbar('comments');
+    document.querySelector('.postContent').innerHTML = '';
+    const card = document.querySelector(`.card[data-id="${id}"]`);
+    if (card) {
+        const clonedCard = card.cloneNode(true);
+        const post = document.querySelector('.postContent');
+        post.appendChild(clonedCard);
+    }
 }

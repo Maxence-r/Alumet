@@ -33,6 +33,30 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
+.postContent > .card {
+    padding: 0;
+    gap: 10px;
+}
+
+#commentInput {
+    margin-top: auto;
+}
+
+.postContent {
+    height: 100%;
+    overflow: auto;
+}
+
+.commentsContent {
+    height: 100%;
+    overflow: auto;
+}
+
+.postContent > .card > .actionRow,
+.postContent > .card > .divider {
+    display: none;
+}
+
 #latexPreview {
     max-height: 50%;
 }
