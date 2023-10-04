@@ -168,6 +168,9 @@
                 <button onclick="createWall()" class="large confirm">Créer le mur</button>
             </div>
             <div class="overlay-content comments">
+                <div style="display: none" class="full-screen">
+                    <span class="loader"></span>
+                </div>
                 <h1>Commentaires</h1>
                 <div class="divider"></div>
                 <div class="postContent"></div>
@@ -192,7 +195,10 @@
                         <p>Ajouter un commentaire pour commencer</p>
                     </div>
                 </div>
-                <input id="commentInput" type="text" placeholder="Ecrivez un commentaire" />
+                <div class="commentFooter">
+                    <input id="commentInput" type="text" placeholder="Ecrivez un commentaire" />
+                    <img onclick="postComment()" id="send-text" src="../assets/global/send.svg" alt="send icon" />
+                </div>
             </div>
             <div class="overlay-content flashcards">
                 <div class="information">
@@ -294,6 +300,7 @@
                     <button onclick="window.location.href=`/portal/${alumet._id}`" class="large">Se connecter</button>
                 </div>
             </div>
+
             <div class="overlay-content post">
                 <h1>Créer une publication</h1>
                 <div class="divider"></div>
@@ -303,6 +310,9 @@
                         <button onclick="navbar('latex')" id="latex">
                             <img src="../assets/global/latex.svg" />
                         </button>
+                        <!-- <button onclick="navbar('audio')" id="latex">
+                            <img src="../assets/global/mic.svg" />
+                        </button> -->
                     </div>
                     <div>
                         <button id="bold" onclick="makeBold()">Gras</button>

@@ -773,7 +773,81 @@ function loadConversation(id) {
 }
 
 function openPost(id) {
-    navbar('comments');
+    navbar('comments', id);
+    document.querySelector('.comments > .full-screen').style.display = 'flex';
+    fetch('/api/post/' + JSON.parse(localStorage.getItem('alumet'))._id + '/' + id + '/comments', {
+        method: 'GET',
+    })
+        .then(response => response.json())
+        .then(data => {
+            document.querySelector('.comments > .full-screen').style.display = 'none';
+            if (data.error) {
+                return toast({
+                    title: 'Erreur',
+                    message: data.error,
+                    type: 'error',
+                    duration: 5000,
+                });
+            }
+            if (data.length === 0) return;
+            const commentsContainer = document.querySelector('.commentsContent');
+            commentsContainer.innerHTML = '';
+            data.forEach(comment => {
+                const commentElement = createCommentElement(comment);
+                commentsContainer.appendChild(commentElement);
+            });
+        });
+
+    function createCommentElement(userName, isCertified, badge, messageContent, messageDate) {
+        const comment = document.createElement('div');
+        comment.classList.add('comment');
+
+        const message = document.createElement('div');
+
+        message.classList.add('first', 'left-message', 'message');
+
+        const messageDetails = document.createElement('div');
+        messageDetails.classList.add('message-details');
+
+        const userNameElement = document.createElement('p');
+        userNameElement.classList.add('user-name');
+
+        const userNameText = document.createTextNode(userName);
+        userNameElement.appendChild(userNameText);
+
+        if (isCertified) {
+            const certifiedIcon = document.createElement('img');
+            certifiedIcon.src = '../assets/badges/certified/staff-certified.svg';
+            certifiedIcon.alt = 'certified icon';
+            userNameElement.appendChild(certifiedIcon);
+        }
+
+        if (badge) {
+            const badgeIcon = document.createElement('img');
+            badgeIcon.src = `/assets/badges/specials/${badge}.svg`;
+            badgeIcon.title = badge;
+            badgeIcon.classList.add('badge');
+            userNameElement.appendChild(badgeIcon);
+        }
+
+        const messageDateElement = document.createElement('span');
+        messageDateElement.id = 'message-date';
+        messageDateElement.textContent = relativeTime(messageDate);
+        userNameElement.appendChild(messageDateElement);
+
+        const messageContentElement = document.createElement('p');
+        messageContentElement.classList.add('message-content');
+        messageContentElement.textContent = messageContent;
+
+        messageDetails.appendChild(userNameElement);
+        messageDetails.appendChild(messageContentElement);
+
+        message.appendChild(messageDetails);
+
+        comment.appendChild(message);
+
+        return comment;
+    }
     document.querySelector('.postContent').innerHTML = '';
     const card = document.querySelector(`.card[data-id="${id}"]`);
     if (card) {
@@ -781,4 +855,37 @@ function openPost(id) {
         const post = document.querySelector('.postContent');
         post.appendChild(clonedCard);
     }
+}
+
+function postComment() {
+    const comment = document.getElementById('commentInput').value;
+    if (comment.length < 1) {
+        return toast({
+            title: 'Erreur',
+            message: 'Vous devez entrer un commentaire',
+            type: 'error',
+            duration: 5000,
+        });
+    }
+    fetch('/api/post/' + JSON.parse(localStorage.getItem('alumet'))._id + '/' + localStorage.getItem('currentItem') + '/comments', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: comment }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                return toast({
+                    title: 'Erreur',
+                    message: data.error,
+                    type: 'error',
+                    duration: 5000,
+                });
+            }
+            const commentElement = createCommentElement(data.user.username, data.user.isCertified, data.user.badges, data.message, data.createdAt);
+            document.querySelector('.commentsContent').appendChild(commentElement);
+            document.getElementById('comment').value = '';
+        });
 }

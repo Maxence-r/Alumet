@@ -10,6 +10,7 @@ const Upload = require('../../../models/upload');
 const authorize = require('../../../middlewares/authentification/authorize');
 const Wall = require('../../../models/wall');
 const Account = require('../../../models/account');
+const Comment = require('../../../models/comment');
 
 router.put('/:alumet/:wall', validatePost, async (req, res) => {
     const postId = req.body.postId;
@@ -49,6 +50,39 @@ router.put('/:alumet/:wall', validatePost, async (req, res) => {
             global.io.to(room).emit('addPost', postFields);
         }
         res.json(postFields);
+    } catch (error) {
+        console.error(error);
+        res.json({
+            error,
+        });
+    }
+});
+
+router.put('/:alumet/:id/comments', authorize('alumetParticipants'), authorize('alumetPrivate'), async (req, res) => {
+    const commentFields = {
+        owner: req.user && req.user.id,
+        content: req.body.content,
+        createdAt: Date.now(),
+        postId: req.params.id,
+    };
+    try {
+        const comment = new Comment(commentFields);
+        await comment.save();
+        commentFields.owner = await Account.findById(commentFields.owner).select('id name icon lastname accountType isCertified badges username');
+        global.io.to(req.params.id).emit('addComment', commentFields);
+        res.json(commentFields);
+    } catch (error) {
+        console.error(error);
+        res.json({
+            error,
+        });
+    }
+});
+
+router.get('/:alumet/:id/comments', authorize('alumetParticipants'), authorize('alumetPrivate'), async (req, res) => {
+    try {
+        const comments = await Comment.find({ postId: req.params.id }).populate('owner', 'id name icon lastname accountType isCertified badges username').sort({ createdAt: 1 });
+        res.json(comments);
     } catch (error) {
         console.error(error);
         res.json({

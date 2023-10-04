@@ -580,6 +580,16 @@ h1 {
     margin: 8px 0;
 }
 
+.commentFooter {
+    margin-top: auto;
+    position: relative;
+    height: 60px;
+}
+
+.commentFooter > input {
+    height: 100%;
+}
+
 .overlay-content > .toggle > h3 {
     font-size: 16px;
     font-weight: 500;
