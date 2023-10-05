@@ -789,11 +789,11 @@ function openPost(id) {
                     duration: 5000,
                 });
             }
-            if (data.length === 0) return;
             const commentsContainer = document.querySelector('.commentsContent');
             commentsContainer.innerHTML = '';
+            if (data.length === 0) return;
             data.forEach(comment => {
-                const commentElement = createCommentElement(comment);
+                const commentElement = createCommentElement(comment.owner.username, comment.owner.isCertified, comment.owner.badges, comment.content, comment.createdAt);
                 commentsContainer.appendChild(commentElement);
             });
         });
@@ -884,8 +884,8 @@ function postComment() {
                     duration: 5000,
                 });
             }
-            const commentElement = createCommentElement(data.user.username, data.user.isCertified, data.user.badges, data.message, data.createdAt);
-            document.querySelector('.commentsContent').appendChild(commentElement);
+            const commented = createCommentElement(data.user.username, data.user.isCertified, data.user.badges, data.message, data.createdAt);
+            document.querySelector('.commentsContent').appendChild(commented);
             document.getElementById('comment').value = '';
         });
 }

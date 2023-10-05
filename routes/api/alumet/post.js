@@ -81,7 +81,14 @@ router.put('/:alumet/:id/comments', authorize('alumetParticipants'), authorize('
 
 router.get('/:alumet/:id/comments', authorize('alumetParticipants'), authorize('alumetPrivate'), async (req, res) => {
     try {
-        const comments = await Comment.find({ postId: req.params.id }).populate('owner', 'id name icon lastname accountType isCertified badges username').sort({ createdAt: 1 });
+        const comments = await Comment.find({ postId: req.params.id })
+
+            .populate({
+                path: 'owner',
+                model: 'Account',
+                select: 'id name lastname accountType isCertified badges username',
+            })
+            .sort({ createdAt: 1 });
         res.json(comments);
     } catch (error) {
         console.error(error);
