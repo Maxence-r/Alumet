@@ -112,5 +112,5 @@ document.querySelectorAll('.join').forEach(e => {
 
 function loadUserInfos(container, user) {
     document.querySelector(`.${container} > .user-infos > img`).src = '/cdn/u/' + user.icon;
-    document.querySelector(`.${container} > .user-infos > .user-details > h3`).innerHTML = user.name + ' ' + user.lastname;
+    document.querySelector(`.${container} > .user-infos > .user-details > h3`).innerText = user.name + ' ' + user.lastname;
 }

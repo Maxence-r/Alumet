@@ -798,56 +798,6 @@ function openPost(id) {
             });
         });
 
-    function createCommentElement(userName, isCertified, badge, messageContent, messageDate) {
-        const comment = document.createElement('div');
-        comment.classList.add('comment');
-
-        const message = document.createElement('div');
-
-        message.classList.add('first', 'left-message', 'message');
-
-        const messageDetails = document.createElement('div');
-        messageDetails.classList.add('message-details');
-
-        const userNameElement = document.createElement('p');
-        userNameElement.classList.add('user-name');
-
-        const userNameText = document.createTextNode(userName);
-        userNameElement.appendChild(userNameText);
-
-        if (isCertified) {
-            const certifiedIcon = document.createElement('img');
-            certifiedIcon.src = '../assets/badges/certified/staff-certified.svg';
-            certifiedIcon.alt = 'certified icon';
-            userNameElement.appendChild(certifiedIcon);
-        }
-
-        if (badge) {
-            const badgeIcon = document.createElement('img');
-            badgeIcon.src = `/assets/badges/specials/${badge}.svg`;
-            badgeIcon.title = badge;
-            badgeIcon.classList.add('badge');
-            userNameElement.appendChild(badgeIcon);
-        }
-
-        const messageDateElement = document.createElement('span');
-        messageDateElement.id = 'message-date';
-        messageDateElement.textContent = relativeTime(messageDate);
-        userNameElement.appendChild(messageDateElement);
-
-        const messageContentElement = document.createElement('p');
-        messageContentElement.classList.add('message-content');
-        messageContentElement.textContent = messageContent;
-
-        messageDetails.appendChild(userNameElement);
-        messageDetails.appendChild(messageContentElement);
-
-        message.appendChild(messageDetails);
-
-        comment.appendChild(message);
-
-        return comment;
-    }
     document.querySelector('.postContent').innerHTML = '';
     const card = document.querySelector(`.card[data-id="${id}"]`);
     if (card) {
@@ -857,8 +807,60 @@ function openPost(id) {
     }
 }
 
+function createCommentElement(userName, isCertified, badge, messageContent, messageDate) {
+    const comment = document.createElement('div');
+    comment.classList.add('comment');
+
+    const message = document.createElement('div');
+
+    message.classList.add('first', 'left-message', 'message');
+
+    const messageDetails = document.createElement('div');
+    messageDetails.classList.add('message-details');
+
+    const userNameElement = document.createElement('p');
+    userNameElement.classList.add('user-name');
+
+    const userNameText = document.createTextNode(userName);
+    userNameElement.appendChild(userNameText);
+
+    if (isCertified) {
+        const certifiedIcon = document.createElement('img');
+        certifiedIcon.src = '../assets/badges/certified/staff-certified.svg';
+        certifiedIcon.alt = 'certified icon';
+        userNameElement.appendChild(certifiedIcon);
+    }
+
+    if (badge) {
+        const badgeIcon = document.createElement('img');
+        badgeIcon.src = `/assets/badges/specials/${badge}.svg`;
+        badgeIcon.title = badge;
+        badgeIcon.classList.add('badge');
+        userNameElement.appendChild(badgeIcon);
+    }
+
+    const messageDateElement = document.createElement('span');
+    messageDateElement.id = 'message-date';
+    messageDateElement.textContent = relativeTime(messageDate);
+    userNameElement.appendChild(messageDateElement);
+
+    const messageContentElement = document.createElement('p');
+    messageContentElement.classList.add('message-content');
+    messageContentElement.textContent = messageContent;
+
+    messageDetails.appendChild(userNameElement);
+    messageDetails.appendChild(messageContentElement);
+
+    message.appendChild(messageDetails);
+
+    comment.appendChild(message);
+
+    return comment;
+}
+
 function postComment() {
     const comment = document.getElementById('commentInput').value;
+    if (comment.length < 1) return toast({ title: 'Erreur', message: 'Vous devez entrer un commentaire', type: 'error', duration: 5000 });
     if (comment.length < 1) {
         return toast({
             title: 'Erreur',
@@ -884,8 +886,14 @@ function postComment() {
                     duration: 5000,
                 });
             }
-            const commented = createCommentElement(data.user.username, data.user.isCertified, data.user.badges, data.message, data.createdAt);
+            const commented = createCommentElement(data.owner.username, data.owner.isCertified, data.owner.badges, data.content, data.createdAt);
             document.querySelector('.commentsContent').appendChild(commented);
-            document.getElementById('comment').value = '';
+            document.getElementById('commentInput').value = '';
+            return toast({
+                title: 'Succès',
+                message: 'Votre commentaire a bien été posté',
+                type: 'success',
+                duration: 5000,
+            });
         });
 }
