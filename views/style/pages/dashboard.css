@@ -332,7 +332,7 @@ body {
     flex-direction: row;
     align-items: end;
     gap: 10px;
-    margin: 0 3%;
+    margin: 0 15px;
     margin-top: -45px;
 }
 
@@ -510,7 +510,8 @@ body {
 }
 
 .user-settings {
-    margin: 0% 3%;
+    margin: 0% 15px;
+    margin-bottom: 20px;
 }
 
 .news-container {
@@ -947,6 +948,7 @@ h2 {
 
 .items-container {
     display: flex;
+
     flex-direction: column;
     gap: 15px;
 }
@@ -1060,6 +1062,7 @@ h3 {
     position: relative;
     flex-direction: row;
     gap: 15px;
+    min-height: 100px;
     overflow-y: auto;
 }
 

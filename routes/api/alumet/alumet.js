@@ -11,7 +11,9 @@ const Account = require('../../../models/account');
 const Wall = require('../../../models/wall');
 const Post = require('../../../models/post');
 const sendInvitations = require('../../../middlewares/mailManager/sendInvitations');
-
+const Comment = require('../../../models/comment');
+const authorizeA2F = require('../../../middlewares/authentification/authorizeA2f');
+const Conversation = require('../../../models/conversation');
 router.get('/:alumet/content', authorize('alumetPrivate'), validateObjectId, async (req, res) => {
     try {
         const alumet = await Alumet.findOne({
@@ -77,7 +79,8 @@ router.get('/:alumet/content', authorize('alumetPrivate'), validateObjectId, asy
 
             for (let post of posts) {
                 await Account.populate(post, { path: 'owner', select: 'id name icon lastname accountType isCertified badges username' });
-
+                let comments = await Comment.find({ postId: post._id });
+                post.commentsLength = comments.length;
                 if (post.file) {
                     const upload = await Upload.findOne({
                         _id: post.file,
@@ -161,9 +164,57 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
     }
 });
 
-router.put('/collaborators/:alumet', authorize('alumetAdmins'), sendInvitations, async (req, res) => {
-    res.json({
-        message: 'Collaborators updated',
-    });
+router.put('/collaborators/:alumet', authorize('alumetAdmins'), async (req, res) => {
+    sendInvitations(
+        req,
+        res,
+        () => {
+            res.json({
+                success: true,
+            });
+        },
+        'alumet',
+        req.params.alumet
+    );
+});
+
+router.delete('/:alumet', authorize('alumetAdmins'), validateObjectId, authorizeA2F, async (req, res) => {
+    try {
+        const alumet = await Alumet.findOne({ _id: req.params.alumet });
+        if (!alumet) {
+            return res.status(404).json({ error: 'Unable to proceed your requests' });
+        }
+        if (alumet.owner !== req.user.id) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        let conversation = await Conversation.findOne({ _id: alumet.chat });
+        if (conversation) {
+            await conversation.remove();
+        }
+        await alumet.remove();
+        res.json({ success: true });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while deleting the alumet.' });
+    }
+});
+
+router.delete('/:alumet/participant/:participant', authorize('alumetAdmins'), validateObjectId, async (req, res) => {
+    try {
+        const alumet = await Alumet.findOne({ _id: req.params.alumet });
+        if (!alumet) {
+            return res.status(404).json({ error: 'Unable to proceed your requests' });
+        }
+        if (alumet.owner !== req.user.id) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        alumet.participants = alumet.participants.filter(participant => participant !== req.params.participant);
+        alumet.collaborators = alumet.collaborators.filter(collaborator => collaborator !== req.params.participant);
+        await alumet.save();
+        res.json({ success: true });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while deleting the participant.' });
+    }
 });
 module.exports = router;

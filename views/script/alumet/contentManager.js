@@ -65,16 +65,14 @@ function getContent() {
 
 function loadParticipants(participants, collaborators) {
     const participantsContainer = document.querySelector('.participants-container');
-    if (participants.length === 0 && collaborators.length === 0) {
-        return;
-    }
+    if (participants.length === 0 && collaborators.length === 0) return;
     participantsContainer.innerHTML = '';
 
-    participants.forEach(participant => {
+    const createParticipant = (participant, role) => {
         const user = document.createElement('div');
         user.classList.add('user');
         user.dataset.id = participant._id;
-
+        if (alumet.admin) user.setAttribute('onclick', `deleteParticipant("${participant._id}")`);
         const userImage = document.createElement('img');
         userImage.src = `/cdn/u/${participant.icon}`;
 
@@ -82,35 +80,50 @@ function loadParticipants(participants, collaborators) {
         const userName = document.createElement('h3');
         userName.textContent = `${participant.name} ${participant.lastname}`;
         const userRole = document.createElement('p');
-        userRole.textContent = 'Participant';
+        userRole.textContent = role;
         userInfo.appendChild(userName);
         userInfo.appendChild(userRole);
 
         user.appendChild(userImage);
         user.appendChild(userInfo);
         participantsContainer.prepend(user);
+    };
+
+    participants.forEach(participant => createParticipant(participant, 'Participant'));
+    collaborators.forEach(collaborator => createParticipant(collaborator, 'Collaborateur'));
+}
+
+function deleteParticipant(id) {
+    createPrompt({
+        head: "Suppression d'un participant",
+        desc: 'Êtes-vous sûr de vouloir supprimer ce participant ?',
+        action: `confirmDeleteParticipant("${id}")`,
     });
+}
 
-    collaborators.forEach(collaborator => {
-        const user = document.createElement('div');
-        user.classList.add('user');
-        user.dataset.id = collaborator._id;
-
-        const userImage = document.createElement('img');
-        userImage.src = `/cdn/u/${collaborator.icon}`;
-
-        const userInfo = document.createElement('div');
-        const userName = document.createElement('h3');
-        userName.textContent = `${collaborator.name} ${collaborator.lastname}`;
-        const userRole = document.createElement('p');
-        userRole.textContent = 'Collaborateur';
-        userInfo.appendChild(userName);
-        userInfo.appendChild(userRole);
-
-        user.appendChild(userImage);
-        user.appendChild(userInfo);
-        participantsContainer.prepend(user);
-    });
+function confirmDeleteParticipant(id) {
+    fetch('/alumet/' + alumet._id + '/participant/' + id, {
+        method: 'DELETE',
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                return toast({
+                    title: 'Erreur',
+                    message: data.error,
+                    type: 'error',
+                    duration: 5000,
+                });
+            }
+            document.querySelector('.active-popup').classList.remove('active-popup');
+            document.querySelector(`.participants-container > .user[data-id="${id}"]`).remove();
+            toast({
+                title: 'Succès',
+                message: 'Le participant a bien été supprimé',
+                type: 'success',
+                duration: 5000,
+            });
+        });
 }
 
 async function modifyAlumet() {
@@ -151,18 +164,43 @@ function engageDeletion() {
 }
 
 function deleteAlumet() {
-    fetch('/a/' + alumet._id, {
-        method: 'DELETE',
+    fetch('/auth/a2f', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
     })
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
             if (data.error) {
-                return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 5000 });
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
             }
-            toast({ title: 'Succès', message: "L'alumet a bien été supprimé !", type: 'success', duration: 2500 });
-            setTimeout(() => {
+            createPrompt({
+                head: "Confirmation de suppression de l'Alumet",
+                desc: "Un code de sécurité vous a été envoyé par mail. Veuillez le saisir ci-dessous pour confirmer la suppression de l'alumet. ",
+                placeholder: 'Code de sécurité',
+                action: 'confirmDeleteAlumet()',
+            });
+        });
+}
+
+function confirmDeleteAlumet() {
+    fetch('/alumet/' + alumet._id, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            code: document.getElementById('prompt-input').value,
+        }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+            } else {
                 window.location.href = '/dashboard';
-            }, 500);
+            }
         });
 }
 
@@ -284,6 +322,14 @@ async function editPost(id) {
         });
     }
     postToEdit = postData._id;
+    document.querySelectorAll('.colorSelector > div').forEach(color => {
+        color.classList.remove('selectedColor');
+    });
+    try {
+        document.getElementById(postData.color).classList.add('selectedColor');
+    } catch (error) {
+        document.getElementById('white').classList.add('selectedColor');
+    }
     localStorage.setItem('currentItem', postData.wallId);
     document.getElementById('postTitle').value = postData.title;
     document.getElementById('editor').innerHTML = postData.content;
@@ -318,10 +364,24 @@ async function editPost(id) {
 
 function createPostElement(post) {
     const card = document.createElement('div');
+    card.classList.add(post.color);
     card.classList.add('card');
     card.draggable = true;
     card.dataset.position = post.position;
     card.dataset.id = post._id;
+
+    let tagRow = document.createElement('div');
+    tagRow.classList.add('tagRow');
+
+    let tag = document.createElement('div');
+    tag.classList.add('tag');
+    tag.innerText = '#Chapitre 1';
+    tagRow.appendChild(tag);
+
+    let tag2 = document.createElement('div');
+    tag2.classList.add('tag');
+    tag2.innerText = '#Chapitre 2';
+    tagRow.appendChild(tag2);
 
     author = document.createElement('div');
     author.classList.add('author');
@@ -444,10 +504,10 @@ function createPostElement(post) {
         const commentIcon = document.createElement('img');
         commentIcon.setAttribute('onclick', `openPost("${post._id}")`);
         commentIcon.src = '/assets/global/comment.svg';
-        const likeIcon = document.createElement('img');
-        likeIcon.src = '/assets/global/like.svg';
-        likeIcon.classList.add('icon');
-        actionRow.appendChild(likeIcon);
+        const commentsLength = document.createElement('p');
+        commentsLength.textContent = post.commentsLength;
+
+        actionRow.appendChild(commentsLength);
         actionRow.appendChild(commentIcon);
         card.appendChild(actionRow);
     }
@@ -458,6 +518,14 @@ function createPostElement(post) {
 
     return card;
 }
+
+document.querySelectorAll('.colorSelector > div').forEach(color => {
+    color.addEventListener('click', () => {
+        document.querySelector('.colorSelector > div.selectedColor').classList.remove('selectedColor');
+        color.classList.add('selectedColor');
+        selectedColor = document.querySelector('.colorSelector > div.selectedColor').id;
+    });
+});
 
 function createInList(title, postAuthorized, id) {
     const list = document.createElement('div');
@@ -548,6 +616,7 @@ async function createPost(confirmed) {
     let adminsOnly = document.getElementById('administatorsAuthorized').checked;
     let postDate = document.getElementById('date').value;
     let link = localStorage.getItem('link');
+    let postColor = selectedColor;
 
     if (!title && (!content || content === 'Ecrivez ici le contenu') && !fileFromDevice && !fileFromCloud && !link && !fileFromGdrive) {
         return toast({
@@ -566,6 +635,7 @@ async function createPost(confirmed) {
         commentAuthorized,
         adminsOnly,
         link,
+        postColor,
     };
 
     if (postToEdit) {
@@ -790,11 +860,15 @@ function openPost(id) {
                 });
             }
             const commentsContainer = document.querySelector('.commentsContent');
-            commentsContainer.innerHTML = '';
+            document.querySelectorAll('.commentsContent > .message').forEach(el => {
+                el.remove();
+            });
             if (data.length === 0) return;
+            previousSender = null;
             data.forEach(comment => {
-                const commentElement = createCommentElement(comment.owner.username, comment.owner.isCertified, comment.owner.badges, comment.content, comment.createdAt);
-                commentsContainer.appendChild(commentElement);
+                comment.message = { content: comment.content, createdAt: comment.createdAt, sender: comment.owner._id };
+                const commentElement = createMessageElement(comment.message, comment.owner);
+                commentsContainer.prepend(commentElement);
             });
         });
 
@@ -805,57 +879,6 @@ function openPost(id) {
         const post = document.querySelector('.postContent');
         post.appendChild(clonedCard);
     }
-}
-
-function createCommentElement(userName, isCertified, badge, messageContent, messageDate) {
-    const comment = document.createElement('div');
-    comment.classList.add('comment');
-
-    const message = document.createElement('div');
-
-    message.classList.add('first', 'left-message', 'message');
-
-    const messageDetails = document.createElement('div');
-    messageDetails.classList.add('message-details');
-
-    const userNameElement = document.createElement('p');
-    userNameElement.classList.add('user-name');
-
-    const userNameText = document.createTextNode(userName);
-    userNameElement.appendChild(userNameText);
-
-    if (isCertified) {
-        const certifiedIcon = document.createElement('img');
-        certifiedIcon.src = '../assets/badges/certified/staff-certified.svg';
-        certifiedIcon.alt = 'certified icon';
-        userNameElement.appendChild(certifiedIcon);
-    }
-
-    if (badge) {
-        const badgeIcon = document.createElement('img');
-        badgeIcon.src = `/assets/badges/specials/${badge}.svg`;
-        badgeIcon.title = badge;
-        badgeIcon.classList.add('badge');
-        userNameElement.appendChild(badgeIcon);
-    }
-
-    const messageDateElement = document.createElement('span');
-    messageDateElement.id = 'message-date';
-    messageDateElement.textContent = relativeTime(messageDate);
-    userNameElement.appendChild(messageDateElement);
-
-    const messageContentElement = document.createElement('p');
-    messageContentElement.classList.add('message-content');
-    messageContentElement.textContent = messageContent;
-
-    messageDetails.appendChild(userNameElement);
-    messageDetails.appendChild(messageContentElement);
-
-    message.appendChild(messageDetails);
-
-    comment.appendChild(message);
-
-    return comment;
 }
 
 function postComment() {
@@ -886,14 +909,18 @@ function postComment() {
                     duration: 5000,
                 });
             }
-            const commented = createCommentElement(data.owner.username, data.owner.isCertified, data.owner.badges, data.content, data.createdAt);
-            document.querySelector('.commentsContent').appendChild(commented);
+            if (document.querySelectorAll('.commentsContent > .message').length === 0) {
+                previousSender = null;
+            }
+            data.comment = { content: data.content, createdAt: data.createdAt, sender: data.owner._id };
+            const commented = createMessageElement(data.comment, data.owner);
+            document.querySelector('.commentsContent').prepend(commented);
             document.getElementById('commentInput').value = '';
             return toast({
                 title: 'Succès',
                 message: 'Votre commentaire a bien été posté',
                 type: 'success',
-                duration: 5000,
+                duration: 3000,
             });
         });
 }

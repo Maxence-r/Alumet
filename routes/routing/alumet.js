@@ -8,6 +8,7 @@ const validateAlumet = require('../../middlewares/modelsValidation/validateAlume
 const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
 const Conversation = require('../../models/conversation');
 const sendInvitations = require('../../middlewares/mailManager/sendInvitations');
+const authorizeA2F = require('../../middlewares/authentification/authorizeA2f');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     let alumet = await Alumet.findById(req.params.id);
@@ -65,27 +66,6 @@ router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveT
     } catch (error) {
         console.error(error);
         res.status(400).json({ error: 'An error occurred while creating the alumet.' });
-    }
-});
-
-router.delete('/:id', authorize('professor'), validateObjectId, async (req, res) => {
-    try {
-        const alumet = await Alumet.findOne({ _id: req.params.id });
-        if (!alumet) {
-            return res.status(404).json({ error: 'Unable to proceed your requests' });
-        }
-        if (alumet.owner !== req.user.id) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
-        let conversation = await Conversation.findOne({ _id: alumet.chat });
-        if (conversation) {
-            await conversation.remove();
-        }
-        await alumet.remove();
-        res.json({ success: true });
-    } catch (error) {
-        console.error(error);
-        res.status(400).json({ error: 'An error occurred while deleting the alumet.' });
     }
 });
 

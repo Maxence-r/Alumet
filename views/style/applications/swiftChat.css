@@ -240,8 +240,8 @@
     position: relative;
     flex-direction: column-reverse;
     gap: 5px;
-    padding: 20px;
-    width: calc(100% - 40px);
+    padding: 15px;
+    width: calc(100% - 30px);
     height: 100%;
     background-color: #f6f8fc;
     border-radius: 5px;
@@ -252,10 +252,6 @@
     font-size: 0.7rem;
     color: #9ea1a7;
     margin-left: 5px;
-}
-
-.first {
-    margin-top: 20px;
 }
 
 .first > img {
@@ -283,6 +279,7 @@
 }
 
 .right-message > .message-details > .message-content {
+    text-align: end;
     border-radius: 10px 0 10px 10px;
     color: white;
     background: linear-gradient(44deg, #4b85ff 0%, #296eff 100%);

@@ -15,6 +15,7 @@ const PostSchema = mongoose.Schema({
     ip: {
         type: String,
         required: true,
+        default: ':1',
     },
     file: {
         type: String,

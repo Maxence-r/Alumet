@@ -1,5 +1,7 @@
 let participants = [];
 let user;
+let previousSender = null;
+let selectedColor = 'white';
 const fileIconReference = {
     png: '../assets/files-icons/img.png',
     jpg: '../assets/files-icons/img.png',
@@ -53,7 +55,7 @@ function toast({ title = '', message = '', type = 'info', duration = 3000 }) {
         const delay = (duration / 1000).toFixed(2);
 
         toast.classList.add('toast', `toast--${type}`);
-        toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
+        toast.style.animation = `slideInTop ease .3s, fadeOut linear 1s ${delay}s forwards`;
 
         const toastBody = document.createElement('div');
         toastBody.classList.add('toast__body');

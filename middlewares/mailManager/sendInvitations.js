@@ -4,12 +4,12 @@ const Invitation = require('../../models/invitation');
 const Alumet = require('../../models/alumet');
 const flashCardSet = require('../../models/flashcardSet');
 
-async function sendInvitations(req, res, type, reference) {
-    console.log(type, reference);
+async function sendInvitations(req, res, next, type, reference) {
+    console.log('sendInvitations');
     try {
         if (typeof req.body.collaborators === 'string') req.body.collaborators = JSON.parse(req.body.collaborators);
         const collaborators = req.body.collaborators;
-
+        console.log(collaborators);
         let owner = await Account.findById(req.user.id);
         for (const participant of collaborators) {
             let account = await Account.findOne({
@@ -27,6 +27,7 @@ async function sendInvitations(req, res, type, reference) {
             let invitationCheck = await Invitation.findOne({ to: participant, reference: reference });
 
             if (!account || invitationCheck || referenceDetails.collaborators.includes(participant)) {
+                console.log('invitation already sent');
                 continue;
             }
             const invitation = new Invitation({
@@ -41,6 +42,7 @@ async function sendInvitations(req, res, type, reference) {
                 'Invitation à un alumet',
                 `Vous avez été invité à collaborer sur "${referenceDetails.title}" (${type}) en tant que collaborateur par ${owner.name} ${owner.lastname} (${owner.username}). Accepter ou refuser l'invitation en vous rendant sur votre tableau de bord. `
             );
+            next();
         }
     } catch (error) {
         console.error(error);

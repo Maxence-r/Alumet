@@ -35,7 +35,6 @@ function sendMessage() {
         .catch(error => console.error(error));
 }
 
-let previousSender = null;
 function createMessageElement(message, userSender) {
     const { sender, content, createdAt } = message;
     const messageElement = document.createElement('div');

@@ -33,6 +33,10 @@ const validatePost = async (req, res, next) => {
         if ((!wall && !req.body.postId) || (!wall.postAuthorized && alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user._id))) {
             error = { error: 'Unauthorized wall x001' };
         }
+        authorizedColor = ['white', 'red', 'yellow', 'green', 'blue'];
+        if (!authorizedColor.includes(req.body.postColor)) {
+            error = { error: 'Unauthorized color x001' };
+        }
         if (error) {
             return res.status(400).json(error);
         }

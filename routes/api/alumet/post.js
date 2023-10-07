@@ -12,7 +12,7 @@ const Wall = require('../../../models/wall');
 const Account = require('../../../models/account');
 const Comment = require('../../../models/comment');
 
-router.put('/:alumet/:wall', validatePost, async (req, res) => {
+router.put('/:alumet/:wall', validatePost, authorize('alumetParticipants'), authorize('alumetPrivate'), async (req, res) => {
     const postId = req.body.postId;
     const postFields = {
         title: req.body.title,
@@ -21,7 +21,7 @@ router.put('/:alumet/:wall', validatePost, async (req, res) => {
         ip: req.ip,
         file: req.body.file || null,
         link: req.body.link,
-        color: req.body.color,
+        color: req.body.postColor,
         position: req.body.position,
         wallId: req.params.wall,
         adminsOnly: req.body.adminsOnly,
@@ -86,7 +86,7 @@ router.get('/:alumet/:id/comments', authorize('alumetParticipants'), authorize('
             .populate({
                 path: 'owner',
                 model: 'Account',
-                select: 'id name lastname accountType isCertified badges username',
+                select: 'id name lastname accountType isCertified badges username icon',
             })
             .sort({ createdAt: 1 });
         res.json(comments);

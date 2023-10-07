@@ -2,6 +2,7 @@ const http = require('http');
 const app = require('./app');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
+app.set('socketio', io);
 global.io = io;
 chatSocket = require('./socket/chatSocket')(io);
 dashboardSocket = require('./socket/dashboardSocket.js')(io);

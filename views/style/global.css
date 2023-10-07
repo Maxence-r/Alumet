@@ -504,6 +504,11 @@ input:focus + .slide {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 0 15px;
+    height: 48px;
+    width: calc(100% - 32px);
 }
 
 .switch-options {
@@ -512,14 +517,6 @@ input:focus + .slide {
     gap: 10px;
     width: 100%;
     justify-content: space-between;
-}
-
-.switch-options > div {
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    padding: 0 15px;
-    height: 48px;
-    width: calc(100% - 32px);
 }
 
 .switch-options > select {
@@ -607,14 +604,14 @@ select:focus {
     transition: all linear 0.3s;
 }
 
-@keyframes slideInLeft {
+@keyframes slideInTop {
     from {
         opacity: 0;
-        transform: translateX(calc(100% + 32px));
+        transform: translateY(calc(-100% + 32px));
     }
     to {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateY(0);
     }
 }
 
@@ -709,6 +706,7 @@ select:focus {
 
 .information {
     display: flex;
+    padding: 20px 0;
     flex-direction: column;
     align-items: center;
     margin: auto;
@@ -1138,7 +1136,7 @@ select {
 
 @media screen and (max-width: 600px) {
     #toast {
-        top: 16px;
-        right: 16px;
+        top: 10px;
+        right: 10px;
     }
 }
