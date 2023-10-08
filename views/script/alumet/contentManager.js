@@ -327,8 +327,10 @@ async function editPost(id) {
     });
     try {
         document.getElementById(postData.color).classList.add('selectedColor');
+        selectedColor = document.querySelector('.colorSelector > div.selectedColor').id;
     } catch (error) {
         document.getElementById('white').classList.add('selectedColor');
+        selectedColor = 'white';
     }
     localStorage.setItem('currentItem', postData.wallId);
     document.getElementById('postTitle').value = postData.title;
@@ -731,6 +733,11 @@ function deleteWall() {
 }
 
 function clearPost() {
+    selectedColor = 'white';
+    document.querySelectorAll('.colorSelector > div').forEach(color => {
+        color.classList.remove('selectedColor');
+    });
+    document.getElementById('white').classList.add('selectedColor');
     document.getElementById('postTitle').value = '';
     document.getElementById('editor').innerHTML = '';
     document.getElementById('post-file').value = '';
@@ -874,8 +881,10 @@ function openPost(id) {
 
     document.querySelector('.postContent').innerHTML = '';
     const card = document.querySelector(`.card[data-id="${id}"]`);
+
     if (card) {
         const clonedCard = card.cloneNode(true);
+        clonedCard.classList.remove('red', 'blue', 'yellow', 'white', 'green');
         const post = document.querySelector('.postContent');
         post.appendChild(clonedCard);
     }

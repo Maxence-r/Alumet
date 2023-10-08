@@ -5,7 +5,6 @@ const sendInvitations = require('../../middlewares/mailManager/sendInvitations')
 const { default: mongoose } = require('mongoose');
 const path = require('path');
 router.post('/set', async (req, res) => {
-    console.log(req.body);
     try {
         const { name, description, subject, isPublic } = req.body;
         const flashcardSet = new FlashcardSet({

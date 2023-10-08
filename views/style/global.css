@@ -1102,6 +1102,7 @@ select {
 
 #folder-selection {
     width: 100%;
+    min-height: 50px;
 }
 
 @keyframes rotation {

@@ -731,7 +731,6 @@ h1 {
     flex-wrap: wrap;
     gap: 5px;
     margin: 10px 0;
-    height: 34px;
 }
 
 .colorSelector {
@@ -1066,7 +1065,7 @@ h1 {
     .navbar {
         height: 60px;
         flex-direction: row;
-        width: 100%;
+        width: calc(100% - 2px);
     }
 
     html,

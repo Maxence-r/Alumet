@@ -1689,6 +1689,12 @@ h3 {
 }
 
 @media (max-width: 600px) {
+    .items-container-header > div:nth-of-type(2) > input {
+        display: none;
+    }
+    .items-container-header > div:nth-of-type(2) > button {
+        width: 100%;
+    }
     .action-row {
         position: fixed;
         width: calc(100% - 20px);
@@ -1750,7 +1756,7 @@ h3 {
     }
     body {
         flex-direction: column;
-        padding: 15px 10px 10px 10px;
+        padding: 10px;
         gap: 10px;
     }
     html,
@@ -1789,7 +1795,7 @@ h3 {
         font-size: 2rem;
     }
     .items-container-header > div {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         width: 100%;
     }
 

@@ -151,12 +151,6 @@ function getMyInfos() {
     });
 }
 
-document.addEventListener('keydown', function (event) {
-    if (event.key === 'Tab') {
-        event.preventDefault();
-    }
-});
-
 function next(current, next) {
     let hasEmptyInput = false;
     document.querySelectorAll('.activeStep > input').forEach(input => {
@@ -176,10 +170,6 @@ function next(current, next) {
     }, 500);
 }
 
-window.onload = () => {
-    document.querySelector('.loading').style.display = 'none';
-};
-
 const debounce = (func, delay) => {
     let timeoutId;
     return (...args) => {
@@ -194,6 +184,10 @@ function toggleParticipant(id) {
     participants.includes(id) ? participants.splice(participants.indexOf(id), 1) : participants.push(id);
     document.querySelector(`[data-id="${id}"]`).classList.toggle('selected-user');
 }
+
+window.onload = () => {
+    document.querySelector('.loading').style.display = 'none';
+};
 
 const searchUsers = async (query, type) => {
     if (query.length < 2 && participants.length === 0) {

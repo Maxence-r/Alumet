@@ -38,6 +38,12 @@ fetch('/dashboard/items')
         });
     });
 
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'Tab') {
+        event.preventDefault();
+    }
+});
+
 function createAlumetBox(title, lastUsage, background, id) {
     const alumetBox = document.createElement('div');
     alumetBox.classList.add('alumet-box');
