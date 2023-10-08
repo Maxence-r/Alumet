@@ -28,6 +28,10 @@ body {
     display: flex;
 }
 
+.first {
+    margin-top: 20px;
+}
+
 .alumet > .alumet-content {
     display: flex;
 }
