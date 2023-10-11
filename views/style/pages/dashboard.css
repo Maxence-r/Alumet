@@ -599,7 +599,7 @@ body {
     display: flex;
     position: relative;
     flex-direction: column;
-    min-width: 325px;
+    min-width: 400px;
     overflow: hidden;
     background-color: white;
     border-radius: 10px;
@@ -667,12 +667,12 @@ body {
 .sub-container > .header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     flex-direction: row;
 }
 
 h2 {
-    font-size: 1.4em;
+    font-size: 1.5em;
     font-weight: 800;
     text-transform: uppercase;
     margin: 0;
@@ -1434,6 +1434,10 @@ h3 {
     margin-bottom: 3%;
 }
 
+.conversations-container::-webkit-scrollbar {
+    display: none;
+}
+
 #search-conv {
     min-height: 45px;
 }
@@ -1678,7 +1682,7 @@ h3 {
     }
     .messages > .sub-container:nth-child(1) {
         display: flex;
-        min-width: calc(100% - 40px);
+        min-width: calc(100% - 30px);
         margin: 0;
     }
 }

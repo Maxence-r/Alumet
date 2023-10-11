@@ -103,6 +103,17 @@
                 <h1 onclick="navbar('profile')">Profile</h1>
             </div>
 
+            <div class="overlay-content ia">
+                <div class="information">
+                    <img src="../assets/global/locked.svg" />
+                    <h3>
+                        Bientôt disponible en
+                        <div class="beta">BETA</div>
+                    </h3>
+                    <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
+                </div>
+            </div>
+
             <div class="overlay-content loadingRessources">
                 <div class="loading full-screen">
                     <span class="loader"></span>
@@ -112,39 +123,30 @@
 
             <div class="overlay-content settings">
                 <div class="header-setting">
-                    <h1>AlumetName</h1>
+                    <h1>Flashcard Name</h1>
                     <button onclick="modifyAlumet()" class="large adminsOnly">Enregistrer</button>
                 </div>
                 <div class="divider"></div>
-                <img src="../assets/global/dev.png" />
-                <input type="file" name="alumet-background" id="alumet-background" accept="image/png, image/jpeg" />
                 <div class="grid-user-container">
                     <div class="item">
-                        <h3>Nom de l'Alumet</h3>
+                        <h3>Nom du jeu de flashcards</h3>
                         <input type="text" name="alumetName" id="alumetName" placeholder="Nom de l'Alumet" autocomplete="on" />
                     </div>
                     <div class="item">
-                        <h3>Description de l'Alumet</h3>
+                        <h3>Description du jeu de flashcards</h3>
                         <input type="text" name="alumetDescription" id="alumetDescription" placeholder="Description de l'Alumet" autocomplete="on" />
                     </div>
                     <div class="item">
-                        <h3>Code d'invitation</h3>
+                        <h3>Lien de partage</h3>
                         <input disabled="true" type="text" name="invitationCode" autocomplete="on" id="invitationCode" placeholder="Aucun code d'invitation" />
                     </div>
                     <div class="item">
                         <h3>Option d'administrations</h3>
                         <div class="switch-options">
                             <div class="option">
-                                <h1>Alumet en mode privé</h1>
+                                <h1>Rendre publiquement accessible aux étudiants</h1>
                                 <label class="switch">
                                     <input id="alumet-private" type="checkbox" />
-                                    <span class="slide round"></span>
-                                </label>
-                            </div>
-                            <div class="option">
-                                <h1>Messagerie de l'Alumet</h1>
-                                <label class="switch">
-                                    <input id="alumet-chat" checked="" type="checkbox" />
                                     <span class="slide round"></span>
                                 </label>
                             </div>
@@ -232,71 +234,17 @@
             <div class="overlay-content flashcards">
                 <h1>Créer une publication</h1>
                 <div class="divider"></div>
-                <div id="toolbar">
-                    <div>
-                        <button onclick="navbar('latex')" id="latex">
-                            <img src="../assets/global/latex.svg" />
-                        </button>
-                        <!-- <button onclick="navbar('audio')" id="latex">
-                            <img src="../assets/global/mic.svg" />
-                        </button> -->
+                <div class="grid-user-container">
+                    <div class="item">
+                        <h3>Ecrivez ici la question</h3>
+                        <input type="text" name="alumetName" id="alumetName" placeholder="Question" autocomplete="on" />
                     </div>
-                    <div>
-                        <button id="bold" onclick="makeBold()"><b>G</b></button>
-                        <button id="italic" onclick="makeItalic()"><i>I</i></button>
-                        <button id="underline" onclick="doUnderline()"><u>S</u></button>
-                    </div>
-                </div>
-                <div class="description-container">
-                    <div id="editor" placeholder="Ecrivez la question ici" spellcheck="false" contenteditable="true" onkeypress="return (this.innerText.length <= 4000)"></div>
-                </div>
-                <div id="toolbar">
-                    <div>
-                        <button onclick="navbar('latex')" id="latex">
-                            <img src="../assets/global/latex.svg" />
-                        </button>
-                        <!-- <button onclick="navbar('audio')" id="latex">
-                            <img src="../assets/global/mic.svg" />
-                        </button> -->
-                    </div>
-                    <div>
-                        <button id="bold" onclick="makeBold()"><b>G</b></button>
-                        <button id="italic" onclick="makeItalic()"><i>I</i></button>
-                        <button id="underline" onclick="doUnderline()"><u>S</u></button>
-                    </div>
-                </div>
-                <div class="description-container">
-                    <div id="editor" placeholder="Ecrivez la réponse ici" spellcheck="false" contenteditable="true" onkeypress="return (this.innerText.length <= 4000)"></div>
-                </div>
-
-                <div class="switch-options">
-                    <div class="option">
-                        <h1>Autoriser les commentaires</h1>
-                        <label class="switch">
-                            <input id="postCommentAuthorized" type="checkbox" />
-                            <span class="slide round"></span>
-                        </label>
-                    </div>
-
-                    <div class="option">
-                        <h1>Seul les administrateurs voient</h1>
-                        <label class="switch">
-                            <input id="administatorsAuthorized" checked="" type="checkbox" />
-                            <span class="slide round"></span>
-                        </label>
-                    </div>
-                    <div class="option">
-                        <h1>Date de publication automatique</h1>
-                        <label class="switch">
-                            <input id="publicationDate" checked="" type="checkbox" />
-                            <span class="slide round"></span>
-                        </label>
+                    <div class="item">
+                        <h3>Ecrivez ici la réponse</h3>
+                        <input type="text" name="alumetDescription" id="alumetDescription" placeholder="Réponse" autocomplete="on" />
                     </div>
                 </div>
 
-                <div class="date">
-                    <input type="datetime-local" id="date" />
-                </div>
                 <div class="post-buttons">
                     <button onclick="deletePost()" class="large reded confirm">Supprimer la publication</button>
                     <button onclick="createPost()" class="large confirm">Publier</button>
@@ -314,7 +262,7 @@
                 <img src="../assets/global/home_a.svg" alt="home" />
                 <p>Accueil</p>
             </button>
-            <button onclick="navbar('messages')" class="connectedOnly" id="messages">
+            <button onclick="navbar('ia')" class="connectedOnly" id="ia">
                 <img src="../../assets/global/rocket_a.svg" alt="messagerie" />
                 <p>IA</p>
             </button>

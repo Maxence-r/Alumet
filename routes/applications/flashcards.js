@@ -36,4 +36,15 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/:id/content', async (req, res) => {
+    try {
+        const flashcardSet = await FlashcardSet.findById(req.params.id);
+        if (!flashcardSet) return res.redirect('/404');
+        res.json({ flashcardSet });
+    } catch (error) {
+        console.log(error);
+        res.json({ error });
+    }
+});
+
 module.exports = router;

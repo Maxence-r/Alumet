@@ -7,7 +7,8 @@ body {
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
-    backdrop-filter: blur(10px) brightness(0.8);
+    backdrop-filter: blur(5px) brightness(0.8);
+    --webkit-backdrop-filter: blur(5px) brightness(0.8);
     padding: 15px;
     gap: 15px;
     margin: 0;
@@ -731,6 +732,7 @@ h1 {
     flex-wrap: wrap;
     gap: 5px;
     margin: 10px 0;
+    height: 38px;
 }
 
 .colorSelector {
@@ -749,7 +751,7 @@ h1 {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 29px;
+    width: 32px;
     height: 100%;
     border-radius: 5px;
     cursor: pointer;

@@ -427,9 +427,8 @@ textarea[placeholder] {
 
 .grid-user-container {
     display: grid;
-    margin-top: 10px;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    grid-gap: 10px;
+    grid-gap: 15px;
 }
 
 .grid-user-container > input {
@@ -439,7 +438,7 @@ textarea[placeholder] {
 .item {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .item > h3 {
