@@ -166,7 +166,7 @@ body {
     font-weight: 600;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 600px) {
     .header > div:nth-of-type(1) > p {
         display: none;
     }
