@@ -25,7 +25,7 @@ async function sendInvitations(req, res, type, reference) {
 
             let invitationCheck = await Invitation.findOne({ to: participant, reference: reference });
 
-            if (!account || invitationCheck || referenceDetails.collaborators.includes(participant)) {
+            if (!account || invitationCheck || referenceDetails.collaborators.includes(participant) || referenceDetails.owner == participant) {
                 continue;
             }
             const invitation = new Invitation({

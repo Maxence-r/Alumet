@@ -49,17 +49,4 @@ document.getElementById('alumet-background').addEventListener('change', () => {
     document.querySelector('.alumet-background').src = URL.createObjectURL(file);
 });
 
-const userPrompt = document.querySelector('#user-prompt');
-const debounceDelay = 500;
-let debounceTimeoutId;
-
-userPrompt.addEventListener('input', e => {
-    clearTimeout(debounceTimeoutId);
-    debounceTimeoutId = setTimeout(() => {
-        const query = e.target.value;
-        const type = 'user';
-        searchUsers(query, type);
-    }, debounceDelay);
-});
-
 endLoading();

@@ -125,17 +125,17 @@
             <div class="overlay-content settings">
                 <div class="header-setting">
                     <h1>Paramètres</h1>
-                    <button onclick="modifyAlumet()" class="large adminsOnly">Enregistrer</button>
+                    <button onclick="modifyFlashcard()" class="large adminsOnly">Enregistrer</button>
                 </div>
                 <div class="divider"></div>
                 <div class="grid-user-container">
                     <div class="item">
                         <h3>Nom du jeu de flashcards</h3>
-                        <input type="text" name="flashcardName" id="flashcardName" placeholder="Nom de l'Alumet" autocomplete="on" />
+                        <input maxlength="150" type="text" name="flashcardName" id="flashcardName" placeholder="Nom de l'Alumet" autocomplete="on" />
                     </div>
                     <div class="item">
                         <h3>Description du jeu de flashcards</h3>
-                        <input type="text" name="alumetDescription" id="alumetDescription" placeholder="Description de l'Alumet" autocomplete="on" />
+                        <input maxlength="300" type="text" name="flashcardDescription" id="flashcardDescription" placeholder="Description de l'Alumet" autocomplete="on" />
                     </div>
                     <div class="item">
                         <h3>Lien de partage</h3>
@@ -145,7 +145,7 @@
                         <h3>Option d'administrations</h3>
                         <div class="switch-options">
                             <div class="option">
-                                <h1>Rendre publiquement accessible aux étudiants</h1>
+                                <h1>Publique (découverte)</h1>
                                 <label class="switch">
                                     <input id="flashcardPublic" type="checkbox" />
                                     <span class="slide round"></span>
@@ -157,7 +157,7 @@
 
                 <div class="row-bottom-buttons adminsOnly">
                     <button onclick="navbar('participants')" class="large greyed">Gerer les participants</button>
-                    <button onclick="engageDeletion()" class="large reded">Supprimer l'Alumet</button>
+                    <button onclick="engageDeletion('flashcard')" class="large reded">Supprimer le jeu de flashcard</button>
                 </div>
             </div>
             <div class="overlay-content participants">
@@ -276,6 +276,6 @@
         const socket = io();
     </script>
     <script src="../../script/global.js"></script>
+    <script src="../../script/navigation.js"></script>
     <script src="../../script/applications/flashcards.js"></script>
-    <script src="../script/navigation.js"></script>
 </html>

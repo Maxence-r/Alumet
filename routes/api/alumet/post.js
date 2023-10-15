@@ -12,7 +12,7 @@ const Wall = require('../../../models/wall');
 const Account = require('../../../models/account');
 const Comment = require('../../../models/comment');
 
-router.put('/:alumet/:wall', validatePost, authorize('alumetPrivate'), async (req, res) => {
+router.put('/:alumet/:wall', validatePost, authorize('alumet', 'alumetPrivate'), async (req, res) => {
     const postId = req.body.postId;
     const postFields = {
         title: req.body.title,
@@ -58,7 +58,7 @@ router.put('/:alumet/:wall', validatePost, authorize('alumetPrivate'), async (re
     }
 });
 
-router.put('/:alumet/:id/comments', authorize('alumetParticipants'), authorize('alumetPrivate'), async (req, res) => {
+router.put('/:alumet/:id/comments', authorize('alumet', 'itemParticipants'), authorize('alumet', 'alumetPrivate'), async (req, res) => {
     const commentFields = {
         owner: req.user && req.user.id,
         content: req.body.content,
@@ -79,7 +79,7 @@ router.put('/:alumet/:id/comments', authorize('alumetParticipants'), authorize('
     }
 });
 
-router.get('/:alumet/:id/comments', authorize('alumetParticipants'), authorize('alumetPrivate'), async (req, res) => {
+router.get('/:alumet/:id/comments', authorize('alumet', 'itemParticipants'), authorize('alumet', 'alumetPrivate'), async (req, res) => {
     try {
         const comments = await Comment.find({ postId: req.params.id })
 
@@ -98,7 +98,7 @@ router.get('/:alumet/:id/comments', authorize('alumetParticipants'), authorize('
     }
 });
 
-router.put('/move/:alumet/:wall/:post', authorize('alumetAdmins'), async (req, res) => {
+router.put('/move/:alumet/:wall/:post', authorize('alumet', 'itemAdmins'), async (req, res) => {
     const { position } = req.body;
     try {
         const wall = await Wall.findOne({ _id: req.params.wall });

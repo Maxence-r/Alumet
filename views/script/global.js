@@ -2,6 +2,7 @@ let participants = [];
 let user;
 let previousSender = null;
 let selectedColor = 'white';
+let type = null;
 const fileIconReference = {
     png: '../assets/files-icons/img.png',
     jpg: '../assets/files-icons/img.png',
@@ -277,4 +278,18 @@ function loadFolder(id) {
             });
             document.querySelector('.files-items').classList.remove('loading-files');
         });
+}
+
+const userPrompt = document.querySelector('#user-prompt');
+const debounceDelay = 500;
+let debounceTimeoutId;
+if (userPrompt) {
+    userPrompt.addEventListener('input', e => {
+        clearTimeout(debounceTimeoutId);
+        debounceTimeoutId = setTimeout(() => {
+            const query = e.target.value;
+            const type = 'user';
+            searchUsers(query, type);
+        }, debounceDelay);
+    });
 }

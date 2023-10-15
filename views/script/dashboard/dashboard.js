@@ -632,16 +632,3 @@ function openConversation(id) {
         })
         .catch(error => console.error(error));
 }
-
-const userPrompt = document.querySelector('#user-prompt');
-const debounceDelay = 500;
-let debounceTimeoutId;
-
-userPrompt.addEventListener('input', e => {
-    clearTimeout(debounceTimeoutId);
-    debounceTimeoutId = setTimeout(() => {
-        const query = e.target.value;
-        const type = 'user';
-        searchUsers(query, type);
-    }, debounceDelay);
-});

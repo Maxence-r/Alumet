@@ -11,7 +11,7 @@ const flashcardSetSchema = mongoose.Schema({
         type: String,
         required: true,
         minLength: 2,
-        maxLength: 50,
+        maxLength: 150,
     },
     description: {
         type: String,
@@ -22,7 +22,8 @@ const flashcardSetSchema = mongoose.Schema({
         required: false,
         minLength: 2,
         maxLength: 50,
-        enum: ['Mathématiques', 'Français', 'Histoire', 'Géographie', 'Physique', 'SVT', 'Technologie', 'Anglais', 'Espagnol', 'Allemand', 'Italien', 'Russe', 'Chinois', 'Japonais', 'Autre'],
+        default: 'Autre',
+        enum: ['Mathématiques', 'Français', 'Histoire', 'Géographie', 'Physique', 'Svt', 'Technologie', 'Anglais', 'Espagnol', 'Allemand', 'Italien', 'Russe', 'Chinois', 'Japonais', 'Autre'],
     },
     isPublic: {
         type: Boolean,

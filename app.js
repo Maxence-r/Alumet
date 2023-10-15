@@ -28,7 +28,7 @@ const flashcardsAi = require('./routes/openai/flashcards');
 
 const setup = require('./routes/api/alumetGlobal/setup.js');
 const invitation = require('./routes/routing/invitation.js');
-
+const item = require('./routes/routing/item.js');
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -79,6 +79,7 @@ app.use('/openai/flashcards', flashcardsAi);
 
 app.use('/setup', setup);
 app.use('/invitation', invitation);
+app.use('/item', item);
 
 const path = require('path');
 app.get('*', async (req, res) => {

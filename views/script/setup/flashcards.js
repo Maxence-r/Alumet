@@ -1,16 +1,16 @@
 function createFlashcards() {
     document.querySelector('.full-screen').style.display = 'flex';
-    let name = document.getElementById('flashcards-name').value;
+    let title = document.getElementById('flashcards-name').value;
     let description = document.getElementById('flashcards-description').value;
     let selectSubject = document.getElementById('flashcards-subject').options[document.getElementById('flashcards-subject').selectedIndex].value;
     let isPublic = document.getElementById('flashcards-public').checked;
     fetch('/flashcards/set', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            name,
+            title,
             description,
             subject: selectSubject,
             isPublic,
@@ -24,6 +24,7 @@ function createFlashcards() {
                 setTimeout(() => {
                     window.location.reload();
                 }, 500);
+                s;
             } else {
                 toast({ title: 'Succès', message: "L'alumet a bien été créé !", type: 'success', duration: 2500 });
                 setTimeout(() => {
@@ -35,16 +36,3 @@ function createFlashcards() {
 }
 
 endLoading();
-
-const userPrompt = document.querySelector('#user-prompt');
-const debounceDelay = 500;
-let debounceTimeoutId;
-
-userPrompt.addEventListener('input', e => {
-    clearTimeout(debounceTimeoutId);
-    debounceTimeoutId = setTimeout(() => {
-        const query = e.target.value;
-        const type = 'user';
-        searchUsers(query, type);
-    }, debounceDelay);
-});

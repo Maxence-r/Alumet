@@ -76,7 +76,7 @@ router.post('/authorize/:id', authorize(), async (req, res) => {
     }
 });
 
-router.get('/leave/:id', authorize(), async (req, res) => {
+router.get('/leave/:id', authorize('alumet'), async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.id);
         if (!alumet) {
@@ -107,7 +107,7 @@ router.get('/leave/:id', authorize(), async (req, res) => {
     }
 });
 
-router.post('/accept/:id', authorize(), async (req, res) => {
+router.post('/accept/:id', authorize('alumet'), async (req, res) => {
     try {
         const invitation = await Invitation.findOne({
             _id: req.params.id,
@@ -151,7 +151,7 @@ router.post('/accept/:id', authorize(), async (req, res) => {
     }
 });
 
-router.post('/decline/:id', authorize(), async (req, res) => {
+router.post('/decline/:id', authorize('alumet'), async (req, res) => {
     try {
         const invitation = await Invitation.findOne({
             _id: req.params.id,

@@ -4,7 +4,7 @@ const Wall = require('../../../models/wall');
 const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
 const authorize = require('../../../middlewares/authentification/authorize');
 
-router.put('/:alumet', validateObjectId, authorize('alumetAdmins'), (req, res) => {
+router.put('/:alumet', validateObjectId, authorize('alumet', 'itemAdmins'), (req, res) => {
     if (req.body.wallToEdit) {
         Wall.findById(req.body.wallToEdit)
             .then(wall => {
@@ -49,7 +49,7 @@ router.put('/:alumet', validateObjectId, authorize('alumetAdmins'), (req, res) =
     }
 });
 
-router.patch('/:alumet/:wall/move', validateObjectId, authorize('alumetAdmins'), (req, res) => {
+router.patch('/:alumet/:wall/move', validateObjectId, authorize('alumet', 'itemAdmins'), (req, res) => {
     const { direction } = req.query;
     const { wall } = req.params;
 
@@ -102,7 +102,7 @@ router.patch('/:alumet/:wall/move', validateObjectId, authorize('alumetAdmins'),
         .catch(error => res.status(500).json({ error }));
 });
 
-router.delete('/:alumet/:wall', authorize('alumetAdmins'), (req, res) => {
+router.delete('/:alumet/:wall', authorize('alumet', 'itemAdmins'), (req, res) => {
     Wall.findOneAndDelete({ _id: req.params.wall, alumetReference: req.params.alumet })
         .then(wall => {
             if (!wall) {

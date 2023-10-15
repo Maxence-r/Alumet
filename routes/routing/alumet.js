@@ -22,7 +22,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
     const filePath = path.join(__dirname, '../../views/pages/alumet.html');
     res.sendFile(filePath);
 });
-router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveToDb('3', ['png', 'jpeg', 'jpg']), validateAlumet, async (req, res) => {
+router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['png', 'jpeg', 'jpg']), validateAlumet, async (req, res) => {
     try {
         let alumet;
         if (!req.body.alumet) {

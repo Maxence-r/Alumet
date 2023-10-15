@@ -1,5 +1,3 @@
-const url = window.location.href;
-const id = url.split('/').pop();
 fetch(`/flashcards/${id}/content`)
     .then(res => res.json())
     .then(data => {
@@ -11,38 +9,40 @@ fetch(`/flashcards/${id}/content`)
         document.getElementById('invitationLink').value = window.location.href;
         document.getElementById('flashcardPublic').checked = data.isPublic;
         loadParticipants([], data.collaborators, true);
+        enableConnected(data);
         endLoading();
     })
     .catch(err => console.log(err));
 
 function modifyFlashcard() {
-    document.querySelector('.full-screen').style.display = 'flex';
-    let name = document.getElementById('flashcardName').value;
+    let title = document.getElementById('flashcardName').value;
+    if (title.length < 2) {
+        navbar('settings');
+        return toast({ title: 'Erreur', message: 'Le titre doit contenir au moins 2 caractères', type: 'error', duration: 7500 });
+    }
     let description = document.getElementById('flashcardDescription').value;
     let isPublic = document.getElementById('flashcardPublic').checked;
-    fetch(`/flashcards/${id}/content`, {
+    navbar('loadingRessources');
+    fetch(`/flashcards/set`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            name,
+            title,
+            flashcardSetId: id,
             description,
             isPublic,
-            collaborators: participants,
         }),
     }).then(res => {
         res.json().then(data => {
             if (data.error) {
-                document.querySelector('.full-screen').style.display = 'none';
+                navbar('settings');
                 toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
+            } else {
+                toast({ title: 'Succès', message: 'Le jeu de flashcard a bien été modifié !', type: 'success', duration: 2500 });
                 setTimeout(() => {
                     window.location.reload();
-                }, 500);
-            } else {
-                toast({ title: 'Succès', message: "L'alumet a bien été modifié !", type: 'success', duration: 2500 });
-                setTimeout(() => {
-                    window.location.href = `/dashboard`;
                 }, 2500);
             }
         });

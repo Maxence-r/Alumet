@@ -14,7 +14,7 @@ const sendInvitations = require('../../../middlewares/mailManager/sendInvitation
 const Comment = require('../../../models/comment');
 const authorizeA2F = require('../../../middlewares/authentification/authorizeA2f');
 const Conversation = require('../../../models/conversation');
-router.get('/:alumet/content', authorize('alumetPrivate'), validateObjectId, async (req, res) => {
+router.get('/:alumet/content', authorize('alumet', 'alumetPrivate'), validateObjectId, async (req, res) => {
     try {
         const alumet = await Alumet.findOne({
             _id: req.params.alumet,
@@ -164,33 +164,12 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
     }
 });
 
-router.put('/collaborators/:alumet', authorize('alumetAdmins'), async (req, res) => {
+router.put('/collaborators/:alumet', authorize('alumet', 'itemAdmins'), async (req, res) => {
     sendInvitations(req, res, 'alumet', req.params.alumet);
     res.json({ success: true });
 });
 
-router.delete('/:alumet', authorize('alumetAdmins'), validateObjectId, authorizeA2F, async (req, res) => {
-    try {
-        const alumet = await Alumet.findOne({ _id: req.params.alumet });
-        if (!alumet) {
-            return res.status(404).json({ error: 'Unable to proceed your requests' });
-        }
-        if (alumet.owner !== req.user.id) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
-        let conversation = await Conversation.findOne({ _id: alumet.chat });
-        if (conversation) {
-            await conversation.remove();
-        }
-        await alumet.remove();
-        res.json({ success: true });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'An error occurred while deleting the alumet.' });
-    }
-});
-
-router.delete('/:alumet/participant/:participant', authorize('alumetAdmins'), validateObjectId, async (req, res) => {
+router.delete('/:alumet/participant/:participant', authorize('alumet', 'itemAdmins'), validateObjectId, async (req, res) => {
     try {
         const alumet = await Alumet.findOne({ _id: req.params.alumet });
         if (!alumet) {

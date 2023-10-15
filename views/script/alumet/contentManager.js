@@ -1,6 +1,3 @@
-const path = window.location.pathname;
-const parts = path.split('/');
-const id = parts[parts.length - 1];
 let alumet = {};
 
 function getContent() {
@@ -30,32 +27,12 @@ function getContent() {
                 const parent = button.parentNode;
                 parent.insertBefore(list, button);
             });
-            if (!data.admin) {
-                document.querySelectorAll('.adminsOnly').forEach(el => {
-                    el.style.display = 'none';
-                });
-            }
+
             if (data.user_infos) {
-                user = data.user_infos;
-                if (data.admin) {
-                    document.querySelectorAll('.admin').forEach(el => {
-                        el.style.display = 'block';
-                    });
-                }
                 currentConversation = data.chat;
                 loadConversation(data.chat);
-                document.querySelector('#profile > img').src = '/cdn/u/' + data.user_infos.icon;
-                document.querySelector('.user-infos > img').src = '/cdn/u/' + data.user_infos.icon;
-                document.querySelector('.user-details > h3').innerText = data.user_infos.username;
-                document.querySelector('.user-details > p').innerText = 'Connecté';
-                document.querySelector('.profile > .row-bottom-buttons').classList.add('connected');
-                loadFiles();
-            } else {
-                document.querySelectorAll('.connectedOnly').forEach(el => {
-                    el.style.display = 'none';
-                });
             }
-
+            enableConnected(data);
             loadParticipants(data.participants, data.collaborators, alumet.admin);
             endLoading();
             socket.emit('joinAlumet', alumet._id, data.user_infos?._id);
@@ -121,55 +98,6 @@ async function modifyAlumet() {
         })
         .catch(error => {
             console.error(error);
-        });
-}
-
-function engageDeletion() {
-    createPrompt({
-        head: "Suppression de l'Alumet",
-        desc: 'Êtes-vous sûr de vouloir supprimer cet alumet ? Cette action est irréversible et entraînera la suppression de toutes les données associées à cet alumet.',
-        action: 'deleteAlumet()',
-    });
-}
-
-function deleteAlumet() {
-    fetch('/auth/a2f', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(res => res.json())
-        .then(data => {
-            if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
-            }
-            createPrompt({
-                head: "Confirmation de suppression de l'Alumet",
-                desc: "Un code de sécurité vous a été envoyé par mail. Veuillez le saisir ci-dessous pour confirmer la suppression de l'alumet. ",
-                placeholder: 'Code de sécurité',
-                action: 'confirmDeleteAlumet()',
-            });
-        });
-}
-
-function confirmDeleteAlumet() {
-    fetch('/alumet/' + alumet._id, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            code: document.getElementById('prompt-input').value,
-        }),
-    })
-        .then(res => res.json())
-        .then(data => {
-            if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
-            } else {
-                window.location.href = '/dashboard';
-            }
         });
 }
 
