@@ -56,41 +56,10 @@ function getContent() {
                 });
             }
 
-            loadParticipants(data.participants, data.collaborators);
-
+            loadParticipants(data.participants, data.collaborators, alumet.admin);
+            endLoading();
             socket.emit('joinAlumet', alumet._id, data.user_infos?._id);
-            document.querySelector('body > section').style.display = 'none';
         });
-}
-
-function loadParticipants(participants, collaborators) {
-    const participantsContainer = document.querySelector('.participants-container');
-    if (participants.length === 0 && collaborators.length === 0) return;
-    participantsContainer.innerHTML = '';
-
-    const createParticipant = (participant, role) => {
-        const user = document.createElement('div');
-        user.classList.add('user');
-        user.dataset.id = participant._id;
-        if (alumet.admin) user.setAttribute('onclick', `deleteParticipant("${participant._id}")`);
-        const userImage = document.createElement('img');
-        userImage.src = `/cdn/u/${participant.icon}`;
-
-        const userInfo = document.createElement('div');
-        const userName = document.createElement('h3');
-        userName.textContent = `${participant.name} ${participant.lastname}`;
-        const userRole = document.createElement('p');
-        userRole.textContent = role;
-        userInfo.appendChild(userName);
-        userInfo.appendChild(userRole);
-
-        user.appendChild(userImage);
-        user.appendChild(userInfo);
-        participantsContainer.prepend(user);
-    };
-
-    participants.forEach(participant => createParticipant(participant, 'Participant'));
-    collaborators.forEach(collaborator => createParticipant(collaborator, 'Collaborateur'));
 }
 
 function deleteParticipant(id) {

@@ -116,3 +116,5 @@ function handleRedirect() {
         }, 500);
     }
 }
+
+endLoading();

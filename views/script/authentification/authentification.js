@@ -42,6 +42,7 @@ function load(boolean) {
                 }
             }
             document.querySelector('.access').classList.remove('load');
+            endLoading();
         })
         .catch(err => console.log(err));
 }

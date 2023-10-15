@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
+@font-face {
+    font-family: 'Mona Sans';
+    src: url('./../assets/fonts/MonaSans.woff2') format('woff2 supports variations'), url('../assets/fonts/MonaSans.woff2') format('woff2-variations');
+    font-weight: 200 900;
+    font-stretch: 75% 125%;
+}
+
 * {
     font-family: 'Plus Jakarta Sans', sans-serif;
     scrollbar-width: thin;
@@ -23,7 +30,7 @@
     color: white;
     font-weight: 500;
     box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
     cursor: pointer;
 }
 
@@ -146,6 +153,83 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.hidden-loading {
+    animation: hide 0.3s ease-in-out forwards;
+    animation-delay: 0.3s;
+}
+
+.hidden-loading > h4 {
+    animation: goUp 0.3s ease-in-out forwards !important;
+}
+
+.hidden-loading > .loader-bar {
+    animation: hide 0.3s ease-in-out forwards !important;
+}
+
+@keyframes goUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes hide {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.loader-bar {
+    opacity: 0;
+    animation: opacity 1s ease-in-out forwards;
+}
+
+@keyframes opacity {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.loading > h4,
+.loading > h4 > span {
+    font-family: 'Mona Sans';
+    font-weight: 600;
+    font-size: 1.8rem;
+    font-stretch: 150%;
+    margin: 10px 0;
+}
+
+.loading > h4 {
+    opacity: 0;
+    animation: showUp 0.6s ease-in-out forwards;
+    animation-delay: 0.3s;
+}
+
+@keyframes showUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.loading > h4 > span {
+    color: #1e54e3;
 }
 
 .drop-box {
@@ -351,6 +435,7 @@ input {
     border-radius: 10px;
     padding: 0 20px;
     height: 50px;
+    outline-color: white;
     font-size: 0.9rem;
     outline-color: #e5e5e5;
     border: 1px solid #e5e5e5;
@@ -536,10 +621,19 @@ input:checked + .slide:before {
 
 input:focus,
 textarea:focus,
-select:focus {
+select:focus,
+.option:hover {
     outline-style: solid;
-    outline-width: 2px;
+    outline-width: 3px;
     outline-color: #0597ff;
+    outline-offset: 2px;
+}
+
+.description-container:focus {
+    outline-style: solid;
+    outline-width: 3px;
+    outline-color: #0597ff;
+    outline-offset: 2px;
 }
 
 .slide.round {
@@ -970,7 +1064,7 @@ select:focus {
 }
 
 .loader-bar {
-    width: 100%;
+    width: 300px;
     height: 4.8px;
     display: inline-block;
     position: relative;

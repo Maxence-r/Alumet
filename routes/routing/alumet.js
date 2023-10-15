@@ -45,7 +45,6 @@ router.put('/new', authorize('professor'), upload.single('file'), uploadAndSaveT
             alumet.chat = conversation._id;
             req.alumetId = alumet._id;
             await alumet.save();
-            console.log(alumet);
             sendInvitations(req, res, 'alumet', alumet._id);
             res.json({ alumet });
         } else {

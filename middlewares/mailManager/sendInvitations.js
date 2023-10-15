@@ -8,7 +8,7 @@ async function sendInvitations(req, res, type, reference) {
     try {
         if (typeof req.body.collaborators === 'string') req.body.collaborators = JSON.parse(req.body.collaborators);
         const collaborators = req.body.collaborators;
-        console.log(collaborators);
+
         let owner = await Account.findById(req.user.id);
         for (const participant of collaborators) {
             let account = await Account.findOne({
@@ -16,18 +16,16 @@ async function sendInvitations(req, res, type, reference) {
                 _id: participant,
             });
             let referenceDetails;
+
             if (type === 'flashcards') {
-                console.log('flashcards', reference);
                 referenceDetails = await flashCardSet.findById(reference);
             } else if (type === 'alumet') {
                 referenceDetails = await Alumet.findById(reference);
             }
-            console.log(referenceDetails);
 
             let invitationCheck = await Invitation.findOne({ to: participant, reference: reference });
 
             if (!account || invitationCheck || referenceDetails.collaborators.includes(participant)) {
-                console.log('invitation already sent');
                 continue;
             }
             const invitation = new Invitation({

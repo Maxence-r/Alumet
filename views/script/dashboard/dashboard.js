@@ -36,6 +36,7 @@ fetch('/dashboard/items')
             const flashcardsBox = createFlashcardsBox(flashcardSet.subject, flashcardSet.likes.length, flashcardSet.title, flashcardSet.description, flashcardSet._id);
             document.querySelector('.flashcards').appendChild(flashcardsBox);
         });
+        endLoading();
     });
 
 document.addEventListener('keydown', function (event) {

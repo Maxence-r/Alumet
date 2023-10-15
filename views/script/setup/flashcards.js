@@ -34,6 +34,8 @@ function createFlashcards() {
     });
 }
 
+endLoading();
+
 const userPrompt = document.querySelector('#user-prompt');
 const debounceDelay = 500;
 let debounceTimeoutId;

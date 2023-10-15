@@ -12,7 +12,7 @@ const Wall = require('../../../models/wall');
 const Account = require('../../../models/account');
 const Comment = require('../../../models/comment');
 
-router.put('/:alumet/:wall', validatePost, authorize('alumetParticipants'), authorize('alumetPrivate'), async (req, res) => {
+router.put('/:alumet/:wall', validatePost, authorize('alumetPrivate'), async (req, res) => {
     const postId = req.body.postId;
     const postFields = {
         title: req.body.title,

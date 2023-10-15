@@ -244,8 +244,10 @@ section.access {
 }
 
 .container > h1 {
-    font-size: 2.1rem;
+    font-family: 'Mona Sans';
+    font-size: 2rem;
     font-weight: 800;
+    font-stretch: 150%;
     color: rgb(0, 0, 0);
     margin-bottom: 20px;
     margin: 0;
@@ -253,6 +255,7 @@ section.access {
 }
 
 .container > h1 > span {
+    font-family: inherit;
     color: #296eff;
 }
 

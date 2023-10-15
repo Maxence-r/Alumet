@@ -128,3 +128,5 @@ document.querySelector('.confirm').addEventListener('click', e => {
             document.querySelector('.full-screen').style.display = 'none';
         });
 });
+
+endLoading();

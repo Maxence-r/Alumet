@@ -27,7 +27,8 @@
     </head>
     <body>
         <section class="loading" style="display: flex">
-            <span class="loader-upload"></span>
+            <h4>Alumet <span>Education</span></h4>
+            <span class="loader-bar"></span>
         </section>
 
         <div class="prompt-popup popup">
@@ -65,8 +66,8 @@
         <div class="alumet">
             <div class="header">
                 <div>
-                    <h1>Capitales des Etats Unis d’Amériques</h1>
-                    <p>Liste des capitales des états unis d’Amérique du nord et du sud</p>
+                    <h1 id="flashcard-title">Titre du jeu de flashcard</h1>
+                    <p id="flashcard-description">Description du jeu de flashcard</p>
                 </div>
                 <button class="large">Reviser</button>
             </div>
@@ -123,14 +124,14 @@
 
             <div class="overlay-content settings">
                 <div class="header-setting">
-                    <h1>Flashcard Name</h1>
+                    <h1>Paramètres</h1>
                     <button onclick="modifyAlumet()" class="large adminsOnly">Enregistrer</button>
                 </div>
                 <div class="divider"></div>
                 <div class="grid-user-container">
                     <div class="item">
                         <h3>Nom du jeu de flashcards</h3>
-                        <input type="text" name="alumetName" id="alumetName" placeholder="Nom de l'Alumet" autocomplete="on" />
+                        <input type="text" name="flashcardName" id="flashcardName" placeholder="Nom de l'Alumet" autocomplete="on" />
                     </div>
                     <div class="item">
                         <h3>Description du jeu de flashcards</h3>
@@ -138,7 +139,7 @@
                     </div>
                     <div class="item">
                         <h3>Lien de partage</h3>
-                        <input disabled="true" type="text" name="invitationCode" autocomplete="on" id="invitationCode" placeholder="Aucun code d'invitation" />
+                        <input disabled="true" type="text" name="invitationLink" autocomplete="on" id="invitationLink" placeholder="Aucun code d'invitation" />
                     </div>
                     <div class="item">
                         <h3>Option d'administrations</h3>
@@ -146,7 +147,7 @@
                             <div class="option">
                                 <h1>Rendre publiquement accessible aux étudiants</h1>
                                 <label class="switch">
-                                    <input id="alumet-private" type="checkbox" />
+                                    <input id="flashcardPublic" type="checkbox" />
                                     <span class="slide round"></span>
                                 </label>
                             </div>
@@ -167,7 +168,7 @@
                 <div class="participants-container">
                     <div class="information">
                         <img src="../assets/global/collaboration.svg" />
-                        <h3>Aucun participants</h3>
+                        <h3>Aucun collaborateurs</h3>
                         <p>Les participants et collaborateurs de votre Alumet seront afficher ici, vous pourrez ensuite les gerer, commencer par en ajouter.</p>
                     </div>
                 </div>
@@ -193,14 +194,7 @@
                     <button onclick="window.location.href=`/portal/${alumet._id}`" class="large">Se connecter</button>
                 </div>
             </div>
-            <div class="overlay-content latex">
-                <h1>Ecrire au format LaTeX</h1>
-                <div class="divider"></div>
-                <input id="latexInput" type="text" placeholder="Ecrivez votre formule" />
-                <div class="divider"></div>
-                <img id="latexPreview" src="https://latex.codecogs.com/svg.image?" />
-                <button onclick="insertLatex()" class="large confirm">Inserer la formule</button>
-            </div>
+
             <div class="overlay-content loadfile">
                 <div class="loading full-screen">
                     <span class="loader"></span>
@@ -237,11 +231,11 @@
                 <div class="grid-user-container">
                     <div class="item">
                         <h3>Ecrivez ici la question</h3>
-                        <input type="text" name="alumetName" id="alumetName" placeholder="Question" autocomplete="on" />
+                        <input type="text" name="flashcardName" id="flashcardName" placeholder="Question" autocomplete="on" />
                     </div>
                     <div class="item">
                         <h3>Ecrivez ici la réponse</h3>
-                        <input type="text" name="alumetDescription" id="alumetDescription" placeholder="Réponse" autocomplete="on" />
+                        <input type="text" name="flashcardDescription" id="flashcardDescription" placeholder="Réponse" autocomplete="on" />
                     </div>
                 </div>
 
@@ -282,6 +276,6 @@
         const socket = io();
     </script>
     <script src="../../script/global.js"></script>
-
+    <script src="../../script/applications/flashcards.js"></script>
     <script src="../script/navigation.js"></script>
 </html>

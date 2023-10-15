@@ -350,6 +350,7 @@ body {
     border-radius: 10px;
     object-fit: cover;
     max-height: 200px;
+    margin-bottom: 15px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
@@ -453,6 +454,7 @@ body {
     border: none;
     z-index: 10;
     transition: all 0.3s ease-in-out;
+    border-radius: 10px;
 }
 
 .navbar > button > p {
@@ -732,7 +734,7 @@ h1 {
     flex-wrap: wrap;
     gap: 5px;
     margin: 10px 0;
-    height: 38px;
+    min-height: 38px;
 }
 
 .colorSelector {

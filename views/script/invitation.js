@@ -11,6 +11,7 @@ function fetchReferenceInfos() {
         .then(res => res.json())
         .then(data => {
             loadReferenceInfos(data.referenceInfos, data.inviter, data.invitation);
+            endLoading();
         })
         .catch(err => console.log(err));
 }

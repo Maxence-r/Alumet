@@ -17,7 +17,6 @@ router.get('/:id', validateObjectId, async (req, res) => {
                 _id: req.params.id,
             });
             if (!alumet) {
-                console.log('Alumet not found');
                 return res.redirect('/404');
             }
             if (alumet.participants.includes(req.user.id) || alumet.owner === req.user.id || alumet.collaborators.includes(req.user.id)) {
@@ -40,12 +39,11 @@ router.post('/authorize/:id', authorize(), async (req, res) => {
         if (mongoose.Types.ObjectId.isValid(req.params.id)) {
             alumet = await Alumet.findById(req.params.id);
         } else {
-            console.log(req.body.code);
             alumet = await Alumet.findOne({
                 code: req.body.code,
             });
         }
-        console.log(alumet);
+
         if (!alumet) {
             return res.status(404).json({
                 error: 'Ce code ne correspond à aucun alumet',
@@ -125,7 +123,7 @@ router.post('/accept/:id', authorize(), async (req, res) => {
         } else if (invitation.type === 'flashcards') {
             referenceDetails = await flashCardSet.findById(invitation.reference);
         }
-        console.log(referenceDetails);
+
         if (!referenceDetails) {
             invitation.remove();
             setTimeout(() => {

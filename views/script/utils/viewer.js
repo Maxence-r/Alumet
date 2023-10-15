@@ -82,8 +82,8 @@ function loadViewer(mimetype, id) {
             document.getElementById('default').style.display = 'flex';
     }
     setTimeout(() => {
-        document.querySelector('.full-screen-infos').style.display = 'none';
-    }, 3000);
+        endLoading();
+    }, 1000);
 }
 
 function downloadFile() {

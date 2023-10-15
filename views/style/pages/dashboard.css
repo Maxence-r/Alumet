@@ -599,7 +599,7 @@ body {
     display: flex;
     position: relative;
     flex-direction: column;
-    min-width: 400px;
+    min-width: 350px;
     overflow: hidden;
     background-color: white;
     border-radius: 10px;
@@ -937,14 +937,14 @@ h2 {
 }
 
 .new-item-infos > h3 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 500;
     margin: 0;
     color: #000000;
 }
 
 .new-item-infos > p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 400;
     margin: 0;
     color: #9ea1a7;
@@ -987,6 +987,8 @@ input {
 }
 
 h3 {
+    font-family: 'Mona Sans';
+    font-stretch: 150%;
     font-size: 2.5rem;
     font-weight: 700;
     margin: 0;

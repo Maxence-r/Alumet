@@ -165,17 +165,8 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
 });
 
 router.put('/collaborators/:alumet', authorize('alumetAdmins'), async (req, res) => {
-    sendInvitations(
-        req,
-        res,
-        () => {
-            res.json({
-                success: true,
-            });
-        },
-        'alumet',
-        req.params.alumet
-    );
+    sendInvitations(req, res, 'alumet', req.params.alumet);
+    res.json({ success: true });
 });
 
 router.delete('/:alumet', authorize('alumetAdmins'), validateObjectId, authorizeA2F, async (req, res) => {

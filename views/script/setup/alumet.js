@@ -61,3 +61,5 @@ userPrompt.addEventListener('input', e => {
         searchUsers(query, type);
     }, debounceDelay);
 });
+
+endLoading();

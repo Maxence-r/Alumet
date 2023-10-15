@@ -185,9 +185,12 @@ function toggleParticipant(id) {
     document.querySelector(`[data-id="${id}"]`).classList.toggle('selected-user');
 }
 
-window.onload = () => {
-    document.querySelector('.loading').style.display = 'none';
-};
+function endLoading() {
+    document.querySelector('.loading').classList.add('hidden-loading');
+    setTimeout(() => {
+        document.querySelector('.loading').style.display = 'none';
+    }, 600);
+}
 
 const searchUsers = async (query, type) => {
     if (query.length < 2 && participants.length === 0) {

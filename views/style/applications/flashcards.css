@@ -12,7 +12,7 @@ body {
     align-items: center;
     padding: 10px;
     width: calc(100% - 22px);
-    height: calc(70px - 22px);
+    min-height: calc(70px - 22px);
     border: 1px solid #dddddd;
     border-radius: 10px;
 }
@@ -82,7 +82,7 @@ body {
     border: 1px dashed #dddddd !important;
     height: 125px;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
