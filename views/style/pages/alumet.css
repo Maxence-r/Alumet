@@ -340,6 +340,13 @@ body {
     justify-content: space-between;
 }
 
+.header-setting > div > p {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin: 0;
+    color: #9ea1a7;
+}
+
 .settings {
     overflow-y: auto;
 }
@@ -348,7 +355,6 @@ body {
     width: 100%;
     min-height: 150px;
     border-radius: 10px;
-    margin-bottom: 10px;
     object-fit: cover;
     max-height: 200px;
     margin-bottom: 15px;

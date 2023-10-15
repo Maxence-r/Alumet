@@ -9,7 +9,6 @@ function getContent() {
             document.querySelector('body').style.backgroundImage = `url(/cdn/u/${data.background})`;
             document.querySelector('.settings > img').src = `/cdn/u/${data.background}`;
             document.getElementById('alumetName').value = data.title;
-            document.querySelector('.header-setting > h1').innerText = data.title;
             document.getElementById('alumetDescription').value = data.description;
             if (data.private && data.code) {
                 document.getElementById('invitationCode').value = data.code;
