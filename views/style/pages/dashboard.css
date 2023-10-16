@@ -940,7 +940,7 @@ h2 {
 
 .items-container {
     display: flex;
-
+    margin-bottom: 15px;
     flex-direction: column;
     gap: 15px;
 }
@@ -1393,7 +1393,7 @@ h3 {
     height: 40px;
     color: var(--text);
     box-shadow: none;
-    background-color: #f3f3f3;
+
     font-size: 0.8rem;
 }
 

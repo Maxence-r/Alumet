@@ -375,7 +375,7 @@
     font-size: 0.8rem;
     font-weight: 400;
     margin: 0;
-    color: #b4b4b4;
+    color: var(--text-secondary);
 }
 
 .files-header > h3:nth-child(1) {
@@ -438,11 +438,11 @@
 .loading-box > img {
     width: 20px;
 }
-.indications > h3 {
+.indications > p {
     font-size: 0.9rem;
     font-weight: 500;
     margin: 0;
-    color: var(--text);
+    color: var(--text-secondary);
     text-align: center;
     transition: all 0.3s ease-in-out;
 }
@@ -1019,13 +1019,12 @@ select:focus,
 .beta {
     display: flex;
     flex-direction: row;
-
     align-items: center;
     justify-content: center;
     width: 50px;
     height: 30px;
     border-radius: 6px;
-    color: var(--layer-color);
+    color: var(--text-reverse);
     font-size: 0.75rem;
     background-color: var(--accent-color);
 }
