@@ -1,3 +1,22 @@
+const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+if (prefersDarkMode) {
+    document.documentElement.style.setProperty('--background-color', '#1f1f1f');
+    document.documentElement.style.setProperty('--layer-color', '#28292a');
+    document.documentElement.style.setProperty('--text', '#ffffff');
+    document.documentElement.style.setProperty('--text-reverse', '#ffffff');
+    document.documentElement.style.setProperty('--text-secondary', '#9ea1a7');
+    document.documentElement.style.setProperty('--border', '#484849');
+    document.documentElement.style.setProperty('--accent-color', '#296eff');
+} else {
+    document.documentElement.style.setProperty('--background-color', '#f6f8fc');
+    document.documentElement.style.setProperty('--layer-color', '#ffffff');
+    document.documentElement.style.setProperty('--accent-color', '#296eff');
+    document.documentElement.style.setProperty('--text', '#000000');
+    document.documentElement.style.setProperty('--text-reverse', '#ffffff');
+    document.documentElement.style.setProperty('--text-secondary', '#9ea1a7');
+    document.documentElement.style.setProperty('--border', '#e5e5e5');
+}
 let participants = [];
 let user;
 let previousSender = null;
@@ -187,10 +206,12 @@ function toggleParticipant(id) {
 }
 
 function endLoading() {
-    document.querySelector('.loading').classList.add('hidden-loading');
+    setTimeout(() => {
+        document.querySelector('.loading').classList.add('hidden-loading');
+    }, 600);
     setTimeout(() => {
         document.querySelector('.loading').style.display = 'none';
-    }, 600);
+    }, 1200);
 }
 
 const searchUsers = async (query, type) => {

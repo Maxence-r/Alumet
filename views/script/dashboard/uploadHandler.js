@@ -69,5 +69,4 @@ async function sendFiles() {
         document.querySelector('.drop-box').classList.remove('ready-to-send');
         loadFolder(localStorage.getItem('currentFolder'));
     }
-    updateStats();
 }

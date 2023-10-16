@@ -1,7 +1,7 @@
 body {
     display: flex;
     flex-direction: row;
-    background: #f6f8fc;
+    background: var(--background-color);
     margin: 0;
     padding: 15px;
     gap: 15px;
@@ -25,7 +25,7 @@ section.access {
     height: 100%;
     border-radius: 20px;
     gap: 10px;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--layer-color);
 }
 
 .compatibility {
@@ -115,7 +115,7 @@ section.access {
     font-size: 0.8rem;
     font-weight: 400;
     cursor: pointer;
-    color: rgb(124, 124, 124);
+    color: var(--text-secondary);
     margin: 0;
 }
 .container > div {
@@ -171,14 +171,14 @@ section.access {
 .user-details > h3 {
     font-size: 1.1rem;
     font-weight: 500;
-    color: rgb(0, 0, 0);
+    color: var(--text);
     margin: 0;
 }
 
 .user-details > p {
     font-size: 0.8rem;
     font-weight: 400;
-    color: rgb(124, 124, 124);
+    color: var(--text-secondary);
     margin: 0;
 }
 
@@ -189,7 +189,7 @@ section.access {
 .full-screen > h3 {
     font-size: 1.1rem;
     font-weight: 500;
-    color: rgb(0, 0, 0);
+    color: var(--text);
     margin: 0;
     margin-top: 20px;
     text-align: center;
@@ -248,7 +248,7 @@ section.access {
     font-size: 2rem;
     font-weight: 800;
     font-stretch: 150%;
-    color: rgb(0, 0, 0);
+    color: var(--text);
     margin-bottom: 20px;
     margin: 0;
     margin-right: auto;
@@ -256,7 +256,7 @@ section.access {
 
 .container > h1 > span {
     font-family: inherit;
-    color: #296eff;
+    color: var(--accent-color);
 }
 
 .full-screen {
@@ -267,7 +267,7 @@ section.access {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: white;
+    background-color: var(--layer-color);
     height: 100%;
     z-index: 500;
 }
