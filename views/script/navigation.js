@@ -2,8 +2,8 @@ const navButtons = document.querySelectorAll('.navbar > button');
 const sections = document.querySelectorAll('.overlay > div');
 const navbarMenu = document.querySelector('.menu');
 const burgerMenu = document.getElementById('burger');
-const url = window.location.href;
-const id = url.split('/').pop();
+const url = new URL(window.location.href);
+const id = url.pathname.split('/').pop();
 function navbar(id, currentItem, newItem) {
     if (currentItem) {
         localStorage.setItem('currentItem', currentItem);

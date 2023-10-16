@@ -7,6 +7,7 @@ const path = require('path');
 const Flashcards = require('../../models/flashcards');
 const Account = require('../../models/account');
 const authorize = require('../../middlewares/authentification/authorize');
+const Flashcard = require('../../models/flashcards');
 router.put('/set', authorize(), async (req, res) => {
     try {
         const { title, description, subject, isPublic, flashcardSetId } = req.body;
@@ -55,29 +56,49 @@ router.get('/:flashcard/content', async (req, res) => {
     try {
         const flashcardSet = await FlashcardSet.findById(req.params.flashcard);
         if (!flashcardSet) return res.redirect('/404');
-        Flashcards.find({ flashcardSetId: req.params.id }, async (err, flashcards) => {
-            if (err) return res.json({ err });
-            const collaborators = [];
-            const getCollaboratorInfo = async () => {
-                for (const collaboratorId of flashcardSet.collaborators) {
-                    const collaborator = await Account.findById(collaboratorId, 'username icon _id name lastname');
-                    if (collaborator) {
-                        collaborators.push(collaborator);
-                    }
+        const flashcards = await Flashcard.find({ flashcardSetId: flashcardSet._id });
+        const collaborators = [];
+        const getCollaboratorInfo = async () => {
+            for (const collaboratorId of flashcardSet.collaborators) {
+                const collaborator = await Account.findById(collaboratorId, 'username icon _id name lastname');
+                if (collaborator) {
+                    collaborators.push(collaborator);
                 }
-            };
-            await getCollaboratorInfo();
-            const user_infos = req.user ? { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname } : null;
-            const isAdmin = req.user && (req.user._id.toString() === flashcardSet.owner.toString() || flashcardSet.collaborators.includes(req.user._id.toString()));
-            const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards, collaborators, user_infos, admin: isAdmin };
-            res.json(flashcardSetInfo);
-        });
+            }
+        };
+        await getCollaboratorInfo();
+        const user_infos = req.user ? { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname } : null;
+        const isAdmin = req.user && (req.user._id.toString() === flashcardSet.owner.toString() || flashcardSet.collaborators.includes(req.user._id.toString()));
+        const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards, collaborators, user_infos, admin: isAdmin };
+        res.json(flashcardSetInfo);
     } catch (error) {
         console.log(error);
         res.json({ error });
     }
 });
 
-/* router.put('/:id/flashcard', authorize(), async (req, res) => { */
+router.put('/:flashcard/flashcard', authorize('flashcard', 'itemAdmins'), async (req, res) => {
+    try {
+        const { question, answer, flashcardId } = req.body;
+        let flashcard;
+        if (flashcardId) {
+            flashcard = await Flashcards.findById(req.params.flashcard);
+            flashcard.question = question;
+            flashcard.answer = answer;
+        } else {
+            flashcard = new Flashcards({
+                flashcardSetId: req.params.flashcard,
+                question,
+                answer,
+                flashcardSetId: req.params.flashcard,
+            });
+        }
+        await flashcard.save();
+        res.json({ flashcard });
+    } catch (error) {
+        console.log(error);
+        res.json({ error });
+    }
+});
 
 module.exports = router;
