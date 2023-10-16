@@ -300,7 +300,14 @@
                 <input maxlength="300" id="postTitle" type="text" placeholder="Titre de la publication" />
                 <div id="toolbar">
                     <div>
-                        <button id="bold" onclick="navbar('latex')">Latex</button>
+                        <button onclick="navbar('latex')" id="latex">
+                            <img src="../assets/global/latex.svg" />
+                        </button>
+                        <!-- <button onclick="navbar('audio')" id="latex">
+                            <img src="../assets/global/mic.svg" />
+                        </button> -->
+                    </div>
+                    <div>
                         <button id="bold" onclick="makeBold()"><b>G</b></button>
                         <button id="italic" onclick="makeItalic()"><i>I</i></button>
                         <button id="underline" onclick="doUnderline()"><u>S</u></button>

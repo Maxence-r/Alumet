@@ -7,33 +7,13 @@
     font-stretch: 75% 125%;
 }
 
-/* :root {
-    --background-color: #1f1f1f;
-    --layer-color: #28292a;
-    --text: #ffffff;
-    --text-reverse: #ffffff;
-    --text-secondary: #9ea1a7;
-    --border: #484849;
-    --accent-color: #296eff;
-}
-
-/* :root {
-    --background-color: #f6f8fc;
-    --layer-color: #ffffff;
-    --accent-color: #296eff;
-    --text: #000000;
-    --text-reverse: #ffffff;
-    --text-secondary: #9ea1a7;
-    --border: #e5e5e5;
-} */
-
 * {
     font-family: 'Plus Jakarta Sans', sans-serif;
     scrollbar-width: thin;
 }
 
 .large:hover {
-    filter: brightness(0.8);
+    background-color: #1e54e3;
     transform: scale(0.98);
 }
 
@@ -44,13 +24,13 @@
     height: 50px;
     white-space: nowrap;
     padding: 0 20px;
-    background-color: var(--accent-color);
+    background-color: #296eff;
     border-radius: 10px;
     border: none;
-    color: var(--text-reverse);
+    color: white;
     font-weight: 500;
     box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
     cursor: pointer;
 }
 
@@ -59,19 +39,17 @@
     flex-direction: column;
     position: absolute;
     width: 100%;
-    gap: 2px;
     top: 0;
     left: 0;
     height: 100%;
     z-index: 1500;
     align-items: center;
     justify-content: center;
-    background-color: var(--layer-color);
+    background-color: white;
 }
 
 .full-screen > h1 {
     font-size: 1.2rem;
-    color: var(--text);
     font-weight: 500;
     margin: 0;
     text-align: center;
@@ -81,7 +59,7 @@
     font-size: 0.9rem;
     font-weight: 400;
     margin: 0;
-    color: var(--text-secondary);
+    color: #9ea1a7;
     text-align: center;
 }
 
@@ -98,8 +76,8 @@
     padding: 0 20px;
     background-color: #fff;
     border-radius: 10px;
-    border: 2px solid var(--accent-color);
-    color: var(--accent-color);
+    border: 2px solid #296eff;
+    color: #296eff;
     font-weight: 600;
     box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
@@ -107,8 +85,8 @@
 }
 
 .active {
-    background-color: var(--background-color) !important;
-    border-radius: 8px;
+    background-color: #296eff !important;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 ::-webkit-scrollbar {
@@ -122,7 +100,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    box-shadow: inset 0 0 10px 10px var(--border);
+    box-shadow: inset 0 0 10px 10px #ebebeb;
     border-left: solid 3px transparent;
 }
 
@@ -133,7 +111,7 @@
 .button__text {
     display: flex;
     justify-content: center;
-    color: var(--layer-color);
+    color: #ffffff;
     transition: all 0.2s;
 }
 
@@ -148,7 +126,7 @@
     height: 16px;
     margin: auto;
     border: 2px solid transparent;
-    border-top-color: var(--layer-color);
+    border-top-color: #ffffff;
     border-radius: 50%;
     animation: button-loading-spinner 1s ease infinite;
 }
@@ -171,7 +149,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    background: var(--background-color);
+    background: #f1f1f1;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -227,7 +205,6 @@
 .loading > h4,
 .loading > h4 > span {
     font-family: 'Mona Sans';
-    color: var(--text);
     font-weight: 600;
     font-size: 1.8rem;
     font-stretch: 150%;
@@ -267,13 +244,13 @@
     border-radius: 8px;
     height: 15%;
     padding: 10px;
-    border: 2px dashed var(--border);
+    border: 2px dashed #e5e5e5;
     margin-bottom: 10px;
     transition: all 0.3s ease-in-out;
 }
 
 .drop-box:hover {
-    background-color: var(--background-color);
+    background-color: #f6f8fc;
 }
 
 .sending-box {
@@ -285,7 +262,7 @@
     border-radius: 5px;
     bottom: 10px;
     height: 50px;
-    background-color: var(--layer-color);
+    background-color: white;
     box-shadow: 0px 0px 23px 0px rgba(0, 0, 0, 0.08);
     transform: translateY(30%);
     opacity: 0;
@@ -336,7 +313,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background-color: var(--accent-color);
+    background-color: #296eff;
     transform: scale(0.9);
     opacity: 0;
     transition: all 0.3s ease-in-out;
@@ -355,7 +332,7 @@
     font-size: 0.9rem;
     font-weight: 500;
     margin: 0;
-    color: var(--text);
+    color: #000000;
     text-align: left;
 }
 
@@ -366,7 +343,7 @@
     position: relative;
     width: calc(100% - 2px);
     min-height: 50px;
-    border: 1px solid var(--border);
+    border: 1px solid #f3f3f3;
     border-radius: 10px;
 }
 
@@ -431,7 +408,7 @@
     justify-content: center;
     height: 100%;
     min-width: 50px;
-    background-color: var(--background-color);
+    background-color: #f6f8fc;
     border-radius: 4px;
 }
 
@@ -442,7 +419,11 @@
     font-size: 0.9rem;
     font-weight: 500;
     margin: 0;
+<<<<<<< HEAD
     color: var(--text-secondary);
+=======
+    color: #6a6a6a;
+>>>>>>> parent of 4f2a382... Dark theme
     text-align: center;
     transition: all 0.3s ease-in-out;
 }
@@ -458,12 +439,10 @@ input {
     border-radius: 10px;
     padding: 0 20px;
     height: 50px;
-    outline-color: var(--layer-color);
+    outline-color: white;
     font-size: 0.9rem;
     outline-color: #e5e5e5;
-    border: 1px solid var(--border);
-    background-color: transparent;
-    color: var(--text);
+    border: 1px solid #e5e5e5;
 }
 
 textarea {
@@ -516,7 +495,6 @@ textarea[placeholder] {
     border-radius: 10px;
     font-size: 0.8rem;
     z-index: 20;
-    color: var(--text);
     text-align: center;
 }
 
@@ -532,7 +510,7 @@ textarea[placeholder] {
 }
 .reded {
     background-color: #c02b10;
-
+    color: white;
     box-shadow: none;
 }
 
@@ -555,7 +533,7 @@ textarea[placeholder] {
 .item > h3 {
     font-size: 1rem;
     font-weight: 400;
-    color: var(--text-secondary);
+    color: #9ea1a7;
     margin: 0;
 }
 
@@ -583,7 +561,7 @@ textarea[placeholder] {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--background-color);
+    background-color: #ccc;
     -webkit-transition: 0.4s;
     transition: 0.4s;
 }
@@ -595,7 +573,7 @@ textarea[placeholder] {
     width: 12px;
     left: 4px;
     bottom: 4px;
-    background-color: var(--layer-color);
+    background-color: white;
     -webkit-transition: 0.4s;
     transition: 0.4s;
 }
@@ -614,7 +592,7 @@ input:focus + .slide {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid var(--border);
+    border: 1px solid #e5e5e5;
     border-radius: 10px;
     padding: 0 15px;
     height: 48px;
@@ -636,7 +614,6 @@ input:focus + .slide {
 .option > h1 {
     font-size: 0.9rem;
     font-weight: 500;
-    color: var(--text);
     margin: 0;
 }
 
@@ -652,14 +629,14 @@ select:focus,
 .option:hover {
     outline-style: solid;
     outline-width: 3px;
-    outline-color: var(--accent-color);
+    outline-color: #0597ff;
     outline-offset: 2px;
 }
 
 .description-container:focus {
     outline-style: solid;
     outline-width: 3px;
-    outline-color: var(--accent-color);
+    outline-color: #0597ff;
     outline-offset: 2px;
 }
 
@@ -671,6 +648,42 @@ select:focus,
     border-radius: 50%;
 }
 
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 20px;
+    padding: 0 6px;
+    background: #f6f8fc;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    transition: all 0.2s ease-in-out;
+}
+
+.slider:hover {
+    opacity: 1;
+    background-color: #e1e2e4;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px;
+    height: 12px;
+    background: #1e54e3;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 30px;
+    height: 12px;
+    border-radius: 10px;
+    background: #1e54e3;
+    cursor: pointer;
+}
+
 .reded:hover {
     background-color: #8a1e0b;
 }
@@ -678,7 +691,7 @@ select:focus,
 .toast {
     display: flex;
     align-items: center;
-    background-color: var(--background-color);
+    background-color: #fff;
     border-radius: 5px;
     padding: 20px 0;
     padding-right: 20px;
@@ -761,7 +774,7 @@ select:focus,
 .toast__title {
     font-size: 16px;
     font-weight: 600;
-    color: var(--text);
+    color: #333;
     margin: 0;
     margin-bottom: 5px;
 }
@@ -769,21 +782,22 @@ select:focus,
 .toast__msg {
     font-size: 14px;
     overflow-wrap: anywhere;
-    color: var(--text-secondary);
+    color: #888;
     margin-top: 6px;
     line-height: 1.5;
     margin: 0;
 }
 
 .greyed {
-    background-color: var(--background-color);
-    color: var(--text);
+    background-color: #f6f8fc;
+    color: #000000;
     border-radius: 10px;
     min-height: 50px;
     box-shadow: none;
 }
 
 .greyed:hover {
+    background-color: #e6e6e6;
     border-radius: 10px;
 }
 
@@ -813,7 +827,7 @@ select:focus,
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: var(--layer-color);
+    background-color: white;
     border-radius: 10px;
 }
 
@@ -821,7 +835,7 @@ select:focus,
     font-size: 1rem;
     font-weight: 500;
     margin: 0;
-    color: var(--text);
+    color: #000000;
 }
 
 .details > p {
@@ -876,7 +890,7 @@ select:focus,
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background-color: var(--layer-color);
+    background-color: white;
     padding: 15px;
     border-radius: 10px;
     width: 550px;
@@ -887,27 +901,26 @@ select:focus,
     left: 0;
     display: none;
     background-color: #a82d17;
-    color: var(--layer-color);
+    color: #ffffff;
     box-shadow: none;
 }
 
 .prompt > h4 {
     display: block;
     font-size: 1rem;
-    color: var(--text-secondary);
+    color: #474747ec;
     margin: 0;
     font-weight: 500;
 }
 
 .prompt-buttons > button:nth-child(2) {
-    background-color: var(--background-color);
-    color: var(--text);
+    background-color: #f6f8fc;
+    color: #000000;
     box-shadow: none;
 }
 
 .prompt > h1 {
     font-size: 2rem;
-    color: var(--text);
     font-weight: 500;
     margin: 0;
 }
@@ -920,12 +933,12 @@ select:focus,
     font-size: 1.2rem;
     font-weight: 500;
     margin: 0;
-    color: var(--text);
+    color: #000000;
 }
 
 .users-fetch {
     position: relative;
-    border: 1px solid var(--border);
+    border: 1px solid #e5e5e5;
     border-radius: 10px;
     min-height: 60px;
     max-height: 600px;
@@ -993,14 +1006,14 @@ select:focus,
     font-size: 1rem;
     font-weight: 500;
     margin: 0;
-    color: var(--text);
+    color: #000000;
 }
 
 .user > div > p {
     font-size: 0.8rem;
     font-weight: 400;
     margin: 0;
-    color: var(--text-secondary);
+    color: #6a6a6a;
 }
 
 .users-fetch > .full-screen {
@@ -1013,7 +1026,7 @@ select:focus,
     margin: 0;
     margin-top: 10px;
     text-align: center;
-    color: var(--text);
+    color: #000000;
 }
 
 .beta {
@@ -1024,15 +1037,19 @@ select:focus,
     width: 50px;
     height: 30px;
     border-radius: 6px;
+<<<<<<< HEAD
     color: var(--text-reverse);
+=======
+    color: white;
+>>>>>>> parent of 4f2a382... Dark theme
     font-size: 0.75rem;
-    background-color: var(--accent-color);
+    background-color: #296eff;
 }
 
 .loader {
     width: 30px;
     height: 30px;
-    border: 2px solid var(--accent-color);
+    border: 2px solid #296eff;
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;
@@ -1065,7 +1082,7 @@ select:focus,
     content: '';
     width: 192px;
     height: 4.8px;
-    background: var(--accent-color);
+    background: #296eff;
     position: absolute;
     top: 0;
     left: 0;
@@ -1097,12 +1114,12 @@ select:focus,
     cursor: pointer;
     width: 100%;
     min-height: 50px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid #f3f3f3;
     transition: all 0.3s ease-in-out;
 }
 
 .file-item:hover {
-    background-color: var(--background-color);
+    background-color: #fafafa;
     border-radius: 5px;
 }
 
@@ -1110,7 +1127,7 @@ select:focus,
     font-size: 0.9rem;
     font-weight: 400;
     margin: 0;
-    color: var(--text);
+    color: #000000;
 }
 
 .file-name {
@@ -1151,15 +1168,14 @@ select:focus,
     z-index: 2000;
     align-items: center;
     justify-content: center;
-    background-color: var(--layer-color);
+    background-color: white;
 }
 
 select {
     height: 50px;
     border: none;
     outline: none;
-    background-color: var(--background-color);
-    color: var(--text);
+    background-color: #f6f8fc;
     border-radius: 10px;
     padding: 0 10px;
     width: calc(200px - 20px);
@@ -1170,7 +1186,7 @@ select {
     font-weight: 500;
     margin: 0;
     margin-left: 5px;
-    color: var(--text-reverse);
+    color: white;
 }
 
 .from-device {
@@ -1180,7 +1196,7 @@ select {
     align-items: center;
     padding: 10px;
     width: calc(100% - 20px);
-    background-color: var(--accent-color);
+    background-color: #296eff;
     border-radius: 10px;
 }
 

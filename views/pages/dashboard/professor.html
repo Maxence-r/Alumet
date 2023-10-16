@@ -61,20 +61,12 @@
             </div>
         </div>
         <div class="nav">
-            <button class="active" id="home">
-                <img src="../assets/global/home.svg" alt="home" />
-            </button>
-            <button id="cloud">
-                <img src="../assets/global/cloud.svg" alt="gestionnaire de fichiers" />
-            </button>
+            <button class="active" id="home"><img src="../assets/global/home.svg" alt="home" /></button> <button id="cloud"><img src="../assets/global/cloud.svg" alt="gestionnaire de fichiers" /></button>
             <button id="messages">
                 <img src="../assets/global/chat.svg" alt="messagerie" />
-
                 <div class="ping"></div>
             </button>
-            <button id="profile">
-                <img src="../assets/global/profile.svg" alt="paramètres" />
-            </button>
+            <button id="professors_community"><img src="../assets/global/group.svg" alt="communauté des professeurs" /></button> <button id="profile"><img src="../assets/global/profile.svg" alt="paramètres" /></button>
         </div>
         <section class="sections-container">
             <section class="home active-section">
@@ -235,8 +227,29 @@
                     </div>
                 </div>
                 <div class="sub-container right-container">
+                    <div id="storage-usage" class="header reponsive-hide">
+                        <h2>Mémoire</h2>
+                        <h5>20<span>GB</span></h5>
+                    </div>
+                    <div class="divider reponsive-hide"></div>
+                    <div class="memory-split reponsive-hide">
+                        <div class="graph">
+                            <div id="graph-document"></div>
+                            <div id="graph-audio"></div>
+                            <div id="graph-image"></div>
+                            <div id="graph-video"></div>
+                            <div id="graph-other"></div>
+                        </div>
+                        <div class="legend reponsive-hide">
+                            <h4 id="percentage-document-container">Documents <span id="percentage-document" class="document-color">20%</span></h4>
+                            <h4 id="percentage-audio-container">Audio <span id="percentage-audio" class="audio-color">20%</span></h4>
+                            <h4 id="percentage-image-container">Images <span id="percentage-image" class="image-color">20%</span></h4>
+                            <h4 id="percentage-video-container">Vidéos <span id="percentage-video" class="video-color">20%</span></h4>
+                            <h4 id="percentage-other-container">Autres <span id="percentage-other" class="other-color">20%</span></h4>
+                        </div>
+                    </div>
                     <div class="header">
-                        <h2>Info Fichier</h2>
+                        <h2>Fichier</h2>
                         <button onclick="document.querySelector('.active-sub-container').classList.remove('active-sub-container')" class="large greyed">Fermer</button>
                     </div>
                     <div class="divider"></div>
@@ -267,7 +280,7 @@
                             <h1>Aucun fichier sélectionné</h1>
                             <p>Séléctionner un fichier pour obtenir des informations</p>
                         </div>
-                        <div class="actions-buttons-file"><button onclick="modifyFile()" class="large greyed">Modifier</button> <button id="openFileBtn" onclick="openFile()" class="large">Ouvrir le fichier</button></div>
+                        <div class="actions-buttons-file"><button onclick="modifyFile()" class="large">Modifier</button> <button id="openFileBtn" onclick="openFile()" class="large">Ouvrir le fichier</button></div>
                     </div>
                 </div>
                 <div class="full-screen">
@@ -373,6 +386,18 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <!-- ================== Professor Community =================== -->
+            <section class="professors_community">
+                <div class="information">
+                    <img src="../assets/global/locked.svg" />
+                    <h3>
+                        Bientôt disponible en
+                        <div class="beta">BETA</div>
+                    </h3>
+                    <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
                 </div>
             </section>
 

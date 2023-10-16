@@ -1,9 +1,9 @@
 body {
-    background-color: var(--layer-color);
+    background-color: #ffffff;
     backdrop-filter: none;
 }
 .navbar {
-    border: 1px solid var(--border);
+    border: 1px solid #dddddd;
 }
 
 .header {
@@ -13,7 +13,7 @@ body {
     padding: 10px;
     width: calc(100% - 22px);
     min-height: calc(70px - 22px);
-    border: 1px solid var(--border);
+    border: 1px solid #dddddd;
     border-radius: 10px;
 }
 
@@ -59,7 +59,7 @@ body {
 #good {
     width: 60%;
     height: 100%;
-    background-color: var(--accent-color);
+    background-color: #296eff;
 }
 
 #medium {
@@ -80,7 +80,7 @@ body {
 }
 
 .new-flashcard {
-    border: 1px dashed var(--border) !important;
+    border: 1px dashed #dddddd !important;
     height: 125px;
     padding: 10px;
     border-radius: 10px;
@@ -139,7 +139,7 @@ body {
     align-items: center;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid var(--border);
+    border: 1px solid #dddddd;
     height: 125px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
@@ -150,7 +150,7 @@ body {
 }
 
 .good {
-    border: 1px solid var(--accent-color);
+    border: 1px solid #296eff;
 }
 
 .medium {

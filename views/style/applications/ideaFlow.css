@@ -8,7 +8,7 @@
     margin: 4px;
     width: calc(100% - 8px);
     background-color: var(--teranga-color);
-    color: var(--layer-color);
+    color: white;
     border: none;
     font-weight: 500;
     border-radius: 7px;

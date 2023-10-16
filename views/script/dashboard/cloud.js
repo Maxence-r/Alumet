@@ -129,6 +129,7 @@ function deleteFile() {
                 document.querySelector('.active-popup').classList.remove('active-popup');
             }
         });
+    updateStats();
 }
 localStorage.removeItem('currentFile');
 document.addEventListener('keydown', e => {
@@ -368,6 +369,50 @@ document.querySelector('.folder-selector').addEventListener('scroll', () => {
     let top = document.querySelector('.active-folder').getClientRects()[0].top;
     document.querySelector('.selector').style.top = `${top - 26.5}px`;
 });
+
+function updateStats() {
+    fetch('/cdn/stats', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(res => res.json())
+        .then(data => {
+            let sendItems = data.sendItems;
+            let Item = ['document', 'image', 'video', 'audio', 'other'];
+            function modifyOrDelete(element) {
+                if (sendItems.includes(element)) {
+                    document.getElementById('graph-' + element).style.width = `${data[element + 'Percentage']}%`;
+                    document.getElementById('percentage-' + element).innerText = `${data[element + 'Percentage']}%`;
+                    document.getElementById('graph-' + element).style.display = 'block';
+                    document.getElementById('percentage-' + element + '-container').style.display = 'flex';
+                } else {
+                    document.getElementById('graph-' + element).style.width = `0%`;
+                    document.getElementById('graph-' + element).style.display = 'none';
+                    document.getElementById('percentage-' + element + '-container').style.display = 'none';
+                }
+            }
+            Item.forEach(element => {
+                modifyOrDelete(element);
+            });
+
+            function modifyStorageUsed(totalSize, typeOfSize) {
+                const headerElement = document.querySelector('#storage-usage > h5');
+                const spanElement = document.createElement('span');
+                const newTotalSize = Number(totalSize).toFixed(2);
+                headerElement.innerText = newTotalSize;
+                spanElement.textContent = typeOfSize;
+                headerElement.appendChild(spanElement);
+            }
+            if (data.totalSizeMB > 1000) {
+                modifyStorageUsed(data.totalSizeMB / 1024, 'GB');
+            } else {
+                modifyStorageUsed(data.totalSizeMB, 'MB');
+            }
+        });
+}
+updateStats();
 
 document.getElementById('search-bar').addEventListener('input', e => {
     const search = e.currentTarget.value.toLowerCase();
