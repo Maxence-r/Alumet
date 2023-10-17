@@ -13,114 +13,6 @@ const authorize = require('../../../middlewares/authentification/authorize');
 const Account = require('../../../models/account');
 const mongoose = require('mongoose');
 
-// Creating Functions
-
-async function getCloudStats(req) {
-    const documentMymetype = new Set(['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']);
-    const audioMymetype = new Set(['mp3', 'wav', 'ogg', 'flac', 'aac', 'wma', 'm4a']);
-    const videoMymetype = new Set(['mp4', 'avi', 'mkv', 'mov', 'wmv', 'flv', 'webm', 'm4v']);
-    const imageMymetype = new Set(['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp', 'tiff']);
-
-    let documentElements = 0;
-    let documentSize = 0;
-    let audioElements = 0;
-    let audioSize = 0;
-    let videoElements = 0;
-    let videoSize = 0;
-    let imageElements = 0;
-    let imageSize = 0;
-    let otherElements = 0;
-    let otherSize = 0;
-    let totalElements = 0;
-    let totalSize = 0;
-
-    const uploads = await Upload.aggregate([
-        { $match: { owner: req.user.id } },
-        {
-            $group: {
-                _id: '$mimetype',
-                count: { $sum: 1 },
-                size: { $sum: '$filesize' },
-            },
-        },
-    ]);
-
-    uploads.forEach(upload => {
-        const mimetype = upload._id;
-        const count = upload.count;
-        const size = upload.size;
-
-        if (documentMymetype.has(mimetype)) {
-            documentElements += count;
-            documentSize += size;
-        } else if (audioMymetype.has(mimetype)) {
-            audioElements += count;
-            audioSize += size;
-        } else if (videoMymetype.has(mimetype)) {
-            videoElements += count;
-            videoSize += size;
-        } else if (imageMymetype.has(mimetype)) {
-            imageElements += count;
-            imageSize += size;
-        } else {
-            otherElements += count;
-            otherSize += size;
-        }
-
-        totalElements += count;
-        totalSize += size;
-    });
-
-    const calculatePercentageSize = value => ((value / totalSize) * 100).toFixed(2);
-
-    const documentPercentage = calculatePercentageSize(documentSize);
-    const audioPercentage = calculatePercentageSize(audioSize);
-    const videoPercentage = calculatePercentageSize(videoSize);
-    const imagePercentage = calculatePercentageSize(imageSize);
-    const otherPercentage = calculatePercentageSize(otherSize);
-
-    // transform the total size in GB
-    const totalSizeMB = (totalSize / 1024 / 1024).toFixed(4);
-    let sendItems = ['document', 'audio', 'video', 'image', 'other'];
-    const result = {
-        totalSizeMB,
-        documentPercentage,
-        audioPercentage,
-        videoPercentage,
-        imagePercentage,
-        otherPercentage,
-        sendItems,
-    };
-
-    function withdrawItem(item) {
-        const index = sendItems.indexOf(item);
-        if (index > -1) {
-            sendItems.splice(index, 1);
-        }
-        delete result[item + 'Percentage'];
-    }
-    // exclude elements with percentage under 2%
-    if (documentPercentage < 2 || documentPercentage === 'NaN') {
-        withdrawItem('document');
-    }
-    if (audioPercentage < 2 || audioPercentage === 'NaN') {
-        withdrawItem('audio');
-    }
-    if (videoPercentage < 2 || videoPercentage === 'NaN') {
-        withdrawItem('video');
-    }
-    if (imagePercentage < 2 || imagePercentage === 'NaN') {
-        withdrawItem('image');
-    }
-    if (otherPercentage < 2 || otherPercentage === 'NaN') {
-        withdrawItem('other');
-    }
-
-    return result;
-}
-
-// End of Creating Functions
-
 const storage = multer.diskStorage({
     destination: './cdn',
     filename: (req, file, cb) => {
@@ -337,15 +229,6 @@ router.delete('/:id', authorize(), validateObjectId, async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Server error' });
-    }
-});
-
-router.get('/stats', async (req, res) => {
-    try {
-        res.json(await getCloudStats(req));
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
     }
 });
 
