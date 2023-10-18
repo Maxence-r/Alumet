@@ -7,13 +7,13 @@ body {
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
-    backdrop-filter: blur(5px) brightness(0.8);
-    --webkit-backdrop-filter: blur(5px) brightness(0.8);
     padding: 15px;
     gap: 15px;
     margin: 0;
     overflow: hidden;
 }
+
+
 
 html,
 body {
@@ -34,20 +34,14 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
-.postContent > .card {
-    padding: 0;
-    gap: 10px;
-}
+
 
 #commentInput {
     margin-top: auto;
     min-height: 60px;
 }
 
-.postContent {
-    overflow: none;
-    max-height: 45%;
-}
+
 
 .commentsContent {
     display: flex;
@@ -61,10 +55,6 @@ body {
     overflow-y: auto;
 }
 
-.postContent > .card > .actionRow,
-.postContent > .card > .divider {
-    display: none;
-}
 
 #latexPreview {
     max-height: 50%;

@@ -61,7 +61,7 @@ function toast({ title = '', message = '', type = 'info', duration = 3000 }) {
         const toastBody = document.createElement('div');
         toastBody.classList.add('toast__body');
 
-        const toastTitle = document.createElement('h3');
+        const toastTitle = document.createElement('h4');
         toastTitle.classList.add('toast__title');
         toastTitle.textContent = title;
 
@@ -187,10 +187,12 @@ function toggleParticipant(id) {
 }
 
 function endLoading() {
+    setTimeout(() => {
     document.querySelector('.loading').classList.add('hidden-loading');
+    }, 600);
     setTimeout(() => {
         document.querySelector('.loading').style.display = 'none';
-    }, 600);
+    }, 1200);
 }
 
 const searchUsers = async (query, type) => {

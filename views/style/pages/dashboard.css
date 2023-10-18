@@ -936,9 +936,9 @@ h2 {
     border: 1px solid #dbdbdb;
 }
 
-.new-item-infos > h3 {
+.new-item-infos > h4 {
     font-size: 1.1rem;
-    font-weight: 500;
+    font-weight: 600;
     margin: 0;
     color: #000000;
 }

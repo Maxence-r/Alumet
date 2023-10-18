@@ -9,6 +9,7 @@ const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHan
 const Conversation = require('../../models/conversation');
 const sendInvitations = require('../../middlewares/mailManager/sendInvitations');
 const authorizeA2F = require('../../middlewares/authentification/authorizeA2f');
+const addBlurToImage = require('../../middlewares/utils/blur');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     let alumet = await Alumet.findById(req.params.id);
@@ -22,8 +23,9 @@ router.get('/:id', validateObjectId, async (req, res) => {
     const filePath = path.join(__dirname, '../../views/pages/alumet.html');
     res.sendFile(filePath);
 });
-router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['png', 'jpeg', 'jpg']), validateAlumet, async (req, res) => {
+router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['png', 'jpeg', 'jpg']), addBlurToImage, validateAlumet, async (req, res) => {
     try {
+
         let alumet;
         if (!req.body.alumet) {
             alumet = new Alumet({

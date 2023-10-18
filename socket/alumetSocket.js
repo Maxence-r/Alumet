@@ -4,7 +4,6 @@ module.exports = function (io) {
     io.on('connection', socket => {
         socket.on('joinAlumet', async (alumetId, userId) => {
             try {
-                console.log('joinAlumet', alumetId, userId);
                 const alumet = await Alumet.findOne({ _id: alumetId });
                 if (!alumet) {
                     return;

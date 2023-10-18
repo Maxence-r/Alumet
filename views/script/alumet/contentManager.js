@@ -80,6 +80,7 @@ async function modifyAlumet() {
     formData.append('private', document.getElementById('alumet-private').checked);
     formData.append('chat', document.getElementById('alumet-chat').checked);
     formData.append('alumet', alumet._id);
+    navbar('loadingRessources');
     fetch('/a/new', {
         method: 'PUT',
         body: formData,
@@ -87,9 +88,9 @@ async function modifyAlumet() {
         .then(response => response.json())
         .then(data => {
             if (data.error) {
+                navbar('settings');
                 toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
             } else {
-                navbar('loadingRessources');
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000);
@@ -775,15 +776,7 @@ function openPost(id) {
             });
         });
 
-    document.querySelector('.postContent').innerHTML = '';
-    const card = document.querySelector(`.card[data-id="${id}"]`);
-
-    if (card) {
-        const clonedCard = card.cloneNode(true);
-        clonedCard.classList.remove('red', 'blue', 'yellow', 'white', 'green');
-        const post = document.querySelector('.postContent');
-        post.appendChild(clonedCard);
-    }
+  
 }
 
 function postComment() {
