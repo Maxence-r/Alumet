@@ -1,5 +1,4 @@
 const { Worker } = require('worker_threads');
-const Jimp = require('jimp');
 
 const addBlurToImage = async (req, res, next) => {
     try {
