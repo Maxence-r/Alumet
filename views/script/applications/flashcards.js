@@ -48,3 +48,35 @@ function modifyFlashcard() {
         });
     });
 }
+
+function createFlashcard() {
+    let answer = document.getElementById('answer').value;
+    let question = document.getElementById('question').value;
+    if (answer.length < 1 || question.length < 1) {
+        return toast({ title: 'Erreur', message: 'La question et la réponse ne peuvent être vide !', type: 'error', duration: 7500 });
+    }
+    navbar('loadingRessources')
+    fetch(`/flashcards/${id}/`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            answer,
+            question,
+        }),
+    }).then(res => {
+        setTimeout(() => {
+            navbar('flashcards');
+        }, 500);
+        res.json().then(data => {
+            if (data.error) {
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
+            } else {
+                toast({ title: 'Succès', message: 'La carte a bien été ajoutée !', type: 'success', duration: 2500 });
+                document.getElementById('answer').value = '';
+                document.getElementById('question').value = '';
+            }
+        });
+    });
+}

@@ -13,8 +13,6 @@ body {
     overflow: hidden;
 }
 
-
-
 html,
 body {
     height: calc(100% - 15px);
@@ -34,14 +32,10 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
-
-
 #commentInput {
     margin-top: auto;
     min-height: 60px;
 }
-
-
 
 .commentsContent {
     display: flex;
@@ -54,7 +48,6 @@ body {
     border-radius: 5px;
     overflow-y: auto;
 }
-
 
 #latexPreview {
     max-height: 50%;
@@ -1034,6 +1027,9 @@ h1 {
 }
 
 @media screen and (max-width: 600px) {
+    .header-setting > div > p {
+        display: none;
+    }
     .commentsContent {
         padding: 10px;
         margin-bottom: 10px;
@@ -1078,8 +1074,8 @@ h1 {
         padding: 10px;
         width: calc(100% - 40px);
         left: 10px;
-        top: 80px;
-        height: calc(100% - 110px);
+        top: 82px;
+        height: calc(100% - 112px);
     }
     .navbar > button {
         margin: 0;

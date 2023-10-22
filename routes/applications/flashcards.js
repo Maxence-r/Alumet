@@ -67,9 +67,16 @@ router.get('/:flashcard/content', async (req, res) => {
             }
         };
         await getCollaboratorInfo();
-        const user_infos = req.user ? { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname } : null;
         const isAdmin = req.user && (req.user._id.toString() === flashcardSet.owner.toString() || flashcardSet.collaborators.includes(req.user._id.toString()));
-        const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards, collaborators, user_infos, admin: isAdmin };
+        const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], collaborators, user_infos: null, admin: isAdmin };
+        for (const flashcard of flashcards) {
+            const userData = flashcard.userDatas.find((data) => data.userId === req.user?.id) || null;
+            const flashcardInfo = { ...flashcard.toObject(), userDatas: userData };
+            flashcardSetInfo.flashcards.push(flashcardInfo);
+        }
+        if (req.user) {
+            flashcardSetInfo.user_infos = { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname, id: req.user._id };
+        }
         res.json(flashcardSetInfo);
     } catch (error) {
         console.log(error);
@@ -77,7 +84,7 @@ router.get('/:flashcard/content', async (req, res) => {
     }
 });
 
-router.put('/:flashcard/flashcard', authorize('flashcard', 'itemAdmins'), async (req, res) => {
+router.put('/:flashcard/', authorize('flashcard', 'itemAdmins'), async (req, res) => {
     try {
         const { question, answer, flashcardId } = req.body;
         let flashcard;

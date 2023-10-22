@@ -232,16 +232,21 @@
                 <button onclick="navbar('post')" class="large greyed">Annuler</button>
             </div>
             <div class="overlay-content flashcards">
-                <h1>Créer des flashcards</h1>
+                <div class="header-setting">
+                    <div>
+                        <h1>Nouvelles flaschards</h1>
+                        <p>Vous pourrez les modifier plus tard.</p>
+                    </div>
+                </div>
                 <div class="divider"></div>
                 <div class="grid-user-container">
                     <div class="item">
                         <h3>Ecrivez ici la question</h3>
-                        <input type="text" name="flashcardName" id="flashcardName" placeholder="Question" autocomplete="on" />
+                        <input type="text" name="flashcardName" id="question" placeholder="Question" autocomplete="off" />
                     </div>
                     <div class="item">
                         <h3>Ecrivez ici la réponse</h3>
-                        <input type="text" name="flashcardDescription" id="flashcardDescription" placeholder="Réponse" autocomplete="on" />
+                        <input type="text" name="flashcardDescription" id="answer" placeholder="Réponse" autocomplete="off" />
                     </div>
                 </div>
 

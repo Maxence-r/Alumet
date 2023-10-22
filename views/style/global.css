@@ -435,7 +435,7 @@ input {
     width: calc(100% - 42px);
     border-radius: 8px;
     padding: 0 20px;
-    height: calc(50px - 2px );
+    height: calc(50px - 2px);
     outline-color: white;
     font-size: 0.9rem;
     outline-color: #e5e5e5;
