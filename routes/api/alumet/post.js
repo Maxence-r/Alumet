@@ -79,7 +79,7 @@ router.put('/:alumet/:id/comments', authorize('alumet', 'itemParticipants'), aut
     }
 });
 
-router.get('/:alumet/:id/comments', authorize('alumet', 'itemParticipants'), authorize('alumet', 'alumetPrivate'), async (req, res) => {
+router.get('/:alumet/:id/comments', authorize('alumet', 'alumetPrivate'), async (req, res) => {
     try {
         const comments = await Comment.find({ postId: req.params.id })
 

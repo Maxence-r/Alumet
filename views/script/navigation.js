@@ -93,6 +93,9 @@ function enableConnected(data) {
         document.querySelectorAll('.adminsOnly').forEach(el => {
             el.style.display = 'none';
         });
+        document.querySelectorAll('.disabledInput').forEach(el => {
+            el.disabled = true;
+        });
     }
 }
 

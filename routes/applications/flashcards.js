@@ -56,7 +56,7 @@ router.get('/:flashcard/content', async (req, res) => {
     try {
         const flashcardSet = await FlashcardSet.findById(req.params.flashcard);
         if (!flashcardSet) return res.redirect('/404');
-        const flashcards = await Flashcard.find({ flashcardSetId: flashcardSet._id });
+        const flashcards = await Flashcard.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
         const collaborators = [];
         const getCollaboratorInfo = async () => {
             for (const collaboratorId of flashcardSet.collaborators) {
@@ -87,9 +87,11 @@ router.get('/:flashcard/content', async (req, res) => {
 router.put('/:flashcard/', authorize('flashcard', 'itemAdmins'), async (req, res) => {
     try {
         const { question, answer, flashcardId } = req.body;
+        console.log(req.body);
         let flashcard;
-        if (flashcardId) {
-            flashcard = await Flashcards.findById(req.params.flashcard);
+        if (flashcardId && mongoose.Types.ObjectId.isValid(flashcardId)) {
+            flashcard = await Flashcards.findById(flashcardId);
+            if (!flashcard) return res.json({ error: 'Flashcard not found' });
             flashcard.question = question;
             flashcard.answer = answer;
         } else {
@@ -102,6 +104,18 @@ router.put('/:flashcard/', authorize('flashcard', 'itemAdmins'), async (req, res
         }
         await flashcard.save();
         res.json({ flashcard });
+    } catch (error) {
+        console.log(error);
+        res.json({ error });
+    }
+});
+
+router.delete('/:flashcard/:flashcardId', authorize('flashcard', 'itemAdmins'), async (req, res) => {
+    try {
+        const flashcard = await Flashcards.findById(req.params.flashcardId);
+        if (!flashcard) return res.json({ error: 'Flashcard not found' });
+        await flashcard.delete();
+        res.json({ success: true });
     } catch (error) {
         console.log(error);
         res.json({ error });

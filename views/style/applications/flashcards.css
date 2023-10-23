@@ -1,9 +1,6 @@
 body {
-    background-color: #ffffff;
+    background-color: #f6f8fc;
     backdrop-filter: none;
-}
-.navbar {
-    border: 1px solid #dddddd;
 }
 
 .header {
@@ -12,8 +9,8 @@ body {
     align-items: center;
     padding: 10px;
     width: calc(100% - 22px);
+    background-color: white;
     min-height: calc(70px - 22px);
-    border: 1px solid #dddddd;
     border-radius: 10px;
 }
 
@@ -87,6 +84,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: white;
     align-items: center;
     cursor: pointer;
 }
@@ -140,6 +138,7 @@ body {
     padding: 10px;
     border-radius: 10px;
     border: 1px solid #dddddd;
+    background-color: white;
     height: 125px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;

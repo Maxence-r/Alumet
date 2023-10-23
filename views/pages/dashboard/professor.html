@@ -61,7 +61,7 @@
             </div>
         </div>
         <div class="nav">
-            <button class="active" id="home"><img src="../assets/global/home.svg" alt="home" /></button> <button id="cloud"><img src="../assets/global/cloud.svg" alt="gestionnaire de fichiers" /></button>
+            <button data-title="Accueil" class="active" id="home"><img src="../assets/global/home.svg" alt="home" /></button> <button id="cloud"><img src="../assets/global/cloud.svg" alt="gestionnaire de fichiers" /></button>
             <button id="messages">
                 <img src="../assets/global/chat.svg" alt="messagerie" />
                 <div class="ping"></div>
@@ -77,7 +77,6 @@
                                 <h3>Vos Alumets</h3>
                             </div>
                             <div>
-                               
                                 <button onclick="joinAlumet()" class="large">Rejoindre un alumet</button>
                                 <button onclick="window.location.href='/setup/alumet'" class="large">Créer un alumet</button>
                             </div>
@@ -95,7 +94,7 @@
                             <div>
                                 <h3>Vos jeux de flashcards</h3>
                             </div>
-                            <div> <button onclick="window.location.href = '/setup/flashcards'" class="large">Créer un jeu de flashcards</button></div>
+                            <div><button onclick="window.location.href = '/setup/flashcards'" class="large">Créer un jeu de flashcards</button></div>
                         </div>
                         <div class="items flashcards">
                             <div class="no-items">

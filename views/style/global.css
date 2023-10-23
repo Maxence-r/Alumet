@@ -268,15 +268,14 @@
     opacity: 0;
     transition: all 0.3s ease-in-out;
     cursor: default;
-    pointer-events: none;
     overflow: hidden;
 }
 
-.sending-data > .indications > h3 {
+.sending-data > .indications > p {
     transform: translateY(-100%);
 }
 
-.ready-to-send > .indications > h3 {
+.ready-to-send > .indications > p {
     transform: translateY(-100%);
 }
 
@@ -289,7 +288,6 @@
 .ready-to-send > .rts {
     opacity: 1;
     transform: translateY(0%);
-    pointer-events: all;
 }
 
 .indications {
@@ -623,7 +621,8 @@ input:checked + .slide:before {
 input:focus,
 textarea:focus,
 select:focus,
-.option:hover {
+.option:hover,
+.radio-option > label:hover {
     outline-style: solid;
     outline-width: 3px;
     outline-color: #0597ff;
@@ -1196,6 +1195,80 @@ select {
 #folder-selection {
     width: 100%;
     min-height: 50px;
+}
+
+.radio-option {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-option .radio input[type='radio'] {
+    position: absolute;
+    opacity: 0;
+}
+
+.radio-option .radio {
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.radio-option .radio .radio-content {
+    display: flex;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #e1e2e7;
+    border-radius: 10px;
+    position: relative;
+}
+
+.radio-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.radio-option .radio .radio-details span {
+    margin-bottom: 3px;
+    display: block;
+    font-size: 1rem;
+    line-height: 24px;
+    color: #252f42;
+}
+
+.container .title {
+    font-size: 1rem;
+    font-weight: 500;
+    -ms-flex-preferred-size: 100%;
+    flex-basis: 100%;
+    color: #252f42;
+    margin-bottom: 20px;
+}
+
+.radio-option .radio .radio-details p {
+    color: #646a79;
+    font-size: 0.9rem;
+    line-height: 18px;
+    margin: 0;
+}
+
+.radio-option .radio input[type='radio']:checked + .radio-content:after {
+    content: '';
+    position: absolute;
+    height: 8px;
+    width: 8px;
+    background: #0597ff;
+    right: 20px;
+    top: 20px;
+    border-radius: 100%;
+    border: 3px solid #fff;
+    box-shadow: 0px 0px 0px 2px #0597ff;
+}
+
+.radio-option .radio input[type='radio']:checked + .radio-content {
+    border: 1px solid #216ee0;
+    background: #eaf1fe;
+    transition: ease-in 0.3s;
 }
 
 @keyframes rotation {

@@ -24,9 +24,10 @@ const flashcardSchema = mongoose.Schema({
     userDatas: [
         {
             userId: String,
-            level: {
-                type: Number,
-                default: 0,
+            status: {
+                type: String,
+                default: 'neutral',
+                enum: ['bad', 'medium', 'good', 'neutral']
             },
             lastReview: {
                 type: Date,

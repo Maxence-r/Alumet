@@ -105,11 +105,11 @@ function createFlashcardsBox(subject, likes, title, description, id) {
 }
 
 openAlumet = alumetId => {
-    window.open(`/portal/${alumetId}`, '_blank');
+    window.location.href = `/portal/${alumetId}`;
 };
 
 openFlashcards = flashcardsId => {
-    window.open(`/flashcards/${flashcardsId}`, '_blank');
+    window.location.href = `/flashcards/${flashcardsId}`;
 };
 
 function joinAlumet() {

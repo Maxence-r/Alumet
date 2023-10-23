@@ -42,7 +42,7 @@ function createMessageElement(message, userSender) {
     if (previousSender !== sender) {
         messageElement.classList.add('first');
     }
-    if (sender === user._id) {
+    if (sender === user?._id) {
         messageElement.classList.add('right-message', 'message');
     } else {
         messageElement.classList.add('left-message', 'message');

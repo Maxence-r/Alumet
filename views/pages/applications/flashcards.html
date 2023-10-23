@@ -73,26 +73,15 @@
             </div>
             <div class="progression">
                 <div id="good"></div>
-                <div id="bad"></div>
                 <div id="medium"></div>
+                <div id="bad"></div>
                 <div id="neutral"></div>
             </div>
             <div class="flashcards-container">
-                <div onclick="navbar('flashcards')" class="new-flashcard">
+                <div onclick="newFlashcards()" class="new-flashcard adminsOnly">
                     <img src="../../assets/global/flashcards_a.svg" />
                     <h3>Ajouter des flashcards</h3>
                 </div>
-                <div class="flashcard">
-                    <h1>Bateau</h1>
-                </div>
-                <div class="flashcard good">
-                    <h1>To do what you love</h1>
-                </div>
-                <div class="flashcard bad"></div>
-                <div class="flashcard bad"></div>
-                <div class="flashcard"></div>
-                <div class="flashcard medium"></div>
-                <div class="flashcard good"></div>
             </div>
         </div>
         <div class="overlay">
@@ -134,11 +123,11 @@
                 <div class="grid-user-container">
                     <div class="item">
                         <h3>Nom du jeu de flashcards</h3>
-                        <input maxlength="150" type="text" name="flashcardName" id="flashcardName" placeholder="Nom de l'Alumet" autocomplete="on" />
+                        <input maxlength="150" type="text" class="disabledInput" name="flashcardName" id="flashcardName" placeholder="Nom de l'Alumet" autocomplete="on" />
                     </div>
                     <div class="item">
                         <h3>Description du jeu de flashcards</h3>
-                        <input maxlength="300" type="text" name="flashcardDescription" id="flashcardDescription" placeholder="Description de l'Alumet" autocomplete="on" />
+                        <input maxlength="300" type="text" class="disabledInput" name="flashcardDescription" id="flashcardDescription" placeholder="Description de l'Alumet" autocomplete="on" />
                     </div>
                     <div class="item">
                         <h3>Lien de partage</h3>
@@ -242,17 +231,41 @@
                 <div class="grid-user-container">
                     <div class="item">
                         <h3>Ecrivez ici la question</h3>
-                        <input type="text" name="flashcardName" id="question" placeholder="Question" autocomplete="off" />
+                        <input type="text" id="question" class="disabledInput" placeholder="Question" autocomplete="off" />
                     </div>
                     <div class="item">
                         <h3>Ecrivez ici la réponse</h3>
-                        <input type="text" name="flashcardDescription" id="answer" placeholder="Réponse" autocomplete="off" />
+                        <input type="text" id="answer" class="disabledInput" placeholder="Réponse" autocomplete="off" />
                     </div>
                 </div>
 
                 <div class="post-buttons">
-                    <button onclick="deletePost()" class="large reded confirm">Supprimer la publication</button>
-                    <button onclick="createFlashcard()" class="large confirm">Créer et continuer</button>
+                    <button onclick="deleteFlashcard()" class="large reded adminsOnly">Supprimer</button>
+                    <button onclick="createFlashcard()" class="large adminsOnly">Créer</button>
+                </div>
+            </div>
+            <div class="overlay-content editFlashcards">
+                <div class="header-setting">
+                    <div>
+                        <h1>Afficher</h1>
+                        <p>Vous pouvez modifier et supprimer cette flashcard</p>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="grid-user-container">
+                    <div class="item">
+                        <h3>Question</h3>
+                        <input type="text" id="editQuestion" class="disabledInput" placeholder="Question" autocomplete="off" />
+                    </div>
+                    <div class="item">
+                        <h3>Réponse</h3>
+                        <input type="text" id="editAnswer" class="disabledInput" placeholder="Réponse" autocomplete="off" />
+                    </div>
+                </div>
+
+                <div class="post-buttons">
+                    <button onclick="deleteFlashcard()" class="large reded adminsOnly">Supprimer la flashcard</button>
+                    <button id="editFlashcard" onclick="createFlashcard()" class="large adminsOnly">Modifier</button>
                 </div>
             </div>
         </div>

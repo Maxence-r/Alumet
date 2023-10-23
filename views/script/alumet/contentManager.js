@@ -776,7 +776,7 @@ function openPost(id) {
             });
         });
 
-  
+
 }
 
 function postComment() {

@@ -175,7 +175,6 @@
                 <h1>Commentaires</h1>
                 <div class="divider"></div>
 
-   
                 <div class="commentsContent">
                     <div class="information">
                         <img src="../assets/global/messages_top.svg" />
@@ -211,18 +210,55 @@
                 <div class="grid-user-container">
                     <div class="item">
                         <h3>Nom de l'Alumet</h3>
-                        <input type="text" name="alumetName" id="alumetName" placeholder="Nom de l'Alumet" autocomplete="on" />
+                        <input class="disabledInput" type="text" name="alumetName" id="alumetName" placeholder="Nom de l'Alumet" autocomplete="on" />
                     </div>
                     <div class="item">
                         <h3>Description de l'Alumet</h3>
-                        <input type="text" name="alumetDescription" id="alumetDescription" placeholder="Description de l'Alumet" autocomplete="on" />
+                        <input class="disabledInput" type="text" name="alumetDescription" id="alumetDescription" placeholder="Description de l'Alumet" autocomplete="on" />
                     </div>
                     <div class="item">
                         <h3>Code d'invitation</h3>
                         <input disabled="true" type="text" name="invitationCode" autocomplete="on" id="invitationCode" placeholder="Aucun code d'invitation" />
                     </div>
+
                     <div class="item">
-                        <h3>Option d'administrations</h3>
+                        <h3>Niveau d'accès</h3>
+                        <div class="switch-options">
+                            <div class="radio-option">
+                                <label class="radio" for="open">
+                                    <input checked type="radio" name="radio" id="open" />
+                                    <div class="radio-content">
+                                        <div class="radio-details">
+                                            <span>Ouvert</span>
+                                            <p>N'importe qui avec un lien peut acceder au contenue, les actions sont modérées par IA</p>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="radio" for="password">
+                                    <input type="radio" id="password" name="radio" />
+                                    <div class="radio-content">
+                                        <div class="radio-details">
+                                            <span>Mot de passe</span>
+                                            <p>L'accès est restreint par un mot de passe. Il n'est pas nécéssaire d'avoir un compte.</p>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="radio" for="closed">
+                                    <input type="radio" id="closed" name="radio" />
+                                    <div class="radio-content">
+                                        <div class="radio-details">
+                                            <span>Fermé</span>
+                                            <p>L'utilisateur doit être connecté et demandé l'accès, vous pourrez refuser ou accepter.</p>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <h3>Option avancées</h3>
                         <div class="switch-options">
                             <div class="option">
                                 <h1>Alumet en mode privé</h1>
