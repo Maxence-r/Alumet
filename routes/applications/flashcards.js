@@ -52,6 +52,20 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/revise/:flashcard', async (req, res) => {
+    try {
+        if (mongoose.Types.ObjectId.isValid(req.params.flashcard) === false) return res.redirect('/404');
+        const flashcardSet = await FlashcardSet.findById(req.params.flashcard);
+        if (!flashcardSet) return res.redirect('/404');
+        const filePath = path.join(__dirname, '../../views/pages/applications/flashcardsLearning.html');
+        res.sendFile(filePath);
+    } catch (error) {
+        console.log(error);
+        res.json({ error });
+    }
+});
+
+
 router.get('/:flashcard/content', async (req, res) => {
     try {
         const flashcardSet = await FlashcardSet.findById(req.params.flashcard);
@@ -121,5 +135,8 @@ router.delete('/:flashcard/:flashcardId', authorize('flashcard', 'itemAdmins'), 
         res.json({ error });
     }
 });
+
+
+
 
 module.exports = router;

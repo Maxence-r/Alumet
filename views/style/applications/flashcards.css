@@ -27,6 +27,45 @@ body {
     font-weight: 600;
 }
 
+.choose {
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    width: calc(100%);
+}
+
+.choose > .choose-option {
+    width: calc(100% - 32px);
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #e2e2e2;
+}
+
+.choose > div > div > h1 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.choose > div > button {
+    margin-left: auto;
+}
+
+.choose > div > div > p {
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.choose > div > div {
+    margin-left: 5px;
+}
+
 .header > div:nth-of-type(1) > p {
     margin: 0;
     font-size: 14px;
@@ -167,6 +206,13 @@ body {
 }
 
 @media screen and (max-width: 600px) {
+    .choose {
+        gap: 10px;
+    }
+    .choose > .choose-option {
+        width: calc(100% - 22px);
+        padding: 10px;
+    }
     .header > div:nth-of-type(1) > p {
         display: none;
     }

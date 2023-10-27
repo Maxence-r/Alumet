@@ -239,10 +239,6 @@ body {
     min-height: 50px;
 }
 
-.professors_community {
-    background-color: white;
-}
-
 .setup-modal {
     display: flex;
     position: relative;
@@ -726,7 +722,6 @@ h2 {
     width: 100%;
     height: 70%;
     background-color: white;
-    margin-top: 10px;
     overflow-y: auto;
     overflow-x: hidden;
 }

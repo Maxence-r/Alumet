@@ -69,7 +69,7 @@
                     <h1 id="flashcard-title">Titre du jeu de flashcard</h1>
                     <p id="flashcard-description">Description du jeu de flashcard</p>
                 </div>
-                <button class="large">Reviser</button>
+                <button onclick="navbar('revise')" class="large">Reviser</button>
             </div>
             <div class="progression">
                 <div id="good"></div>
@@ -84,6 +84,7 @@
                 </div>
             </div>
         </div>
+
         <div class="overlay">
             <div class="overlay-content menu">
                 <h1 onclick="navbar('home')">Accueil</h1>
@@ -91,6 +92,35 @@
                 <h1 onclick="navbar('participants')">collaborateurs</h1>
                 <h1 onclick="navbar('settings')">Paramètres</h1>
                 <h1 onclick="navbar('profile')">Profile</h1>
+            </div>
+
+            <div class="overlay-content revise">
+                <div class="information">
+                    <img src="../../assets/global/learning.svg" />
+                </div>
+                <div class="choose">
+                    <div class="choose-option">
+                        <div>
+                            <h1>Révision bac a sable</h1>
+                            <p>Pour réviser tous au dernier moment</p>
+                        </div>
+                        <button class="large">Continuer</button>
+                    </div>
+                    <div class="choose-option">
+                        <div>
+                            <h1>Révision pour contrôle</h1>
+                            <p>Etaler sur plusieurs jours</p>
+                        </div>
+                        <button class="large">Continuer</button>
+                    </div>
+                    <div class="choose-option">
+                        <div>
+                            <h1>Révision intelligente</h1>
+                            <p>Réviser à votre rythme</p>
+                        </div>
+                        <button class="large">Continuer</button>
+                    </div>
+                </div>
             </div>
 
             <div class="overlay-content ia">
