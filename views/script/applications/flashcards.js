@@ -94,7 +94,8 @@ function createFlashcardElement(status, question, answer, id) {
     const div = document.createElement('div');
     div.dataset.flashcardid = id;
     if (!status) status = 'neutral';
-    div.classList.add('flashcard', status);
+    div.classList.add('flashcard');
+    div.dataset.status = status;
     const h1 = document.createElement('h1');
     h1.textContent = question;
     div.appendChild(h1);
@@ -107,6 +108,14 @@ function createFlashcardElement(status, question, answer, id) {
         document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').innerText = 'Modifier';
     });
     return div;
+}
+
+function revise(option) {
+    if (option === 'sandbox') {
+        window.location.href = `/flashcards/revise/sandbox/${id}`;
+    } else {
+        return toast({ title: 'Erreur', message: 'Cette option n\'est pas encore disponible', type: 'error', duration: 7500 });
+    }
 }
 
 function createFlashcard() {

@@ -88,8 +88,8 @@
         <div class="overlay">
             <div class="overlay-content menu">
                 <h1 onclick="navbar('home')">Accueil</h1>
-                <h1 onclick="navbar('messages')">IA</h1>
-                <h1 onclick="navbar('participants')">collaborateurs</h1>
+                <h1 onclick="navbar('ia')">IA</h1>
+                <h1 onclick="navbar('participants')">Collaborateurs</h1>
                 <h1 onclick="navbar('settings')">Paramètres</h1>
                 <h1 onclick="navbar('profile')">Profile</h1>
             </div>
@@ -101,24 +101,24 @@
                 <div class="choose">
                     <div class="choose-option">
                         <div>
-                            <h1>Révision bac a sable</h1>
+                            <h1>Révision bac à sable</h1>
                             <p>Pour réviser tous au dernier moment</p>
                         </div>
-                        <button class="large">Continuer</button>
+                        <button onclick="revise('sandbox')" class="large">Continuer</button>
                     </div>
                     <div class="choose-option">
                         <div>
                             <h1>Révision pour contrôle</h1>
                             <p>Etaler sur plusieurs jours</p>
                         </div>
-                        <button class="large">Continuer</button>
+                        <button onclick="revise('control')" class="large">Continuer</button>
                     </div>
                     <div class="choose-option">
                         <div>
                             <h1>Révision intelligente</h1>
                             <p>Réviser à votre rythme</p>
                         </div>
-                        <button class="large">Continuer</button>
+                        <button onclick="revise('smart')" class="large">Continuer</button>
                     </div>
                 </div>
             </div>

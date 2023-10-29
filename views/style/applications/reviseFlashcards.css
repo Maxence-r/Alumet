@@ -1,0 +1,157 @@
+body {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    background-color: #f6f8fc;
+    gap: 15px;
+    margin: 0;
+    overflow: hidden;
+}
+
+html,
+body {
+    height: 100%;
+    min-height: 100%;
+}
+
+.flashcard {
+    width: 100%;
+    height: calc(100% - 30px);
+    gap: 15px;
+    padding: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: opacity 0.1s ease-in-out;
+}
+
+.loaded.flashcard {
+    opacity: 1;
+}
+
+.flashcard_love .fa-heart {
+    opacity: 0.7;
+    transform: scale(1);
+}
+
+.flashcard_nope .fa-remove {
+    opacity: 0.7;
+    transform: scale(1);
+}
+
+.flashcards {
+    flex-grow: 1;
+    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 1;
+    height: 100%;
+}
+
+.flashcard--card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 750px;
+    height: 100%;
+    background: #ffffff;
+    border: 1px solid #e1e8ee;
+    border-radius: 8px;
+    overflow: hidden;
+    position: absolute;
+    will-change: transform;
+    transition: all 0.3s ease-in-out;
+    cursor: -webkit-grab;
+    cursor: grab;
+    animation: coming 0.3s ease-in-out;
+}
+
+@keyframes coming {
+    0% {
+        filter: blur(10px);
+        opacity: 0.2;
+        transform: scale(0.95) translateY(30px);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        filter: blur(0px);
+        transform: scale(1) translateY(0px);
+    }
+}
+
+.flashcard--infos {
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+    justify-content: space-between;
+    width: calc(100% - 40px);
+    position: absolute;
+    bottom: 0;
+}
+
+[data-statustext='3'] {
+    color: #296eff;
+}
+[data-statustext='2'] {
+    color: #f0ac00;
+}
+[data-statustext='1'] {
+    color: #ff0000;
+}
+
+.flashcard--infos > h2 {
+    font-family: 'Mona Sans';
+    font-stretch: 150%;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+
+    pointer-events: none;
+}
+
+.moving.flashcard--card {
+    transition: none;
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+}
+
+.flashcard--card img {
+    max-width: 100%;
+    pointer-events: none;
+}
+
+.flashcard--card h3 {
+    margin-top: 32px;
+    font-size: 32px;
+    padding: 0 16px;
+    pointer-events: none;
+}
+
+.flashcard--card p {
+    margin-top: 24px;
+    font-size: 20px;
+    padding: 0 16px;
+    pointer-events: none;
+}
+
+.fa-heart {
+    color: #fface4;
+}
+
+.fa-remove {
+    color: #cdd6dd;
+}
+
+@media screen and (max-width: 600px) {
+    .flashcard {
+        padding: 10px;
+        gap: 10px;
+        height: calc(100% - 20px);
+    }
+}

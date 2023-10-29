@@ -34,6 +34,43 @@
     cursor: pointer;
 }
 
+.progression {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-radius: 10px;
+    min-height: 10px;
+    background-color: #c6c9ce;
+    overflow: hidden;
+}
+
+#good {
+    width: 60%;
+    height: 100%;
+    background-color: #296eff;
+}
+
+#medium {
+    width: 20%;
+    height: 100%;
+    background-color: #f0ac00;
+}
+
+#bad {
+    width: 10%;
+    height: 100%;
+    background-color: #ff0000;
+}
+
+#neutral {
+    width: 10%;
+    height: 100%;
+}
+
+.progression > div {
+    transition: all 0.3s ease-in-out;
+}
+
 .full-screen {
     display: none;
     flex-direction: column;

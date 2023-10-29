@@ -1062,7 +1062,7 @@ h1 {
     .navbar {
         height: 60px;
         flex-direction: row;
-        width: calc(100% - 2px);
+        width: 100%;
     }
 
     html,

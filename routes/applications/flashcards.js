@@ -52,12 +52,12 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get('/revise/:flashcard', async (req, res) => {
+router.get('/revise/sandbox/:flashcard', async (req, res) => {
     try {
         if (mongoose.Types.ObjectId.isValid(req.params.flashcard) === false) return res.redirect('/404');
         const flashcardSet = await FlashcardSet.findById(req.params.flashcard);
         if (!flashcardSet) return res.redirect('/404');
-        const filePath = path.join(__dirname, '../../views/pages/applications/flashcardsLearning.html');
+        const filePath = path.join(__dirname, '../../views/pages/applications/flashcards/sandbox/sandbox.html');
         res.sendFile(filePath);
     } catch (error) {
         console.log(error);
@@ -84,7 +84,7 @@ router.get('/:flashcard/content', async (req, res) => {
         const isAdmin = req.user && (req.user._id.toString() === flashcardSet.owner.toString() || flashcardSet.collaborators.includes(req.user._id.toString()));
         const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], collaborators, user_infos: null, admin: isAdmin };
         for (const flashcard of flashcards) {
-            const userData = flashcard.userDatas.find((data) => data.userId === req.user?.id) || null;
+            const userData = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { status: 1, lastReview: Date.now() };
             const flashcardInfo = { ...flashcard.toObject(), userDatas: userData };
             flashcardSetInfo.flashcards.push(flashcardInfo);
         }
