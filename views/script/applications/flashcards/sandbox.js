@@ -19,8 +19,6 @@ function toggleQuestionAnswer(card) {
     answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
 }
 
-
-
 function setEventListener(card) {
     const hammertime = new Hammer(card);
     hammertime.on('pan', (event) => {

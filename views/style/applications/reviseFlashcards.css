@@ -118,6 +118,7 @@ body {
 .moving.flashcard--card {
     transition: none;
     cursor: -webkit-grabbing;
+
     cursor: grabbing;
 }
 
@@ -127,16 +128,13 @@ body {
 }
 
 .flashcard--card h3 {
-    margin-top: 32px;
     font-size: 32px;
     padding: 0 16px;
     pointer-events: none;
 }
 
 .flashcard--card p {
-    margin-top: 24px;
-    font-size: 20px;
-    padding: 0 16px;
+    font-size: 32px;
     pointer-events: none;
 }
 
