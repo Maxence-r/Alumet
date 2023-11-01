@@ -58,7 +58,7 @@
                 </div>
                 <div class="prompt-buttons">
                     <button class="large">Supprimer</button> <button class="large" onclick="document.querySelector('.user-popup').classList.remove('active-popup')">Annuler</button>
-                    <button onclick="confirmCollaborators()" class="large">Confirmer</button>
+                    <button onclick="confirmCollaborators('flashcards')" class="large">Confirmer</button>
                 </div>
             </div>
         </div>
@@ -72,10 +72,10 @@
                 <button onclick="navbar('revise')" class="large">Reviser</button>
             </div>
             <div class="progression">
-                <div id="good"></div>
-                <div id="medium"></div>
-                <div id="bad"></div>
-                <div id="neutral"></div>
+                <div data-bar="3" id="good"></div>
+                <div data-bar="2" id="medium"></div>
+                <div data-bar="1" id="bad"></div>
+                <div data-bar="0" id="neutral"></div>
             </div>
             <div class="flashcards-container">
                 <div onclick="newFlashcards()" class="new-flashcard adminsOnly">

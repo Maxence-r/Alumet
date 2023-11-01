@@ -1,15 +1,37 @@
 'use strict';
-
+let storedData = null;
 const flashcardContainer = document.querySelector('.flashcards');
 const allCards = document.querySelectorAll('.flashcard--card');
 let flashcardsOrder = [];
 
-function writeLoveToServer() {
-    console.log("Love");
+function writeLoveToServer(flashcardId, status) {
+    fetch(`/flashcards/${id}/${flashcardId}/review`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: status }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(err => console.log(err));
 }
 
-function writeNopeToServer() {
-    console.log("Nope");
+function writeNopeToServer(flashcardId, status) {
+    fetch(`/flashcards/${id}/${flashcardId}/review`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: status }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(err => console.log(err));
 }
 
 function toggleQuestionAnswer(card) {
@@ -51,11 +73,11 @@ function setEventListener(card) {
             const rotate = xMulti * yMulti;
             card.style.transform = `translate(${toX}px, ${toY + event.deltaY}px) rotate(${rotate}deg)`;
             if (event.deltaX > 0) {
-                writeLoveToServer();
+                writeLoveToServer(card.dataset.id, parseInt(card.dataset.status) < 3 ? parseInt(card.dataset.status) + 1 : 3);
                 triggerFlashcard('love');
             } else {
                 triggerFlashcard('nope');
-                writeNopeToServer();
+                writeNopeToServer(card.dataset.id);
             }
             setTimeout(() => {
                 card.remove();
@@ -114,6 +136,7 @@ fetch(`/flashcards/${id}/content`)
         flashcardsOrder = data.flashcards;
         endLoading();
         triggerFlashcard();
+        storedData = data;
     })
     .catch(err => console.log(err));
 
@@ -122,38 +145,17 @@ fetch(`/flashcards/${id}/content`)
 
 function triggerFlashcard(direction) {
     if (flashcardsOrder.length > 0) {
-        let card = flashcardsOrder.shift();
+        let card = flashcardsOrder[0]
         if (direction === 'love') {
             flashcardsOrder[flashcardsOrder.length - 1].userDatas.status = flashcardsOrder[flashcardsOrder.length - 1].userDatas.status === 3 ? 3 : flashcardsOrder[flashcardsOrder.length - 1].userDatas.status + 1;
         } else if (direction === 'nope') {
             flashcardsOrder[flashcardsOrder.length - 1].userDatas.status = 1;
         }
+        flashcardsOrder.shift();
         addFlashcard(card._id, card.question, card.answer, card.userDatas?.status, card.userDatas?.lastReview);
         flashcardsOrder.push(card);
-        updateStatusPercentages();
+        updateStatusPercentages(flashcardsOrder);
     }
 }
 
-function updateStatusPercentages() {
-    const percentages = {
-        0: 0,
-        1: 0,
-        2: 0,
-        3: 0,
-    };
-    const total = flashcardsOrder.length;
-    flashcardsOrder.forEach(card => {
-        percentages[card.userDatas?.status]++;
-    });
-    let totalPercentage = 0;
-    for (const status in percentages) {
-        percentages[status] = Math.round((percentages[status] / total) * 100);
-        totalPercentage += percentages[status];
-    }
-    if (totalPercentage < 100) {
-        percentages[1] += 100 - totalPercentage;
-    }
-    for (const [key, value] of Object.entries(percentages)) {
-        document.querySelector(`[data-status="${key}"]`).style.width = `${value}%`;
-    }
-}
+

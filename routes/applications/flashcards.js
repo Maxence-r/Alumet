@@ -39,6 +39,11 @@ router.put('/set', authorize(), async (req, res) => {
     }
 });
 
+router.put('/collaborators/:flashcard', authorize('flashcard', 'itemAdmins'), async (req, res) => {
+    sendInvitations(req, res, 'flashcards', req.params.flashcard);
+    res.json({ success: true });
+});
+
 router.get('/:id', async (req, res) => {
     try {
         if (mongoose.Types.ObjectId.isValid(req.params.id) === false) return res.redirect('/404');
@@ -84,7 +89,7 @@ router.get('/:flashcard/content', async (req, res) => {
         const isAdmin = req.user && (req.user._id.toString() === flashcardSet.owner.toString() || flashcardSet.collaborators.includes(req.user._id.toString()));
         const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], collaborators, user_infos: null, admin: isAdmin };
         for (const flashcard of flashcards) {
-            const userData = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { status: 1, lastReview: Date.now() };
+            const userData = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { status: 0, lastReview: Date.now() };
             const flashcardInfo = { ...flashcard.toObject(), userDatas: userData };
             flashcardSetInfo.flashcards.push(flashcardInfo);
         }
@@ -129,6 +134,25 @@ router.delete('/:flashcard/:flashcardId', authorize('flashcard', 'itemAdmins'), 
         const flashcard = await Flashcards.findById(req.params.flashcardId);
         if (!flashcard) return res.json({ error: 'Flashcard not found' });
         await flashcard.delete();
+        res.json({ success: true });
+    } catch (error) {
+        console.log(error);
+        res.json({ error });
+    }
+});
+
+router.post('/:flashcard/:flashcardId/review', authorize(), async (req, res) => {
+    try {
+        const flashcard = await Flashcards.findById(req.params.flashcardId);
+        if (!flashcard) return res.json({ error: 'Flashcard not found' });
+        const userData = flashcard.userDatas.find((data) => data.userId === req.user.id);
+        if (!userData) {
+            flashcard.userDatas.push({ userId: req.user.id, status: req.body.status, lastReview: Date.now() });
+        } else {
+            userData.status = req.body.status;
+            userData.lastReview = Date.now();
+        }
+        await flashcard.save();
         res.json({ success: true });
     } catch (error) {
         console.log(error);

@@ -108,7 +108,6 @@ function loadParticipants(participants, collaborators, admin) {
         const user = document.createElement('div');
         user.classList.add('user');
         user.dataset.id = participant._id;
-        if (admin) user.setAttribute('onclick', `deleteParticipant("${participant._id}")`);
         const userImage = document.createElement('img');
         userImage.src = `/cdn/u/${participant.icon}`;
 
@@ -224,8 +223,8 @@ function addCollaborators() {
     document.querySelector('.user-popup').classList.add('active-popup');
 }
 
-function confirmCollaborators() {
-    fetch('/alumet/collaborators/' + alumet._id, {
+function confirmCollaborators(type) {
+    fetch(`/${type}/collaborators/` + id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

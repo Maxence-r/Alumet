@@ -22,7 +22,6 @@ async function sendInvitations(req, res, type, reference) {
             } else if (type === 'alumet') {
                 referenceDetails = await Alumet.findById(reference);
             }
-
             let invitationCheck = await Invitation.findOne({ to: participant, reference: reference });
 
             if (!account || invitationCheck || referenceDetails.collaborators.includes(participant) || referenceDetails.owner == participant) {

@@ -45,25 +45,22 @@
 }
 
 #good {
-    width: 60%;
     height: 100%;
     background-color: #296eff;
 }
 
 #medium {
-    width: 20%;
     height: 100%;
     background-color: #f0ac00;
 }
 
 #bad {
-    width: 10%;
     height: 100%;
     background-color: #ff0000;
 }
 
 #neutral {
-    width: 10%;
+    width: 100%;
     height: 100%;
 }
 

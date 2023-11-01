@@ -188,7 +188,7 @@ function toggleParticipant(id) {
 
 function endLoading() {
     setTimeout(() => {
-    document.querySelector('.loading').classList.add('hidden-loading');
+        document.querySelector('.loading').classList.add('hidden-loading');
     }, 600);
     setTimeout(() => {
         document.querySelector('.loading').style.display = 'none';
@@ -294,4 +294,29 @@ if (userPrompt) {
             searchUsers(query, type);
         }, debounceDelay);
     });
+}
+
+
+function updateStatusPercentages(flashcards) {
+    const percentages = {
+        0: 0,
+        1: 0,
+        2: 0,
+        3: 0,
+    };
+    const total = flashcards.length;
+    flashcards.forEach(card => {
+        percentages[card.userDatas?.status]++;
+    });
+    let totalPercentage = 0;
+    for (const status in percentages) {
+        percentages[status] = Math.round((percentages[status] / total) * 100);
+        totalPercentage += percentages[status];
+    }
+    if (totalPercentage < 100) {
+        percentages[1] += 100 - totalPercentage;
+    }
+    for (const [key, value] of Object.entries(percentages)) {
+        document.querySelector(`[data-bar="${key}"]`).style.width = `${value}%`;
+    }
 }

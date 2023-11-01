@@ -16,6 +16,7 @@ fetch(`/flashcards/${id}/content`)
             document.querySelector('.flashcards-container').appendChild(flashcard);
         });
         endLoading();
+        updateStatusPercentages(data.flashcards);
     })
     .catch(err => console.log(err));
 
@@ -93,7 +94,6 @@ function deleteFlashcard() {
 function createFlashcardElement(status, question, answer, id) {
     const div = document.createElement('div');
     div.dataset.flashcardid = id;
-    if (!status) status = 'neutral';
     div.classList.add('flashcard');
     div.dataset.status = status;
     const h1 = document.createElement('h1');

@@ -632,3 +632,27 @@ function openConversation(id) {
         })
         .catch(error => console.error(error));
 }
+
+
+document.querySelectorAll('[data-module]').forEach(element => {
+    element.addEventListener('click', () => {
+        document.querySelectorAll('.module-selected').forEach(element => {
+            element.classList.remove('module-selected');
+        });
+        element.classList.add('module-selected');
+        document.querySelectorAll('.module').forEach(element => {
+            element.style.display = 'none';
+        });
+        document.querySelector(`.${element.dataset.module}`).style.display = 'grid';
+    }
+    )
+});
+
+function startSetup() {
+    let type = document.querySelector('.module-selected').dataset.module;
+    if (type === 'alumets') {
+        window.location.href = '/setup/alumet';
+    } else if (type === 'flashcards') {
+        window.location.href = '/setup/flashcards';
+    }
+}

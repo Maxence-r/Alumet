@@ -38,38 +38,7 @@ function getContent() {
         });
 }
 
-function deleteParticipant(id) {
-    createPrompt({
-        head: "Suppression d'un participant",
-        desc: 'Êtes-vous sûr de vouloir supprimer ce participant ?',
-        action: `confirmDeleteParticipant("${id}")`,
-    });
-}
 
-function confirmDeleteParticipant(id) {
-    fetch('/alumet/' + alumet._id + '/participant/' + id, {
-        method: 'DELETE',
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                return toast({
-                    title: 'Erreur',
-                    message: data.error,
-                    type: 'error',
-                    duration: 5000,
-                });
-            }
-            document.querySelector('.active-popup').classList.remove('active-popup');
-            document.querySelector(`.participants-container > .user[data-id="${id}"]`).remove();
-            toast({
-                title: 'Succès',
-                message: 'Le participant a bien été supprimé',
-                type: 'success',
-                duration: 5000,
-            });
-        });
-}
 
 async function modifyAlumet() {
     const file = document.getElementById('alumet-background').files[0];

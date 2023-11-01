@@ -71,36 +71,27 @@
         <section class="sections-container">
             <section class="home active-section">
                 <div class="main-container">
-                    <div class="items-container">
-                        <div class="items-container-header">
-                            <div>
-                                <h3>Vos Alumets</h3>
-                            </div>
-                            <div>
-                                <button onclick="joinAlumet()" class="large">Rejoindre un alumet</button>
-                                <button onclick="window.location.href='/setup/alumet'" class="large">Créer un alumet</button>
-                            </div>
+                    <div class="modulable-header">
+                        <div class="modulable-left">
+                            <div data-module="alumets" class="module-selected">Alumets</div>
+                            <div data-module="flashcards">Flashcards</div>
                         </div>
-                        <div class="items alumets">
-                            <div class="full-screen">
-                                <h1>Aucun Alumets</h1>
-                                <p>Commencez par en créer un !</p>
-                            </div>
+                        <div class="modulable-right">
+                            <input placeholder="Chercher dans vos alumets" />
+                            <button onclick="startSetup()" class="large">Nouveau</button>
                         </div>
                     </div>
-                    <div class="divider"></div>
-                    <div class="items-container">
-                        <div class="items-container-header">
-                            <div>
-                                <h3>Vos jeux de flashcards</h3>
-                            </div>
-                            <div><button onclick="window.location.href = '/setup/flashcards'" class="large">Créer un jeu de flashcards</button></div>
+                    <button onclick="startSetup()" class="create-new-item large">Nouveau</button>
+                    <div class="module active-module items alumets">
+                        <div class="full-screen">
+                            <h1>Aucun Alumets</h1>
+                            <p>Commencez par en créer un !</p>
                         </div>
-                        <div class="items flashcards">
-                            <div class="no-items">
-                                <h1>Aucun jeu de flashcards</h1>
-                                <p>Commencer par en creer un !</p>
-                            </div>
+                    </div>
+                    <div class="module items flashcards">
+                        <div class="no-items">
+                            <h1>Aucun jeu de flashcards</h1>
+                            <p>Commencer par en creer un !</p>
                         </div>
                     </div>
 
