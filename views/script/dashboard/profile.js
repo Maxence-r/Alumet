@@ -35,6 +35,9 @@ function updateInfos(userInfos) {
         certified.classList.add('badge');
         userName.appendChild(certified);
     }
+    userInfos.notifications.forEach(notification => {
+        document.getElementById(notification).checked = true;
+    });
 }
 
 function createNotifications(invitations) {
@@ -77,28 +80,6 @@ getMyInfos()
         console.error('Error retrieving user information:', error);
     });
 
-saveInfosBtn.addEventListener('click', () => {
-    fetch('/profile/updateinfos', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            username: usernameField.value,
-        }),
-    })
-        .then(res => res.json())
-        .then(data => {
-            if (!data.error) {
-                const userInfos = user._id;
-                toast({ title: 'Informations modifiées !', message: 'Vos informations ont bien été modifiées.', type: 'success', duration: 2500 });
-                user = userInfos;
-            } else {
-                toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
-                usernameField.value = user.username;
-            }
-        });
-});
 
 /** Change the password */
 
@@ -253,3 +234,46 @@ document.getElementById('profile-picture-input').addEventListener('change', asyn
         toast({ title: 'Erreur !', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
     }
 });
+
+
+let profile = document.querySelector('.profile');
+profile.querySelectorAll('input').forEach(input => {
+    input.addEventListener('input', () => {
+        console.log('inputting')
+        document.querySelector('.save-bar').classList.add('active-save-bar');
+    });
+});
+
+function saveSettings() {
+    let messageP = document.getElementById('messageP').checked;
+    let messageG = document.getElementById('messageG').checked;
+    let invitationC = document.getElementById('invitationC').checked;
+    let commentP = document.getElementById('commentP').checked;
+    let username = document.getElementById('usernameField').value;
+    fetch('/profile/updateinfos', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: username,
+            messageP: messageP,
+            messageG: messageG,
+            invitationC: invitationC,
+            commentP: commentP,
+        }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.error) {
+                toast({ title: 'Paramètres modifiés !', message: 'Vos paramètres ont bien été modifiés.', type: 'success', duration: 2500 });
+                document.querySelector('.save-bar').classList.remove('active-save-bar');
+            } else {
+                toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            toast({ title: 'Erreur !', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
+        });
+}

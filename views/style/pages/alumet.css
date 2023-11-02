@@ -42,7 +42,6 @@ body {
     flex-direction: column-reverse;
     gap: 10px;
     height: 100%;
-    margin-bottom: 15px;
     padding: 15px;
     background-color: #f6f8fc;
     border-radius: 5px;
@@ -117,6 +116,7 @@ body {
     flex-direction: row;
     box-sizing: border-box;
     overflow: auto;
+    border-radius: 10px;
     height: 100%;
 }
 
@@ -340,7 +340,7 @@ body {
     border-radius: 10px;
     object-fit: cover;
     max-height: 200px;
-    margin-bottom: 15px;
+
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
@@ -547,6 +547,7 @@ body {
     bottom: 15px;
     width: 450px;
     padding: 15px;
+    gap: 15px;
     height: calc(100% - 60px);
     background-color: #fff;
     border-radius: 10px;
@@ -590,7 +591,6 @@ h1 {
     width: 100%;
     min-height: 1px;
     background-color: #eaeaea;
-    margin: 15px 0;
 }
 
 .overlay-content > .toggle {
@@ -619,7 +619,6 @@ h1 {
 
 .overlay-content > .drop-box {
     margin: 0;
-    margin: 10px 0;
 }
 
 .confirm {
@@ -721,9 +720,9 @@ h1 {
 #toolbar {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: 5px;
-    margin: 10px 0;
     min-height: 38px;
 }
 
@@ -732,9 +731,10 @@ h1 {
     flex-direction: row;
     align-items: center;
     gap: 5px;
-    padding: 4px;
+    position: absolute;
     margin-left: auto;
-    background-color: #f6f8fc;
+    height: 30px;
+    right: 8px;
     border-radius: 8px;
 }
 
@@ -930,10 +930,6 @@ h1 {
     text-align: center;
 }
 
-#wallTitle {
-    margin-bottom: 10px;
-}
-
 .rounded {
     border-radius: 8px;
 }
@@ -1032,7 +1028,6 @@ h1 {
     }
     .commentsContent {
         padding: 10px;
-        margin-bottom: 10px;
     }
     .row-bottom-buttons {
         flex-wrap: wrap;
@@ -1044,17 +1039,12 @@ h1 {
     .list {
         gap: 10px;
     }
-    .overlay-content > .divider {
-        margin: 10px 0;
-    }
     body {
         flex-direction: column-reverse;
         padding: 10px;
         gap: 10px;
     }
-    #toolbar > div:nth-of-type(2) {
-        display: none;
-    }
+
     .navbar > img {
         margin: 0;
         margin-left: 10%;
@@ -1074,7 +1064,8 @@ h1 {
         padding: 10px;
         width: calc(100% - 40px);
         left: 10px;
-        top: 82px;
+        top: 80px;
+        gap: 10px;
         height: calc(100% - 112px);
     }
     .navbar > button {

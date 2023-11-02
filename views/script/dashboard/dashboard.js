@@ -633,19 +633,19 @@ function openConversation(id) {
         .catch(error => console.error(error));
 }
 
-
 document.querySelectorAll('[data-module]').forEach(element => {
     element.addEventListener('click', () => {
-        document.querySelectorAll('.module-selected').forEach(element => {
-            element.classList.remove('module-selected');
+        let targets = document.querySelectorAll('[data-ref="' + element.dataset.ref + '"]');
+        targets.forEach(target => {
+            target.classList.remove('module-selected');
+            element.classList.add('module-selected');
+            let targets2 = document.querySelectorAll('[data-reference="' + element.dataset.ref + '"]');
+            targets2.forEach(target2 => {
+                target2.style.display = 'none';
+            });
+            document.querySelector(`.${element.dataset.module}`).style.display = 'grid';
         });
-        element.classList.add('module-selected');
-        document.querySelectorAll('.module').forEach(element => {
-            element.style.display = 'none';
-        });
-        document.querySelector(`.${element.dataset.module}`).style.display = 'grid';
-    }
-    )
+    });
 });
 
 function startSetup() {

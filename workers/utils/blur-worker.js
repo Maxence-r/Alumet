@@ -8,6 +8,7 @@ const addBlurToImage = async () => {
     const image = await Jimp.read('./cdn/' + filename);
     image.blur(8);
     image.brightness(-0.2);
+    image.quality(60);
     await image.writeAsync('./cdn/' + filename);
     parentPort.postMessage('complete');
   } catch (error) {

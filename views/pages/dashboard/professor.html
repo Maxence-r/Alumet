@@ -73,42 +73,24 @@
                 <div class="main-container">
                     <div class="modulable-header">
                         <div class="modulable-left">
-                            <div data-module="alumets" class="module-selected">Alumets</div>
-                            <div data-module="flashcards">Flashcards</div>
+                            <div data-ref="items" data-module="alumets" class="module-selected">Alumets</div>
+                            <div data-ref="items" data-module="flashcards">Flashcards</div>
                         </div>
                         <div class="modulable-right">
-                            <input placeholder="Chercher dans vos alumets" />
                             <button onclick="startSetup()" class="large">Nouveau</button>
                         </div>
                     </div>
                     <button onclick="startSetup()" class="create-new-item large">Nouveau</button>
-                    <div class="module active-module items alumets">
-                        <div class="full-screen">
-                            <h1>Aucun Alumets</h1>
-                            <p>Commencez par en créer un !</p>
+                    <div data-reference="items" class="module active-module items alumets">
+                        <div class="information">
+                            <img src="../assets/global/no-items.svg" />
                         </div>
                     </div>
-                    <div class="module items flashcards">
-                        <div class="no-items">
-                            <h1>Aucun jeu de flashcards</h1>
-                            <p>Commencer par en creer un !</p>
+                    <div data-reference="items" class="module items flashcards">
+                        <div class="information">
+                            <img src="../assets/global/no-items.svg" />
                         </div>
                     </div>
-
-                    <!--  <div class="items-container">
-                        <div class="items-container-header">
-                            <div>
-                                <h3>Vos cartes mentales</h3>
-                            </div>
-                            <div><input placeholder="Chercher dans vos cartes mentales" /> <button id="editAlumet" class="large interactable">Créer une carte mental</button></div>
-                        </div>
-                        <div class="items flashcards">
-                            <div class="no-items">
-                                <h1>Aucune carte mentale</h1>
-                                <p>Commencer par en creer un !</p>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
                 <div class="sub-container">
                     <div class="header">
@@ -352,28 +334,33 @@
             <!-- ================== Profile =================== -->
             <section class="profile">
                 <div class="main-container">
-                    <img src="../assets/global/banner.jpg" class="banner" alt="banner" />
-                    <div class="user-infos">
-                        <img id="profile-picture" src="../assets/global/fauxmaxence.png" alt="file icon" /> <input type="file" id="profile-picture-input" accept="image/png, image/jpeg" />
-                        <div class="sub-infos">
-                            <h4>User.name user.lastname</h4>
-                            <p>user.mail</p>
+                    <div class="modulable-header">
+                        <div class="modulable-left">
+                            <div data-ref="profile" data-module="informations" class="module-selected">Informations</div>
+                            <div data-ref="profile" data-module="security">Sécurité</div>
+                            <div data-ref="profile" data-module="notificationsparams">Notifications</div>
                         </div>
                     </div>
-                    <div class="warning-box">L'espace profil est actuellement en train d'être retravaillé</div>
-                    <div class="user-settings">
+                    <div data-reference="profile" class="module active-module informations">
                         <div class="user-options-heading">
                             <div class="user-options-infos">
                                 <h4>Informations</h4>
                                 <p>Mettez a jour vos informations si nécessaire</p>
                             </div>
-                            <button id="saveInfosBtn" class="large">Enregistrer</button>
                         </div>
                         <div class="divider"></div>
+                        <div class="user-infos">
+                            <img id="profile-picture" src="../assets/global/fauxmaxence.png" alt="file icon" /> <input type="file" id="profile-picture-input" accept="image/png, image/jpeg" />
+                            <div class="sub-infos">
+                                <h4>User.name user.lastname</h4>
+                                <p>user.mail</p>
+                            </div>
+                        </div>
+
                         <div class="grid-user-container">
                             <div class="item">
                                 <h3>Nom d'utilisateur</h3>
-                                <input spellcheck="false" maxlength="25" type="text" name="username" id="usernameField" placeholder="Nom d'utilisateur" autocomplete="on" />
+                                <input spellcheck="false" maxlength="18" type="text" name="username" id="usernameField" placeholder="Nom d'utilisateur" autocomplete="on" />
                             </div>
                             <div class="item">
                                 <h3>Prénom</h3>
@@ -388,6 +375,8 @@
                                 <input disabled="true" type="text" name="email" autocomplete="on" id="mailField" placeholder="Adresse e-mail" />
                             </div>
                         </div>
+                    </div>
+                    <div data-reference="profile" class="module security">
                         <div class="user-options-heading">
                             <div class="user-options-infos">
                                 <h4>Sécurité</h4>
@@ -399,44 +388,49 @@
                             <button id="changePasswordBtn" class="large greyed">Changer de mot de passe</button> <button id="toggleA2FBtn" class="large greyed">Activer l'A2F</button>
                             <button onclick="window.location='/auth/logout'" class="large greyed">Déconnexion</button> <button id="deleteAccountBtn" class="large reded">Supprimer mon compte</button>
                         </div>
+                    </div>
+                    <div data-reference="profile" class="module notificationsparams">
                         <div class="user-options-heading">
                             <div class="user-options-infos">
                                 <h4>Notifications</h4>
                                 <p>Activer ou desactiver selon vos préférences certains notifications</p>
                             </div>
-                            <button class="large">Enregistrer</button>
                         </div>
                         <div class="divider"></div>
                         <div class="grid-user-container">
                             <div class="option">
                                 <h1>Nouveau message groupe</h1>
                                 <label class="switch">
-                                    <input id="alumet-private" type="checkbox" />
+                                    <input id="messageG" type="checkbox" />
                                     <span class="slide round"></span>
                                 </label>
                             </div>
                             <div class="option">
                                 <h1>Nouveau message privé</h1>
                                 <label class="switch">
-                                    <input id="alumet-private" type="checkbox" />
+                                    <input id="messageP" type="checkbox" />
                                     <span class="slide round"></span>
                                 </label>
                             </div>
                             <div class="option">
                                 <h1>Nouveau commentaire sous mon post</h1>
                                 <label class="switch">
-                                    <input id="alumet-private" type="checkbox" />
+                                    <input id="commentP" type="checkbox" />
                                     <span class="slide round"></span>
                                 </label>
                             </div>
                             <div class="option">
                                 <h1>Invitation à collaborer</h1>
                                 <label class="switch">
-                                    <input id="alumet-private" type="checkbox" />
+                                    <input id="invitationC" type="checkbox" />
                                     <span class="slide round"></span>
                                 </label>
                             </div>
                         </div>
+                    </div>
+                    <div class="save-bar">
+                        <h1>Voulez vous enregister les modifications apportées ?</h1>
+                        <button onclick="saveSettings()" class="large">Enregistrer</button>
                     </div>
                 </div>
             </section>

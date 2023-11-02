@@ -8,15 +8,27 @@ const { upload, uploadAndSaveToDb } = require('../../../middlewares/utils/upload
 
 router.put('/updateinfos', async (req, res) => {
     try {
-        const { username } = req.body;
+        const { username, messageP, messageG, invitationC, commentP } = req.body;
         const user = await Account.findById(req.user.id);
         if (!user) {
             return res.status(401).json({ error: 'Utilisateur non trouvé !' });
         }
-        if (username.length < 2 || username.length > 25) {
+        if (username.length < 2 || username.length > 18) {
             return res.status(400).json({ error: "Le nom d'utilisateur est trop court" });
         }
         user.username = username;
+
+
+        const notificationTypes = ['messageP', 'messageG', 'invitationC', 'commentP'];
+
+
+        notificationTypes.forEach(type => {
+            if (req.body[type] && !user.notifications.includes(type)) {
+                user.notifications.push(type);
+            } else if (!req.body[type] && user.notifications.includes(type)) {
+                user.notifications = user.notifications.filter(notification => notification !== type);
+            }
+        });
         await user.save();
         res.status(200).json({ message: 'Informations modifiées avec succès !' });
     } catch (err) {

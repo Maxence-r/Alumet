@@ -121,6 +121,17 @@ function makeBold() {
     }
 }
 
+function makeHighlight() {
+    document.execCommand('hiliteColor', false, 'yellow');
+    if (document.getElementById('highlight').isToggled) {
+        document.getElementById('highlight').isToggled = false;
+        document.getElementById('highlight').classList.remove('active-effect');
+    } else {
+        document.getElementById('highlight').isToggled = true;
+        document.getElementById('highlight').classList.add('active-effect');
+    }
+}
+
 function makeItalic() {
     document.execCommand('italic');
     if (document.getElementById('italic').isToggled) {

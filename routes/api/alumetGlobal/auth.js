@@ -48,7 +48,7 @@ router.get('/info', authorize(), async (req, res) => {
         }
         invitationsToSend.push({ ownerInfos: owner, referenceInfos: referenceDetails, invitation: invitation });
     }
-    const user = await Account.findOne({ _id: req.user.id }, { name: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isCertified: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1 });
+    const user = await Account.findOne({ _id: req.user.id }, { name: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isCertified: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1, notifications: 1 });
     res.json({ user, invitationsToSend });
 });
 
