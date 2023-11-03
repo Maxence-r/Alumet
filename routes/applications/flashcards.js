@@ -62,7 +62,20 @@ router.get('/revise/sandbox/:flashcard', async (req, res) => {
         if (mongoose.Types.ObjectId.isValid(req.params.flashcard) === false) return res.redirect('/404');
         const flashcardSet = await FlashcardSet.findById(req.params.flashcard);
         if (!flashcardSet) return res.redirect('/404');
-        const filePath = path.join(__dirname, '../../views/pages/applications/flashcards/sandbox/sandbox.html');
+        const filePath = path.join(__dirname, '../../views/pages/applications/flashcards/sandbox.html');
+        res.sendFile(filePath);
+    } catch (error) {
+        console.log(error);
+        res.json({ error });
+    }
+});
+
+router.get('/revise/smart/:flashcard', async (req, res) => {
+    try {
+        if (mongoose.Types.ObjectId.isValid(req.params.flashcard) === false) return res.redirect('/404');
+        const flashcardSet = await FlashcardSet.findById(req.params.flashcard);
+        if (!flashcardSet) return res.redirect('/404');
+        const filePath = path.join(__dirname, '../../views/pages/applications/flashcards/smart.html');
         res.sendFile(filePath);
     } catch (error) {
         console.log(error);

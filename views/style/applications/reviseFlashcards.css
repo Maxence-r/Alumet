@@ -122,6 +122,44 @@ body {
     cursor: grabbing;
 }
 
+.smart-progression {
+    width: 100%;
+    height: 10px;
+}
+
+.ongoing-step {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    height: 100%;
+}
+
+.ongoing-step > div {
+    flex: 1;
+    height: 100%;
+    border-radius: 10px;
+}
+
+[data-cellulestatus='4'] {
+    background-color: #296eff;
+}
+
+[data-cellulestatus='3'] {
+    background-color: #296eff;
+}
+
+[data-cellulestatus='2'] {
+    background-color: #f0ac00;
+}
+
+[data-cellulestatus='1'] {
+    background-color: #ff0000;
+}
+
+[data-cellulestatus='0'] {
+    background-color: #c6c9ce;
+}
+
 .flashcard--card img {
     max-width: 100%;
     pointer-events: none;

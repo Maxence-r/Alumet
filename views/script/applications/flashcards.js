@@ -113,6 +113,8 @@ function createFlashcardElement(status, question, answer, id) {
 function revise(option) {
     if (option === 'sandbox') {
         window.location.href = `/flashcards/revise/sandbox/${id}`;
+    } else if (option === 'smart') {
+        window.location.href = `/flashcards/revise/smart/${id}`;
     } else {
         return toast({ title: 'Erreur', message: 'Cette option n\'est pas encore disponible', type: 'error', duration: 7500 });
     }
