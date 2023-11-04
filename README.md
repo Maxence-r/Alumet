@@ -10,7 +10,7 @@
   <img href="https://openai.com/" alt="OpenAI API" src="https://img.shields.io/badge/-OPENAI%20API-1ea47f?logo=openai&logoColor=FFFFFF&style=for-the-badge">
 </div>
 
-![image alumet](https://i.imgur.com/ycnjbBa.png)
+![image alumet](https://i.imgur.com/SKPY01p.png)
 Alumet is a free, open-source tool designed to ensure the success of your projects. It is actively maintained and hosted in France.
 
 ## Alumet Online
