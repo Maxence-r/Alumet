@@ -633,20 +633,7 @@ function openConversation(id) {
         .catch(error => console.error(error));
 }
 
-document.querySelectorAll('[data-module]').forEach(element => {
-    element.addEventListener('click', () => {
-        let targets = document.querySelectorAll('[data-ref="' + element.dataset.ref + '"]');
-        targets.forEach(target => {
-            target.classList.remove('module-selected');
-            element.classList.add('module-selected');
-            let targets2 = document.querySelectorAll('[data-reference="' + element.dataset.ref + '"]');
-            targets2.forEach(target2 => {
-                target2.style.display = 'none';
-            });
-            document.querySelector(`.${element.dataset.module}`).style.display = 'grid';
-        });
-    });
-});
+
 
 function startSetup() {
     let type = document.querySelector('.module-selected').dataset.module;

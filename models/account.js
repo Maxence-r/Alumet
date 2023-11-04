@@ -56,7 +56,7 @@ const AccountSchema = mongoose.Schema({
     notifications: {
         type: Array,
         required: false,
-        default: ['messageP', 'messageG', 'invitationC', 'commentP'],
+        default: ['messageP', 'messageG', 'invitationC', 'commentP', 'alumetA'],
     },
     badges: {
         type: Array,

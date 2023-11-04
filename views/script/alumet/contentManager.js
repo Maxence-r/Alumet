@@ -7,7 +7,7 @@ function getContent() {
             alumet = data;
             localStorage.setItem('alumet', JSON.stringify(data));
             document.querySelector('body').style.backgroundImage = `url(/cdn/u/${data.background})`;
-            document.querySelector('.settings > img').src = `/cdn/u/${data.background}`;
+            document.querySelector('.backgroundImg').src = `/cdn/u/${data.background}`;
             document.getElementById('alumetName').value = data.title;
             document.getElementById('alumetDescription').value = data.description;
             if (data.private && data.code) {
@@ -70,7 +70,7 @@ async function modifyAlumet() {
         });
 }
 
-document.querySelector('.settings > img').addEventListener('click', () => {
+document.querySelector('.backgroundImg').addEventListener('click', () => {
     document.getElementById('alumet-background').click();
 });
 
@@ -82,7 +82,7 @@ document.getElementById('alumet-background').addEventListener('change', () => {
         document.getElementById('alumet-background').value = '';
         return toast({ title: 'Erreur', message: 'Veuillez sélectionner une image de moins de 3MB', type: 'error', duration: 2500 });
     }
-    document.querySelector('.settings > img').src = URL.createObjectURL(file);
+    document.querySelector('.backgroundImg').src = URL.createObjectURL(file);
 });
 
 function getPostData(id, replace) {

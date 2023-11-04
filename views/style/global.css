@@ -559,6 +559,10 @@ textarea[placeholder] {
     gap: 10px;
 }
 
+.item > select {
+    width: 100%;
+}
+
 .item > h3 {
     font-size: 1rem;
     font-weight: 400;
@@ -1304,6 +1308,65 @@ select {
     border: 1px solid #216ee0;
     background: #eaf1fe;
     transition: ease-in 0.3s;
+}
+
+.module-selected {
+    background-color: #f6f8fc;
+}
+
+.module {
+    display: none;
+}
+
+.modulable-left > div {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 4%;
+    height: calc(100% - 2px);
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 6px;
+}
+
+.modulable-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: calc(70px - 18px);
+    width: calc(100% - 18px);
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 8px;
+}
+.modulable-left::-webkit-scrollbar {
+    display: none;
+}
+
+.modulable-left {
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+    align-items: center;
+    gap: 10px;
+    white-space: pre;
+    width: inherit;
+}
+
+.modulable-right {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.modulable-right > button {
+    border-radius: 6px;
+    height: 100%;
+}
+.modulable-right > input {
+    border-radius: 5px;
+    min-width: 200px;
+    height: calc(100% - 2px);
 }
 
 @keyframes rotation {

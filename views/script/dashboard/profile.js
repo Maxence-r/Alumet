@@ -42,7 +42,8 @@ function updateInfos(userInfos) {
 
 function createNotifications(invitations) {
     if (invitations.length !== 0) {
-        document.querySelector('.notifications-container > .full-screen').style.display = 'none';
+        document.querySelector('.notifications-container > .information').style.display = 'none';
+        document.querySelector('[data-module="notifications-container"] > .redot').style.display = 'block';
     }
     invitations.forEach(invitation => {
         document.querySelector('.notifications-container').style.display = 'flex';
@@ -248,6 +249,7 @@ function saveSettings() {
     let messageP = document.getElementById('messageP').checked;
     let messageG = document.getElementById('messageG').checked;
     let invitationC = document.getElementById('invitationC').checked;
+    let alumetA = document.getElementById('alumetA').checked;
     let commentP = document.getElementById('commentP').checked;
     let username = document.getElementById('usernameField').value;
     fetch('/profile/updateinfos', {
@@ -261,6 +263,7 @@ function saveSettings() {
             messageG: messageG,
             invitationC: invitationC,
             commentP: commentP,
+            alumetA: alumetA,
         }),
     })
         .then(res => res.json())

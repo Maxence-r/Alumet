@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <button onclick="startSetup()" class="create-new-item large">Nouveau</button>
-                    <div data-reference="items" class="module active-module items alumets">
+                    <div data-reference="items" style="display: grid" class="module items alumets">
                         <div class="information">
                             <img src="../assets/global/no-items.svg" />
                         </div>
@@ -99,21 +99,18 @@
                     </div>
                 </div>
                 <div class="sub-container">
-                    <div class="header">
-                        <h2>Notifications</h2>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="notifications-container">
-                        <div class="full-screen">
-                            <h1>Aucune notifications</h1>
-                            <p>Vous n'avez aucune notifications</p>
+                    <div class="modulable-header">
+                        <div class="modulable-left">
+                            <div data-ref="informations" data-module="notifications-container" class="module-selected">Notifications<span class="redot"></span></div>
+                            <div data-ref="informations" data-module="news-container">Nouveautées</div>
                         </div>
                     </div>
-                    <div class="header">
-                        <h2>Nouveautés</h2>
+                    <div data-reference="informations" style="display: flex" class="notifications-container module">
+                        <div class="information">
+                            <img src="../assets/global/notifications.svg" />
+                        </div>
                     </div>
-                    <div class="divider"></div>
-                    <div class="news-container">
+                    <div data-reference="informations" class="news-container module">
                         <div class="new-item">
                             <img src="../../assets/global/date.jpg" alt="banner" />
                             <div class="new-item-infos">
@@ -347,7 +344,7 @@
                             <div data-ref="profile" data-module="notificationsparams">Notifications</div>
                         </div>
                     </div>
-                    <div data-reference="profile" class="module active-module informations">
+                    <div data-reference="profile" style="display: grid" class="module informations">
                         <div class="user-options-heading">
                             <div class="user-options-infos">
                                 <h4>Informations</h4>
@@ -419,7 +416,7 @@
                                 </label>
                             </div>
                             <div class="option">
-                                <h1>Nouveau commentaire sous mon post</h1>
+                                <h1>Nouveau commentaire</h1>
                                 <label class="switch">
                                     <input id="commentP" type="checkbox" />
                                     <span class="slide round"></span>
@@ -429,6 +426,13 @@
                                 <h1>Invitation à collaborer</h1>
                                 <label class="switch">
                                     <input id="invitationC" type="checkbox" />
+                                    <span class="slide round"></span>
+                                </label>
+                            </div>
+                            <div class="option">
+                                <h1>Demande d'aaccès aux Alumets</h1>
+                                <label class="switch">
+                                    <input id="alumetA" type="checkbox" />
                                     <span class="slide round"></span>
                                 </label>
                             </div>

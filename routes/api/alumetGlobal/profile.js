@@ -8,7 +8,7 @@ const { upload, uploadAndSaveToDb } = require('../../../middlewares/utils/upload
 
 router.put('/updateinfos', async (req, res) => {
     try {
-        const { username, messageP, messageG, invitationC, commentP } = req.body;
+        const { username, messageP, messageG, invitationC, commentP, alumetA } = req.body;
         const user = await Account.findById(req.user.id);
         if (!user) {
             return res.status(401).json({ error: 'Utilisateur non trouvé !' });
@@ -19,7 +19,7 @@ router.put('/updateinfos', async (req, res) => {
         user.username = username;
 
 
-        const notificationTypes = ['messageP', 'messageG', 'invitationC', 'commentP'];
+        const notificationTypes = ['messageP', 'messageG', 'invitationC', 'commentP', 'alumetA'];
 
 
         notificationTypes.forEach(type => {
