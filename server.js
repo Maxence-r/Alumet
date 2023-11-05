@@ -5,7 +5,6 @@ const io = require('socket.io')(server);
 app.set('socketio', io);
 global.io = io;
 chatSocket = require('./socket/chatSocket')(io);
-dashboardSocket = require('./socket/dashboardSocket.js')(io);
 alumetSocket = require('./socket/alumetSocket.js')(io);
 
 const normalizePort = val => {

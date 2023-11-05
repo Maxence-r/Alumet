@@ -125,11 +125,11 @@ function relativeTime(timestamp) {
     if (diffInMinutes <= 0) {
         return "À l'instant";
     } else if (diffInMinutes < 60) {
-        return 'Il y a ' + diffInMinutes + 'min';
+        return 'il y a ' + diffInMinutes + 'min';
     } else if (diffInHours < 24) {
-        return 'Il y a ' + diffInHours + 'h';
+        return 'il y a ' + diffInHours + 'h';
     } else {
-        return 'Il y a ' + diffInDays + 'j';
+        return 'il y a ' + diffInDays + 'j';
     }
 }
 
@@ -325,13 +325,26 @@ document.querySelectorAll('[data-module]').forEach(element => {
     element.addEventListener('click', () => {
         let targets = document.querySelectorAll('[data-ref="' + element.dataset.ref + '"]');
         targets.forEach(target => {
-            target.classList.remove('module-selected');
-            element.classList.add('module-selected');
             let targets2 = document.querySelectorAll('[data-reference="' + element.dataset.ref + '"]');
             targets2.forEach(target2 => {
                 target2.style.display = 'none';
             });
             document.querySelector(`.${element.dataset.module}`).style.display = 'grid';
+            target.classList.remove('module-selected');
+            element.classList.add('module-selected');
+
         });
+    });
+});
+
+document.querySelectorAll('.connect').forEach(e => {
+    e.addEventListener('click', () => {
+        const popupWindow = window.open('/auth/signin?redirect=loginCallback', '_blank', 'height=600,width=400');
+        let timer = setInterval(function () {
+            if (popupWindow.closed) {
+                clearInterval(timer);
+                window.location.reload();
+            }
+        }, 1000);
     });
 });

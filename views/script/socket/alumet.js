@@ -1,11 +1,13 @@
-socket.on('connect', () => {
-    console.log(`Alumet socket connected`);
+socket.on("connect", () => {
+    console.log(socket.id); // x8WIv7-mJelg7on_ALbx
 });
+
 
 socket.on('disconnect', () => {
     navbar('disconnected');
-    socket.emit('leaveAlumet', alumet._id);
 });
+
+
 
 socket.on('addPost', data => {
     if (data.owner?._id === alumet.user_infos?._id) return;

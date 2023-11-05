@@ -213,7 +213,7 @@
                 <div class="row-bottom-buttons">
                     <button onclick="window.location.href='/dashboard'" class="large greyed">Retour au tableau de bord</button>
                     <button onclick="promptLeave()" class="large reded">Quitter cet Alumet</button>
-                    <button onclick="window.location.href=`/portal/${alumet._id}`" class="large">Se connecter</button>
+                    <button class="large connect">Se connecter</button>
                 </div>
             </div>
 
@@ -268,31 +268,7 @@
 
                 <div class="post-buttons">
                     <button onclick="deleteFlashcard()" class="large reded adminsOnly">Supprimer</button>
-                    <button onclick="createFlashcard()" class="large adminsOnly">Créer</button>
-                </div>
-            </div>
-            <div class="overlay-content editFlashcards">
-                <div class="header-setting">
-                    <div>
-                        <h1>Afficher</h1>
-                        <p>Vous pouvez modifier et supprimer cette flashcard</p>
-                    </div>
-                </div>
-                <div class="divider"></div>
-                <div class="grid-user-container">
-                    <div class="item">
-                        <h3>Question</h3>
-                        <input type="text" id="editQuestion" class="disabledInput" placeholder="Question" autocomplete="off" />
-                    </div>
-                    <div class="item">
-                        <h3>Réponse</h3>
-                        <input type="text" id="editAnswer" class="disabledInput" placeholder="Réponse" autocomplete="off" />
-                    </div>
-                </div>
-
-                <div class="post-buttons">
-                    <button onclick="deleteFlashcard()" class="large reded adminsOnly">Supprimer la flashcard</button>
-                    <button id="editFlashcard" onclick="createFlashcard()" class="large adminsOnly">Modifier</button>
+                    <button onclick="createFlashcard()" class="large adminsOnly adminsOnly">Créer</button>
                 </div>
             </div>
         </div>

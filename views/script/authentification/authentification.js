@@ -61,18 +61,7 @@ function loadAlumetInfos(alumet) {
     };
 }
 
-document.querySelectorAll('.connect').forEach(e => {
-    e.addEventListener('click', () => {
-        document.querySelector('.access').classList.add('load');
-        const popupWindow = window.open('/auth/signin?redirect=loginCallback', '_blank', 'height=600,width=400');
-        let timer = setInterval(function () {
-            if (popupWindow.closed) {
-                clearInterval(timer);
-                load(false);
-            }
-        }, 1000);
-    });
-});
+
 
 document.querySelector('.guest').addEventListener('click', () => {
     document.querySelector('.access').classList.add('load');

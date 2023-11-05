@@ -95,6 +95,7 @@ function createFlashcardElement(status, question, answer, id) {
     const div = document.createElement('div');
     div.dataset.flashcardid = id;
     div.classList.add('flashcard');
+
     div.dataset.status = status;
     const h1 = document.createElement('h1');
     h1.textContent = question;

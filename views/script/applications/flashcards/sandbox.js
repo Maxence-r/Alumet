@@ -100,7 +100,8 @@ function addFlashcard(id, question, answer, status, date) {
     const newCard = document.createElement('div');
     newCard.setAttribute('data-id', id);
     newCard.classList.add('flashcard--card');
-    newCard.setAttribute('data-status', status || 1)
+    console.log(status);
+    newCard.dataset.status = status || 0;
     newCard.style.zIndex = 2;
     const infos = document.createElement('div');
     infos.classList.add('flashcard--infos');
@@ -109,7 +110,6 @@ function addFlashcard(id, question, answer, status, date) {
     const h2date = document.createElement('h2');
     h2date.innerText = relativeTime(date);
     h2.innerText = statusToFrench[status];
-    console.log(status);
     h2.dataset.statustext = status;
     infos.appendChild(h2);
     infos.appendChild(h2date);

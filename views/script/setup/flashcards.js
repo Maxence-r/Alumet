@@ -26,7 +26,7 @@ function createFlashcards() {
                 }, 500);
                 s;
             } else {
-                toast({ title: 'Succès', message: "L'alumet a bien été créé !", type: 'success', duration: 2500 });
+                toast({ title: 'Succès', message: "Le jeu de flashcard à bien été crée !", type: 'success', duration: 2500 });
                 setTimeout(() => {
                     window.location.href = `/dashboard`;
                 }, 2500);
