@@ -124,16 +124,50 @@
             </div>
 
             <div class="overlay-content ia">
-                <div class="information">
-                    <img src="../assets/global/locked.svg" />
-                    <h3>
-                        Bientôt disponible en
-                        <div class="beta">BETA</div>
-                    </h3>
-                    <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
+                <div class="header-setting">
+                    <div>
+                        <h1>Créer avec l'IA</h1>
+                        <p>Créer des flashcards grâce à la <b>puissance</b> de l'intelligence artificielle.</p>
+                    </div>
                 </div>
+                <div class="divider"></div>
+                <div class="drop-box">
+                    <div class="indications">
+                        <p>
+                            Cliquer ici pour selectionner un fichier<br>
+                            Vous pouvez envoyer 1 ficher par publication
+                        </p>
+                    </div>
+                    <div class="sending-box rts">
+                        <div class="loading-box reponsive-hide"><img src="../assets/global/file_rts.svg" alt="tick"></div>
+                        <div class="file-sending-infos">
+                            <h3>file_name<span id="file-upload-ext">.ext</span></h3>
+                        </div>
+                        <div class="send-actions"><button onclick="cancelSend()" id="cancel-send" class="large greyed">Retirer</button></div>
+                    </div>
+                </div>
+                <button class="large" onclick="generateIA()">Génairay phlachkarde</button>
+
             </div>
 
+            <div class="overlay-content verify-flashcards">
+                <div class="header-setting">
+                    <div>
+                        <h1>Vérifier les flashcards</h1>
+                        <p>Vérifier et modifier les flashcards créées par Mindflash IA</p>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="flashcards-container"></div>
+                <button class="large" onclick="createFlashcards()">Ajouter les flashcards</button>
+            </div>
+
+            <div class="overlay-content loading-flashcards">
+                <div class="loading full-screen">
+                    <span class="loader"></span>
+                    <h3>Génération des flashcards par Mindflash IA<br />Patientez quelques instants</h3>
+                </div>
+            </div>
             <div class="overlay-content loadingRessources">
                 <div class="loading full-screen">
                     <span class="loader"></span>
@@ -226,7 +260,7 @@
                 <div class="from-device">
                     <h3>Le fichier est sur votre appareil ?</h3>
                     <button id="load-post-file" class="large greyed">Charger le fichier</button>
-                    <input type="file" style="display: none" id="post-file" />
+                    <input type="file" style="display: none" id="post-file" accept="application/pdf" />
                 </div>
 
                 <select name="folder" id="folder-selection" class="connected"></select>
@@ -245,7 +279,7 @@
                         <p>Ce dossier ne contient pas de fichiers</p>
                     </div>
                 </div>
-                <button onclick="navbar('post')" class="large greyed">Annuler</button>
+                <button onclick="navbar('ia')" class="large greyed">Annuler</button>
             </div>
             <div class="overlay-content flashcards">
                 <div class="header-setting">
@@ -268,7 +302,7 @@
 
                 <div class="post-buttons">
                     <button onclick="deleteFlashcard()" class="large reded adminsOnly">Supprimer</button>
-                    <button onclick="createFlashcard()" class="large adminsOnly adminsOnly">Créer</button>
+                    <button onclick="checkFlashcard()" class="large adminsOnly adminsOnly">Créer</button>
                 </div>
             </div>
         </div>
@@ -294,6 +328,10 @@
             <button onclick="navbar('settings')" id="settings">
                 <img src="../assets/global/settings.svg" alt="paramètres" />
                 <p>Paramètres</p>
+            </button>
+            <button onclick="window.location.href='/dashboard'">
+                <img src="../assets/global/chinese_flag.png" alt="paramètres" />
+                <p>Tableau de bord</p>
             </button>
             <button onclick="navbar('profile')" class="force" id="profile"><img src="../assets/default/default_user.png" /></button>
         </div>

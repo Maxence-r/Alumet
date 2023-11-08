@@ -27,7 +27,7 @@ function updateInfos(userInfos) {
     userFirstNameInput.value = userInfos.name;
     userLastNameInput.value = userInfos.lastname;
     userMailInput.value = userInfos.mail;
-    toggleA2FBtn.innerText = userInfos.isA2FEnabled ? 'Désactiver la verification par mail' : 'Activer la verification par mail';
+    toggleA2FBtn.innerText = userInfos.isA2FEnabled ? 'Désactiver la vérification par mail' : 'Activer la vérification par mail';
     if (userInfos.isCertified) {
         const certified = document.createElement('img');
         certified.src = `/assets/badges/certified/${userInfos.accountType}-certified.svg`;

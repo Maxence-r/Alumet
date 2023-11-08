@@ -1,7 +1,7 @@
 let currentFlashcard = null;
 fetch(`/flashcards/${id}/content`)
     .then(res => res.json())
-    .then(data => {
+    .then(async data => {
         console.log(data);
         document.getElementById('flashcard-title').innerText = data.title;
         document.getElementById('flashcard-description').innerText = data.description || 'Aucune description';
@@ -60,7 +60,8 @@ function newFlashcards() {
     document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').innerText = 'Créer';
     document.getElementById('answer').value = '';
     document.getElementById('question').value = '';
-    navbar('flashcards')
+    document.getElementById('question').focus();
+    navbar('flashcards');
     currentFlashcard = null;
 }
 
@@ -121,14 +122,7 @@ function revise(option) {
     }
 }
 
-function createFlashcard() {
-    let answer = document.getElementById('answer').value;
-    let question = document.getElementById('question').value;
-    console.log(answer, question);
-    if (answer.length < 1 || question.length < 1) {
-        return toast({ title: 'Erreur', message: 'La question et la réponse ne peuvent être vide !', type: 'error', duration: 7500 });
-    }
-    navbar('loadingRessources')
+function createFlashcard(question, answer) {
     fetch(`/flashcards/${id}/`, {
         method: 'PUT',
         headers: {
@@ -162,7 +156,109 @@ function createFlashcard() {
                 newFlashcard.insertAdjacentElement('afterend', flashcard);
                 document.getElementById('answer').value = '';
                 document.getElementById('question').value = '';
+                document.getElementById('question').focus();
             }
         });
     });
+}
+function createFlashcards() {
+    const flashcards = JSON.parse(localStorage.getItem('flashcards'));
+    fetch(`/flashcards/createIa`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            flashcards,
+            flashcardSetId: id,
+        }),
+    }).then(res => {
+        res.json().then(data => {
+            if (data.error) {
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
+            } else {
+                toast({ title: 'Succès', message: 'Les cartes ont bien été ajoutées !', type: 'success', duration: 2500 });
+                window.location.reload(); // ANCHOR A modifier plus tard
+            }
+        });
+    });
+}
+function checkFlashcard() {
+    const fields = [
+        { id: 'question', message: 'Vous devez ajouter une question' },
+        { id: 'answer', message: 'Vous devez ajouter une réponse' }
+    ];
+
+    for (const field of fields) {
+        let fieldValue = document.getElementById(field.id).value;
+        console.log(fieldValue);
+        if (fieldValue.length < 1) {
+            document.getElementById(field.id).focus();
+            return toast({ title: 'Erreur', message: field.message, type: 'error', duration: 7500 });
+        }
+    }
+    navbar('loadingRessources');
+    createFlashcard(document.getElementById('question').value, document.getElementById('answer').value);
+};
+
+document.querySelector('.drop-box').addEventListener('click', e => {
+    if (e.target.classList.contains('drop-box')) {
+        document.querySelectorAll('.loadfile > .files-items > .file-item:not([data-ext="pdf"])').forEach(item => {
+            item.remove();
+        });
+        navbar('loadfile');
+    }
+});
+document.getElementById('load-post-file').addEventListener('click', () => {
+    document.getElementById('post-file').click();
+});
+document.getElementById('post-file').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    localStorage.removeItem('file-ts');
+    const formData = new FormData();
+    formData.append('file', file);
+    document.querySelector('.file-sending-infos > h3').innerText = file.name;
+    navbar('post');
+    document.querySelector('.drop-box').classList.add('ready-to-send');
+});
+
+//ANCHOR IA generation
+function generateIA() {
+    navbar('loading-flashcards');
+    fetch('/openai/flashcards/generate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                src: localStorage.getItem('currentFile'),
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.error) {
+                navbar('home');
+                return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 })
+            }
+            const container = document.querySelector('.verify-flashcards > .flashcards-container');
+            container.innerHTML = '';
+            data.flashcards.forEach(flashcard => {
+                const div = document.createElement('div');
+                div.classList.add('flashcard');
+                const question = document.createElement('h1');
+                question.textContent = flashcard.question;
+                const divider = document.createElement('div');
+                divider.classList.add('divider');
+                const answer = document.createElement('h1');
+                answer.textContent = flashcard.answer;
+                div.appendChild(question);
+                div.appendChild(divider);
+                div.appendChild(answer);    
+                container.appendChild(div);
+            });
+            localStorage.setItem('flashcards', JSON.stringify(data.flashcards));
+            navbar('verify-flashcards');
+        });
 }

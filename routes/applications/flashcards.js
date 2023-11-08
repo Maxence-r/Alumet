@@ -173,7 +173,30 @@ router.post('/:flashcard/:flashcardId/review', authorize(), async (req, res) => 
     }
 });
 
+// Fait ça pour le moment mais à unifier avec le routes /create
+router.post('/createIa', async (req, res) => {
+    try {
+        const {flashcards, flashcardSetId} = req.body;
+        const flashcardSet = await FlashcardSet.findById(flashcardSetId);
+        if (!flashcardSet) return res.json({ error: 'Flashcard not found' });
+        const flashcardsData = [];
+        for (const flashcard of flashcards) {
+            const flashcardData = new Flashcards({
+                flashcardSetId: flashcardSetId,
+                question: flashcard.question,
+                answer: flashcard.answer,
+            });
+            await flashcardData.save();
+            flashcardsData.push(flashcardData);
+            console.log(flashcardData);
+        }
+        res.json({ flashcardsData });
 
+    } catch (error) {
+        console.log(error);
+        res.json({ error });
+    }
+});
 
 
 module.exports = router;

@@ -348,3 +348,11 @@ document.querySelectorAll('.connect').forEach(e => {
         }, 1000);
     });
 });
+
+function copyText(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        console.log('Copying to clipboard was successful!');
+    }, function(err) {
+        console.error('Could not copy text: ', err);
+    });
+}
