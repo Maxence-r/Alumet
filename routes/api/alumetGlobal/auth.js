@@ -124,7 +124,7 @@ router.post('/signup', authorizeA2F, validateAccount, async (req, res) => {
         mail: req.body.mail,
         password: req.body.password,
         accountType: req.body.accountType,
-        username: req.body.name.substring(0, 22) + req.body.lastname.substring(0, 3),
+        username: req.body.name.substring(0, 1) + req.body.lastname.substring(0, 22),
     });
     try {
         const hash = await bcrypt.hash(account.password, 10);

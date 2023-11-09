@@ -137,6 +137,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 15px;
     padding: 10px;
     border-radius: 10px;
     border: 1px solid #dddddd;
@@ -144,8 +145,13 @@ body {
     height: 125px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    text-align: center;
 }
-
+.verify-flashcards > .flashcards-container > .flashcard > h1 {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+}
 .flashcard:hover {
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.07);
 }
@@ -182,4 +188,11 @@ body {
     .flashcards-container {
         grid-gap: 10px;
     }
+}
+
+.overlay-content > h3 {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #9ea1a7;
+    margin: 0;
 }
