@@ -1,9 +1,5 @@
 let currentConversation = null;
-document.getElementById('message').addEventListener('keydown', event => {
-    if (event.key === 'Enter') {
-        sendMessage();
-    }
-});
+
 const sendMessageButton = document.getElementById('send-text');
 if (sendMessageButton) {
     sendMessageButton.addEventListener('click', () => {
@@ -114,3 +110,11 @@ function deleteMessage(id) {
 function joinSocketRoom(id, userId) {
     socket.emit('joinChatRoom', id, userId);
 }
+
+
+const myText = document.getElementById("message");
+
+myText.addEventListener("input", function () {
+    this.style.height = "auto";
+    this.style.minHeight = `${this.scrollHeight + 2}px`;
+});

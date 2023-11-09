@@ -180,9 +180,7 @@
                             </div>
                             <div class="send-actions"><button onclick="cancelSend()" id="cancel-send" class="large greyed">Retirer</button> <button onclick="sendFiles()" id="send-files" class="large">Envoyer</button></div>
                         </div>
-                        <div class="success-box">
-                            <h3>C'est fait !</h3>
-                        </div>
+
                         <input type="file" id="files-upload" multiple />
                     </div>
                     <div class="files-header connected">
@@ -250,7 +248,7 @@
                 </div>
                 <div class="main-container no-conversation showing-group-settings">
                     <div class="full-screen">
-                        <h1>Cliquer sur une conversation pour commencer !</h1>
+                        <h1>Cliquez sur une conversation pour commencer !</h1>
                         <p>Amélioré, Alumet garantit la sécurité de vos données, où que vous soyez !</p>
                     </div>
                     <div class="loading-conversation full-screen">
@@ -273,7 +271,8 @@
                                 <p>La discussion commence ici !</p>
                             </div>
                         </div>
-                        <div class="conversation-footer"><input autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message" /> <img id="send-text" src="../assets/global/send.svg" alt="send icon" /></div>
+                        <textarea rows="1" autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message"></textarea>
+                        <img id="send-text" src="../assets/global/send.svg" alt="send icon" />
                     </div>
                     <div class="conversation-settings">
                         <div class="header">

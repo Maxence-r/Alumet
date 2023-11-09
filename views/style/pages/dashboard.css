@@ -87,8 +87,8 @@ body {
 
 html,
 body {
-    height: calc(100% - 15px);
-    min-height: calc(100% - 15px);
+    height: 100%;
+    min-height: 100%;
 }
 
 .nav > button > img {
@@ -211,8 +211,8 @@ body {
     padding: 15px;
 
     background-color: white;
-    width: calc(100% - 30px);
-    height: calc(100% - 30px);
+    width: 100%;
+    height: 100%;
     position: relative;
     margin: 0;
     min-width: 14%;
@@ -233,7 +233,7 @@ body {
 }
 
 .messages > .sub-container > input {
-    width: calc(100% - 40px);
+    width: 100%;
 }
 
 .messages > .sub-container > button {
@@ -336,27 +336,9 @@ body {
     margin-bottom: 10px;
 }
 
-.action-content {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 350px;
-    margin: 1% 0;
-    transition: all 0.3s ease-in-out;
-    position: relative;
-}
-.action-content > h2 {
-    font-size: 1.4rem;
-    font-weight: 500;
-    margin: 0;
-    margin-right: auto;
-    text-align: left;
-}
-
 #new-alumet-participants {
     top: 60px;
-    width: calc(100% - 20px);
+    width: 100%;
 }
 
 @keyframes arrive {
@@ -372,11 +354,6 @@ body {
 
 .continue-button {
     width: 354px;
-}
-
-.action-content > input {
-    height: 48px;
-    width: calc(100% - 40px);
 }
 
 .user-infos > img {
@@ -487,7 +464,7 @@ body {
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
-    width: calc(100% - 50px);
+    width: calc(100% - 30px);
     bottom: 15px;
     background-color: #f6f8fc;
     border-radius: 8px;
@@ -574,7 +551,7 @@ body {
 }
 
 .main-container {
-    width: calc(100% - 25px);
+    width: 100%;
     display: flex;
     position: relative;
     flex-direction: column;
@@ -604,7 +581,7 @@ body {
 .action-row {
     position: absolute;
     bottom: 0;
-    width: calc(100% - 40px);
+    width: 100%;
     display: flex;
     bottom: 20px;
     flex-direction: row;
@@ -766,7 +743,7 @@ h2 {
 
 .file-preview {
     display: flex;
-    width: calc(100% - 2px);
+    width: 100%;
     height: 40%;
     border: 1px solid #f3f3f3;
     border-radius: 10px 10px 0 0;
@@ -786,7 +763,7 @@ h2 {
 }
 
 .file-basic-info {
-    width: calc(100% - 18px);
+    width: 100%;
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -868,7 +845,7 @@ h2 {
     flex-wrap: wrap;
     gap: 20px;
     position: absolute;
-    width: calc(100% - 40px);
+    width: 100%;
     bottom: 0;
     left: 0;
     padding: 20px;
@@ -953,7 +930,7 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: calc(100% - 2px);
+    width: 100%;
 }
 
 .home > .sub-container {
@@ -1012,7 +989,7 @@ h3 {
 
     gap: 2px;
     padding: 10px;
-    width: calc(100% - 22px);
+    width: 100%;
     height: fit-content;
     border: 1px solid #ebebeb;
     border-radius: 10px;
@@ -1216,7 +1193,7 @@ h3 {
     border-radius: 0 0 10px 10px;
     box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.1);
     padding: 10px;
-    width: calc(100% - 20px);
+    width: 100%;
 }
 
 .layer-blur-info > h4 {
@@ -1274,7 +1251,7 @@ h3 {
     flex-direction: row;
     margin: 10px 0;
     width: 100%;
-    height: calc(100% - 150px);
+    height: 100%;
     overflow-y: auto;
 }
 
@@ -1313,13 +1290,6 @@ h3 {
 
 .legend > h4 > span {
     margin-left: 2px;
-}
-
-.success-box > h3 {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: white;
-    margin: 0;
 }
 
 .selector {
@@ -1595,8 +1565,8 @@ h3 {
 }
 
 .new-conversation {
-    width: calc(100% - 40px);
-    height: calc(100% - 20px);
+    width: 100%;
+    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
@@ -1686,8 +1656,6 @@ h3 {
         position: absolute;
         top: 0;
         left: 0;
-        width: calc(100% - 30px);
-        height: calc(100% - 30px);
     }
     .grid-user-container {
         width: 100%;
@@ -1704,8 +1672,8 @@ h3 {
         left: 0;
         transform: translateY(110%);
         transition: all 0.3s ease-in-out;
-        width: calc(100% - 30px);
-        height: calc(100% - 30px);
+        width: 100%;
+        height: 100%;
         margin: 0;
         display: flex;
     }
@@ -1717,7 +1685,7 @@ h3 {
     }
     .messages > .sub-container:nth-child(1) {
         display: flex;
-        min-width: calc(100% - 30px);
+
         margin: 0;
     }
 }
@@ -1747,7 +1715,7 @@ h3 {
     }
     .action-row {
         position: fixed;
-        width: calc(100% - 20px);
+
         bottom: 10px;
         gap: 10px;
     }
@@ -1761,14 +1729,7 @@ h3 {
     .continue-button {
         width: 92%;
     }
-    .action-content > input {
-        height: 48px;
-        width: calc(90% - 4px);
-    }
-    .action-content {
-        width: 90%;
-        margin: 7% 0;
-    }
+
     .progression-bar {
         width: 2px;
         height: 80%;
@@ -1794,9 +1755,6 @@ h3 {
         flex-direction: row;
     }
 
-    .messages > .sub-container:nth-child(1) {
-        min-width: calc(100% - 20px);
-    }
     .banner {
         height: 15%;
     }
@@ -1806,14 +1764,7 @@ h3 {
         padding: 10px;
         gap: 10px;
     }
-    html,
-    body {
-        height: calc(100% - 10px);
-        min-height: calc(100% - 10px);
-    }
-    .prompt {
-        width: calc(90% - 20px);
-    }
+
     .nav {
         flex-direction: row;
         width: 100%;
@@ -1822,12 +1773,9 @@ h3 {
 
     .main-container {
         padding: 10px;
-        width: calc(100% - 20px);
     }
     .sub-container {
         padding: 10px;
-        width: calc(100% - 20px);
-        height: calc(100% - 20px);
     }
 
     .nav > button {
@@ -1845,13 +1793,5 @@ h3 {
     #profile {
         position: absolute;
         right: 5px;
-    }
-    .cloud > .sub-container:nth-child(3) {
-        width: calc(100% - 20px);
-        height: calc(100% - 20px);
-    }
-    .messages > .main-container {
-        width: calc(100% - 20px);
-        height: calc(100% - 20px);
     }
 }

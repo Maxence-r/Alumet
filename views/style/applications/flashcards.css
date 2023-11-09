@@ -8,9 +8,9 @@ body {
     flex-direction: row;
     align-items: center;
     padding: 10px;
-    width: calc(100% - 20px);
+    width: 100%;
     background-color: white;
-    min-height: calc(70px - 20px);
+    min-height: 70px;
     border-radius: 10px;
 }
 
@@ -33,11 +33,11 @@ body {
     flex-direction: column;
     justify-content: center;
     gap: 15px;
-    width: calc(100%);
+    width: 100%;
 }
 
 .choose > .choose-option {
-    width: calc(100% - 32px);
+    width: 100%;
     padding: 15px;
     border-radius: 10px;
     display: flex;
@@ -171,7 +171,6 @@ body {
         gap: 10px;
     }
     .choose > .choose-option {
-        width: calc(100% - 22px);
         padding: 10px;
     }
     .header > div:nth-of-type(1) > p {

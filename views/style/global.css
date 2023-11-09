@@ -10,6 +10,7 @@
 * {
     font-family: 'Plus Jakarta Sans', sans-serif;
     scrollbar-width: thin;
+    box-sizing: border-box;
 }
 
 .large:hover {
@@ -273,7 +274,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: calc(100% - 24px);
+    width: 100%;
     min-height: 115px;
     border-radius: 8px;
     height: 15%;
@@ -292,10 +293,10 @@
     align-items: center;
     padding: 8px;
     position: absolute;
-    width: calc(100% - 36px);
+    width: calc(100% - 16px);
     border-radius: 5px;
     bottom: 10px;
-    height: 50px;
+    pointer-events: none;
     background-color: white;
     box-shadow: 0px 0px 23px 0px rgba(0, 0, 0, 0.08);
     transform: translateY(30%);
@@ -306,11 +307,11 @@
 }
 
 .sending-data > .indications > p {
-    transform: translateY(-100%);
+    opacity: 0;
 }
 
 .ready-to-send > .indications > p {
-    transform: translateY(-100%);
+    opacity: 0;
 }
 
 .sending-data > .sending-box:nth-child(2) {
@@ -322,34 +323,13 @@
 .ready-to-send > .rts {
     opacity: 1;
     transform: translateY(0%);
+    pointer-events: all;
 }
 
 .indications {
     pointer-events: none;
 }
-.success-upload > .success-box {
-    opacity: 1;
-    transform: translateY(0%);
-    pointer-events: all;
-}
 
-.success-box {
-    cursor: default;
-    pointer-events: none;
-    position: absolute;
-    bottom: 15px;
-    width: calc(100% - 30px);
-    border-radius: 5px;
-    height: 56px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: #296eff;
-    transform: scale(0.9);
-    opacity: 0;
-    transition: all 0.3s ease-in-out;
-}
 .file-sending-infos {
     display: flex;
     flex-direction: column;
@@ -373,7 +353,7 @@
     flex-direction: row;
     align-items: center;
     position: relative;
-    width: calc(100% - 2px);
+    width: 100%;
     min-height: 50px;
     border: 1px solid #f3f3f3;
     border-radius: 10px;
@@ -438,7 +418,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    height: 50px;
     min-width: 50px;
     background-color: #f6f8fc;
     border-radius: 4px;
@@ -464,10 +444,10 @@
 }
 
 input {
-    width: calc(100% - 42px);
+    width: 100%;
     border-radius: 8px;
     padding: 0 20px;
-    height: calc(50px - 2px);
+    height: 50px;
     outline-color: white;
     font-size: 0.9rem;
     outline-color: #e5e5e5;
@@ -475,17 +455,25 @@ input {
 }
 
 textarea {
-    width: calc(100% - 42px);
-    height: calc(50px - 30px);
-    border-radius: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 8px;
+    min-height: 54px;
     resize: none;
     font-size: 0.9rem;
-    outline-color: #e5e5e5;
+    padding-bottom: 0.875rem;
+    padding-left: 1.2rem;
+    padding-top: 0.875rem;
+    padding-right: 3rem;
     border: 1px solid #e5e5e5;
+    line-height: 1.5rem;
 }
 
-textarea[placeholder] {
-    padding: 20px;
+.text-input {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
 }
 
 .loader-upload:before,
@@ -550,7 +538,7 @@ textarea[placeholder] {
 }
 
 .grid-user-container > input {
-    width: calc(100% - 40px);
+    width: 100%;
 }
 
 .item {
@@ -571,7 +559,7 @@ textarea[placeholder] {
 }
 
 .item > input {
-    width: calc(100% - 40px);
+    width: 100%;
 }
 
 .switch {
@@ -630,7 +618,7 @@ input:focus + .slide {
     border-radius: 10px;
     padding: 0 15px;
     min-height: 48px;
-    width: calc(100% - 32px);
+    width: 100%;
 }
 
 .switch-options {
@@ -860,8 +848,8 @@ select:focus,
 
 .loading-users {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
     background-color: white;
     border-radius: 10px;
 }
@@ -886,9 +874,9 @@ select:focus,
     display: none;
     align-items: center;
     justify-content: center;
-    width: calc(100% - 20px);
+    width: 100%;
     padding: 10px;
-    height: calc(100% - 20px);
+    height: 100%;
     position: absolute;
     z-index: 1000;
     background-color: rgba(0, 0, 0, 0.4);
@@ -972,16 +960,16 @@ select:focus,
 }
 
 .users-fetch {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
     position: relative;
     border: 1px solid #e5e5e5;
     border-radius: 10px;
     min-height: 60px;
     max-height: 600px;
     overflow-y: auto;
-}
-
-.users-fetch > .user {
-    margin: 10px;
 }
 
 .searching > .loading-users {
@@ -991,7 +979,7 @@ select:focus,
 
 .user {
     display: flex;
-    width: calc(100% - 20px);
+    width: 100%;
     flex-direction: row;
     gap: 10px;
     align-items: center;
@@ -1209,7 +1197,7 @@ select {
     background-color: #f6f8fc;
     border-radius: 10px;
     padding: 0 10px;
-    width: calc(200px - 20px);
+    width: 200px;
 }
 
 .from-device > h3 {
@@ -1226,7 +1214,7 @@ select {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    width: calc(100% - 20px);
+    width: 100%;
     background-color: #296eff;
     border-radius: 10px;
 }
@@ -1323,7 +1311,7 @@ select {
     align-items: center;
     cursor: pointer;
     padding: 0 4%;
-    height: calc(100% - 2px);
+    height: 100%;
     font-size: 0.95rem;
     font-weight: 500;
     border-radius: 6px;
@@ -1333,8 +1321,8 @@ select {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    min-height: calc(70px - 18px);
-    width: calc(100% - 18px);
+    min-height: 70px;
+    width: 100%;
     border: 1px solid #e5e5e5;
     border-radius: 10px;
     padding: 8px;
@@ -1366,7 +1354,7 @@ select {
 .modulable-right > input {
     border-radius: 5px;
     min-width: 200px;
-    height: calc(100% - 2px);
+    height: 100%;
 }
 
 @keyframes rotation {

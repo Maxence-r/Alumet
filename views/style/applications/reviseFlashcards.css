@@ -16,7 +16,7 @@ body {
 
 .flashcard {
     width: 100%;
-    height: calc(100% - 30px);
+    height: 100%;
     gap: 15px;
     padding: 15px;
     overflow: hidden;
@@ -188,6 +188,5 @@ body {
     .flashcard {
         padding: 10px;
         gap: 10px;
-        height: calc(100% - 20px);
     }
 }

@@ -15,8 +15,8 @@ body {
 
 html,
 body {
-    height: calc(100% - 15px);
-    min-height: calc(100% - 15px);
+    height: 100%;
+    min-height: 100%;
 }
 
 .brightness-layer {
@@ -308,7 +308,7 @@ body {
     margin-top: 5px;
     border-radius: 5px;
     padding: 10px;
-    width: calc(100% - 22px);
+    width: 100%;
 }
 .card.dragging {
     opacity: 0.4;
@@ -557,10 +557,10 @@ body {
     flex-direction: column;
     right: 110px;
     bottom: 15px;
-    width: 450px;
+    width: 500px;
     padding: 15px;
     gap: 15px;
-    height: calc(100% - 60px);
+    height: calc(100% - 30px);
     background-color: #fff;
     border-radius: 10px;
     opacity: 0;
@@ -660,7 +660,7 @@ h1 {
 }
 
 .description-container {
-    width: calc(100% - 22px);
+    width: 100%;
     padding: 10px;
     border: 1px solid #e5e5e5;
     border-radius: 10px;
@@ -823,8 +823,8 @@ h1 {
     overflow: hidden;
     flex-direction: column;
     justify-content: end;
-    width: calc(100% - 22px);
-    height: calc(125px - 2px);
+    width: 100%;
+    height: 125px;
     background-size: cover;
     background-position: center;
     padding: 10px;
@@ -901,7 +901,7 @@ h1 {
     position: relative;
     flex-direction: column;
     justify-content: end;
-    width: calc(100% - 40px);
+    width: 100%;
     height: 125px;
     background-size: cover;
     background-position: center;
@@ -1066,18 +1066,13 @@ h1 {
         width: 100%;
     }
 
-    html,
-    body {
-        height: calc(100% - 10px);
-        min-height: calc(100% - 10px);
-    }
     .overlay-content {
         padding: 10px;
-        width: calc(100% - 40px);
+        width: calc(100% - 20px);
+        height: calc(100% - 90px);
         left: 10px;
         top: 80px;
         gap: 10px;
-        height: calc(100% - 112px);
     }
     .navbar > button {
         margin: 0;

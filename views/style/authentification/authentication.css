@@ -10,8 +10,8 @@ body {
 
 html,
 body {
-    height: calc(100% - 15px);
-    min-height: calc(100% - 15px);
+    height: 100%;
+    min-height: 100%;
 }
 
 section.access {
@@ -64,7 +64,7 @@ section.access {
     cursor: pointer;
     flex-direction: column;
     justify-content: center;
-    width: calc(100% - 42px);
+    width: 100%;
     border: 1px solid rgb(214, 214, 214);
     padding: 20px;
     border-radius: 10px;
@@ -202,7 +202,7 @@ section.access {
     gap: 10px;
     top: 5%;
     left: 5%;
-    height: calc(100% - 10%);
+    height: 100%;
     z-index: 3;
 }
 
@@ -309,11 +309,6 @@ section.alumet-infos {
 }
 
 @media screen and (max-width: 1300px) {
-    html,
-    body {
-        height: calc(100% - 10px);
-        min-height: calc(100% - 10px);
-    }
     body {
         flex-direction: column-reverse;
         padding: 10px;
