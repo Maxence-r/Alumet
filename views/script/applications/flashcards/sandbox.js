@@ -4,22 +4,7 @@ const flashcardContainer = document.querySelector('.flashcards');
 const allCards = document.querySelectorAll('.flashcard--card');
 let flashcardsOrder = [];
 
-function writeLoveToServer(flashcardId, status) {
-    fetch(`/flashcards/${id}/${flashcardId}/review`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ status: status }),
-    })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(err => console.log(err));
-}
-
-function writeNopeToServer(flashcardId, status) {
+function newStatusToServer(flashcardId, status) {
     fetch(`/flashcards/${id}/${flashcardId}/review`, {
         method: 'POST',
         headers: {
@@ -72,17 +57,19 @@ function setEventListener(card) {
             const yMulti = event.deltaY / 80;
             const rotate = xMulti * yMulti;
             card.style.transform = `translate(${toX}px, ${toY + event.deltaY}px) rotate(${rotate}deg)`;
+            let status = parseInt(card.dataset.status);
+            let newStatus;
             if (event.deltaX > 0) {
-                writeLoveToServer(card.dataset.id, parseInt(card.dataset.status) < 3 ? parseInt(card.dataset.status) + 1 : 3);
+                newStatus = status === 0 ? 2 : (status < 3 ? status + 1 : 3);
                 triggerFlashcard('love');
             } else {
+                newStatus = 1;
                 triggerFlashcard('nope');
-                writeNopeToServer(card.dataset.id);
             }
+            newStatusToServer(card.dataset.id, newStatus);
             setTimeout(() => {
                 card.remove();
             }, 300);
-
         }
     });
     card.addEventListener('click', () => toggleQuestionAnswer(card));
@@ -91,7 +78,7 @@ function setEventListener(card) {
 
 const statusToFrench = {
     0: 'Neutre',
-    1: 'Pas connue',
+    1: 'Pas connu',
     2: 'En cours',
     3: 'Acquis',
 };
@@ -147,7 +134,11 @@ function triggerFlashcard(direction) {
     if (flashcardsOrder.length > 0) {
         let card = flashcardsOrder[0]
         if (direction === 'love') {
-            flashcardsOrder[flashcardsOrder.length - 1].userDatas.status = flashcardsOrder[flashcardsOrder.length - 1].userDatas.status === 3 ? 3 : flashcardsOrder[flashcardsOrder.length - 1].userDatas.status + 1;
+            if (flashcardsOrder[flashcardsOrder.length - 1].userDatas.status === 0) {
+                flashcardsOrder[flashcardsOrder.length - 1].userDatas.status = 2;
+            } else {
+                flashcardsOrder[flashcardsOrder.length - 1].userDatas.status = flashcardsOrder[flashcardsOrder.length - 1].userDatas.status === 3 ? 3 : flashcardsOrder[flashcardsOrder.length - 1].userDatas.status + 1;
+            }
         } else if (direction === 'nope') {
             flashcardsOrder[flashcardsOrder.length - 1].userDatas.status = 1;
         }

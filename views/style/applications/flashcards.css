@@ -190,3 +190,10 @@ body {
         grid-gap: 10px;
     }
 }
+
+.overlay-content > h3 {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #9ea1a7;
+    margin: 0;
+}

@@ -104,7 +104,7 @@ async function getContent(src) {
  
 router.post('/generate', async (req, res) => {
     try {
-        const src = '654bffbdc710e0f843355e02'; //ID test
+        const { src } = req.body;
         console.log('source du pdf : ', src);
 
         const content = await getContent(src);

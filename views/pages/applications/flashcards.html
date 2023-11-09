@@ -91,7 +91,7 @@
                 <h1 onclick="navbar('ia')">IA</h1>
                 <h1 onclick="navbar('participants')">Collaborateurs</h1>
                 <h1 onclick="navbar('settings')">Paramètres</h1>
-                <h1 onclick="navbar('profile')">Profile</h1>
+                <h1 onclick="navbar('profile')">Profil</h1>
             </div>
 
             <div class="overlay-content revise">
@@ -131,6 +131,7 @@
                     </div>
                 </div>
                 <div class="divider"></div>
+                <h3>Génerer avec un document</h3>
                 <div class="drop-box">
                     <div class="indications">
                         <p>
@@ -138,14 +139,8 @@
                             Vous pouvez envoyer 1 ficher par publication
                         </p>
                     </div>
-                    <div class="sending-box rts">
-                        <div class="loading-box reponsive-hide"><img src="../assets/global/file_rts.svg" alt="tick"></div>
-                        <div class="file-sending-infos">
-                            <h3>file_name<span id="file-upload-ext">.ext</span></h3>
-                        </div>
-                        <div class="send-actions"><button onclick="cancelSend()" id="cancel-send" class="large greyed">Retirer</button></div>
-                    </div>
                 </div>
+                <h3>Génerer avec des mots clés</h3>
                 <button class="large" onclick="generateIA()">Génairay phlachkarde</button>
 
             </div>
@@ -235,7 +230,7 @@
             </div>
 
             <div class="overlay-content profile">
-                <h1>Profile</h1>
+                <h1>Profil</h1>
                 <div class="divider"></div>
                 <div class="user-infos">
                     <img src="../assets/default/default_user.png" />
@@ -257,11 +252,6 @@
                 </div>
                 <h1>Choisir un fichier</h1>
                 <div class="divider"></div>
-                <div class="from-device">
-                    <h3>Le fichier est sur votre appareil ?</h3>
-                    <button id="load-post-file" class="large greyed">Charger le fichier</button>
-                    <input type="file" style="display: none" id="post-file" accept="application/pdf" />
-                </div>
 
                 <select name="folder" id="folder-selection" class="connected"></select>
                 <div class="files-header">
@@ -284,8 +274,8 @@
             <div class="overlay-content flashcards">
                 <div class="header-setting">
                     <div>
-                        <h1>Nouvelles flaschards</h1>
-                        <p>Vous pourrez les modifier plus tard.</p>
+                        <h1>Nouvelle flaschard</h1>
+                        <p>Créez une nouvelle flashcard ci-dessous.</p>
                     </div>
                 </div>
                 <div class="divider"></div>
@@ -325,7 +315,7 @@
                 <img src="../assets/global/participants.svg" alt="Participants" />
                 <p>Collaboration</p>
             </button>
-            <button onclick="navbar('settings')" id="settings">
+            <button class="adminsOnly" onclick="navbar('settings')" id="settings">
                 <img src="../assets/global/settings.svg" alt="paramètres" />
                 <p>Paramètres</p>
             </button>

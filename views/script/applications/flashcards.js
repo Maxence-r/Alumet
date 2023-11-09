@@ -9,7 +9,7 @@ fetch(`/flashcards/${id}/content`)
         document.getElementById('flashcardDescription').value = data.description;
         document.getElementById('invitationLink').value = window.location.href;
         document.getElementById('flashcardPublic').checked = data.isPublic;
-        loadParticipants([], data.collaborators, true);
+        loadParticipants([], data.collaborators, data.owner);
         enableConnected(data);
         data.flashcards.forEach(flashcard => {
             flashcard = createFlashcardElement(flashcard.userDatas?.status, flashcard.question, flashcard.answer, flashcard._id);
@@ -56,6 +56,8 @@ function modifyFlashcard() {
 }
 
 function newFlashcards() {
+    document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Nouvelle flashcard';
+    document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Créez une nouvelle flashcard ci-dessous.'
     document.querySelector('.flashcards > .post-buttons > .reded').style.display = 'none';
     document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').innerText = 'Créer';
     document.getElementById('answer').value = '';
@@ -106,6 +108,9 @@ function createFlashcardElement(status, question, answer, id) {
         currentFlashcard = id;
         document.getElementById('question').value = question;
         document.getElementById('answer').value = answer;
+        document.getElementById('question').focus();
+        document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Modifier une carte';
+        document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Vous pouvez modifier la carte ci-dessous.'
         document.querySelector('.flashcards > .post-buttons > .reded').style.display = 'block';
         document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').innerText = 'Modifier';
     });
@@ -209,22 +214,12 @@ document.querySelector('.drop-box').addEventListener('click', e => {
         navbar('loadfile');
     }
 });
-document.getElementById('load-post-file').addEventListener('click', () => {
-    document.getElementById('post-file').click();
-});
-document.getElementById('post-file').addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    localStorage.removeItem('file-ts');
-    const formData = new FormData();
-    formData.append('file', file);
-    document.querySelector('.file-sending-infos > h3').innerText = file.name;
-    navbar('post');
-    document.querySelector('.drop-box').classList.add('ready-to-send');
-});
+function chooseFile(fileId) {
+    generateIA(fileId);
+}
 
 //ANCHOR IA generation
-function generateIA() {
+function generateIA(fileId) {
     navbar('loading-flashcards');
     fetch('/openai/flashcards/generate', {
         method: 'POST',
@@ -232,14 +227,14 @@ function generateIA() {
             'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                src: localStorage.getItem('currentFile'),
+                src: fileId,
             }),
         })
         .then(response => response.json())
         .then(data => {
             console.log(data);
             if (data.error) {
-                navbar('home');
+                navbar('ia');
                 return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 })
             }
             const container = document.querySelector('.verify-flashcards > .flashcards-container');

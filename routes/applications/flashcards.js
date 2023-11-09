@@ -89,6 +89,7 @@ router.get('/:flashcard/content', async (req, res) => {
         const flashcardSet = await FlashcardSet.findById(req.params.flashcard);
         if (!flashcardSet) return res.redirect('/404');
         const flashcards = await Flashcard.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
+        const owner = await Account.findById(flashcardSet.owner, 'username icon _id name lastname');
         const collaborators = [];
         const getCollaboratorInfo = async () => {
             for (const collaboratorId of flashcardSet.collaborators) {
@@ -100,7 +101,7 @@ router.get('/:flashcard/content', async (req, res) => {
         };
         await getCollaboratorInfo();
         const isAdmin = req.user && (req.user._id.toString() === flashcardSet.owner.toString() || flashcardSet.collaborators.includes(req.user._id.toString()));
-        const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], collaborators, user_infos: null, admin: isAdmin };
+        const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], owner, collaborators, user_infos: null, admin: isAdmin };
         for (const flashcard of flashcards) {
             const userData = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { status: 0, lastReview: Date.now() };
             const flashcardInfo = { ...flashcard.toObject(), userDatas: userData };
@@ -119,7 +120,6 @@ router.get('/:flashcard/content', async (req, res) => {
 router.put('/:flashcard/', authorize('flashcard', 'itemAdmins'), async (req, res) => {
     try {
         const { question, answer, flashcardId } = req.body;
-        console.log(req.body);
         let flashcard;
         if (flashcardId && mongoose.Types.ObjectId.isValid(flashcardId)) {
             flashcard = await Flashcards.findById(flashcardId);
@@ -188,7 +188,6 @@ router.post('/createIa', async (req, res) => {
             });
             await flashcardData.save();
             flashcardsData.push(flashcardData);
-            console.log(flashcardData);
         }
         res.json({ flashcardsData });
 

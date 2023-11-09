@@ -123,9 +123,9 @@ function loadParticipants(participants, collaborators, admin) {
         user.appendChild(userInfo);
         participantsContainer.prepend(user);
     };
-
     participants.forEach(participant => createParticipant(participant, 'Participant'));
     collaborators.forEach(collaborator => createParticipant(collaborator, 'Collaborateur'));
+    createParticipant(admin, 'Administrateur');
 }
 
 function loadFiles() {
