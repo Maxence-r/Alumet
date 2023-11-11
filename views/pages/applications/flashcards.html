@@ -134,14 +134,18 @@
                 <h3>Génerer avec un document</h3>
                 <div class="drop-box">
                     <div class="indications">
-                        <p>
-                            Cliquer ici pour selectionner un fichier<br>
-                            Vous pouvez envoyer 1 ficher par publication
-                        </p>
+                        <p>Cliquer ici pour sélectionner un fichier.</p>
                     </div>
                 </div>
                 <h3>Génerer avec des mots clés</h3>
-                <button class="large" onclick="generateIA()">Génairay phlachkarde</button>
+                <div class="keywords">
+                    <input type="text" id="keyword" placeholder="Mots clés" />
+                    <button class="large" onclick="addKeyword()">Ajouter</button>
+                </div>
+                <div class="keywords-container">
+                    <div class="keyword">zzz</div>
+                </div>
+                <button class="large" onclick="generateWithKeywords()">Génairay phlachkarde</button>
 
             </div>
 
@@ -154,7 +158,10 @@
                 </div>
                 <div class="divider"></div>
                 <div class="flashcards-container"></div>
-                <button class="large" onclick="createFlashcards()">Ajouter les flashcards</button>
+                <div class="buttons">
+                    <button class="large greyed" onclick="backToIA()">Retour</button>
+                    <button class="large" onclick="createFlashcards()">Ajouter les flashcards</button>
+                </div>
             </div>
 
             <div class="overlay-content loading-flashcards">
@@ -307,7 +314,7 @@
                 <img src="../assets/global/home_a.svg" alt="home" />
                 <p>Accueil</p>
             </button>
-            <button onclick="navbar('ia')" class="connectedOnly" id="ia">
+            <button onclick="displayPageIA()" class="connectedOnly" id="ia">
                 <img src="../../assets/global/rocket_a.svg" alt="messagerie" />
                 <p>IA</p>
             </button>

@@ -12,7 +12,7 @@ fetch(`/flashcards/${id}/content`)
         loadParticipants([], data.collaborators, data.owner);
         enableConnected(data);
         data.flashcards.forEach(flashcard => {
-            flashcard = createFlashcardElement(flashcard.userDatas?.status, flashcard.question, flashcard.answer, flashcard._id);
+            flashcard = createFlashcardElement(flashcard.question, flashcard.answer, flashcard.userDatas?.status, 'modify', flashcard._id);
             document.querySelector('.flashcards-container').appendChild(flashcard);
         });
         endLoading();
@@ -93,8 +93,28 @@ function deleteFlashcard() {
         );
     });
 }
+function deleteCreation() {
+    const flashcards = JSON.parse(localStorage.getItem('flashcards-ia'));
+    const index = flashcards.findIndex(flashcard => flashcard._id == currentFlashcard);
+    console.log('index: ', index)
+    flashcards.splice(index, 1);
+    localStorage.setItem('flashcards-ia', JSON.stringify(flashcards));
+    document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).remove();
+    navbar('verify-flashcards');
+}
+function checkCreation() {
+    const flashcards = JSON.parse(localStorage.getItem('flashcards-ia'));
+    const modifyFlashcard = flashcards.find(flashcard => flashcard._id == currentFlashcard);
+    modifyFlashcard.question = document.getElementById('question').value;
+    modifyFlashcard.answer = document.getElementById('answer').value;
+    document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).replaceWith(createFlashcardElement(modifyFlashcard.question, modifyFlashcard.answer, 'neutral', 'modifyCreation', currentFlashcard));
+    localStorage.setItem('flashcards-ia', JSON.stringify(flashcards));
+    navbar('verify-flashcards');
+}
 
-function createFlashcardElement(status, question, answer, id) {
+
+function createFlashcardElement(question, answer, status, parameter, id) {
+    console.log(id)
     const div = document.createElement('div');
     div.dataset.flashcardid = id;
     div.classList.add('flashcard');
@@ -113,6 +133,14 @@ function createFlashcardElement(status, question, answer, id) {
         document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Vous pouvez modifier la carte ci-dessous.'
         document.querySelector('.flashcards > .post-buttons > .reded').style.display = 'block';
         document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').innerText = 'Modifier';
+
+        if (parameter === 'modifyCreation') {
+            document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').onclick = () => { checkCreation() }
+            document.querySelector('.flashcards > .post-buttons > .reded').onclick = () => { deleteCreation() }
+        } else if (parameter === 'modify') {
+            document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').onclick = () => { checkFlashcard() }
+            document.querySelector('.flashcards > .post-buttons > .reded').onclick = () => { deleteFlashcard() }
+        }
     });
     return div;
 }
@@ -152,7 +180,7 @@ function createFlashcard(question, answer) {
             } else {
                 toast({ title: 'Succès', message: 'La carte a bien été ajoutée !', type: 'success', duration: 2500 });
                 const newFlashcard = document.querySelector('.new-flashcard');
-                const flashcard = createFlashcardElement('neutral', question, answer, data.flashcard._id);
+                const flashcard = createFlashcardElement(question, answer, 'neutral', 'modify', data.flashcard._id);
                 if (currentFlashcard) {
                     document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).replaceWith(flashcard);
                 } else {
@@ -167,7 +195,7 @@ function createFlashcard(question, answer) {
     });
 }
 function createFlashcards() {
-    const flashcards = JSON.parse(localStorage.getItem('flashcards'));
+    const flashcards = JSON.parse(localStorage.getItem('flashcards-ia'));
     fetch(`/flashcards/createIa`, {
         method: 'POST',
         headers: {
@@ -183,6 +211,7 @@ function createFlashcards() {
                 toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
             } else {
                 toast({ title: 'Succès', message: 'Les cartes ont bien été ajoutées !', type: 'success', duration: 2500 });
+                localStorage.removeItem('flashcards-ia');
                 window.location.reload(); // ANCHOR A modifier plus tard
             }
         });
@@ -215,13 +244,86 @@ document.querySelector('.drop-box').addEventListener('click', e => {
     }
 });
 function chooseFile(fileId) {
-    generateIA(fileId);
+    generateWithDocument(fileId);
 }
 
 //ANCHOR IA generation
-function generateIA(fileId) {
+function displayPageIA(){
+    let flashcards = localStorage.getItem('flashcards-ia');
+    document.querySelector('.verify-flashcards > .flashcards-container').innerHTML = '';
+    if (flashcards && flashcards.length > 0) {
+        JSON.parse(flashcards).forEach(flashcard => {
+            const flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modifyCreation', `${flashcard._id}`);
+            console.log(flashcard._id)
+            document.querySelector('.verify-flashcards > .flashcards-container').appendChild(flashcardElement);
+        });
+        navbar('verify-flashcards');
+        document.getElementById('ia').classList.add('navbar-active');
+    } else {
+        navbar('ia');
+    }
+}
+function backToIA() {
+    localStorage.removeItem('flashcards-ia');
+    navbar('ia');
+}
+function addKeyword() {
+    const keywordInput = document.getElementById('keyword');
+    const keywords = keywordInput.value.split(' ');
+
+    if (keywords.some(keyword => keyword.length < 2)) {
+        return toast({ title: 'Erreur', message: 'Chaque mot-clé doit contenir au moins 2 caractères', type: 'error', duration: 7500 });
+    }
+
+    const container = document.querySelector('.keywords-container');
+
+    keywords.forEach(keyword => {
+        const div = document.createElement('div');
+        div.classList.add('keyword');
+        div.textContent = keyword;
+        container.appendChild(div);
+    });
+    keywordInput.value = '';
+}
+
+function generateWithKeywords() {
+    const keywords = Array.from(document.querySelectorAll('.keywords-container > .keyword')).map(keyword => keyword.textContent);
+    if (keywords.length < 1) {
+        return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins un mot-clé', type: 'error', duration: 7500 });
+    }
     navbar('loading-flashcards');
-    fetch('/openai/flashcards/generate', {
+    fetch('/openai/flashcards/generate-keywords', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                keywords,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.error) {
+                navbar('ia');
+                return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 })
+            }
+            let id = 0;
+            data.flashcards.forEach(flashcard => {
+                const flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modifyCreation', `${id}`);
+                flashcard._id = id;
+                id++;
+                document.querySelector('.verify-flashcards > .flashcards-container').appendChild(flashcardElement);
+
+            });
+            localStorage.setItem('flashcards-ia', JSON.stringify(data.flashcards));
+            navbar('verify-flashcards');
+        });
+}
+
+function generateWithDocument(fileId) {
+    navbar('loading-flashcards');
+    fetch('/openai/flashcards/generate-document', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -236,24 +338,8 @@ function generateIA(fileId) {
             if (data.error) {
                 navbar('ia');
                 return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 })
+            } else if (data.message) {
+                toast({ title: 'Attention', message: data.message, type: 'warning', duration: 7500 })
             }
-            const container = document.querySelector('.verify-flashcards > .flashcards-container');
-            container.innerHTML = '';
-            data.flashcards.forEach(flashcard => {
-                const div = document.createElement('div');
-                div.classList.add('flashcard');
-                const question = document.createElement('h1');
-                question.textContent = flashcard.question;
-                const divider = document.createElement('div');
-                divider.classList.add('divider');
-                const answer = document.createElement('h1');
-                answer.textContent = flashcard.answer;
-                div.appendChild(question);
-                div.appendChild(divider);
-                div.appendChild(answer);    
-                container.appendChild(div);
-            });
-            localStorage.setItem('flashcards', JSON.stringify(data.flashcards));
-            navbar('verify-flashcards');
         });
 }

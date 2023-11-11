@@ -1702,6 +1702,9 @@ h3 {
 }
 
 @media (max-width: 600px) {
+    .modulable-right {
+        display: none !important;
+    }
     .save-bar {
         bottom: 10px;
         width: calc(100% - 40px);

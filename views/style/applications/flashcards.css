@@ -172,6 +172,32 @@ body {
     font-weight: 600;
 }
 
+.ia > .keywords {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.ia > .keywords > button {
+    flex-grow: 0;
+}
+.ia > .keywords > input {
+    flex-grow: 1;
+    width: auto;
+}
+
+.verify-flashcards > .buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+.verify-flashcards > .buttons > button {
+    flex-grow: 1;
+}
+
 @media screen and (max-width: 600px) {
     .choose {
         gap: 10px;
