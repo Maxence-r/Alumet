@@ -155,12 +155,12 @@ body {
     color: #9ea1a7;
 }
 
-#profile {
+#bottomNav {
     margin-top: auto;
     margin-bottom: 15px;
 }
-#profile > img {
-    width: 50px;
+.navProfile > img {
+    width: 50px !important;
     height: 50px;
     border: 1px solid #e5e5e5;
     object-fit: cover;
@@ -1091,9 +1091,6 @@ h1 {
     }
     .navbar > button {
         display: none;
-    }
-    .force {
-        display: flex !important;
     }
     .navbar > div {
         display: block;

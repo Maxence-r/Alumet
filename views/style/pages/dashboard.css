@@ -154,16 +154,6 @@ body {
     min-width: 165px;
 }
 
-.cloud > .sub-container:nth-child(1) {
-    margin: 0;
-
-    min-width: 14%;
-}
-
-.cloud > .sub-container:nth-child(3) {
-    min-width: 22%;
-}
-
 .cloud > .sub-container {
     position: relative;
 }
@@ -177,12 +167,6 @@ body {
 
 .active-folder {
     color: #1e54e3 !important;
-}
-
-.messages > .sub-container:nth-child(1) {
-    max-width: 365px;
-    position: relative;
-    margin: 0;
 }
 
 .showing-group-settings > .conversation-settings {
@@ -611,8 +595,7 @@ body {
     display: flex;
     position: relative;
     flex-direction: column;
-    min-width: 350px;
-    width: 100%;
+    width: 50%;
     overflow: hidden;
     background-color: white;
     border-radius: 10px;
@@ -1687,7 +1670,7 @@ h3 {
     }
     .messages > .sub-container:nth-child(1) {
         display: flex;
-        max-width: 100%;
+        width: 100%;
         margin: 0;
     }
 }

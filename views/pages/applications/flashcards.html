@@ -144,7 +144,6 @@
                 </div>
                 <div class="keywords-container"></div>
                 <button class="large" onclick="generateWithIA('keywords')">Génairay phlachkarde</button>
-
             </div>
 
             <div class="overlay-content verify-flashcards">
@@ -324,11 +323,11 @@
                 <img src="../assets/global/settings.svg" alt="paramètres" />
                 <p>Paramètres</p>
             </button>
-            <button onclick="window.location.href='/dashboard'">
+            <button id="bottomNav" onclick="window.location.href='/dashboard'">
                 <img src="../assets/global/chinese_flag.png" alt="paramètres" />
                 <p>Tableau de bord</p>
             </button>
-            <button onclick="navbar('profile')" class="force" id="profile"><img src="../assets/default/default_user.png" /></button>
+            <button onclick="navbar('profile')" class="navProfile"><img src="../assets/default/default_user.png" /></button>
         </div>
     </body>
     <script src="/socket.io/socket.io.js"></script>

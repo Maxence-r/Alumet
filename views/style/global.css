@@ -458,7 +458,7 @@ textarea {
     box-sizing: border-box;
     width: 100%;
     border-radius: 8px;
-    min-height: 54px;
+    height: 90px;
     resize: none;
     font-size: 0.9rem;
     padding-bottom: 0.875rem;
@@ -466,6 +466,7 @@ textarea {
     padding-top: 0.875rem;
     padding-right: 3rem;
     border: 1px solid #e5e5e5;
+    max-height: 25%;
     line-height: 1.5rem;
 }
 

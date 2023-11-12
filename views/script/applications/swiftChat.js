@@ -1,6 +1,6 @@
 let currentConversation = null;
 
-const sendMessageButton = document.getElementById('send-text');
+const sendMessageButton = document.querySelector('.send-text');
 if (sendMessageButton) {
     sendMessageButton.addEventListener('click', () => {
         sendMessage();
@@ -8,9 +8,11 @@ if (sendMessageButton) {
 }
 
 function sendMessage() {
-    const message = document.getElementById('message').value;
-    if (document.getElementById('message').value === '') return;
-    document.getElementById('message').value = '';
+    let textarea = document.getElementById('message');
+    const message = textarea.value;
+    if (textarea.value === '') return;
+    textarea.value = '';
+    textarea.style.height = '60px';
     fetch('/swiftChat/send/' + currentConversation, {
         method: 'POST',
         headers: {
@@ -112,9 +114,3 @@ function joinSocketRoom(id, userId) {
 }
 
 
-const myText = document.getElementById("message");
-
-myText.addEventListener("input", function () {
-    this.style.height = "auto";
-    this.style.minHeight = `${this.scrollHeight + 2}px`;
-});

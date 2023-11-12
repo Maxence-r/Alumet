@@ -352,13 +352,21 @@
     border-radius: 0 10px 10px 10px;
     font-weight: 400;
     margin: 0;
+    white-space: pre-line;
 }
 
-#send-text {
+.send-text {
+    width: 40px;
+    height: 40px;
+    background-color: #296eff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     position: absolute;
-    bottom: 35px;
-    right: 35px;
+    bottom: 22px;
+    right: 22px;
+    border-radius: 6px;
 }
 
 .active-popup {
@@ -366,6 +374,10 @@
 }
 
 @media (max-width: 600px) {
+    .send-text {
+        right: 17px;
+        bottom: 17px;
+    }
     .right-message > img {
         display: none !important;
     }
