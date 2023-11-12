@@ -117,25 +117,30 @@ router.get('/:flashcard/content', async (req, res) => {
     }
 });
 
-router.put('/:flashcard/', authorize('flashcard', 'itemAdmins'), async (req, res) => {
+router.post('/:flashcardSet/check', authorize('flashcard', 'itemAdmins'), async (req, res) => {
     try {
-        const { question, answer, flashcardId } = req.body;
-        let flashcard;
-        if (flashcardId && mongoose.Types.ObjectId.isValid(flashcardId)) {
-            flashcard = await Flashcards.findById(flashcardId);
-            if (!flashcard) return res.json({ error: 'Flashcard not found' });
-            flashcard.question = question;
-            flashcard.answer = answer;
-        } else {
-            flashcard = new Flashcards({
-                flashcardSetId: req.params.flashcard,
-                question,
-                answer,
-                flashcardSetId: req.params.flashcard,
-            });
+        const { flashcardSetId, flashcards } = req.body;
+        const flashcardSet = await FlashcardSet.findById(flashcardSetId);
+        if (!flashcardSet) return res.json({ error: 'Flashcard not found' });
+        const flashcardsData = [];
+        for (let flashcard of flashcards) {
+            let newFlashcard;
+            if (flashcard._id && mongoose.Types.ObjectId.isValid(flashcard._id)) {
+                newFlashcard = await Flashcards.findById(flashcard._id);
+                if (!flashcard) return res.json({ error: 'Flashcard not found' });
+                newFlashcard.question = flashcard.question;
+                newFlashcard.answer = flashcard.answer;
+            } else {
+                newFlashcard = new Flashcards({
+                    flashcardSetId: flashcardSetId,
+                    question: flashcard.question,
+                    answer: flashcard.answer,
+                });
+            }
+            await newFlashcard.save();
+            flashcardsData.push(newFlashcard);
         }
-        await flashcard.save();
-        res.json({ flashcard });
+        res.json({ flashcards: flashcardsData });
     } catch (error) {
         console.log(error);
         res.json({ error });
@@ -172,30 +177,5 @@ router.post('/:flashcard/:flashcardId/review', authorize(), async (req, res) => 
         res.json({ error });
     }
 });
-
-// Fait ça pour le moment mais à unifier avec le routes /create
-router.post('/createIa', async (req, res) => {
-    try {
-        const {flashcards, flashcardSetId} = req.body;
-        const flashcardSet = await FlashcardSet.findById(flashcardSetId);
-        if (!flashcardSet) return res.json({ error: 'Flashcard not found' });
-        const flashcardsData = [];
-        for (const flashcard of flashcards) {
-            const flashcardData = new Flashcards({
-                flashcardSetId: flashcardSetId,
-                question: flashcard.question,
-                answer: flashcard.answer,
-            });
-            await flashcardData.save();
-            flashcardsData.push(flashcardData);
-        }
-        res.json({ flashcardsData });
-
-    } catch (error) {
-        console.log(error);
-        res.json({ error });
-    }
-});
-
 
 module.exports = router;

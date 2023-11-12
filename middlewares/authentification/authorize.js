@@ -8,7 +8,8 @@ const authorize = (itemType, type) => {
         if (itemType === 'alumet') {
             item = await Alumet.findOne({ _id: req.params.alumet });
         } else if (itemType === 'flashcard') {
-            item = await FlashCardSet.findOne({ _id: req.params.flashcard });
+            console.log(req.params);
+            item = await FlashCardSet.findOne({ _id: req.params.flashcard || req.params.flashcardSet});
         }
 
         if (type === 'alumetPrivate') {

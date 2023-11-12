@@ -20,7 +20,7 @@ fetch(`/flashcards/${id}/content`)
     })
     .catch(err => console.log(err));
 
-function modifyFlashcard() {
+function modifyFlashcardSet() {
     let title = document.getElementById('flashcardName').value;
     if (title.length < 2) {
         navbar('settings');
@@ -56,15 +56,15 @@ function modifyFlashcard() {
 }
 
 function newFlashcards() {
+    localStorage.setItem('currentItem', null);
     document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Nouvelle flashcard';
     document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Créez une nouvelle flashcard ci-dessous.'
     document.querySelector('.flashcards > .post-buttons > .reded').style.display = 'none';
-    document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').innerText = 'Créer';
+    document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Créer';
     document.getElementById('answer').value = '';
     document.getElementById('question').value = '';
     document.getElementById('question').focus();
     navbar('flashcards');
-    currentFlashcard = null;
 }
 
 function deleteFlashcard() {
@@ -95,8 +95,7 @@ function deleteFlashcard() {
 }
 function deleteCreation() {
     const flashcards = JSON.parse(localStorage.getItem('flashcards-ia'));
-    const index = flashcards.findIndex(flashcard => flashcard._id == currentFlashcard);
-    console.log('index: ', index)
+    const index = flashcards.findIndex(flashcard => flashcard.id == currentFlashcard);
     flashcards.splice(index, 1);
     localStorage.setItem('flashcards-ia', JSON.stringify(flashcards));
     document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).remove();
@@ -104,7 +103,7 @@ function deleteCreation() {
 }
 function checkCreation() {
     const flashcards = JSON.parse(localStorage.getItem('flashcards-ia'));
-    const modifyFlashcard = flashcards.find(flashcard => flashcard._id == currentFlashcard);
+    const modifyFlashcard = flashcards.find(flashcard => flashcard.id == currentFlashcard);
     modifyFlashcard.question = document.getElementById('question').value;
     modifyFlashcard.answer = document.getElementById('answer').value;
     document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).replaceWith(createFlashcardElement(modifyFlashcard.question, modifyFlashcard.answer, 'neutral', 'modifyCreation', currentFlashcard));
@@ -112,9 +111,7 @@ function checkCreation() {
     navbar('verify-flashcards');
 }
 
-
 function createFlashcardElement(question, answer, status, parameter, id) {
-    console.log(id)
     const div = document.createElement('div');
     div.dataset.flashcardid = id;
     div.classList.add('flashcard');
@@ -132,13 +129,12 @@ function createFlashcardElement(question, answer, status, parameter, id) {
         document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Modifier une carte';
         document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Vous pouvez modifier la carte ci-dessous.'
         document.querySelector('.flashcards > .post-buttons > .reded').style.display = 'block';
-        document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').innerText = 'Modifier';
-
+        document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Modifier';
         if (parameter === 'modifyCreation') {
-            document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').onclick = () => { checkCreation() }
+            document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').onclick = () => { checkCreation() }
             document.querySelector('.flashcards > .post-buttons > .reded').onclick = () => { deleteCreation() }
         } else if (parameter === 'modify') {
-            document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').onclick = () => { checkFlashcard() }
+            document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').onclick = () => { checkFlashcard() }
             document.querySelector('.flashcards > .post-buttons > .reded').onclick = () => { deleteFlashcard() }
         }
     });
@@ -154,85 +150,68 @@ function revise(option) {
         return toast({ title: 'Erreur', message: 'Cette option n\'est pas encore disponible', type: 'error', duration: 7500 });
     }
 }
-
-function createFlashcard(question, answer) {
-    fetch(`/flashcards/${id}/`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            answer,
-            question,
-            flashcardId: currentFlashcard,
-        }),
-    }).then(res => {
-        setTimeout(() => {
-            if (currentFlashcard) {
-                navbar('home')
-            } else {
-                navbar('flashcards');
-            }
-        }, 500);
-        res.json().then(data => {
-            if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
-            } else {
-                toast({ title: 'Succès', message: 'La carte a bien été ajoutée !', type: 'success', duration: 2500 });
-                const newFlashcard = document.querySelector('.new-flashcard');
-                const flashcard = createFlashcardElement(question, answer, 'neutral', 'modify', data.flashcard._id);
-                if (currentFlashcard) {
-                    document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).replaceWith(flashcard);
-                } else {
-                    document.querySelector('.flashcards-container').appendChild(flashcard);
-                }
-                newFlashcard.insertAdjacentElement('afterend', flashcard);
-                document.getElementById('answer').value = '';
-                document.getElementById('question').value = '';
-                document.getElementById('question').focus();
-            }
-        });
-    });
-}
-function createFlashcards() {
-    const flashcards = JSON.parse(localStorage.getItem('flashcards-ia'));
-    fetch(`/flashcards/createIa`, {
+async function createFlashcards(info, flashcards) {
+    if (!flashcards) {
+        console.log('flashcards', flashcards);
+        flashcards = JSON.parse(localStorage.getItem('flashcards-ia')) || [];
+        flashcards = flashcards.map(flashcard => ({ question: flashcard.question, answer: flashcard.answer }));
+    } else if (!Array.isArray(flashcards)) {
+        flashcards = [flashcards];
+    }
+    console.log('Gayyy', flashcards)
+    const response = await fetch(`/flashcards/${id}/check`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            flashcards,
-            flashcardSetId: id,
-        }),
-    }).then(res => {
-        res.json().then(data => {
-            if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
-            } else {
-                toast({ title: 'Succès', message: 'Les cartes ont bien été ajoutées !', type: 'success', duration: 2500 });
-                localStorage.removeItem('flashcards-ia');
-                window.location.reload(); // ANCHOR A modifier plus tard
-            }
-        });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ flashcards, flashcardSetId: id }),
     });
+
+    setTimeout(() => {
+        navbar(currentFlashcard || info == 'ia' ? 'home' : 'flashcards');
+        if (info == 'ia') localStorage.removeItem('flashcards-ia');
+    }, 500);
+
+    const data = await response.json();
+
+    if (data.error) {
+        toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
+    } else {
+        data.flashcards.forEach(flashcard => {
+            const flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modify', flashcard._id);
+            console.log(currentFlashcard)
+            if (flashcard._id == currentFlashcard) {
+                console.log('ahhhhhhhhhhhhhhh')
+                document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).replaceWith(flashcardElement);
+                toast({ title: 'Succès', message: 'La carte a bien été modifiée !', type: 'success', duration: 2500 });
+            } else {
+                document.querySelector('.flashcards-container').appendChild(flashcardElement);
+            }
+            document.querySelector('.new-flashcard').insertAdjacentElement('afterend', flashcardElement);
+        });
+        console.log(data.flashcards);
+        if (!data.flashcards.some(flashcard => flashcard._id == currentFlashcard)) toast({ title: 'Succès', message: `La carte${data.flashcards.length > 1 ? 's ont' : ' a'} bien été ajoutée${data.flashcards.length > 1 ? 's' : ''} !`, type: 'success', duration: 2500 });
+        document.getElementById('answer').value = '';
+        document.getElementById('question').value = '';
+        document.getElementById('question').focus();
+    }
 }
+
 function checkFlashcard() {
     const fields = [
-        { id: 'question', message: 'Vous devez ajouter une question' },
-        { id: 'answer', message: 'Vous devez ajouter une réponse' }
+        { id: 'question', messageShort: 'Vous devez ajouter une question', messageLong: 'La question ne doit pas dépasser 100 caractères' },
+        { id: 'answer', messageShort: 'Vous devez ajouter une réponse', messageLong: 'La réponse ne doit pas dépasser 100 caractères' }
     ];
-
     for (const field of fields) {
         let fieldValue = document.getElementById(field.id).value;
-        console.log(fieldValue);
         if (fieldValue.length < 1) {
             document.getElementById(field.id).focus();
-            return toast({ title: 'Erreur', message: field.message, type: 'error', duration: 7500 });
+            return toast({ title: 'Erreur', message: field.messageShort, type: 'error', duration: 7500 });
+        } else if (fieldValue.length > 100) {
+            document.getElementById(field.id).focus();
+            return toast({ title: 'Erreur', message: field.messageLong, type: 'error', duration: 7500 });
         }
     }
     navbar('loadingRessources');
-    createFlashcard(document.getElementById('question').value, document.getElementById('answer').value);
+    createFlashcards('normal', { question: document.getElementById('question').value, answer: document.getElementById('answer').value, _id: currentFlashcard});
 };
 
 document.querySelector('.drop-box').addEventListener('click', e => {
@@ -244,7 +223,7 @@ document.querySelector('.drop-box').addEventListener('click', e => {
     }
 });
 function chooseFile(fileId) {
-    generateWithDocument(fileId);
+    generateWithIA('document', fileId);
 }
 
 //ANCHOR IA generation
@@ -253,8 +232,7 @@ function displayPageIA(){
     document.querySelector('.verify-flashcards > .flashcards-container').innerHTML = '';
     if (flashcards && flashcards.length > 0) {
         JSON.parse(flashcards).forEach(flashcard => {
-            const flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modifyCreation', `${flashcard._id}`);
-            console.log(flashcard._id)
+            const flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modifyCreation', `${flashcard.id}`);
             document.querySelector('.verify-flashcards > .flashcards-container').appendChild(flashcardElement);
         });
         navbar('verify-flashcards');
@@ -286,50 +264,20 @@ function addKeyword() {
     keywordInput.value = '';
 }
 
-function generateWithKeywords() {
+function generateWithIA(parameter, data) {
+    navbar('loading-flashcards');
     const keywords = Array.from(document.querySelectorAll('.keywords-container > .keyword')).map(keyword => keyword.textContent);
-    if (keywords.length < 1) {
-        return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins un mot-clé', type: 'error', duration: 7500 });
-    }
-    navbar('loading-flashcards');
-    fetch('/openai/flashcards/generate-keywords', {
+    if (keywords.length < 1) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins un mot-clé', type: 'error', duration: 7500 });
+    parameter == 'keywords' ?  data = keywords : data = data;
+
+    fetch('/openai/flashcards/generate-flashcards', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                keywords,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            if (data.error) {
-                navbar('ia');
-                return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 })
-            }
-            let id = 0;
-            data.flashcards.forEach(flashcard => {
-                const flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modifyCreation', `${id}`);
-                flashcard._id = id;
-                id++;
-                document.querySelector('.verify-flashcards > .flashcards-container').appendChild(flashcardElement);
-
-            });
-            localStorage.setItem('flashcards-ia', JSON.stringify(data.flashcards));
-            navbar('verify-flashcards');
-        });
-}
-
-function generateWithDocument(fileId) {
-    navbar('loading-flashcards');
-    fetch('/openai/flashcards/generate-document', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                src: fileId,
+                parameter,
+                data,
             }),
         })
         .then(response => response.json())
@@ -341,5 +289,15 @@ function generateWithDocument(fileId) {
             } else if (data.message) {
                 toast({ title: 'Attention', message: data.message, type: 'warning', duration: 7500 })
             }
+            data.flashcards.forEach(flashcard => {
+                const id = Math.random().toString(36).substring(2);
+                const flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modifyCreation', `${id}`);
+                flashcard.id = id;
+                console.log(flashcard);
+                document.querySelector('.verify-flashcards > .flashcards-container').appendChild(flashcardElement);
+
+            });
+            localStorage.setItem('flashcards-ia', JSON.stringify(data.flashcards));
+            navbar('verify-flashcards');
         });
 }

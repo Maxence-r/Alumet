@@ -142,10 +142,8 @@
                     <input type="text" id="keyword" placeholder="Mots clés" />
                     <button class="large" onclick="addKeyword()">Ajouter</button>
                 </div>
-                <div class="keywords-container">
-                    <div class="keyword">zzz</div>
-                </div>
-                <button class="large" onclick="generateWithKeywords()">Génairay phlachkarde</button>
+                <div class="keywords-container"></div>
+                <button class="large" onclick="generateWithIA('keywords')">Génairay phlachkarde</button>
 
             </div>
 
@@ -160,7 +158,7 @@
                 <div class="flashcards-container"></div>
                 <div class="buttons">
                     <button class="large greyed" onclick="backToIA()">Retour</button>
-                    <button class="large" onclick="createFlashcards()">Ajouter les flashcards</button>
+                    <button class="large" onclick="createFlashcards('ia')">Ajouter les flashcards</button>
                 </div>
             </div>
 
@@ -183,7 +181,7 @@
                         <h1>Paramètres</h1>
                         <p>Modifier les paramètres du jeu de flashcard ici.</p>
                     </div>
-                    <button onclick="modifyFlashcard()" class="large adminsOnly">Enregistrer</button>
+                    <button onclick="modifyFlashcardSet()" class="large adminsOnly">Enregistrer</button>
                 </div>
                 <div class="divider"></div>
                 <div class="grid-user-container">
@@ -298,8 +296,8 @@
                 </div>
 
                 <div class="post-buttons">
-                    <button onclick="deleteFlashcard()" class="large reded adminsOnly">Supprimer</button>
                     <button onclick="checkFlashcard()" class="large adminsOnly adminsOnly">Créer</button>
+                    <button onclick="deleteFlashcard()" class="large reded adminsOnly">Supprimer</button>
                 </div>
             </div>
         </div>
