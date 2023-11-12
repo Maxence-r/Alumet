@@ -156,6 +156,7 @@ body {
 }
 
 .navProfile {
+    display: flex !important;
     margin-bottom: 15px;
 }
 
@@ -168,7 +169,7 @@ body {
     border: 1px solid #e5e5e5;
     object-fit: cover;
     max-height: 50px;
-    border-radius: 10px;
+    border-radius: 8px;
     filter: invert(0) !important;
 }
 
@@ -1080,7 +1081,7 @@ h1 {
     }
     .navbar > button {
         margin: 0;
-        margin-left: 4%;
+        margin-left: auto;
     }
     #profile {
         margin: 0;

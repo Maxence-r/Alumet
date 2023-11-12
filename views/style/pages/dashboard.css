@@ -1659,6 +1659,7 @@ h3 {
         transform: translateY(110%);
         transition: all 0.3s ease-in-out;
         width: 100%;
+        max-width: 100%;
         height: 100%;
         margin: 0;
         display: flex;
@@ -1672,6 +1673,7 @@ h3 {
     .messages > .sub-container:nth-child(1) {
         display: flex;
         width: 100%;
+        max-width: 100%;
         margin: 0;
     }
 }
@@ -1691,7 +1693,7 @@ h3 {
     }
     .save-bar {
         bottom: 10px;
-        width: calc(100% - 40px);
+        width: calc(100% - 20px);
     }
     .items {
         grid-gap: 10px;
