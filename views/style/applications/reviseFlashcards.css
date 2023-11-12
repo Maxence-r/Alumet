@@ -124,22 +124,41 @@ body {
 
 .smart-progression {
     width: 100%;
-    height: 10px;
+    height: 14px;
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+    overflow: hidden;
+    gap: 4px;
+}
+.smart-progression > div {
+    height: 100%;
+    border-radius: 10px;
+    padding: 2px;
 }
 
-.ongoing-step {
+.completed-flashcards {
+    display: none;
+    flex-direction: row;
+    gap: 4px;
+    height: 100%;
+    width: 100%;
+    border: 2px solid rgb(41, 110, 255);
+}
+
+.ongoing-flashcards {
     display: flex;
     flex-direction: row;
     gap: 4px;
     height: 100%;
+    width: 100%;
 }
 
-.ongoing-step > div {
+.smart-progression > div > div {
     flex: 1;
     height: 100%;
     border-radius: 10px;
 }
-
 [data-cellulestatus='4'] {
     background-color: #296eff;
 }
@@ -183,6 +202,9 @@ body {
 .fa-remove {
     color: #cdd6dd;
 }
+
+
+
 
 @media screen and (max-width: 600px) {
     .flashcard {

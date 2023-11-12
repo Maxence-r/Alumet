@@ -297,7 +297,7 @@ if (userPrompt) {
 }
 
 
-function updateStatusPercentages(flashcards) {
+function updateStatusPercentages(flashcards, revisionMethod) {
     const percentages = {
         0: 0,
         1: 0,
@@ -316,8 +316,12 @@ function updateStatusPercentages(flashcards) {
     if (totalPercentage < 100) {
         percentages[1] += 100 - totalPercentage;
     }
-    for (const [key, value] of Object.entries(percentages)) {
-        document.querySelector(`[data-bar="${key}"]`).style.width = `${value}%`;
+    if (revisionMethod === 'sandbox') {
+        for (const [key, value] of Object.entries(percentages)) {
+            document.querySelector(`[data-bar="${key}"]`).style.width = `${value}%`;
+        }
+    } else if (revisionMethod === 'smart') {
+        console.log(percentages);
     }
 }
 

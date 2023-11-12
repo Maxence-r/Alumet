@@ -59,6 +59,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/revise/sandbox/:flashcard', async (req, res) => {
     try {
+        console.log('sandbox')
         if (mongoose.Types.ObjectId.isValid(req.params.flashcard) === false) return res.redirect('/404');
         const flashcardSet = await FlashcardSet.findById(req.params.flashcard);
         if (!flashcardSet) return res.redirect('/404');
@@ -83,12 +84,10 @@ router.get('/revise/smart/:flashcard', async (req, res) => {
     }
 });
 
-
-router.get('/:flashcard/content', async (req, res) => {
+router.get('/:flashcardSet/:revisionMethod/content', async (req, res) => {
     try {
-        const flashcardSet = await FlashcardSet.findById(req.params.flashcard);
+        const flashcardSet = await FlashcardSet.findById(req.params.flashcardSet);
         if (!flashcardSet) return res.redirect('/404');
-        const flashcards = await Flashcard.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
         const owner = await Account.findById(flashcardSet.owner, 'username icon _id name lastname');
         const collaborators = [];
         const getCollaboratorInfo = async () => {
@@ -102,13 +101,32 @@ router.get('/:flashcard/content', async (req, res) => {
         await getCollaboratorInfo();
         const isAdmin = req.user && (req.user._id.toString() === flashcardSet.owner.toString() || flashcardSet.collaborators.includes(req.user._id.toString()));
         const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], owner, collaborators, user_infos: null, admin: isAdmin };
-        for (const flashcard of flashcards) {
-            const userData = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { status: 0, lastReview: Date.now() };
-            const flashcardInfo = { ...flashcard.toObject(), userDatas: userData };
-            flashcardSetInfo.flashcards.push(flashcardInfo);
-        }
         if (req.user) {
             flashcardSetInfo.user_infos = { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname, id: req.user._id };
+        }
+
+        const flashcards = await Flashcard.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
+        switch (req.params.revisionMethod) {
+            case 'sandbox':
+                for (const flashcard of flashcards) {
+                    const userDatas = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now() };
+                    const flashcardInfo = { ...flashcard.toObject(), userDatas: userDatas };
+                    flashcardSetInfo.flashcards.push(flashcardInfo);
+                }
+                break;
+            case 'smart':
+                for (const flashcard of flashcards) {
+                    const userDatas = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now() };
+                    const smartReview = userDatas?.smartReview || { nextReview: null, inRow: 0 };
+                    userDatas.smartReview = smartReview;
+                    if (smartReview.nextReview === null || smartReview.nextReview <= Date.now()) {
+                        const flashcardInfo = { ...flashcard.toObject(), userDatas: userDatas || { status: 0, lastReview: Date.now(), smartReview } };
+                        flashcardSetInfo.flashcards.push(flashcardInfo);    
+                    }
+                }
+                break;
+            default:
+                break;
         }
         res.json(flashcardSetInfo);
     } catch (error) {
@@ -159,19 +177,37 @@ router.delete('/:flashcard/:flashcardId', authorize('flashcard', 'itemAdmins'), 
     }
 });
 
-router.post('/:flashcard/:flashcardId/review', authorize(), async (req, res) => {
+function determineSmartReview(smartReview) {
+    const nextDate = {
+        0: Date.now() + 1000 * 60 * 60 * 24,
+        1: Date.now() + 1000 * 60 * 60 * 24 * 3,
+        2: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        3: Date.now() + 1000 * 60 * 60 * 24 * 15,
+        4: Date.now() + 1000 * 60 * 60 * 24 * 30,
+    };
+    smartReview.nextReview = smartReview.inRow < 3 ? nextDate[smartReview.inRow] : nextDate[4];
+    smartReview.inRow = smartReview.inRow + 1;
+    return smartReview;
+}
+router.post('/:flashcardSet/:flashcardId/review', authorize(), async (req, res) => {
     try {
-        const flashcard = await Flashcards.findById(req.params.flashcardId);
+        const { flashcardId } = req.params;
+        const { status, cardReview } = req.body;
+        const flashcard = await Flashcards.findById(flashcardId);
         if (!flashcard) return res.json({ error: 'Flashcard not found' });
-        const userData = flashcard.userDatas.find((data) => data.userId === req.user.id);
-        if (!userData) {
-            flashcard.userDatas.push({ userId: req.user.id, status: req.body.status, lastReview: Date.now() });
+        const userDatas = flashcard.userDatas.find((data) => data.userId === req.user.id);
+
+        if (!userDatas) {
+            console.log('here')
+            flashcard.userDatas.push({ userId: req.user.id, status: req.body.status, lastReview: Date.now(), smartReview: cardReview ? determineSmartReview(userDatas.smartReview || { nextReview: null, inRow: 0 }) : { nextReview: null, inRow: 0 } });
         } else {
-            userData.status = req.body.status;
-            userData.lastReview = Date.now();
+            userDatas.status = status;
+            userDatas.lastReview = Date.now();
+            userDatas.smartReview = cardReview ? determineSmartReview(userDatas.smartReview) : userDatas.smartReview;
         }
         await flashcard.save();
-        res.json({ success: true });
+        console.log(userDatas.smartReview);
+        res.json({ smartReview: userDatas.smartReview });
     } catch (error) {
         console.log(error);
         res.json({ error });

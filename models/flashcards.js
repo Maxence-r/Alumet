@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { object } = require('sharp/lib/is');
 
 const flashcardSchema = mongoose.Schema({
     flashcardSetId: {
@@ -33,6 +34,13 @@ const flashcardSchema = mongoose.Schema({
                 type: Date,
                 default: Date.now,
             },
+            smartReview: {
+                type: object,
+                default: {
+                    nextReview: null,
+                    inRow: 0,
+                },
+            }
         },
     ],
 });

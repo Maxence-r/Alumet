@@ -1,5 +1,5 @@
 let currentFlashcard = null;
-fetch(`/flashcards/${id}/content`)
+fetch(`/flashcards/${id}/sandbox/content`)
     .then(res => res.json())
     .then(async data => {
         console.log(data);
