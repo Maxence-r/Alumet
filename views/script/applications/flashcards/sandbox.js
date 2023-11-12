@@ -117,9 +117,15 @@ function addFlashcard(id, question, answer, status, date) {
 
 
 let id = window.location.pathname.split('/')[4];
-fetch(`/flashcards/${id}/content`)
+fetch(`/flashcards/${id}/sandbox/content`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    }
+    })
     .then(res => res.json())
     .then(data => {
+        console.log(data);
         flashcardsOrder = data.flashcards;
         endLoading();
         triggerFlashcard();
@@ -145,7 +151,7 @@ function triggerFlashcard(direction) {
         flashcardsOrder.shift();
         addFlashcard(card._id, card.question, card.answer, card.userDatas?.status, card.userDatas?.lastReview);
         flashcardsOrder.push(card);
-        updateStatusPercentages(flashcardsOrder);
+        updateStatusPercentages(flashcardsOrder, 'sandbox');
     }
 }
 
