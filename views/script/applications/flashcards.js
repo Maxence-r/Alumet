@@ -16,7 +16,7 @@ fetch(`/flashcards/${id}/sandbox/content`)
             document.querySelector('.flashcards-container').appendChild(flashcard);
         });
         endLoading();
-        updateStatusPercentages(data.flashcards);
+        updateStatusPercentages(data.flashcards, 'sandbox');
     })
     .catch(err => console.log(err));
 

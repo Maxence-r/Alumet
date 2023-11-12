@@ -596,6 +596,7 @@ body {
     position: relative;
     flex-direction: column;
     width: 50%;
+    max-width: 45%;
     overflow: hidden;
     background-color: white;
     border-radius: 10px;

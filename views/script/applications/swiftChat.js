@@ -12,7 +12,6 @@ function sendMessage() {
     const message = textarea.value;
     if (textarea.value === '') return;
     textarea.value = '';
-    textarea.style.height = '60px';
     fetch('/swiftChat/send/' + currentConversation, {
         method: 'POST',
         headers: {

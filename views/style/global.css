@@ -1300,7 +1300,7 @@ select {
 }
 
 .module-selected {
-    background-color: #f6f8fc;
+    background-color: #f4f4f4;
 }
 
 .module {
@@ -1311,7 +1311,7 @@ select {
     display: flex;
     align-items: center;
     cursor: pointer;
-    padding: 0 4%;
+    padding: 0 3%;
     height: 100%;
     font-size: 0.95rem;
     font-weight: 500;
@@ -1389,6 +1389,11 @@ select {
 }
 
 @media screen and (max-width: 600px) {
+    .modulable-left {
+        gap: 0;
+        width: 100%;
+        justify-content: space-between;
+    }
     #toast {
         top: 10px;
         right: 10px;

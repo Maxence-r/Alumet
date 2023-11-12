@@ -155,9 +155,12 @@ body {
     color: #9ea1a7;
 }
 
+.navProfile {
+    margin-bottom: 15px;
+}
+
 #bottomNav {
     margin-top: auto;
-    margin-bottom: 15px;
 }
 .navProfile > img {
     width: 50px !important;
@@ -452,7 +455,7 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    margin-top: 40%;
+    margin-top: 30px;
     background: transparent;
     border: none;
     z-index: 10;
