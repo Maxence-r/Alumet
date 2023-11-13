@@ -4,10 +4,10 @@ let storedData = null;
 const flashcardContainer = document.querySelector('.flashcards');
 const allCards = document.querySelectorAll('.flashcard--card');
 let currentSection = [];
+let index = 0;
 let sections = [];
 
-function newStatusToServer(flashcardId, status, cardReview) {
-        
+async function newStatusToServer(flashcardId, status, cardReview) {
     fetch(`/flashcards/${id}/${flashcardId}/review`, {
         method: 'POST',
         headers: {
@@ -18,10 +18,9 @@ function newStatusToServer(flashcardId, status, cardReview) {
         .then(res => res.json())
         .then(data => {
             console.log(data);
-            if (cardReview) {
-                currentSection.find(flashcard => flashcard._id === flashcardId).userDatas.smartReview = data.smartReview;
-            }
+            currentSection.find(flashcard => flashcard._id === flashcardId).userDatas.smartReview = data.smartReview;   
             updateSmartStatusPercentages(flashcardId);
+            switchSectionIfFinished();
         })
         .catch(err => console.log(err));
 }
@@ -45,7 +44,7 @@ function setEventListener(card) {
         flashcardContainer.classList.toggle('flashcard_love', event.deltaX > 0);
         flashcardContainer.classList.toggle('flashcard_nope', event.deltaX < 0);
     });
-    hammertime.on('panend', (event) => {
+    hammertime.on('panend', async (event) => {
         card.classList.remove('moving');
         flashcardContainer.classList.remove('flashcard_love');
         flashcardContainer.classList.remove('flashcard_nope');
@@ -72,11 +71,10 @@ function setEventListener(card) {
                 newStatus = 1;
                 triggerFlashcard('nope');
             }
-            newStatus == 3 ? newStatusToServer(card.dataset.id, newStatus, true) : newStatusToServer(card.dataset.id, newStatus);
+            newStatus == 3 ? await newStatusToServer(card.dataset.id, newStatus, true) : await newStatusToServer(card.dataset.id, newStatus);
             setTimeout(() => {
                 card.remove();
             }, 300);
-            switchSectionIfFinished();
         }
     });
     card.addEventListener('click', () => toggleQuestionAnswer(card));
@@ -128,13 +126,21 @@ function createSections (flashcards) {
     return sections;
 }
 const switchSectionIfFinished = () => {
-    if (!currentSection) return;
-    else if(currentSection.every(flashcard => flashcard.userDatas.status == 3 && flashcard.userDatas.smartReview.nextReview > Date.now())) {
-        console.log('section finished, switch to next section');
-        sections.shift();
-        currentSection = sections[0];
+    function next() {
         document.querySelectorAll('.flashcard--card').forEach(card => card.remove());
+        document.querySelector('.completed-flashcards').style.display = 'none';
+        updateSmartStatusPercentages();
         triggerFlashcard();
+    }
+    if (sections[index + 1] == undefined) {
+        console.log('no more sections');
+        next();
+    }
+    else if(currentSection.every(flashcard => flashcard.userDatas.status == 3 && flashcard.userDatas.smartReview.nextReview > Date.now())) {
+        console.log('section finished, switching to next section');
+        index++;
+        currentSection = sections[index];
+        next();
     } else {
         console.log('section not finished');
     }
@@ -149,9 +155,9 @@ fetch(`/flashcards/${id}/smart/content`, {
     }
     })
     .then(res => res.json())
-    .then(data => {
+    .then(data => {        
         sections = createSections(data.flashcards);
-        currentSection = sections[0];
+        currentSection = sections[index];
         console.log('current section' , currentSection);
         endLoading();
         triggerFlashcard();
@@ -197,6 +203,7 @@ const updateSmartStatusPercentages = (flashcardId) => {
         const element = ongoingFlashcardsContainer.querySelector(`[data-id="${flashcardId}"]`);
         element.remove();
         completedFlashcardsContainer.appendChild(element);
+        currentSection = currentSection.filter(flashcard => flashcard._id !== flashcardId);
     }
     function addOrModifyElement (flashcard) {
         const status = flashcard.userDatas.status;
@@ -213,7 +220,13 @@ const updateSmartStatusPercentages = (flashcardId) => {
         }
         flashcard.userDatas.status == 3 && flashcard.userDatas.smartReview.nextReview > Date.now()  ? validateElement(flashcard._id) : null;
     }
-    !flashcardId ? currentSection.forEach(flashcard => addOrModifyElement(flashcard)) : addOrModifyElement(storedData.flashcards.find(flashcard => flashcard._id === flashcardId));
+    if (!flashcardId) {
+        document.querySelectorAll('.smart-progression > div').forEach(div => div.innerHTML = '');
+        currentSection ? currentSection.forEach(flashcard => addOrModifyElement(flashcard)) : null;
+        return;
+    } else {
+        addOrModifyElement(storedData.flashcards.find(flashcard => flashcard._id === flashcardId))
+    }
     
     const numberOfFlashcards = currentSection.length;
     const elementWidth = 100 / numberOfFlashcards;

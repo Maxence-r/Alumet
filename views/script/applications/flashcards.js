@@ -54,7 +54,21 @@ function modifyFlashcardSet() {
         });
     });
 }
-
+function resetUserdatas() {
+    fetch('/flashcards/reset', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ flashcardSetId: id }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            window.location.reload();
+        })
+        .catch(err => console.log(err));
+}
 function newFlashcards() {
     localStorage.setItem('currentItem', null);
     document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Nouvelle flashcard';

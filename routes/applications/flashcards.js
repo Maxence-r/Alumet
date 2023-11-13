@@ -195,23 +195,37 @@ router.post('/:flashcardSet/:flashcardId/review', authorize(), async (req, res) 
         const { status, cardReview } = req.body;
         const flashcard = await Flashcards.findById(flashcardId);
         if (!flashcard) return res.json({ error: 'Flashcard not found' });
-        const userDatas = flashcard.userDatas.find((data) => data.userId === req.user.id);
+        let userDatas = flashcard.userDatas.find((data) => data.userId === req.user.id);
 
         if (!userDatas) {
-            console.log('here')
-            flashcard.userDatas.push({ userId: req.user.id, status: req.body.status, lastReview: Date.now(), smartReview: cardReview ? determineSmartReview(userDatas.smartReview || { nextReview: null, inRow: 0 }) : { nextReview: null, inRow: 0 } });
+            userDatas = { userId: req.user.id, status, lastReview: Date.now(), smartReview: { nextReview: null, inRow: 0 } };
+            flashcard.userDatas.push(userDatas);
         } else {
             userDatas.status = status;
             userDatas.lastReview = Date.now();
             userDatas.smartReview = cardReview ? determineSmartReview(userDatas.smartReview) : userDatas.smartReview;
         }
         await flashcard.save();
-        console.log(userDatas.smartReview);
         res.json({ smartReview: userDatas.smartReview });
     } catch (error) {
         console.log(error);
         res.json({ error });
     }
 });
+router.post('/reset', async (req, res) => {
+    try {
+        const { flashcardSetId } = req.body;
+        const flashcards = await Flashcards.find({ flashcardSetId });
+        for (const flashcard of flashcards) {
+            flashcard.userDatas = [];
+            await flashcard.save();
+        }
+        res.json({ success: true });
+    } catch (error) {
+        console.log(error);
+        res.json({ error });
+    }
+}
+);
 
 module.exports = router;
