@@ -16,7 +16,7 @@ fetch(`/flashcards/${id}/sandbox/content`)
             document.querySelector('.flashcards-container').appendChild(flashcard);
         });
         endLoading();
-        updateStatusPercentages(data.flashcards);
+        updateStatusPercentages(data.flashcards, 'sandbox');
     })
     .catch(err => console.log(err));
 
@@ -70,6 +70,7 @@ function resetUserdatas() {
         .catch(err => console.log(err));
 }
 function newFlashcards() {
+    navbar('flashcards');
     localStorage.setItem('currentItem', null);
     document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Nouvelle flashcard';
     document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Créez une nouvelle flashcard ci-dessous.'
@@ -77,8 +78,6 @@ function newFlashcards() {
     document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Créer';
     document.getElementById('answer').value = '';
     document.getElementById('question').value = '';
-    document.getElementById('question').focus();
-    navbar('flashcards');
 }
 
 function deleteFlashcard() {
@@ -225,7 +224,7 @@ function checkFlashcard() {
         }
     }
     navbar('loadingRessources');
-    createFlashcards('normal', { question: document.getElementById('question').value, answer: document.getElementById('answer').value, _id: currentFlashcard});
+    createFlashcards('normal', { question: document.getElementById('question').value, answer: document.getElementById('answer').value, _id: currentFlashcard });
 };
 
 document.querySelector('.drop-box').addEventListener('click', e => {
@@ -241,7 +240,7 @@ function chooseFile(fileId) {
 }
 
 //ANCHOR IA generation
-function displayPageIA(){
+function displayPageIA() {
     let flashcards = localStorage.getItem('flashcards-ia');
     document.querySelector('.verify-flashcards > .flashcards-container').innerHTML = '';
     if (flashcards && flashcards.length > 0) {
@@ -282,18 +281,18 @@ function generateWithIA(parameter, data) {
     navbar('loading-flashcards');
     const keywords = Array.from(document.querySelectorAll('.keywords-container > .keyword')).map(keyword => keyword.textContent);
     if (keywords.length < 1) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins un mot-clé', type: 'error', duration: 7500 });
-    parameter == 'keywords' ?  data = keywords : data = data;
+    parameter == 'keywords' ? data = keywords : data = data;
 
     fetch('/openai/flashcards/generate-flashcards', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                parameter,
-                data,
-            }),
-        })
+        },
+        body: JSON.stringify({
+            parameter,
+            data,
+        }),
+    })
         .then(response => response.json())
         .then(data => {
             console.log(data);

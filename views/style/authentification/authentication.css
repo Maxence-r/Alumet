@@ -28,30 +28,6 @@ section.access {
     background-color: #ffffff;
 }
 
-.compatibility {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    gap: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.compatibility > p {
-    margin: 0;
-    width: 0;
-    height: 0;
-}
-
-.compatibility > div {
-    width: 100%;
-    z-index: 1000;
-    height: 100%;
-    background-color: aliceblue;
-}
-
 .options {
     display: flex;
     flex-direction: column;
@@ -317,11 +293,10 @@ section.alumet-infos {
 
     section.access {
         width: 100%;
-        height: 70%;
+        height: 100%;
     }
 
     section.alumet-infos {
-        width: 100%;
-        height: 30%;
+        display: none;
     }
 }

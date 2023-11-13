@@ -3,7 +3,8 @@
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
         <link rel="icon" href="../../assets/global/alumet.ico" />
         <meta name="description" content="Alumet: La flamme de l’innovation au service de l’éducation." />
         <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers, courses, classroom" />
@@ -132,8 +133,8 @@
                         </div>
                     </div>
 
-                    <textarea autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message"></textarea>
-                    <img id="send-text" src="../assets/global/send.svg" alt="send icon" />
+                    <textarea rows="1" autocomplete="off" maxlength="2500" type="text" name="message" id="message" placeholder="Écrire un message"></textarea>
+                    <div class="send-text"><img id="send-text" src="../assets/global/send.svg" alt="send icon" /></div>
                 </div>
             </div>
             <div class="overlay-content latex">
@@ -180,10 +181,9 @@
                         <p>Commentez à propos de cette publication !</p>
                     </div>
                 </div>
-                <div class="commentFooter">
-                    <input id="commentInput" maxlength="1000" type="text" placeholder="Ecrivez un commentaire" />
-                    <img onclick="postComment()" id="send-text" src="../assets/global/send.svg" alt="send icon" />
-                </div>
+
+                <textarea rows="1" autocomplete="off" maxlength="1000" type="text" name="message" id="commentInput" placeholder="Écrire un message"></textarea>
+                <div onclick="postComment()" class="send-text"><img id="send-text" src="../assets/global/send.svg" alt="send icon" /></div>
             </div>
             <div class="overlay-content flashcards">
                 <div class="information">
@@ -345,7 +345,7 @@
                 <div class="row-bottom-buttons">
                     <button onclick="window.location.href='/dashboard'" class="large greyed">Retour au tableau de bord</button>
                     <button onclick="promptLeave()" class="large reded">Quitter cet Alumet</button>
-                    <button onclick="window.location.href=`/portal/${alumet._id}`" class="large">Se connecter</button>
+                    <button class="large connect">Se connecter</button>
                 </div>
             </div>
 
@@ -483,7 +483,11 @@
                 <img src="../assets/global/settings.svg" alt="paramètres" />
                 <p>Paramètres</p>
             </button>
-            <button onclick="navbar('profile')" class="force" id="profile"><img src="../assets/default/default_user.png" /></button>
+            <button id="bottomNav" onclick="window.location.href='/dashboard'">
+                <img src="../assets/global/back.svg" alt="paramètres" />
+                <p>Tableau de bord</p>
+            </button>
+            <button onclick="navbar('profile')" class="navProfile"><img src="../assets/default/default_user.png" /></button>
         </div>
     </body>
     <script src="/socket.io/socket.io.js"></script>

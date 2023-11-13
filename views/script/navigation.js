@@ -78,7 +78,7 @@ function enableConnected(data) {
                 el.style.display = 'block';
             });
         }
-        document.querySelector('#profile > img').src = '/cdn/u/' + data.user_infos.icon;
+        document.querySelector('.navProfile > img').src = '/cdn/u/' + data.user_infos.icon;
         document.querySelector('.user-infos > img').src = '/cdn/u/' + data.user_infos.icon;
         document.querySelector('.user-details > h3').innerText = data.user_infos.username;
         document.querySelector('.user-details > p').innerText = 'Connecté';
@@ -125,7 +125,7 @@ function loadParticipants(participants, collaborators, admin) {
     };
     participants.forEach(participant => createParticipant(participant, 'Participant'));
     collaborators.forEach(collaborator => createParticipant(collaborator, 'Collaborateur'));
-    createParticipant(admin, 'Administrateur');
+
 }
 
 function loadFiles() {

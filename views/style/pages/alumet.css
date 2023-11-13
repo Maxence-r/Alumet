@@ -155,17 +155,21 @@ body {
     color: #9ea1a7;
 }
 
-#profile {
-    margin-top: auto;
+.navProfile {
+    display: flex !important;
     margin-bottom: 15px;
 }
-#profile > img {
-    width: 50px;
+
+#bottomNav {
+    margin-top: auto;
+}
+.navProfile > img {
+    width: 50px !important;
     height: 50px;
     border: 1px solid #e5e5e5;
     object-fit: cover;
     max-height: 50px;
-    border-radius: 10px;
+    border-radius: 8px;
     filter: invert(0) !important;
 }
 
@@ -452,7 +456,7 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    margin-top: 40%;
+    margin-top: 30px;
     background: transparent;
     border: none;
     z-index: 10;
@@ -1077,7 +1081,7 @@ h1 {
     }
     .navbar > button {
         margin: 0;
-        margin-left: 4%;
+        margin-left: auto;
     }
     #profile {
         margin: 0;
@@ -1091,9 +1095,6 @@ h1 {
     }
     .navbar > button {
         display: none;
-    }
-    .force {
-        display: flex !important;
     }
     .navbar > div {
         display: block;
