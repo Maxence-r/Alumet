@@ -243,9 +243,15 @@
     padding: 15px;
     width: 100%;
     height: 100%;
-    background-color: #f6f8fc;
-    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
     overflow-y: auto;
+}
+
+.lueur {
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 
 #message-date {
@@ -276,13 +282,7 @@
 
 .right-message > .message-details > .message-content {
     margin-right: 56px;
-}
-
-.right-message > .message-details > .message-content {
     text-align: end;
-    border-radius: 10px 0 10px 10px;
-    color: white;
-    background: linear-gradient(44deg, #4b85ff 0%, #296eff 100%);
 }
 
 .right-message > .message-details > .user-name {
@@ -323,10 +323,10 @@
 .message > img {
     width: 46px;
     height: 46px;
-    border-radius: 5px;
+    border-radius: 6px;
     object-fit: cover;
     background-color: white;
-    box-shadow: -1px 2px 8px 2px rgba(0, 0, 0, 0.08);
+    border: 1px solid #dddddd;
 }
 
 .message-details {
@@ -347,9 +347,11 @@
 .message-details > .message-content {
     overflow-wrap: anywhere;
     font-size: 0.9rem;
-    padding: 10px;
+    padding: 12px;
     background-color: white;
-    border-radius: 0 10px 10px 10px;
+    border: 1px solid #dddddd;
+    z-index: 10;
+    border-radius: 15px;
     font-weight: 400;
     margin: 0;
     white-space: pre-line;
@@ -369,6 +371,29 @@
     border-radius: 6px;
 }
 
+.upload-text {
+    width: 40px;
+    height: 40px;
+    background-color: #f6f8fc;
+    border: 1px solid #e4e4e4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: absolute;
+    bottom: 22px;
+    right: 68px;
+    border-radius: 6px;
+}
+
+#upload-text {
+    width: 18px;
+}
+
+#send-text {
+    width: 18px;
+}
+
 .active-popup {
     display: flex;
 }
@@ -376,6 +401,10 @@
 @media (max-width: 600px) {
     .send-text {
         right: 17px;
+        bottom: 17px;
+    }
+    .upload-text {
+        right: 64px;
         bottom: 17px;
     }
     .right-message > img {
@@ -406,7 +435,6 @@
         padding: 10px;
 
         height: 100%;
-        background-color: #f6f8fc;
         border-radius: 5px;
     }
 }

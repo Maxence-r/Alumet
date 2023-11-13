@@ -472,12 +472,6 @@ function createConversationParametersElement(conversationName, conversationIcon,
         participantOptionsContainerElement.dataset.participantOptionsContainerId = participant.id;
         participantElement.appendChild(participantOptionsContainerElement);
 
-        const participantOptionsElement = document.createElement('img');
-        participantOptionsElement.src = '../../assets/global/dots.svg';
-        participantOptionsElement.alt = 'options icon';
-        participantOptionsElement.setAttribute('onclick', `openParametersPopup('${participant.id}')`);
-        participantOptionsContainerElement.appendChild(participantOptionsElement);
-
         parameterParticipantsContainer.appendChild(participantElement);
     });
 }
