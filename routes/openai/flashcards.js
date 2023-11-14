@@ -68,7 +68,7 @@ async function gptFlashcardGeneration(parameter, data) {
             return [].concat(...flashcardsArrays);
         case 'keywords':
             const flashcards = await generateFlashcards([
-                { role: 'system', content: "You are an assistant of flashcard creation for students. You are given some keywords, you have to answer AN ARRAY of minimum 8 flashcards objects with question and answer properties in json format. Properties have to be in french and only composed of keywords (less than 60 characters per property). Finally, your flashcards must be pertinent and concise in order to help students progress."},
+                { role: 'system', content: "You are an assistant of flashcard creation for students. You are given some keywords, you have to answer AN ARRAY of minimum 8 objects called 'flashcards' with 'question' and 'answer' properties in json format. Properties have to be in french and only composed of keywords (less than 60 characters per property). Finally, your flashcards must be pertinent and concise in order to help students progress."},
                 { role: 'user', content: data },
             ]);
             return flashcards.filter(flashcard => flashcard.question.length < 100 && flashcard.answer.length < 100 && flashcard.question.length > 1 && flashcard.answer.length > 1);
