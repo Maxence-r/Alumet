@@ -104,32 +104,22 @@ router.get('/:flashcardSet/:revisionMethod/content', async (req, res) => {
         if (req.user) {
             flashcardSetInfo.user_infos = { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname, id: req.user._id };
         }
-
         const flashcards = await Flashcard.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
-        switch (req.params.revisionMethod) {
-            case 'sandbox':
-                for (const flashcard of flashcards) {
-                    const userDatas = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now() };
-                    const flashcardInfo = { ...flashcard.toObject(), userDatas: userDatas };
-                    flashcardSetInfo.flashcards.push(flashcardInfo);
-                }
-                break;
-            case 'smart':
-                for (const flashcard of flashcards) {
-                    const userDatas = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now() };
-                    const smartReview = userDatas?.smartReview || { nextReview: null, inRow: 0 };
-                    userDatas.smartReview = smartReview;
-                    if (smartReview.nextReview === null || smartReview.nextReview <= Date.now()) {
-                        const flashcardInfo = { ...flashcard.toObject(), userDatas: userDatas || { status: 0, lastReview: Date.now(), smartReview } };
-                        flashcardSetInfo.flashcards.push(flashcardInfo);    
-                    }
-                }
-                break;
-            default:
-                break;
+        for (const flashcard of flashcards) {
+            const userDatas = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now() };
+            const smartReview = userDatas?.smartReview || { nextReview: null, inRow: 0 };
+            userDatas.smartReview = smartReview;
+            let flashcardInfo = { ...flashcard.toObject(), userDatas: userDatas };
+            if (req.params.revisionMethod == 'smart' && smartReview.nextReview <= Date.now()) {
+                flashcardInfo.userDatas = userDatas || { status: 0, lastReview: Date.now(), smartReview };
+                flashcardSetInfo.flashcards.push(flashcardInfo);
+            } else if (req.params.revisionMethod !== 'smart') {
+                flashcardSetInfo.flashcards.push(flashcardInfo);
+            }   
         }
         res.json(flashcardSetInfo);
-    } catch (error) {
+        }
+    catch (error) {
         console.log(error);
         res.json({ error });
     }
@@ -198,13 +188,17 @@ router.post('/:flashcardSet/:flashcardId/review', authorize(), async (req, res) 
         let userDatas = flashcard.userDatas.find((data) => data.userId === req.user.id);
 
         if (!userDatas) {
+            console.log('new user data')
             userDatas = { userId: req.user.id, status, lastReview: Date.now(), smartReview: { nextReview: null, inRow: 0 } };
             flashcard.userDatas.push(userDatas);
         } else {
             userDatas.status = status;
             userDatas.lastReview = Date.now();
             userDatas.smartReview = cardReview ? determineSmartReview(userDatas.smartReview) : userDatas.smartReview;
+            console.log(userDatas.smartReview)
         }
+        flashcard.userDatas = flashcard.userDatas.filter((data) => data.userId !== req.user.id);
+        flashcard.userDatas.push(userDatas);
         await flashcard.save();
         res.json({ smartReview: userDatas.smartReview });
     } catch (error) {

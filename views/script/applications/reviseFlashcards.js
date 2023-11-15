@@ -10,7 +10,7 @@ const allCards = document.querySelectorAll('.flashcard--card');
 let currentSection = [];
 let index = 0;
 let sections = [];
-const verifyIfFlashcardFinish = (flashcard) => flashcard.userDatas.status === 3 && flashcard.numberOfReview === 2 ? true : false;
+const verifyIfFlashcardFinish = (flashcard) => flashcard.userDatas?.status === 3 && flashcard.numberOfReview === 2 ? true : false;
 //!SECTION - Global variables
 
 //SECTION - Initialize the page
@@ -100,7 +100,8 @@ function setEventListener(card) {
                 newStatus = 1;
                 triggerFlashcard('nope');
             }
-            await newStatusToServer(card.dataset.id, newStatus, newStatus === 3 && mode == 'smart'? true : false);
+            const flashcard = storedData.flashcards.find(flashcard => flashcard._id === card.dataset.id);
+            await newStatusToServer(card.dataset.id, newStatus, verifyIfFlashcardFinish(flashcard));
             setTimeout(() => {
                 currentSection.length == 1 ? document.querySelector('.flashcards.loaded > div:first-child').style.display = 'none' : null;
             }, 75); //FIXME - this is a temporary fix, the problem is that there is a latence during modifying currentSection.

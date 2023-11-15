@@ -3,6 +3,9 @@ fetch(`/flashcards/${id}/sandbox/content`)
     .then(res => res.json())
     .then(async data => {
         console.log(data);
+        data.flashcards.forEach(flashcard => {
+            console.log(flashcard.userDatas?.smartReview);
+        });
         document.getElementById('flashcard-title').innerText = data.title;
         document.getElementById('flashcard-description').innerText = data.description || 'Aucune description';
         document.getElementById('flashcardName').value = data.title;
