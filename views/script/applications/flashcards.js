@@ -283,7 +283,7 @@ function addKeyword() {
 function generateWithIA(parameter, data) {
     navbar('loading-flashcards');
     const keywords = Array.from(document.querySelectorAll('.keywords-container > .keyword')).map(keyword => keyword.textContent);
-    if (keywords.length < 1) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins un mot-clé', type: 'error', duration: 7500 });
+    /*  if (keywords.length < 1) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins un mot-clé', type: 'error', duration: 7500 }); */
     parameter == 'keywords' ? data = keywords : data = data;
 
     fetch('/openai/flashcards/generate-flashcards', {

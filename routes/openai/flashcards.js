@@ -61,14 +61,14 @@ async function gptFlashcardGeneration(parameter, data) {
     switch (parameter) {
         case 'document':
             const flashcardsPromises = data.map(part => generateFlashcards([
-                { role: 'system', content: "You are given a raw pdf. You must answer in a json format an array of 10-15 flashcards objects with question and answer properties. Those properties must be short and concise (use key words)." },
+                { role: 'system', content: "You are given a raw pdf. You must answer in a json format an array of 10-15 flashcards objects with question and answer properties. Those properties must be short, concise and in the lang of the document (use key words)." },
                 { role: 'user', content: part },
             ]));
             const flashcardsArrays = await Promise.all(flashcardsPromises);
             return [].concat(...flashcardsArrays);
         case 'keywords':
             const flashcards = await generateFlashcards([
-                { role: 'system', content: "You are an assistant of flashcard creation for students. You are given some keywords, you have to answer AN ARRAY of minimum 8 objects called 'flashcards' with 'question' and 'answer' properties in json format. Properties have to be in french and only composed of keywords (less than 60 characters per property). Finally, your flashcards must be pertinent and concise in order to help students progress."},
+                { role: 'system', content: "You are an assistant of flashcard creation for students. You are given some keywords, you have to answer AN ARRAY of minimum 8 objects called 'flashcards' with 'question' and 'answer' properties in json format. Properties have to be in french and only composed of keywords (less than 60 characters per property). Finally, your flashcards must be pertinent, concise in the language of the keywords in order to help students progress." },
                 { role: 'user', content: data },
             ]);
             return flashcards.filter(flashcard => flashcard.question.length < 100 && flashcard.answer.length < 100 && flashcard.question.length > 1 && flashcard.answer.length > 1);
@@ -98,7 +98,7 @@ router.post('/generate-flashcards', async (req, res) => {
         res.json({ flashcards, message });
 
     } catch (error) {
-        res.json({ error: error.message });        
+        res.json({ error: error.message });
     }
 });
 module.exports = router;
