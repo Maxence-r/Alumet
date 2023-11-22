@@ -7,7 +7,6 @@ body {
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
-    padding: 15px;
     gap: 15px;
     margin: 0;
     overflow: hidden;
@@ -117,6 +116,7 @@ body {
     flex-direction: row;
     box-sizing: border-box;
     overflow: auto;
+    padding: 15px;
     border-radius: 10px;
     height: 100%;
 }
@@ -429,10 +429,9 @@ body {
     position: relative;
     flex-direction: column;
     align-items: center;
-    width: 80px;
+    width: 90px;
     background-color: white;
     height: 100%;
-    border-radius: 10px;
     transition: all 0.3s ease-in-out;
     z-index: 10;
     overflow-y: auto;
@@ -560,14 +559,14 @@ body {
     display: flex;
     pointer-events: none;
     flex-direction: column;
-    right: 110px;
-    bottom: 15px;
+    right: 90px;
+    border-right: 1px solid #e5e5e5;
     width: 500px;
     padding: 15px;
     gap: 15px;
-    height: calc(100% - 30px);
+    height: 100%;
     background-color: #fff;
-    border-radius: 10px;
+    border-radius: 15px 0 0 15px;
     opacity: 0;
     transform: translateX(10%);
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
@@ -1039,6 +1038,20 @@ h1 {
 }
 
 @media screen and (max-width: 600px) {
+    .navbar > div {
+        display: block;
+        margin-left: 4%;
+    }
+    .navbar > button {
+        display: none;
+    }
+    .navbar > button {
+        margin: 0;
+        margin-left: auto;
+    }
+}
+
+@media screen and (max-width: 600px) {
     .header-setting > div > p {
         display: none;
     }
@@ -1050,6 +1063,7 @@ h1 {
         gap: 10px;
     }
     .alumet-content {
+        padding: 10px;
         gap: 10px;
     }
     .list {
@@ -1057,8 +1071,7 @@ h1 {
     }
     body {
         flex-direction: column-reverse;
-        padding: 10px;
-        gap: 10px;
+        gap: 0px;
     }
 
     .navbar > img {
@@ -1073,16 +1086,15 @@ h1 {
 
     .overlay-content {
         padding: 10px;
-        width: calc(100% - 20px);
-        height: calc(100% - 90px);
-        left: 10px;
-        top: 80px;
+        width: 100%;
+        height: calc(100% - 60px);
+        border-radius: 0;
+        border-top: 1px solid #e5e5e5;
+        top: 60px;
+        left: 0;
         gap: 10px;
     }
-    .navbar > button {
-        margin: 0;
-        margin-left: auto;
-    }
+
     #profile {
         margin: 0;
         margin-left: auto;
@@ -1092,12 +1104,5 @@ h1 {
         height: 40px;
         border-radius: 10px;
         filter: invert(0) !important;
-    }
-    .navbar > button {
-        display: none;
-    }
-    .navbar > div {
-        display: block;
-        margin-left: 4%;
     }
 }

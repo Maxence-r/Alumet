@@ -12,8 +12,7 @@ const Wall = require('../../../models/wall');
 const Post = require('../../../models/post');
 const sendInvitations = require('../../../middlewares/mailManager/sendInvitations');
 const Comment = require('../../../models/comment');
-const authorizeA2F = require('../../../middlewares/authentification/authorizeA2f');
-const Conversation = require('../../../models/conversation');
+
 router.get('/:alumet/content', authorize('alumet', 'alumetPrivate'), validateObjectId, async (req, res) => {
     try {
         const alumet = await Alumet.findOne({

@@ -81,6 +81,7 @@ app.use('/setup', setup);
 app.use('/invitation', invitation);
 app.use('/item', item);
 
+
 const path = require('path');
 app.get('*', async (req, res) => {
     const filePath = path.join(__dirname, './views/pages/404.html');

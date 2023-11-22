@@ -65,7 +65,6 @@ overlay.addEventListener('click', function (event) {
         overlay.classList.remove('active-layer');
         sections.forEach(section => section.classList.remove('active-section'));
         navButtons.forEach(button => button.classList.remove('navbar-active'));
-        document.getElementById('home').classList.add('navbar-active');
     }
     isMouseDownOnOverlayContent = false;
 });

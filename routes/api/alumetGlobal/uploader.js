@@ -6,11 +6,9 @@ const { v4: uuidv4 } = require('uuid');
 const Upload = require('../../../models/upload');
 const fs = require('fs');
 const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
-
 const Post = require('../../../models/post');
 const Folder = require('../../../models/folder');
 const authorize = require('../../../middlewares/authentification/authorize');
-const Account = require('../../../models/account');
 const mongoose = require('mongoose');
 
 const storage = multer.diskStorage({
@@ -92,6 +90,8 @@ router.get('/u/defaultGroup', (req, res) => {
     const filePath = path.join(__dirname, './../../../views/assets/default/default_group.png');
     res.sendFile(filePath);
 });
+
+
 
 router.get('/u/:id', validateObjectId, (req, res) => {
     Upload.find({ _id: req.params.id })

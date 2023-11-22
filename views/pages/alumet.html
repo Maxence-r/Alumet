@@ -46,7 +46,6 @@
         </div>
         <div class="user-popup popup">
             <div class="prompt">
-                <h1>Ajouter des collaborateurs</h1>
                 <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Entrez un nom ou prénom" />
                 <div class="users-fetch">
                     <div class="details loading-users">
@@ -71,7 +70,6 @@
         </div>
         <div class="overlay">
             <div class="overlay-content menu">
-                <h1 onclick="navbar('home')">Accueil</h1>
                 <h1 onclick="navbar('messages')">Messages</h1>
                 <h1 onclick="navbar('flashcards')">Flashcards</h1>
                 <h1 onclick="navbar('ideaFlow')">Cartes Mentales</h1>
@@ -350,8 +348,6 @@
             </div>
 
             <div class="overlay-content post">
-                <h1>Publication</h1>
-                <div class="divider"></div>
                 <input maxlength="300" id="postTitle" type="text" placeholder="Titre de la publication" />
                 <div id="toolbar">
                     <div>
@@ -458,10 +454,7 @@
                 <span class="burger-line"></span>
             </div>
             <div id="menu"></div>
-            <button onclick="navbar('home')" class="navbar-active" id="home">
-                <img src="../assets/global/home_a.svg" alt="home" />
-                <p>Accueil</p>
-            </button>
+
             <button onclick="navbar('messages')" class="connectedOnly" id="messages">
                 <img src="../assets/global/messages_a.svg" alt="messagerie" />
                 <p>Messages</p>

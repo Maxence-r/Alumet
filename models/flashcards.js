@@ -10,13 +10,13 @@ const flashcardSchema = mongoose.Schema({
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 100,
+        maxLength: 300,
     },
     answer: {
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 100,
+        maxLength: 300,
     },
     dateCreated: {
         type: Date,

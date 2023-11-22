@@ -913,7 +913,7 @@ select:focus,
 .prompt {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     background-color: white;
     padding: 15px;
     border-radius: 10px;
@@ -921,7 +921,7 @@ select:focus,
 }
 
 .prompt-buttons > button:nth-child(1) {
-    position: absolute;
+    /*  position: absolute; */
     left: 0;
     display: none;
     background-color: #a82d17;
@@ -937,6 +937,10 @@ select:focus,
     font-weight: 500;
 }
 
+.prompt-buttons > button {
+    width: 100%;
+}
+
 .prompt-buttons > button:nth-child(2) {
     background-color: #f6f8fc;
     color: #000000;
@@ -945,7 +949,7 @@ select:focus,
 
 .prompt > h1 {
     font-size: 2rem;
-    font-weight: 500;
+    font-weight: 600;
     margin: 0;
 }
 
@@ -1322,7 +1326,6 @@ select {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    min-height: 70px;
     width: 100%;
     border: 1px solid #e5e5e5;
     border-radius: 10px;
@@ -1338,6 +1341,7 @@ select {
     overflow: auto;
     align-items: center;
     gap: 10px;
+    min-height: 52px;
     white-space: pre;
     width: inherit;
 }
@@ -1345,6 +1349,7 @@ select {
 .modulable-right {
     display: flex;
     flex-direction: row;
+    min-height: 52px;
     gap: 8px;
 }
 
@@ -1389,6 +1394,14 @@ select {
 }
 
 @media screen and (max-width: 600px) {
+    .modulable-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .modulable-right > button {
+        min-height: 52px;
+        width: 100%;
+    }
     .modulable-left {
         gap: 0;
         width: 100%;
