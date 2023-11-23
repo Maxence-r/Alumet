@@ -790,13 +790,6 @@ h2 {
     z-index: 11;
 }
 
-.actions-buttons-file > button:nth-child(1) {
-    width: 100%;
-    box-shadow: none;
-    color: black;
-    background-color: #f3f3f3;
-}
-
 .file-basic-info > h4 {
     white-space: nowrap;
     font-size: 0.9rem;

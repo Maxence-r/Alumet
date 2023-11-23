@@ -7,7 +7,6 @@ body {
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
-    gap: 15px;
     margin: 0;
     overflow: hidden;
 }
@@ -68,6 +67,7 @@ body {
     gap: 20px;
     height: 100%;
     width: 100%;
+    padding: 15px;
     overflow: hidden;
     border-radius: 5px;
     flex: 1;
@@ -116,7 +116,6 @@ body {
     flex-direction: row;
     box-sizing: border-box;
     overflow: auto;
-    padding: 15px;
     border-radius: 10px;
     height: 100%;
 }
@@ -1049,9 +1048,9 @@ h1 {
         margin: 0;
         margin-left: auto;
     }
-}
-
-@media screen and (max-width: 600px) {
+    .alumet {
+        padding: 10px;
+    }
     .header-setting > div > p {
         display: none;
     }
@@ -1071,7 +1070,6 @@ h1 {
     }
     body {
         flex-direction: column-reverse;
-        gap: 0px;
     }
 
     .navbar > img {

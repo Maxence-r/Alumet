@@ -227,7 +227,8 @@
                             <p>Séléctionner un fichier pour obtenir des informations</p>
                         </div>
                         <div class="actions-buttons-file">
-                            <button onclick="modifyFile()" class="large">Modifier</button>
+                            <button class="large reded" id="prompt-red" onclick="deleteFile()" style="display: block">Supprimer ce fichier</button>
+                            <button onclick="modifyFile()" class="large greyed">Modifier</button>
                             <button id="openFileBtn" onclick="openFile()" class="large">Ouvrir le fichier</button>
                         </div>
                     </div>

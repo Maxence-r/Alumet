@@ -88,8 +88,6 @@ function modifyFile() {
         head: 'Renommer le fichier',
         placeholder: 'Nouveau nom',
         action: 'renameFileRequest()',
-        redAction: 'deleteFile()',
-        redActionText: 'Supprimer ce fichier',
     });
 }
 
@@ -269,7 +267,7 @@ function renameFolder() {
 function triggerFolder() {
     const folderElements = folderList.querySelectorAll('h2');
     folderElements.forEach(folder => {
-        folder.removeEventListener('click', () => {});
+        folder.removeEventListener('click', () => { });
         folder.addEventListener('click', () => {
             folderElements.forEach(folder => folder.classList.remove('active-folder'));
             folder.classList.add('active-folder');
