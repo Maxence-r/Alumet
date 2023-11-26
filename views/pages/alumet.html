@@ -71,11 +71,9 @@
         <div class="overlay">
             <div class="overlay-content menu">
                 <h1 onclick="navbar('messages')">Messages</h1>
-                <h1 onclick="navbar('flashcards')">Flashcards</h1>
-                <h1 onclick="navbar('ideaFlow')">Cartes Mentales</h1>
                 <h1 onclick="navbar('settings')">Paramètres</h1>
                 <h1 onclick="navbar('participants')">Participants</h1>
-                <h1 onclick="navbar('profile')">Profil</h1>
+                <h1 onclick="navbar('profile')">Indentité</h1>
             </div>
             <div class="overlay-content loadfile">
                 <div class="loading full-screen">
@@ -98,7 +96,7 @@
                 </div>
                 <div class="files-items">
                     <div class="loader-container">
-                        <span class="loader-upload"></span>
+                        <span class="loader"></span>
                     </div>
                     <div class="full-screen" style="display: flex">
                         <h1>Pas de fichiers</h1>
@@ -144,8 +142,6 @@
                 <button onclick="insertLatex()" class="large confirm">Inserer la formule</button>
             </div>
             <div class="overlay-content wall">
-                <h1>Créer un mur</h1>
-                <div class="divider"></div>
                 <input id="wallTitle" type="text" placeholder="Nom du mur" />
                 <div class="switch-options">
                     <div class="option">
@@ -182,16 +178,6 @@
 
                 <textarea rows="1" autocomplete="off" maxlength="1000" type="text" name="message" id="commentInput" placeholder="Écrire un message"></textarea>
                 <div onclick="postComment()" class="send-text"><img id="send-text" src="../assets/global/send.svg" alt="send icon" /></div>
-            </div>
-            <div class="overlay-content flashcards">
-                <div class="information">
-                    <img src="../assets/global/locked.svg" />
-                    <h3>
-                        Bientôt disponible en
-                        <div class="beta">BETA</div>
-                    </h3>
-                    <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
-                </div>
             </div>
             <div class="overlay-content settings">
                 <div class="modulable-header">
@@ -320,18 +306,14 @@
                     <button onclick="addParticipants()" class="large">Ajouter des participants</button>
                 </div>
             </div>
-            <div class="overlay-content ideaFlow">
-                <div class="information">
-                    <img src="../assets/global/locked.svg" />
-                    <h3>
-                        Bientôt disponible en
-                        <div class="beta">BETA</div>
-                    </h3>
-                    <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
-                </div>
-            </div>
+
             <div class="overlay-content profile">
-                <h1>Profil</h1>
+                <div class="header-setting">
+                    <div>
+                        <h1>Identité</h1>
+                        <p>Votre identité sur cet Alumet</p>
+                    </div>
+                </div>
                 <div class="divider"></div>
                 <div class="user-infos">
                     <img src="../assets/default/default_user.png" />
@@ -341,7 +323,6 @@
                     </div>
                 </div>
                 <div class="row-bottom-buttons">
-                    <button onclick="window.location.href='/dashboard'" class="large greyed">Retour au tableau de bord</button>
                     <button onclick="promptLeave()" class="large reded">Quitter cet Alumet</button>
                     <button class="large connect">Se connecter</button>
                 </div>
@@ -459,14 +440,6 @@
                 <img src="../assets/global/messages_a.svg" alt="messagerie" />
                 <p>Messages</p>
                 <div class="ping"></div>
-            </button>
-            <button onclick="navbar('flashcards')" id="flashcards">
-                <img src="../assets/global/flashcards_a.svg" />
-                <p>Flashcards</p>
-            </button>
-            <button onclick="navbar('ideaFlow')" id="ideaFlow">
-                <img src="../assets/global/ideaFlow_a.svg" alt="Cartes mentales" />
-                <p>Cartes Mentales</p>
             </button>
             <button onclick="navbar('participants')" id="participants">
                 <img src="../assets/global/participants.svg" alt="Participants" />

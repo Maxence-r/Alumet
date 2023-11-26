@@ -503,9 +503,7 @@ document.getElementById('search-conv').addEventListener('input', e => {
 
 getConversations();
 
-document.querySelector('.options > img').addEventListener('click', e => {
-    document.querySelector('.messages > .main-container').classList.add('showing-group-settings');
-});
+
 
 document.querySelector('#group-profile-picture').addEventListener('click', () => {
     document.querySelector('#group-profile-picture-input').click();
@@ -637,3 +635,21 @@ function startSetup() {
         window.location.href = '/setup/flashcards';
     }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    var subContainer = document.querySelector('.right-container');
+    var startY;
+
+    subContainer.addEventListener('touchstart', function (e) {
+        startY = e.touches[0].clientY;
+    }, false);
+
+    subContainer.addEventListener('touchend', function (e) {
+        var endY = e.changedTouches[0].clientY;
+
+        // Check if it was a swipe down
+        if (endY - startY > 100) { // 100 is the minimum swipe length
+            subContainer.classList.remove('active-sub-container');
+        }
+    }, false);
+});

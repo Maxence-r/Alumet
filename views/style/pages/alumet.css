@@ -116,7 +116,7 @@ body {
     flex-direction: row;
     box-sizing: border-box;
     overflow: auto;
-    border-radius: 10px;
+    border-radius: 5px;
     height: 100%;
 }
 
@@ -124,6 +124,9 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
+    border: 1px solid #e5e5e5;
+    padding: 10px;
+    border-radius: 10px;
     gap: 10px;
 }
 
@@ -265,7 +268,6 @@ body {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    margin-top: 10px;
 }
 
 .positions > button,
@@ -355,20 +357,6 @@ body {
     display: flex;
     flex-direction: row;
     gap: 15px;
-}
-
-.profile > .row-bottom-buttons > button:nth-of-type(1),
-.profile > .row-bottom-buttons > button:nth-of-type(2) {
-    display: none;
-}
-
-.connected > button:nth-of-type(1),
-.connected > button:nth-of-type(2) {
-    display: flex !important;
-}
-
-.connected > button:nth-of-type(3) {
-    display: none;
 }
 
 .row-bottom-buttons > button {
@@ -1062,7 +1050,6 @@ h1 {
         gap: 10px;
     }
     .alumet-content {
-        padding: 10px;
         gap: 10px;
     }
     .list {

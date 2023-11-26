@@ -437,12 +437,6 @@
     transition: all 0.3s ease-in-out;
 }
 
-.loader-upload {
-    position: relative;
-    width: 100px;
-    height: 100px;
-}
-
 input {
     width: 100%;
     border-radius: 8px;
@@ -477,28 +471,6 @@ textarea {
     border-radius: 10px;
 }
 
-.loader-upload:before,
-.loader-upload:after {
-    content: '';
-    border-radius: 50%;
-    position: absolute;
-    inset: 0;
-    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1) inset;
-}
-.loader-upload:after {
-    box-shadow: 0 2px 0 #2f86eb inset;
-    animation: rotate 0.5s linear infinite;
-}
-
-@keyframes rotate {
-    0% {
-        transform: rotate(0);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
 .hidden {
     display: none !important;
 }
@@ -509,10 +481,11 @@ textarea {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-top: 10px;
     border-radius: 10px;
     font-size: 0.8rem;
     z-index: 20;
+    margin: 0;
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -527,7 +500,7 @@ textarea {
     gap: 14px;
 }
 .reded {
-    background-color: #c02b10;
+    background-color: #e17055;
     color: white;
     box-shadow: none;
 }
@@ -709,7 +682,7 @@ select:focus,
 }
 
 .reded:hover {
-    background-color: #8a1e0b;
+    background-color: #e3603f;
 }
 
 .toast {
@@ -1236,8 +1209,7 @@ select {
 }
 
 .radio-option .radio input[type='radio'] {
-    position: absolute;
-    opacity: 0;
+    display: none;
 }
 
 .radio-option .radio {
@@ -1394,6 +1366,13 @@ select {
 }
 
 @media screen and (max-width: 600px) {
+    .grid-user-container {
+        grid-gap: 10px;
+    }
+    .modulable-left > div {
+        flex: 1;
+        justify-content: center;
+    }
     .modulable-header {
         flex-direction: column;
         gap: 10px;

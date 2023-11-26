@@ -108,25 +108,6 @@ body {
     justify-content: center;
 }
 
-.loader-upload {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    margin-bottom: 30px;
-}
-
-.loader-upload:before,
-.loader-upload:after {
-    content: '';
-    border-radius: 50%;
-    position: absolute;
-    inset: 0;
-    box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.1) inset;
-}
-.loader-upload:after {
-    box-shadow: 0 2px 0 #ff3d00 inset;
-    animation: rotate 0.4s linear infinite;
-}
 .loading > h1 {
     font-size: 2em;
     font-weight: 200;
