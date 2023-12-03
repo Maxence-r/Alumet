@@ -98,12 +98,13 @@ function enableConnected(data) {
     }
 }
 
-function loadParticipants(participants, collaborators, admin) {
+function loadParticipants(participants) {
+    console.log(participants);
     const participantsContainer = document.querySelector('.participants-container');
-    if (participants.length === 0 && collaborators.length === 0) return;
+    if (participants.length === 0) return;
     participantsContainer.innerHTML = '';
 
-    const createParticipant = (participant, role) => {
+    const createParticipant = (participant) => {
         const user = document.createElement('div');
         user.classList.add('user');
         user.dataset.id = participant._id;
@@ -112,9 +113,9 @@ function loadParticipants(participants, collaborators, admin) {
 
         const userInfo = document.createElement('div');
         const userName = document.createElement('h3');
-        userName.textContent = `${participant.name} ${participant.lastname}`;
+        userName.textContent = `${participant.username} (${participant.name} ${participant.lastname})`;
         const userRole = document.createElement('p');
-        userRole.textContent = role;
+        userRole.textContent = participant.status === 0 ? 'Propriétaire' : participant.status === 1 ? 'Administrateur' : participant.status === 2 ? 'Participant' : 'Banni';
         userInfo.appendChild(userName);
         userInfo.appendChild(userRole);
 
@@ -122,9 +123,7 @@ function loadParticipants(participants, collaborators, admin) {
         user.appendChild(userInfo);
         participantsContainer.prepend(user);
     };
-    participants.forEach(participant => createParticipant(participant, 'Participant'));
-    collaborators.forEach(collaborator => createParticipant(collaborator, 'Collaborateur'));
-
+    participants.forEach(participant => createParticipant(participant));
 }
 
 function loadFiles() {

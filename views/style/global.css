@@ -540,6 +540,7 @@ textarea {
     position: relative;
     display: inline-block;
     width: 40px;
+    border-radius: 10px;
     height: 20px;
 }
 
@@ -622,8 +623,7 @@ input:checked + .slide:before {
 input:focus,
 textarea:focus,
 select:focus,
-.option:hover,
-.radio-option > label:hover {
+label.switch:hover {
     outline-style: solid;
     outline-width: 3px;
     outline-color: #0597ff;
@@ -993,9 +993,22 @@ select:focus,
 .user > img {
     width: 50px;
     height: 50px;
+    border: 1px solid #e5e5e5;
     border-radius: 8px;
     object-fit: cover;
     object-position: center;
+}
+
+.row-bottom-buttons {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.row-bottom-buttons > button {
+    width: 100%;
 }
 
 .no-result {
@@ -1205,7 +1218,7 @@ select {
 .radio-option {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
 .radio-option .radio input[type='radio'] {
@@ -1366,6 +1379,10 @@ select {
 }
 
 @media screen and (max-width: 600px) {
+    .row-bottom-buttons {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
     .grid-user-container {
         grid-gap: 10px;
     }

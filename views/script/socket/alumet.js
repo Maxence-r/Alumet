@@ -2,6 +2,10 @@ socket.on("connect", () => {
     console.log(socket.id);
 });
 
+socket.io.on("reconnect", () => {
+    socket.emit('joinAlumet', alumet._id, "6505e1fc19c363addbab5c3d");
+});
+
 
 socket.on('disconnect', () => {
     navbar('disconnected');
@@ -19,17 +23,13 @@ socket.on('addPost', data => {
 
 socket.on('deletePost', id => {
     const post = document.querySelector(`.card[data-id="${id}"]`);
-    if (!post) {
-        return;
-    }
+    if (!post) return;
     post.parentNode.removeChild(post);
 });
 
 socket.on('movePost', (listId, blockId, position) => {
     let block = document.querySelector(`.card[data-id="${blockId}"]`);
-    if (!block) {
-        return;
-    }
+    if (!block) return;
     let list = document.getElementById(listId);
     let cardAfterDraggingCard = list.querySelectorAll('.card')[position];
     if (cardAfterDraggingCard) {
@@ -42,9 +42,7 @@ socket.on('movePost', (listId, blockId, position) => {
 socket.on('editPost', data => {
     const newPost = createPostElement(data);
     const post = document.querySelector(`.card[data-id="${data._id}"]`);
-    if (!post) {
-        return;
-    }
+    if (!post) return;
     post.parentNode.replaceChild(newPost, post);
     getPostData(data._id, data);
 });

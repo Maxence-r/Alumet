@@ -351,18 +351,6 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
-.row-bottom-buttons {
-    margin-top: auto;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-}
-
-.row-bottom-buttons > button {
-    width: 100%;
-}
-
 .backgroundImg:hover {
     transform: scale(0.98);
     filter: brightness(0.8);
@@ -409,6 +397,10 @@ body {
     margin-left: auto;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+}
+
+label:has(#onpassword:checked) + #password-input {
+    display: flex;
 }
 
 .navbar {
@@ -1045,10 +1037,7 @@ h1 {
     .commentsContent {
         padding: 10px;
     }
-    .row-bottom-buttons {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
+
     .alumet-content {
         gap: 10px;
     }

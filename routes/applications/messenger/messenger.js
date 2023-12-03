@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Conversation = require('../../models/conversation');
-const validateConversation = require('../../middlewares/modelsValidation/validateConversation');
-const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
-const Message = require('../../models/message');
-const Account = require('../../models/account');
-const authorize = require('../../middlewares/authentification/authorize');
-const Alumet = require('../../models/alumet');
+const Conversation = require('../../../models/conversation');
+const validateConversation = require('../../../middlewares/modelsValidation/validateConversation');
+const { upload, uploadAndSaveToDb } = require('../../../middlewares/utils/uploadHandler');
+const Message = require('../../../models/message');
+const Account = require('../../../models/account');
+const authorize = require('../../../middlewares/authentification/authorize');
+const Alumet = require('../../../models/alumet');
 
 router.post('/create', validateConversation, async (req, res) => {
     const { participants, name, icon } = req.body;
@@ -176,16 +176,13 @@ router.get('/:conversation', async (req, res) => {
     try {
         const conversation = await Conversation.findOne({
             _id: req.params.conversation,
-            $or: [{ participants: req.user.id }, { administrators: req.user.id }, { owner: req.user.id }],
         });
         if (!conversation) return res.status(404).json({ error: 'Conversation not found' });
 
-        const conversationOwner = conversation.owner;
-        const conversationAdministrators = conversation.administrators;
-
         const participantsPromises = conversation.participants.map(async participant => {
-            const role = participant === conversationOwner ? 'owner' : conversationAdministrators.includes(participant) ? 'administrator' : 'member';
-            const user = await Account.findOne({ _id: participant }, { name: 1, lastname: 1, icon: 1 });
+            const role = participant.status; // status from the participant object
+            console.log(participant);
+            const user = await Account.findOne({ _id: participant.userId }, { name: 1, lastname: 1, icon: 1 });
             return { id: user._id, name: user.name, lastname: user.lastname, icon: user.icon, role };
         });
         const participants = await Promise.all(participantsPromises);
@@ -209,6 +206,8 @@ router.get('/:conversation', async (req, res) => {
                     await Message.findOneAndUpdate({ _id: lastMessage._id }, { isReaded: true });
                 }
 
+                const userRole = conversation.participants.find(p => p.userId === req.user.id).status;
+
                 res.json({
                     conversationId,
                     conversationName,
@@ -216,7 +215,7 @@ router.get('/:conversation', async (req, res) => {
                     conversationIcon,
                     messages: messageObjects.reverse(),
                     participants,
-                    role: conversationOwner === req.user.id ? 'owner' : conversationAdministrators.includes(req.user.id) ? 'administrator' : 'member',
+                    role: userRole, // role from the participant object
                 });
             })
             .catch(error => {
@@ -228,7 +227,6 @@ router.get('/:conversation', async (req, res) => {
         res.json({ error });
     }
 });
-
 router.post('/:conversation/promoteOwner/:userId', async (req, res) => {
     const { conversation, userId } = req.params;
     const conversationObj = await Conversation.findOne({ _id: conversation, participants: req.user.id });
@@ -380,16 +378,17 @@ router.put('/:conversation/updateicon', upload.single('file'), uploadAndSaveToDb
 router.post('/send/:conversation', authorize(), async (req, res) => {
     const conversation = await Conversation.findOne({
         _id: req.params.conversation,
-        $or: [{ participants: req.user.id }, { administrators: req.user.id }, { owner: req.user.id }],
+        participants: { $elemMatch: { userId: req.user.id } },
     });
     if (!conversation) return res.status(404).json({ error: 'Unauthorized area' });
+
     if (conversation.type == 'alumet') {
         let alumet = await Alumet.findOne({ chat: conversation._id });
-        if (alumet.swiftchat == false && alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user.id)) {
+        if (alumet.swiftchat == false && alumet.owner !== req.user.id && !alumet.participants.some(p => p.userId === req.user.id && [0, 1].includes(p.status))) {
             return res.status(400).json({ error: 'La discussion a été desactiver pour cet Alumet' });
         }
     }
-    if (!conversation) return res.status(404).json({ error: 'Unauthorized area' });
+
     const { message } = req.body;
     const { conversation: conversationId } = req.params;
     const sender = req.user.id;
@@ -397,6 +396,7 @@ router.post('/send/:conversation', authorize(), async (req, res) => {
     const isReaded = false;
     const newMessage = new Message({ sender, content: message, reference, isReaded });
     const user = await Account.findOne({ _id: sender }, { name: 1, lastname: 1, icon: 1, isCertified: 1, accountType: 1, badges: 1, username: 1 });
+
     newMessage
         .save()
         .then(message => {

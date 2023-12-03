@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const flashcardSetSchema = mongoose.Schema({
+const mindmapSchema = mongoose.Schema({
     owner: {
         type: String,
         required: true,
@@ -29,11 +29,6 @@ const flashcardSetSchema = mongoose.Schema({
         type: Boolean,
         required: true,
     },
-    likes: {
-        type: [String],
-        required: true,
-        default: [],
-    },
     collaborators: {
         type: [String],
         required: false,
@@ -47,5 +42,5 @@ const flashcardSetSchema = mongoose.Schema({
     },
 });
 
-const flashCardSet = mongoose.model('flashCardSet', flashcardSetSchema);
-module.exports = flashCardSet;
+const mindmap = mongoose.model('Mindmap', mindmapSchema);
+module.exports = mindmap;

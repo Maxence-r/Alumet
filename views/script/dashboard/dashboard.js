@@ -26,15 +26,18 @@ if (redirect) {
 fetch('/dashboard/items')
     .then(response => response.json())
     .then(data => {
-        if (data.alumets.length !== 0) document.querySelector('.alumets').innerHTML = '';
+        let alumetsOfTypeNotZero = data.alumets.filter(alumet => alumet.type !== '0');
+        let flashcardsOfTypeNotZero = data.alumets.filter(alumet => alumet.type !== '0');
+        if (alumetsOfTypeNotZero.length !== 0) document.querySelector('.alumets').innerHTML = '';
+        if (flashcardsOfTypeNotZero.length !== 0) document.querySelector('.flashcards').innerHTML = '';
         data.alumets.forEach(alumet => {
-            const alumetBox = createAlumetBox(alumet.title, alumet.lastUsage, alumet.background, alumet._id);
-            document.querySelector('.alumets').appendChild(alumetBox);
-        });
-        if (data.flashcardSets.length !== 0) document.querySelector('.flashcards').innerHTML = '';
-        data.flashcardSets.forEach(flashcardSet => {
-            const flashcardsBox = createFlashcardsBox(flashcardSet.subject, flashcardSet.likes.length, flashcardSet.title, flashcardSet.description, flashcardSet._id);
-            document.querySelector('.flashcards').appendChild(flashcardsBox);
+            if (alumet.type === 'alumet') {
+                const alumetBox = createAlumetBox(alumet.title, alumet.lastUsage, alumet.background, alumet._id);
+                document.querySelector('.alumets').appendChild(alumetBox);
+            } else if (alumet.type === 'flashcard') {
+                const flashcardsBox = createFlashcardsBox(alumet.subject, '0', alumet.title, alumet.description, alumet._id);
+                document.querySelector('.flashcards').appendChild(flashcardsBox);
+            }
         });
         endLoading();
     });
@@ -65,7 +68,7 @@ function createAlumetBox(title, lastUsage, background, id) {
     p.textContent = `Utilisé ${relativeTime(lastUsage)}`;
     layerBlurInfo.appendChild(p);
 
-    alumetBox.setAttribute('onclick', `openAlumet('${id}')`);
+    alumetBox.setAttribute('onclick', `openItem('${id}')`);
 
     return alumetBox;
 }
@@ -100,16 +103,14 @@ function createFlashcardsBox(subject, likes, title, description, id) {
     flashcardsBox.appendChild(innerDiv);
     flashcardsBox.appendChild(titleH1);
     flashcardsBox.appendChild(descriptionP);
-    flashcardsBox.setAttribute('onclick', `openFlashcards('${id}')`);
+    flashcardsBox.setAttribute('onclick', `openItem('${id}')`);
     return flashcardsBox;
 }
 
-openAlumet = alumetId => {
-    window.location.href = `/portal/${alumetId}`;
-};
 
-openFlashcards = flashcardsId => {
-    window.location.href = `/flashcards/${flashcardsId}`;
+
+openItem = itemId => {
+    window.location.href = `/app/${itemId}`;
 };
 
 function joinAlumet() {
@@ -633,6 +634,8 @@ function startSetup() {
         window.location.href = '/setup/alumet';
     } else if (type === 'flashcards') {
         window.location.href = '/setup/flashcards';
+    } else if (type === 'mindmaps') {
+        window.location.href = '/setup/mindmaps';
     }
 }
 

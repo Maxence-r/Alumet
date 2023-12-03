@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const Account = require('../../../models/account');
+const Account = require('../../models/account');
 const bcrypt = require('bcrypt');
 
-const A2f = require('../../../models/a2f');
-const { upload, uploadAndSaveToDb } = require('../../../middlewares/utils/uploadHandler');
+const A2f = require('../../models/a2f');
+const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
 
 router.put('/updateinfos', async (req, res) => {
     try {

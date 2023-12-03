@@ -19,23 +19,28 @@ const validatePost = async (req, res, next) => {
         if (req.body.postId && !req.connected) {
             return res.status(401).json({ error: 'Unauthorized x001' });
         }
+
         const alumet = await Alumet.findOne({ _id: req.params.alumet });
         const wall = await Wall.findOne({ _id: req.params.wall });
         let error = null;
+        if (!alumet || !wall) {
+            return res.status(404).json({ error: 'Unable to proceed your requests x002' });
+        }
+
         if (req.body.postId) {
             const post = await Post.findOne({ _id: req.body.postId });
-            if (!post) {
-                error = { error: 'Unable to proceed your requests x002' };
-            } else if (post.owner !== req.user.id && !alumet.collaborators.includes(req.user._id) && alumet.owner !== req.user.id) {
-                error = { error: 'Unauthorized post x001' };
+            if (!post || post.owner !== req.user.id && !alumet.participants.some(p => p.userId === req.user.id && p.status === 1) && alumet.owner !== req.user.id) {
+                return res.status(400).json({ error: 'Unauthorized post x001' });
             }
         }
-        if ((!wall && !req.body.postId) || (!wall.postAuthorized && alumet.owner !== req.user.id && !alumet.collaborators.includes(req.user._id))) {
-            error = { error: 'Unauthorized wall x001' };
+
+        if ((!wall && !req.body.postId) || (!wall.postAuthorized && alumet.owner !== req.user.id && !alumet.participants.some(p => p.userId === req.user.id && p.status === 1))) {
+            return res.status(400).json({ error: 'Unauthorized wall x001' });
         }
-        authorizedColor = ['white', 'red', 'yellow', 'green', 'blue'];
+
+        const authorizedColor = ['white', 'red', 'yellow', 'green', 'blue'];
         if (!authorizedColor.includes(req.body.postColor)) {
-            error = { error: 'Unauthorized color x001' };
+            return res.status(400).json({ error: 'Unauthorized color x001' });
         }
         if (error) {
             return res.status(400).json(error);

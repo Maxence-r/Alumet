@@ -24,7 +24,7 @@
         <link href="../../style/authentification/authentication.css" rel="stylesheet" type="text/css" />
         <link href="../../style/global.css" rel="stylesheet" type="text/css" />
 
-        <title>Alumet - Auth Portal</title>
+        <title>Alumet - Cartes Mentales</title>
     </head>
     <body>
         <section class="loading" style="display: flex">
@@ -56,35 +56,44 @@
                 <h3>Patientez quelques instants</h3>
             </section>
             <div class="container">
-                <h1>Créer un Alumet</h1>
+                <h1>Créer une Carte Mental</h1>
                 <div id="step1" class="activeStep">
                     <div class="user-details">
                         <h3>Un nom et une description</h3>
-                        <p>Cela vous permettra facilement d'identifier vos Alumets</p>
+                        <p>Cela vous permettra facilement d'identifier vos cartes mentales</p>
                     </div>
-                    <input id="alumet-name" required type="text" placeholder="Nom de l'Alumet" />
-                    <input id="alumet-description" type="text" placeholder="Description de l'Alumet" />
+                    <input id="mindmap-name" required type="text" placeholder="Nom de la carte mental" />
+                    <input id="mindmap-description" type="text" placeholder="Description de de la carte mental" />
 
                     <button onclick="next(1, 2)" class="large">Continuer</button>
                 </div>
                 <div id="step2">
                     <div class="user-details">
-                        <h3>Options</h3>
-                        <p>Utiliser le mode privé si vous souhaitez seulement que certaines personne rejoignent avec un code. Désactiver la Messagerie de l'Alumet pour limiter les interactions des utilisateurs de l'Alumet.</p>
+                        <h3>Sujet et découverte</h3>
+                        <p>Utiliser le mode privé si vous souhaitez seulement que certaines personnes rejoignent avec un code. Désactiver la messagerie de l'Alumet pour limiter les interactions des utilisateurs de l'Alumet.</p>
                     </div>
                     <div class="switch-options">
+                        <select id="mindmap-subject">
+                            <option value="Mathématiques">Mathématiques</option>
+                            <option value="Français">Français</option>
+                            <option value="Histoire">Histoire</option>
+                            <option value="Géographie">Géographie</option>
+                            <option value="Physique">Physique</option>
+                            <option value="Svt">SVT</option>
+                            <option value="Technologie">Technologie</option>
+                            <option value="Anglais">Anglais</option>
+                            <option value="Espagnol">Espagnol</option>
+                            <option value="Allemand">Allemand</option>
+                            <option value="Italien">Italien</option>
+                            <option value="Russe">Russe</option>
+                            <option value="Chinois">Chinois</option>
+                            <option value="Japonais">Japonais</option>
+                            <option value="Autre">Autre</option>
+                        </select>
                         <div class="option">
-                            <h1>Alumet en mode privé</h1>
+                            <h1>Rendre public pour d'autres élèves</h1>
                             <label class="switch">
-                                <input id="alumet-private" type="checkbox" />
-                                <span class="slide round"></span>
-                            </label>
-                        </div>
-
-                        <div class="option">
-                            <h1>Messagerie de l'Alumet</h1>
-                            <label class="switch">
-                                <input id="alumet-chat" checked="" type="checkbox" />
+                                <input id="mindmap-public" checked="" type="checkbox" />
                                 <span class="slide round"></span>
                             </label>
                         </div>
@@ -97,24 +106,14 @@
                         <p>Les utilisateurs que vous ajouterez recevront un mail d'invitation a rejoindre votre Alumet</p>
                     </div>
                     <button onclick="document.querySelector('.user-popup').classList.add('active-popup')" class="large greyed">Ajouter des collaborateurs</button>
-                    <button onclick="next(3, 4)" class="large">Continuer</button>
-                </div>
-                <div id="step4">
-                    <div class="user-details">
-                        <h3>Du style</h3>
-                        <p>Définisser une image de fond de votre Alumet, celle si sera légèrement flouter pour rendre le contenu plus visible.</p>
-                    </div>
-                    <img class="alumet-background load-background" src="../../assets/default/default_alumet.jpg" />
-                    <input id="alumet-background" type="file" accept="image/*" />
-                    <button class="large greyed load-background">Charger un fichier</button>
-                    <button onclick="createAlumet()" class="large">Créer l'Alumet</button>
+                    <button onclick="createMindmap()" class="large">Continuer</button>
                 </div>
                 <span class="footer-infos">
                     <p>Besoin d'aide ?</p>
                 </span>
             </div>
         </section>
-        <section style="background-image: url('../../assets/global/workspace.jpg')" class="alumet-infos"></section>
+        <section style="background-image: url('../../assets/global/office_modern.jpg')" class="alumet-infos"></section>
     </body>
     <script src="/socket.io/socket.io.js"></script>
     <script>

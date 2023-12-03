@@ -25,16 +25,24 @@ const AlumetSchema = mongoose.Schema({
         required: true,
         minLength: 1,
     },
-    collaborators: {
-        type: Array,
+    subject: {
+        type: String,
         required: false,
-        default: [],
+        minLength: 2,
+        maxLength: 50,
+        default: 'Autre',
+        enum: ['Mathématiques', 'Français', 'Histoire', 'Géographie', 'Physique', 'Svt', 'Technologie', 'Anglais', 'Espagnol', 'Allemand', 'Italien', 'Russe', 'Chinois', 'Japonais', 'Autre'],
     },
-    participants: {
-        type: Array,
-        required: false,
-        default: [],
-    },
+    participants: [
+        {
+            userId: String,
+            status: {
+                type: Number,
+                default: 2,
+                enum: [0, 1, 2, 3], // 0 - owner, 1 - admin, 2 - user, 3 - banned
+            }
+        },
+    ],
     private: {
         type: Boolean,
         required: true,
@@ -44,10 +52,6 @@ const AlumetSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: true,
-    },
-    chat: {
-        type: String,
-        required: true,
     },
     lastUsage: {
         type: Date,
@@ -83,6 +87,17 @@ const AlumetSchema = mongoose.Schema({
         type: String,
         required: true,
         default: randomNumericCode(),
+    },
+    type: {
+        type: String,
+        required: true,
+        default: 'alumet',
+        enum: ['alumet', 'flashcard', 'mindmap'],
+    },
+    discovery: {
+        type: Boolean,
+        required: true,
+        default: false,
     },
 });
 

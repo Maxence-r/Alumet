@@ -1,8 +1,7 @@
-const { sendMail } = require('../../routes/api/alumetGlobal/mailing');
+const { sendMail } = require('../../routes/alumet/mailing');
 const Account = require('../../models/account');
 const Invitation = require('../../models/invitation');
 const Alumet = require('../../models/alumet');
-const flashCardSet = require('../../models/flashcardSet');
 
 async function sendInvitations(req, res, type, reference) {
     try {
@@ -15,16 +14,10 @@ async function sendInvitations(req, res, type, reference) {
                 _id: { $ne: req.user.id },
                 _id: participant,
             });
-            let referenceDetails;
-
-            if (type === 'flashcards') {
-                referenceDetails = await flashCardSet.findById(reference);
-            } else if (type === 'alumet') {
-                referenceDetails = await Alumet.findById(reference);
-            }
+            let referenceDetails = await Alumet.findById(reference);
             let invitationCheck = await Invitation.findOne({ to: participant, reference: reference });
-
-            if (!account || invitationCheck || referenceDetails.collaborators.includes(participant) || referenceDetails.owner == participant) {
+            console.log(invitationCheck, account);
+            if (!account || invitationCheck || referenceDetails.participants.some(p => p.userId === participant && p.status === 1) || referenceDetails.owner == participant) {
                 continue;
             }
             const invitation = new Invitation({
@@ -36,7 +29,7 @@ async function sendInvitations(req, res, type, reference) {
             await invitation.save();
             sendMail(
                 account.mail,
-                'Invitation à un alumet',
+                'Vous êtes invité a collaborer sur Alumet',
                 `Vous avez été invité à collaborer sur "${referenceDetails.title}" (${type}) en tant que collaborateur par ${owner.name} ${owner.lastname} (${owner.username}). Accepter ou refuser l'invitation en vous rendant sur votre tableau de bord. `
             );
         }

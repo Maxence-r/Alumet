@@ -3,12 +3,12 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const Upload = require('../../../models/upload');
+const Upload = require('../../models/upload');
 const fs = require('fs');
-const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
-const Post = require('../../../models/post');
-const Folder = require('../../../models/folder');
-const authorize = require('../../../middlewares/authentification/authorize');
+const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
+const Post = require('../../models/post');
+const Folder = require('../../models/folder');
+const authorize = require('../../middlewares/authentification/authorize');
 const mongoose = require('mongoose');
 
 const storage = multer.diskStorage({
@@ -77,17 +77,17 @@ router.get('/folder/:id', authorize(), (req, res) => {
 });
 
 router.get('/u/defaultUser', (req, res) => {
-    const filePath = path.join(__dirname, './../../../views/assets/default/default_user.png');
+    const filePath = path.join(__dirname, './../../views/assets/default/default_user.png');
     res.sendFile(filePath);
 });
 
 router.get('/u/defaultAlumet', (req, res) => {
-    const filePath = path.join(__dirname, './../../../views/assets/default/default_alumet.jpg');
+    const filePath = path.join(__dirname, './../../views/assets/default/default_alumet.jpg');
     res.sendFile(filePath);
 });
 
 router.get('/u/defaultGroup', (req, res) => {
-    const filePath = path.join(__dirname, './../../../views/assets/default/default_group.png');
+    const filePath = path.join(__dirname, './../../views/assets/default/default_group.png');
     res.sendFile(filePath);
 });
 
@@ -97,7 +97,7 @@ router.get('/u/:id', validateObjectId, (req, res) => {
     Upload.find({ _id: req.params.id })
         .then(upload => {
             if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
-            const filePath = path.join(__dirname, './../../../cdn/' + upload[0].filename);
+            const filePath = path.join(__dirname, './../../cdn/' + upload[0].filename);
             if (fs.existsSync(filePath)) {
                 res.sendFile(filePath);
             } else {

@@ -6,29 +6,28 @@ require('dotenv').config();
 
 const authentification = require('./middlewares/authentification/authentification');
 
-const dashboard = require('./routes/api/alumetGlobal/dashboard');
-const profile = require('./routes/api/alumetGlobal/profile');
-const uploader = require('./routes/api/alumetGlobal/uploader');
-const alumet = require('./routes/api/alumet/alumet');
-const auth = require('./routes/api/alumetGlobal/auth');
-const portal = require('./routes/api/alumetGlobal/portal');
-const alumetRender = require('./routes/routing/alumet');
-const preview = require('./routes/utils/preview');
-const viewer = require('./routes/utils/viewer');
+const dashboard = require('./routes/alumet/dashboard.js');
+const profile = require('./routes/alumet/profile.js');
+const uploader = require('./routes/files/uploader.js');
+const alumet = require('./routes/applications/alumet/alumet.js');
+const auth = require('./routes/alumet/auth.js');
+const portal = require('./routes/alumet/portal.js');
+const alumetRender = require('./routes/routing/app.js');
+const preview = require('./routes/files/preview.js');
+const viewer = require('./routes/files/viewer.js');
 
-const homeworks = require('./routes/applications/eduTasker');
-const board = require('./routes/applications/ideaFlow');
-const flashcards = require('./routes/applications/flashcards');
-const swiftChat = require('./routes/applications/swiftChat');
+const homeworks = require('./routes/applications/tasker/eduTasker.js');
+const mindmap = require('./routes/applications/mindmap/mindmap.js');
+const flashcards = require('./routes/applications/flashcards/flashcards.js');
+const swiftChat = require('./routes/applications/messenger/messenger.js');
 
-const wall = require('./routes/api/alumet/wall');
-const post = require('./routes/api/alumet/post');
+const wall = require('./routes/applications/alumet/wall.js');
+const post = require('./routes/applications/alumet/post.js');
 
 const flashcardsAi = require('./routes/openai/flashcards');
 
-const setup = require('./routes/api/alumetGlobal/setup.js');
+const setup = require('./routes/alumet/setup.js');
 const invitation = require('./routes/routing/invitation.js');
-const item = require('./routes/routing/item.js');
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -53,33 +52,39 @@ app.get('/', (req, res) => {
     res.sendFile('main.html', { root: './views/pages' });
 });
 
-app.use('/a', alumetRender);
+
+// Alumet application
 app.use('/portal', portal);
-app.use('/dashboard', dashboard);
 app.use('/alumet', alumet);
 app.use('/auth', auth);
 app.use('/profile', profile);
 
+// Applications
 app.use('/swiftChat', swiftChat);
 app.use('/flashcards', flashcards);
+app.use('/mindmaps', mindmap);
+app.use('/homeworks', homeworks);
 
+// Files related
 app.use('/preview', preview);
 app.use('/viewer', viewer);
-
 app.use('/cdn', uploader);
 app.use('/preview', preview);
 
+// Alumet API
+app.use('/app', alumetRender);
 app.use('/api/wall', wall);
 app.use('/api/post', post);
 
-app.use('/api/homeworks', homeworks);
-app.use('/api/board', board);
 
+// Ai related
 app.use('/openai/flashcards', flashcardsAi);
 
+// Dashboard related
+app.use('/dashboard', dashboard);
 app.use('/setup', setup);
 app.use('/invitation', invitation);
-app.use('/item', item);
+
 
 
 const path = require('path');

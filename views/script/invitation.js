@@ -2,7 +2,7 @@ const path = window.location.pathname;
 const id = path.substring(path.lastIndexOf('/') + 1);
 
 function fetchReferenceInfos() {
-    fetch('/invitation/info/' + id, {
+    fetch('/app/info/' + id, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

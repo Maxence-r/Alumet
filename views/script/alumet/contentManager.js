@@ -27,10 +27,6 @@ function getContent() {
                 parent.insertBefore(list, button);
             });
 
-            if (data.user_infos) {
-                currentConversation = data.chat;
-                loadConversation(data.chat);
-            }
             enableConnected(data);
             loadParticipants(data.participants, data.collaborators, alumet.admin);
             endLoading();
@@ -48,9 +44,9 @@ async function modifyAlumet() {
     formData.append('description', document.getElementById('alumetDescription').value);
     formData.append('private', document.getElementById('alumet-private').checked);
     formData.append('chat', document.getElementById('alumet-chat').checked);
-    formData.append('alumet', alumet._id);
+    formData.append('app', alumet._id);
     navbar('loadingRessources');
-    fetch('/a/new', {
+    fetch('/app/new', {
         method: 'PUT',
         body: formData,
     })
@@ -564,6 +560,7 @@ function deletePost() {
         .then(response => response.json())
         .then(data => {
             if (data.error) {
+                navbar('post');
                 return toast({
                     title: 'Erreur',
                     message: data.error,
@@ -687,33 +684,7 @@ function createWall() {
         });
 }
 
-function loadConversation(id) {
-    fetch(`/swiftChat/` + id)
-        .then(response => response.json())
-        .then(json => {
-            const conversationBody = document.querySelector('.conversation-body');
 
-            if (!json) return;
-            Promise.all(json.messages.map(message => createMessageElement(message.message, message.user))).then(messageElements => {
-                messageElements.forEach(messageElement => {
-                    conversationBody.prepend(messageElement);
-                });
-
-                let warningBox = document.createElement('div');
-                warningBox.classList.add('warning-box');
-                if (alumet.swiftchat) {
-                    warningBox.innerText = 'Cet espace est privé et accessible uniquement aux membres de cet Alumet. La conversation est automatiquement modérée par une intelligence artificielle.';
-                } else {
-                    warningBox.innerText = "La discussion à été désactivée par l'administrateur de cet Alumet. Seul les administrateurs peuvent écrire.";
-                }
-
-                conversationBody.prepend(warningBox);
-            });
-
-            joinSocketRoom(id, user._id);
-        })
-        .catch(error => console.error(error));
-}
 
 function openPost(id) {
     navbar('comments', id);

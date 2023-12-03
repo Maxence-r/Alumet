@@ -17,7 +17,7 @@ const InvitationSchema = mongoose.Schema({
     type: {
         type: String,
         required: true,
-        enum: ['alumet', 'flashcards'],
+        enum: ['alumet', 'flashcards', 'mindmaps'],
     },
     reference: {
         type: String,

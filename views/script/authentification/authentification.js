@@ -12,7 +12,7 @@ function load(boolean) {
     document.querySelectorAll('.container > div').forEach(e => {
         e.style.display = 'none';
     });
-    fetch('/alumet/info/' + id, {
+    fetch('/app/info/' + id, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ function load(boolean) {
                 loadAlumetInfos(data.alumet_infos);
             }
             if (data.alumet_infos.participant === true) {
-                window.location.href = '/a/' + id;
+                window.location.href = '/app/' + id;
             }
             if (data.alumet_infos.private === false) {
                 if (Object.keys(data.user_infos).length !== 0) {
@@ -67,7 +67,7 @@ document.querySelector('.guest').addEventListener('click', () => {
     document.querySelector('.access').classList.add('load');
     setTimeout(() => {
         document.querySelector('.access').classList.remove('load');
-        window.location.href = '/a/' + id + '?guest=true';
+        window.location.href = '/app/' + id + '?guest=true';
     }, 500);
 });
 

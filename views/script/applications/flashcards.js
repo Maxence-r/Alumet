@@ -11,7 +11,7 @@ fetch(`/flashcards/${id}/sandbox/content`)
         document.getElementById('flashcardName').value = data.title;
         document.getElementById('flashcardDescription').value = data.description;
         document.getElementById('invitationLink').value = window.location.href;
-        document.getElementById('flashcardPublic').checked = data.isPublic;
+        document.getElementById('flashcardPublic').checked = data.discovery;
         loadParticipants([], data.collaborators, data.owner);
         enableConnected(data);
         data.flashcards.forEach(flashcard => {
@@ -32,16 +32,16 @@ function modifyFlashcardSet() {
     let description = document.getElementById('flashcardDescription').value;
     let isPublic = document.getElementById('flashcardPublic').checked;
     navbar('loadingRessources');
-    fetch(`/flashcards/set`, {
+    fetch(`/app/new`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+            app: id,
             title,
-            flashcardSetId: id,
             description,
-            isPublic,
+            discovery: isPublic,
         }),
     }).then(res => {
         res.json().then(data => {

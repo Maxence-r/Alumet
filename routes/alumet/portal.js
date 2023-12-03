@@ -2,13 +2,12 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const mongoose = require('mongoose');
-const Alumet = require('../../../models/alumet');
+const Alumet = require('../../models/alumet');
 require('dotenv').config();
-const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
-const authorize = require('../../../middlewares/authentification/authorize');
-const Conversation = require('../../../models/conversation');
-const Invitation = require('../../../models/invitation');
-const flashCardSet = require('../../../models/flashcardSet');
+const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
+const authorize = require('../../middlewares/authentification/authorize');
+const Conversation = require('../../models/conversation');
+const Invitation = require('../../models/invitation');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     try {
@@ -19,11 +18,11 @@ router.get('/:id', validateObjectId, async (req, res) => {
             if (!alumet) {
                 return res.redirect('/404');
             }
-            if (alumet.participants.includes(req.user.id) || alumet.owner === req.user.id || alumet.collaborators.includes(req.user.id)) {
-                return res.redirect('/a/' + req.params.id);
+            if (alumet.participants.some(p => p.userId === req.user.id && p.status === 1) || alumet.owner === req.user.id) {
+                return res.redirect('/alumet/' + req.params.id);
             }
         }
-        const filePath = path.join(__dirname, '../../../views/pages/authentification/authentication.html');
+        const filePath = path.join(__dirname, '../../views/pages/authentification/authentication.html');
         return res.sendFile(filePath);
     } catch (error) {
         console.error(error);
@@ -54,16 +53,12 @@ router.post('/authorize/:id', authorize(), async (req, res) => {
                 error: 'Le code est incorrect',
             });
         }
-        if (alumet.participants.includes(req.user.id)) {
+        if (alumet.participants.some(p => p.userId === req.user.id)) {
             return res.status(400).json({
                 error: 'User is already a participant',
             });
         }
-        alumet.participants.push(req.user.id);
-        let conversation = await Conversation.findOne({ _id: alumet.chat });
-        conversation.participants.push(req.user.id);
-        await conversation.save();
-
+        alumet.participants.push({ userId: req.user.id, status: 2 });
         await alumet.save();
         res.status(200).json({
             message: 'Alumet joined',
@@ -84,13 +79,12 @@ router.get('/leave/:id', authorize('alumet'), async (req, res) => {
                 error: 'Alumet not found',
             });
         }
-        if (!alumet.participants.includes(req.user.id) && !alumet.collaborators.includes(req.user.id)) {
+        if (!alumet.participants.some(p => p.userId === req.user.id)) {
             return res.status(400).json({
                 error: "Vous devez conceder la propriété de l'alumet avant de le quitter",
             });
         }
-        alumet.participants = alumet.participants.filter(participant => participant !== req.user.id);
-        alumet.collaborators = alumet.collaborators.filter(collaborator => collaborator !== req.user.id);
+        alumet.participants = alumet.participants.filter(participant => participant.userId !== req.user.id);
 
         let conversation = await Conversation.findOne({ _id: alumet.chat });
         conversation.participants = conversation.participants.filter(participant => participant !== req.user.id);
@@ -117,13 +111,7 @@ router.post('/accept/:id', authorize('alumet'), async (req, res) => {
                 error: 'Invitation not found',
             });
         }
-        let referenceDetails;
-        if (invitation.type === 'alumet') {
-            referenceDetails = await Alumet.findById(invitation.reference);
-        } else if (invitation.type === 'flashcards') {
-            referenceDetails = await flashCardSet.findById(invitation.reference);
-        }
-
+        let referenceDetails = await Alumet.findById(invitation.reference);
         if (!referenceDetails) {
             invitation.remove();
             setTimeout(() => {
@@ -131,12 +119,9 @@ router.post('/accept/:id', authorize('alumet'), async (req, res) => {
             }, 500);
         }
         if (invitation.type === 'alumet') {
-            referenceDetails.participants = referenceDetails.participants.filter(participant => participant !== req.user.id);
-            let conversation = await Conversation.findOne({ _id: referenceDetails.chat });
-            conversation.participants.push(req.user.id);
-            await conversation.save();
+            referenceDetails.participants = referenceDetails.participants.filter(participant => participant.userId !== req.user.id);
+            referenceDetails.participants.push({ userId: req.user.id, status: 1 });
         }
-        referenceDetails.collaborators.push(req.user.id);
 
         await referenceDetails.save();
         await invitation.remove();

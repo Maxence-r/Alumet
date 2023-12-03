@@ -152,6 +152,11 @@ body {
 
 .cloud > .sub-container {
     position: relative;
+    max-width: 375px;
+}
+
+.cloud > .sub-container:nth-of-type(1) {
+    max-width: 250px;
 }
 
 .cloud > .sub-container > button {

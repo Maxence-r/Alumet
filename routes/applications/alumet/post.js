@@ -156,8 +156,8 @@ router.delete('/:alumet/:post', async (req, res) => {
         }
 
         const post = await Post.findById(req.params.post);
-
-        if (!post || (post.owner && post.owner !== req.user.id && alumet.collaborators.includes(req.user.id) && alumet.owner !== req.user.id)) {
+        console.log(!alumet.participants.some(p => p.userId === req.user.id && p.status === 1));
+        if (!post || (post.owner !== req.user.id && !alumet.participants.some(p => p.userId === req.user.id && p.status === 1) && alumet.owner !== req.user.id)) {
             return res.status(404).json({
                 error: "Vous n'avez pas les permissions pour effectuer cette action !",
             });

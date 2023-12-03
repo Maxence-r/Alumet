@@ -1,69 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const FlashcardSet = require('../../models/flashcardSet');
-const sendInvitations = require('../../middlewares/mailManager/sendInvitations');
+
+const sendInvitations = require('../../../middlewares/mailManager/sendInvitations');
 const { default: mongoose } = require('mongoose');
 const path = require('path');
-const Flashcards = require('../../models/flashcards');
-const Account = require('../../models/account');
-const authorize = require('../../middlewares/authentification/authorize');
-const Flashcard = require('../../models/flashcards');
-router.put('/set', authorize(), async (req, res) => {
-    try {
-        const { title, description, subject, isPublic, flashcardSetId } = req.body;
-        let flashcardSet;
-        if (flashcardSetId) {
-            flashcardSet = await FlashcardSet.findById(flashcardSetId);
-            if (flashcardSet.owner.toString() !== req.user._id.toString() && !flashcardSet.collaborators.includes(req.user?.id)) return res.json({ error: 'Unauthorized' });
-            if (!flashcardSet) return res.redirect('/404');
-            flashcardSet.title = title;
-            flashcardSet.description = description;
-            flashcardSet.isPublic = isPublic;
-        } else {
-            flashcardSet = new FlashcardSet({
-                owner: req.user._id,
-                title,
-                description,
-                subject,
-                isPublic,
-            });
-        }
-        await flashcardSet.save();
-        if (!flashcardSetId) {
-            sendInvitations(req, res, 'flashcards', flashcardSet._id);
-        }
-        res.json({ flashcardSet });
-    } catch (error) {
-        console.log(error);
-        res.json({ error });
-    }
-});
+const Flashcards = require('../../../models/flashcards');
+const Alumet = require('../../../models/alumet');
+const Account = require('../../../models/account');
+const authorize = require('../../../middlewares/authentification/authorize');
+const Flashcard = require('../../../models/flashcards');
 
-router.put('/collaborators/:flashcard', authorize('flashcard', 'itemAdmins'), async (req, res) => {
-    sendInvitations(req, res, 'flashcards', req.params.flashcard);
-    res.json({ success: true });
-});
 
-router.get('/:id', async (req, res) => {
-    try {
-        if (mongoose.Types.ObjectId.isValid(req.params.id) === false) return res.redirect('/404');
-        const flashcardSet = await FlashcardSet.findById(req.params.id);
-        if (!flashcardSet) return res.redirect('/404');
-        const filePath = path.join(__dirname, '../../views/pages/applications/flashcards.html');
-        res.sendFile(filePath);
-    } catch (error) {
-        console.log(error);
-        res.json({ error });
-    }
-});
 
 router.get('/revise/sandbox/:flashcard', async (req, res) => {
     try {
         console.log('sandbox')
         if (mongoose.Types.ObjectId.isValid(req.params.flashcard) === false) return res.redirect('/404');
-        const flashcardSet = await FlashcardSet.findById(req.params.flashcard);
+        const flashcardSet = await Alumet.findById(req.params.flashcard);
         if (!flashcardSet) return res.redirect('/404');
-        const filePath = path.join(__dirname, '../../views/pages/applications/flashcards/sandbox.html');
+        const filePath = path.join(__dirname, '../../../views/pages/applications/flashcards/sandbox.html');
         res.sendFile(filePath);
     } catch (error) {
         console.log(error);
@@ -74,9 +29,9 @@ router.get('/revise/sandbox/:flashcard', async (req, res) => {
 router.get('/revise/smart/:flashcard', async (req, res) => {
     try {
         if (mongoose.Types.ObjectId.isValid(req.params.flashcard) === false) return res.redirect('/404');
-        const flashcardSet = await FlashcardSet.findById(req.params.flashcard);
+        const flashcardSet = await Alumet.findById(req.params.flashcard);
         if (!flashcardSet) return res.redirect('/404');
-        const filePath = path.join(__dirname, '../../views/pages/applications/flashcards/smart.html');
+        const filePath = path.join(__dirname, '../../../views/pages/applications/flashcards/smart.html');
         res.sendFile(filePath);
     } catch (error) {
         console.log(error);
@@ -86,21 +41,21 @@ router.get('/revise/smart/:flashcard', async (req, res) => {
 
 router.get('/:flashcardSet/:revisionMethod/content', async (req, res) => {
     try {
-        const flashcardSet = await FlashcardSet.findById(req.params.flashcardSet);
+        const flashcardSet = await Alumet.findById(req.params.flashcardSet);
         if (!flashcardSet) return res.redirect('/404');
         const owner = await Account.findById(flashcardSet.owner, 'username icon _id name lastname');
-        const collaborators = [];
-        const getCollaboratorInfo = async () => {
-            for (const collaboratorId of flashcardSet.collaborators) {
-                const collaborator = await Account.findById(collaboratorId, 'username icon _id name lastname');
-                if (collaborator) {
-                    collaborators.push(collaborator);
+        const participants = [];
+        const getParticipantInfo = async () => {
+            for (const participant of flashcardSet.participants) {
+                const participantUser = await Account.findById(participant.userId, 'username icon _id name lastname');
+                if (participantUser) {
+                    participants.push({ ...participantUser._doc, status: participant.status });
                 }
             }
         };
-        await getCollaboratorInfo();
-        const isAdmin = req.user && (req.user._id.toString() === flashcardSet.owner.toString() || flashcardSet.collaborators.includes(req.user._id.toString()));
-        const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], owner, collaborators, user_infos: null, admin: isAdmin };
+        await getParticipantInfo();
+        const isAdmin = req.user && (req.user._id.toString() === flashcardSet.owner.toString() || flashcardSet.participants.some(p => p.userId === req.user._id.toString() && [0, 1].includes(p.status)));
+        const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], owner, participants, user_infos: null, admin: isAdmin };
         if (req.user) {
             flashcardSetInfo.user_infos = { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname, id: req.user._id };
         }
@@ -115,20 +70,20 @@ router.get('/:flashcardSet/:revisionMethod/content', async (req, res) => {
                 flashcardSetInfo.flashcards.push(flashcardInfo);
             } else if (req.params.revisionMethod !== 'smart') {
                 flashcardSetInfo.flashcards.push(flashcardInfo);
-            }   
+            }
         }
         res.json(flashcardSetInfo);
-        }
+    }
     catch (error) {
         console.log(error);
         res.json({ error });
     }
 });
 
-router.post('/:flashcardSet/check', authorize('flashcard', 'itemAdmins'), async (req, res) => {
+router.post('/:flashcardSet/check', authorize(''), async (req, res) => {
     try {
         const { flashcardSetId, flashcards } = req.body;
-        const flashcardSet = await FlashcardSet.findById(flashcardSetId);
+        const flashcardSet = await Alumet.findById(flashcardSetId);
         if (!flashcardSet) return res.json({ error: 'Flashcard not found' });
         const flashcardsData = [];
         for (let flashcard of flashcards) {
@@ -155,7 +110,7 @@ router.post('/:flashcardSet/check', authorize('flashcard', 'itemAdmins'), async 
     }
 });
 
-router.delete('/:flashcard/:flashcardId', authorize('flashcard', 'itemAdmins'), async (req, res) => {
+router.delete('/:flashcard/:flashcardId', authorize(''), async (req, res) => {
     try {
         const flashcard = await Flashcards.findById(req.params.flashcardId);
         if (!flashcard) return res.json({ error: 'Flashcard not found' });

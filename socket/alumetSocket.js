@@ -33,11 +33,11 @@ module.exports = function (io) {
                         if (!account) {
                             return;
                         }
-                        if (alumet.private && (!account || (!alumet.participants.includes(account.id) && !alumet.collaborators.includes(account.id) && alumet.owner != account.id))) {
+                        if (alumet.private && (!account || (!alumet.participants.some(p => p.userId === account.id) && alumet.owner != account.id))) {
                             return;
                         }
                         socket.join(alumetId);
-                        if (alumet.collaborators.includes(userId) || alumet.owner == userId) {
+                        if (alumet.participants.some(p => p.userId === userId && p.status === 1) || alumet.owner == userId) {
                             socket.join(`admin-${alumetId}`);
                         }
                     }

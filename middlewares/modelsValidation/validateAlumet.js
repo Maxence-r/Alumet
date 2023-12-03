@@ -17,7 +17,7 @@ async function validateAlumet(req, res, next) {
                     responseSent = true;
                     return res.status(400).json({ error: 'An error occurred while validating the alumet.' });
                 }
-                if (alumet.owner !== req.user.id) {
+                if (alumet.owner !== req.user.id && alumet.participants.some(p => p.userId === req.user.id && p.status !== 1)) {
                     responseSent = true;
                     return res.status(401).json({ error: 'Unauthorized' });
                 }
