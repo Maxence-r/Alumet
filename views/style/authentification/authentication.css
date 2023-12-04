@@ -35,6 +35,19 @@ section.access {
     width: 100%;
 }
 
+#step1 > .module {
+    width: 100%;
+}
+
+.module > p {
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    font-stretch: 150%;
+    color: rgb(124, 124, 124);
+    margin: 0;
+}
+
 .options > div {
     display: flex;
     cursor: pointer;

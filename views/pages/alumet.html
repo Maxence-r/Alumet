@@ -110,8 +110,10 @@
                 <div class="divider"></div>
                 <div class="information">
                     <img src="../assets/global/disconnect.svg" />
-                    <h3>Vous êtes déconnecté</h3>
-                    <p>Actualiser cette page pour recevoir les modifications en temps réel lorsque votre connexion sera de retour !</p>
+                </div>
+                <div class="reconnecting">
+                    <h3>Attempting reconnection to the server...</h3>
+                    <div class="loader-bar"></div>
                 </div>
             </div>
             <div class="overlay-content loadingRessources">
@@ -202,7 +204,7 @@
                         </div>
                         <div class="item">
                             <h3>Supprimer l'Alumet</h3>
-                            <button onclick="engageDeletion('alumet')" class="large reded">Supprimer l'Alumet</button>
+                            <button onclick="engageDeletion()" class="large reded">Supprimer l'Alumet</button>
                         </div>
                     </div>
                 </div>

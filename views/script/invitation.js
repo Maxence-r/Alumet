@@ -10,25 +10,25 @@ function fetchReferenceInfos() {
     })
         .then(res => res.json())
         .then(data => {
-            loadReferenceInfos(data.referenceInfos, data.inviter, data.invitation);
+            loadReferenceInfos(data.alumet_infos);
             endLoading();
         })
         .catch(err => console.log(err));
 }
 
-function loadReferenceInfos(reference, inviter, invitation) {
+function loadReferenceInfos(reference) {
+    console.log(reference);
     document.querySelector('.alumet-infos > img').src = reference.background ? '/cdn/u/' + reference.background : '../assets/global/hands.jpg';
     document.querySelector('.alumet-details > h1').innerText = reference.title;
     document.querySelector('.alumet-details > h3').innerText = reference.description || 'Aucune description';
-    document.getElementById('creator').innerText = 'Invité par ' + inviter.name + ' ' + inviter.lastname;
-    document.getElementById('lastusage').innerText = relativeTime(invitation.createdAt);
+    document.getElementById('lastusage').innerText = relativeTime(reference.createdAt);
     const img = new Image();
     img.src = '/cdn/u/' + reference.background;
     document.querySelector('.access > .full-screen').style.display = 'none';
 }
 
 function acceptInvite() {
-    fetch('/portal/accept/' + id, {
+    fetch('/invitation/accept/' + id, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ function acceptInvite() {
 }
 
 function declineInvite() {
-    fetch('/portal/decline/' + id, {
+    fetch('/invitation/decline/' + id, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

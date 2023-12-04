@@ -9,6 +9,7 @@ const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHan
 const sendInvitations = require('../../middlewares/mailManager/sendInvitations');
 const addBlurToImage = require('../../middlewares/utils/blur');
 const Account = require('../../models/account');
+const authorizeA2F = require('../../middlewares/authentification/authorizeA2f');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     let alumet = await Alumet.findById(req.params.id);
@@ -76,6 +77,7 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
         const alumet = await Alumet.findOne({
             _id: req.params.id,
         });
+        console.log(alumet);
         console.log(req.params.id);
         if (!alumet) {
             return res.status(404).json({
@@ -136,6 +138,36 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
             error: 'Failed to get alumet',
         });
     }
+});
+
+router.delete('/delete/:id', validateObjectId, authorize(), authorizeA2F, async (req, res) => {
+    try {
+        const alumet = await Alumet.findById(req.params.id);
+        if (!alumet) {
+            return res.status(404).json({
+                error: 'Alumet not found',
+            });
+        }
+        if (alumet.owner !== req.user.id) {
+            return res.status(403).json({
+                error: 'Unauthorized',
+            });
+        }
+        await alumet.remove();
+        res.json({
+            message: 'Alumet deleted',
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Failed to delete alumet',
+        });
+    }
+});
+
+router.put('/collaborators/:app', authorize(), async (req, res) => {
+    sendInvitations(req, res, req.params.app);
+    res.json({ success: true });
 });
 
 module.exports = router;

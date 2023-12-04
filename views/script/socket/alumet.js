@@ -4,6 +4,7 @@ socket.on("connect", () => {
 
 socket.io.on("reconnect", () => {
     socket.emit('joinAlumet', alumet._id, "6505e1fc19c363addbab5c3d");
+    navbar('home')
 });
 
 

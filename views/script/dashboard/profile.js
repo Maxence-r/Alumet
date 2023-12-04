@@ -65,7 +65,7 @@ function createNotifications(invitations) {
         invitationElement.appendChild(subInfosElement);
         notificationElement.appendChild(invitationElement);
 
-        notificationElement.setAttribute('onclick', `window.location.href = '/invitation/${invitation.invitation._id}'`);
+        notificationElement.setAttribute('onclick', `window.location.href = '/invitation/${invitation.invitation.reference}'`);
 
         document.querySelector('.notifications-container').appendChild(notificationElement);
     });

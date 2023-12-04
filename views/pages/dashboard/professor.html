@@ -81,24 +81,12 @@
                             <button onclick="startSetup()" class="large">Nouveau</button>
                         </div>
                     </div>
-                    <div data-reference="items" style="display: grid" class="module items alumets">
-                        <div class="information">
-                            <img src="../assets/global/no-items.svg" />
-                        </div>
-                    </div>
-                    <div data-reference="items" class="module items flashcards">
-                        <div class="information">
-                            <img src="../assets/global/no-items.svg" />
-                        </div>
-                    </div>
-                    <div data-reference="items" class="module items mindmaps">
-                        <div class="information">
-                            <img src="../assets/global/no-items.svg" />
-                        </div>
-                    </div>
+                    <div data-reference="items" style="display: grid" class="module items alumets"></div>
+                    <div data-reference="items" class="module items flashcards"></div>
+                    <div data-reference="items" class="module items mindmaps"></div>
                 </div>
                 <div class="sub-container">
-                    <div class="modulable-header">
+                    <div class="modulable-header selector-plain">
                         <div class="modulable-left">
                             <div data-ref="informations" data-module="notifications-container" class="module-selected">Notifications<span class="redot"></span></div>
                             <div data-ref="informations" data-module="news-container">Nouveautées</div>
@@ -244,11 +232,24 @@
             <!-- ================= Swift Chat ======================= -->
             <section class="messages">
                 <div class="sub-container">
-                    <p class="warning-box">La messagerie est actuellement en cours de refonte totale ; veuillez ne pas utiliser la messagerie pour partager des informations sensibles.</p>
-                    <div class="messages-head-option">
-                        <input placeholder="Rechercher une conversation" type="text" name="search-conv" id="search-conv" />
+                    <div class="modulable-header selector-plain">
+                        <div class="modulable-left">
+                            <div data-ref="messages" data-module="group-messages" class="module-selected">Groupes<span class="redot"></span></div>
+                            <div data-ref="messages" data-module="private-messages" class="">Privées</div>
+                            <div data-ref="messages" data-module="official-messages" class="">Officiel</div>
+                        </div>
                     </div>
-                    <div class="conversations-container"></div>
+                    <div data-reference="messages" class="conversations-container group-messages"></div>
+                    <div style="display: none" data-reference="messages" class="conversations-container private-messages">
+                        <div class="information">
+                            <img src="../assets/global/notifications.svg" />
+                        </div>
+                    </div>
+                    <div style="display: none" data-reference="messages" class="conversations-container official-messages">
+                        <div class="information">
+                            <img src="../assets/global/notifications.svg" />
+                        </div>
+                    </div>
 
                     <button onclick="initConversation()" id="new-conv" class="large">Nouvelle conversation</button>
                 </div>

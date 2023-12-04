@@ -30,6 +30,30 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
+.reconnecting {
+    position: relative;
+    border: 1px solid #efecef;
+    padding: 15px;
+    width: 100%;
+    margin-top: auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.reconnecting > h3 {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+    color: #000000;
+    margin-bottom: 3px;
+}
+.reconnecting > .loader-bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
 #commentInput {
     margin-top: auto;
     min-height: 60px;

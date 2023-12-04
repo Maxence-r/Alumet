@@ -221,8 +221,8 @@ function addCollaborators() {
     document.querySelector('.user-popup').classList.add('active-popup');
 }
 
-function confirmCollaborators(type) {
-    fetch(`/${type}/collaborators/` + id, {
+function confirmCollaborators() {
+    fetch(`/app/collaborators/` + id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -239,8 +239,8 @@ function confirmCollaborators(type) {
         });
 }
 
-function engageDeletion(typeToDelete) {
-    type = typeToDelete;
+function engageDeletion() {
+
     createPrompt({
         head: "Suppression de l'Alumet",
         desc: 'Êtes-vous sûr de vouloir supprimer cet alumet ? Cette action est irréversible et entraînera la suppression de toutes les données associées à cet alumet.',
@@ -270,7 +270,7 @@ function deleteItem() {
 }
 
 function confirmDeleteItem() {
-    fetch('/item/' + id + '/' + type, {
+    fetch('/app/delete/' + id, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

@@ -26,17 +26,17 @@ if (redirect) {
 fetch('/dashboard/items')
     .then(response => response.json())
     .then(data => {
-        let alumetsOfTypeNotZero = data.alumets.filter(alumet => alumet.type !== '0');
-        let flashcardsOfTypeNotZero = data.alumets.filter(alumet => alumet.type !== '0');
-        if (alumetsOfTypeNotZero.length !== 0) document.querySelector('.alumets').innerHTML = '';
-        if (flashcardsOfTypeNotZero.length !== 0) document.querySelector('.flashcards').innerHTML = '';
+
         data.alumets.forEach(alumet => {
             if (alumet.type === 'alumet') {
                 const alumetBox = createAlumetBox(alumet.title, alumet.lastUsage, alumet.background, alumet._id);
-                document.querySelector('.alumets').appendChild(alumetBox);
+                document.querySelector('.alumets').prepend(alumetBox);
             } else if (alumet.type === 'flashcard') {
                 const flashcardsBox = createFlashcardsBox(alumet.subject, '0', alumet.title, alumet.description, alumet._id);
-                document.querySelector('.flashcards').appendChild(flashcardsBox);
+                document.querySelector('.flashcards').prepend(flashcardsBox);
+            } else if (alumet.type === 'mindmap') {
+                const mindmapBox = createFlashcardsBox(alumet.subject, '0', alumet.title, alumet.description, alumet._id);
+                document.querySelector('.mindmaps').prepend(mindmapBox);
             }
         });
         endLoading();
@@ -47,6 +47,8 @@ document.addEventListener('keydown', function (event) {
         event.preventDefault();
     }
 });
+
+
 
 function createAlumetBox(title, lastUsage, background, id) {
     const alumetBox = document.createElement('div');
@@ -489,18 +491,7 @@ function openParametersPopup(userId) {
     document.querySelector('.context-menu').classList.add('active-context');
 }
 
-document.getElementById('search-conv').addEventListener('input', e => {
-    const search = e.currentTarget.value.toLowerCase();
-    const allConversations = document.querySelectorAll('.conversation');
-    allConversations.forEach(conversation => {
-        const conversationName = conversation.dataset.name.toLowerCase();
-        if (conversationName.includes(search)) {
-            conversation.style.display = 'flex';
-        } else {
-            conversation.style.display = 'none';
-        }
-    });
-});
+
 
 getConversations();
 

@@ -13,7 +13,7 @@ const authorize = require('../../middlewares/authentification/authorize');
 const Invitation = require('../../models/invitation');
 const Alumet = require('../../models/alumet');
 
-const Mindmap = require('../../models/mindmap');
+
 
 
 router.get('/signin', async (req, res) => {
@@ -34,10 +34,13 @@ router.get('/logout', async (req, res) => {
 });
 
 router.get('/info', authorize(), async (req, res) => {
+    console.log(req.user.id)
     const invitations = await Invitation.find({ to: req.user.id }).sort({ createdAt: -1 });
+    console.log(invitations)
     let invitationsToSend = [];
     for (let invitation of invitations) {
         const owner = await Account.findOne({ _id: invitation.owner }, { name: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isCertified: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1 });
+        console.log(owner)
         let referenceDetails = await Alumet.findById(invitation.reference).select('_id title background');
 
         if (!owner || !referenceDetails) {

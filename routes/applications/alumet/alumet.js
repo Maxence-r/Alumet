@@ -85,10 +85,7 @@ router.get('/:alumet/content', authorize('alumet', 'alumetPrivate'), validateObj
 
 
 
-router.put('/collaborators/:alumet', authorize('alumet', 'itemAdmins'), async (req, res) => {
-    sendInvitations(req, res, 'alumet', req.params.alumet);
-    res.json({ success: true });
-});
+
 
 router.delete('/:alumet/participant/:participant', authorize('alumet', 'itemAdmins'), validateObjectId, async (req, res) => {
     try {

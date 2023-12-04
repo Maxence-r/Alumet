@@ -3,6 +3,8 @@ const router = express.Router();
 const path = require('path');
 const authorize = require('../../middlewares/authentification/authorize');
 
+
+
 router.get('/alumet', authorize(), async (req, res) => {
     if (!req.connected || (req.user.accountType !== 'professor' && req.user.accountType !== 'staff')) {
         return res.redirect('/auth/signin');

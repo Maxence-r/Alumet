@@ -19,7 +19,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
                 return res.redirect('/404');
             }
             if (alumet.participants.some(p => p.userId === req.user.id && p.status === 1) || alumet.owner === req.user.id) {
-                return res.redirect('/alumet/' + req.params.id);
+                return res.redirect('/app/' + req.params.id);
             }
         }
         const filePath = path.join(__dirname, '../../views/pages/authentification/authentication.html');
@@ -101,61 +101,6 @@ router.get('/leave/:id', authorize('alumet'), async (req, res) => {
     }
 });
 
-router.post('/accept/:id', authorize('alumet'), async (req, res) => {
-    try {
-        const invitation = await Invitation.findOne({
-            _id: req.params.id,
-        });
-        if (!invitation) {
-            return res.status(404).json({
-                error: 'Invitation not found',
-            });
-        }
-        let referenceDetails = await Alumet.findById(invitation.reference);
-        if (!referenceDetails) {
-            invitation.remove();
-            setTimeout(() => {
-                return res.redirect('/dashboard');
-            }, 500);
-        }
-        if (invitation.type === 'alumet') {
-            referenceDetails.participants = referenceDetails.participants.filter(participant => participant.userId !== req.user.id);
-            referenceDetails.participants.push({ userId: req.user.id, status: 1 });
-        }
 
-        await referenceDetails.save();
-        await invitation.remove();
-        res.status(200).json({
-            message: 'Invitation accepted',
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            error,
-        });
-    }
-});
-
-router.post('/decline/:id', authorize('alumet'), async (req, res) => {
-    try {
-        const invitation = await Invitation.findOne({
-            _id: req.params.id,
-        });
-        if (!invitation) {
-            return res.status(404).json({
-                error: 'Invitation not found',
-            });
-        }
-        await invitation.remove();
-        res.status(200).json({
-            message: 'Invitation declined',
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            error: 'Internal server error',
-        });
-    }
-});
 
 module.exports = router;
