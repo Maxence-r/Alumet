@@ -64,8 +64,8 @@ class MindMapBoard {
     }
 
     static axisFromSide(side) {
-        if(side === 'top' || side === 'bottom') return 'vertical';
-        
+        if (side === 'top' || side === 'bottom') return 'vertical';
+
         return 'horizontal';
     }
 
@@ -83,31 +83,31 @@ class MindMapBoard {
     }
 
     onMouseMove(e) {
-        if(this.resizing) {
+        if (this.resizing) {
             const dataBlock = this.blocks[this.resizing];
-            if(!dataBlock) return;
+            if (!dataBlock) return;
 
             const domBlock = this.registry.get(this.resizing);
-            
+
             const additionalX = dataBlock.additionalGridUnitsX;
             const trueWidth = domBlock.firstChild.clientWidth - additionalX * this.gridSize;
 
             const neededX = Math.max(Math.round((this.mousePosOnBoard(e).x - this.blocksGroupDrag.x - dataBlock.x - trueWidth) / this.gridSize), 0);
-            if(neededX === additionalX) return;
+            if (neededX === additionalX) return;
 
             dataBlock.additionalGridUnitsX = neededX;
-            
+
             return this.resizeBlock(this.resizing);
         }
 
-        if(this.dragging) {
+        if (this.dragging) {
             this.blocksGroupDrag.x += e.movementX;
             this.blocksGroupDrag.y += e.movementY;
 
             return this.updateBoardTransform();
         }
-        
-        if(this.movingBlock) {
+
+        if (this.movingBlock) {
             const { x, y } = this.mousePosOnBoard(e);
 
             const newX = Math.ceil((x - this.blocksGroupDrag.x - this.originOnBlock.x) / this.gridSize) * this.gridSize;
@@ -129,7 +129,7 @@ class MindMapBoard {
     }
 
     updateBlockPos(id, x, y) {
-        if(this.blocks[id].x === x && this.blocks[id].y === y) return;
+        if (this.blocks[id].x === x && this.blocks[id].y === y) return;
         this.blocks[id].x = x;
         this.blocks[id].y = y;
 
@@ -137,12 +137,12 @@ class MindMapBoard {
         block.setAttribute('x', x);
         block.setAttribute('y', y);
 
-        this.updateBlockLinks(id);        
+        this.updateBlockLinks(id);
     }
 
     updateBlockLinks(id) {
-        for(let link in this.links) {
-            if(this.links[link][0] === id || this.links[link][2] === id) this.renderLink(link);
+        for (let link in this.links) {
+            if (this.links[link][0] === id || this.links[link][2] === id) this.renderLink(link);
         }
     }
 
@@ -154,16 +154,16 @@ class MindMapBoard {
         elem.onmousedown = e => e.stopPropagation();
         elem.setAttribute('x', x);
         elem.setAttribute('y', y);
-        
+
         this.blocksGroup.appendChild(elem);
         this.registry.set(id, elem);
-        
+
         this.resizeBlock(id);
 
         elem.firstChild.addEventListener('mousedown', e => this.onBlockMouseDown(e, id));
 
         const connectors = elem.getElementsByClassName('connector');
-        for(let connector of connectors) {
+        for (let connector of connectors) {
             const which = connector.classList[1];
 
             connector.addEventListener('mousedown', e => {
@@ -196,7 +196,7 @@ class MindMapBoard {
         const resizer = elem.querySelector('.resizer');
         resizer.addEventListener('mousedown', e => {
             e.stopPropagation();
-            
+
             this.resizing = id;
         });
 
@@ -204,14 +204,14 @@ class MindMapBoard {
     }
 
     connectorMouseUp(id, which) {
-        if(!this.connectingBlockId) return;
+        if (!this.connectingBlockId) return;
 
         this.connect(this.connectingBlockId, this.connectingWhich, id, which);
     }
 
     connect(from, fromWhich, to, toWhich) {
         const link = this.getLink(from, fromWhich, to, toWhich);
-        if(link || from === to) return false;
+        if (link || from === to) return false;
 
         this.links.push([from, fromWhich, to, toWhich]);
         this.renderLink(-1);
@@ -221,7 +221,7 @@ class MindMapBoard {
 
     disconnect(from, fromWhich, to, toWhich) {
         const link = this.getLink(from, fromWhich, to, toWhich);
-        if(!link) return;
+        if (!link) return;
 
         const index = this.links.indexOf(link);
         this.links.splice(index, 1);
@@ -232,7 +232,7 @@ class MindMapBoard {
 
     getLink(from, fromWhich, to, toWhich) {
         const link = this.links.find(link => link[0] === from && link[1] === fromWhich && link[2] === to && link[3] === toWhich);
-        
+
         return link;
     }
 
@@ -244,7 +244,7 @@ class MindMapBoard {
 
     renderLinkFromTo(from, fromWhich, to, toWhich) {
         const link = this.getLink(from, fromWhich, to, toWhich);
-        if(!link) return false;
+        if (!link) return false;
 
         const index = this.links.indexOf(link);
         return this.renderLink(index);
@@ -252,10 +252,10 @@ class MindMapBoard {
 
     renderLink(index) {
         const link = this.links.at(index);
-        if(!link) return false;
+        if (!link) return false;
 
         let domLink = this.getDomLink(...link);
-        if(!domLink) {
+        if (!domLink) {
             const group = document.createElementNS(SVG_NS, 'g');
             group.classList.add('MindMapLink');
 
@@ -271,7 +271,7 @@ class MindMapBoard {
             group.dataset.to = link[2];
             group.dataset.toWhich = link[3];
             group.append(linkPath, linkHitbox);
-            
+
             this.linksGroup.appendChild(group);
             domLink = group;
 
@@ -289,7 +289,7 @@ class MindMapBoard {
         let d = '';
 
         const axis = this.constructor.axisFromSide(link[1]);
-        if(axis === 'horizontal') {
+        if (axis === 'horizontal') {
             const fromX = link[1] === 'left' ? this.blocks[link[0]].x : this.blocks[link[0]].x + fromBlock.clientWidth;
             const toX = link[3] === 'left' ? this.blocks[link[2]].x : this.blocks[link[2]].x + toBlock.clientWidth;
             const fromControlDir = link[1] === 'left' ? -1 : 1;
@@ -313,7 +313,7 @@ class MindMapBoard {
 
     resizeBlock(id) {
         const block = this.registry.get(id)?.firstChild;
-        if(!block) return null;
+        if (!block) return null;
 
         block.style.setProperty('width', 'max-content');
         block.style.setProperty('height', 'max-content');
@@ -325,7 +325,7 @@ class MindMapBoard {
         block.style.setProperty('height', `${newHeight}px`);
 
         this.updateBlockLinks(id);
-    
+
         return block;
     }
 }
@@ -343,3 +343,4 @@ mindMap.createAndInsertBlock('tdsfgdfgsdt', 'test 1 qsdqsdq sqd', 'test 2', 2539
 
 mindMap.createAndInsertBlock('tests', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25312)
 mindMap.createAndInsertBlock('t', '1', '2', 25900, 25704)
+endLoading()

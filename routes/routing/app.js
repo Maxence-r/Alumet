@@ -25,7 +25,11 @@ router.get('/:id', validateObjectId, async (req, res) => {
         filePath = path.join(__dirname, '../../views/pages/applications/flashcards.html');
     } else if (alumet.type === 'alumet') {
         filePath = path.join(__dirname, '../../views/pages/alumet.html');
-    } else {
+    } else if (alumet.type === 'mindmap') {
+        filePath = path.join(__dirname, '../../views/pages/applications/mindmap.html');
+    }
+
+    else {
         filePath = path.join(__dirname, '../../views/pages/404.html');
     }
     res.sendFile(filePath);

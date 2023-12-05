@@ -41,10 +41,8 @@ router.post('/accept/:id', authorize('alumet'), async (req, res) => {
                 return res.redirect('/dashboard');
             }, 500);
         }
-        if (invitation.type === 'alumet') {
-            referenceDetails.participants = referenceDetails.participants.filter(participant => participant.userId !== req.user.id);
-            referenceDetails.participants.push({ userId: req.user.id, status: 1 });
-        }
+        referenceDetails.participants = referenceDetails.participants.filter(participant => participant.userId !== req.user.id);
+        referenceDetails.participants.push({ userId: req.user.id, status: 1 });
 
         await referenceDetails.save();
         await invitation.remove();

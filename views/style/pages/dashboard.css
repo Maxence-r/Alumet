@@ -430,39 +430,6 @@ body {
     margin-top: 20px;
 }
 
-.save-bar {
-    position: fixed;
-    display: flex;
-    transform: translateY(50%);
-    border: 1px solid #ebebeb;
-    opacity: 0;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
-    width: calc(100% - 30px);
-    bottom: 15px;
-    background-color: #f6f8fc;
-    border-radius: 8px;
-    padding: 10px;
-    transition: all 0.9s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-
-.active-save-bar {
-    transform: translateY(0%);
-    opacity: 1;
-}
-
-.save-bar > h1 {
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 0;
-    margin-left: 0.5%;
-    color: #000000;
-}
-
-.save-bar > button {
-    border-radius: 6px;
-}
 .user-options-infos {
     display: flex;
     flex-direction: column;
@@ -1668,10 +1635,6 @@ h3 {
 }
 
 @media (max-width: 600px) {
-    .save-bar {
-        bottom: 10px;
-        width: calc(100% - 20px);
-    }
     .items {
         grid-gap: 10px;
     }

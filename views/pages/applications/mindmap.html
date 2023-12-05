@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>IdeaFlow</title>
+        <link rel="stylesheet" href="../../style/global.css" />
+        <link rel="stylesheet" href="../../style/applications/ideaFlow.css" />
+    </head>
+    <body style="overflow: hidden; margin: 0">
+        <section class="loading" style="display: flex">
+            <h4>Alumet <span>Education</span></h4>
+            <span class="loader-bar"></span>
+        </section>
+
+        <div class="prompt-popup popup">
+            <div class="prompt">
+                <h1 id="prompt-head">Prompt name</h1>
+                <h4 id="prompt-desc"></h4>
+                <input autocomplete="off" id="prompt-input" type="text" placeholder="Prompt placeholder" />
+                <div class="prompt-buttons">
+                    <button class="large" id="prompt-red">Supprimer</button> <button class="large" onclick="document.querySelector('.prompt-popup').classList.remove('active-popup')">Annuler</button>
+                    <button class="large" id="prompt-confirm">Confirmer</button>
+                </div>
+                <datalist id="users"> </datalist>
+            </div>
+        </div>
+        <div class="user-popup popup">
+            <div class="prompt">
+                <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Entrez un nom ou prénom" />
+                <div class="users-fetch">
+                    <div class="details loading-users">
+                        <span class="loader"></span>
+                    </div>
+                    <div class="details no-result">
+                        <h1>Aucun resultats</h1>
+                        <p>Affiner votre recherche</p>
+                    </div>
+                </div>
+                <div class="prompt-buttons">
+                    <button class="large">Supprimer</button> <button class="large" onclick="document.querySelector('.user-popup').classList.remove('active-popup')">Annuler</button>
+                    <button onclick="confirmCollaborators('flashcards')" class="large">Confirmer</button>
+                </div>
+            </div>
+        </div>
+        <div id="toast"></div>
+        <section class="board">
+            <svg width="50000" height="50000">
+                <defs>
+                    <marker id="arrow" viewBox="0 0 6 4" refX="4" refY="2" markerWidth="30" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+                        <path d="M 0 0 L 6 2 L 0 4 z" />
+                    </marker>
+
+                    <marker id="arrow_hover" viewBox="0 0 6 4" refX="4" refY="2" markerWidth="30" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+                        <path d="M 0 0 L 6 2 L 0 4 z" fill="var(--orange)" />
+                    </marker>
+
+                    <pattern id="MindMapBackgroundDots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse" overflow="visible">
+                        <circle cx="3" cy="3" r="3" fill="#ebebeb"></circle>
+                    </pattern>
+                </defs>
+
+                <g id="blocks">
+                    <rect x="0" y="0" width="100%" height="100%" fill="url(#MindMapBackgroundDots)"></rect>
+
+                    <g id="links"></g>
+                </g>
+            </svg>
+
+            <template class="MindMapBlockTemplate">
+                <div class="MindMapBlock">
+                    <div class="MindMapBlockHeader">
+                        <h4 class="MindMapBlockTitle"></h4>
+                    </div>
+                    <p class="MindMapBlockDescription"></p>
+
+                    <div class="connector left">
+                        <img src="../../assets/mindmaps/arrow-left.svg" width="20" />
+                    </div>
+                    <div class="connector top">
+                        <img src="../../assets/mindmaps/arrow-up.svg" width="20" />
+                    </div>
+                    <div class="connector right">
+                        <img src="../../assets/mindmaps/arrow-right.svg" width="20" />
+                    </div>
+                    <div class="connector bottom">
+                        <img src="../../assets/mindmaps/arrow-down.svg" width="20" />
+                    </div>
+
+                    <div class="resizer">
+                        <img src="../../assets/mindmaps/extend.svg" width="20" />
+                    </div>
+                </div>
+            </template>
+        </section>
+        <section class="navigation">
+            <div class="overlay">
+                <div class="overlay-content menu">
+                    <h1 onclick="navbar('home')">Accueil</h1>
+                    <h1 onclick="navbar('ia')">IA</h1>
+                    <h1 onclick="navbar('participants')">Collaborateurs</h1>
+                    <h1 onclick="navbar('settings')">Paramètres</h1>
+                    <h1 onclick="navbar('profile')">Identité</h1>
+                </div>
+
+                <div class="overlay-content revise">
+                    <div class="information">
+                        <img src="../../assets/global/learning.svg" />
+                    </div>
+                    <div class="choose">
+                        <div class="choose-option">
+                            <div>
+                                <h1>Révision bac à sable</h1>
+                                <p>Tous réviser libremement</p>
+                            </div>
+                            <button onclick="revise('sandbox')" class="large">Commencer</button>
+                        </div>
+                        <div class="choose-option">
+                            <div>
+                                <h1>Révision intelligente</h1>
+                                <p>Réviser à votre rythme</p>
+                            </div>
+                            <button onclick="revise('smart')" class="large">Commencer</button>
+                        </div>
+                        <div class="choose-option">
+                            <div>
+                                <h1>Révision pour contrôle</h1>
+                                <p>Étalé sur plusieurs jours</p>
+                            </div>
+                            <button onclick="revise('control')" class="large">Bientôt</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overlay-content ia">
+                    <div class="header-setting">
+                        <div>
+                            <h1>Créer avec l'IA</h1>
+                            <p>Créer des flashcards grâce à la <b>puissance</b> de l'intelligence artificielle.</p>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <h3>Génerer avec un document</h3>
+                    <div class="drop-box">
+                        <div class="indications">
+                            <p>Cliquer ici pour sélectionner un fichier.</p>
+                        </div>
+                    </div>
+                    <h3>Génerer avec des mots clés</h3>
+                    <div class="keywords">
+                        <input type="text" id="keyword" placeholder="Mots clés" />
+                        <button class="large" onclick="addKeyword()">Ajouter</button>
+                    </div>
+                    <div class="keywords-container"></div>
+                    <button class="large" onclick="generateWithIA('keywords')">Génairay phlachkarde</button>
+                </div>
+
+                <div class="overlay-content verify-flashcards">
+                    <div class="header-setting">
+                        <div>
+                            <h1>Vérifier les flashcards</h1>
+                            <p>Vérifier et modifier les flashcards créées par Mindflash IA</p>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="flashcards-container"></div>
+                    <div class="row-bottom-buttons">
+                        <button class="large greyed" onclick="backToIA()">Retour</button>
+                        <button class="large" onclick="createFlashcards('ia')">Ajouter les flashcards</button>
+                    </div>
+                </div>
+
+                <div class="overlay-content loading-flashcards">
+                    <div class="loading full-screen">
+                        <span class="loader"></span>
+                        <h3>Génération des flashcards par Mindflash IA<br />Patientez quelques instants</h3>
+                    </div>
+                </div>
+                <div class="overlay-content loadingRessources">
+                    <div class="loading full-screen">
+                        <span class="loader"></span>
+                        <h3>Nous appliquons les modifications<br />Patientez quelques instants</h3>
+                    </div>
+                </div>
+
+                <div class="overlay-content settings">
+                    <div class="header-setting">
+                        <div>
+                            <h1>Paramètres</h1>
+                            <p>Modifier les paramètres du jeu de flashcard ici.</p>
+                        </div>
+                        <button onclick="modifyFlashcardSet()" class="large adminsOnly">Enregistrer</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="grid-user-container">
+                        <div class="item">
+                            <h3>Nom du jeu de flashcards</h3>
+                            <input maxlength="150" type="text" class="disabledInput" name="flashcardName" id="flashcardName" placeholder="Nom de l'Alumet" autocomplete="on" />
+                        </div>
+                        <div class="item">
+                            <h3>Description du jeu de flashcards</h3>
+                            <input maxlength="300" type="text" class="disabledInput" name="flashcardDescription" id="flashcardDescription" placeholder="Description de l'Alumet" autocomplete="on" />
+                        </div>
+                        <div class="item">
+                            <h3>Lien de partage</h3>
+                            <input disabled="true" type="text" name="invitationLink" autocomplete="on" id="invitationLink" placeholder="Aucun code d'invitation" />
+                        </div>
+                        <div class="item">
+                            <h3>Option d'administrations</h3>
+                            <div class="switch-options">
+                                <div class="option">
+                                    <h1>Publique (découverte)</h1>
+                                    <label class="switch">
+                                        <input id="flashcardPublic" type="checkbox" />
+                                        <span class="slide round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <h3>Option d'administrations</h3>
+                            <button onclick="engageDeletion()" class="large reded">Supprimer le jeu de flashcard</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="overlay-content participants">
+                    <div class="header-setting">
+                        <div>
+                            <h1>Participants</h1>
+                            <p>Gerer les participants ici.</p>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="participants-container">
+                        <div class="user" data-id="6505e1fc19c363addbab5c3d">
+                            <img src="/cdn/u/65075cfbdcbc1d63dd259d49" />
+                            <div>
+                                <h3>MGlo (Maxence Global)</h3>
+                                <p>Administrateur</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-bottom-buttons adminsOnly">
+                        <button onclick="addCollaborators()" class="large greyed">Ajouter des collaborateurs</button>
+                        <button onclick="addParticipants()" class="large">Ajouter des participants</button>
+                    </div>
+                </div>
+
+                <div class="overlay-content profile">
+                    <div class="header-setting">
+                        <div>
+                            <h1>Identité</h1>
+                            <p>Votre identité sur cet Alumet</p>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="user-infos">
+                        <img src="/cdn/u/6550d10ec6d8dffbff6fe374" />
+                        <div class="user-details">
+                            <h3>MRabrais</h3>
+                            <p>Connecté</p>
+                        </div>
+                    </div>
+                    <div class="row-bottom-buttons connected">
+                        <button class="large connect">Se connecter</button>
+                    </div>
+                </div>
+
+                <div class="overlay-content loadfile">
+                    <div class="loading full-screen">
+                        <span class="loader"></span>
+                    </div>
+                    <h1>Choisir un fichier</h1>
+                    <div class="divider"></div>
+
+                    <select name="folder" id="folder-selection" class="connected">
+                        <option value="65302c406a85ff612901b5a8">My folder</option>
+                        <option value="650ec88726d4d66d424ad79c">0</option>
+                    </select>
+                    <div class="files-header">
+                        <h3>Nom du fichier</h3>
+                        <h3>Taille</h3>
+                        <h3>Mise en ligne</h3>
+                        <input id="search-bar" placeholder="Rechercher un fichier" type="text" name="search" />
+                    </div>
+                    <div class="files-items">
+                        <div class="loader-container">
+                            <span class="loader"></span>
+                        </div>
+                        <div class="full-screen" style="display: none">
+                            <h1>Pas de fichiers</h1>
+                            <p>Ce dossier ne contient pas de fichiers</p>
+                        </div>
+                        <div
+                            data-id="6569a3602890f4558400c511"
+                            data-name="__a_y_est_nous_y_est.mp4"
+                            data-ext="mp4"
+                            data-size="0.62 Mo"
+                            data-date="2023-12-01"
+                            onclick="chooseFile('6569a3602890f4558400c511')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/mov.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/mov.png" alt="file icon" />
+                                <h4>__a_y_est_nous_y_est.mp4</h4>
+                            </div>
+                            <h4>0.62 Mo</h4>
+                            <h4>2023-12-01</h4>
+                        </div>
+                        <div
+                            data-id="65564b70d35f85ec398664e2"
+                            data-name="__a_y_est_nous_y_est.mp4"
+                            data-ext="mp4"
+                            data-size="0.57 Mo"
+                            data-date="2023-11-16"
+                            onclick="chooseFile('65564b70d35f85ec398664e2')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/mov.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/mov.png" alt="file icon" />
+                                <h4>__a_y_est_nous_y_est.mp4</h4>
+                            </div>
+                            <h4>0.57 Mo</h4>
+                            <h4>2023-11-16</h4>
+                        </div>
+                        <div
+                            data-id="6550ef57c6d8dffbff6fe56f"
+                            data-name="__a_y_est_nous_y_est.mp4"
+                            data-ext="mp4"
+                            data-size="0.57 Mo"
+                            data-date="2023-11-12"
+                            onclick="chooseFile('6550ef57c6d8dffbff6fe56f')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/mov.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/mov.png" alt="file icon" />
+                                <h4>__a_y_est_nous_y_est.mp4</h4>
+                            </div>
+                            <h4>0.57 Mo</h4>
+                            <h4>2023-11-12</h4>
+                        </div>
+                        <div
+                            data-id="654d669a1ed2f75472946767"
+                            data-name="gifcompressor.zip"
+                            data-ext="zip"
+                            data-size="5.29 Mo"
+                            data-date="2023-11-09"
+                            onclick="chooseFile('654d669a1ed2f75472946767')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/zip.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/zip.png" alt="file icon" />
+                                <h4>gifcompressor.zip</h4>
+                            </div>
+                            <h4>5.29 Mo</h4>
+                            <h4>2023-11-09</h4>
+                        </div>
+                        <div
+                            data-id="654d669a1ed2f75472946763"
+                            data-name="Frame_253.png"
+                            data-ext="png"
+                            data-size="0.28 Mo"
+                            data-date="2023-11-09"
+                            onclick="chooseFile('654d669a1ed2f75472946763')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/img.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/img.png" alt="file icon" />
+                                <h4>Frame_253.png</h4>
+                            </div>
+                            <h4>0.28 Mo</h4>
+                            <h4>2023-11-09</h4>
+                        </div>
+                        <div
+                            data-id="654d66941ed2f7547294675b"
+                            data-name="Frame_253.png"
+                            data-ext="png"
+                            data-size="0.28 Mo"
+                            data-date="2023-11-09"
+                            onclick="chooseFile('654d66941ed2f7547294675b')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/img.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/img.png" alt="file icon" />
+                                <h4>Frame_253.png</h4>
+                            </div>
+                            <h4>0.28 Mo</h4>
+                            <h4>2023-11-09</h4>
+                        </div>
+                        <div
+                            data-id="654d6638842070c3623197b0"
+                            data-name="youtube-video-gif.gif"
+                            data-ext="gif"
+                            data-size="16.15 Mo"
+                            data-date="2023-11-09"
+                            onclick="chooseFile('654d6638842070c3623197b0')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/img.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/img.png" alt="file icon" />
+                                <h4>youtube-video-gif.gif</h4>
+                            </div>
+                            <h4>16.15 Mo</h4>
+                            <h4>2023-11-09</h4>
+                        </div>
+                        <div
+                            data-id="654d6638842070c3623197a8"
+                            data-name="gifcompressor.zip"
+                            data-ext="zip"
+                            data-size="5.29 Mo"
+                            data-date="2023-11-09"
+                            onclick="chooseFile('654d6638842070c3623197a8')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/zip.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/zip.png" alt="file icon" />
+                                <h4>gifcompressor.zip</h4>
+                            </div>
+                            <h4>5.29 Mo</h4>
+                            <h4>2023-11-09</h4>
+                        </div>
+                        <div
+                            data-id="654d6638842070c3623197a4"
+                            data-name="Frame_253.png"
+                            data-ext="png"
+                            data-size="0.28 Mo"
+                            data-date="2023-11-09"
+                            onclick="chooseFile('654d6638842070c3623197a4')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/img.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/img.png" alt="file icon" />
+                                <h4>Frame_253.png</h4>
+                            </div>
+                            <h4>0.28 Mo</h4>
+                            <h4>2023-11-09</h4>
+                        </div>
+                        <div
+                            data-id="654d662d842070c36231979c"
+                            data-name="Frame_253.png"
+                            data-ext="png"
+                            data-size="0.28 Mo"
+                            data-date="2023-11-09"
+                            onclick="chooseFile('654d662d842070c36231979c')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/img.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/img.png" alt="file icon" />
+                                <h4>Frame_253.png</h4>
+                            </div>
+                            <h4>0.28 Mo</h4>
+                            <h4>2023-11-09</h4>
+                        </div>
+                        <div
+                            data-id="654d65f2842070c362319758"
+                            data-name="Frame_253.png"
+                            data-ext="png"
+                            data-size="0.28 Mo"
+                            data-date="2023-11-09"
+                            onclick="chooseFile('654d65f2842070c362319758')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/img.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/img.png" alt="file icon" />
+                                <h4>Frame_253.png</h4>
+                            </div>
+                            <h4>0.28 Mo</h4>
+                            <h4>2023-11-09</h4>
+                        </div>
+                        <div
+                            data-id="654d65e3842070c362319714"
+                            data-name="Frame_253.png"
+                            data-ext="png"
+                            data-size="0.28 Mo"
+                            data-date="2023-11-09"
+                            onclick="chooseFile('654d65e3842070c362319714')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/img.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/img.png" alt="file icon" />
+                                <h4>Frame_253.png</h4>
+                            </div>
+                            <h4>0.28 Mo</h4>
+                            <h4>2023-11-09</h4>
+                        </div>
+                        <div
+                            data-id="654d65d0842070c3623196d0"
+                            data-name="Frame_253.png"
+                            data-ext="png"
+                            data-size="0.28 Mo"
+                            data-date="2023-11-09"
+                            onclick="chooseFile('654d65d0842070c3623196d0')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/img.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/img.png" alt="file icon" />
+                                <h4>Frame_253.png</h4>
+                            </div>
+                            <h4>0.28 Mo</h4>
+                            <h4>2023-11-09</h4>
+                        </div>
+                        <div
+                            data-id="654d64e6842070c362319514"
+                            data-name="Frame_253.png"
+                            data-ext="png"
+                            data-size="0.28 Mo"
+                            data-date="2023-11-09"
+                            onclick="chooseFile('654d64e6842070c362319514')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/img.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/img.png" alt="file icon" />
+                                <h4>Frame_253.png</h4>
+                            </div>
+                            <h4>0.28 Mo</h4>
+                            <h4>2023-11-09</h4>
+                        </div>
+                        <div
+                            data-id="6544ded43477bdf81682b97a"
+                            data-name="fees.pdf"
+                            data-ext="pdf"
+                            data-size="0.15 Mo"
+                            data-date="2023-11-03"
+                            onclick="chooseFile('6544ded43477bdf81682b97a')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/img.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/img.png" alt="file icon" />
+                                <h4>fees.pdf</h4>
+                            </div>
+                            <h4>0.15 Mo</h4>
+                            <h4>2023-11-03</h4>
+                        </div>
+                        <div
+                            data-id="6544ded43477bdf81682b976"
+                            data-name="android-studio-2022.3.1.20-windows.exe"
+                            data-ext="exe"
+                            data-size="1070.99 Mo"
+                            data-date="2023-11-03"
+                            onclick="chooseFile('6544ded43477bdf81682b976')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/unknow.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/unknow.png" alt="file icon" />
+                                <h4>android-studio-2022.exe</h4>
+                            </div>
+                            <h4>1070.99 Mo</h4>
+                            <h4>2023-11-03</h4>
+                        </div>
+                        <div
+                            data-id="6544dec93477bdf81682b972"
+                            data-name="localhost_3000_dashboard__1_.png"
+                            data-ext="png"
+                            data-size="1.78 Mo"
+                            data-date="2023-11-03"
+                            onclick="chooseFile('6544dec93477bdf81682b972')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/img.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/img.png" alt="file icon" />
+                                <h4>localhost_3000_dashboard__1_.png</h4>
+                            </div>
+                            <h4>1.78 Mo</h4>
+                            <h4>2023-11-03</h4>
+                        </div>
+                        <div
+                            data-id="6544dec93477bdf81682b96e"
+                            data-name="Unreal_Engine_Intro.mp3"
+                            data-ext="mp3"
+                            data-size="0.18 Mo"
+                            data-date="2023-11-03"
+                            onclick="chooseFile('6544dec93477bdf81682b96e')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/mp3.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/mp3.png" alt="file icon" />
+                                <h4>Unreal_Engine_Intro.mp3</h4>
+                            </div>
+                            <h4>0.18 Mo</h4>
+                            <h4>2023-11-03</h4>
+                        </div>
+                        <div
+                            data-id="6544dec83477bdf81682b96a"
+                            data-name="Composition_1_1.mp4"
+                            data-ext="mp4"
+                            data-size="1.88 Mo"
+                            data-date="2023-11-03"
+                            onclick="chooseFile('6544dec83477bdf81682b96a')"
+                            class="file-item"
+                            data-img-ref="../assets/files-icons/mov.png"
+                        >
+                            <div class="file-name">
+                                <img src="../assets/files-icons/mov.png" alt="file icon" />
+                                <h4>Composition_1_1.mp4</h4>
+                            </div>
+                            <h4>1.88 Mo</h4>
+                            <h4>2023-11-03</h4>
+                        </div>
+                    </div>
+                    <button onclick="navbar('ia')" class="large greyed">Annuler</button>
+                </div>
+                <div class="overlay-content flashcards">
+                    <div class="header-setting">
+                        <div>
+                            <h1>Nouvelle flaschard</h1>
+                            <p>Créez une nouvelle flashcard ci-dessous.</p>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="grid-user-container">
+                        <div class="item">
+                            <h3>Ecrivez ici la question</h3>
+                            <input maxlength="120" type="text" id="question" class="disabledInput" placeholder="Question" autocomplete="off" />
+                        </div>
+                        <div class="item">
+                            <h3>Ecrivez ici la réponse</h3>
+                            <input maxlength="120" type="text" id="answer" class="disabledInput" placeholder="Réponse" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="post-buttons">
+                        <button onclick="checkFlashcard()" class="large adminsOnly adminsOnly">Créer</button>
+                        <button onclick="deleteFlashcard()" class="large reded adminsOnly">Supprimer</button>
+                    </div>
+                </div>
+            </div>
+            <div class="navbar">
+                <div class="burger" id="burger">
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                </div>
+                <div id="menu"></div>
+                <button onclick="navbar('home')" class="navbar-active" id="home">
+                    <img src="../assets/global/home_a.svg" alt="home" />
+                    <p>Accueil</p>
+                </button>
+                <button onclick="navbar('ia')" class="connectedOnly" id="ia">
+                    <img src="../../assets/global/rocket_a.svg" alt="messagerie" />
+                    <p>IA</p>
+                </button>
+                <button onclick="navbar('participants')" id="participants">
+                    <img src="../assets/global/participants.svg" alt="Participants" />
+                    <p>Collaboration</p>
+                </button>
+                <button class="adminsOnly" onclick="navbar('settings')" id="settings">
+                    <img src="../assets/global/settings.svg" alt="paramètres" />
+                    <p>Paramètres</p>
+                </button>
+                <button id="bottomNav" onclick="window.location.href='/dashboard'">
+                    <img src="../assets/global/back.svg" alt="paramètres" />
+                    <p>Tableau de bord</p>
+                </button>
+                <button onclick="navbar('profile')" class="navProfile"><img src="../assets/default/default_user.png" /></button>
+            </div>
+        </section>
+        <script src="../../script/global.js"></script>
+        <script src="../../script/applications/ideaFlow.js"></script>
+        <script src="../../script/navigation.js"></script>
+    </body>
+</html>

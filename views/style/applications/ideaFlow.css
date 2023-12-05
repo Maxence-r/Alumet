@@ -4,7 +4,18 @@
     box-sizing: border-box;
 }
 
-h4, p {
+body {
+    display: flex;
+}
+
+.board {
+    width: 100%;
+    overflow: hidden;
+    height: 100vh;
+}
+
+h4,
+p {
     margin: 0;
 }
 
@@ -12,7 +23,7 @@ h4, p {
     position: relative;
 
     background: white;
-    box-shadow: 0 0 15px 9px rgba(0, 0, 0, .04);
+    box-shadow: 0 0 15px 9px rgba(0, 0, 0, 0.04);
     border-radius: 10px;
 
     padding: 25px;
@@ -41,14 +52,15 @@ h4, p {
     font-size: 1.1em;
 }
 
-.connector, .resizer {
+.connector,
+.resizer {
     z-index: -1;
 
     width: 40px;
     height: 40px;
 
     border: none;
-    
+
     background: var(--blue);
 
     display: flex;
@@ -67,7 +79,8 @@ h4, p {
     background: var(--orange);
 }
 
-.connector img, .resizer img {
+.connector img,
+.resizer img {
     pointer-events: none;
 }
 
@@ -83,7 +96,8 @@ h4, p {
     top: calc(50% + 5px);
 }
 
-.connector.top, .connector.bottom {
+.connector.top,
+.connector.bottom {
     left: calc(50% - 20px);
 }
 
@@ -95,7 +109,8 @@ h4, p {
     padding-left: 5px;
 }
 
-.connector.right, .resizer {
+.connector.right,
+.resizer {
     right: 0;
     border-top-right-radius: 50%;
     border-bottom-right-radius: 50%;
@@ -145,7 +160,7 @@ h4, p {
 #blocks:not(.receiving) .MindMapBlock:hover .connector.bottom,
 .connector.bottom.connecting,
 .receiving.vertical .MindMapBlock:not(.connectingBlock) .connector.bottom {
-    transform: translateY(40px)
+    transform: translateY(40px);
 }
 
 .receiving.vertical .connector.top,
@@ -180,8 +195,14 @@ h4, p {
 }
 
 .MindMapLink:hover .MindMapLinkPath,
-.MindMapLink[data-big=true] .MindMapLinkPathHitbox {
+.MindMapLink[data-big='true'] .MindMapLinkPathHitbox {
     marker-end: url(#arrow_hover);
     stroke: var(--orange);
     stroke-width: 8px;
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        flex-direction: column-reverse;
+    }
 }

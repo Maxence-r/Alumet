@@ -12,7 +12,7 @@ fetch(`/flashcards/${id}/sandbox/content`)
         document.getElementById('flashcardDescription').value = data.description;
         document.getElementById('invitationLink').value = window.location.href;
         document.getElementById('flashcardPublic').checked = data.discovery;
-        loadParticipants([], data.collaborators, data.owner);
+        loadParticipants(data.participants);
         enableConnected(data);
         data.flashcards.forEach(flashcard => {
             flashcard = createFlashcardElement(flashcard.question, flashcard.answer, flashcard.userDatas?.status, 'modify', flashcard._id);

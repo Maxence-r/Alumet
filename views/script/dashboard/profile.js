@@ -237,13 +237,6 @@ document.getElementById('profile-picture-input').addEventListener('change', asyn
 });
 
 
-let profile = document.querySelector('.profile');
-profile.querySelectorAll('input').forEach(input => {
-    input.addEventListener('input', () => {
-        console.log('inputting')
-        document.querySelector('.save-bar').classList.add('active-save-bar');
-    });
-});
 
 function saveSettings() {
     let messageP = document.getElementById('messageP').checked;
@@ -270,7 +263,7 @@ function saveSettings() {
         .then(data => {
             if (!data.error) {
                 toast({ title: 'Paramètres modifiés !', message: 'Vos paramètres ont bien été modifiés.', type: 'success', duration: 2500 });
-                document.querySelector('.save-bar').classList.remove('active-save-bar');
+
             } else {
                 toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
             }

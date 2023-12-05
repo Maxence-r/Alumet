@@ -79,12 +79,6 @@ body {
     display: flex;
 }
 
-.active-layer {
-    display: block;
-    pointer-events: all !important;
-    opacity: 1 !important;
-}
-
 .alumet {
     display: flex;
     flex-direction: column;
@@ -179,24 +173,6 @@ body {
     font-weight: 400;
     margin: 0;
     color: #9ea1a7;
-}
-
-.navProfile {
-    display: flex !important;
-    margin-bottom: 15px;
-}
-
-#bottomNav {
-    margin-top: auto;
-}
-.navProfile > img {
-    width: 50px !important;
-    height: 50px;
-    border: 1px solid #e5e5e5;
-    object-fit: cover;
-    max-height: 50px;
-    border-radius: 8px;
-    filter: invert(0) !important;
 }
 
 .admin {
@@ -344,22 +320,6 @@ body {
     opacity: 0.4;
 }
 
-.header-setting {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.header-setting > div > p {
-    font-size: 0.9rem;
-    font-weight: 400;
-    margin: 0;
-    color: #9ea1a7;
-}
-
 .settings {
     overflow-y: auto;
 }
@@ -427,159 +387,6 @@ label:has(#onpassword:checked) + #password-input {
     display: flex;
 }
 
-.navbar {
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    align-items: center;
-    border-left: 1px solid #efefee;
-    width: 90px;
-    background-color: white;
-    height: 100%;
-    transition: all 0.3s ease-in-out;
-    z-index: 10;
-    overflow-y: auto;
-}
-
-.active > img {
-    filter: brightness(0) invert(1);
-}
-
-.navbar > img {
-    width: 26px;
-    margin-top: 40px;
-    cursor: pointer;
-    filter: invert(0.5);
-}
-
-.navbar > button {
-    width: 60px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-top: 30px;
-    background: transparent;
-    border: none;
-    z-index: 10;
-    transition: all 0.3s ease-in-out;
-    border-radius: 10px;
-}
-
-.navbar > button > p {
-    text-align: center;
-    font-size: 11px;
-    color: #a7a7a7;
-    margin: 0;
-    margin-top: 5px;
-    transition: all 0.3s ease-in-out;
-}
-
-.navbar > button > img {
-    filter: invert(0.5);
-    width: 30px;
-    transition: all 0.3s ease-in-out;
-}
-
-.navbar-active > img {
-    filter: invert(0) !important;
-}
-
-.navbar-active > p {
-    color: #000 !important;
-    font-weight: 600;
-}
-
-.burger {
-    position: relative;
-    display: none;
-    cursor: pointer;
-    user-select: none;
-    order: -1;
-    z-index: 10;
-    width: 1.6rem;
-    height: 1.15rem;
-    border: none;
-    outline: none;
-    background: none;
-    visibility: visible;
-    transform: rotate(0deg);
-    transition: 0.35s ease;
-}
-
-.burger-line {
-    position: absolute;
-    display: block;
-    left: 0;
-    width: 100%;
-    height: 1.75px;
-    border: none;
-    outline: none;
-    opacity: 1;
-    transform: rotate(0deg);
-    background-color: #000;
-    transition: 0.25s ease-in-out;
-}
-.burger-line:nth-child(1) {
-    top: 0px;
-}
-.burger-line:nth-child(2) {
-    top: 0.5rem;
-    width: 70%;
-}
-.burger-line:nth-child(3) {
-    top: 1rem;
-}
-.burger.is-active .burger-line:nth-child(1) {
-    top: 0.5rem;
-    transform: rotate(135deg);
-}
-.burger.is-active .burger-line:nth-child(2) {
-    opacity: 0;
-    visibility: hidden;
-}
-.burger.is-active .burger-line:nth-child(3) {
-    top: 0.5rem;
-    transform: rotate(-135deg);
-}
-.overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    z-index: 10;
-    height: 100%;
-    pointer-events: none;
-    opacity: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease-in-out;
-    overflow: hidden;
-}
-
-.overlay-content {
-    position: absolute;
-    overflow-y: auto;
-    display: flex;
-    pointer-events: none;
-    flex-direction: column;
-    right: 90px;
-    width: 500px;
-    padding: 15px;
-    gap: 15px;
-    height: 100%;
-    background-color: #fff;
-    border-radius: 15px 0 0 15px;
-    opacity: 0;
-    transform: translateX(10%);
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-.overlay-content > button {
-    min-height: 50px;
-    margin-top: auto;
-}
-
 #latexInput {
     font-family: 'Courier New', sans-serif;
 }
@@ -589,33 +396,6 @@ latex {
     color: #af0000;
     font-weight: 600;
     font-size: 1rem;
-}
-
-.overlay-content > select {
-    width: 100%;
-}
-
-h1 {
-    font-size: 28px;
-    font-weight: 500;
-    margin: 0;
-}
-
-.overlay-content > input {
-    min-height: 50px;
-}
-
-.overlay-content > .divider {
-    width: 100%;
-    min-height: 1px;
-    background-color: #eaeaea;
-}
-
-.overlay-content > .toggle {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 8px 0;
 }
 
 .commentFooter {
@@ -628,28 +408,10 @@ h1 {
     height: 100%;
 }
 
-.overlay-content > .toggle > h3 {
-    font-size: 16px;
-    font-weight: 500;
-    margin: 0;
-    margin-right: 10px;
-}
-
-.overlay-content > .drop-box {
-    margin: 0;
-}
-
 .confirm {
     width: 100%;
     min-height: 50px;
     margin-top: auto;
-}
-
-.active-section {
-    pointer-events: all;
-    opacity: 1;
-    z-index: 10;
-    transform: translateX(0) !important;
 }
 
 #title {
@@ -679,10 +441,6 @@ h1 {
     outline: none;
     font-size: 0.9rem;
     padding: 10px;
-}
-
-.navbar > button:nth-of-type(1) {
-    margin-top: 20px;
 }
 
 .ext {
@@ -1041,23 +799,10 @@ h1 {
 }
 
 @media screen and (max-width: 600px) {
-    .navbar > div {
-        display: block;
-        margin-left: 4%;
-    }
-    .navbar > button {
-        display: none;
-    }
-    .navbar > button {
-        margin: 0;
-        margin-left: auto;
-    }
     .alumet {
         padding: 10px;
     }
-    .header-setting > div > p {
-        display: none;
-    }
+
     .commentsContent {
         padding: 10px;
     }
@@ -1070,27 +815,6 @@ h1 {
     }
     body {
         flex-direction: column-reverse;
-    }
-
-    .navbar > img {
-        margin: 0;
-        margin-left: 10%;
-    }
-    .navbar {
-        height: 60px;
-        flex-direction: row;
-        width: 100%;
-    }
-
-    .overlay-content {
-        padding: 10px;
-        width: 100%;
-        height: calc(100% - 60px);
-        border-radius: 0;
-        border-top: 1px solid #e5e5e5;
-        top: 60px;
-        left: 0;
-        gap: 10px;
     }
 
     #profile {
