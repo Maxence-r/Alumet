@@ -57,8 +57,7 @@ class MindMapBoard {
         const foreignObj = document.createElementNS(SVG_NS, 'foreignObject');
         foreignObj.setAttribute('overflow', 'visible');
         foreignObj.setAttribute('width', 1);
-        foreignObj.setAttribute('height', 1)
-
+        foreignObj.setAttribute('height', 1);
         foreignObj.appendChild(clone);
 
         return foreignObj;
@@ -94,12 +93,11 @@ class MindMapBoard {
             const trueWidth = domBlock.firstChild.clientWidth - additionalX * this.gridSize;
 
             const neededX = Math.max(Math.round((this.mousePosOnBoard(e).x - this.blocksGroupDrag.x - dataBlock.x - trueWidth) / this.gridSize), 0);
-            if(neededX === dataBlock.additionalGridUnitsX) return;
+            if(neededX === additionalX) return;
 
             dataBlock.additionalGridUnitsX = neededX;
-            this.resizeBlock(this.resizing);
-
-            return;
+            
+            return this.resizeBlock(this.resizing);
         }
 
         if(this.dragging) {
@@ -213,10 +211,11 @@ class MindMapBoard {
 
     connect(from, fromWhich, to, toWhich) {
         const link = this.getLink(from, fromWhich, to, toWhich);
-        if(link || from === to) return;
+        if(link || from === to) return false;
 
         this.links.push([from, fromWhich, to, toWhich]);
         this.renderLink(-1);
+
         return true;
     }
 
