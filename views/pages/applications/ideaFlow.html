@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IdeaFlow</title>
+
+    <link rel="stylesheet" href="../../style/applications/ideaFlow.css" />
+</head>
+<body style="overflow: hidden; margin: 0;">
+    <svg width="50000" height="50000">
+        <defs>
+            <marker id="arrow" viewBox="0 0 6 4" refX="4" refY="2" markerWidth="30" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M 0 0 L 6 2 L 0 4 z" />
+            </marker>
+
+            <marker id="arrow_hover" viewBox="0 0 6 4" refX="4" refY="2" markerWidth="30" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M 0 0 L 6 2 L 0 4 z" fill="var(--orange)" />
+            </marker>
+
+            <pattern id="MindMapBackgroundDots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse" overflow="visible">
+                <circle cx="3" cy="3" r="3" fill="#ebebeb"></circle>
+            </pattern>
+        </defs>
+        
+        <g id="blocks">
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#MindMapBackgroundDots)"></rect>
+            
+            <g id="links"></g>
+        </g>
+    </svg>
+
+    <template class="MindMapBlockTemplate">
+        <div class="MindMapBlock">
+            <div class="MindMapBlockHeader">
+                <h4 class="MindMapBlockTitle"></h4>
+            </div>
+            <p class="MindMapBlockDescription"></p>
+
+            <div class="connector left">
+                <img src="assets/arrow-left.svg" width="20" />
+            </div>
+            <div class="connector top">
+                <img src="assets/arrow-up.svg" width="20" />
+            </div>
+            <div class="connector right">
+                <img src="assets/arrow-right.svg" width="20" />
+            </div>
+            <div class="connector bottom">
+                <img src="assets/arrow-down.svg" width="20" />
+            </div>
+
+            <div class="resizer">
+                <img src="assets/extend.svg" width="20" />
+            </div>
+        </div>
+    </template>
+
+    <script src="../../script/applications/ideaFlow.js"></script>
+</body>
+</html>

@@ -1,126 +1,187 @@
-#bd {
-    height: 12%;
+* {
+    --blue: #1e54e3;
+    --orange: #f0932b;
+    box-sizing: border-box;
 }
 
-.open-board {
-    min-height: 38px;
-    height: 100%;
-    margin: 4px;
-    width: calc(100% - 8px);
-    background-color: var(--teranga-color);
-    color: white;
-    border: none;
-    font-weight: 500;
-    border-radius: 7px;
-    cursor: pointer;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-    transition: all 0.2s ease-in-out;
+h4, p {
+    margin: 0;
 }
 
-.open-board:hover {
-    transform: scale(0.98);
-    filter: brightness(0.9);
-}
+.MindMapBlock {
+    position: relative;
 
-#boards {
+    background: white;
+    box-shadow: 0 0 15px 9px rgba(0, 0, 0, .04);
+    border-radius: 10px;
+
+    padding: 25px;
+
+    width: fit-content;
+
+    font-family: 'Plus Jakarta Sans';
+
+    user-select: none;
+
+    min-width: 80px;
+    min-height: 80px;
+
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-right: 20px;
-    padding-left: 20px;
+    flex-direction: column;
+    gap: 5px;
 }
 
-.board {
+.MindMapBlockTitle {
+    font-size: 1.15em;
+}
+
+.MindMapBlockDescription {
+    font-size: 1.1em;
+}
+
+.connector, .resizer {
+    z-index: -1;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    
+    background: var(--blue);
+
     display: flex;
-    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 10px;
-    padding: 15px;
-    padding-right: 10px;
-    padding-left: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease-in-out;
+    position: absolute;
+
+    padding: 0;
+
+    transition: 0.2s;
+
+    user-select: none;
+}
+
+.resizer {
+    background: var(--orange);
+}
+
+.connector img, .resizer img {
+    pointer-events: none;
+}
+
+.connector.left {
+    top: calc(50% - 20px);
+}
+
+.connector.right {
+    top: calc(50% - 20px);
+}
+
+.resizer {
+    top: calc(50% + 5px);
+}
+
+.connector.top, .connector.bottom {
+    left: calc(50% - 20px);
+}
+
+.connector.left {
+    left: 0;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+
+    padding-left: 5px;
+}
+
+.connector.right, .resizer {
+    right: 0;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+
+    padding-right: 5px;
+}
+
+.connector.top {
+    top: 0;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+
+    padding-top: 5px;
+}
+
+.connector.bottom {
+    bottom: 0;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+
+    padding-bottom: 5px;
+}
+
+#blocks:not(.receiving) .MindMapBlock:hover .connector.left,
+.connector.left.connecting,
+.receiving.horizontal .MindMapBlock:not(.connectingBlock) .connector.left {
+    transform: translate(-40px);
+}
+
+#blocks:not(.receiving) .MindMapBlock:hover .connector.right,
+#blocks:not(.receiving) .MindMapBlock:hover .resizer,
+.connector.right.connecting,
+.receiving.horizontal .MindMapBlock:not(.connectingBlock) .connector.right {
+    transform: translate(40px);
+}
+
+#blocks:not(.receiving) .MindMapBlock:hover .connector.right {
+    top: calc(50% - 45px);
+}
+
+#blocks:not(.receiving) .MindMapBlock:hover .connector.top,
+.connector.top.connecting,
+.receiving.vertical .MindMapBlock:not(.connectingBlock) .connector.top {
+    transform: translateY(-40px);
+}
+
+#blocks:not(.receiving) .MindMapBlock:hover .connector.bottom,
+.connector.bottom.connecting,
+.receiving.vertical .MindMapBlock:not(.connectingBlock) .connector.bottom {
+    transform: translateY(40px)
+}
+
+.receiving.vertical .connector.top,
+.receiving.vertical .connector.bottom,
+.receiving.horizontal .connector.left,
+.receiving.horizontal .connector.right {
+    background: var(--orange);
+}
+
+.receiving.vertical .MindMapBlock:not(.connectingBlock) .connector.top img,
+.receiving.vertical .MindMapBlock:not(.connectingBlock) .connector.bottom img,
+.receiving.horizontal .MindMapBlock:not(.connectingBlock) .connector.left img,
+.receiving.horizontal .MindMapBlock:not(.connectingBlock) .connector.right img {
+    transform: rotate(180deg);
+}
+
+.MindMapLinkPath {
+    fill: none;
+    stroke: #000;
+    stroke-width: 5px;
+    stroke-linecap: round;
+
+    transition: stroke-width 0.3s, stroke 0.3s;
+}
+
+.MindMapLinkPathHitbox {
+    stroke-width: 10px;
+    stroke: transparent;
+    fill: none;
+
     cursor: pointer;
 }
 
-.board:hover {
-    transform: scale(0.98);
-}
-
-.board:hover .setting-ico {
-    opacity: 1;
-    transition: all 0.2s ease-in-out;
-}
-
-.board:hover .setting-ico:hover {
-    transform: rotate(140deg);
-    transition: all 0.5s ease-in-out;
-}
-.setting-ico {
-    display: none;
-    opacity: 0;
-    font-size: 28px;
-    transition: all 0.2s ease-in-out;
-}
-
-.board-infos {
-    display: flex;
-    flex-direction: column;
-}
-
-.board-infos > h1 {
-    font-size: 1.2rem;
-    font-weight: 500;
-    margin: 0;
-}
-
-.board-infos > p {
-    margin-top: 5px;
-    font-size: 0.8rem;
-    margin: 0;
-    color: var(--teranga-color);
-}
-
-#canvas-container {
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-}
-
-#canvas {
-    background-image: radial-gradient(rgb(119, 119, 119) 1px, transparent 0);
-    background-size: 40px 40px;
-    width: 1920px;
-    height: 1080px;
-}
-
-#items {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.item-bloc {
-    display: block;
-    user-select: none;
-    position: absolute;
-    width: 250px;
-    top: 0;
-    padding: 10px;
-    overflow-wrap: anywhere;
-    left: 0;
-    background-color: red;
-    cursor: move;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-}
-
-@media screen and (max-width: 1200px) {
-    .open-board {
-        height: 50px;
-    }
+.MindMapLink:hover .MindMapLinkPath,
+.MindMapLink[data-big=true] .MindMapLinkPathHitbox {
+    marker-end: url(#arrow_hover);
+    stroke: var(--orange);
+    stroke-width: 8px;
 }
