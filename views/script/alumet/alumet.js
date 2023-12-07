@@ -25,7 +25,7 @@ function registerEventsOnList(list) {
         let listId = e.currentTarget.getAttribute('data-id');
         let postPosition = [...e.currentTarget.querySelectorAll('.card')].indexOf(e.currentTarget.querySelector('.dragging'));
 
-        fetch('/api/post/move/' + JSON.parse(localStorage.getItem('alumet'))._id + '/' + listId + '/' + draggedCard.dataset.id, {
+        fetch('/api/post/move/' + app.infos._id + '/' + listId + '/' + draggedCard.dataset.id, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -211,7 +211,7 @@ function promptLeave() {
 }
 
 function leaveAlumet() {
-    fetch('/portal/leave/' + alumet._id, {
+    fetch('/portal/leave/' + app.infos._id, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -235,7 +235,7 @@ function addParticipants() {
         disabled: true,
         action: 'copyLink()',
     });
-    document.getElementById('prompt-input').value = window.location.host + '/portal/' + alumet._id + '?code=' + alumet.code;
+    document.getElementById('prompt-input').value = window.location.host + '/portal/' + app.infos._id + '?code=' + app.infos.code;
 }
 
 function copyLink() {

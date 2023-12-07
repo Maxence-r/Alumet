@@ -113,7 +113,6 @@
                 </div>
                 <div class="reconnecting">
                     <h3>Attempting reconnection to the server...</h3>
-                    <div class="loader-bar"></div>
                 </div>
             </div>
             <div class="overlay-content loadingRessources">
@@ -184,7 +183,7 @@
                         <div data-ref="settings" data-module="security" class="">Sécurité</div>
                     </div>
                     <div class="modulable-right">
-                        <button onclick="modifyAlumet()" class="large adminsOnly">Enregistrer</button>
+                        <button onclick="modifyApp()" class="large admin">Enregistrer</button>
                     </div>
                 </div>
                 <div data-reference="settings" style="display: flex" class="module informationsS">
@@ -192,15 +191,15 @@
                     <div class="grid-user-container">
                         <div class="item">
                             <h3>Nom de l'Alumet</h3>
-                            <input class="disabledInput" type="text" name="alumetName" id="alumetName" placeholder="Nom de l'Alumet" autocomplete="on" />
+                            <input class="disabledInput" type="text" name="alumetName" id="appName" placeholder="Nom de l'Alumet" autocomplete="on" />
                         </div>
                         <div class="item">
                             <h3>Description de l'Alumet</h3>
-                            <input class="disabledInput" type="text" name="alumetDescription" id="alumetDescription" placeholder="Description de l'Alumet" autocomplete="on" />
+                            <input class="disabledInput" type="text" name="alumetDescription" id="appDescription" placeholder="Description de l'Alumet" autocomplete="on" />
                         </div>
                         <div class="item">
                             <h3>Code d'invitation</h3>
-                            <input disabled="true" type="text" name="invitationCode" autocomplete="on" id="invitationCode" placeholder="Aucun code d'invitation" />
+                            <input disabled="true" type="text" name="invitationCode" autocomplete="on" id="appInvitationCode" placeholder="Aucun code d'invitation" />
                         </div>
                         <div class="item">
                             <h3>Supprimer l'Alumet</h3>
@@ -267,14 +266,21 @@
                                 <div class="option">
                                     <h1>Alumet en mode privé</h1>
                                     <label class="switch">
-                                        <input id="alumet-private" type="checkbox" />
+                                        <input id="appPrivate" type="checkbox" />
                                         <span class="slide round"></span>
                                     </label>
                                 </div>
                                 <div class="option">
                                     <h1>Messagerie de l'Alumet</h1>
                                     <label class="switch">
-                                        <input id="alumet-chat" checked="" type="checkbox" />
+                                        <input id="appChat" checked="" type="checkbox" />
+                                        <span class="slide round"></span>
+                                    </label>
+                                </div>
+                                <div class="option">
+                                    <h1>Discovery</h1>
+                                    <label class="switch">
+                                        <input id="appDiscovery" type="checkbox" />
                                         <span class="slide round"></span>
                                     </label>
                                 </div>
@@ -298,7 +304,7 @@
                         <p>Les participants et collaborateurs de votre Alumet seront affichés ici, vous pourrez ensuite les gérer.</p>
                     </div>
                 </div>
-                <div class="row-bottom-buttons adminsOnly">
+                <div class="row-bottom-buttons admin">
                     <button onclick="addCollaborators()" class="large greyed">Ajouter des collaborateurs</button>
                     <button onclick="addParticipants()" class="large">Ajouter des participants</button>
                 </div>

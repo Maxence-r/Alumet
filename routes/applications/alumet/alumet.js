@@ -1,16 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Alumet = require('../../../models/alumet');
-
 const Upload = require('../../../models/upload');
-
 const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
-
 const authorize = require('../../../middlewares/authentification/authorize');
 const Account = require('../../../models/account');
 const Wall = require('../../../models/wall');
 const Post = require('../../../models/post');
-const sendInvitations = require('../../../middlewares/mailManager/sendInvitations');
 const Comment = require('../../../models/comment');
 
 router.get('/:alumet/content', authorize('alumet', 'alumetPrivate'), validateObjectId, async (req, res) => {
@@ -18,28 +14,8 @@ router.get('/:alumet/content', authorize('alumet', 'alumetPrivate'), validateObj
         const alumet = await Alumet.findOne({
             _id: req.params.alumet,
         })
+        let alumetContent = {}
 
-        participants_alumet = [];
-        alumet.participants.forEach(participant => {
-            Account.findById(participant.userId, 'id name icon lastname username accountType isCertified badges').then(account => {
-                if (account) {
-                    participants_alumet.push({ ...account.toObject(), status: participant.status });
-                }
-            })
-        })
-        const ownerAccount = await Account.findById(alumet.owner, 'id name icon lastname username accountType isCertified badges');
-        participants_alumet.push({ ...ownerAccount.toObject(), status: 0 });
-
-        let alumetContent = alumet.toObject();
-        console.log(alumet.owner === req.user?.id)
-        alumetContent.admin = alumet.owner === req.user?.id || alumet.participants.some(p => p.userId.toString() === req.user?.id && p.status === 1);
-        alumetContent.participants = participants_alumet;
-        if (req.connected) {
-            const account = await Account.findById(req.user.id, 'id name icon lastname username');
-            if (account) {
-                alumetContent.user_infos = account;
-            }
-        }
         const walls = await Wall.find({ alumetReference: req.params.alumet }).sort({ position: 1 }).lean();
 
         for (let wall of walls) {

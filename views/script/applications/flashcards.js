@@ -6,14 +6,8 @@ fetch(`/flashcards/${id}/sandbox/content`)
         data.flashcards.forEach(flashcard => {
             console.log(flashcard.userDatas?.smartReview);
         });
-        document.getElementById('flashcard-title').innerText = data.title;
-        document.getElementById('flashcard-description').innerText = data.description || 'Aucune description';
-        document.getElementById('flashcardName').value = data.title;
-        document.getElementById('flashcardDescription').value = data.description;
-        document.getElementById('invitationLink').value = window.location.href;
-        document.getElementById('flashcardPublic').checked = data.discovery;
-        loadParticipants(data.participants);
-        enableConnected(data);
+
+
         data.flashcards.forEach(flashcard => {
             flashcard = createFlashcardElement(flashcard.question, flashcard.answer, flashcard.userDatas?.status, 'modify', flashcard._id);
             document.querySelector('.flashcards-container').appendChild(flashcard);

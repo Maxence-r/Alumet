@@ -131,7 +131,7 @@ section.access {
     transform: scale(0.98);
 }
 
-.alumet-infos > .layer-blur {
+.appInfos > .layer-blur {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -184,7 +184,7 @@ section.access {
     text-align: center;
 }
 
-.alumet-details {
+.appDetails {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -195,21 +195,21 @@ section.access {
     z-index: 3;
 }
 
-.alumet-details > h1 {
+.appDetails > h1 {
     font-size: 1.9rem;
     font-weight: 500;
     color: rgb(255, 255, 255);
     margin: 0;
 }
 
-.alumet-details > h3 {
+.appDetails > h3 {
     font-size: 1rem;
     font-weight: 500;
     color: rgb(202, 202, 202);
     margin: 0;
 }
 
-.alumet-details > p {
+.appDetails > p {
     font-size: 0.9rem;
     font-weight: 400;
     color: rgb(214, 214, 214);
@@ -217,7 +217,7 @@ section.access {
     margin-top: auto;
 }
 
-.alumet-details > p > span {
+.appDetails > p > span {
     color: rgb(255, 255, 255);
     margin: 0;
 }
@@ -261,7 +261,7 @@ section.access {
     z-index: 500;
 }
 
-section.alumet-infos {
+section.appInfos {
     overflow: hidden;
     position: relative;
     width: 60%;
@@ -273,7 +273,7 @@ section.alumet-infos {
     background-repeat: no-repeat;
 }
 
-.alumet-infos > img {
+.appInfos > img {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -311,7 +311,7 @@ section.alumet-infos {
         border-radius: 0;
     }
 
-    section.alumet-infos {
+    section.appInfos {
         display: none;
     }
 }

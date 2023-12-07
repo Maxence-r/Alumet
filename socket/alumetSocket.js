@@ -10,7 +10,7 @@ require('dotenv').config();
 module.exports = function (io) {
     io.on('connection', socket => {
         const token = socket.handshake.headers.cookie?.split('=')[1];
-        socket.on('joinAlumet', async (alumetId, userId) => {
+        socket.on('joinAlumet', async (alumetId) => {
             try {
                 const alumet = await Alumet.findOne({ _id: alumetId });
                 if (!alumet) {
@@ -37,7 +37,7 @@ module.exports = function (io) {
                             return;
                         }
                         socket.join(alumetId);
-                        if (alumet.participants.some(p => p.userId === userId && p.status === 1) || alumet.owner == userId) {
+                        if (alumet.participants.some(p => p.userId === account._id.toString() && p.status === 1) || alumet.owner == account._id.toString()) {
                             socket.join(`admin-${alumetId}`);
                         }
                     }

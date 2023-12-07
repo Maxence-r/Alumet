@@ -21,12 +21,12 @@ function load(boolean) {
         .then(res => res.json())
         .then(data => {
             if (boolean === undefined) {
-                loadAlumetInfos(data.alumet_infos);
+                loadAppInfos(data.infos);
             }
-            if (data.alumet_infos.participant === true) {
+            if (data.infos.participant === true) {
                 window.location.href = '/app/' + id;
             }
-            if (data.alumet_infos.private === false) {
+            if (data.infos.private === false) {
                 if (Object.keys(data.user_infos).length !== 0) {
                     document.querySelector('.public-c').style.display = 'flex';
                     loadUserInfos('public-c', data.user_infos);
@@ -48,16 +48,16 @@ function load(boolean) {
 }
 load();
 
-function loadAlumetInfos(alumet) {
-    document.querySelector('.alumet-infos > img').src = '/cdn/u/' + alumet.background;
-    document.querySelector('.alumet-details > h1').innerText = alumet.title;
-    document.querySelector('.alumet-details > h3').innerText = alumet.description;
-    document.getElementById('creator').innerText = alumet.owner + ' ';
-    document.getElementById('lastusage').innerText = relativeTime(alumet.lastUsage);
+function loadAppInfos(app) {
+    document.querySelector('.appInfos > img').src = '/cdn/u/' + app.background;
+    document.querySelector('.appDetails > h1').innerText = app.title;
+    document.querySelector('.appDetails > h3').innerText = app.description;
+    document.getElementById('creator').innerText = app.owner + ' ';
+    document.getElementById('lastusage').innerText = relativeTime(app.lastUsage);
     const img = new Image();
-    img.src = '/cdn/u/' + alumet.background;
+    img.src = '/cdn/u/' + app.background;
     img.onload = () => {
-        document.querySelector('.loading').classList.add('hidden');
+        endLoading();
     };
 }
 

@@ -1296,6 +1296,13 @@ select {
     display: none;
 }
 
+.participants-container {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    gap: 15px;
+}
+
 .modulable-left > div {
     display: flex;
     align-items: center;

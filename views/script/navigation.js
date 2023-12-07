@@ -4,6 +4,7 @@ const navbarMenu = document.querySelector('.menu');
 const burgerMenu = document.getElementById('burger');
 const url = new URL(window.location.href);
 const id = url.pathname.split('/').pop();
+let app = {}
 function navbar(id, currentItem, newItem) {
     if (currentItem) {
         localStorage.setItem('currentItem', currentItem);
@@ -70,16 +71,15 @@ overlay.addEventListener('click', function (event) {
 });
 
 function enableConnected(data) {
-    if (data.user_infos) {
-        user = data.user_infos;
+    if (data.username) {
         if (data.admin) {
             document.querySelectorAll('.admin').forEach(el => {
                 el.style.display = 'block';
             });
         }
-        document.querySelector('.navProfile > img').src = '/cdn/u/' + data.user_infos.icon;
-        document.querySelector('.user-infos > img').src = '/cdn/u/' + data.user_infos.icon;
-        document.querySelector('.user-details > h3').innerText = data.user_infos.username;
+        document.querySelector('.navProfile > img').src = '/cdn/u/' + data.icon;
+        document.querySelector('.user-infos > img').src = '/cdn/u/' + data.icon;
+        document.querySelector('.user-details > h3').innerText = data.username;
         document.querySelector('.user-details > p').innerText = 'Connecté';
         document.querySelector('.profile > .row-bottom-buttons').classList.add('connected');
         loadFiles();
@@ -89,7 +89,7 @@ function enableConnected(data) {
         });
     }
     if (!data.admin) {
-        document.querySelectorAll('.adminsOnly').forEach(el => {
+        document.querySelectorAll('.admin').forEach(el => {
             el.style.display = 'none';
         });
         document.querySelectorAll('.disabledInput').forEach(el => {
@@ -98,8 +98,42 @@ function enableConnected(data) {
     }
 }
 
+function fetchAppInfos() {
+    fetch('/app/info/' + id, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(res => res.json())
+        .then(data => {
+            app = data;
+            loadParticipants(data.infos.participants);
+            loadAppInfos(data.infos);
+            enableConnected(data.user_infos);
+        })
+        .catch(err => console.log(err));
+}
+
+fetchAppInfos();
+
+function loadAppInfos(data) {
+    document.querySelector('.backgroundImg').src = `/cdn/u/${data.background}`;
+    document.getElementById('appName').value = data.title;
+    document.getElementById('appDescription').value = data.description;
+    if (data.private && data.code) {
+        document.getElementById('appInvitationCode').value = data.code;
+    }
+    document.getElementById('appPrivate').checked = data.private;
+    document.getElementById('appChat').checked = data.swiftchat;
+    document.getElementById('appDiscovery').checked = data.discovery
+    if (data.type === 'alumet') {
+        document.querySelector('body').style.backgroundImage = `url(/cdn/u/${data.background})`;
+    }
+}
+
+
 function loadParticipants(participants) {
-    console.log(participants);
     const participantsContainer = document.querySelector('.participants-container');
     if (participants.length === 0) return;
     participantsContainer.innerHTML = '';
@@ -125,6 +159,53 @@ function loadParticipants(participants) {
     };
     participants.forEach(participant => createParticipant(participant));
 }
+
+async function modifyApp() {
+    const file = document.getElementById('alumet-background').files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('title', document.getElementById('appName').value);
+    formData.append('description', document.getElementById('appDescription').value);
+    formData.append('private', document.getElementById('appPrivate').checked);
+    formData.append('chat', document.getElementById('appChat').checked);
+    formData.append('discovery', document.getElementById('appDiscovery').checked);
+    formData.append('app', app.infos._id);
+    navbar('loadingRessources');
+    fetch('/app/new', {
+        method: 'PUT',
+        body: formData,
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                navbar('settings');
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
+            } else {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+document.querySelector('.backgroundImg').addEventListener('click', () => {
+    document.getElementById('alumet-background').click();
+});
+
+document.getElementById('alumet-background').addEventListener('change', () => {
+    const file = document.getElementById('alumet-background').files[0];
+    const fileType = file.type.split('/')[0];
+    const fileSize = file.size / 1024 / 1024;
+    if (fileType !== 'image' || fileSize > 3) {
+        document.getElementById('alumet-background').value = '';
+        return toast({ title: 'Erreur', message: 'Veuillez sélectionner une image de moins de 3MB', type: 'error', duration: 2500 });
+    }
+    document.querySelector('.backgroundImg').src = URL.createObjectURL(file);
+});
+
 
 function loadFiles() {
     fetch('/cdn/folder/list', {

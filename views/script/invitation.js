@@ -10,7 +10,7 @@ function fetchReferenceInfos() {
     })
         .then(res => res.json())
         .then(data => {
-            loadReferenceInfos(data.alumet_infos);
+            loadReferenceInfos(data.infos);
             endLoading();
         })
         .catch(err => console.log(err));
@@ -18,9 +18,9 @@ function fetchReferenceInfos() {
 
 function loadReferenceInfos(reference) {
     console.log(reference);
-    document.querySelector('.alumet-infos > img').src = reference.background ? '/cdn/u/' + reference.background : '../assets/global/hands.jpg';
-    document.querySelector('.alumet-details > h1').innerText = reference.title;
-    document.querySelector('.alumet-details > h3').innerText = reference.description || 'Aucune description';
+    document.querySelector('.appInfos > img').src = reference.background ? '/cdn/u/' + reference.background : '../assets/global/hands.jpg';
+    document.querySelector('.appDetails > h1').innerText = reference.title;
+    document.querySelector('.appDetails > h3').innerText = reference.description || 'Aucune description';
     document.getElementById('lastusage').innerText = relativeTime(reference.createdAt);
     const img = new Image();
     img.src = '/cdn/u/' + reference.background;

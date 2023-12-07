@@ -15,7 +15,6 @@ async function sendInvitations(req, res, reference) {
                 _id: participant,
             });
             let referenceDetails = await Alumet.findById(reference);
-            console.log(reference)
             let invitationCheck = await Invitation.findOne({ to: participant, reference: reference });
             if (!account || invitationCheck || referenceDetails.participants.some(p => p.userId === participant && p.status === 1) || referenceDetails.owner == participant) {
                 continue;

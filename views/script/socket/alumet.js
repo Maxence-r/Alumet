@@ -3,7 +3,7 @@ socket.on("connect", () => {
 });
 
 socket.io.on("reconnect", () => {
-    socket.emit('joinAlumet', alumet._id, "6505e1fc19c363addbab5c3d");
+    socket.emit('joinAlumet', app.infos._id, "6505e1fc19c363addbab5c3d");
     navbar('home')
 });
 
@@ -15,7 +15,6 @@ socket.on('disconnect', () => {
 
 
 socket.on('addPost', data => {
-    if (data.owner?._id === alumet.user_infos?._id) return;
     const list = document.getElementById(data.wallId);
     const newPost = createPostElement(data);
     list.prepend(newPost);
@@ -60,11 +59,11 @@ socket.on('editWall', data => {
     getWallData(data._id, data);
     const wall = document.querySelector(`.list[data-id="${data._id}"]`);
     wall.querySelector('h1').innerText = data.title;
-    if (!data.postAuthorized && !alumet.admin) {
+    if (!data.postAuthorized && !app.user_infos.admin) {
         wall.querySelectorAll('button').forEach(button => {
             button.parentNode.removeChild(button);
         });
-    } else if (!alumet.admin && !wall.querySelector('.add')) {
+    } else if (!app.user_infos.admin && !wall.querySelector('.add')) {
         let button = document.createElement('button');
         button.classList.add('add');
         button.setAttribute('onclick', `navbar('post', '${data._id}')`, 'post');

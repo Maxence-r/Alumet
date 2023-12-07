@@ -146,8 +146,8 @@ class MindMapBoard {
         }
     }
 
-    createAndInsertBlock(id, title, description, x, y) {
-        this.blocks[id] = { title, description, x, y, additionalGridUnitsX: 0 };
+    createAndInsertBlock(id, title, description, x, y, additionalGridUnitsX) {
+        this.blocks[id] = { title, description, x, y, additionalGridUnitsX };
 
         const elem = this.constructor.createBlock(title, description);
         elem.dataset.id = id;
@@ -328,13 +328,57 @@ class MindMapBoard {
 
         return block;
     }
+
+    getJsonSchema() {
+        let schema = {
+            blocks: [],
+            links: []
+        };
+
+        for (let id in this.blocks) {
+            let block = this.blocks[id];
+            schema.blocks.push({
+                id: id,
+                title: block.title,
+                description: block.description,
+                x: block.x,
+                y: block.y,
+                additionalGridUnitsX: block.additionalGridUnitsX
+            });
+        }
+
+        for (let link of this.links) {
+            schema.links.push({
+                from: link[0],
+                fromWhich: link[1],
+                to: link[2],
+                toWhich: link[3]
+            });
+        }
+
+        return JSON.stringify(schema);
+    }
+
+    loadJsonSchema(schema) {
+        this.blocks = {};
+        this.links = [];
+
+        for (let block of schema.blocks) {
+            this.createAndInsertBlock(block.id, block.title, block.description, block.x, block.y, block.additionalGridUnitsX);
+            this.resizeBlock(block.id);
+        }
+
+        for (let link of schema.links) {
+            this.connect(link.from, link.fromWhich, link.to, link.toWhich);
+        }
+    }
 }
 
 // TEST
 
 const mindMap = new MindMapBoard(board, blocksGroup, linksGroup);
 
-mindMap.createAndInsertBlock('test', 'test 1 qsdqsdq sqd', 'test 2', 25312, 25508)
+/* mindMap.createAndInsertBlock('test', 'test 1 qsdqsdq sqd', 'test 2', 25312, 25508)
 mindMap.createAndInsertBlock('tdsfsdt', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25508)
 mindMap.createAndInsertBlock('tdsqsdqsdt', 'test 1 qsdqsdq sqd', 'test 2q sdqsdqsd qsdqsdq sd qsd qsd', 25396, 25508)
 mindMap.createAndInsertBlock('tdssdqsfsfsdt', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25508)
@@ -342,5 +386,6 @@ mindMap.createAndInsertBlock('tddfdgfdsfsdt', 'test 1 qsdqsdq sqd', 'test 2', 25
 mindMap.createAndInsertBlock('tdsfgdfgsdt', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25508)
 
 mindMap.createAndInsertBlock('tests', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25312)
-mindMap.createAndInsertBlock('t', '1', '2', 25900, 25704)
+mindMap.createAndInsertBlock('t', '1', '2', 25900, 25704) */
+mindMap.loadJsonSchema({ "blocks": [{ "id": "test", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25452, "y": 25228, "additionalGridUnitsX": 0 }, { "id": "tdsfsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25732, "y": 25284, "additionalGridUnitsX": 0 }, { "id": "tdsqsdqsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2q sdqsdqsd qsdqsdq sd qsd qsd", "x": 25480, "y": 25844, "additionalGridUnitsX": 0 }, { "id": "tdssdqsfsfsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25620, "y": 25788, "additionalGridUnitsX": 0 }, { "id": "tddfdgfdsfsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25536, "y": 25872, "additionalGridUnitsX": 0 }, { "id": "tdsfgdfgsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25172, "y": 25536, "additionalGridUnitsX": 22 }, { "id": "tests", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25200, "y": 25144, "additionalGridUnitsX": 0 }, { "id": "t", "title": "1", "description": "2", "x": 25900, "y": 25704, "additionalGridUnitsX": 0 }], "links": [{ "from": "tests", "fromWhich": "right", "to": "test", "toWhich": "left" }, { "from": "test", "fromWhich": "right", "to": "tdsfsdt", "toWhich": "left" }, { "from": "test", "fromWhich": "bottom", "to": "tdsfgdfgsdt", "toWhich": "top" }] });
 endLoading()

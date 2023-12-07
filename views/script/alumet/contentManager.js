@@ -6,15 +6,8 @@ function getContent() {
         .then(data => {
             alumet = data;
             localStorage.setItem('alumet', JSON.stringify(data));
-            document.querySelector('body').style.backgroundImage = `url(/cdn/u/${data.background})`;
-            document.querySelector('.backgroundImg').src = `/cdn/u/${data.background}`;
-            document.getElementById('alumetName').value = data.title;
-            document.getElementById('alumetDescription').value = data.description;
-            if (data.private && data.code) {
-                document.getElementById('invitationCode').value = data.code;
-            }
-            document.getElementById('alumet-private').checked = data.private;
-            document.getElementById('alumet-chat').checked = data.swiftchat;
+
+
             data.walls.forEach(wall => {
                 const list = createInList(wall.title, wall.postAuthorized, wall._id);
                 const draggingContainer = list.querySelector('.draggingContainer');
@@ -27,59 +20,14 @@ function getContent() {
                 parent.insertBefore(list, button);
             });
 
-            enableConnected(data);
-            loadParticipants(data.participants, data.collaborators, alumet.admin);
+
             endLoading();
-            socket.emit('joinAlumet', alumet._id, data.user_infos?._id);
+            socket.emit('joinAlumet', app.infos._id);
         });
 }
 
 
 
-async function modifyAlumet() {
-    const file = document.getElementById('alumet-background').files[0];
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('title', document.getElementById('alumetName').value);
-    formData.append('description', document.getElementById('alumetDescription').value);
-    formData.append('private', document.getElementById('alumet-private').checked);
-    formData.append('chat', document.getElementById('alumet-chat').checked);
-    formData.append('app', alumet._id);
-    navbar('loadingRessources');
-    fetch('/app/new', {
-        method: 'PUT',
-        body: formData,
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                navbar('settings');
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
-            } else {
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
-}
-
-document.querySelector('.backgroundImg').addEventListener('click', () => {
-    document.getElementById('alumet-background').click();
-});
-
-document.getElementById('alumet-background').addEventListener('change', () => {
-    const file = document.getElementById('alumet-background').files[0];
-    const fileType = file.type.split('/')[0];
-    const fileSize = file.size / 1024 / 1024;
-    if (fileType !== 'image' || fileSize > 3) {
-        document.getElementById('alumet-background').value = '';
-        return toast({ title: 'Erreur', message: 'Veuillez sélectionner une image de moins de 3MB', type: 'error', duration: 2500 });
-    }
-    document.querySelector('.backgroundImg').src = URL.createObjectURL(file);
-});
 
 function getPostData(id, replace) {
     let post;
@@ -127,7 +75,7 @@ function getWallData(id, replace) {
 
 function patchWall(position) {
     navbar('loadingRessources');
-    fetch('/api/wall/' + JSON.parse(localStorage.getItem('alumet'))._id + '/' + wallToEdit + '/move?direction=' + position, {
+    fetch('/api/wall/' + app.infos._id + '/' + wallToEdit + '/move?direction=' + position, {
         method: 'PATCH',
     })
         .then(response => response.json())
@@ -291,7 +239,7 @@ function createPostElement(post) {
     creationDate.classList.add('creationDate');
     creationDate.textContent = relativeTime(post.createdAt);
     author.appendChild(creationDate);
-    if (alumet.admin || (alumet.user_infos?._id === post.owner?._id && alumet.user_infos)) {
+    if (app.user_infos.admin || (alumet.user_infos?._id === post.owner?._id)) {
         const editButton = document.createElement('img');
         editButton.classList.add('edit');
         editButton.src = '/assets/global/edit.svg';
@@ -376,7 +324,7 @@ function createPostElement(post) {
         card.appendChild(actionRow);
     }
 
-    if (!navigator.userAgent.includes('Mobile') && alumet.admin) {
+    if (!navigator.userAgent.includes('Mobile') && app.user_infos.admin) {
         registerEventsOnCard(card);
     }
 
@@ -404,7 +352,7 @@ function createInList(title, postAuthorized, id) {
     draggingContainer.classList.add('draggingContainer');
     draggingContainer.setAttribute('id', id);
     list.appendChild(titleEl);
-    if (postAuthorized || alumet.admin) {
+    if (postAuthorized || app.user_infos.admin) {
         const button = document.createElement('button');
         button.setAttribute('id', 'post');
         button.classList.add('add');
@@ -412,7 +360,7 @@ function createInList(title, postAuthorized, id) {
         button.setAttribute('onclick', `navbar("post", "${id}", "post")`);
         list.appendChild(button);
     }
-    if (alumet.admin) {
+    if (app.user_infos.admin) {
         const imgEdit = document.createElement('img');
         imgEdit.src = '/assets/global/edit.svg';
         imgEdit.classList.add('edit');
@@ -420,7 +368,7 @@ function createInList(title, postAuthorized, id) {
         titleEl.appendChild(imgEdit);
     }
     list.appendChild(draggingContainer);
-    if (!navigator.userAgent.includes('Mobile') && alumet.admin) {
+    if (!navigator.userAgent.includes('Mobile') && app.user_infos.admin) {
         registerEventsOnList(draggingContainer);
     }
     return list;
@@ -463,7 +411,7 @@ function cancelSend() {
 }
 
 async function createPost(confirmed) {
-    if (!alumet.user_infos && !confirmed) {
+    if (!app.user_infos.username && !confirmed) {
         return createPrompt({
             head: "Vous n'êtes pas connecté",
             desc: 'Vous ne serez plus en capacité de modifier cette publication une fois créée',
@@ -521,7 +469,7 @@ async function createPost(confirmed) {
     }
 
     try {
-        const response = await fetch('/api/post/' + JSON.parse(localStorage.getItem('alumet'))._id + '/' + localStorage.getItem('currentItem'), {
+        const response = await fetch('/api/post/' + app.infos._id + '/' + localStorage.getItem('currentItem'), {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -538,12 +486,6 @@ async function createPost(confirmed) {
                 duration: 5000,
             });
         }
-        if (!postToEdit) {
-            const list = document.getElementById(data.wallId);
-            const newPost = createPostElement(data);
-            list.prepend(newPost);
-            getPostData(data._id, data);
-        }
         setTimeout(() => {
             navbar('home');
         }, 500);
@@ -554,7 +496,7 @@ async function createPost(confirmed) {
 
 function deletePost() {
     navbar('loadingRessources');
-    fetch('/api/post/' + JSON.parse(localStorage.getItem('alumet'))._id + '/' + postToEdit, {
+    fetch('/api/post/' + app.infos._id + '/' + postToEdit, {
         method: 'DELETE',
     })
         .then(response => response.json())
@@ -576,7 +518,7 @@ function deletePost() {
 
 function deleteWall() {
     navbar('loadingRessources');
-    fetch('/api/wall/' + JSON.parse(localStorage.getItem('alumet'))._id + '/' + wallToEdit, {
+    fetch('/api/wall/' + app.infos._id + '/' + wallToEdit, {
         method: 'DELETE',
     })
         .then(response => response.json())
@@ -689,7 +631,7 @@ function createWall() {
 function openPost(id) {
     navbar('comments', id);
     document.querySelector('.comments > .full-screen').style.display = 'flex';
-    fetch('/api/post/' + JSON.parse(localStorage.getItem('alumet'))._id + '/' + id + '/comments', {
+    fetch('/api/post/' + app.infos._id + '/' + id + '/comments', {
         method: 'GET',
     })
         .then(response => response.json())
@@ -730,7 +672,7 @@ function postComment() {
             duration: 5000,
         });
     }
-    fetch('/api/post/' + JSON.parse(localStorage.getItem('alumet'))._id + '/' + localStorage.getItem('currentItem') + '/comments', {
+    fetch('/api/post/' + app.infos._id + '/' + localStorage.getItem('currentItem') + '/comments', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

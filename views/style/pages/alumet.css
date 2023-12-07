@@ -45,13 +45,6 @@ body {
     font-weight: 400;
     margin: 0;
     color: #000000;
-    margin-bottom: 3px;
-}
-.reconnecting > .loader-bar {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
 }
 
 #commentInput {
@@ -510,7 +503,7 @@ latex {
     position: absolute;
     margin-left: auto;
     height: 30px;
-    right: 8px;
+    right: 10px;
     border-radius: 8px;
 }
 
@@ -769,13 +762,6 @@ latex {
 }
 .files-header > h3:nth-child(3) {
     display: none;
-}
-
-.participants-container {
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    gap: 15px;
 }
 
 @keyframes fadeOut {

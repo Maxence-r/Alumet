@@ -20,7 +20,6 @@ router.post('/create', validateConversation, async (req, res) => {
     }
 
     const participantsCheck = await Account.find({ _id: { $in: participants } }, { accountType: 1 });
-    console.log(participantsCheck);
     if (req.user.accountType === 'student' && participantsCheck.some(participant => participant.accountType === 'professor')) {
         return res.status(400).json({ error: 'Les étudiants ne peuvent pas créer de conversation avec des professeurs !' });
     }
@@ -181,7 +180,6 @@ router.get('/:conversation', async (req, res) => {
 
         const participantsPromises = conversation.participants.map(async participant => {
             const role = participant.status; // status from the participant object
-            console.log(participant);
             const user = await Account.findOne({ _id: participant.userId }, { name: 1, lastname: 1, icon: 1 });
             return { id: user._id, name: user.name, lastname: user.lastname, icon: user.icon, role };
         });

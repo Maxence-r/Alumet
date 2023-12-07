@@ -57,8 +57,6 @@ router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['
             /* sendInvitations(req, res, 'alumet', alumet._id); */
             res.json({ alumet });
         } else {
-            console.log(req.body.discovery)
-            console.log(await Alumet.findById(req.body.app))
             alumet = await Alumet.findByIdAndUpdate(req.body.app, {
                 title: req.body.title,
                 description: req.body.description,
@@ -78,62 +76,48 @@ router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['
 
 router.get('/info/:id', validateObjectId, async (req, res) => {
     try {
-        const alumet = await Alumet.findOne({
-            _id: req.params.id,
-        });
-        console.log(alumet);
-        console.log(req.params.id);
+        const alumet = await Alumet.findById(req.params.id);
         if (!alumet) {
             return res.status(404).json({
                 error: 'Alumet not found',
             });
         }
-        if (req.cookies.alumetToken) {
-            req.user = { _id: req.cookies.alumetToken };
-        }
 
         let participant = false;
         let user_infos = {};
+        let admin = false;
         if (req.user) {
-            const account = await Account.findOne(
-                {
-                    _id: req.user.id,
-                },
-                {
-                    id: 1,
-                    name: 1,
-                    icon: 1,
-                    lastname: 1,
-                }
-            );
+            const account = await Account.findById(req.user.id, 'id name icon lastname username badges');
             if (account) {
-                user_infos = { id: account._id, name: account.name, icon: account.icon, lastname: account.lastname };
-                if (alumet.participants.some(p => p.userId === account._id.toString()) || alumet.owner == account._id) {
+                if (alumet.participants.some(p => p.userId === account._id.toString()) || alumet.owner === account._id) {
                     participant = true;
                 }
-                if (alumet.owner == account._id) {
+                if (alumet.owner === account._id.toString() || alumet.participants.some(p => p.userId === account._id.toString() && p.status === 1)) {
+
                     admin = true;
                 }
+                user_infos = { id: account._id, name: account.name, icon: account.icon, lastname: account.lastname, username: account.username, badges: account.badges, admin, participant };
             }
         }
 
-        alumet.code = null;
-        alumet.participants = null;
+        if (!alumet.participants.some(p => p.userId === req.user?.id && p.status === 1 || alumet.owner === req.user?.id)) {
+            alumet.code = null;
+        }
 
-        let ownerInfo = await Account.findOne(
-            {
-                _id: alumet.owner,
-            },
-            {
-                name: 1,
-                lastname: 1,
-                icon: 1,
+        const participantIds = alumet.participants.map(p => p.userId);
+        const participantAccounts = await Promise.all(participantIds.map(id => Account.findById(id, 'id name icon lastname username accountType isCertified badges')));
+
+        let participants = participantAccounts.map((account, index) => {
+            if (account) {
+                return { ...account.toObject(), status: alumet.participants[index].status };
             }
-        );
+        });
 
-        alumet.owner = ownerInfo.name + ' ' + ownerInfo.lastname;
+        const ownerAccount = await Account.findById(alumet.owner, 'id name icon lastname username accountType isCertified badges');
+        participants.push({ ...ownerAccount.toObject(), status: 0 });
+
         res.json({
-            alumet_infos: { ...alumet.toObject(), participant },
+            infos: { ...alumet.toObject(), participant, participants },
             user_infos,
         });
     } catch (error) {
