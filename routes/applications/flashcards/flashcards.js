@@ -1,14 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const sendInvitations = require('../../../middlewares/mailManager/sendInvitations');
 const { default: mongoose } = require('mongoose');
 const path = require('path');
 const Flashcards = require('../../../models/flashcards');
 const Alumet = require('../../../models/alumet');
 const Account = require('../../../models/account');
 const authorize = require('../../../middlewares/authentification/authorize');
-const Flashcard = require('../../../models/flashcards');
 
 
 
@@ -59,7 +57,7 @@ router.get('/:flashcardSet/:revisionMethod/content', async (req, res) => {
         if (req.user) {
             flashcardSetInfo.user_infos = { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname, id: req.user._id };
         }
-        const flashcards = await Flashcard.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
+        const flashcards = await Flashcards.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
         for (const flashcard of flashcards) {
             const userDatas = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now() };
             const smartReview = userDatas?.smartReview || { nextReview: null, inRow: 0 };
