@@ -9,6 +9,7 @@ function navbar(id, currentItem, newItem) {
     if (currentItem) {
         localStorage.setItem('currentItem', currentItem);
     }
+    document.querySelector('.overlay').classList.add('active-layer');
     if (id == 'home') {
         burgerMenu.classList.remove('is-active');
         document.querySelector('.overlay').classList.remove('active-layer');
@@ -126,6 +127,42 @@ function loadAppInfos(data) {
     if (data.type === 'alumet') {
         document.querySelector('body').style.backgroundImage = `url(/cdn/u/${data.background})`;
     }
+}
+
+function promptLeave() {
+    createPrompt({
+        head: "Quitter l'application",
+        desc: 'Êtes-vous sûr de vouloir quitter cette application ? Vous ne pourrez plus y accéder si vous n\'êtes pas inviter a nouveau.',
+        action: 'leaveApplication()',
+    });
+}
+
+function addParticipants() {
+    createPrompt({
+        head: 'Ajouter des participants',
+        desc: 'Coller le lien ci dessous et partager le pour inviter des participants à votre alumet.',
+        placeholder: "Lien d'invitation",
+        disabled: true,
+    });
+    document.getElementById('prompt-input').value = window.location.host + '/portal/' + app.infos._id + '?code=' + app.infos.code;
+}
+
+
+function leaveApplication() {
+    fetch('/portal/leave/' + app.infos._id, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(res => res.json())
+        .then(data => {
+            document.querySelector('.prompt-popup').classList.remove('active-popup');
+            if (data.error) {
+                return toast({ title: 'Erreur', message: data.error, type: 'error' });
+            }
+            window.location.href = '/dashboard';
+        });
 }
 
 
