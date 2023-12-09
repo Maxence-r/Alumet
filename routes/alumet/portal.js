@@ -7,7 +7,6 @@ require('dotenv').config();
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
 const authorize = require('../../middlewares/authentification/authorize');
 const Conversation = require('../../models/conversation');
-const Invitation = require('../../models/invitation');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     try {
@@ -85,16 +84,12 @@ router.get('/leave/:id', authorize('alumet'), async (req, res) => {
             });
         }
         alumet.participants = alumet.participants.filter(participant => participant.userId !== req.user.id);
-
-        let conversation = await Conversation.findOne({ _id: alumet.chat });
-        conversation.participants = conversation.participants.filter(participant => participant !== req.user.id);
-
-        await conversation.save();
         await alumet.save();
         res.status(200).json({
             message: 'Alumet left',
         });
     } catch (error) {
+        console.error(error);
         res.status(500).json({
             error,
         });

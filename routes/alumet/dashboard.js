@@ -3,6 +3,8 @@ const router = express.Router();
 const path = require('path');
 const authorize = require('../../middlewares/authentification/authorize');
 const Alumet = require('../../models/alumet');
+const Account = require('../../models/account');
+const Invitation = require('../../models/invitation');
 
 router.get('/', async (req, res) => {
     if (!req.connected) return res.redirect('/auth/signin');
@@ -16,8 +18,20 @@ router.get('/', async (req, res) => {
     res.sendFile(filePath);
 });
 
-router.get('/items', authorize(), async (req, res) => {
+router.get('/identity', authorize(), async (req, res) => {
     try {
+        const fetchedInvitations = await Invitation.find({ to: req.user.id }).sort({ createdAt: -1 });
+        let invitations = [];
+        for (let invitation of fetchedInvitations) {
+            const owner = await Account.findOne({ _id: invitation.owner }, { name: 1, lastname: 1, _id: 1, icon: 1 });
+            let referenceDetails = await Alumet.findById(invitation.reference).select('_id title background');
+
+            if (!owner || !referenceDetails) {
+                continue;
+            }
+            invitations.push({ inviter: owner.name + ' ' + owner.lastname, applicationName: referenceDetails.title, invitationId: invitation.reference, createdAt: invitation.createdAt });
+        }
+        const user = await Account.findOne({ _id: req.user.id }, { name: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isCertified: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1, notifications: 1 });
         const alumets = await Alumet.find({
             $or: [
                 { owner: req.user.id },
@@ -28,7 +42,7 @@ router.get('/items', authorize(), async (req, res) => {
             .sort({ lastUsage: -1 });
 
         res.json({
-            alumets
+            alumets, user, invitations
         });
     } catch (error) {
         console.log(error);

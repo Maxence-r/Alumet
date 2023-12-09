@@ -194,18 +194,12 @@ function getDomainFromUrl(url) {
     return a.hostname;
 }
 
-function commentPost(id) {
-    return toast({
-        title: 'Fonctionnalitée indisponible',
-        message: 'Cette fonctionnalitée rencontre actuellement des problèmes.',
-        type: 'warning',
-    });
-}
+
 
 function promptLeave() {
     createPrompt({
         head: "Quitter l'alumet",
-        desc: 'Êtes-vous sûr de vouloir quitter cet alumet ? Vous ne pourrez plus y accéder.',
+        desc: 'Êtes-vous sûr de vouloir quitter cet alumet ? Vous ne pourrez plus y accéder si vous n\'êtes pas inviter a nouveau.',
         action: 'leaveAlumet()',
     });
 }

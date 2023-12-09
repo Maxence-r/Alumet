@@ -67,11 +67,6 @@ body {
     max-height: 50%;
 }
 
-.loadingRessources > .loading,
-.loading-flashcards > .loading {
-    display: flex;
-}
-
 .alumet {
     display: flex;
     flex-direction: column;
@@ -188,6 +183,8 @@ body {
 
 .add {
     background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
     border: none;
     min-height: 40px;
     border-radius: 10px;
@@ -315,22 +312,6 @@ body {
 
 .settings {
     overflow-y: auto;
-}
-
-.backgroundImg {
-    width: 100%;
-    min-height: 150px;
-    border-radius: 10px;
-    object-fit: cover;
-    max-height: 200px;
-
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-.backgroundImg:hover {
-    transform: scale(0.98);
-    filter: brightness(0.8);
 }
 
 .informationsS {
@@ -688,15 +669,6 @@ latex {
     display: flex !important;
     flex-direction: column;
     gap: 10px;
-}
-
-.loading > h3 {
-    font-size: 14px;
-    font-weight: 400;
-    margin: 0;
-    color: #000000;
-    margin-top: 20px;
-    text-align: center;
 }
 
 .rounded {

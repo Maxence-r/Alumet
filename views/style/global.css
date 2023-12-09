@@ -999,12 +999,42 @@ label.switch:hover {
     object-position: center;
 }
 
+.loadingRessources > .loading,
+.loading-flashcards > .loading {
+    display: flex;
+}
+
+.loading > h3 {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+    color: #000000;
+    margin-top: 20px;
+    text-align: center;
+}
+
 .row-bottom-buttons {
     margin-top: auto;
     width: 100%;
     display: flex;
     flex-direction: row;
     gap: 15px;
+}
+
+.backgroundImg {
+    width: 100%;
+    min-height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+    max-height: 200px;
+
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.backgroundImg:hover {
+    transform: scale(0.98);
+    filter: brightness(0.8);
 }
 
 .row-bottom-buttons > button {
@@ -1307,7 +1337,7 @@ select {
     display: flex;
     align-items: center;
     cursor: pointer;
-    padding: 0 3%;
+    padding: 0 5%;
     height: 52px;
     font-size: 0.95rem;
     font-weight: 500;
@@ -1332,7 +1362,6 @@ select {
     flex-direction: row;
     overflow: auto;
     align-items: center;
-    gap: 10px;
     white-space: pre;
     width: inherit;
 }

@@ -43,7 +43,7 @@
         </div>
         <div class="user-popup popup">
             <div class="prompt">
-                <h1>Créé une discussion</h1>
+                <h1>Créer une discussion</h1>
                 <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Entrez un nom ou prénom" />
                 <div class="users-fetch">
                     <div class="details loading-users">
@@ -128,14 +128,7 @@
                     <div class="sub-item">
                         <h4>Mes dossiers</h4>
                     </div>
-                    <div class="folder-selector">
-                        <div class="selector">
-                            <div class="selector-line"></div>
-                            <div class="selector-box"><img onclick="editFolder()" src="../assets/global/edit.svg" alt="edit" /></div>
-                        </div>
-                        <div class="line-selector"></div>
-                        <div class="folder-list"></div>
-                    </div>
+                    <div class="folder-list"></div>
                     <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
                 </div>
                 <div class="main-container">
@@ -234,9 +227,9 @@
                 <div class="sub-container">
                     <div class="modulable-header selector-plain">
                         <div class="modulable-left">
-                            <div data-ref="messages" data-module="group-messages" class="module-selected">Groupes<span class="redot"></span></div>
-                            <div data-ref="messages" data-module="private-messages" class="">Privées</div>
-                            <div data-ref="messages" data-module="official-messages" class="">Officiel</div>
+                            <div data-ref="messages" data-module="group-messages" class="module-selected">Alumets<span class="redot"></span></div>
+                            <div data-ref="messages" data-module="private-messages" class="">Privées<span class="redot"></span></div>
+                            <div data-ref="messages" data-module="official-messages" class="">Officiel<span class="redot"></span></div>
                         </div>
                     </div>
                     <div data-reference="messages" class="conversations-container group-messages"></div>

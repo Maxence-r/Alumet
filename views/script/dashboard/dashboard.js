@@ -23,10 +23,12 @@ if (redirect) {
     }
 }
 
-fetch('/dashboard/items')
+fetch('/dashboard/identity')
     .then(response => response.json())
     .then(data => {
-
+        createNotifications(data.invitations);
+        socket.emit('joinDashboard', data.user._id);
+        updateInfos(data.user);
         data.alumets.forEach(alumet => {
             if (alumet.type === 'alumet') {
                 const alumetBox = createAlumetBox(alumet.title, alumet.lastUsage, alumet.background, alumet._id);

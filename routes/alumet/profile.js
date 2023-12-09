@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Account = require('../../models/account');
-const bcrypt = require('bcrypt');
 
 const A2f = require('../../models/a2f');
 const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
 
 router.put('/updateinfos', async (req, res) => {
     try {
-        const { username, messageP, messageG, invitationC, commentP, alumetA } = req.body;
+        const { username } = req.body;
         const user = await Account.findById(req.user.id);
         if (!user) {
             return res.status(401).json({ error: 'Utilisateur non trouvé !' });

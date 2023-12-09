@@ -10,6 +10,10 @@ function createOption(folder) {
 
 function createFolderElement(folder) {
     const h2 = document.createElement('h2');
+    h2.onclick = () => {
+        loadFolder(folder._id);
+    };
+
     h2.dataset.id = folder._id;
     h2.innerText = folder.name;
     return h2;
@@ -271,8 +275,8 @@ function triggerFolder() {
         folder.addEventListener('click', () => {
             folderElements.forEach(folder => folder.classList.remove('active-folder'));
             folder.classList.add('active-folder');
-            const selector = document.querySelector('.selector');
-            selector.style.top = `${folder.getBoundingClientRect().top - 26.5}px`;
+
+
             loadFolder(folder.dataset.id);
         });
     });
@@ -340,7 +344,8 @@ folderSelection.addEventListener('change', e => {
     loadFolder(e.currentTarget.value);
 });
 
-fetch('/cdn/folder/list', {
+let files = null;
+fetch('/cdn/content', {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
@@ -348,13 +353,9 @@ fetch('/cdn/folder/list', {
 })
     .then(res => res.json())
     .then(data => {
+        files = data;
         data.forEach(addFolder);
-        if (data.length === 0) {
-            return (document.querySelector('.cloud > .full-screen').style.display = 'flex');
-        }
-        document.querySelector('.folder-list > h2:first-child').classList.add('active-folder');
-        loadFolder(data[0]._id);
-        triggerFolder();
+        document.querySelector('.folder-list > h2:first-child').click();
     });
 
 document.querySelectorAll('.files-items > div').forEach(file => {
@@ -363,11 +364,28 @@ document.querySelectorAll('.files-items > div').forEach(file => {
     });
 });
 
-document.querySelector('.folder-selector').addEventListener('scroll', () => {
-    let top = document.querySelector('.active-folder').getClientRects()[0].top;
-    document.querySelector('.selector').style.top = `${top - 26.5}px`;
-});
 
+
+function loadFolder(id) {
+    document.querySelectorAll('.file-item').forEach(file => file.remove());
+    localStorage.setItem('currentFolder', id);
+    document.querySelectorAll('.active-folder').forEach(folder => folder.classList.remove('active-folder'));
+    const loading = document.querySelector('.files-items > .full-screen')
+    document.querySelector(`[data-id="${id}"]`).classList.add('active-folder');
+    document
+    files.forEach(folder => {
+        if (folder._id === id) {
+            if (folder.uploads.length === 0) {
+                loading.style.display = 'flex';
+            } else {
+                loading.style.display = 'none';
+                folder.uploads.forEach(file => {
+                    document.querySelector('.files-items').appendChild(createFileElement(file));
+                });
+            }
+        }
+    });
+}
 
 
 document.getElementById('search-bar').addEventListener('input', e => {

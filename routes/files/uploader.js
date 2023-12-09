@@ -18,6 +18,24 @@ const storage = multer.diskStorage({
     },
 });
 
+router.get('/content', authorize(), async (req, res) => {
+    try {
+        let folders = await Folder.find({ owner: req.user.id })
+            .sort({ lastUsage: -1 })
+            .lean();
+
+        // Use Promise.all to wait for all Upload.find operations to complete
+        await Promise.all(folders.map(async (folder) => {
+            folder.uploads = await Upload.find({ folder: folder._id, mimetype: req.query.type || { $exists: true } })
+                .sort({ _id: -1 });
+        }));
+
+        res.json(folders);
+    } catch (error) {
+        console.log(error);
+        res.json({ error });
+    }
+});
 router.post('/folder/create', authorize(), (req, res) => {
     const folder = new Folder({
         name: req.body.name,

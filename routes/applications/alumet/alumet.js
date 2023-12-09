@@ -60,24 +60,4 @@ router.get('/:alumet/content', authorize('alumet', 'alumetPrivate'), validateObj
 });
 
 
-
-
-
-router.delete('/:alumet/participant/:participant', authorize('alumet', 'itemAdmins'), validateObjectId, async (req, res) => {
-    try {
-        const alumet = await Alumet.findOne({ _id: req.params.alumet });
-        if (!alumet) {
-            return res.status(404).json({ error: 'Unable to proceed your requests' });
-        }
-        if (alumet.owner !== req.user.id) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
-        alumet.participants = alumet.participants.filter(participant => participant.userId !== req.params.participant);
-        await alumet.save();
-        res.json({ success: true });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'An error occurred while deleting the participant.' });
-    }
-});
 module.exports = router;

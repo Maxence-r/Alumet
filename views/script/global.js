@@ -123,7 +123,7 @@ function relativeTime(timestamp) {
     const diffInHours = Math.floor(diffInMinutes / 60);
     const diffInDays = Math.floor(diffInHours / 24);
     if (diffInMinutes <= 0) {
-        return "À l'instant";
+        return "à l'instant";
     } else if (diffInMinutes < 60) {
         return 'il y a ' + diffInMinutes + 'min';
     } else if (diffInHours < 24) {
@@ -137,20 +137,6 @@ function cancelLoading(classLoading) {
     document.querySelector(`.${classLoading}`).classList.remove('button--loading');
 }
 
-function getMyInfos() {
-    return new Promise((resolve, reject) => {
-        fetch('/auth/info')
-            .then(response => response.json())
-            .then(json => {
-                user = json.user;
-                resolve(json);
-            })
-            .catch(error => {
-                console.error(error);
-                reject(error);
-            });
-    });
-}
 
 function next(current, next) {
     let hasEmptyInput = false;
@@ -189,10 +175,10 @@ function toggleParticipant(id) {
 function endLoading() {
     setTimeout(() => {
         document.querySelector('.loading').classList.add('hidden-loading');
-    }, 600);
+    }, 900);
     setTimeout(() => {
         document.querySelector('.loading').style.display = 'none';
-    }, 1200);
+    }, 1600);
 }
 
 const searchUsers = async (query, type) => {
@@ -257,30 +243,7 @@ const searchUsers = async (query, type) => {
     }
 };
 
-function loadFolder(id) {
-    document.querySelector('.files-items').classList.add('loading-files');
-    localStorage.setItem('currentFolder', id);
-    fetch(`/cdn/folder/${id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.length === 0) {
-                document.querySelector('.files-items > .full-screen').style.display = 'flex';
-            } else {
-                document.querySelector('.files-items > .full-screen').style.display = 'none';
-            }
-            document.querySelectorAll('.file-item').forEach(file => file.remove());
-            data.forEach(file => {
-                const fileElement = createFileElement(file);
-                document.querySelector('.files-items').appendChild(fileElement);
-            });
-            document.querySelector('.files-items').classList.remove('loading-files');
-        });
-}
+
 
 const userPrompt = document.querySelector('#user-prompt');
 const debounceDelay = 500;
@@ -318,7 +281,7 @@ function updateStatusPercentages(flashcards) {
     }
     for (const [key, value] of Object.entries(percentages)) {
         document.querySelector(`[data-bar="${key}"]`).style.width = `${value}%`;
-    }  
+    }
 }
 
 document.querySelectorAll('[data-module]').forEach(element => {
@@ -349,10 +312,4 @@ document.querySelectorAll('.connect').forEach(e => {
     });
 });
 
-function copyText(text) {
-    navigator.clipboard.writeText(text).then(function () {
-        console.log('Copying to clipboard was successful!');
-    }, function (err) {
-        console.error('Could not copy text: ', err);
-    });
-}
+
