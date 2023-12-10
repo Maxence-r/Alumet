@@ -49,7 +49,7 @@ async function sendFiles() {
             if (folder) {
                 folder.uploads.push(data.file);
             }
-            document.querySelector('.files-items').appendChild(createFileElement(data.file));
+            document.querySelector('.files-items').prepend(createFileElement(data.file));
 
             index++;
             const fileProgress = index * progressRatio;

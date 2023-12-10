@@ -135,6 +135,15 @@ function deleteFile() {
             });
             document.querySelector('.files-items > div[data-id="' + localStorage.getItem('currentFile') + '"]').remove();
             document.querySelector('.file-info').classList.add('no-selected-file');
+            files.forEach(folder => {
+                if (folder._id === localStorage.getItem('currentFolder')) {
+                    folder.uploads.forEach((file, index) => {
+                        if (file._id === localStorage.getItem('currentFile')) {
+                            folder.uploads.splice(index, 1);
+                        }
+                    });
+                }
+            });
             document.querySelector('.right-container').classList.remove('active-sub-container');
             localStorage.removeItem('currentFile');
             if (document.querySelector('.active-popup')) {

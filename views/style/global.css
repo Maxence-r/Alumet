@@ -275,7 +275,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 88px;
+    min-height: 90px;
     border-radius: 8px;
     padding: 10px;
     border: 2px dashed #e5e5e5;
@@ -284,7 +284,7 @@
 }
 
 .drop-box:hover {
-    background-color: #f6f8fc;
+    box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.1);
 }
 
 .sending-box {
@@ -292,7 +292,7 @@
     align-items: center;
     padding: 8px;
     position: absolute;
-    width: calc(100% - 16px);
+    width: calc(100% - 20px);
     border-radius: 5px;
     bottom: 10px;
     pointer-events: none;
@@ -426,14 +426,18 @@
 .loading-box > img {
     width: 20px;
 }
-.indications > p {
-    font-size: 0.9rem;
-    font-weight: bold;
-    text-align: center;
-    margin: 0;
-    color: black;
-    text-align: center;
-    transition: all 0.3s ease-in-out;
+.indications > div {
+    width: 46px;
+    height: 46px;
+    background-color: #f6f8fc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.indications > div > img {
+    width: 18px;
 }
 
 input {
@@ -1465,7 +1469,7 @@ select {
 }
 
 .modulable-right > button {
-    border-radius: 6px;
+    border-radius: 8px;
     height: 100%;
 }
 .modulable-right > input {
@@ -1666,7 +1670,6 @@ select {
 
 h1 {
     font-size: 28px;
-    font-weight: 500;
     margin: 0;
 }
 
