@@ -292,7 +292,7 @@ document.querySelectorAll('[data-module]').forEach(element => {
             targets2.forEach(target2 => {
                 target2.style.display = 'none';
             });
-            document.querySelector(`.${element.dataset.module}`).style.display = 'grid';
+            document.querySelector(`.${element.dataset.module}`).style.display = 'flex';
             target.classList.remove('module-selected');
             element.classList.add('module-selected');
 

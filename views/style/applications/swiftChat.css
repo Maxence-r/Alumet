@@ -22,30 +22,6 @@
     object-fit: cover;
 }
 
-.sub-infos {
-    display: flex;
-    overflow: hidden;
-    flex-direction: column;
-}
-
-.sub-infos > h4 {
-    overflow-x: auto;
-    white-space: nowrap;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 0;
-}
-
-.sub-infos > p {
-    font-size: 0.8rem;
-    color: #9ea1a7;
-    font-weight: 400;
-    margin: 0;
-}
-
 .options {
     display: flex;
     flex-direction: row;

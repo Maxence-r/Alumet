@@ -1,8 +1,8 @@
 // Modify user informations
 
 /** set up the div elements, etc from the html page */
-let userName = document.querySelector('.user-infos > .sub-infos > h4');
-let userMail = document.querySelector('.user-infos > .sub-infos > p');
+let userName = document.querySelector('.user-infos > .user-details > h3');
+let userMail = document.querySelector('.user-infos > .user-details > p');
 let userIcon = document.querySelector('.user-infos > img');
 
 let userFirstNameInput = document.getElementById('firstnameField');
@@ -91,7 +91,7 @@ function handleReset() {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            mail: user.mail,
+            mail: identity.user.mail,
         }),
     })
         .then(res => res.json())
@@ -113,7 +113,7 @@ function resetPassword(code) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            mail: user.mail,
+            mail: identity.user.mail,
             code: code,
             password: document.getElementById('prompt-input').value,
         }),
@@ -224,7 +224,7 @@ document.getElementById('profile-picture-input').addEventListener('change', asyn
             toast({ title: 'Image de profil modifiée !', message: 'Votre image de profil a bien été modifiée', type: 'success', duration: 2500 });
             document.getElementById('profile-picture').src = '/cdn/u/' + updateData.icon;
             document.getElementById('profile-picture').alt = 'user icon';
-            const userInfos = user;
+            const userInfos = identity.user;
             userInfos.icon = updateData.icon;
             user = userInfos;
         } else {

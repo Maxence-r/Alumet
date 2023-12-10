@@ -527,8 +527,8 @@ textarea {
 
 .item > h3 {
     font-size: 1rem;
-    font-weight: 400;
-    color: #9ea1a7;
+    font-weight: bold;
+    color: #000000;
     margin: 0;
 }
 
@@ -1324,6 +1324,7 @@ select {
 
 .module {
     display: none;
+    flex-direction: column;
 }
 
 .participants-container {
@@ -1340,8 +1341,47 @@ select {
     padding: 0 5%;
     height: 52px;
     font-size: 0.95rem;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.user-details > h3 {
+    display: flex;
+    font-size: 1.1rem;
     font-weight: 500;
-    border-radius: 6px;
+    color: rgb(0, 0, 0);
+    margin: 0;
+}
+
+.user-details > p {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: rgb(124, 124, 124);
+    margin: 0;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.user-infos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #e5e5e5;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    gap: 10px;
+}
+
+.user-infos > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
 }
 
 .modulable-header {
@@ -1349,8 +1389,8 @@ select {
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
+    border: 1px solid #ebebeb;
+    border-radius: 15px;
     padding: 8px;
 }
 .modulable-left::-webkit-scrollbar {

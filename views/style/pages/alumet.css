@@ -110,7 +110,7 @@ body {
     font-weight: 400;
 
     background-color: rgba(255, 0, 0, 0.199);
-    border: 1px solid #af0000;
+    margin-bottom: 5px;
     padding: 6px;
     border-radius: 5px;
 }
@@ -124,43 +124,6 @@ body {
     overflow: auto;
     border-radius: 5px;
     height: 100%;
-}
-
-.user-infos {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border: 1px solid #e5e5e5;
-    padding: 10px;
-    border-radius: 10px;
-    gap: 10px;
-}
-
-.user-infos > img {
-    width: 50px;
-    height: 50px;
-    border-radius: 5px;
-    object-fit: cover;
-}
-
-.user-details {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.user-details > h3 {
-    font-size: 1.2rem;
-    font-weight: 500;
-    margin: 0;
-    word-break: break-all;
-}
-
-.user-details > p {
-    font-size: 0.9rem;
-    font-weight: 400;
-    margin: 0;
-    color: #9ea1a7;
 }
 
 .admin {
@@ -692,6 +655,8 @@ latex {
     z-index: 10;
     font-size: 14px;
     font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin: 0;
     color: #fff;
 }

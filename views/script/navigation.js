@@ -73,6 +73,10 @@ overlay.addEventListener('click', function (event) {
 
 function enableConnected(data) {
     if (data.username) {
+        document.querySelectorAll('.connect').forEach(el => {
+            el.style.display = 'none';
+        });
+
         if (data.admin) {
             document.querySelectorAll('.admin').forEach(el => {
                 el.style.display = 'flex';

@@ -1,6 +1,6 @@
 const navButtons = document.querySelectorAll('.nav > button');
 const sections = document.querySelectorAll('.sections-container > section');
-
+let identity = null;
 navButtons.forEach(button => {
     button.addEventListener('click', () => {
         navButtons.forEach(button => button.classList.remove('active'));
@@ -26,6 +26,7 @@ if (redirect) {
 fetch('/dashboard/identity')
     .then(response => response.json())
     .then(data => {
+        identity = data;
         createNotifications(data.invitations);
         socket.emit('joinDashboard', data.user._id);
         updateInfos(data.user);
