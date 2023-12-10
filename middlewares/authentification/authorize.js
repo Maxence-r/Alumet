@@ -12,7 +12,7 @@ const authorize = (itemType, type) => {
             return next();
         }
 
-        if (!req.connected) return res.redirect('/auth/signin');
+        if (!req.connected) return res.status(401).json({ error: 'Vous n\'êtes pas connecté !' });
         let error;
         if (type === 'professor' && req.user.accountType !== 'professor' && req.user.accountType !== 'staff') error = 'Cette action ne peux pas être réaliser par votre compte (compte ELEVE)';
         else if (type === 'student' && req.user.accountType !== 'student' && req.user.accountType !== 'staff') error = 'Unauthorized x002';

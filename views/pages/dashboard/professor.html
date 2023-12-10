@@ -71,6 +71,7 @@
         <section class="sections-container">
             <section class="home active-section">
                 <div class="main-container">
+                    <div class="warning-box">Your account has been suspended, please check your indox for more details</div>
                     <div class="modulable-header">
                         <div class="modulable-left">
                             <div data-ref="items" data-module="alumets" class="module-selected">Alumets</div>
@@ -81,7 +82,7 @@
                             <button onclick="startSetup()" class="large">Nouveau</button>
                         </div>
                     </div>
-                    <div data-reference="items" style="display: grid" class="module items alumets"></div>
+                    <div data-reference="items" style="display: flex" class="module items alumets"></div>
                     <div data-reference="items" class="module items flashcards"></div>
                     <div data-reference="items" class="module items mindmaps"></div>
                 </div>
@@ -125,9 +126,6 @@
             <!-- ================ Cloud =================== -->
             <section class="cloud">
                 <div class="sub-container">
-                    <div class="sub-item">
-                        <h4>Mes dossiers</h4>
-                    </div>
                     <div class="folder-list"></div>
                     <button onclick="newFolder()" id="new-folder" class="large">Nouveau dossier</button>
                 </div>
@@ -138,10 +136,7 @@
                     </div>
                     <div class="drop-box">
                         <div class="indications">
-                            <p>
-                                Cliquer pour envoyer de nouveaux fichiers.<br />
-                                Chaque envoi peut contenir jusqu’à 500 fichiers
-                            </p>
+                            <p>Cliquer pour envoyer de nouveaux fichiers dans ce dossier.</p>
                         </div>
                         <div class="sending-box">
                             <div class="loading-box">
@@ -170,9 +165,6 @@
                         <input id="search-bar" placeholder="Rechercher un fichier" type="text" name="search" />
                     </div>
                     <div class="files-items connected">
-                        <div class="loader-container">
-                            <span class="loader"></span>
-                        </div>
                         <div class="full-screen">
                             <h1>Pas de fichiers</h1>
                             <p>Ce dossier ne contient pas de fichiers</p>

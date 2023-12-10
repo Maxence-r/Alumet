@@ -14,9 +14,8 @@ body {
     position: relative;
     padding: 10px;
     flex-direction: column;
-    padding-left: 30px;
     align-items: center;
-    width: 130px;
+    width: 110px;
     border: 1px solid #ebebeb;
     background-color: white;
     height: 100%;
@@ -157,7 +156,7 @@ body {
     min-height: 50px;
     margin-top: auto;
     width: 100%;
-    border-radius: 6px;
+    border-radius: 12px;
 }
 
 .showing-group-settings > .conversation-settings {
@@ -213,6 +212,14 @@ body {
 
 .messages > .sub-container > button {
     min-height: 50px;
+    border-radius: 12px;
+}
+
+.edit-icon {
+    width: 14px;
+    opacity: 0;
+    margin-left: auto;
+    transition: all 0.3s ease-in-out;
 }
 
 .setup-modal {
@@ -710,12 +717,13 @@ h2 {
 .actions-buttons-file > div {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 10px;
     width: 100%;
 }
 
 .actions-buttons-file > div > button {
-    width: 100%;
+    flex: 1;
 }
 
 .actions-buttons-file > button {
@@ -881,7 +889,8 @@ h3 {
     position: relative;
     display: flex;
     flex-direction: column;
-
+    flex: 1;
+    min-width: 250px;
     gap: 2px;
     padding: 10px;
     width: 100%;
@@ -948,12 +957,11 @@ h3 {
 
 .items {
     display: none;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    flex-direction: row !important;
+    flex-wrap: wrap;
     grid-gap: 15px;
     position: relative;
     flex-direction: row;
-
-    overflow-y: auto;
 }
 
 .notification {
@@ -1061,7 +1069,8 @@ h3 {
 
 .alumet-box {
     position: relative;
-    width: 100%;
+    min-width: 250px;
+    flex: 1;
     height: 175px;
     border-radius: 10px;
     overflow: hidden;
@@ -1145,7 +1154,7 @@ h3 {
     position: relative;
     display: flex;
     flex-direction: column;
-    margin: 10px 0;
+    margin-bottom: 10px;
     gap: 5px;
     width: 100%;
     overflow: auto;
@@ -1373,11 +1382,10 @@ h3 {
     display: flex;
 }
 
-.folder-list > h2 {
-    font-size: 0.9rem;
-    font-weight: 500;
+.folder-list > div {
+    display: flex;
     padding: 14px;
-    border-radius: 5px;
+    border-radius: 12px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1386,6 +1394,15 @@ h3 {
     cursor: pointer;
     min-height: 44px;
     transition: all 0.3s ease-in-out;
+}
+
+.folder-list > div > h2 {
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    margin: 0;
+    color: #000000;
 }
 
 #custom-select > div {
@@ -1469,10 +1486,18 @@ h3 {
     margin-bottom: 60px;
 }
 
-.active-folder {
+.active-folder > h2 {
     color: #1e54e3 !important;
-    background-color: #e4edff;
+    font-weight: bold !important;
+}
+
+.active-folder {
     padding-left: 20px !important;
+    background-color: #e4edff;
+}
+
+.active-folder > img {
+    opacity: 1;
 }
 
 .home > .main-container {

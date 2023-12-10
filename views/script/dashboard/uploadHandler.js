@@ -20,17 +20,17 @@ function cancelSend() {
 }
 
 async function sendFiles() {
-    const files = document.querySelector('.drop-box > input').files;
+    const filesToUpload = document.querySelector('.drop-box > input').files;
     const fileInfoHead = document.querySelector('.file-sending-infos > h3');
     const fileInfoSub = document.querySelector('.file-sending-infos > p');
     const progress = document.querySelector('.progress');
-    const progressRatio = 100 / files.length;
+    const progressRatio = 100 / filesToUpload.length;
 
     document.querySelector('.drop-box').classList.remove('ready-to-send');
     document.querySelector('.drop-box').classList.add('sending-data');
     let index = 0;
     try {
-        for (const file of files) {
+        for (const file of filesToUpload) {
             const formData = new FormData();
             formData.append('file', file);
             fileInfoHead.innerHTML = `<span>Envoi de</span> ${file.name}`;
@@ -43,6 +43,14 @@ async function sendFiles() {
             if (data.error) {
                 throw new Error(data.error);
             }
+
+            const folder = files.find(folder => folder._id === localStorage.getItem('currentFolder'));
+
+            if (folder) {
+                folder.uploads.push(data.file);
+            }
+            document.querySelector('.files-items').appendChild(createFileElement(data.file));
+
             index++;
             const fileProgress = index * progressRatio;
             progress.style.width = `${fileProgress}%`;
@@ -65,6 +73,5 @@ async function sendFiles() {
         document.querySelector('.drop-box').classList.remove('sending-data');
     } finally {
         document.querySelector('.drop-box').classList.remove('ready-to-send');
-        loadFolder(localStorage.getItem('currentFolder'));
     }
 }

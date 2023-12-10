@@ -1,5 +1,5 @@
 socket.on("connect", () => {
-    console.log(socket.id);
+    //
 });
 
 socket.io.on("reconnect", () => {

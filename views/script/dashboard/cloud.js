@@ -9,14 +9,24 @@ function createOption(folder) {
 }
 
 function createFolderElement(folder) {
-    const h2 = document.createElement('h2');
-    h2.onclick = () => {
+    const div = document.createElement('div');
+    div.onclick = () => {
         loadFolder(folder._id);
     };
-
-    h2.dataset.id = folder._id;
+    let h2 = document.createElement('h2');
+    div.dataset.id = folder._id;
     h2.innerText = folder.name;
-    return h2;
+    let edit = document.createElement('img');
+    edit.src = '../assets/global/edit.svg';
+    edit.alt = 'edit icon';
+    edit.classList.add('edit-icon');
+    edit.onclick = () => {
+        localStorage.setItem('currentFolder', folder._id);
+        editFolder();
+    };
+    div.appendChild(h2);
+    div.appendChild(edit);
+    return div;
 }
 
 function openDetails(id) {
@@ -218,9 +228,9 @@ function deleteFolder(id) {
                 type: 'success',
                 duration: 5000,
             });
-            const folder = folderList.querySelector(`h2[data-id="${localStorage.getItem('currentFolder')}"]`);
+            const folder = folderList.querySelector(`div[data-id="${localStorage.getItem('currentFolder')}"]`);
             folder.remove();
-            if (document.querySelector('.folder-list > h2')) document.querySelector('.folder-list > h2:first-child').click();
+            if (document.querySelector('.folder-list > div')) document.querySelector('.folder-list > div:first-child').click();
             else document.querySelector('.cloud > .full-screen').style.display = 'flex';
             document.querySelector('.active-popup').classList.remove('active-popup');
         });
@@ -263,7 +273,7 @@ function renameFolder() {
                 type: 'success',
                 duration: 5000,
             });
-            const folder = folderList.querySelector(`h2[data-id="${localStorage.getItem('currentFolder')}"]`);
+            const folder = folderList.querySelector(`div[data-id="${localStorage.getItem('currentFolder')}"] > h2`);
             folder.innerText = name;
         });
 }
@@ -328,7 +338,7 @@ function createFolder() {
             }
             document.querySelector('.cloud > .full-screen').style.display = 'none';
             addFolder(data);
-            triggerFolder();
+            /*             triggerFolder(); */
             const folder = folderList.querySelector(`h2[data-id="${data._id}"]`);
             folder.click();
             toast({
@@ -355,14 +365,13 @@ fetch('/cdn/content', {
     .then(data => {
         files = data;
         data.forEach(addFolder);
-        document.querySelector('.folder-list > h2:first-child').click();
+        if (data.length > 0) {
+            document.querySelector('.folder-list > div:first-child').click();
+        } else {
+            document.querySelector('.cloud > .full-screen').style.display = 'flex';
+        }
     });
 
-document.querySelectorAll('.files-items > div').forEach(file => {
-    file.addEventListener('click', e => {
-        document.querySelector('.right-container').classList.add('active-sub-container');
-    });
-});
 
 
 

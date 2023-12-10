@@ -53,19 +53,33 @@ router.get('/folder/list', authorize(), (req, res) => {
         .then(folders => res.json(folders))
         .catch(error => res.json({ error }));
 });
-router.delete('/folder/delete/:id', authorize(), validateObjectId, (req, res) => {
+router.delete('/folder/delete/:id', authorize(), validateObjectId, async (req, res) => {
     if (!req.connected)
         return res.status(401).json({
             error: "Vous n'avez pas les permissions pour effectuer cette action !",
         });
-    Folder.findOne({ _id: req.params.id, owner: req.user.id })
-        .then(folder => {
-            if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
-            folder.remove();
-            Upload.deleteMany({ folder: folder._id });
-            res.json(folder);
-        })
-        .catch(error => res.json({ error }));
+    try {
+        const folder = await Folder.findOne({ _id: req.params.id, owner: req.user.id });
+        if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
+        await folder.remove();
+        const uploads = await Upload.find({ folder: folder._id });
+        for (const upload of uploads) {
+            const uploadRecord = await Upload.find({ _id: upload._id });
+            if (!uploadRecord[0]) {
+                return res.status(404).json({ error: 'Fichier non trouvé' });
+            }
+            await uploadRecord[0].deleteOne();
+            await Post.deleteMany({ file: req.params.id });
+            fs.unlink(`./cdn/${uploadRecord[0].filename}`, err => {
+                if (err) {
+                    console.error(err);
+                }
+            });
+        }
+        res.json(folder);
+    } catch (error) {
+        res.json({ error });
+    }
 });
 
 router.post('/folder/rename/:id', authorize(), validateObjectId, (req, res) => {

@@ -54,7 +54,7 @@ router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['
             });
             req.alumetId = alumet._id;
             await alumet.save();
-            /* sendInvitations(req, res, 'alumet', alumet._id); */
+            sendInvitations(req, res, alumet._id);
             res.json({ alumet });
         } else {
             alumet = await Alumet.findByIdAndUpdate(req.body.app, {

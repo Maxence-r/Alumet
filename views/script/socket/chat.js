@@ -1,5 +1,5 @@
 socket.on('connect', () => {
-    console.log('Chat socket connected');
+    //
 });
 
 socket.on('message', (messageObject, user) => {

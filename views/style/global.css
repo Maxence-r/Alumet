@@ -275,9 +275,8 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 115px;
+    min-height: 88px;
     border-radius: 8px;
-    height: 15%;
     padding: 10px;
     border: 2px dashed #e5e5e5;
     margin-bottom: 10px;
@@ -429,7 +428,7 @@
 }
 .indications > p {
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: bold;
     text-align: center;
     margin: 0;
     color: black;
@@ -480,13 +479,12 @@ textarea {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    font-size: 0.8rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
     z-index: 20;
     margin: 0;
-    margin-bottom: 10px;
-    text-align: center;
+    padding: 15px;
+    background-color: rgba(255, 0, 0, 0.199);
 }
 
 #toast {
@@ -1200,17 +1198,6 @@ label.switch:hover {
     margin-left: 52%;
 }
 
-.files-items > .loader-container {
-    position: absolute;
-    width: 100%;
-    display: none;
-    height: 100%;
-    z-index: 2000;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-}
-
 select {
     height: 50px;
     border: none;
@@ -1757,6 +1744,7 @@ h1 {
     }
     .modulable-left > div {
         flex: 1;
+        padding: 0 2%;
         justify-content: center;
     }
     .modulable-header {
