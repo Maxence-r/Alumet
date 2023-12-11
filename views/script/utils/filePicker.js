@@ -21,6 +21,11 @@ function loadFiles() {
         });
 }
 
+
+function createFilePicker(reference, extension) {
+    
+}
+
 function createFileElement(file) {
     const div = document.createElement('div');
     div.dataset.id = file._id;
