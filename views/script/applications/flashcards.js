@@ -160,7 +160,7 @@ function revise(option) {
         return toast({ title: 'Erreur', message: 'Cette option n\'est pas encore disponible', type: 'error', duration: 7500 });
     }
 }
-async function createFlashcards(info, flashcards) {
+async function createFlashcards(info, flashcards) { //FIXME - don't add flashcard when created but modify the last one
     if (!flashcards) {
         console.log('flashcards', flashcards);
         flashcards = JSON.parse(localStorage.getItem('flashcards-ia')) || [];
@@ -177,7 +177,7 @@ async function createFlashcards(info, flashcards) {
 
     setTimeout(() => {
         navbar(currentFlashcard || info == 'ia' ? 'home' : 'flashcards');
-        if (info == 'ia') localStorage.removeItem('flashcards-ia');
+        info == 'ia' ? localStorage.removeItem('flashcards-ia') : null;
     }, 500);
 
     const data = await response.json();

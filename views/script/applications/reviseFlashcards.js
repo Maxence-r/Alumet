@@ -19,14 +19,14 @@ fetch(`/flashcards/${id}/${mode}/content`, {
     headers: {
         'Content-Type': 'application/json',
     }
-    })
+    })  
     .then(res => res.json())
     .then(data => {
         if (mode === 'smart') {
             sections = createSections(data.flashcards);
             currentSection = sections[index];
-            updateSmartStatusPercentages();
-        } else { currentSection = data.flashcards; }
+            updateSmartStatusPercentages(currentSection);
+        } else { currentSection = data.flashcards }
         endLoading();
         triggerFlashcard();
         currentSection.forEach(flashcard => flashcard.numberOfReview = 0);
@@ -42,14 +42,13 @@ async function newStatusToServer(flashcardId, status, cardReview) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status, cardReview }),
+        body: JSON.stringify({ status, cardReview }), //cardReview = true if the flashcard is finished
     })
         .then(res => res.json())
         .then(data => {
             if (mode == 'smart') {
-                currentSection.find(flashcard => flashcard._id === flashcardId).userDatas.smartReview = data.smartReview;
-                updateSmartStatusPercentages(flashcardId);
-                switchSectionIfFinished();
+                const flashcard = currentSection.find(flashcard => flashcard._id === flashcardId);
+                flashcard.userDatas.smartReview = data.smartReview;
             }
         })
         .catch(err => console.log(err));
@@ -93,18 +92,16 @@ function setEventListener(card) {
             card.style.transform = `translate(${toX}px, ${toY + event.deltaY}px) rotate(${rotate}deg)`;
             let status = parseInt(card.dataset.status);
             let newStatus;
-            if (event.deltaX > 0) {
-                newStatus = status === 0 ? 2 : (status < 3 ? status + 1 : 3);
-                triggerFlashcard('love');
-            } else {
-                newStatus = 1;
-                triggerFlashcard('nope');
-            }
+            event.deltaX > 0 ? newStatus = status === 0 ? 2 : (status < 3 ? status + 1 : 3) : newStatus = 1;
+            
             const flashcard = storedData.flashcards.find(flashcard => flashcard._id === card.dataset.id);
-            await newStatusToServer(card.dataset.id, newStatus, verifyIfFlashcardFinish(flashcard));
-            setTimeout(() => {
-                currentSection.length == 1 ? document.querySelector('.flashcards.loaded > div:first-child').style.display = 'none' : null;
-            }, 75); //FIXME - this is a temporary fix, the problem is that there is a latence during modifying currentSection.
+            triggerFlashcard(newStatus); // modifie status sur client et modifie emplacement carte
+            updateSmartStatusPercentages(flashcard);
+            mode === 'sandbox' ? updateStatusPercentages(currentSection) : null;
+            currentSection.length == 1 ? document.querySelector('.flashcards.loaded > div:first-child').style.display = 'none' : null;
+            currentSection.length == 0 ? switchSectionIfFinished() : null;
+            
+            await newStatusToServer(card.dataset.id, newStatus, verifyIfFlashcardFinish(flashcard)); // modifie status sur serveur
             setTimeout(() => {
                 card.remove();
             }, 300);
@@ -145,86 +142,96 @@ function addFlashcard(id, question, answer, status, date) {
     newCard.appendChild(p);
     flashcardContainer.appendChild(newCard);
     setEventListener(newCard);
-    currentSection[0] ? document.querySelector('.flashcards.loaded > div:first-child').style.border = `2px solid ${statusInfos[currentSection[0].userDatas.status].color}` : null;
-}
-function triggerFlashcard(direction) {
-    if (currentSection && currentSection.length > 0) {
-        let card = currentSection[0];
-        const lastFlashcard = currentSection[currentSection.length - 1];
-        function modifyStatus(status) {
-            lastFlashcard.userDatas.status = status;
-            status == 3 ? lastFlashcard.numberOfReview++ : lastFlashcard.numberOfReview = 0;
-        };
-
-        if (direction === 'love') {
-            lastFlashcard.userDatas.status === 0 ? modifyStatus(2) : modifyStatus (lastFlashcard.userDatas.status === 3 ? 3 : lastFlashcard.userDatas.status + 1);
-        } else if (direction === 'nope') { modifyStatus(1) };
-        currentSection.shift();
-        addFlashcard(card._id, card.question, card.answer, card.userDatas?.status, card.userDatas?.lastReview);
-        currentSection.push(card);
-        mode === 'sandbox' ? updateStatusPercentages(currentSection) : null;
-    } else {
-        console.log('no more flashcards');
+    // modify design of the flashcard behind
+    if (currentSection[1]) {
+        document.querySelector('.flashcards.loaded > div:first-child').style.border = `2px solid ${statusInfos[currentSection[1].userDatas.status].color}`;
+        document.querySelector('.flashcards.loaded > div:first-child > h3').innerText = currentSection[1].question;
     }
+}
+
+function triggerFlashcard(newStatus) {
+    if (currentSection.length === 0) return;
+    let newCard = currentSection[0];  // next flashcard
+    const lastFlashcard = currentSection[currentSection.length - 1]; // flashcard running
+
+    if (newStatus) {
+        lastFlashcard.userDatas.status = newStatus;
+        lastFlashcard.numberOfReview = newStatus === 3 ? lastFlashcard.numberOfReview + 1 : 0;
+        currentSection.pop();
+        newStatus === 1 ? currentSection.splice(3, 0, lastFlashcard) : currentSection.push(lastFlashcard);
+    }
+    addFlashcard(newCard._id, newCard.question, newCard.answer, newCard.userDatas?.status, newCard.userDatas?.lastReview);
+    currentSection.shift();
+    currentSection.push(newCard);
 }
 //!SECTION - Global functions
 
 //SECTION - Smart mode functions
 function createSections (flashcards) {
     for (let i = 0; i < flashcards.length; i++) {
-        const sectionIndex = Math.floor(i / 10);
+        const sectionIndex = Math.floor(i / 4);
         if (!sections[sectionIndex]) {
             sections[sectionIndex] = [];
         }
         sections[sectionIndex].push(flashcards[i]);
     }
+    console.log(`There is ${sections.length} sections of revision`);
     return sections;
 }
+
 const switchSectionIfFinished = () => {
     function next() {
-        document.querySelectorAll('.flashcard--card').forEach(card => card.remove());
-        document.querySelector('.completed-flashcards').style.display = 'none';
-        updateSmartStatusPercentages();
+        Array.from(document.querySelectorAll('.flashcard--card'))
+            .filter(card => !card.classList.contains('behind-flashcard'))
+            .forEach(card => card.remove());
+        document.querySelector('.completed-flashcards').innerHTML = '';
+        document.querySelector('.ongoing-flashcards').innerHTML = '';
+        document.querySelector('.flashcards.loaded > div:first-child').style.display = 'flex';
+        updateSmartStatusPercentages(currentSection);
         triggerFlashcard();
     }
     if (!sections[index + 1] && currentSection.length === 0) {
         console.log('no more sections'); //TODO - make end of revision page
-        next();
-    } else if (currentSection.every(flashcard => verifyIfFlashcardFinish(flashcard))) {
+    } else if (currentSection.length === 0) {
         console.log('section finished, switching to next section'); //TODO - make end of section page + add a button to go to next section
         index++;
         currentSection = sections[index];
         next();
     } else console.log('Section not finished, staying in current');
 }
-const updateSmartStatusPercentages = (flashcardId) => {
+
+const updateSmartStatusPercentages = (flashcards) => {
     const completedFlashcardsContainer = document.querySelector('.completed-flashcards');
     const ongoingFlashcardsContainer = document.querySelector('.ongoing-flashcards');
+
     function validateElement (flashcardId) {
+        currentSection = currentSection.filter(flashcard => flashcard._id !== flashcardId);
         const element = ongoingFlashcardsContainer.querySelector(`[data-id="${flashcardId}"]`);
         element.remove();
         completedFlashcardsContainer.prepend(element);
-        currentSection = currentSection.filter(flashcard => flashcard._id !== flashcardId);
     }
-    function addOrModifyElement (flashcard) {
+    function modifyElement (flashcard, isBad) {
         const status = flashcard.userDatas.status;
-        const element = ongoingFlashcardsContainer.querySelector(`[data-id="${flashcardId}"]`);
-        if (element) {
-            element.dataset.cellulestatus = status;
-            element.remove();
-            ongoingFlashcardsContainer.appendChild(element);
-        } else {
-            const newElement = document.createElement('div');
-            newElement.dataset.id = flashcard._id;
-            newElement.dataset.cellulestatus = status;
-            ongoingFlashcardsContainer.appendChild(newElement);
-        }
-        verifyIfFlashcardFinish(flashcard) && flashcardId ? validateElement(flashcardId) : null;
+        const element = ongoingFlashcardsContainer.querySelector(`[data-id="${flashcard._id}"]`);
+        element.dataset.cellulestatus = status;
+        element.remove();
+        isBad ? ongoingFlashcardsContainer.insertBefore(element, ongoingFlashcardsContainer.children[3]) : ongoingFlashcardsContainer.appendChild(element);
+        verifyIfFlashcardFinish(flashcard) && flashcard._id ? validateElement(flashcard._id) : null;
     }
-    if (!flashcardId) {
-        document.querySelectorAll('.smart-progression > div').forEach(div => div.innerHTML = '');
-        currentSection ? currentSection.forEach(flashcard => addOrModifyElement(flashcard)) : console.log('no flashcards');
-    } else { addOrModifyElement(storedData.flashcards.find(flashcard => flashcard._id === flashcardId)) };
+    function addElement (flashcard) {
+        const status = flashcard.userDatas.status;
+        const newElement = document.createElement('div');
+        newElement.dataset.id = flashcard._id;
+        newElement.dataset.cellulestatus = status;
+        ongoingFlashcardsContainer.appendChild(newElement);
+    }
+    if (Array.isArray(flashcards)) { //check if flashcards is an array or a single flashcard
+        console.log('im an array')
+        flashcards.forEach(flashcard => {
+            const element = ongoingFlashcardsContainer.querySelector(`[data-id="${flashcard._id}"]`);
+            element ? modifyElement(flashcard) : addElement(flashcard);
+        });
+    } else { flashcards.userDatas.status === 1 ? modifyElement(flashcards, true) : modifyElement(flashcards) }
 
     const numberOfFlashcards = sections[index].length;
     const elementWidth = 100 / numberOfFlashcards;
