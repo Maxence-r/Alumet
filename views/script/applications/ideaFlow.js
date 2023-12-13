@@ -164,7 +164,7 @@ class MindMapBoard {
         }
     }
 
-    createAndInsertBlock(id, title, description, x, y, additionalGridUnitsX) {
+    createAndInsertBlock(id, title, description, x, y, additionalGridUnitsX = 0) {
         this.blocks[id] = { title, description, x, y, additionalGridUnitsX };
 
         const elem = this.constructor.createBlock(title, description);
