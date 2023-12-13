@@ -40,7 +40,9 @@ class MindMapBoard {
     onWheel(e) {
         e.preventDefault();
 
-        const { x, y } = this.mousePosOnBoard(e);
+        const { x: xZoom, y: yZoom } = this.mousePosOnBoard(e);
+        const x = xZoom * this.zoom;
+        const y = yZoom * this.zoom;
 
         const delta = e.deltaY > 0 ? 0.9 : 1.1;
         if (this.zoom * delta < 0.1 || this.zoom * delta > 1.5) return;
@@ -52,9 +54,6 @@ class MindMapBoard {
         this.updateBoardTransform();
     }
 
-
-
-
     mousePosOnBoard(e) {
         const rect = this.svg.getBoundingClientRect();
 
@@ -63,7 +62,7 @@ class MindMapBoard {
         const width = rect.width;
         const height = rect.height;
 
-        return { x, y, width, height };
+        return { x: x / this.zoom, y: y / this.zoom, width, height };
     }
 
     static createBlock(title, description) {
@@ -111,7 +110,7 @@ class MindMapBoard {
             const additionalX = dataBlock.additionalGridUnitsX;
             const trueWidth = domBlock.firstChild.clientWidth - additionalX * this.gridSize;
 
-            const neededX = Math.max(Math.round((this.mousePosOnBoard(e).x - this.blocksGroupDrag.x - dataBlock.x - trueWidth) / this.gridSize), 0);
+            const neededX = Math.max(Math.round((this.mousePosOnBoard(e).x - this.blocksGroupDrag.x / this.zoom - dataBlock.x - trueWidth) / this.gridSize), 0);
             if (neededX === additionalX) return;
 
             dataBlock.additionalGridUnitsX = neededX;
