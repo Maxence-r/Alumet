@@ -315,3 +315,114 @@ function confirmDeleteItem() {
             }
         });
 }
+
+
+const editor = document.getElementById('editor');
+let oldLink = null;
+if (editor) {
+    editor.addEventListener('input', function () {
+        const text = editor.textContent;
+        const linkRegex = /(https?:\/\/[^\s]+\.[a-z]{2,}\S*)/gi;
+        let match;
+        while ((match = linkRegex.exec(text)) !== null) {
+            const link = match[1];
+            if (link !== oldLink) {
+                let x = editor.innerHTML;
+                x = x.replace(/&amp;/g, '&');
+                editor.innerHTML = x = x.replace(link, '');
+                handleLink(link);
+            }
+            oldLink = link;
+        }
+    });
+
+
+    editor.addEventListener('paste', function (event) {
+        const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf('image') !== -1) {
+                event.preventDefault();
+                navbar('loadfile');
+                return;
+            }
+        }
+    });
+}
+function makeBold() {
+    document.execCommand('bold');
+    if (document.getElementById('bold').isToggled) {
+        document.getElementById('bold').isToggled = false;
+        document.getElementById('bold').classList.remove('active-effect');
+    } else {
+        document.getElementById('bold').isToggled = true;
+        document.getElementById('bold').classList.add('active-effect');
+    }
+}
+
+function makeHighlight() {
+    document.execCommand('hiliteColor', false, 'yellow');
+    if (document.getElementById('highlight').isToggled) {
+        document.getElementById('highlight').isToggled = false;
+        document.getElementById('highlight').classList.remove('active-effect');
+    } else {
+        document.getElementById('highlight').isToggled = true;
+        document.getElementById('highlight').classList.add('active-effect');
+    }
+}
+
+function makeItalic() {
+    document.execCommand('italic');
+    if (document.getElementById('italic').isToggled) {
+        document.getElementById('italic').isToggled = false;
+        document.getElementById('bold').classList.remove('active-effect');
+    } else {
+        document.getElementById('italic').isToggled = true;
+        document.getElementById('bold').classList.add('active-effect');
+    }
+}
+
+function doUnderline() {
+    document.execCommand('underline');
+    if (document.getElementById('underline').isToggled) {
+        document.getElementById('underline').isToggled = false;
+        document.getElementById('bold').classList.remove('active-effect');
+    } else {
+        document.getElementById('underline').isToggled = true;
+        document.getElementById('bold').classList.add('active-effect');
+    }
+}
+
+function handleLink(link) {
+    document.querySelector('.link-preview').classList.add('active-link-loading', 'active-link-preview');
+    fetch('/preview/meta?url=' + link)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('preview-title').innerText = data.title || data['og:title'] || getDomainFromUrl(link);
+            document.querySelector('.link-preview').style.backgroundImage = `url(${data.image || data['og:image'] || ''})`;
+            document.getElementById('preview-link').innerText = data.url || link;
+            document.querySelector('.link-preview').classList.remove('active-link-loading');
+            localStorage.setItem('link', link);
+        });
+}
+
+function removeLink() {
+    document.querySelector('.link-preview').classList.remove('active-link-preview');
+    oldLink = null;
+    localStorage.removeItem('link');
+}
+
+
+
+function getDomainFromUrl(url) {
+    const a = document.createElement('a');
+    a.href = url;
+    return a.hostname;
+}
+
+document.querySelectorAll('.colorSelector > div').forEach(color => {
+    color.addEventListener('click', () => {
+        document.querySelector('.colorSelector > div.selectedColor').classList.remove('selectedColor');
+        color.classList.add('selectedColor');
+        selectedColor = document.querySelector('.colorSelector > div.selectedColor').id;
+    });
+});

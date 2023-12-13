@@ -332,13 +332,6 @@ function createPostElement(post) {
     return card;
 }
 
-document.querySelectorAll('.colorSelector > div').forEach(color => {
-    color.addEventListener('click', () => {
-        document.querySelector('.colorSelector > div.selectedColor').classList.remove('selectedColor');
-        color.classList.add('selectedColor');
-        selectedColor = document.querySelector('.colorSelector > div.selectedColor').id;
-    });
-});
 
 function createInList(title, postAuthorized, id) {
     const list = document.createElement('div');
