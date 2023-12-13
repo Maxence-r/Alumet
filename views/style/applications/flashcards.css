@@ -157,13 +157,13 @@ body {
 }
 
 [data-status='3'] {
-    border: 1px solid #296eff;
+    border: 2px solid #296eff;
 }
 [data-status='2'] {
-    border: 1px solid #f0ac00;
+    border: 2px solid #f0ac00;
 }
 [data-status='1'] {
-    border: 1px solid #ff0000;
+    border: 2px solid #ff0000;
 }
 
 .flashcard > h1 {

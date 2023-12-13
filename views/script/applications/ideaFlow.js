@@ -32,9 +32,28 @@ class MindMapBoard {
         window.addEventListener('mouseup', this.onMouseUp.bind(this));
         svg.addEventListener('mousedown', this.onMouseDown.bind(this))
         svg.addEventListener('mousemove', this.onMouseMove.bind(this));
+        svg.addEventListener('wheel', this.onWheel.bind(this));
 
         this.updateBoardTransform();
     }
+
+    onWheel(e) {
+        e.preventDefault();
+
+        const { x, y } = this.mousePosOnBoard(e);
+
+        const delta = e.deltaY > 0 ? 0.9 : 1.1;
+        if (this.zoom * delta < 0.1 || this.zoom * delta > 1.5) return;
+        this.zoom *= delta;
+
+        this.blocksGroupDrag.x = x - (x - this.blocksGroupDrag.x) * delta;
+        this.blocksGroupDrag.y = y - (y - this.blocksGroupDrag.y) * delta;
+
+        this.updateBoardTransform();
+    }
+
+
+
 
     mousePosOnBoard(e) {
         const rect = this.svg.getBoundingClientRect();

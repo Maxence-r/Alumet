@@ -348,7 +348,7 @@ function createFolder() {
             document.querySelector('.cloud > .full-screen').style.display = 'none';
             addFolder(data);
             /*             triggerFolder(); */
-            const folder = folderList.querySelector(`h2[data-id="${data._id}"]`);
+            const folder = folderList.querySelector(`div[data-id="${data._id}"]`);
             folder.click();
             toast({
                 title: 'Succès',

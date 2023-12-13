@@ -22,6 +22,7 @@ function getContent() {
 
 
             endLoading();
+            // to fix
             socket.emit('joinAlumet', app.infos._id);
         });
 }
