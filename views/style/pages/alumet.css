@@ -580,7 +580,7 @@ latex {
 
 .post-rich-content > h2 {
     z-index: 10;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 500;
     margin: 0;
     margin-bottom: 5px;
@@ -590,7 +590,7 @@ latex {
 
 .post-rich-content > p {
     z-index: 10;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 400;
     margin: 0;
     color: #fff;

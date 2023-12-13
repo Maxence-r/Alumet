@@ -396,14 +396,14 @@ class MindMapBoard {
 
 const mindMap = new MindMapBoard(board, blocksGroup, linksGroup);
 
-/* mindMap.createAndInsertBlock('test', 'test 1 qsdqsdq sqd', 'test 2', 25312, 25508)
-mindMap.createAndInsertBlock('tdsfsdt', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25508)
-mindMap.createAndInsertBlock('tdsqsdqsdt', 'test 1 qsdqsdq sqd', 'test 2q sdqsdqsd qsdqsdq sd qsd qsd', 25396, 25508)
-mindMap.createAndInsertBlock('tdssdqsfsfsdt', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25508)
+mindMap.createAndInsertBlock('test', 'Napoléon', '1769-1821', 25312, 25508)
+mindMap.createAndInsertBlock('tdsfsdt', 'SES BATAILLES', '', 25396, 25508)
+mindMap.createAndInsertBlock('tdsqsdqsdt', 'GRANDES VICTOIRES', '', 25396, 25508)
+mindMap.createAndInsertBlock('tdssdqsfsfsdt', 'DEFAITES', '', 25396, 25508)
 mindMap.createAndInsertBlock('tddfdgfdsfsdt', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25508)
 mindMap.createAndInsertBlock('tdsfgdfgsdt', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25508)
 
 mindMap.createAndInsertBlock('tests', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25312)
-mindMap.createAndInsertBlock('t', '1', '2', 25900, 25704) */
-mindMap.loadJsonSchema({ "blocks": [{ "id": "test", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25536, "y": 25088, "additionalGridUnitsX": 0 }, { "id": "tdsfsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25536, "y": 25312, "additionalGridUnitsX": 0 }, { "id": "tdsqsdqsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2q sdqsdqsd qsdqsdq sd qsd qsd", "x": 25452, "y": 25312, "additionalGridUnitsX": 0 }, { "id": "tdssdqsfsfsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25760, "y": 25312, "additionalGridUnitsX": 0 }, { "id": "tddfdgfdsfsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25536, "y": 24976, "additionalGridUnitsX": 0 }, { "id": "tdsfgdfgsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25508, "y": 25200, "additionalGridUnitsX": 2 }, { "id": "tests", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25312, "y": 25312, "additionalGridUnitsX": 0 }, { "id": "t", "title": "1", "description": "2", "x": 26320, "y": 24332, "additionalGridUnitsX": 0 }], "links": [{ "from": "test", "fromWhich": "bottom", "to": "tdsfgdfgsdt", "toWhich": "top" }, { "from": "tddfdgfdsfsdt", "fromWhich": "top", "to": "t", "toWhich": "bottom" }] });
+mindMap.createAndInsertBlock('t', '1', '2', 25900, 25704)
+/* mindMap.loadJsonSchema({ "blocks": [{ "id": "test", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25536, "y": 25088, "additionalGridUnitsX": 0 }, { "id": "tdsfsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25536, "y": 25312, "additionalGridUnitsX": 0 }, { "id": "tdsqsdqsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2q sdqsdqsd qsdqsdq sd qsd qsd", "x": 25452, "y": 25312, "additionalGridUnitsX": 0 }, { "id": "tdssdqsfsfsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25760, "y": 25312, "additionalGridUnitsX": 0 }, { "id": "tddfdgfdsfsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25536, "y": 24976, "additionalGridUnitsX": 0 }, { "id": "tdsfgdfgsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25508, "y": 25200, "additionalGridUnitsX": 2 }, { "id": "tests", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25312, "y": 25312, "additionalGridUnitsX": 0 }, { "id": "t", "title": "1", "description": "2", "x": 26320, "y": 24332, "additionalGridUnitsX": 0 }], "links": [{ "from": "test", "fromWhich": "bottom", "to": "tdsfgdfgsdt", "toWhich": "top" }, { "from": "tddfdgfdsfsdt", "fromWhich": "top", "to": "t", "toWhich": "bottom" }] }); */
 endLoading()
