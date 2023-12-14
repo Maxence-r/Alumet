@@ -32,10 +32,44 @@ class MindMapBoard {
         window.addEventListener('mouseup', this.onMouseUp.bind(this));
         svg.addEventListener('mousedown', this.onMouseDown.bind(this))
         svg.addEventListener('mousemove', this.onMouseMove.bind(this));
-        svg.addEventListener('wheel', this.onWheel.bind(this));
+        svg.addEventListener('wheel', this.onWheel.bind(this), { passive: false });
+        svg.addEventListener('contextmenu', this.onContextMenu.bind(this));
+        svg.addEventListener('click', this.onClick.bind(this));
 
         this.updateBoardTransform();
     }
+
+    onClick(e) {
+        const menu = document.querySelector('.MindMapContextMenu');
+        menu.style.display = 'none';
+    }
+
+    onContextMenu(e) {
+        e.preventDefault();
+
+        const { x, y } = this.mousePosOnRect(e);
+
+        const menu = document.querySelector('.MindMapContextMenu');
+        menu.style.display = 'block';
+        menu.style.left = `${e.clientX}px`;
+        menu.style.top = `${e.clientY}px`;
+
+        const menuItems = menu.querySelectorAll('.MindMapContextMenuItem');
+        for (let menuItem of menuItems) {
+            menuItem.onclick = () => {
+                menu.style.display = 'none';
+
+                switch (menuItem.dataset.action) {
+                    case 'add':
+                        this.createAndInsertBlock(Math.random().toString(36).substr(2, 9), 'Nouveau bloc', '', x, y);
+                        break;
+                }
+            };
+        }
+    }
+
+
+
 
     onWheel(e) {
         e.preventDefault();
@@ -45,13 +79,22 @@ class MindMapBoard {
         const y = yZoom * this.zoom;
 
         const delta = e.deltaY > 0 ? 0.9 : 1.1;
-        if (this.zoom * delta < 0.1 || this.zoom * delta > 1.5) return;
+        if (this.zoom * delta < 0.05 || this.zoom * delta > 1.3) return;
         this.zoom *= delta;
 
         this.blocksGroupDrag.x = x - (x - this.blocksGroupDrag.x) * delta;
         this.blocksGroupDrag.y = y - (y - this.blocksGroupDrag.y) * delta;
 
         this.updateBoardTransform();
+    }
+
+    mousePosOnRect(e) {
+        const rect = document.querySelector('rect').getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        return { x: x / this.zoom, y: y / this.zoom };
     }
 
     mousePosOnBoard(e) {

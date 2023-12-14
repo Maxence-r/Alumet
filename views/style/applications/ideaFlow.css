@@ -35,7 +35,7 @@ p {
     user-select: none;
 
     min-width: 80px;
-    min-height: 80px;
+    min-height: 92px;
 
     display: flex;
     align-items: center;
@@ -199,6 +199,37 @@ p {
     marker-end: url(#arrow_hover);
     stroke: var(--orange);
     stroke-width: 8px;
+}
+
+.MindMapContextMenu {
+    background-color: #fdfdfd;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    width: 200px;
+    z-index: 1000;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(0, -10px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+
+.MindMapContextMenuItem {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.MindMapContextMenuItem:hover {
+    background-color: #e8e8e8;
 }
 
 @media screen and (max-width: 600px) {
