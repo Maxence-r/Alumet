@@ -7,7 +7,7 @@ const PostSchema = mongoose.Schema({
     },
     content: {
         type: String,
-        maxLength: 4000,
+        maxLength: 4000000000,
     },
     owner: {
         type: String,

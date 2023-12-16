@@ -24,10 +24,12 @@ router.get('/content', authorize(), async (req, res) => {
             .sort({ lastUsage: -1 })
             .lean();
 
-        // Use Promise.all to wait for all Upload.find operations to complete
+        console.log(folders);
         await Promise.all(folders.map(async (folder) => {
-            folder.uploads = await Upload.find({ folder: folder._id, mimetype: req.query.type || { $exists: true } })
+            console.log(folder._id);
+            folder.uploads = await Upload.find({ folder: folder._id })
                 .sort({ _id: -1 });
+            console.log(folder.uploads);
         }));
 
         res.json(folders);

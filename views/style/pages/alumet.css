@@ -110,13 +110,13 @@ body {
 
     background-color: rgba(255, 0, 0, 0.199);
     margin-bottom: 5px;
-    padding: 6px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 6px;
 }
 
 .alumet-content {
     position: relative;
-    gap: 15px;
+    gap: 20px;
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
@@ -172,7 +172,7 @@ body {
 .draggingContainer {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     overflow-x: auto;
     height: 100%;
 }
@@ -182,16 +182,16 @@ body {
     flex-direction: row;
     justify-content: space-between;
     background-color: white;
-    padding: 10px 14px;
+    padding: 15px 19px;
     border-radius: 5px;
     position: sticky;
     top: 0;
 }
 .list > .titleList > h1 {
     font-size: 18px;
-    font-weight: 500;
+    font-weight: bold;
     margin: 0;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .card > .description > .latexImg {
@@ -252,10 +252,10 @@ body {
 .card {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
     background-color: #fff;
     color: black;
-    padding: 8px;
+    padding: 12px;
     border-radius: 10px;
 }
 
@@ -291,20 +291,20 @@ body {
 .card .title {
     font-size: 1.1rem;
     word-break: break-word;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 .author {
     display: flex;
     flex-direction: row;
-    gap: 3px;
+    gap: 5px;
     align-items: center;
     font-size: 0.8rem;
 }
 
 .badge {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
 }
 
 .card:hover .author .edit {
@@ -365,6 +365,7 @@ latex {
 }
 
 .ext {
+    display: none;
     position: absolute;
     font-size: 0.8rem;
     top: 8px;
@@ -376,18 +377,6 @@ latex {
     margin: 0;
     color: #ffffff;
     background-color: #00000084;
-}
-
-.reader-gradient {
-    position: absolute;
-    width: 100%;
-    left: 0;
-    bottom: 0;
-    height: 100%;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 70%);
-    z-index: 5;
-    border-radius: 8px;
-    transition: all 0.3s ease-in-out;
 }
 
 .post-rich-content {
@@ -402,9 +391,9 @@ latex {
     background-size: cover;
     background-position: center;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+
     border: 1px solid #dddddd;
 }
 
@@ -440,7 +429,11 @@ latex {
     opacity: 1;
 }
 
-.post-rich-content:hover {
+.post-rich-content-container {
+    transition: all 0.3s ease-in-out;
+}
+
+.post-rich-content-container:hover {
     transform: scale(0.98);
 }
 
@@ -451,14 +444,16 @@ latex {
     margin: 2px 0;
 }
 
-.post-rich-content > h2 {
-    z-index: 10;
-    font-size: 0.9rem;
+.post-rich-content-container > h2 {
+    padding: 10px;
+    border-radius: 0 0 8px 8px;
+    font-size: 0.8rem;
     font-weight: 500;
     margin: 0;
-    margin-bottom: 5px;
     word-break: break-all;
-    color: #fff;
+    color: #515151;
+    border: 1px solid #dddddd;
+    border-top: none;
 }
 
 .post-rich-content > p {
@@ -471,7 +466,6 @@ latex {
 
 .date {
     display: none;
-    margin: 10px 0;
 }
 
 .active-date {

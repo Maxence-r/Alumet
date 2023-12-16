@@ -155,7 +155,7 @@ router.get('/search', async (req, res) => {
         const contacts = await Account.find(
             {
                 $and: [
-                    { _id: { $ne: req.user._id } },
+                    { _id: { $ne: req.user?._id } },
                     {
                         $or: [{ name: { $regex: searchQuery, $options: 'i' } }, { lastname: { $regex: searchQuery, $options: 'i' } }],
                     },

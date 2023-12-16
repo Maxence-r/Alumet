@@ -1600,7 +1600,7 @@ select {
 }
 
 .overlay-content > input {
-    min-height: 50px;
+    min-height: 52px;
 }
 
 .overlay-content > .divider {

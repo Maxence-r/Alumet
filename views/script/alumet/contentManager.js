@@ -251,39 +251,40 @@ function createPostElement(post) {
     card.appendChild(author);
 
     if (post.file) {
+        const postRichContentContainer = document.createElement('div');
+        postRichContentContainer.classList.add('post-rich-content-container');
         const filePreview = document.createElement('div');
         filePreview.setAttribute('onclick', `window.open("/viewer/${post.file._id}")`);
         filePreview.style.backgroundImage = `url("/preview?id=${post.file._id}")`;
         filePreview.classList.add('post-rich-content');
         const filePreviewTitle = document.createElement('h2');
         filePreviewTitle.textContent = post.file.displayname;
-        const filePreviewExt = document.createElement('div');
-        filePreviewExt.classList.add('ext');
-        filePreviewExt.textContent = post.file.mimetype.toUpperCase();
-        const gradient = document.createElement('div');
-        gradient.classList.add('reader-gradient');
-        filePreview.appendChild(filePreviewTitle);
-        filePreview.appendChild(filePreviewExt);
-        filePreview.appendChild(gradient);
-        card.appendChild(filePreview);
+
+
+
+        postRichContentContainer.appendChild(filePreview);
+        postRichContentContainer.appendChild(filePreviewTitle);
+        card.appendChild(postRichContentContainer);
     }
     if (post.link) {
+        const postRichContentContainer = document.createElement('div');
+        postRichContentContainer.classList.add('post-rich-content-container');
         const linkPreview = document.createElement('div');
+        linkPreview.setAttribute('onclick', `window.open("${post.link.url}")`);
         if (post.link.image) {
             linkPreview.style.backgroundImage = `url(${post.link.image})`;
         }
-        linkPreview.setAttribute('onclick', `window.open("${post.link.url}")`);
         linkPreview.classList.add('post-rich-content');
         const linkPreviewTitle = document.createElement('h2');
         linkPreviewTitle.textContent = post.link.title;
         const linkPreviewDescription = document.createElement('p');
         linkPreviewDescription.textContent = post.link.description;
-        const gradient = document.createElement('div');
-        gradient.classList.add('reader-gradient');
-        linkPreview.appendChild(linkPreviewTitle);
+
         linkPreview.appendChild(linkPreviewDescription);
-        linkPreview.appendChild(gradient);
-        card.appendChild(linkPreview);
+        postRichContentContainer.appendChild(linkPreview);
+        postRichContentContainer.appendChild(linkPreviewTitle);
+
+        card.appendChild(postRichContentContainer);
     }
     if (post.title) {
         const cardTitle = document.createElement('div');
