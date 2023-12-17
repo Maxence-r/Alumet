@@ -46,6 +46,7 @@
     "sharp": "^0.28.3",
     "simple-thumbnail": "^1.6.5",
     "socket.io": "^4.6.1",
+    "stripe": "^14.9.0",
     "url-metadata": "^3.0.3",
     "uuid": "^9.0.0"
   }

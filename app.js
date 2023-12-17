@@ -15,6 +15,7 @@ const portal = require('./routes/alumet/portal.js');
 const alumetRender = require('./routes/routing/app.js');
 const preview = require('./routes/files/preview.js');
 const viewer = require('./routes/files/viewer.js');
+const stripe = require('./routes/payment/stripe.js');
 
 const homeworks = require('./routes/applications/tasker/eduTasker.js');
 const mindmap = require('./routes/applications/mindmap/mindmap.js');
@@ -76,6 +77,8 @@ app.use('/app', alumetRender);
 app.use('/api/wall', wall);
 app.use('/api/post', post);
 
+// Payment related
+app.use('/payment', stripe);
 
 // Ai related
 app.use('/openai/flashcards', flashcardsAi);

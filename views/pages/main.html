@@ -1,45 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="../assets/global/alumet.ico" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link  href="../style/global.css" rel="stylesheet" type="text/css" />
+    <link  href="../style/main.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" href="../assets/global/alumet.ico" />
+    <title>Soutenir Alumet Education</title>
+</head>
+<body>
+    <section class="header">
+      <h1>
+        Vous offrir les <span>outils</span>, <br>
+        qui font la <span>différence.</span>
+      </h1>
+      <h3>Plus que <span id="coutdown"></span></h3>
+    </section>
 
-        <meta name="description" content="Alumet, vous donnez les outils." />
-        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers" />
-        <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation." />
-        <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://alumet.io" />
-        <meta property="og:image" content="https://i.imgur.com/O9RdHj1.png" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:domain" content="alumet.io" />
-        <meta name="twitter:url" content="https://alumet.io/" />
-        <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes." />
-        <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !" />
-        <meta name="twitter:image" content="https://i.imgur.com/O9RdHj1.png" />
+    <div id="toast"></div>
+    <section class="bento">
+      <div class="bento-1">
+        <div>
+          <h2>Un tableau de bord moderne</h2>
+          <img src="../assets/global/bento-1.png" alt="bento 1">
+        </div>
+        <div></div>
+        <div>
+          <h2>Des flaschards intelligentes pour réviser</h2>
+          <img src="../assets/global/bento-2.png" alt="bento 1">
+        </div>
+      </div>
+      <div class="bento-2">
+        <div>
+            <h2>Une messagerie sécurisée</h2>
+            <img src="../assets/global/bento-3.png" alt="bento 1">
+        </div>
+        <div>
+          <h2>Des espaces de partage</h2>
+            <img src="../assets/global/bento-4.png" alt="bento 1">
+        </div>
+        <div></div>
 
-        <link href="../style/authentification/authentication.css" rel="stylesheet" type="text/css" />
-        <link href="../style/global.css" rel="stylesheet" type="text/css" />
+      </div>
+      
 
-        <title>Alumet Education</title>
-    </head>
-    <body>
-        <section class="access load">
-            <section style="display: none" class="full-screen">
-                <span class="loader"></span>
-                <h3>Patientez quelques instants</h3>
-            </section>
-            <div class="container">
-                <h1>Bienvenue</h1>
-                <div id="step1" class="activeStep">
-                    <button disabled="true" style="cursor: not-allowed" onclick="window.location.href='/auth/signup'" class="large greyed">S'inscrire</button>
-                    <button onclick="window.location.href='/auth/signin'" class="large">Se connecter</button>
-                </div>
+    </section>
+
+    <!-- <section class="support-section">
+      <h2>Soutenir Alumet Education</h2>
+      <p>Pourquoi soutenir Alumet Education ?</p>
+      <div class="support-choices">
+        <div class="support-box">
+          <div class="support-infos">
+            <div class="support-box-header">
+              <h3>Soutien</h3>
+              <img src="../assets/global/gift-icon.png" alt="gift icon">
             </div>
-        </section>
-        <section style="background-image: url('../../assets/global/workspace.jpg')" class="appInfos"></section>
-    </body>
-    <script src="../script/main.js"></script>
+            <p>1.99€/mois ~ 0.01€ toutes les 13460 secondes</p>
+          </div>
+          <div class="divider"></div>
+          <button class="large">Soutenir</button>
+        </div>
+        <div class="support-box">
+          <div class="support-infos">
+            <div class="support-box-header">
+              <h3>Soutien</h3>
+              <img src="../assets/global/party-icon.png" alt="party icon">
+            </div>
+            <p>4.99€/mois ~ 0.2 secondes de saut en parachute </p>
+          </div>
+          <div class="divider"></div>
+          <button class="large">Soutenir</button>
+        </div>
+        <div class="support-box">
+          <div class="support-infos">
+            <div class="support-box-header">
+              <h3>Soutien</h3>
+              <img src="../assets/global/gold-ticket-icon.png" alt="gold-ticket-icon">
+            </div>
+            <p>9.99€/mois ~ 0.002% d’une Rolls-royce Phantom</p>
+          </div>
+          <div class="divider"></div>
+          <button class="large">Soutenir</button>
+        </div>
+      </div>
+      <div class="security-infos">
+        <img src="../assets/global/lock.png" alt="lock icon">
+        <p>Les paiements sont sécurisés par Stripe</p>
+      </div>
+    </section> -->
+
+    <section class="conference-section">
+      <div class="conference-section-header">
+        <div class="conference-section-text">
+          <h2>Vous avez raté la conférence ?</h2>
+          <p>Vous pouvez visionner son enregistrement ou lire le pdf détaillé la résumant.</p>
+        </div>
+        <a href="../assets/global/conference.pdf" download>
+          <button class="large">Télécharger le résumé</button>
+        </a>
+      </div>
+      <div onclick="showToast()" class="watch-conference">
+        <img src="../assets/global/conferance.png" alt="conferance background">
+        <div class="watch-button">
+          <h2>Visionner</h2>
+          <img src="../assets/global/white-arrow.svg" alt="arrow">
+        </div>
+      </div>
+    </section>
+    
+</body>
+<script src="../script/global.js"></script>
+<script src="../script/main.js"></script>
 </html>

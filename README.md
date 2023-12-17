@@ -15,7 +15,7 @@ Alumet is a free, open-source tool designed to ensure the success of your projec
 
 ## Alumet Online
 
-You can check out the online version of Alumet at https://alumet.io
+You can check out the online version of Alumet at https://education.alumet.io
 
 ## Commit history
 
