@@ -54,10 +54,7 @@ router.get('/:flashcardSet/:revisionMethod/content', async (req, res) => {
         const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], owner, participants, user_infos: null, admin: isAdmin };
         req.user ? flashcardSetInfo.user_infos = { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname, id: req.user._id } : null;
         const flashcards = await Flashcards.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
-        for (const flashcard of flashcards) {
-            const userDatas = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0 };
-            flashcardSetInfo.flashcards.push( { ...flashcard.toObject(), userDatas: userDatas } );
-        }
+        for (const flashcard of flashcards) flashcardSetInfo.flashcards.push( { ...flashcard.toObject(), userDatas: flashcard.userDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0 } }); // Add flashcard user datas and default values if not found
         res.json(flashcardSetInfo);
     }
     catch (error) {
@@ -116,6 +113,7 @@ router.post('/:flashcardSet/:flashcardId/review', authorize(), async (req, res) 
     try {
         const { flashcardId } = req.params;
         const { status, cardReview } = req.body;
+        console.log(cardReview);
         const flashcard = await Flashcards.findById(flashcardId);
         if (!flashcard) return res.json({ error: 'Flashcard not found' });
         let userDatas = flashcard.userDatas.find((data) => data.userId == req.user.id);
@@ -127,6 +125,7 @@ router.post('/:flashcardSet/:flashcardId/review', authorize(), async (req, res) 
             nextReview: cardReview ? determineNextReview(userDatas.inRow) : userDatas.nextReview,
             inRow: cardReview ? parseInt(userDatas.inRow + 1) : 0
         };
+        console.log(userDatas.nextReview - Date.now());
         flashcard.userDatas = flashcard.userDatas.filter((data) => data.userId !== req.user.id);
         flashcard.userDatas.push(userDatas);
         await flashcard.save();

@@ -31,11 +31,11 @@ const flashcardSchema = mongoose.Schema({
                 enum: [0, 1, 2, 3],
             },
             lastReview: {
-                type: Date,
+                type: Number,
                 default: Date.now,
             },
             nextReview: {
-                type: Date,
+                type: Number,
                 default: Date.now,
             },
             inRow: {

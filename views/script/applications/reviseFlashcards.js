@@ -22,16 +22,21 @@ fetch(`/flashcards/${id}/${mode}/content`, {
     })  
     .then(res => res.json())
     .then(data => {
+        data.flashcards.length === 0 ? console.log('no flashcards') : null; //TODO - add page when there is no flashcards in the set
         if (mode === 'smart') {
             sections = createSections(data.flashcards);
             currentSection = sections[index];
             updateSmartStatusPercentages(currentSection);
-        } else { 
-            currentSection = data.flashcards
+            if (sections.length === 0) { // TODO - add page when there is no flashcards to revise in smart mode
+                console.log('no flashcards to revise');
+                return
+            }
+        } else {
+            currentSection = data.flashcards;
             updateStatusPercentages(currentSection);
         }
         endLoading();
-        triggerFlashcard();
+        nextFlashcard();
         currentSection.forEach(flashcard => flashcard.numberOfReview = 0);
         storedData = data;
     })
@@ -48,7 +53,9 @@ async function newStatusToServer(flashcardId, status, cardReview) { //cardReview
         body: JSON.stringify({ status, cardReview }),
     })
         .then(res => res.json())
-        .then(data => mode == 'smart' && cardReview ? currentSection.find(flashcard => flashcard._id === flashcardId).userDatas = data.userDatas : null) // if mode is smart and card always in section (cardReview is true), update the flashcard userDatas
+        .then(data => {
+            mode == 'smart' && !cardReview ? currentSection.find(flashcard => flashcard._id === flashcardId).userDatas = data.userDatas : null // if mode is smart and card always in section (cardReview is true), update the flashcard userDatas
+        })
         .catch(err => console.log(err));
 }
 function toggleQuestionAnswer(card) {
@@ -93,7 +100,7 @@ function setEventListener(card) {
             event.deltaX > 0 ? newStatus = status === 0 ? 2 : (status < 3 ? status + 1 : 3) : newStatus = 1;
             
             const flashcard = storedData.flashcards.find(flashcard => flashcard._id === card.dataset.id);
-            triggerFlashcard(newStatus); // modifie status sur client et modifie emplacement carte
+            nextFlashcard(newStatus); // modifie status sur client et modifie emplacement carte
             mode === 'sandbox' ? updateStatusPercentages(currentSection) :  updateSmartStatusPercentages(flashcard);
             currentSection.length == 1 ? document.querySelector('.flashcards.loaded > div:first-child').style.display = 'none' : null;
             currentSection.length == 0 ? switchSectionIfFinished() : null;
@@ -146,16 +153,16 @@ function addFlashcard(id, question, answer, status, date) {
     }
 }
 
-function triggerFlashcard(newStatus) {
+function nextFlashcard(newStatus) {
     if (currentSection.length === 0) return;
-    let newCard = currentSection[0];  // next flashcard
-    const lastFlashcard = currentSection[currentSection.length - 1]; // flashcard running
+    let lastCard = currentSection[currentSection.length - 1];  // current flashcard displayed
+    let newCard = currentSection[0] /* || currentSection[0] */; // next flashcard
 
     if (newStatus) {
-        lastFlashcard.userDatas.status = newStatus;
-        lastFlashcard.numberOfReview = newStatus === 3 ? lastFlashcard.numberOfReview + 1 : 0;
+        lastCard.userDatas.status = newStatus;
+        lastCard.numberOfReview = newStatus === 3 ? lastCard.numberOfReview + 1 : 0;
         currentSection.pop();
-        newStatus === 1 ? currentSection.splice(3, 0, lastFlashcard) : currentSection.push(lastFlashcard);
+        newStatus === 1 ? currentSection.splice(3, 0, lastCard) : currentSection.push(lastCard);
     }
     addFlashcard(newCard._id, newCard.question, newCard.answer, newCard.userDatas?.status, newCard.userDatas?.lastReview);
     currentSection.shift();
@@ -165,11 +172,10 @@ function triggerFlashcard(newStatus) {
 
 //SECTION - Smart mode functions
 function createSections (flashcards) {
+    flashcards = flashcards.filter(flashcard => flashcard.userDatas.nextReview <= Date.now());
     for (let i = 0; i < flashcards.length; i++) {
-        const sectionIndex = Math.floor(i / 4);
-        if (!sections[sectionIndex]) {
-            sections[sectionIndex] = [];
-        }
+        const sectionIndex = Math.floor(i / 4); //NOTE - Number of flashcards per section
+        !sections[sectionIndex] ? sections[sectionIndex] = [] : null;
         sections[sectionIndex].push(flashcards[i]);
     }
     console.log(`There is ${sections.length} sections of revision`);
@@ -185,7 +191,7 @@ const switchSectionIfFinished = () => {
         document.querySelector('.ongoing-flashcards').innerHTML = '';
         document.querySelector('.flashcards.loaded > div:first-child').style.display = 'flex';
         updateSmartStatusPercentages(currentSection);
-        triggerFlashcard();
+        nextFlashcard();
     }
     if (!sections[index + 1] && currentSection.length === 0) {
         console.log('no more sections'); //TODO - make end of revision page
@@ -223,7 +229,6 @@ const updateSmartStatusPercentages = (flashcards) => {
         ongoingFlashcardsContainer.appendChild(newElement);
     }
     if (Array.isArray(flashcards)) { //check if flashcards is an array or a single flashcard
-        console.log('im an array')
         flashcards.forEach(flashcard => {
             const element = ongoingFlashcardsContainer.querySelector(`[data-id="${flashcard._id}"]`);
             element ? modifyElement(flashcard) : addElement(flashcard);
