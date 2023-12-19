@@ -46,29 +46,17 @@ router.get('/:flashcardSet/:revisionMethod/content', async (req, res) => {
         const getParticipantInfo = async () => {
             for (const participant of flashcardSet.participants) {
                 const participantUser = await Account.findById(participant.userId, 'username icon _id name lastname');
-                if (participantUser) {
-                    participants.push({ ...participantUser._doc, status: participant.status });
-                }
+                participantUser ? participants.push({ ...participantUser._doc, status: participant.status }) : null;
             }
         };
         await getParticipantInfo();
         const isAdmin = req.user && (req.user._id.toString() === flashcardSet.owner.toString() || flashcardSet.participants.some(p => p.userId === req.user._id.toString() && [0, 1].includes(p.status)));
         const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], owner, participants, user_infos: null, admin: isAdmin };
-        if (req.user) {
-            flashcardSetInfo.user_infos = { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname, id: req.user._id };
-        }
+        req.user ? flashcardSetInfo.user_infos = { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname, id: req.user._id } : null;
         const flashcards = await Flashcards.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
         for (const flashcard of flashcards) {
-            const userDatas = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now() };
-            const smartReview = userDatas?.smartReview || { nextReview: null, inRow: 0 };
-            userDatas.smartReview = smartReview;
-            let flashcardInfo = { ...flashcard.toObject(), userDatas: userDatas };
-            if (req.params.revisionMethod == 'smart' && smartReview.nextReview <= Date.now()) {
-                flashcardInfo.userDatas = userDatas || { status: 0, lastReview: Date.now(), smartReview };
-                flashcardSetInfo.flashcards.push(flashcardInfo);
-            } else if (req.params.revisionMethod !== 'smart') {
-                flashcardSetInfo.flashcards.push(flashcardInfo);
-            }
+            const userDatas = flashcard.userDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0 };
+            flashcardSetInfo.flashcards.push( { ...flashcard.toObject(), userDatas: userDatas } );
         }
         res.json(flashcardSetInfo);
     }
@@ -120,17 +108,9 @@ router.delete('/:flashcard/:flashcardId', authorize(''), async (req, res) => {
     }
 });
 
-function determineSmartReview(smartReview) {
-    const nextDate = {
-        0: Date.now() + 1000 * 60 * 60 * 24,
-        1: Date.now() + 1000 * 60 * 60 * 24 * 3,
-        2: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        3: Date.now() + 1000 * 60 * 60 * 24 * 15,
-        4: Date.now() + 1000 * 60 * 60 * 24 * 30,
-    };
-    smartReview.nextReview = smartReview.inRow < 3 ? nextDate[smartReview.inRow] : nextDate[4];
-    smartReview.inRow = smartReview.inRow + 1;
-    return smartReview;
+function determineNextReview(inRowNumber) {
+    const days = [1, 3, 5, 8, 13, 21, 34, 55];
+    return inRowNumber < 8 ? Date.now() + 1000 * 60 * 60 * 24 * days[inRowNumber] : Date.now() + 1000 * 60 * 60 * 24 * days[7];
 }
 router.post('/:flashcardSet/:flashcardId/review', authorize(), async (req, res) => {
     try {
@@ -138,22 +118,19 @@ router.post('/:flashcardSet/:flashcardId/review', authorize(), async (req, res) 
         const { status, cardReview } = req.body;
         const flashcard = await Flashcards.findById(flashcardId);
         if (!flashcard) return res.json({ error: 'Flashcard not found' });
-        let userDatas = flashcard.userDatas.find((data) => data.userId === req.user.id);
-
-        if (!userDatas) {
-            console.log('new user data')
-            userDatas = { userId: req.user.id, status, lastReview: Date.now(), smartReview: { nextReview: null, inRow: 0 } };
-            flashcard.userDatas.push(userDatas);
-        } else {
-            userDatas.status = status;
-            userDatas.lastReview = Date.now();
-            userDatas.smartReview = cardReview ? determineSmartReview(userDatas.smartReview) : userDatas.smartReview;
-            console.log(userDatas.smartReview)
-        }
+        let userDatas = flashcard.userDatas.find((data) => data.userId == req.user.id);
+        !userDatas ? userDatas = { nextReview: Date.now(), inRow: 0 } : null;
+        userDatas = {
+            userId: req.user.id,
+            status,
+            lastReview: Date.now(),
+            nextReview: cardReview ? determineNextReview(userDatas.inRow) : userDatas.nextReview,
+            inRow: cardReview ? parseInt(userDatas.inRow + 1) : 0
+        };
         flashcard.userDatas = flashcard.userDatas.filter((data) => data.userId !== req.user.id);
         flashcard.userDatas.push(userDatas);
         await flashcard.save();
-        res.json({ smartReview: userDatas.smartReview });
+        res.json({ userDatas: userDatas });
     } catch (error) {
         console.log(error);
         res.json({ error });

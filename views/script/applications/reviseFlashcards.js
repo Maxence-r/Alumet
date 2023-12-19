@@ -26,7 +26,10 @@ fetch(`/flashcards/${id}/${mode}/content`, {
             sections = createSections(data.flashcards);
             currentSection = sections[index];
             updateSmartStatusPercentages(currentSection);
-        } else { currentSection = data.flashcards }
+        } else { 
+            currentSection = data.flashcards
+            updateStatusPercentages(currentSection);
+        }
         endLoading();
         triggerFlashcard();
         currentSection.forEach(flashcard => flashcard.numberOfReview = 0);
@@ -36,21 +39,16 @@ fetch(`/flashcards/${id}/${mode}/content`, {
 //!SECTION - Initialize the page
             
 // SECTION - Global functions
-async function newStatusToServer(flashcardId, status, cardReview) {
+async function newStatusToServer(flashcardId, status, cardReview) { //cardReview = true if the flashcard is finished
     fetch(`/flashcards/${id}/${flashcardId}/review`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status, cardReview }), //cardReview = true if the flashcard is finished
+        body: JSON.stringify({ status, cardReview }),
     })
         .then(res => res.json())
-        .then(data => {
-            if (mode == 'smart') {
-                const flashcard = currentSection.find(flashcard => flashcard._id === flashcardId);
-                flashcard.userDatas.smartReview = data.smartReview;
-            }
-        })
+        .then(data => mode == 'smart' && cardReview ? currentSection.find(flashcard => flashcard._id === flashcardId).userDatas = data.userDatas : null) // if mode is smart and card always in section (cardReview is true), update the flashcard userDatas
         .catch(err => console.log(err));
 }
 function toggleQuestionAnswer(card) {
@@ -96,12 +94,11 @@ function setEventListener(card) {
             
             const flashcard = storedData.flashcards.find(flashcard => flashcard._id === card.dataset.id);
             triggerFlashcard(newStatus); // modifie status sur client et modifie emplacement carte
-            updateSmartStatusPercentages(flashcard);
-            mode === 'sandbox' ? updateStatusPercentages(currentSection) : null;
+            mode === 'sandbox' ? updateStatusPercentages(currentSection) :  updateSmartStatusPercentages(flashcard);
             currentSection.length == 1 ? document.querySelector('.flashcards.loaded > div:first-child').style.display = 'none' : null;
             currentSection.length == 0 ? switchSectionIfFinished() : null;
             
-            await newStatusToServer(card.dataset.id, newStatus, verifyIfFlashcardFinish(flashcard)); // modifie status sur serveur
+            await newStatusToServer(card.dataset.id, newStatus, verifyIfFlashcardFinish(flashcard)); // modifie status sur serveur 
             setTimeout(() => {
                 card.remove();
             }, 300);
