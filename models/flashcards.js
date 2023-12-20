@@ -22,7 +22,7 @@ const flashcardSchema = mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    userDatas: [
+    usersDatas: [
         {
             userId: String,
             status: {

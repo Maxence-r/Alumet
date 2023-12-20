@@ -47,7 +47,7 @@ function modifyFlashcardSet() {
         });
     });
 }
-function resetUserdatas() {
+function resetUsersdatas() {
     fetch('/flashcards/reset', {
         method: 'POST',
         headers: {

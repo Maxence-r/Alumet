@@ -54,7 +54,12 @@ router.get('/:flashcardSet/:revisionMethod/content', async (req, res) => {
         const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], owner, participants, user_infos: null, admin: isAdmin };
         req.user ? flashcardSetInfo.user_infos = { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname, id: req.user._id } : null;
         const flashcards = await Flashcards.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
-        for (const flashcard of flashcards) flashcardSetInfo.flashcards.push( { ...flashcard.toObject(), userDatas: flashcard.userDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0 } }); // Add flashcard user datas and default values if not found
+        for (const flashcard of flashcards) {
+            let userDatas = flashcard.usersDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0 }; // Add flashcard user datas and default values if not found
+            delete flashcard.usersDatas;
+            flashcardSetInfo.flashcards.push( { ...flashcard.toObject(), userDatas });
+            console.log(flashcard)
+        }
         res.json(flashcardSetInfo);
     }
     catch (error) {
@@ -116,7 +121,7 @@ router.post('/:flashcardSet/:flashcardId/review', authorize(), async (req, res) 
         console.log(cardReview);
         const flashcard = await Flashcards.findById(flashcardId);
         if (!flashcard) return res.json({ error: 'Flashcard not found' });
-        let userDatas = flashcard.userDatas.find((data) => data.userId == req.user.id);
+        let userDatas = flashcard.usersDatas.find((data) => data.userId == req.user.id);
         !userDatas ? userDatas = { nextReview: Date.now(), inRow: 0 } : null;
         userDatas = {
             userId: req.user.id,
@@ -125,9 +130,8 @@ router.post('/:flashcardSet/:flashcardId/review', authorize(), async (req, res) 
             nextReview: cardReview ? determineNextReview(userDatas.inRow) : userDatas.nextReview,
             inRow: cardReview ? parseInt(userDatas.inRow + 1) : 0
         };
-        console.log(userDatas.nextReview - Date.now());
-        flashcard.userDatas = flashcard.userDatas.filter((data) => data.userId !== req.user.id);
-        flashcard.userDatas.push(userDatas);
+        flashcard.usersDatas = flashcard.usersDatas.filter((data) => data.userId !== req.user.id);
+        flashcard.usersDatas.push(userDatas);
         await flashcard.save();
         res.json({ userDatas: userDatas });
     } catch (error) {
@@ -140,7 +144,7 @@ router.post('/reset', async (req, res) => {
         const { flashcardSetId } = req.body;
         const flashcards = await Flashcards.find({ flashcardSetId });
         for (const flashcard of flashcards) {
-            flashcard.userDatas = [];
+            flashcard.usersDatas = [{ userId: req.user.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0}];
             await flashcard.save();
         }
         res.json({ success: true });

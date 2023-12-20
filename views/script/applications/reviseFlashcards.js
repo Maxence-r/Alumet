@@ -148,6 +148,7 @@ function addFlashcard(id, question, answer, status, date) {
     setEventListener(newCard);
     // modify design of the flashcard behind
     if (currentSection[1]) {
+        console.log(currentSection[1]);
         document.querySelector('.flashcards.loaded > div:first-child').style.border = `2px solid ${statusInfos[currentSection[1].userDatas.status].color}`;
         document.querySelector('.flashcards.loaded > div:first-child > h3').innerText = currentSection[1].question;
     }
