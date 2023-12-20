@@ -35,6 +35,7 @@ fetch(`/flashcards/${id}/${mode}/content`, {
             currentSection = data.flashcards;
             updateStatusPercentages(currentSection);
         }
+        document.querySelector('.header > h1').innerText = data.title;
         endLoading();
         nextFlashcard();
         currentSection.forEach(flashcard => flashcard.numberOfReview = 0);
@@ -148,7 +149,6 @@ function addFlashcard(id, question, answer, status, date) {
     setEventListener(newCard);
     // modify design of the flashcard behind
     if (currentSection[1]) {
-        console.log(currentSection[1]);
         document.querySelector('.flashcards.loaded > div:first-child').style.border = `2px solid ${statusInfos[currentSection[1].userDatas.status].color}`;
         document.querySelector('.flashcards.loaded > div:first-child > h3').innerText = currentSection[1].question;
     }
@@ -161,13 +161,17 @@ function nextFlashcard(newStatus) {
 
     if (newStatus) {
         lastCard.userDatas.status = newStatus;
-        lastCard.numberOfReview = newStatus === 3 ? lastCard.numberOfReview + 1 : 0;
+        if (mode === 'smart') lastCard.numberOfReview = newStatus === 3 ? lastCard.numberOfReview + 1 : 0
         currentSection.pop();
         newStatus === 1 ? currentSection.splice(3, 0, lastCard) : currentSection.push(lastCard);
     }
     addFlashcard(newCard._id, newCard.question, newCard.answer, newCard.userDatas?.status, newCard.userDatas?.lastReview);
     currentSection.shift();
     currentSection.push(newCard);
+}
+
+function stopRevision() {
+    window.location.href = `/app/${id}`;
 }
 //!SECTION - Global functions
 

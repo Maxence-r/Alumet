@@ -282,7 +282,6 @@ function updateStatusPercentages(flashcards) {
     for (const [key, value] of Object.entries(percentages)) {
         document.querySelector(`[data-bar="${key}"]`).style.width = `${value}%`;
     }
-    console.log('hereeee');
 }
 
 document.querySelectorAll('[data-module]').forEach(element => {

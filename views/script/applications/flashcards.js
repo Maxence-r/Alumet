@@ -4,7 +4,6 @@ fetch(`/flashcards/${id}/sandbox/content`)
     .then(async data => {
         console.log(data);
         data.flashcards.forEach(flashcard => {
-            console.log(flashcard.userDatas?.smartReview);
             flashcard = createFlashcardElement(flashcard.question, flashcard.answer, flashcard.userDatas?.status, 'modify', flashcard._id);
             document.querySelector('.flashcards-container').appendChild(flashcard);
         });

@@ -54,11 +54,11 @@ router.get('/:flashcardSet/:revisionMethod/content', async (req, res) => {
         const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], owner, participants, user_infos: null, admin: isAdmin };
         req.user ? flashcardSetInfo.user_infos = { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname, id: req.user._id } : null;
         const flashcards = await Flashcards.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
-        for (const flashcard of flashcards) {
+        for (let flashcard of flashcards) {
             let userDatas = flashcard.usersDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0 }; // Add flashcard user datas and default values if not found
+            flashcard = { ...flashcard.toObject(), userDatas };
             delete flashcard.usersDatas;
-            flashcardSetInfo.flashcards.push( { ...flashcard.toObject(), userDatas });
-            console.log(flashcard)
+            flashcardSetInfo.flashcards.push(flashcard);
         }
         res.json(flashcardSetInfo);
     }
@@ -118,7 +118,6 @@ router.post('/:flashcardSet/:flashcardId/review', authorize(), async (req, res) 
     try {
         const { flashcardId } = req.params;
         const { status, cardReview } = req.body;
-        console.log(cardReview);
         const flashcard = await Flashcards.findById(flashcardId);
         if (!flashcard) return res.json({ error: 'Flashcard not found' });
         let userDatas = flashcard.usersDatas.find((data) => data.userId == req.user.id);
