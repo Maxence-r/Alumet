@@ -32,7 +32,6 @@ router.post('/create-portal-session', async (req, res) => {
     // This is the url to which the customer will be redirected when they are done
     // managing their billing with the portal.
     const returnUrl = YOUR_DOMAIN;
-    console.log('here')
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: checkoutSession.customer,
       return_url: returnUrl,

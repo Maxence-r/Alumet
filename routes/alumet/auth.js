@@ -66,7 +66,7 @@ async function sendA2FCode(mail, res) {
                 expireAt: fifteenMinutesLater,
             });
             await a2f.save();
-            await sendMail(mail, 'Code de vérification', `Votre code de vérification est : ${code}`);
+            await sendMail(mail, 'a2f', code);
             res.json({ a2f: true });
         }
     } catch (error) {
@@ -166,6 +166,7 @@ router.post('/authorize', async (req, res) => {
 router.post('/a2f', async (req, res) => {
     if (req.user?.mail || req.body.mail) {
         sendA2FCode(req.user?.mail || req.body.mail, res);
+        console.log(req.user?.mail || req.body.mail)
     } else {
         res.status(400).json({ error: "Quelque chose c'est mal passé !" });
     }
