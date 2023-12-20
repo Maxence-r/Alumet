@@ -106,7 +106,7 @@ function deleteCreation() {
     document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).remove();
     navbar('verify-flashcards');
 }
-function checkCreation() {
+function checkCreation() { // check flashcards for ia
     const flashcards = JSON.parse(localStorage.getItem('flashcards-ia'));
     const modifyFlashcard = flashcards.find(flashcard => flashcard.id == currentFlashcard);
     modifyFlashcard.question = document.getElementById('question').value;
@@ -155,7 +155,7 @@ function revise(option) {
         return toast({ title: 'Erreur', message: 'Cette option n\'est pas encore disponible', type: 'error', duration: 7500 });
     }
 }
-async function createFlashcards(info, flashcards) { //FIXME - don't add flashcard when created but modify the last one
+async function createFlashcards(info, flashcards) {
     if (!flashcards) {
         console.log('flashcards', flashcards);
         flashcards = JSON.parse(localStorage.getItem('flashcards-ia')) || [];
@@ -163,7 +163,7 @@ async function createFlashcards(info, flashcards) { //FIXME - don't add flashcar
     } else if (!Array.isArray(flashcards)) {
         flashcards = [flashcards];
     }
-    console.log('Gayyy', flashcards)
+    console.log('flashcards', flashcards)
     const response = await fetch(`/flashcards/${id}/check`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -173,7 +173,7 @@ async function createFlashcards(info, flashcards) { //FIXME - don't add flashcar
     setTimeout(() => {
         navbar(currentFlashcard || info == 'ia' ? 'home' : 'flashcards');
         info == 'ia' ? localStorage.removeItem('flashcards-ia') : null;
-    }, 500);
+    }, 200);
 
     const data = await response.json();
 
@@ -182,7 +182,6 @@ async function createFlashcards(info, flashcards) { //FIXME - don't add flashcar
     } else {
         data.flashcards.forEach(flashcard => {
             const flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modify', flashcard._id);
-            console.log(currentFlashcard)
             if (flashcard._id == currentFlashcard) {
                 console.log('ahhhhhhhhhhhhhhh')
                 document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).replaceWith(flashcardElement);
@@ -192,7 +191,6 @@ async function createFlashcards(info, flashcards) { //FIXME - don't add flashcar
             }
             document.querySelector('.new-flashcard').insertAdjacentElement('afterend', flashcardElement);
         });
-        console.log(data.flashcards);
         if (!data.flashcards.some(flashcard => flashcard._id == currentFlashcard)) toast({ title: 'Succès', message: `La carte${data.flashcards.length > 1 ? 's ont' : ' a'} bien été ajoutée${data.flashcards.length > 1 ? 's' : ''} !`, type: 'success', duration: 2500 });
         document.getElementById('answer').value = '';
         document.getElementById('question').value = '';
@@ -216,7 +214,7 @@ function checkFlashcard() {
         }
     }
     navbar('loadingRessources');
-    createFlashcards('normal', { question: document.getElementById('question').value, answer: document.getElementById('answer').value, _id: currentFlashcard });
+    createFlashcards('normal', { question: document.getElementById('question').value, answer: document.getElementById('answer').value, _id: localStorage.getItem('currentItem') });
 };
 
 document.querySelector('.drop-box').addEventListener('click', e => {

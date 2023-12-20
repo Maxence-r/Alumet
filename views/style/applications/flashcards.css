@@ -27,16 +27,7 @@ body {
     font-weight: 600;
 }
 
-.choose {
-    display: flex;
-    background-color: white;
-    flex-direction: column;
-    justify-content: center;
-    gap: 15px;
-    width: 100%;
-}
-
-.choose > .choose-option {
+.choose-option {
     width: 100%;
     padding: 15px;
     border-radius: 10px;
@@ -46,23 +37,23 @@ body {
     border: 1px solid #e2e2e2;
 }
 
-.choose > div > div > h1 {
+.choose-option > div > h1 {
     font-size: 1.2rem;
     font-weight: 500;
     margin: 0;
 }
 
-.choose > div > button {
+.choose-option > button {
     margin-left: auto;
 }
 
-.choose > div > div > p {
+.choose-option > div > p {
     font-size: 0.9rem;
     font-weight: 400;
     margin: 0;
 }
 
-.choose > div > div {
+.choose-option > div {
     margin-left: 5px;
 }
 
@@ -188,10 +179,7 @@ body {
 }
 
 @media screen and (max-width: 600px) {
-    .choose {
-        gap: 10px;
-    }
-    .choose > .choose-option {
+    .choose-option {
         padding: 10px;
     }
     .header > div:nth-of-type(1) > p {
