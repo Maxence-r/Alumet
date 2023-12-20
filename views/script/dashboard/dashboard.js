@@ -31,16 +31,7 @@ fetch('/dashboard/identity')
         socket.emit('joinDashboard', data.user._id);
         updateInfos(data.user);
         data.alumets.forEach(alumet => {
-            if (alumet.type === 'alumet') {
-                const alumetBox = createAlumetBox(alumet.title, alumet.lastUsage, alumet.background, alumet._id);
-                document.querySelector('.alumets').prepend(alumetBox);
-            } else if (alumet.type === 'flashcard') {
-                const flashcardsBox = createFlashcardsBox(alumet.subject, '0', alumet.title, alumet.description, alumet._id);
-                document.querySelector('.flashcards').prepend(flashcardsBox);
-            } else if (alumet.type === 'mindmap') {
-                const mindmapBox = createFlashcardsBox(alumet.subject, '0', alumet.title, alumet.description, alumet._id);
-                document.querySelector('.mindmaps').prepend(mindmapBox);
-            }
+            document.querySelector(`.${alumet.type}s`).append(createAppBox(alumet.title, alumet.lastUsage, alumet.background, alumet._id, alumet.subject));
         });
         endLoading();
     });
@@ -52,67 +43,30 @@ document.addEventListener('keydown', function (event) {
 });
 
 
-
-function createAlumetBox(title, lastUsage, background, id) {
-    const alumetBox = document.createElement('div');
-    alumetBox.classList.add('alumet-box');
+function createAppBox(title, lastUsage, background, id, subject) {
+    const appBox = document.createElement('div');
+    appBox.classList.add('app-box');
 
     const img = document.createElement('img');
     img.src = '/cdn/u/' + background;
-    alumetBox.appendChild(img);
+    appBox.appendChild(img);
 
     const layerBlurInfo = document.createElement('div');
     layerBlurInfo.classList.add('layer-blur-info');
-    alumetBox.appendChild(layerBlurInfo);
+    appBox.appendChild(layerBlurInfo);
 
     const h4 = document.createElement('h4');
     h4.textContent = title;
     layerBlurInfo.appendChild(h4);
 
     const p = document.createElement('p');
-    p.textContent = `Utilisé ${relativeTime(lastUsage)}`;
+    p.textContent = `Utilisé ${relativeTime(lastUsage)} - ${subject}`;
     layerBlurInfo.appendChild(p);
 
-    alumetBox.setAttribute('onclick', `openItem('${id}')`);
+    appBox.setAttribute('onclick', `openItem('${id}')`);
 
-    return alumetBox;
+    return appBox;
 }
-
-function createFlashcardsBox(subject, likes, title, description, id) {
-    const flashcardsBox = document.createElement('div');
-    flashcardsBox.classList.add('flashcards-box');
-
-    const innerDiv = document.createElement('div');
-
-    const subjectDiv = document.createElement('div');
-    subjectDiv.classList.add('subject');
-    subjectDiv.textContent = subject;
-
-    const likesDiv = document.createElement('div');
-    const likesP = document.createElement('p');
-    likesP.textContent = likes;
-    const likesImg = document.createElement('img');
-    likesImg.src = '../../assets/global/like.svg';
-    likesDiv.appendChild(likesP);
-    likesDiv.appendChild(likesImg);
-
-    innerDiv.appendChild(subjectDiv);
-    innerDiv.appendChild(likesDiv);
-
-    const titleH1 = document.createElement('h1');
-    titleH1.textContent = title;
-
-    const descriptionP = document.createElement('p');
-    descriptionP.textContent = description || 'Pas de description';
-
-    flashcardsBox.appendChild(innerDiv);
-    flashcardsBox.appendChild(titleH1);
-    flashcardsBox.appendChild(descriptionP);
-    flashcardsBox.setAttribute('onclick', `openItem('${id}')`);
-    return flashcardsBox;
-}
-
-
 
 openItem = itemId => {
     window.location.href = `/app/${itemId}`;
