@@ -44,6 +44,16 @@ p {
     gap: 5px;
 }
 
+.MindMapBlock::before {
+    content: '';
+    position: absolute;
+    width: 175%;
+    height: 175%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
 .MindMapBlockTitle {
     font-size: 1.15em;
 }

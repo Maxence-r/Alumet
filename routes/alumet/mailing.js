@@ -28,6 +28,7 @@ function createMail(type, name, code) {
     let mail = fs.readFileSync(filePath, 'utf8');
     mail = mail.replace(/{{code}}/g, code);
     mail = mail.replace(/{{name}}/g, name)
+    console.log(mail);
     return mail;
 }
 

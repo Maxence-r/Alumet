@@ -23,13 +23,9 @@ router.get('/content', authorize(), async (req, res) => {
         let folders = await Folder.find({ owner: req.user.id })
             .sort({ lastUsage: -1 })
             .lean();
-
-        console.log(folders);
         await Promise.all(folders.map(async (folder) => {
-            console.log(folder._id);
             folder.uploads = await Upload.find({ folder: folder._id })
                 .sort({ _id: -1 });
-            console.log(folder.uploads);
         }));
 
         res.json(folders);

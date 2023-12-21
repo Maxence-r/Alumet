@@ -92,7 +92,8 @@ function patchWall(position) {
             setTimeout(() => {
                 navbar('home');
             }, 500);
-            const wall = document.querySelector(`.list[data-id="${data._id}"]`);
+
+
         });
 }
 

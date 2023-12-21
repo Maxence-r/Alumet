@@ -1,4 +1,4 @@
-function loadFiles() {
+/* function loadFiles() {
     fetch('/cdn/folder/list', {
         method: 'GET',
         headers: {
@@ -23,7 +23,7 @@ function loadFiles() {
 
 
 function createFilePicker(reference, extension) {
-    
+
 }
 
 function createFileElement(file) {
@@ -92,4 +92,43 @@ document.getElementById('search-bar').addEventListener('input', e => {
             file.style.display = 'none';
         }
     });
-});
+}); */
+
+
+class FilePicker {
+    constructor(reference, extensions = [], unique = true) {
+        this.reference = reference;
+        this.extensions = extensions;
+        this.unique = unique;
+        this.files = [];
+        this.selectedFile = [];
+        /*  this.loadFiles(); */
+    }
+
+    loadFiles() {
+        fetch('/cdn/content', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                this.files = data;
+                data.forEach(addFolder);
+                if (data.length > 0) {
+                    document.querySelector('.folder-list > div:first-child').click();
+                } else {
+                    document.querySelector('.cloud > .full-screen').style.display = 'flex';
+                }
+            });
+    }
+
+    addFolder
+
+
+}
+
+let filePicker = new FilePicker('test', ['png', 'jpg', 'jpeg', 'gif']);
+console.log(filePicker);
+/* filePicker.open(); */
