@@ -49,32 +49,6 @@ router.get('/info', authorize(), async (req, res) => {
     res.json({ user, invitationsToSend });
 });
 
-async function sendA2FCode(mail, res) {
-    try {
-        const existingCode = await A2F.findOne({ owner: mail }).sort({ expireAt: -1 });
-        if (existingCode && existingCode.expireAt > new Date()) {
-            res.status(400).json({ a2f: true });
-        } else {
-            const code = Math.floor(Math.random() * 1000000)
-                .toString()
-                .padStart(6, '0');
-            const now = new Date();
-            const fifteenMinutesLater = new Date(now.getTime() + 15 * 60 * 1000);
-            const a2f = new A2F({
-                owner: mail,
-                code,
-                expireAt: fifteenMinutesLater,
-            });
-            await a2f.save();
-            await sendMail(mail, 'a2f', code);
-            res.json({ a2f: true });
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error });
-    }
-}
-
 router.post('/signin', async (req, res) => {
     try {
         const user = await Account.findOne({ mail: req.body.mail });
@@ -164,13 +138,34 @@ router.post('/authorize', async (req, res) => {
 });
 
 router.post('/a2f', async (req, res) => {
-    if (req.user?.mail || req.body.mail) {
-        sendA2FCode(req.user?.mail || req.body.mail, res);
-        console.log(req.user?.mail || req.body.mail)
-    } else {
-        res.status(400).json({ error: "Quelque chose c'est mal passé !" });
-    }
+    req.user?.mail || req.body.mail ? sendA2FCode(req.user?.mail || req.body.mail, res) : res.status(400).json({ error: "Quelque chose c'est mal passé !" });
 });
+
+async function sendA2FCode(mail, res) {
+    try {
+        const a2fCodeDb = await A2F.findOne({ owner: mail }).sort({ expireAt: -1 });
+        let a2fCode = a2fCodeDb?.code;
+        if (!a2fCodeDb || !a2fCodeDb.expireAt > new Date()) {
+            a2fCodeDb ? A2F.deleteOne({ owner: req.user.mail }) : null;
+            a2fCode = Math.floor(Math.random() * 1000000)
+                .toString()
+                .padStart(6, '0');
+            const now = new Date();
+            const fifteenMinutesLater = new Date(now.getTime() + 15 * 60 * 1000);
+            const a2f = new A2F({
+                owner: mail,
+                code: a2fCode,
+                expireAt: fifteenMinutesLater,
+            });
+            await a2f.save();
+        }
+        await sendMail('a2f', mail, a2fCode);
+        res.json({ a2f: true });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error });
+    }
+}
 
 router.post('/resetpassword', authorizeA2F, async (req, res) => {
     try {

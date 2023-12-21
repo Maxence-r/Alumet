@@ -147,7 +147,7 @@ function confirmPassword() {
     });
 }
 
-/** Toggle the 2FA */
+// SECTION - A2F
 toggleA2FBtn.addEventListener('click', () => {
     fetch('/auth/a2f', {
         method: 'POST',
@@ -184,7 +184,7 @@ function confirmA2F() {
         .then(res => res.json())
         .then(data => {
             if (!data.error) {
-                document.getElementById('toggleA2FBtn').innerText = !user.isA2FEnabled ? 'Désactiver la verification par mail' : 'Activer la verification par mail';
+                document.getElementById('toggleA2FBtn').innerText = !data.isA2FEnabled ? 'Désactiver la verification par mail' : 'Activer la verification par mail';
                 toast({ title: 'A2F modifié !', message: "Vos paramètres d'authentification à double facteur ont bien été modifiés.", type: 'success', duration: 2500 });
             } else {
                 toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
@@ -195,6 +195,7 @@ function confirmA2F() {
             toast({ title: 'Erreur !', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
         });
 }
+//!SECTION  - A2F
 document.getElementById('profile-picture').addEventListener('click', () => {
     document.getElementById('profile-picture-input').click();
 });
@@ -235,8 +236,6 @@ document.getElementById('profile-picture-input').addEventListener('change', asyn
         toast({ title: 'Erreur !', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
     }
 });
-
-
 
 function saveSettings() {
     let messageP = document.getElementById('messageP').checked;

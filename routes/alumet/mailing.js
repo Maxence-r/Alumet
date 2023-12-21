@@ -1,4 +1,7 @@
 const nodemailer = require('nodemailer');
+const Account = require('../../models/account');
+const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
@@ -7,35 +10,40 @@ const transporter = nodemailer.createTransport({
         user: `${process.env.GMAIL_EMAIL}`,
         pass: `${process.env.GMAIL_API_KEY}`,
     },
+    tls: {
+        rejectUnauthorized: false,
+    },
 });
 
-
-const mails = {
-    'a2f': {
-        subject: 'Code de connexion Alumet',
-        content: '<h1>Code de connexion Alumet</h1><p>Votre code de connexion est : </p>',
-    },
-    'resetpassword': {
-        subject: 'Réinitialisation du mot de passe Alumet',
-        content: '<h1>Réinitialisation du mot de passe Alumet</h1><p>Votre code de réinitialisation est : </p>',
-    },
+const mailsSubjects = {
+    a2f: 'Alumet Education - Code de vérification',
+    passwordReset: 'Alumet Education - Réinitialisation de mot de passe',
+    invitation: 'Alumet Education - Invitation',
+    certification: 'Alumet Education - Certification',
 };
 
-function sendMail(receiver, type, code) {
+function createMail(type, name, code) {
+    const filePath = path.join(__dirname, `../../views/pages/mails/${type}.html`);
+    console.log(filePath);
+    let mail = fs.readFileSync(filePath, 'utf8');
+    mail = mail.replace(/{{code}}/g, code);
+    mail = mail.replace(/{{name}}/g, name)
+    return mail;
+}
+
+async function sendMail(type, receiver, code) {
+    let user = await Account.findOne({ mail: receiver });
     const mailOptions = {
         from: 'alumet.education@gmail.com',
         to: receiver,
-        subject: mails[type].subject,
-        html: mails[type].content + code,
+        subject: mailsSubjects[type],
+        html: createMail(type, user.name + ' ' + user.lastname, code)
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent to: ' + receiver);
-        }
+    transporter.sendMail(mailOptions, (error, info) => {
+        !error ? console.log('Email sent: ' + code) : console.log(error);
     });
+
 }
 
 exports.sendMail = sendMail;

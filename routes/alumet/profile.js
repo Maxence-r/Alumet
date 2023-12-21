@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Account = require('../../models/account');
 
-const A2f = require('../../models/a2f');
+const A2F = require('../../models/a2f');
 const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
 
 router.put('/updateinfos', async (req, res) => {
@@ -45,16 +45,15 @@ router.put('/toggleA2f', async (req, res) => {
             });
         }
 
-        const a2f = await A2f.findOne({ owner: req.user.mail, code: req.body.code });
-        if (!a2f || a2f.expireAt < new Date()) {
-            return res.status(400).json({ error: 'Code invalide !' });
-        }
+        const a2f = await A2F.findOne({ owner: req.user.mail, code: req.body.code });
+        if (!a2f || a2f.expireAt < new Date()) return res.status(400).json({ error: 'Code invalide !' });
 
         user.isA2FEnabled = !user.isA2FEnabled;
         await user.save();
-        await A2f.deleteOne({ owner: req.user.mail });
+        await A2F.deleteOne({ owner: req.user.mail });
 
         res.status(200).json({
+            isA2FEnabled: user.isA2FEnabled,
             message: 'Authentification à deux facteurs modifiée avec succès !',
         });
     } catch (err) {
