@@ -145,8 +145,8 @@ async function sendA2FCode(mail, res) {
     try {
         const a2fCodeDb = await A2F.findOne({ owner: mail }).sort({ expireAt: -1 });
         let a2fCode = a2fCodeDb?.code;
-        if (!a2fCodeDb || !a2fCodeDb.expireAt > new Date()) {
-            a2fCodeDb ? A2F.deleteOne({ owner: req.user.mail }) : null;
+        if (!a2fCodeDb || new Date(a2fCodeDb.expireAt) < new Date()) {
+            a2fCodeDb ? await A2F.deleteOne({ owner: mail }) : null;
             a2fCode = Math.floor(Math.random() * 1000000)
                 .toString()
                 .padStart(6, '0');
@@ -158,8 +158,8 @@ async function sendA2FCode(mail, res) {
                 expireAt: fifteenMinutesLater,
             });
             await a2f.save();
+            await sendMail('a2f', mail, a2fCode);
         }
-        await sendMail('a2f', mail, a2fCode);
         res.json({ a2f: true });
     } catch (error) {
         console.log(error);

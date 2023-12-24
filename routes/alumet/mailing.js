@@ -22,23 +22,20 @@ const mailsSubjects = {
     certification: 'Alumet Education - Certification',
 };
 
-function createMail(type, name, code) {
+function createMail(type, code) {
     const filePath = path.join(__dirname, `../../views/pages/mails/${type}.html`);
     console.log(filePath);
     let mail = fs.readFileSync(filePath, 'utf8');
     mail = mail.replace(/{{code}}/g, code);
-    mail = mail.replace(/{{name}}/g, name)
-    console.log(mail);
     return mail;
 }
 
 async function sendMail(type, receiver, code) {
-    let user = await Account.findOne({ mail: receiver });
     const mailOptions = {
         from: 'alumet.education@gmail.com',
         to: receiver,
         subject: mailsSubjects[type],
-        html: createMail(type, user.name + ' ' + user.lastname, code)
+        html: createMail(type, code)
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
