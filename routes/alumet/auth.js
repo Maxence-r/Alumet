@@ -111,8 +111,9 @@ router.post('/signup', authorizeA2F, validateAccount, async (req, res) => {
 
 router.post('/authorize', async (req, res) => {
     try {
+        console.log(req.body)
         const a2f = await A2F.findOne({ owner: req.body.mail, code: req.body.code });
-        if (!a2f || a2f.expireAt < new Date()) {
+        if (!a2f || a2f.expireAt > new Date()) {
             res.status(400).json({ error: 'Code invalide !' });
         } else {
             const user = await Account.findOne({ mail: a2f.owner });
