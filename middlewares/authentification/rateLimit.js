@@ -1,5 +1,5 @@
 
-const Request = require('../../models/Request');
+const Request = require('../../models/request');
 
 const rateLimit =
     (requestsPerMinutes) =>
