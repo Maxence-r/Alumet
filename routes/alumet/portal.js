@@ -21,7 +21,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
                 return res.redirect('/app/' + req.params.id);
             }
         }
-        const filePath = path.join(__dirname, '../../views/pages/authentification/authentification.html');
+        const filePath = path.join(__dirname, '../../views/pages/authentification/authentication.html');
         return res.sendFile(filePath);
     } catch (error) {
         console.error(error);
