@@ -39,7 +39,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
 router.get('/setup/:app', async (req, res) => {
     console.log(req.params.app)
     req.params.app !== 'flashcard' && req.params.app !== 'mindmap' && req.params.app !== 'alumet' ? res.redirect('/404') : null;
-    let filePath = req.connected ? path.join(__dirname, '../../views/pages/setup/new-app.html') : path.join(__dirname, '../../views/pages/404.html');
+    let filePath = req.connected ? path.join(__dirname, '../../views/pages/new-app.html') : path.join(__dirname, '../../views/pages/404.html');
     res.sendFile(filePath);
 });
 
