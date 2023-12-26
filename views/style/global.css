@@ -279,7 +279,6 @@
     border-radius: 8px;
     padding: 10px;
     border: 2px dashed #e5e5e5;
-    margin-bottom: 10px;
     transition: all 0.3s ease-in-out;
 }
 
@@ -1216,6 +1215,7 @@ select {
     font-size: 0.9rem;
     font-weight: 500;
     margin: 0;
+    margin-right: 10px;
     margin-left: 5px;
     color: white;
 }
@@ -1734,13 +1734,15 @@ h1 {
     flex-direction: column;
     border-radius: 16px;
     gap: 15px;
+    width: 100%;
 }
 
 .files-box {
     display: flex;
     flex-direction: column;
+    overflow: auto;
     gap: 15px;
-    padding: 15px;
+    padding: 5px 10px;
     border-radius: 16px;
     border: 1px solid #e5e5e5;
     height: 100%;
@@ -1749,11 +1751,21 @@ h1 {
 .files-selected {
     display: flex;
     flex-direction: row;
-    gap: 15px;
+    gap: 10px;
+
     padding: 10px;
-    min-height: 62px;
     border-radius: 16px;
     border: 1px solid #e5e5e5;
+}
+
+.row-fm-header {
+    display: none;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.row-fm-header > button {
+    min-width: 165px;
 }
 
 @keyframes rotation {
@@ -1771,6 +1783,19 @@ h1 {
     }
     100% {
         transform: translateY(0);
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .files-selected > button {
+        flex: 1;
+    }
+
+    .row-fm-header {
+        display: flex;
+    }
+    .folder-container {
+        display: none;
     }
 }
 
@@ -1799,6 +1824,11 @@ h1 {
     .files-container {
         padding: 10px;
         width: 100%;
+        height: 80%;
+        gap: 10px;
+    }
+    .files {
+        gap: 10px;
     }
     .header-setting > div > p {
         display: none;

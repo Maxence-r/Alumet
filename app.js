@@ -72,7 +72,7 @@ app.use('/homeworks', homeworks);
 app.use('/preview', preview);
 app.use('/viewer', viewer);
 app.use('/cdn', uploader);
-app.use('/preview', preview);
+
 
 // Alumet API
 app.use('/app', alumetRender);

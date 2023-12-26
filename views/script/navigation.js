@@ -132,6 +132,10 @@ function loadAppInfos(data) {
         document.querySelector('body').style.backgroundImage = `url(/cdn/u/${data.background})`;
         getContent();
     }
+    if (data.type === 'flashcard') {
+        document.getElementById('flashcard-title').innerText = data.title;
+        document.getElementById('flashcard-description').innerText = data.description;
+    }
 }
 
 function promptLeave() {
@@ -399,7 +403,8 @@ function handleLink(link) {
         .then(res => res.json())
         .then(data => {
             document.getElementById('preview-title').innerText = data.title || data['og:title'] || getDomainFromUrl(link);
-            document.querySelector('.link-preview').style.backgroundImage = `url(${data.image || data['og:image'] || ''})`;
+            console.log(data.image || data['og:image'] || '../assets/global/default.png');
+            document.querySelector('.link-preview').style.backgroundImage = `url(${data.image || data['og:image'] || '../assets/global/banner.jpg'})`;
             document.getElementById('preview-link').innerText = data.url || link;
             document.querySelector('.link-preview').classList.remove('active-link-loading');
             localStorage.setItem('link', link);

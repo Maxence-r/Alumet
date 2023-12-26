@@ -78,13 +78,6 @@ body {
     flex: 1;
 }
 
-.tagRow {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    flex-wrap: wrap;
-}
-
 .tag {
     padding: 4px 8px;
     border-radius: 5px;
@@ -144,12 +137,13 @@ body {
 }
 
 .add {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.65);
     align-items: center;
     justify-content: center;
     border: none;
     padding: 15px;
     border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
     font-size: 14px;
     transition: all 0.3s ease-in-out;
@@ -394,7 +388,8 @@ latex {
     border-radius: 8px 8px 0 0;
     cursor: pointer;
 
-    border: 1px solid #dddddd;
+    border: 1px solid #1d1d1d33;
+    border-bottom: none;
 }
 
 .actionRow {
@@ -429,14 +424,6 @@ latex {
     opacity: 1;
 }
 
-.post-rich-content-container {
-    transition: all 0.3s ease-in-out;
-}
-
-.post-rich-content-container:hover {
-    transform: scale(0.98);
-}
-
 .divider {
     width: 100%;
     min-height: 1px;
@@ -450,16 +437,16 @@ latex {
     font-size: 0.8rem;
     font-weight: 500;
     margin: 0;
-    word-break: break-all;
+    word-break: break-word;
     color: #515151;
-    border: 1px solid #dddddd;
+    border: 1px solid #1d1d1d33;
     border-top: none;
 }
 
 .post-rich-content > p {
     z-index: 10;
     font-size: 0.8rem;
-    font-weight: 400;
+    font-weight: bold;
     margin: 0;
     color: #fff;
 }

@@ -70,14 +70,24 @@
                     <button id="load-post-file" class="large greyed">Charger le fichier</button>
                     <input type="file" style="display: none" id="post-file" />
                 </div>
+                <div class="row-fm-header">
+                    <select name="folder" id="folder-selection"></select>
+                </div>
                 <div class="files-selector">
                     <div class="folder-container">
                         <div class="folder-list"></div>
                     </div>
                     <div class="files">
-                        <div class="files-box"></div>
+                        <div class="files-box">
+                            <div class="files-items connected">
+                                <div class="full-screen" style="display: none">
+                                    <h1>Pas de fichiers</h1>
+                                    <p>Ce dossier ne contient pas de fichiers</p>
+                                </div>
+                            </div>
+                        </div>
                         <div class="files-selected">
-                            <button class="large greyed">Annuler</button>
+                            <button onclick="filePicker.close()" class="large greyed">Annuler</button>
                             <button class="large">Selectionner</button>
                         </div>
                     </div>
@@ -468,9 +478,9 @@
         </script>
         <script src="../script/global.js"></script>
         <script src="../../script/socket/chat.js"></script>
+        <script src="../script/dashboard/profile.js"></script>
         <script src="../script/dashboard/dashboard.js"></script>
         <script src="../script/dashboard/cloud.js"></script>
-        <script src="../script/dashboard/profile.js"></script>
         <script src="../script/applications/swiftChat.js"></script>
         <script src="../script/dashboard/uploadHandler.js"></script>
         <script src="../../script/utils/filePicker.js"></script>

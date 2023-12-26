@@ -23,9 +23,14 @@ router.get('/content', authorize(), async (req, res) => {
         let folders = await Folder.find({ owner: req.user.id })
             .sort({ lastUsage: -1 })
             .lean();
+
+        const extensions = req.query.ext ? req.query.ext.split(',') : [];
+        const regex = extensions.length > 0 ? new RegExp(`\\.(${extensions.join('|')})$`, 'i') : null;
+
         await Promise.all(folders.map(async (folder) => {
-            folder.uploads = await Upload.find({ folder: folder._id })
-                .sort({ _id: -1 });
+            let query = { folder: folder._id };
+            if (regex) query.filename = regex;
+            folder.uploads = await Upload.find(query).sort({ _id: -1 });
         }));
 
         res.json(folders);

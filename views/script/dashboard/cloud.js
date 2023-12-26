@@ -301,9 +301,9 @@ function triggerFolder() {
     });
 }
 
-function addFolder(folder) {
-    folderSelection.appendChild(createOption(folder));
-    folderList.appendChild(createFolderElement(folder));
+function addFolder(folder, fp = false) {
+    folderSelection.appendChild(createOption(folder, fp));
+    folderList.appendChild(createFolderElement(folder, fp));
 }
 
 function newFolder() {
@@ -390,7 +390,7 @@ function loadFolder(id) {
     document.querySelectorAll('.active-folder').forEach(folder => folder.classList.remove('active-folder'));
     const loading = document.querySelector('.files-items > .full-screen')
     document.querySelector(`[data-id="${id}"]`).classList.add('active-folder');
-    document
+    console.log(files);
     files.forEach(folder => {
         if (folder._id === id) {
             if (folder.uploads.length === 0) {

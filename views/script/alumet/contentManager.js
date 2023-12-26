@@ -186,19 +186,6 @@ function createPostElement(post) {
     card.dataset.position = post.position;
     card.dataset.id = post._id;
 
-    let tagRow = document.createElement('div');
-    tagRow.classList.add('tagRow');
-
-    let tag = document.createElement('div');
-    tag.classList.add('tag');
-    tag.innerText = '#Chapitre 1';
-    tagRow.appendChild(tag);
-
-    let tag2 = document.createElement('div');
-    tag2.classList.add('tag');
-    tag2.innerText = '#Chapitre 2';
-    tagRow.appendChild(tag2);
-
     author = document.createElement('div');
     author.classList.add('author');
 

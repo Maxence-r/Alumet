@@ -100,13 +100,12 @@ class FilePicker {
         this.reference = reference;
         this.extensions = extensions;
         this.unique = unique;
-        this.files = [];
         this.selectedFile = [];
-        /*  this.loadFiles(); */
+        this.loadFiles();
     }
 
     loadFiles() {
-        fetch('/cdn/content', {
+        fetch('/cdn/content?ext=' + this.extensions, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -114,7 +113,7 @@ class FilePicker {
         })
             .then(res => res.json())
             .then(data => {
-                this.files = data;
+                files = data;
                 data.forEach(addFolder);
                 if (data.length > 0) {
                     document.querySelector('.folder-list > div:first-child').click();
@@ -124,11 +123,21 @@ class FilePicker {
             });
     }
 
-    addFolder
+    open() {
+        document.querySelector('.file-picker').style.display = 'flex';
+    }
+
+    close() {
+        document.querySelector('.file-picker').style.display = 'none';
+    }
+
 
 
 }
 
-let filePicker = new FilePicker('test', ['png', 'jpg', 'jpeg', 'gif']);
+let filePicker = new FilePicker('test', ['png', 'jpg', 'jpeg', 'gif'], true);
+setTimeout(() => {
+    filePicker.open();
+}, 1500);
 console.log(filePicker);
 /* filePicker.open(); */
