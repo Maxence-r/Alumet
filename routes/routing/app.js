@@ -10,6 +10,7 @@ const sendInvitations = require('../../middlewares/mailManager/sendInvitations')
 const addBlurToImage = require('../../middlewares/utils/blur');
 const Account = require('../../models/account');
 const authorizeA2F = require('../../middlewares/authentification/authorizeA2f');
+const { file } = require('googleapis/build/src/apis/file');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     let alumet = await Alumet.findById(req.params.id);
@@ -34,13 +35,21 @@ router.get('/:id', validateObjectId, async (req, res) => {
     }
     res.sendFile(filePath);
 });
+
+router.get('/setup/:app', async (req, res) => {
+    console.log(req.params.app)
+    req.params.app !== 'flashcard' && req.params.app !== 'mindmap' && req.params.app !== 'alumet' ? res.redirect('/404') : null;
+    let filePath = req.connected ? path.join(__dirname, '../../views/pages/setup/new-app.html') : path.join(__dirname, '../../views/pages/404.html');
+    res.sendFile(filePath);
+});
+
 router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['png', 'jpeg', 'jpg']), addBlurToImage, validateAlumet, async (req, res) => {
     try {
-
-        let alumet;
-        console.log(req.body)
-        if (!req.body.app) {
-            alumet = new Alumet({
+        const existantAlumet = await Alumet.findById(req.body.app);
+        let updatedAlumet;
+        console.log('upload', req.upload)
+        const alumetDatas = Object.fromEntries(
+            Object.entries({
                 owner: req.user.id,
                 title: req.body.title,
                 description: req.body.description,
@@ -51,26 +60,17 @@ router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['
                 type: req.body.type,
                 subject: req.body.subject,
                 discovery: req.body.discovery,
-            });
-            req.alumetId = alumet._id;
-            await alumet.save();
-            sendInvitations(req, res, alumet._id);
-            res.json({ alumet });
-        } else {
-            alumet = await Alumet.findByIdAndUpdate(req.body.app, {
-                title: req.body.title,
-                description: req.body.description,
-                background: req.upload ? req.upload._id : undefined,
-                private: req.body.private,
-                swiftchat: req.body.chat,
-                lastUsage: Date.now(),
-                discovery: req.body.discovery,
-            });
-            res.json({ alumet });
-        }
+            }).filter(([_, value]) => value !== undefined)
+        );
+
+        updatedAlumet = existantAlumet ? Object.assign(existantAlumet, alumetDatas) : new Alumet(alumetDatas);
+        await updatedAlumet.save();
+
+        /* !existantAlumet ? sendInvitations(req, res, updatedAlumet._id) : null; */ //TODO - Make mails work correctly
+        res.json({ alumet: updatedAlumet });
     } catch (error) {
-        console.error(error);
-        res.status(400).json({ error: 'An error occurred while creating the alumet.' });
+        console.log(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 

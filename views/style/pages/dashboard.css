@@ -1440,6 +1440,10 @@ h3 {
     margin-top: auto;
 }
 
+.main-container > .items {
+    overflow-y: auto;
+}
+
 @media (max-width: 1100px) {
     .participants-show {
         display: flex !important;
