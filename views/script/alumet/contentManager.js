@@ -1,5 +1,7 @@
 let alumet = {};
 
+
+
 function getContent() {
     fetch('/alumet/' + id + '/content')
         .then(response => response.json())
@@ -92,7 +94,8 @@ function patchWall(position) {
             setTimeout(() => {
                 navbar('home');
             }, 500);
-            const wall = document.querySelector(`.list[data-id="${data._id}"]`);
+
+
         });
 }
 
@@ -369,7 +372,7 @@ function createInList(title, postAuthorized, id) {
     return list;
 }
 
-getContent();
+
 
 function chooseFile(id) {
     const fileDiv = document.querySelector(`div[data-id="${id}"]`);

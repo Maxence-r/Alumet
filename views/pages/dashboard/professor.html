@@ -62,10 +62,25 @@
         </div>
         <div style="display: none" class="file-picker">
             <div class="files-container">
+                <div class="loading full-screen">
+                    <span class="loader"></span>
+                </div>
                 <div class="from-device">
                     <h3>Le fichier est sur votre appareil ?</h3>
                     <button id="load-post-file" class="large greyed">Charger le fichier</button>
                     <input type="file" style="display: none" id="post-file" />
+                </div>
+                <div class="files-selector">
+                    <div class="folder-container">
+                        <div class="folder-list"></div>
+                    </div>
+                    <div class="files">
+                        <div class="files-box"></div>
+                        <div class="files-selected">
+                            <button class="large greyed">Annuler</button>
+                            <button class="large">Selectionner</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -235,7 +250,11 @@
                             <div data-ref="messages" data-module="official-messages" class="">Officiel<span class="redot"></span></div>
                         </div>
                     </div>
-                    <div data-reference="messages" class="conversations-container group-messages"></div>
+                    <div data-reference="messages" class="conversations-container group-messages">
+                        <div class="information">
+                            <img src="../assets/global/notifications.svg" />
+                        </div>
+                    </div>
                     <div style="display: none" data-reference="messages" class="conversations-container private-messages">
                         <div class="information">
                             <img src="../assets/global/notifications.svg" />
@@ -454,5 +473,6 @@
         <script src="../script/dashboard/profile.js"></script>
         <script src="../script/applications/swiftChat.js"></script>
         <script src="../script/dashboard/uploadHandler.js"></script>
+        <script src="../../script/utils/filePicker.js"></script>
     </body>
 </html>

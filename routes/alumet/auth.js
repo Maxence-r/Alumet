@@ -6,13 +6,14 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const A2F = require('../../models/a2f');
-const { sendMail } = require('../alumet/mailing');
+const { sendA2FCode } = require('../../routes/mail/mail');
 const authorizeA2F = require('../../middlewares/authentification/authorizeA2f');
 const validateAccount = require('../../middlewares/modelsValidation/validateAccount');
 const authorize = require('../../middlewares/authentification/authorize');
 const Invitation = require('../../models/invitation');
 const Alumet = require('../../models/alumet');
-
+const { sendMail } = require('../mail/mailing');
+const rateLimit = require('../../middlewares/authentification/rateLimit');
 
 
 
@@ -49,7 +50,7 @@ router.get('/info', authorize(), async (req, res) => {
     res.json({ user, invitationsToSend });
 });
 
-router.post('/signin', async (req, res) => {
+router.post('/signin', rateLimit(3), async (req, res) => {
     try {
         const user = await Account.findOne({ mail: req.body.mail });
         if (!user) {
@@ -64,7 +65,10 @@ router.post('/signin', async (req, res) => {
             });
         }
         if (user.isA2FEnabled) {
-            await sendA2FCode(req.body.mail, res);
+            await sendMail('a2f', user.mail);
+            res.status(200).json({
+                a2f: true,
+            });
         } else {
             const token = jwt.sign(
                 {
@@ -88,7 +92,7 @@ router.post('/signin', async (req, res) => {
     }
 });
 
-router.post('/signup', authorizeA2F, validateAccount, async (req, res) => {
+router.post('/signup', rateLimit(1), authorizeA2F, validateAccount, async (req, res) => {
     const account = new Account({
         name: req.body.name,
         lastname: req.body.lastname,
@@ -138,35 +142,9 @@ router.post('/authorize', async (req, res) => {
     }
 });
 
-router.post('/a2f', async (req, res) => {
-    req.user?.mail || req.body.mail ? sendA2FCode(req.user?.mail || req.body.mail, res) : res.status(400).json({ error: "Quelque chose c'est mal passé !" });
-});
 
-async function sendA2FCode(mail, res) {
-    try {
-        const a2fCodeDb = await A2F.findOne({ owner: mail }).sort({ expireAt: -1 });
-        let a2fCode = a2fCodeDb?.code;
-        if (!a2fCodeDb || !a2fCodeDb.expireAt > new Date()) {
-            a2fCodeDb ? A2F.deleteOne({ owner: req.user.mail }) : null;
-            a2fCode = Math.floor(Math.random() * 1000000)
-                .toString()
-                .padStart(6, '0');
-            const now = new Date();
-            const fifteenMinutesLater = new Date(now.getTime() + 15 * 60 * 1000);
-            const a2f = new A2F({
-                owner: mail,
-                code: a2fCode,
-                expireAt: fifteenMinutesLater,
-            });
-            await a2f.save();
-        }
-        await sendMail('a2f', mail, a2fCode);
-        res.json({ a2f: true });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error });
-    }
-}
+
+
 
 router.post('/resetpassword', authorizeA2F, async (req, res) => {
     try {

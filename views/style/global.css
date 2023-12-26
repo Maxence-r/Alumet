@@ -1304,7 +1304,7 @@ select {
 }
 
 .radio-option .radio input[type='radio']:checked + .radio-content {
-    border: 1px solid #216ee0;
+    border: 2px solid #216ee0;
     background: #eaf1fe;
     transition: ease-in 0.3s;
 }
@@ -1696,13 +1696,64 @@ h1 {
     }
 }
 
+.files-selector {
+    width: 100%;
+    height: 100%;
+    gap: 15px;
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+}
+
 .files-container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
     background-color: white;
     width: 90%;
-    height: 80%;
+    gap: 15px;
+    height: 65%;
     padding: 15px;
     border-radius: 25px 25px 0 0;
     animation: slideIn 0.3s ease-in-out;
+}
+
+.folder-container {
+    flex: 1;
+
+    padding: 15px;
+    display: flex;
+    border-radius: 16px;
+    flex-direction: column;
+    border: 1px solid #e5e5e5;
+}
+
+.files {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    gap: 15px;
+}
+
+.files-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 16px;
+    border: 1px solid #e5e5e5;
+    height: 100%;
+}
+
+.files-selected {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    padding: 10px;
+    min-height: 62px;
+    border-radius: 16px;
+    border: 1px solid #e5e5e5;
 }
 
 @keyframes rotation {

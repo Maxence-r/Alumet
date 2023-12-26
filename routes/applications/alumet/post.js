@@ -11,8 +11,10 @@ const authorize = require('../../../middlewares/authentification/authorize');
 const Wall = require('../../../models/wall');
 const Account = require('../../../models/account');
 const Comment = require('../../../models/comment');
+const rateLimit = require('../../../middlewares/authentification/rateLimit');
 
-router.put('/:alumet/:wall', validatePost, authorize('alumet', 'alumetPrivate'), async (req, res) => {
+
+router.put('/:alumet/:wall', rateLimit(60), validatePost, authorize('alumet', 'alumetPrivate'), async (req, res) => {
     const postId = req.body.postId;
     const postFields = {
         title: req.body.title,
@@ -58,7 +60,7 @@ router.put('/:alumet/:wall', validatePost, authorize('alumet', 'alumetPrivate'),
     }
 });
 
-router.put('/:alumet/:id/comments', authorize('alumet', 'itemParticipants'), authorize('alumet', 'alumetPrivate'), async (req, res) => {
+router.put('/:alumet/:id/comments', rateLimit(5), authorize('alumet', 'itemParticipants'), authorize('alumet', 'alumetPrivate'), async (req, res) => {
     const commentFields = {
         owner: req.user && req.user.id,
         content: req.body.content,
