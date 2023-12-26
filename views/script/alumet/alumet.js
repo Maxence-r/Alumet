@@ -75,11 +75,11 @@ function registerEventsOnCard(card) {
     });
 }
 
-document.querySelector('.drop-box').addEventListener('click', e => {
+/* document.querySelector('.drop-box').addEventListener('click', e => {
     if (e.target.classList.contains('drop-box')) {
         navbar('loadfile');
     }
-});
+}); */
 
 
 document.getElementById('latexInput').addEventListener('input', e => {

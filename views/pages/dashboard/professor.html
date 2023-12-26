@@ -60,30 +60,7 @@
                 </div>
             </div>
         </div>
-        <div style="display: none" class="file-picker">
-            <div class="files-container">
-                <div class="loading full-screen">
-                    <span class="loader"></span>
-                </div>
-                <div class="from-device">
-                    <h3>Le fichier est sur votre appareil ?</h3>
-                    <button id="load-post-file" class="large greyed">Charger le fichier</button>
-                    <input type="file" style="display: none" id="post-file" />
-                </div>
-                <div class="files-selector">
-                    <div class="folder-container">
-                        <div class="folder-list"></div>
-                    </div>
-                    <div class="files">
-                        <div class="files-box"></div>
-                        <div class="files-selected">
-                            <button class="large greyed">Annuler</button>
-                            <button class="large">Selectionner</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="nav">
             <button data-title="Accueil" class="active" id="home"><img src="../assets/global/home.svg" alt="home" /></button> <button id="cloud"><img src="../assets/global/cloud.svg" alt="gestionnaire de fichiers" /></button>
             <button id="messages">
@@ -468,11 +445,10 @@
         </script>
         <script src="../script/global.js"></script>
         <script src="../../script/socket/chat.js"></script>
+        <script src="../script/dashboard/profile.js"></script>
         <script src="../script/dashboard/dashboard.js"></script>
         <script src="../script/dashboard/cloud.js"></script>
-        <script src="../script/dashboard/profile.js"></script>
         <script src="../script/applications/swiftChat.js"></script>
         <script src="../script/dashboard/uploadHandler.js"></script>
-        <script src="../../script/utils/filePicker.js"></script>
     </body>
 </html>

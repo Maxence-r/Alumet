@@ -3,6 +3,7 @@ let user;
 let previousSender = null;
 let selectedColor = 'white';
 let type = null;
+let files = null;
 const fileIconReference = {
     png: '../assets/files-icons/img.png',
     jpg: '../assets/files-icons/img.png',

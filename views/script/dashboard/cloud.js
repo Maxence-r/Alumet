@@ -363,7 +363,7 @@ folderSelection.addEventListener('change', e => {
     loadFolder(e.currentTarget.value);
 });
 
-let files = null;
+
 fetch('/cdn/content', {
     method: 'GET',
     headers: {

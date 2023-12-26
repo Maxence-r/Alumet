@@ -45,6 +45,40 @@
                 <datalist id="users"> </datalist>
             </div>
         </div>
+        <div style="display: none" class="file-picker">
+            <div class="files-container">
+                <div class="loading full-screen">
+                    <span class="loader"></span>
+                </div>
+                <div class="from-device">
+                    <h3>Le fichier est sur votre appareil ?</h3>
+                    <button id="load-post-file" class="large greyed">Charger le fichier</button>
+                    <input type="file" style="display: none" id="post-file" />
+                </div>
+                <div class="row-fm-header">
+                    <select name="folder" id="folder-selection"></select>
+                </div>
+                <div class="files-selector">
+                    <div class="folder-container">
+                        <div class="folder-list"></div>
+                    </div>
+                    <div class="files">
+                        <div class="files-box">
+                            <div class="files-items connected">
+                                <div class="full-screen" style="display: none">
+                                    <h1>Pas de fichiers</h1>
+                                    <p>Ce dossier ne contient pas de fichiers</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="files-selected">
+                            <button onclick="filePicker.close()" class="large greyed">Annuler</button>
+                            <button class="large">Selectionner</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="user-popup popup">
             <div class="prompt">
                 <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Entrez un nom ou prénom" />
@@ -76,36 +110,7 @@
                 <h1 onclick="navbar('participants')">Participants</h1>
                 <h1 onclick="navbar('profile')">Indentité</h1>
             </div>
-            <div class="overlay-content loadfile">
-                <div class="loading full-screen">
-                    <span class="loader"></span>
-                </div>
-                <h1>Choisir un fichier</h1>
-                <div class="divider"></div>
-                <div class="from-device">
-                    <h3>Le fichier est sur votre appareil ?</h3>
-                    <button id="load-post-file" class="large greyed">Charger le fichier</button>
-                    <input type="file" style="display: none" id="post-file" />
-                </div>
 
-                <select name="folder" id="folder-selection" class="connected"></select>
-                <div class="files-header">
-                    <h3>Nom du fichier</h3>
-                    <h3>Taille</h3>
-                    <h3>Mise en ligne</h3>
-                    <input id="search-bar" placeholder="Rechercher un fichier" type="text" name="search" />
-                </div>
-                <div class="files-items">
-                    <div class="loader-container">
-                        <span class="loader"></span>
-                    </div>
-                    <div class="full-screen" style="display: flex">
-                        <h1>Pas de fichiers</h1>
-                        <p>Ce dossier ne contient pas de fichiers</p>
-                    </div>
-                </div>
-                <button onclick="navbar('post')" class="large greyed">Annuler</button>
-            </div>
             <div class="overlay-content disconnected">
                 <div class="information">
                     <img src="../assets/global/disconnect.svg" />
@@ -331,6 +336,13 @@
             </div>
 
             <div class="overlay-content post">
+                <div class="header-setting">
+                    <div>
+                        <h1>Publication</h1>
+                        <p>Créer ou modifier une publication</p>
+                    </div>
+                </div>
+                <div class="divider"></div>
                 <input maxlength="300" id="postTitle" type="text" placeholder="Titre de la publication" />
                 <div id="toolbar">
                     <div>
@@ -468,4 +480,5 @@
     <script src="../script/navigation.js"></script>
     <script src="../script/applications/swiftChat.js"></script>
     <script src="../script/alumet/contentManager.js"></script>
+    <script src="../script/utils/filePicker.js"></script>
 </html>
