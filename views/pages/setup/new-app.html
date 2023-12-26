@@ -24,7 +24,7 @@
         <link href="../../style/authentification/authentification.css" rel="stylesheet" type="text/css" />
         <link href="../../style/global.css" rel="stylesheet" type="text/css" />
 
-        <title>Alumet - Flashcards</title>
+        <title>Créer</title>
     </head>
     <body>
         <section class="loading" style="display: flex">
@@ -53,27 +53,29 @@
         <section class="access load">
             <section style="display: none" class="full-screen">
                 <span class="loader"></span>
-                <h3>Patientez quelques instants</h3>
+                <h3>Patientez quelques instants...</h3>
             </section>
             <div class="container">
-                <h1>Créer un jeu de flashcards</h1>
-                <div id="step1" class="activeStep">
+                <h1 id="new-app-title" class="indefinite-name">Créer une application</h1>
+                <div id="step1"  class="activeStep">
                     <div class="user-details">
                         <h3>Un nom et une description</h3>
-                        <p>Cela vous permettra facilement d'identifier votre jeu de flaschards</p>
+                        <p>Cela vous permettra facilement de facilement l'identifier</p>
                     </div>
-                    <input id="flashcards-name" required type="text" placeholder="Nom du jeu" />
-                    <input id="flashcards-description" type="text" placeholder="Description du jeu" />
-
-                    <button onclick="next(1, 2)" class="large">Continuer</button>
+                    <input id="app-name" required type="text" placeholder="Nom"/>
+                    <input id="app-description" type="text" placeholder="Description" />
+                    <div class="buttons">
+                        <button onclick="window.location.href = '/dashboard';" class="large greyed">Annuler</button>
+                        <button onclick="next(1, 2)" class="large">Continuer</button>
+                    </div>
                 </div>
                 <div id="step2">
                     <div class="user-details">
-                        <h3>Sujet et découverte</h3>
-                        <p>Utiliser le mode privé si vous souhaitez seulement que certaines personnes rejoignent avec un code. Désactiver la messagerie de l'Alumet pour limiter les interactions des utilisateurs de l'Alumet.</p>
+                        <h3>Options</h3>
+                        <p class="app-name">Déterminez les options de l'application</p>
                     </div>
                     <div class="switch-options">
-                        <select id="flashcards-subject">
+                        <select id="app-subject" class="option">
                             <option value="Mathématiques">Mathématiques</option>
                             <option value="Français">Français</option>
                             <option value="Histoire">Histoire</option>
@@ -91,38 +93,57 @@
                             <option value="Autre">Autre</option>
                         </select>
                         <div class="option">
-                            <h1>Rendre public pour d'autres élèves</h1>
+                            <h1 class="app-name">Mode privé de l'application</h1>
                             <label class="switch">
-                                <input id="flashcards-public" checked="" type="checkbox" />
+                                <input id="app-private" type="checkbox" />
+                                <span class="slide round"></span>
+                            </label>
+                        </div>
+
+                        <div class="option">
+                            <h1 class="app-name">Messagerie de l'application</h1>
+                            <label class="switch">
+                                <input id="app-chat" checked="" type="checkbox" />
                                 <span class="slide round"></span>
                             </label>
                         </div>
                     </div>
-                    <button onclick="next(2, 3)" class="large">Continuer</button>
+                    <div class="buttons">
+                        <button onclick="next(2, 1)" class="large greyed">Retour</button>
+                        <button onclick="next(2, 3)" class="large">Continuer</button>
+                    </div>
                 </div>
                 <div id="step3">
                     <div class="user-details">
-                        <h3>Collaborer avec d'autres élèves ou enseignants</h3>
-                        <p>
-                            Les utilisateurs que vous ajouterez recevront un mail d'invitation pour rejoindre votre jeu de flashcards en tant que colaborateur, ils auront la permission de modifier le jeu. Envoyez uniquement le lien pour partager
-                            votre jeu de flashcards en lecture seul.
-                        </p>
+                        <h3>Collaborer</h3>
+                        <p class="app-name">Choisissez les collaborateurs avec qui vous créerez cette application</p>
                     </div>
                     <button onclick="document.querySelector('.user-popup').classList.add('active-popup')" class="large greyed">Ajouter des collaborateurs</button>
-                    <button onclick="createFlashcards()" class="large">Continuer</button>
+                    <div class="buttons">
+                        <button class="large greyed" onclick="next(3, 2)">Retour</button>
+                        <button onclick="next(3, 4)" class="large">Continuer</button>
+                    </div>
                 </div>
-
-                <span class="footer-infos">
-                    <p>Besoin d'aide ?</p>
-                </span>
+                <div id="step4">
+                    <div class="user-details">
+                        <h3>Style</h3>
+                        <p class="app-name">Définisser une image de fond pour l'application</p>
+                    </div>
+                    <img class="alumet-background load-background" src="../../assets/default/default_alumet.jpg" />
+                    <!-- //TODO - Change alumet name to app -->
+                    <input id="alumet-background" type="file" accept="image/*" />
+                    <div class="buttons">
+                        <button onclick="next(4, 3)" class="large greyed">Retour</button>
+                        <button onclick="createApp()" class="large app-name">Créer l'application</button>
+                    </div>
+                </div>
             </div>
         </section>
-        <section style="background-image: url('../../assets/global/workspace2.jpg')" class="appInfos"></section>
     </body>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
     </script>
     <script src="../../script/global.js"></script>
-    <script src="../../script/setup/setup.js"></script>
+    <script src="../../script/setup/setup.js" defer></script>
 </html>

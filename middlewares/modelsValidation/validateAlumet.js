@@ -21,14 +21,10 @@ async function validateAlumet(req, res, next) {
                     responseSent = true;
                     return res.status(401).json({ error: 'Unauthorized' });
                 }
-                if (!responseSent) {
-                    next();
-                }
+                !responseSent ? next() : null;
             });
         } else {
-            if (!responseSent) {
-                next();
-            }
+            !responseSent ? next() : null;
         }
     } catch (error) {
         console.log(error);

@@ -577,16 +577,9 @@ function openConversation(id) {
 
 
 function startSetup() {
-    let type = document.querySelector('.module-selected').dataset.module;
-    if (type === 'alumets') {
-        window.location.href = '/setup/alumet';
-    } else if (type === 'flashcards') {
-        window.location.href = '/setup/flashcards';
-    } else if (type === 'mindmaps') {
-        window.location.href = '/setup/mindmaps';
-    }
+    let type = document.querySelector('.module-selected').dataset.module.slice(0, -1);
+    window.location.href = `/app/setup/${type}`;
 }
-
 document.addEventListener('DOMContentLoaded', function () {
     var subContainer = document.querySelector('.right-container');
     var startY;

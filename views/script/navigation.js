@@ -233,7 +233,7 @@ async function modifyApp() {
         });
 }
 
-document.querySelector('.backgroundImg').addEventListener('click', () => {
+document.querySelector('.backgroundImg').addEventListener('click', () => { //ANCHOR - Change background
     document.getElementById('alumet-background').click();
 });
 

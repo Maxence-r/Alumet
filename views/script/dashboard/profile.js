@@ -184,8 +184,8 @@ function confirmA2F() {
         .then(res => res.json())
         .then(data => {
             if (!data.error) {
-                document.getElementById('toggleA2FBtn').innerText = !data.isA2FEnabled ? 'Désactiver la verification par mail' : 'Activer la verification par mail';
-                toast({ title: 'A2F modifié !', message: "Vos paramètres d'authentification à double facteur ont bien été modifiés.", type: 'success', duration: 2500 });
+                document.getElementById('toggleA2FBtn').innerText = data.isA2FEnabled ? 'Désactiver la vérification par mail' : 'Activer la vérification par mail';
+                toast({ title: 'A2F modifié !', message: "Vos paramètres d'authentification à double facteurs ont bien été modifiés.", type: 'success', duration: 2500 });
             } else {
                 toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
             }
