@@ -1067,16 +1067,6 @@ h3 {
     cursor: pointer;
 }
 
-.folder-list {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-    gap: 5px;
-    width: 100%;
-    overflow: auto;
-}
-
 .legend {
     display: flex;
     flex-wrap: wrap;
@@ -1299,29 +1289,6 @@ h3 {
     display: flex;
 }
 
-.folder-list > div {
-    display: flex;
-    padding: 14px;
-    border-radius: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #6a6a6a;
-    margin: 0;
-    cursor: pointer;
-    min-height: 44px;
-    transition: all 0.3s ease-in-out;
-}
-
-.folder-list > div > h2 {
-    font-size: 0.9rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: 500;
-    margin: 0;
-    color: #000000;
-}
-
 #custom-select > div {
     font-size: 0.9rem;
     padding: 15px;
@@ -1401,16 +1368,6 @@ h3 {
 .participants-show {
     display: none !important;
     margin-bottom: 60px;
-}
-
-.active-folder > h2 {
-    color: #1e54e3 !important;
-    font-weight: bold !important;
-}
-
-.active-folder {
-    padding-left: 20px !important;
-    background-color: #e4edff;
 }
 
 .active-folder > img {

@@ -1166,9 +1166,54 @@ label.switch:hover {
 
 .file-item h4 {
     font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-weight: 400;
     margin: 0;
     color: #000000;
+}
+
+.folder-list {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    gap: 5px;
+    width: 100%;
+    overflow: auto;
+}
+
+.folder-list > div {
+    display: flex;
+    padding: 14px;
+    border-radius: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #6a6a6a;
+    margin: 0;
+    cursor: pointer;
+    min-height: 44px;
+    transition: all 0.3s ease-in-out;
+}
+
+.folder-list > div > h2 {
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    margin: 0;
+    color: #000000;
+}
+
+.active-folder > h2 {
+    color: #1e54e3 !important;
+    font-weight: bold !important;
+}
+
+.active-folder {
+    padding-left: 20px !important;
+    background-color: #e4edff;
 }
 
 .file-name {
@@ -1766,6 +1811,10 @@ h1 {
 
 .row-fm-header > button {
     min-width: 165px;
+}
+
+.files-selected > button:nth-of-type(1) {
+    margin-left: auto;
 }
 
 @keyframes rotation {
