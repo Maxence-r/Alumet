@@ -59,7 +59,7 @@ function handleReset() {
         return toast({ title: 'Erreur', message: 'Veuillez entrer une adresse mail.', type: 'error', duration: 6000 });
     }
     document.querySelector('.full-screen').style.display = 'flex';
-    fetch('/auth/a2f', {
+    fetch('/mail/a2f', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

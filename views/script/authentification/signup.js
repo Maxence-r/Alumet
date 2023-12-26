@@ -82,7 +82,7 @@ function verify() {
 
 function send2FA(mail) {
     document.querySelector('.full-screen').style.display = 'flex';
-    fetch('/auth/a2f', {
+    fetch('/mail/a2f', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

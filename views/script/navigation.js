@@ -130,6 +130,7 @@ function loadAppInfos(data) {
     document.getElementById('appDiscovery').checked = data.discovery
     if (data.type === 'alumet') {
         document.querySelector('body').style.backgroundImage = `url(/cdn/u/${data.background})`;
+        getContent();
     }
 }
 
@@ -276,7 +277,7 @@ function engageDeletion() {
 }
 
 function deleteItem() {
-    fetch('/auth/a2f', {
+    fetch('/mail/a2f', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

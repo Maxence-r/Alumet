@@ -85,7 +85,7 @@ function createNotifications(invitations) {
 /** Change the password */
 
 function handleReset() {
-    fetch('/auth/a2f', {
+    fetch('/mail/a2f', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -149,7 +149,7 @@ function confirmPassword() {
 
 // SECTION - A2F
 toggleA2FBtn.addEventListener('click', () => {
-    fetch('/auth/a2f', {
+    fetch('/mail/a2f', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -1,4 +1,4 @@
-const { sendMail } = require('../../routes/alumet/mailing');
+const { sendMail } = require('../../routes/mail/mailing');
 const Account = require('../../models/account');
 const Invitation = require('../../models/invitation');
 const Alumet = require('../../models/alumet');
@@ -26,9 +26,8 @@ async function sendInvitations(req, res, reference) {
             });
             await invitation.save();
             sendMail(
+                "collaboration",
                 account.mail,
-                'Vous êtes invité a collaborer sur Alumet',
-                `Vous avez été invité à collaborer sur "${referenceDetails.title}" (${referenceDetails.type}) en tant que collaborateur par ${owner.name} ${owner.lastname} (${owner.username}). Accepter ou refuser l'invitation en vous rendant sur votre tableau de bord. `
             );
         }
     } catch (error) {
