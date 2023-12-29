@@ -300,7 +300,6 @@ body {
 }
 
 .user-infos {
-    margin-top: 10px;
     margin-bottom: 15px;
 }
 
@@ -374,35 +373,6 @@ body {
     opacity: 1;
     pointer-events: all !important;
     transform: translateY(0%);
-}
-
-.user-options-heading {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin: 10px 0;
-    margin-top: 20px;
-}
-
-.user-options-infos {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    margin-left: 20px;
-}
-
-.user-options-infos > h4 {
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin: 0;
-}
-
-.user-options-infos > p {
-    font-size: 1rem;
-    color: #9ea1a7;
-    font-weight: 500;
-    margin: 0;
 }
 
 .banner {

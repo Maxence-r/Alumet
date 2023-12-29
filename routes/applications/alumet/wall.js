@@ -49,58 +49,44 @@ router.put('/:alumet', validateObjectId, authorize('alumet', 'itemAdmins'), (req
     }
 });
 
-router.patch('/:alumet/:wall/move', validateObjectId, authorize('alumet', 'itemAdmins'), (req, res) => {
-    const { direction } = req.query;
-    const { wall } = req.params;
+router.patch('/:alumet/:wall/move', validateObjectId, authorize('alumet', 'itemAdmins'), async (req, res) => {
+    try {
+        const { direction } = req.query;
+        const { wall } = req.params;
 
-    Wall.findById(wall)
-        .then(wallToMove => {
-            if (!wallToMove) {
-                return res.status(404).json({ error: 'Wall not found' });
-            }
+        let currentWall = await Wall.findById(wall);
 
-            Wall.find({ alumet: req.params.alumet })
-                .sort({ position: 1 })
-                .then(walls => {
-                    const currentPosition = wallToMove.position;
-                    let newPosition;
+        if (!currentWall) {
+            return res.status(404).json({ error: 'Wall not found' });
+        }
+        let wallToSwap;
+        if (direction === 'right') {
+            wallToSwap = await Wall.find({
+                alumetReference: req.params.alumet,
+                position: { $gt: currentWall.position }
+            }).sort({ position: 1 }).limit(1);
+        } else {
+            wallToSwap = await Wall.find({
+                alumetReference: req.params.alumet,
+                position: { $lt: currentWall.position }
+            }).sort({ position: -1 }).limit(1);
+        }
+        if (wallToSwap.length === 0) {
+            return res.status(404).json({ error: 'Ce mur est déjà à une extremité !' });
+        }
+        let temp = currentWall.position;
+        currentWall.position = wallToSwap[0].position;
+        wallToSwap[0].position = temp;
+        await currentWall.save();
+        await wallToSwap[0].save();
+        global.io.to(req.params.alumet).emit('moveWall', currentWall._id, req.query.direction);
 
-                    if (direction === 'right') {
-                        newPosition = currentPosition + 1;
-                    } else if (direction === 'left') {
-                        newPosition = currentPosition - 1;
-                    } else if (direction === 'first') {
-                        newPosition = 0;
-                    } else {
-                        return res.status(400).json({ error: 'Invalid direction' });
-                    }
-
-                    if (newPosition < 0) {
-                        newPosition = 0;
-                    } else if (newPosition >= walls.length) {
-                        newPosition = walls.length - 1;
-                    }
-
-                    if (newPosition === currentPosition) {
-                        return res.status(200).json({ message: 'Wall position unchanged' });
-                    }
-
-                    const otherWall = walls.find(w => w.position === newPosition);
-                    if (otherWall) {
-                        otherWall.position = currentPosition;
-                        otherWall.save();
-                    }
-
-                    wallToMove.position = newPosition;
-                    wallToMove
-                        .save()
-                        .then(() => res.status(200).json({ message: 'Wall position updated' }))
-                        .catch(error => res.status(500).json({ error }));
-                })
-                .catch(error => res.status(500).json({ error }));
-        })
-        .catch(error => res.status(500).json({ error }));
+        res.json({ message: 'Wall moved' })
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
+
 
 router.delete('/:alumet/:wall', authorize('alumet', 'itemAdmins'), (req, res) => {
     Wall.findOneAndDelete({ _id: req.params.wall, alumetReference: req.params.alumet })

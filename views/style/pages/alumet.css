@@ -182,7 +182,7 @@ body {
     top: 0;
 }
 .list > .titleList > h1 {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: bold;
     margin: 0;
     word-break: break-word;
@@ -416,6 +416,7 @@ latex {
 .creationDate {
     margin: 0;
     color: #9ea1a7;
+    font-size: 0.8rem;
     opacity: 0;
     transition: all 0.3s ease-in-out;
 }
@@ -437,10 +438,11 @@ latex {
     font-size: 0.8rem;
     font-weight: 500;
     margin: 0;
-    word-break: break-word;
+    white-space: pre;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: #515151;
     border: 1px solid #1d1d1d33;
-    border-top: none;
 }
 
 .post-rich-content > p {

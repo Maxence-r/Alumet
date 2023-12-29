@@ -11,6 +11,7 @@ function getContent() {
 
 
             data.walls.forEach(wall => {
+                console.log(wall);
                 const list = createInList(wall.title, wall.postAuthorized, wall._id);
                 const draggingContainer = list.querySelector('.draggingContainer');
                 wall.posts.forEach(post => {
@@ -83,6 +84,9 @@ function patchWall(position) {
     })
         .then(response => response.json())
         .then(data => {
+            setTimeout(() => {
+                navbar('home');
+            }, 500);
             if (data.error) {
                 return toast({
                     title: 'Erreur',
@@ -91,11 +95,6 @@ function patchWall(position) {
                     duration: 5000,
                 });
             }
-            setTimeout(() => {
-                navbar('home');
-            }, 500);
-
-
         });
 }
 
@@ -152,7 +151,7 @@ async function editPost(id) {
     document.getElementById('postCommentAuthorized').checked = postData.commentAuthorized;
     document.getElementById('administatorsAuthorized').checked = postData.adminsOnly;
     if (postData.file) {
-        localStorage.setItem('file-ts', postData.file._id);
+        selectedFile = [postData.file._id];
         document.querySelector('.file-sending-infos > h3').innerText = postData.file.displayname;
         document.querySelector('.drop-box').classList.add('ready-to-send');
     }
@@ -361,39 +360,15 @@ function createInList(title, postAuthorized, id) {
 
 
 
-function chooseFile(id) {
-    const fileDiv = document.querySelector(`div[data-id="${id}"]`);
-    document.querySelector('.file-sending-infos > h3').innerText = fileDiv.dataset.name;
-    localStorage.setItem('file-ts', id);
-    navbar('post');
-    document.querySelector('.drop-box').classList.add('ready-to-send');
-}
 
-document.getElementById('load-post-file').addEventListener('click', () => {
-    document.getElementById('post-file').click();
-});
 
-document.getElementById('post-file').addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    localStorage.removeItem('file-ts');
-    const formData = new FormData();
-    formData.append('file', file);
-    document.querySelector('.file-sending-infos > h3').innerText = file.name;
-    navbar('post');
-    document.querySelector('.drop-box').classList.add('ready-to-send');
-});
+
 
 document.getElementById('publicationDate').addEventListener('change', e => {
     document.querySelector('.date').classList.toggle('active-date');
 });
 
-function cancelSend() {
-    localStorage.removeItem('file-ts');
-    localStorage.removeItem('gDrive');
-    document.getElementById('post-file').value = '';
-    document.querySelector('.ready-to-send').classList.remove('ready-to-send');
-}
+
 
 async function createPost(confirmed) {
     if (!app.user_infos.username && !confirmed) {
@@ -405,8 +380,7 @@ async function createPost(confirmed) {
     }
     document.querySelector('.prompt-popup').classList.remove('active-popup');
     let fileFromDevice = document.getElementById('post-file').files[0];
-    let fileFromCloud = localStorage.getItem('file-ts');
-    let fileFromGdrive = JSON.parse(localStorage.getItem('gDrive'));
+    let fileFromCloud = selectedFile[0];
     let title = document.getElementById('postTitle').value;
     let content = document.getElementById('editor').innerHTML;
     let commentAuthorized = document.getElementById('postCommentAuthorized').checked;
@@ -415,7 +389,7 @@ async function createPost(confirmed) {
     let link = localStorage.getItem('link');
     let postColor = selectedColor;
 
-    if (!title && (!content || content === 'Ecrivez ici le contenu') && !fileFromDevice && !fileFromCloud && !link && !fileFromGdrive) {
+    if (!title && (!content || content === 'Ecrivez ici le contenu') && !fileFromDevice && !fileFromCloud && !link) {
         return toast({
             title: 'Erreur',
             message: "Vous n'avez pas spécifié de contenu pour cette publication",
@@ -448,9 +422,6 @@ async function createPost(confirmed) {
         body.file = fileUrl;
     } else if (fileFromCloud) {
         body.file = fileFromCloud;
-    } else if (fileFromGdrive) {
-        body.drive = true;
-        body.file = fileFromGdrive;
     }
 
     try {
@@ -538,8 +509,7 @@ function clearPost() {
     document.querySelector('.drop-box').classList.remove('ready-to-send');
     oldLink = '';
     document.querySelector('.link-preview').classList.remove('active-link-preview');
-    localStorage.removeItem('file-ts');
-    localStorage.removeItem('gDrive');
+    selectedFile = [];
     localStorage.removeItem('link');
 }
 

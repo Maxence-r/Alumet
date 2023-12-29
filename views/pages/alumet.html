@@ -47,9 +47,6 @@
         </div>
         <div style="display: none" class="file-picker">
             <div class="files-container">
-                <div class="loading full-screen">
-                    <span class="loader"></span>
-                </div>
                 <div class="from-device">
                     <h3>Le fichier est sur votre appareil ?</h3>
                     <button id="load-post-file" class="large greyed">Charger le fichier</button>
@@ -72,7 +69,7 @@
                             </div>
                         </div>
                         <div class="files-selected">
-                            <button onclick="filePicker.close()" class="large greyed">Annuler</button>
+                            <button onclick="document.querySelector('.file-picker').style.display='none'" class="large greyed">Annuler</button>
                             <button class="large">Selectionner</button>
                         </div>
                     </div>
@@ -157,7 +154,6 @@
                         <button onclick="patchWall('left')" class="large greyed">Déplacer a gauche</button>
                         <button onclick="patchWall('right')" class="large greyed">Déplacer a droite</button>
                     </div>
-                    <button onclick="patchWall('first')" class="large greyed">Mettre en première position</button>
                 </div>
                 <div class="actions">
                     <button onclick="deleteWall()" class="large reded">Supprimer le mur</button>
@@ -187,7 +183,7 @@
                         <div data-ref="settings" data-module="security" class="">Sécurité</div>
                     </div>
                     <div class="modulable-right">
-                        <button onclick="modifyApp()" class="large admin">Enregistrer</button>
+                        <button onclick="modifyApp()" class="large">Enregistrer</button>
                     </div>
                 </div>
                 <div data-reference="settings" style="display: flex" class="module informationsS">
@@ -195,15 +191,11 @@
                     <div class="grid-user-container">
                         <div class="item">
                             <h3>Nom de l'Alumet</h3>
-                            <input class="disabledInput" type="text" name="alumetName" id="appName" placeholder="Nom de l'Alumet" autocomplete="on" />
+                            <input class="disabledInput" type="text" name="alumetName" id="appName" placeholder="Nom de l'Alumet" />
                         </div>
                         <div class="item">
                             <h3>Description de l'Alumet</h3>
-                            <input class="disabledInput" type="text" name="alumetDescription" id="appDescription" placeholder="Description de l'Alumet" autocomplete="on" />
-                        </div>
-                        <div class="item">
-                            <h3>Code d'invitation</h3>
-                            <input disabled="true" type="text" name="invitationCode" autocomplete="on" id="appInvitationCode" placeholder="Aucun code d'invitation" />
+                            <input class="disabledInput" type="text" name="alumetDescription" id="appDescription" placeholder="Description de l'Alumet" />
                         </div>
                         <div class="item">
                             <h3>Supprimer l'Alumet</h3>
@@ -226,9 +218,9 @@
                     </div>
                 </div>
                 <div data-reference="settings" class="module security">
-                    <div class="item">
-                        <h3>Niveau d'accès</h3>
-                        <div class="switch-options">
+                    <div class="grid-user-container">
+                        <div class="item">
+                            <h3>Niveau d'accès</h3>
                             <div class="radio-option">
                                 <label class="radio" for="open">
                                     <input checked type="radio" name="radio" id="open" />
@@ -250,7 +242,7 @@
                                     </div>
                                 </label>
 
-                                <input autocomplete="off" type="password" name="password" id="password-input" placeholder="Mot de passe" />
+                                <input class="disabledInput" maxlength="50" autocomplete="off" type="text" name="password" id="password-input" placeholder="Mot de passe" />
 
                                 <label class="radio" for="closed">
                                     <input type="radio" id="closed" name="radio" />
@@ -267,13 +259,6 @@
                         <div class="item">
                             <h3>Option avancées</h3>
                             <div class="switch-options">
-                                <div class="option">
-                                    <h1>Alumet en mode privé</h1>
-                                    <label class="switch">
-                                        <input id="appPrivate" type="checkbox" />
-                                        <span class="slide round"></span>
-                                    </label>
-                                </div>
                                 <div class="option">
                                     <h1>Messagerie de l'Alumet</h1>
                                     <label class="switch">
@@ -330,7 +315,7 @@
                     </div>
                 </div>
                 <div class="row-bottom-buttons">
-                    <button onclick="promptLeave()" class="large reded">Quitter cet Alumet</button>
+                    <button onclick="promptLeave()" class="large reded connectedOnly">Quitter cet application</button>
                     <button class="large connect">Se connecter</button>
                 </div>
             </div>
@@ -393,7 +378,7 @@
                     </div>
                 </div>
 
-                <div class="drop-box">
+                <div data-reference="newPost" data-unique="true" class="drop-box">
                     <div class="indications">
                         <div>
                             <img src="../assets/global/upload.svg" alt="file icon" />
@@ -407,6 +392,7 @@
                         <div class="send-actions"><button onclick="cancelSend()" id="cancel-send" class="large greyed">Retirer</button></div>
                     </div>
                 </div>
+
                 <div class="switch-options">
                     <div class="option">
                         <h1>Autoriser les commentaires</h1>
@@ -458,7 +444,7 @@
                 <img src="../assets/global/participants.svg" alt="Participants" />
                 <p>Participants</p>
             </button>
-            <button onclick="navbar('settings')" id="settings">
+            <button class="admin" onclick="navbar('settings')" id="settings">
                 <img src="../assets/global/settings.svg" alt="paramètres" />
                 <p>Paramètres</p>
             </button>

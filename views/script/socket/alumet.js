@@ -80,3 +80,21 @@ socket.on('deleteWall', id => {
     }
     wall.parentNode.removeChild(wall);
 });
+
+
+socket.on('moveWall', (id, direction) => {
+    console.log(id, direction);
+    const wall = document.querySelector(`.list[data-id="${id}"]`);
+    if (!wall) {
+        return;
+    }
+    const wallToSwap = direction === 'right' ? wall.nextElementSibling : wall.previousElementSibling;
+    if (!wallToSwap) {
+        return;
+    }
+    if (direction === 'right') {
+        wall.parentNode.insertBefore(wallToSwap, wall);
+    } else {
+        wall.parentNode.insertBefore(wall, wallToSwap);
+    }
+});

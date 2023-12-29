@@ -77,11 +77,7 @@ function enableConnected(data) {
             el.style.display = 'none';
         });
 
-        if (data.admin) {
-            document.querySelectorAll('.admin').forEach(el => {
-                el.style.display = 'flex';
-            });
-        }
+
         document.querySelector('.navProfile > img').src = '/cdn/u/' + data.icon;
         document.querySelector('.user-infos > img').src = '/cdn/u/' + data.icon;
         document.querySelector('.user-details > h3').innerText = data.username;
@@ -95,6 +91,9 @@ function enableConnected(data) {
     if (!data.admin) {
         document.querySelectorAll('.disabledInput').forEach(el => {
             el.disabled = true;
+        });
+        document.querySelectorAll('.admin').forEach(el => {
+            el.style.display = 'none';
         });
     }
 }
@@ -122,12 +121,9 @@ function loadAppInfos(data) {
     document.querySelector('.backgroundImg').src = `/cdn/u/${data.background}`;
     document.getElementById('appName').value = data.title;
     document.getElementById('appDescription').value = data.description;
-    if (data.private && data.code) {
-        document.getElementById('appInvitationCode').value = data.code;
-    }
-    document.getElementById('appPrivate').checked = data.private;
     document.getElementById('appChat').checked = data.swiftchat;
     document.getElementById('appDiscovery').checked = data.discovery
+    document.getElementById('password-input').value = data.password || '';
     if (data.type === 'alumet') {
         document.querySelector('body').style.backgroundImage = `url(/cdn/u/${data.background})`;
         getContent();
@@ -136,6 +132,7 @@ function loadAppInfos(data) {
         document.getElementById('flashcard-title').innerText = data.title;
         document.getElementById('flashcard-description').innerText = data.description;
     }
+    document.getElementById(data.security).click();
 }
 
 function promptLeave() {
@@ -212,6 +209,8 @@ async function modifyApp() {
     formData.append('chat', document.getElementById('appChat').checked);
     formData.append('discovery', document.getElementById('appDiscovery').checked);
     formData.append('app', app.infos._id);
+    formData.append('security', document.querySelector('label > input:checked').id);
+    formData.append('password', document.getElementById("password-input").value);
     navbar('loadingRessources');
     fetch('/app/new', {
         method: 'PUT',
@@ -347,7 +346,7 @@ if (editor) {
         for (let i = 0; i < items.length; i++) {
             if (items[i].type.indexOf('image') !== -1) {
                 event.preventDefault();
-                navbar('loadfile');
+                document.querySelector('.drop-box').click();
                 return;
             }
         }

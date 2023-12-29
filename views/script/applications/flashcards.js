@@ -217,7 +217,7 @@ function checkFlashcard() {
     createFlashcards('normal', { question: document.getElementById('question').value, answer: document.getElementById('answer').value, _id: localStorage.getItem('currentItem') });
 };
 
-document.querySelector('.drop-box').addEventListener('click', e => {
+/* document.querySelector('.drop-box').addEventListener('click', e => {
     if (e.target.classList.contains('drop-box')) {
         document.querySelectorAll('.loadfile > .files-items > .file-item:not([data-ext="pdf"])').forEach(item => {
             item.remove();
@@ -227,7 +227,7 @@ document.querySelector('.drop-box').addEventListener('click', e => {
 });
 function chooseFile(fileId) {
     generateWithIA('document', fileId);
-}
+} */ // OUTDATED AVEC LE NOUVEAU FILE PICKER
 
 //ANCHOR IA generation
 function displayPageIA() {

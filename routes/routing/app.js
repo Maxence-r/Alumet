@@ -47,7 +47,6 @@ router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['
     try {
         const existantAlumet = await Alumet.findById(req.body.app);
         let updatedAlumet;
-        console.log('upload', req.upload)
         const alumetDatas = Object.fromEntries(
             Object.entries({
                 owner: req.user.id,
@@ -60,6 +59,8 @@ router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['
                 type: req.body.type,
                 subject: req.body.subject,
                 discovery: req.body.discovery,
+                security: req.body.security,
+                password: req.body.password,
             }).filter(([_, value]) => value !== undefined)
         );
 
@@ -99,9 +100,9 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
                 user_infos = { id: account._id, name: account.name, icon: account.icon, lastname: account.lastname, username: account.username, badges: account.badges, admin, participant };
             }
         }
-
-        if (!alumet.participants.some(p => p.userId === req.user?.id && p.status === 1 || alumet.owner === req.user?.id)) {
+        if (!alumet.participants.some(p => p.userId === req.user?.id && p.status === 1) && alumet.owner !== req.user?.id) {
             alumet.code = null;
+            alumet.password = null;
         }
 
         const participantIds = alumet.participants.map(p => p.userId);

@@ -146,7 +146,7 @@ router.get('/u/:id/download', validateObjectId, (req, res) => {
     Upload.find({ _id: req.params.id })
         .then(upload => {
             if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
-            const filePath = path.join(__dirname, './../../../cdn/' + upload[0].filename);
+            const filePath = path.join(__dirname, './../../cdn/' + upload[0].filename);
             if (fs.existsSync(filePath)) {
                 res.download(filePath, upload[0].originalname);
             } else {

@@ -25,6 +25,17 @@ const AlumetSchema = mongoose.Schema({
         required: true,
         minLength: 1,
     },
+    security: {
+        type: String,
+        required: true,
+        default: 'open',
+        enum: ['open', 'onpassword', 'closed'],
+    },
+    password: {
+        type: String,
+        required: false,
+        maxLength: 50,
+    },
     subject: {
         type: String,
         required: false,
@@ -72,16 +83,6 @@ const AlumetSchema = mongoose.Schema({
         type: Array,
         required: true,
         default: [],
-    },
-    brightness: {
-        type: Decimal128,
-        required: true,
-        default: 0.8,
-    },
-    blur: {
-        type: Decimal128,
-        required: true,
-        default: 5,
     },
     code: {
         type: String,

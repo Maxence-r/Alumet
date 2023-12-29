@@ -23,6 +23,7 @@
     justify-content: center;
     align-items: center;
     height: 50px;
+    font-size: 0.85rem;
     white-space: nowrap;
     padding: 0 20px;
     background-color: #296eff;
@@ -304,6 +305,10 @@
     overflow: hidden;
 }
 
+.sending-data {
+    pointer-events: none;
+}
+
 .sending-data > .indications > p {
     opacity: 0;
 }
@@ -316,6 +321,14 @@
     opacity: 1;
     transform: translateY(0%);
     pointer-events: all;
+}
+
+.selected-file {
+    background-color: #e4edff;
+}
+
+.selected-file > .file-name > h4 {
+    color: #1e54e3 !important;
 }
 
 .ready-to-send > .rts {
@@ -509,7 +522,7 @@ textarea {
 .grid-user-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
-    grid-gap: 15px;
+    grid-gap: 25px;
 }
 
 .grid-user-container > input {
@@ -576,11 +589,11 @@ textarea {
 }
 
 input:checked + .slide {
-    background-color: #1e54e3;
+    background-color: #296eff;
 }
 
 input:focus + .slide {
-    box-shadow: 0 0 1px #1e54e3;
+    box-shadow: 0 0 1px #296eff;
 }
 
 .option {
@@ -1017,6 +1030,7 @@ label.switch:hover {
 .row-bottom-buttons {
     margin-top: auto;
     width: 100%;
+    flex-wrap: wrap;
     display: flex;
     flex-direction: row;
     gap: 15px;
@@ -1039,7 +1053,7 @@ label.switch:hover {
 }
 
 .row-bottom-buttons > button {
-    width: 100%;
+    flex: 1;
 }
 
 .no-result {
@@ -1284,7 +1298,7 @@ select {
 .radio-option {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
 }
 
 .radio-option .radio input[type='radio'] {
@@ -1315,6 +1329,7 @@ select {
     margin-bottom: 3px;
     display: block;
     font-size: 1rem;
+    font-weight: bold;
     line-height: 24px;
     color: #252f42;
 }
@@ -1349,13 +1364,19 @@ select {
 }
 
 .radio-option .radio input[type='radio']:checked + .radio-content {
-    border: 2px solid #216ee0;
     background: #eaf1fe;
-    transition: ease-in 0.3s;
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: #0597ff;
+    outline-offset: -2px;
 }
 
 .module-selected {
     background-color: #f4f4f4;
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: #d2d2d2;
+    outline-offset: -1px;
 }
 
 .module {
@@ -1436,6 +1457,7 @@ select {
 .modulable-left {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     overflow: auto;
     align-items: center;
     white-space: pre;
@@ -1787,7 +1809,7 @@ h1 {
     flex-direction: column;
     overflow: auto;
     gap: 15px;
-    padding: 5px 10px;
+    padding: 10px;
     border-radius: 16px;
     border: 1px solid #e5e5e5;
     height: 100%;
@@ -1918,7 +1940,7 @@ h1 {
         border-bottom: 1px solid #efefee;
     }
     .grid-user-container {
-        grid-gap: 10px;
+        grid-gap: 15px;
     }
     .modulable-left > div {
         flex: 1;

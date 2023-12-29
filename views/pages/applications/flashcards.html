@@ -44,6 +44,37 @@
                 <datalist id="users"> </datalist>
             </div>
         </div>
+        <div style="display: none" class="file-picker">
+            <div class="files-container">
+                <div class="from-device">
+                    <h3>Le fichier est sur votre appareil ?</h3>
+                    <button id="load-post-file" class="large greyed">Charger le fichier</button>
+                    <input type="file" style="display: none" id="post-file" />
+                </div>
+                <div class="row-fm-header">
+                    <select name="folder" id="folder-selection"></select>
+                </div>
+                <div class="files-selector">
+                    <div class="folder-container">
+                        <div class="folder-list"></div>
+                    </div>
+                    <div class="files">
+                        <div class="files-box">
+                            <div class="files-items connected">
+                                <div class="full-screen" style="display: none">
+                                    <h1>Pas de fichiers</h1>
+                                    <p>Ce dossier ne contient pas de fichiers</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="files-selected">
+                            <button onclick="document.querySelector('.file-picker').style.display='none'" class="large greyed">Annuler</button>
+                            <button class="large">Selectionner</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="user-popup popup">
             <div class="prompt">
                 <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Entrez un nom ou prénom" />
@@ -78,7 +109,7 @@
                 <div data-bar="0" id="neutral"></div>
             </div>
             <div class="flashcards-container">
-                <div onclick="newFlashcards()" class="new-flashcard adminsOnly">
+                <div onclick="newFlashcards()" class="new-flashcard admin">
                     <img src="../../assets/global/flashcards_a.svg" />
                     <h3>Ajouter des flashcards</h3>
                 </div>
@@ -119,20 +150,58 @@
                     </div>
                 </div>
                 <div class="divider"></div>
-                <h3>Génerer avec un document</h3>
-                <div class="drop-box">
-                    <div class="indications">
-                        <div>
-                            <img src="../assets/global/upload.svg" alt="file icon" />
+                <div class="grid-user-container">
+                    <div class="item">
+                        <h3>Comment voulez vous générez vos flaschards ?</h3>
+                        <div class="modulable-header selector-plain">
+                            <div class="modulable-left">
+                                <div data-ref="ia" data-module="document" class="module-selected">Document PDF<span class="redot"></span></div>
+                                <div data-ref="ia" data-module="keywords">Mots-clées</div>
+                                <div data-ref="ia" data-module="completion">Completion</div>
+                            </div>
+                        </div>
+                        <div style="display: flex" data-reference="ia" class="module document">
+                            <div data-unique="true" data-extensions="pdf" class="drop-box">
+                                <div class="indications">
+                                    <div>
+                                        <img src="../assets/global/upload.svg" alt="file icon" />
+                                    </div>
+                                </div>
+                                <div class="sending-box rts">
+                                    <div class="loading-box reponsive-hide"><img src="../assets/global/file_rts.svg" alt="tick" /></div>
+                                    <div class="file-sending-infos">
+                                        <h3>file_name<span id="file-upload-ext">.ext</span></h3>
+                                    </div>
+                                    <div class="send-actions"><button onclick="cancelSend()" id="cancel-send" class="large greyed">Retirer</button></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-reference="ia" style="display: none" class="module keywords">
+                            <div class="keywords">
+                                <input type="text" id="keyword" placeholder="Mots clés" />
+                                <button class="large" onclick="addKeyword()">Ajouter</button>
+                            </div>
+                            <div class="keywords-container"></div>
+                        </div>
+                        <div data-reference="ia" style="display: none" class="module completion">
+                            <h3>Génerer par completion</h3>
                         </div>
                     </div>
+                    <div class="item">
+                        <h3>Combien de flashcards voulez vous generer ?</h3>
+                        <input min="1" max="20" type="number" id="flashcards-amount" placeholder="Nombre de flashcards" />
+                    </div>
+                    <div class="item">
+                        <h3>Quel est le niveau scolaire visé ?</h3>
+                        <select id="level">
+                            <option value="0">Tous niveaux</option>
+                            <option value="1">Primaire</option>
+                            <option value="2">Collège</option>
+                            <option value="3">Lycée</option>
+                            <option value="4">Supérieur</option>
+                        </select>
+                    </div>
                 </div>
-                <h3>Génerer avec des mots clés</h3>
-                <div class="keywords">
-                    <input type="text" id="keyword" placeholder="Mots clés" />
-                    <button class="large" onclick="addKeyword()">Ajouter</button>
-                </div>
-                <div class="keywords-container"></div>
                 <button class="large" onclick="generateWithIA('keywords')">Génairay phlachkarde</button>
             </div>
 
@@ -140,7 +209,7 @@
                 <div class="header-setting">
                     <div>
                         <h1>Vérifier les flashcards</h1>
-                        <p>Vérifier et modifier les flashcards créées par Mindflash IA</p>
+                        <p>Vérifier et modifier les flashcards créées par l'intelligence artificielle</p>
                     </div>
                 </div>
                 <div class="divider"></div>
@@ -154,7 +223,7 @@
             <div class="overlay-content loading-flashcards">
                 <div class="loading full-screen">
                     <span class="loader"></span>
-                    <h3>Génération des flashcards par Mindflash IA<br />Patientez quelques instants</h3>
+                    <h3>Génération des flashcards par l'intelligence artificielle<br />Patientez quelques instants</h3>
                 </div>
             </div>
             <div class="overlay-content loadingRessources">
@@ -172,7 +241,7 @@
                         <div data-ref="settings" data-module="security" class="">Sécurité</div>
                     </div>
                     <div class="modulable-right">
-                        <button onclick="modifyApp()" class="large admin">Enregistrer</button>
+                        <button onclick="modifyApp()" class="large">Enregistrer</button>
                     </div>
                 </div>
                 <div data-reference="settings" style="display: flex" class="module informationsS">
@@ -180,15 +249,11 @@
                     <div class="grid-user-container">
                         <div class="item">
                             <h3>Nom de l'Alumet</h3>
-                            <input class="disabledInput" type="text" name="alumetName" id="appName" placeholder="Nom de l'Alumet" autocomplete="on" />
+                            <input class="disabledInput" type="text" name="alumetName" id="appName" placeholder="Nom de l'Alumet" />
                         </div>
                         <div class="item">
                             <h3>Description de l'Alumet</h3>
-                            <input class="disabledInput" type="text" name="alumetDescription" id="appDescription" placeholder="Description de l'Alumet" autocomplete="on" />
-                        </div>
-                        <div class="item">
-                            <h3>Code d'invitation</h3>
-                            <input disabled="true" type="text" name="invitationCode" autocomplete="on" id="appInvitationCode" placeholder="Aucun code d'invitation" />
+                            <input class="disabledInput" type="text" name="alumetDescription" id="appDescription" placeholder="Description de l'Alumet" />
                         </div>
                         <div class="item">
                             <h3>Supprimer l'Alumet</h3>
@@ -211,9 +276,9 @@
                     </div>
                 </div>
                 <div data-reference="settings" class="module security">
-                    <div class="item">
-                        <h3>Niveau d'accès</h3>
-                        <div class="switch-options">
+                    <div class="grid-user-container">
+                        <div class="item">
+                            <h3>Niveau d'accès</h3>
                             <div class="radio-option">
                                 <label class="radio" for="open">
                                     <input checked type="radio" name="radio" id="open" />
@@ -235,7 +300,7 @@
                                     </div>
                                 </label>
 
-                                <input autocomplete="off" type="password" name="password" id="password-input" placeholder="Mot de passe" />
+                                <input class="disabledInput" maxlength="50" autocomplete="off" type="text" name="password" id="password-input" placeholder="Mot de passe" />
 
                                 <label class="radio" for="closed">
                                     <input type="radio" id="closed" name="radio" />
@@ -252,13 +317,6 @@
                         <div class="item">
                             <h3>Option avancées</h3>
                             <div class="switch-options">
-                                <div class="option">
-                                    <h1>Alumet en mode privé</h1>
-                                    <label class="switch">
-                                        <input id="appPrivate" type="checkbox" />
-                                        <span class="slide round"></span>
-                                    </label>
-                                </div>
                                 <div class="option">
                                     <h1>Messagerie de l'Alumet</h1>
                                     <label class="switch">
@@ -311,7 +369,7 @@
                         <img src="../assets/global/collaboration.svg" />
                     </div>
                 </div>
-                <div class="row-bottom-buttons adminsOnly">
+                <div class="row-bottom-buttons admin">
                     <button onclick="addCollaborators()" class="large greyed">Ajouter des collaborateurs</button>
                     <button onclick="addParticipants()" class="large">Ajouter des participants</button>
                 </div>
@@ -333,7 +391,7 @@
                     </div>
                 </div>
                 <div class="row-bottom-buttons">
-                    <button onclick="promptLeave()" class="large reded">Quitter cet application</button>
+                    <button onclick="promptLeave()" class="large reded connectedOnly">Quitter cet application</button>
                     <button class="large connect">Se connecter</button>
                 </div>
             </div>
@@ -357,9 +415,9 @@
                     </div>
                 </div>
 
-                <div class="post-buttons">
-                    <button onclick="checkFlashcard()" class="large adminsOnly adminsOnly">Créer</button>
-                    <button onclick="deleteFlashcard()" class="large reded adminsOnly">Supprimer</button>
+                <div class="post-buttons admin">
+                    <button onclick="checkFlashcard()" class="large">Créer</button>
+                    <button onclick="deleteFlashcard()" class="large reded">Supprimer</button>
                 </div>
             </div>
         </div>
@@ -382,7 +440,7 @@
                 <img src="../assets/global/participants.svg" alt="Participants" />
                 <p>Collaboration</p>
             </button>
-            <button class="adminsOnly" onclick="navbar('settings')" id="settings">
+            <button class="admin" onclick="navbar('settings')" id="settings">
                 <img src="../assets/global/settings.svg" alt="paramètres" />
                 <p>Paramètres</p>
             </button>
@@ -400,4 +458,5 @@
     <script src="../../script/global.js"></script>
     <script src="../../script/navigation.js"></script>
     <script src="../../script/applications/flashcards.js"></script>
+    <script src="../../script/utils/filePicker.js"></script>
 </html>
