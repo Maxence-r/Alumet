@@ -8,7 +8,6 @@ async function sendInvitations(req, res, reference) {
         if (typeof req.body.collaborators === 'string') req.body.collaborators = JSON.parse(req.body.collaborators);
         const collaborators = req.body.collaborators;
 
-        let owner = await Account.findById(req.user.id);
         for (const participant of collaborators) {
             let account = await Account.findOne({
                 _id: { $ne: req.user.id },
@@ -23,8 +22,10 @@ async function sendInvitations(req, res, reference) {
                 owner: req.user.id,
                 to: participant,
                 reference,
+                createdAt: new Date(),
             });
             await invitation.save();
+            console.log('invitation saved');
             sendMail(
                 "collaboration",
                 account.mail,

@@ -21,7 +21,6 @@ const authentification = async (req, res, next) => {
         }
 
         req.user = user;
-        // console.log('User connected: ' + user.name + ' ' + user.lastname);
         req.connected = true;
         return next();
     } catch (error) {

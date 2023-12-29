@@ -358,17 +358,9 @@ function createInList(title, postAuthorized, id) {
     return list;
 }
 
-
-
-
-
-
-
 document.getElementById('publicationDate').addEventListener('change', e => {
     document.querySelector('.date').classList.toggle('active-date');
 });
-
-
 
 async function createPost(confirmed) {
     if (!app.user_infos.username && !confirmed) {

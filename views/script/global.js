@@ -134,9 +134,7 @@ function relativeTime(timestamp) {
     }
 }
 
-function cancelLoading(classLoading) {
-    document.querySelector(`.${classLoading}`).classList.remove('button--loading');
-}
+
 
 
 function next(current, next) {

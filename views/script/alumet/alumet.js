@@ -1,4 +1,3 @@
-localStorage.removeItem('file-ts');
 localStorage.removeItem('link');
 
 function registerEventsOnList(list) {

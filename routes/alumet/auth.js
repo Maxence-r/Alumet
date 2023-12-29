@@ -6,7 +6,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const A2F = require('../../models/a2f');
-const { sendA2FCode } = require('../../routes/mail/mail');
 const authorizeA2F = require('../../middlewares/authentification/authorizeA2f');
 const validateAccount = require('../../middlewares/modelsValidation/validateAccount');
 const authorize = require('../../middlewares/authentification/authorize');
@@ -34,21 +33,6 @@ router.get('/logout', async (req, res) => {
     res.redirect('/auth/signin');
 });
 
-router.get('/info', authorize(), async (req, res) => {
-    const invitations = await Invitation.find({ to: req.user.id }).sort({ createdAt: -1 });
-    let invitationsToSend = [];
-    for (let invitation of invitations) {
-        const owner = await Account.findOne({ _id: invitation.owner }, { name: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isCertified: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1 });
-        let referenceDetails = await Alumet.findById(invitation.reference).select('_id title background');
-
-        if (!owner || !referenceDetails) {
-            continue;
-        }
-        invitationsToSend.push({ ownerInfos: owner, referenceInfos: referenceDetails, invitation: invitation });
-    }
-    const user = await Account.findOne({ _id: req.user.id }, { name: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isCertified: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1, notifications: 1 });
-    res.json({ user, invitationsToSend });
-});
 
 router.post('/signin', rateLimit(3), async (req, res) => {
     try {

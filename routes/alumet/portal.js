@@ -6,7 +6,6 @@ const Alumet = require('../../models/alumet');
 require('dotenv').config();
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
 const authorize = require('../../middlewares/authentification/authorize');
-const Conversation = require('../../models/conversation');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     try {
