@@ -28,12 +28,15 @@ function updateInfos(userInfos) {
     userLastNameInput.value = userInfos.lastname;
     userMailInput.value = userInfos.mail;
     toggleA2FBtn.innerText = userInfos.isA2FEnabled ? 'Désactiver la vérification par mail' : 'Activer la vérification par mail';
-    if (userInfos.isCertified) {
-        const certified = document.createElement('img');
-        certified.src = `/assets/badges/certified/${userInfos.accountType}-certified.svg`;
-        certified.title = 'Compte ' + userInfos.accountType + ' certifié';
-        certified.classList.add('badge');
-        userName.appendChild(certified);
+    if (userInfos.badges) {
+        userInfos.badges.forEach(badge => {
+            const badgeImg = document.createElement('img');
+            badgeImg.src = `/assets/badges/${badge}.svg`;
+            badgeImg.title = badge;
+            badgeImg.classList.add('badge');
+            badgeImg.setAttribute('draggable', false);
+            userName.appendChild(badgeImg);
+        });
     }
     userInfos.notifications.forEach(notification => {
         document.getElementById(notification).checked = true;
@@ -44,6 +47,7 @@ function createNotifications(invitations) {
     if (invitations.length !== 0) {
         document.querySelector('.notifications-container > .information').style.display = 'none';
         document.querySelector('[data-module="notifications-container"] > .redot').style.display = 'block';
+        document.querySelector('.ping').style.display = 'block';
     }
     invitations.forEach(invitation => {
         document.querySelector('.notifications-container').style.display = 'flex';
@@ -56,7 +60,7 @@ function createNotifications(invitations) {
         let subInfosElement = document.createElement('div');
         let nameElement = document.createElement('h3');
 
-        nameElement.textContent = invitation.inviter + ' vous à invité à collaborer sur ' + invitation.applicationName + '.';
+        nameElement.textContent = invitation.inviter + ' vous à invité à collaborer sur "' + invitation.applicationName + '".';
         let roleElement = document.createElement('p');
         roleElement.textContent = relativeTime(invitation.createdAt);
         subInfosElement.appendChild(nameElement);

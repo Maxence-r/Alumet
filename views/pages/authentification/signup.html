@@ -4,22 +4,29 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-
         <link rel="icon" href="../assets/global/alumet.ico" />
-
-        <meta name="description" content="Alumet, vous donnez les outils." />
-        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers" />
-        <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation." />
-        <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France." />
+        <meta
+            name="description"
+            content="Alumet Education : Un environnement numérique de travail innovant, offrant un écosystème complet d'outils conçus pour favoriser la réussite éducative. Unique en son genre, il a été développé par et pour les élèves et les professeurs. Fièrement maintenu et hébergé en France, il incarne l'excellence dans l'éducation numérique."
+        />
+        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers, education, messagerie, français, temps réel, gratuit" />
+        <meta property="og:title" content="Alumet Education" />
+        <meta
+            property="og:description"
+            content="Alumet Education : Un environnement numérique de travail innovant, offrant un écosystème complet d'outils conçus pour favoriser la réussite éducative. Unique en son genre, il a été développé par et pour les élèves et les professeurs. Fièrement maintenu et hébergé en France, il incarne l'excellence dans l'éducation numérique."
+        />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://education.alumet.io" />
-        <meta property="og:image" content="https://i.imgur.com/O9RdHj1.png" />
+        <meta property="og:image" content="https://i.imgur.com/r9fXjM9.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:domain" content="alumet.io" />
-        <meta name="twitter:url" content="https://education.alumet.io/" />
-        <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes." />
-        <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !" />
-        <meta name="twitter:image" content="https://i.imgur.com/O9RdHj1.png" />
+        <meta name="twitter:url" content="https://education.alumet.io" />
+        <meta name="twitter:title" content="Alumet Education" />
+        <meta
+            name="twitter:description"
+            content="Alumet Education : Un environnement numérique de travail innovant, offrant un écosystème complet d'outils conçus pour favoriser la réussite éducative. Unique en son genre, il a été développé par et pour les élèves et les professeurs. Fièrement maintenu et hébergé en France, il incarne l'excellence dans l'éducation numérique."
+        />
+        <meta name="twitter:image" content="https://i.imgur.com/r9fXjM9.png" />
 
         <link href="../../style/authentification/authentification.css" rel="stylesheet" type="text/css" />
         <link href="../../style/global.css" rel="stylesheet" type="text/css" />
@@ -46,15 +53,16 @@
                         <p>Acceder a des outils personnalisées selon votre usage.</p>
                     </div>
                     <div class="options">
-                        <div id="student">
+                        <!-- <div id="student">
                             <h3>Compte élève</h3>
                             <p>Disponible à la rentrée pour les élèves !</p>
-                        </div>
+                        </div> -->
                         <div id="professor">
                             <h3>Compte professeur</h3>
                             <p>Accompagnez vos élèves dans leur réussite scolaire. Enseignez davantage avec Alumet.</p>
                         </div>
                     </div>
+                    <div class="warning-box">Préparez-vous pour la rentrée ! L'activation des comptes destinés <strong>aux élèves</strong> est prévue pour la rentrée.</div>
                     <button class="large continue">Continuer</button>
                 </div>
 
@@ -65,8 +73,8 @@
                     </div>
 
                     <input id="code" type="text" placeholder="Code de sécurité" />
-
-                    <button class="large confirm">Rejoindre Alumet</button>
+                    <div class="warning-box">Attention à verifier vos <strong>spams</strong> !</div>
+                    <button class="large confirm">Rejoindre Alumet Education !</button>
                 </div>
 
                 <!-- ------------------------------------ -->
@@ -76,8 +84,9 @@
                         <input id="name" type="text" placeholder="Prénom" />
                         <input id="lastname" type="text" placeholder="Nom" />
                     </div>
-                    <input id="mail" type="email" placeholder="Adresse mail" />
+                    <input id="mail" type="email" placeholder="Adresse mail académique" />
                     <input id="password" type="password" placeholder="Mot de passe" />
+                    <div class="warning-box">Votre confidentialité est notre priorité ! Soyez assuré que votre <strong>adresse mail</strong> sera exclusivement visibles par vous-même, garantissant ainsi votre vie privée et sécurité.</div>
                     <button onclick="verify()" class="large">Continuer</button>
                 </div>
 

@@ -126,6 +126,7 @@ function loadAppInfos(data) {
     document.getElementById('password-input').value = data.password || '';
     if (data.type === 'alumet') {
         document.querySelector('body').style.backgroundImage = `url(/cdn/u/${data.background})`;
+        socket.emit('joinAlumet', app.infos._id);
         getContent();
     }
     if (data.type === 'flashcard') {
@@ -186,14 +187,57 @@ function loadParticipants(participants) {
 
         const userInfo = document.createElement('div');
         const userName = document.createElement('h3');
-        userName.textContent = `${participant.username} (${participant.name} ${participant.lastname})`;
+        userName.textContent = `${participant.name} ${(participant.lastname).substr(0, 3)}`;
         const userRole = document.createElement('p');
-        userRole.textContent = participant.status === 0 ? 'Propriétaire' : participant.status === 1 ? 'Administrateur' : participant.status === 2 ? 'Participant' : 'Banni';
+        userRole.textContent = participant.status === 0 ? 'Propriétaire' : participant.status === 1 ? 'Collaborateur' : participant.status === 2 ? 'Participant' : 'Banni';
         userInfo.appendChild(userName);
         userInfo.appendChild(userRole);
 
         user.appendChild(userImage);
         user.appendChild(userInfo);
+
+        const select = document.createElement('select');
+        select.classList.add('user-role');
+        select.dataset.id = participant._id;
+        select.addEventListener('change', (e) => {
+            fetch('/app/role/' + app.infos._id, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user: e.target.dataset.id,
+                    role: e.target.options[e.target.selectedIndex].value,
+                }),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        document.querySelector('.user-role[data-id="' + e.target.dataset.id + '"]').selectedIndex = participant.status;
+                        return toast({ title: 'Erreur', message: data.error, type: 'error' });
+                    }
+
+                    toast({ title: 'Succès', message: 'Le rôle de l\'utilisateur a bien été modifié', type: 'success' });
+                });
+        });
+        const option1 = document.createElement('option');
+        option1.value = 0;
+        option1.textContent = 'Propriétaire';
+        const option2 = document.createElement('option');
+        option2.value = 1;
+        option2.textContent = 'Collaborateur';
+        const option3 = document.createElement('option');
+        option3.value = 2;
+        option3.textContent = 'Participant';
+        const option4 = document.createElement('option');
+        option4.value = 3;
+        option4.textContent = 'Banni';
+        select.appendChild(option1);
+        select.appendChild(option2);
+        select.appendChild(option3);
+        select.appendChild(option4);
+        select.selectedIndex = participant.status;
+        user.appendChild(select);
         participantsContainer.prepend(user);
     };
     participants.forEach(participant => createParticipant(participant));
@@ -205,7 +249,7 @@ async function modifyApp() {
     formData.append('file', file);
     formData.append('title', document.getElementById('appName').value);
     formData.append('description', document.getElementById('appDescription').value);
-    formData.append('private', document.getElementById('appPrivate').checked);
+
     formData.append('chat', document.getElementById('appChat').checked);
     formData.append('discovery', document.getElementById('appDiscovery').checked);
     formData.append('app', app.infos._id);
@@ -251,6 +295,8 @@ document.getElementById('alumet-background').addEventListener('change', () => {
 
 function addCollaborators() {
     document.querySelector('.user-popup').classList.add('active-popup');
+    document.querySelectorAll('.selected-user').forEach(user => user.classList.remove('selected-user'));
+    participants = [];
 }
 
 function confirmCollaborators() {

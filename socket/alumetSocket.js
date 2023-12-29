@@ -9,7 +9,8 @@ require('dotenv').config();
 
 module.exports = function (io) {
     io.on('connection', socket => {
-        const token = socket.handshake.headers.cookie?.split('=')[1];
+        const cookies = socket.handshake.headers.cookie?.split('; ');
+        const token = cookies?.find(cookie => cookie.startsWith('token='))?.split('=')[1];
         socket.on('joinAlumet', async (alumetId) => {
             try {
                 const alumet = await Alumet.findOne({ _id: alumetId });

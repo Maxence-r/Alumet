@@ -10,17 +10,46 @@ const sendInvitations = require('../../middlewares/mailManager/sendInvitations')
 const addBlurToImage = require('../../middlewares/utils/blur');
 const Account = require('../../models/account');
 const authorizeA2F = require('../../middlewares/authentification/authorizeA2f');
-const { file } = require('googleapis/build/src/apis/file');
+const jwt = require('jsonwebtoken');
+
 
 router.get('/:id', validateObjectId, async (req, res) => {
     let alumet = await Alumet.findById(req.params.id);
     if (!alumet) return res.redirect('/404');
-    if (alumet.private === true && (!req.connected || (!alumet.participants.some(p => p.userId === req.user.id) && req.user.id !== alumet.owner))) {
-        return res.redirect('/portal/' + req.params.id);
-    }
-    if ((req.connected && !alumet.participants.some(p => p.userId === req.user.id) && req.user.id !== alumet.owner) || (!req.connected && req.query.guest !== 'true')) {
-        return res.redirect('/portal/' + req.params.id);
-    }
+    /* switch (alumet.security) {
+        case 'open':
+            if (req.query.guest !== 'true') {
+                return res.redirect('/portal/' + req.params.id);
+            }
+            break;
+        case 'onpassword':
+            console.log(req.cookies.applicationToken)
+            jwt.verify(req.cookies.applicationToken, process.env.TOKEN, async (err, decoded) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(401).send('Unauthorized'); // Send a response here
+                }
+                const account = await Account.findOne({ _id: decoded.userId });
+                if (!account) {
+                    return res.status(404).send('Account not found'); // Send a response here
+                }
+                if (alumet.participants.some(p => p.userId === account.id && p.status === 1) || alumet.owner === account.id) {
+                    return res.redirect('/portal/' + req.params.id);
+                }
+                if (req.cookies.password === alumet.password) {
+                    return res.redirect('/portal/' + req.params.id);
+                }
+                return res.redirect('/auth/portal/' + req.params.id);
+            });
+            return; // Prevent the function from continuing to execute
+            break;
+        case 'private':
+            if (req.query.guest !== 'true') {
+                return res.redirect('/auth/portal/' + req.params.id);
+            }
+            break;
+    } */
+
     let filePath;
     if (alumet.type === 'flashcard') {
         filePath = path.join(__dirname, '../../views/pages/applications/flashcards.html');
@@ -84,6 +113,9 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
             });
         }
 
+        alumet.lastUsage = Date.now();
+        await alumet.save();
+
         let participant = false;
         let user_infos = {};
         let admin = false;
@@ -106,7 +138,7 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
         }
 
         const participantIds = alumet.participants.map(p => p.userId);
-        const participantAccounts = await Promise.all(participantIds.map(id => Account.findById(id, 'id name icon lastname username accountType isCertified badges')));
+        const participantAccounts = await Promise.all(participantIds.map(id => Account.findById(id, 'id name icon lastname username accountType badges')));
 
         let participants = participantAccounts.map((account, index) => {
             if (account) {
@@ -114,8 +146,9 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
             }
         });
 
-        const ownerAccount = await Account.findById(alumet.owner, 'id name icon lastname username accountType isCertified badges');
+        const ownerAccount = await Account.findById(alumet.owner, 'id name icon lastname username accountType badges');
         participants.push({ ...ownerAccount.toObject(), status: 0 });
+
 
         res.json({
             infos: { ...alumet.toObject(), participant, participants },
@@ -157,6 +190,39 @@ router.delete('/delete/:id', validateObjectId, authorize(), authorizeA2F, async 
 router.put('/collaborators/:app', authorize(), async (req, res) => {
     sendInvitations(req, res, req.params.app);
     res.json({ success: true });
+});
+
+router.put('/role/:app', authorize(), async (req, res) => {
+    try {
+        const alumet = await Alumet.findById(req.params.app);
+        if (!alumet) {
+            return res.status(404).json({
+                error: 'Alumet not found',
+            });
+        }
+        if (alumet.owner !== req.user.id) {
+            return res.status(403).json({
+                error: 'Unauthorized',
+            });
+        }
+        alumet.participants = alumet.participants.map(p => {
+            console.log(p.userId, req.body.user)
+            if (p.userId === req.body.user) {
+                console.log(p)
+                p.status = req.body.role;
+            }
+            return p;
+        });
+        await alumet.save();
+        res.json({
+            message: 'Alumet updated',
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Failed to update alumet',
+        });
+    }
 });
 
 module.exports = router;

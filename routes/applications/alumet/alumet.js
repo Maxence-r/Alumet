@@ -40,7 +40,7 @@ router.get('/:alumet/content', authorize('alumet', 'alumetPrivate'), validateObj
             }
 
             for (let post of posts) {
-                await Account.populate(post, { path: 'owner', select: 'id name icon lastname accountType isCertified badges username' });
+                await Account.populate(post, { path: 'owner', select: 'id name icon lastname accountType badges username' });
                 post.commentsLength = await Comment.countDocuments({ postId: post._id });
                 if (post.file) {
                     post.file = await Upload.findById(post.file);

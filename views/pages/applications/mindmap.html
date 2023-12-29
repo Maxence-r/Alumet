@@ -1,9 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>IdeaFlow</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <link rel="icon" href="../assets/global/alumet.ico" />
+
+        <meta name="description" content="Cartes Mentales : Outil polyvalent pour structurer vos idées, stimuler la réflexion créative et optimiser l'apprentissage de manière intelligente !" />
+        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers, education, messagerie, français, temps réel, gratuit" />
+        <meta property="og:title" content="Alumet Education" />
+        <meta property="og:description" content="Cartes Mentales : Outil polyvalent pour structurer vos idées, stimuler la réflexion créative et optimiser l'apprentissage de manière intelligente !" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://education.alumet.io" />
+        <meta property="og:image" content="https://i.imgur.com/kt6JJni.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:domain" content="alumet.io" />
+        <meta name="twitter:url" content="https://education.alumet.io" />
+        <meta name="twitter:title" content="Alumet Education" />
+        <meta name="twitter:description" content="Cartes Mentales : Outil polyvalent pour structurer vos idées, stimuler la réflexion créative et optimiser l'apprentissage de manière intelligente !" />
+        <meta name="twitter:image" content="https://i.imgur.com/kt6JJni.png" />
+
+        <title>Carte Mental</title>
         <link rel="stylesheet" href="../../style/global.css" />
         <link rel="stylesheet" href="../../style/navigation.css" />
         <link rel="stylesheet" href="../../style/applications/ideaFlow.css" />
@@ -46,8 +61,12 @@
         </div>
         <div id="toast"></div>
         <section class="board">
+            <div class="actions-row">
+                <button class="large greyed">Nouveau Bloc</button>
+                <button class="large">Sauvegarder</button>
+            </div>
             <div class="MindMapContextMenu" style="display: none; position: absolute">
-                <div class="MindMapContextMenuItem" data-action="add">Add Block</div>
+                <div class="MindMapContextMenuItem" data-action="add">Ajouter un bloc</div>
             </div>
             <svg width="50000" height="50000">
                 <defs>
@@ -305,7 +324,7 @@
                                         </label>
                                     </div>
                                     <div class="option">
-                                        <h1>Discovery</h1>
+                                        <h1>Repertorié dans votre organisation</h1>
                                         <label class="switch">
                                             <input id="appDiscovery" type="checkbox" />
                                             <span class="slide round"></span>
@@ -343,7 +362,7 @@
                     <div class="header-setting">
                         <div>
                             <h1>Identité</h1>
-                            <p>Votre identité sur cet Alumet</p>
+                            <p>Votre identité sur cet application</p>
                         </div>
                     </div>
                     <div class="divider"></div>

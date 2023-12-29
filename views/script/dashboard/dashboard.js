@@ -33,6 +33,11 @@ fetch('/dashboard/identity')
         data.alumets.forEach(alumet => {
             document.querySelector(`.${alumet.type}s`).append(createAppBox(alumet.title, alumet.lastUsage, alumet.background, alumet._id, alumet.subject));
         });
+        document.querySelectorAll('.module[data-reference="items"]').forEach(section => {
+            if (section.children.length === 1) {
+                section.querySelector('.information').style.display = 'flex';
+            }
+        });
         endLoading();
     });
 
@@ -118,7 +123,7 @@ const conversationsContainer = document.querySelector('.conversations-container'
 
 const createConversationElement = conversation => {
     const { lastUsage, isReaded, lastMessage, _id, type, conversationName, conversationIcon, participants } = conversation;
-    const { name, lastname, icon, isCertified, accountType } = conversation.userinfos;
+    const { name, lastname, icon, accountType } = conversation.userinfos;
     const time = relativeTime(lastUsage);
     const conversationElement = document.createElement('div');
     conversationElement.classList.add('conversation');
@@ -139,13 +144,7 @@ const createConversationElement = conversation => {
 
     conversationElement.appendChild(iconElement);
 
-    if (isCertified && participants.length === 1) {
-        const certifiedElement = document.createElement('img');
-        conversationElement.classList.add('certified');
-        certifiedElement.src = `../assets/global/${accountType}-certified.svg`;
-        certifiedElement.alt = 'certified icon';
-        conversationElement.appendChild(certifiedElement);
-    }
+
 
     const infosElement = document.createElement('div');
     infosElement.classList.add('conversation-infos');

@@ -79,7 +79,7 @@ class MindMapBoard {
         const y = yZoom * this.zoom;
 
         const delta = e.deltaY > 0 ? 0.9 : 1.1;
-        if (this.zoom * delta < 0.05 || this.zoom * delta > 1.3) return;
+        if (this.zoom * delta < 0.4 || this.zoom * delta > 1.5) return;
         this.zoom *= delta;
 
         this.blocksGroupDrag.x = x - (x - this.blocksGroupDrag.x) * delta;

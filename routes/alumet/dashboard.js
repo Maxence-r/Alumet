@@ -29,9 +29,9 @@ router.get('/identity', authorize(), async (req, res) => {
             if (!owner || !referenceDetails) {
                 continue;
             }
-            invitations.push({ inviter: owner.name + ' ' + owner.lastname, applicationName: referenceDetails.title, invitationId: invitation.reference, createdAt: invitation.createdAt });
+            invitations.push({ inviter: owner.name + ' ' + owner.lastname, applicationName: referenceDetails.title, invitationId: invitation.reference, createdAt: invitation.createdAt, icon: owner.icon, invitationType: invitation.type });
         }
-        const user = await Account.findOne({ _id: req.user.id }, { name: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isCertified: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1, notifications: 1 });
+        const user = await Account.findOne({ _id: req.user.id }, { name: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1, notifications: 1 });
         const alumets = await Alumet.find({
             $or: [
                 { owner: req.user.id },

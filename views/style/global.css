@@ -467,7 +467,7 @@
 
 input {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 0 20px;
     height: 50px;
     outline-color: white;
@@ -505,9 +505,6 @@ textarea {
 
 .warning-box {
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     border-radius: 12px;
     font-size: 0.8rem;
     z-index: 20;
@@ -953,13 +950,12 @@ label.switch:hover {
     margin: 0;
 }
 
-.information > h3 {
+.information > p {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
-    font-size: 1.2rem;
-    font-weight: 500;
+    font-weight: bold;
     margin: 0;
     color: #000000;
 }
@@ -989,7 +985,11 @@ label.switch:hover {
     gap: 10px;
     align-items: center;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+}
+
+.user > select {
+    outline-offset: -3px;
+    margin-left: auto;
 }
 
 .selected-user > img {
@@ -1005,11 +1005,17 @@ label.switch:hover {
     display: flex;
     width: 20px;
     height: 20px;
+    border: 2px solid #296eff;
+    border-radius: 50%;
     margin-right: 10px;
 }
 
-.user:hover {
-    transform: scale(0.98);
+label:has(#onpassword:checked) + #password-input {
+    display: flex;
+}
+
+#password-input {
+    display: none;
 }
 
 .user > div {
@@ -1454,6 +1460,7 @@ select {
     height: 50px;
     border-radius: 5px;
     object-fit: cover;
+    border: 1px solid #e5e5e5;
 }
 
 .modulable-header {

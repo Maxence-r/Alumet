@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <link rel="icon" href="../assets/global/alumet.ico" />
-        <meta name="description" content="Alumet: La flamme de l’innovation au service de l’éducation." />
-        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers" />
-        <meta property="og:title" content="Alumet: La flamme de l’innovation au service de l’éducation." />
-        <meta property="og:description" content="L'outil gratuit, open-source, pour l'éducation, construit par des élèves, pour des professeurs. Maintenu et hébergé en France." />
+
+        <meta name="description" content="Tableau de bord interactif : Organisez et gérez efficacement tous vos supports d'apprentissage et fichiers en un seul endroit, facilitant ainsi votre expérience éducative." />
+        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers, education, messagerie, français, temps réel, gratuit" />
+        <meta property="og:title" content="Alumet Education" />
+        <meta property="og:description" content="Tableau de bord interactif : Organisez et gérez efficacement tous vos supports d'apprentissage et fichiers en un seul endroit, facilitant ainsi votre expérience éducative." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://education.alumet.io" />
-        <meta property="og:image" content="https://i.imgur.com/WZO8U8s.png" />
+        <meta property="og:image" content="https://i.imgur.com/dtHIa4A.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:domain" content="alumet.io" />
         <meta name="twitter:url" content="https://education.alumet.io/" />
-        <meta name="twitter:title" content="Alumet: Une nouvelle façon d'organiser vos classes." />
-        <meta name="twitter:description" content="Une façon repenser de trier vos cours / fichiers d'interagir avec votre classe !" />
-        <meta name="twitter:image" content="https://i.imgur.com/WZO8U8s.png" />
+        <meta name="twitter:title" content="Alumet Education" />
+        <meta name="twitter:description" content="Tableau de bord interactif : Organisez et gérez efficacement tous vos supports d'apprentissage et fichiers en un seul endroit, facilitant ainsi votre expérience éducative." />
+        <meta name="twitter:image" content="https://i.imgur.com/dtHIa4A.png" />
+
         <link href="../style/pages/dashboard.css" rel="stylesheet" type="text/css" />
         <link href="../style/applications/swiftChat.css" rel="stylesheet" type="text/css" />
         <link href="../style/global.css" rel="stylesheet" type="text/css" />
         <title>Alumet - Tableau de bord</title>
     </head>
+
     <body>
         <section class="loading" style="display: flex">
             <h4>Alumet <span>Education</span></h4>
@@ -80,46 +82,22 @@
                             <div data-ref="items" data-module="mindmaps">Cartes mentales</div>
                         </div>
                         <div class="modulable-right">
-                            <button onclick="startSetup()" class="large">Nouveau</button>
+                            <button onclick="startSetup()" class="large">Nouveau support</button>
                         </div>
                     </div>
-                    <div data-reference="items" style="display: flex" class="module items alumets"></div>
-                    <div data-reference="items" class="module items flashcards"></div>
-                    <div data-reference="items" class="module items mindmaps"></div>
-                </div>
-                <div class="sub-container">
-                    <div class="modulable-header selector-plain">
-                        <div class="modulable-left">
-                            <div data-ref="informations" data-module="notifications-container" class="module-selected">Notifications<span class="redot"></span></div>
-                            <div data-ref="informations" data-module="news-container">Nouveautées</div>
-                        </div>
-                    </div>
-                    <div data-reference="informations" style="display: flex" class="notifications-container module">
+                    <div data-reference="items" style="display: flex" class="module items alumets">
                         <div class="information">
-                            <img src="../assets/global/notifications.svg" />
+                            <img src="../assets/global/no-items.svg" />
                         </div>
                     </div>
-                    <div data-reference="informations" class="news-container module">
-                        <div class="new-item">
-                            <img src="../../assets/global/date.jpg" alt="banner" />
-                            <div class="new-item-infos">
-                                <h4>Date de publication</h4>
-                                <p>Passer votre souris sur une publication et vous pourrez désormais voir la date de publication !</p>
-                            </div>
+                    <div data-reference="items" class="module items flashcards">
+                        <div class="information">
+                            <img src="../assets/global/no-items.svg" />
                         </div>
-                        <div class="new-item">
-                            <img src="../assets/global/new.jpg" alt="banner" />
-                            <div class="new-item-infos">
-                                <h4>Première vague</h4>
-                                <p>La première vague d'accès a Alumet aux professeurs est lancée</p>
-                            </div>
-                        </div>
-                        <div class="new-item">
-                            <img src="../assets/global/latex.gif" alt="banner" />
-                            <div class="new-item-infos">
-                                <h4>Latex</h4>
-                                <p>Ecriver en Latex dans vos publications Alumet</p>
-                            </div>
+                    </div>
+                    <div data-reference="items" class="module items mindmaps">
+                        <div class="information">
+                            <img src="../assets/global/no-items.svg" />
                         </div>
                     </div>
                 </div>
@@ -222,33 +200,26 @@
                 <div class="sub-container">
                     <div class="modulable-header selector-plain">
                         <div class="modulable-left">
-                            <div data-ref="messages" data-module="group-messages" class="module-selected">Alumets<span class="redot"></span></div>
-                            <div data-ref="messages" data-module="private-messages" class="">Privées<span class="redot"></span></div>
-                            <div data-ref="messages" data-module="official-messages" class="">Officiel<span class="redot"></span></div>
+                            <div data-ref="informations" data-module="notifications-container" class="module-selected">Notifications<span class="redot"></span></div>
+                            <div data-ref="informations" data-module="official-messages">Messages<span class="redot"></span></div>
                         </div>
                     </div>
-                    <div data-reference="messages" class="conversations-container group-messages">
+                    <div data-reference="informations" style="display: flex" class="notifications-container module">
                         <div class="information">
                             <img src="../assets/global/notifications.svg" />
                         </div>
                     </div>
-                    <div style="display: none" data-reference="messages" class="conversations-container private-messages">
+                    <div style="display: none" data-reference="informations" class="conversations-container official-messages">
                         <div class="information">
                             <img src="../assets/global/notifications.svg" />
                         </div>
                     </div>
-                    <div style="display: none" data-reference="messages" class="conversations-container official-messages">
-                        <div class="information">
-                            <img src="../assets/global/notifications.svg" />
-                        </div>
-                    </div>
-
-                    <button onclick="initConversation()" id="new-conv" class="large">Nouvelle conversation</button>
                 </div>
+
                 <div class="main-container no-conversation showing-group-settings">
                     <div class="full-screen">
                         <h1>Cliquez sur une conversation pour commencer !</h1>
-                        <p>Amélioré, Alumet garantit la sécurité de vos données, où que vous soyez !</p>
+                        <p>Alumet garantit la sécurité de vos données, où que vous soyez !</p>
                     </div>
                     <div class="loading-conversation full-screen">
                         <span class="loader"></span>

@@ -1,52 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link  href="../style/global.css" rel="stylesheet" type="text/css" />
-    <link  href="../style/main.css" rel="stylesheet" type="text/css" />
-    <link rel="icon" href="../assets/global/alumet.ico" />
-    <title>Soutenir Alumet Education</title>
-</head>
-<body>
-    <section class="header">
-      <h1>
-        Vous offrir les <span>outils</span>, <br>
-        qui font la <span>différence.</span>
-      </h1>
-      <h3>Plus que <span id="coutdown"></span></h3>
-    </section>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <link rel="icon" href="../assets/global/alumet.ico" />
+        <meta
+            name="description"
+            content="Alumet Education : Un environnement numérique de travail innovant, offrant un écosystème complet d'outils conçus pour favoriser la réussite éducative. Unique en son genre, il a été développé par et pour les élèves et les professeurs. Fièrement maintenu et hébergé en France, il incarne l'excellence dans l'éducation numérique."
+        />
+        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers, education, messagerie, français, temps réel, gratuit" />
+        <meta property="og:title" content="Alumet Education" />
+        <meta
+            property="og:description"
+            content="Alumet Education : Un environnement numérique de travail innovant, offrant un écosystème complet d'outils conçus pour favoriser la réussite éducative. Unique en son genre, il a été développé par et pour les élèves et les professeurs. Fièrement maintenu et hébergé en France, il incarne l'excellence dans l'éducation numérique."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://education.alumet.io" />
+        <meta property="og:image" content="https://i.imgur.com/r9fXjM9.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:domain" content="alumet.io" />
+        <meta name="twitter:url" content="https://education.alumet.io" />
+        <meta name="twitter:title" content="Alumet Education" />
+        <meta
+            name="twitter:description"
+            content="Alumet Education : Un environnement numérique de travail innovant, offrant un écosystème complet d'outils conçus pour favoriser la réussite éducative. Unique en son genre, il a été développé par et pour les élèves et les professeurs. Fièrement maintenu et hébergé en France, il incarne l'excellence dans l'éducation numérique."
+        />
+        <meta name="twitter:image" content="https://i.imgur.com/r9fXjM9.png" />
+        <link href="../style/global.css" rel="stylesheet" type="text/css" />
+        <link href="../style/main.css" rel="stylesheet" type="text/css" />
+        <link rel="icon" href="../assets/global/alumet.ico" />
+        <title>Soutenir Alumet Education</title>
+    </head>
+    <body>
+        <section class="header">
+            <h1>
+                Vous offrir les <span>outils</span>, <br />
+                qui font la <span>différence.</span>
+            </h1>
+            <h3>Plus que <span id="coutdown"></span></h3>
+        </section>
 
-    <div id="toast"></div>
-    <section class="bento">
-      <div class="bento-1">
-        <div>
-          <h2>Un tableau de bord moderne</h2>
-          <img src="../assets/global/bento-1.png" alt="bento 1">
-        </div>
-        <div></div>
-        <div>
-          <h2>Des flaschards intelligentes pour réviser</h2>
-          <img src="../assets/global/bento-2.png" alt="bento 1">
-        </div>
-      </div>
-      <div class="bento-2">
-        <div>
-            <h2>Une messagerie sécurisée</h2>
-            <img src="../assets/global/bento-3.png" alt="bento 1">
-        </div>
-        <div>
-          <h2>Des espaces de partage</h2>
-            <img src="../assets/global/bento-4.png" alt="bento 1">
-        </div>
-        <div></div>
+        <div id="toast"></div>
+        <section class="bento">
+            <div class="bento-1">
+                <div>
+                    <h2>Un tableau de bord moderne</h2>
+                    <img src="../assets/global/bento-1.png" alt="bento 1" />
+                </div>
+                <div></div>
+                <div>
+                    <h2>Des flaschards intelligentes pour réviser</h2>
+                    <img src="../assets/global/bento-2.png" alt="bento 1" />
+                </div>
+            </div>
+            <div class="bento-2">
+                <div>
+                    <h2>Une messagerie sécurisée</h2>
+                    <img src="../assets/global/bento-3.png" alt="bento 1" />
+                </div>
+                <div>
+                    <h2>Des espaces de partage</h2>
+                    <img src="../assets/global/bento-4.png" alt="bento 1" />
+                </div>
+                <div></div>
+            </div>
+        </section>
 
-      </div>
-      
-
-    </section>
-
-    <!-- <section class="support-section">
+        <!-- <section class="support-section">
       <h2>Soutenir Alumet Education</h2>
       <p>Pourquoi soutenir Alumet Education ?</p>
       <div class="support-choices">
@@ -90,26 +110,25 @@
       </div>
     </section> -->
 
-    <section class="conference-section">
-      <div class="conference-section-header">
-        <div class="conference-section-text">
-          <h2>Vous avez raté la conférence ?</h2>
-          <p>Vous pouvez visionner son enregistrement ou lire le pdf détaillé la résumant.</p>
-        </div>
-        <a href="../assets/global/conference.pdf" download>
-          <button class="large">Télécharger le résumé</button>
-        </a>
-      </div>
-      <div onclick="showToast()" class="watch-conference">
-        <img src="../assets/global/conferance.png" alt="conferance background">
-        <div class="watch-button">
-          <h2>Visionner</h2>
-          <img src="../assets/global/white-arrow.svg" alt="arrow">
-        </div>
-      </div>
-    </section>
-    
-</body>
-<script src="../script/global.js"></script>
-<script src="../script/main.js"></script>
+        <section class="conference-section">
+            <div class="conference-section-header">
+                <div class="conference-section-text">
+                    <h2>Vous avez raté la conférence ?</h2>
+                    <p>Vous pouvez visionner son enregistrement ou lire le pdf détaillé la résumant.</p>
+                </div>
+                <a href="../assets/global/conference.pdf" download>
+                    <button class="large">Télécharger le résumé</button>
+                </a>
+            </div>
+            <div onclick="showToast()" class="watch-conference">
+                <img src="../assets/global/conferance.png" alt="conferance background" />
+                <div class="watch-button">
+                    <h2>Visionner</h2>
+                    <img src="../assets/global/white-arrow.svg" alt="arrow" />
+                </div>
+            </div>
+        </section>
+    </body>
+    <script src="../script/global.js"></script>
+    <script src="../script/main.js"></script>
 </html>

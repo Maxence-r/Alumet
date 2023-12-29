@@ -26,21 +26,56 @@ function load(boolean) {
             if (data.infos.participant === true) {
                 window.location.href = '/app/' + id;
             }
-            if (data.infos.private === false) {
-                if (Object.keys(data.user_infos).length !== 0) {
-                    document.querySelector('.public-c').style.display = 'flex';
-                    loadUserInfos('public-c', data.user_infos);
-                } else {
-                    document.querySelector('.public-nc').style.display = 'flex';
+            if (Object.keys(data.user_infos).length !== 0) {
+                console.log(data.infos.security);
+                switch (data.infos.security) {
+                    case 'open':
+                        document.querySelector('.public-c').style.display = 'flex';
+                        loadUserInfos('public-c', data.user_infos);
+                        break;
+                    case 'onpassword':
+                        document.querySelector('.onpassword-c').style.display = 'flex';
+                        loadUserInfos('onpassword-c', data.user_infos);
+                        break;
+                    case 'closed':
+                        document.querySelector('.closed-c').style.display = 'flex';
+                        loadUserInfos('closed-c', data.user_infos);
+                        break;
+                    default:
+                        break;
                 }
             } else {
-                if (Object.keys(data.user_infos).length !== 0) {
-                    document.querySelector('.private-c').style.display = 'flex';
-                    loadUserInfos('private-c', data.user_infos);
-                } else {
-                    document.querySelector('.private-nc').style.display = 'flex';
+                console.log(data.infos.security);
+                switch (data.infos.security) {
+
+                    case 'open':
+                        document.querySelector('.public-nc').style.display = 'flex';
+                        break;
+                    case 'onpassword':
+                        document.querySelector('.onpassword-nc').style.display = 'flex';
+                        break;
+                    case 'closed':
+                        document.querySelector('.closed-nc').style.display = 'flex';
+                        break;
+                    default:
+                        break;
                 }
             }
+            /*  if (data.infos.private === false) {
+                 if (Object.keys(data.user_infos).length !== 0) {
+                     document.querySelector('.public-c').style.display = 'flex';
+                     loadUserInfos('public-c', data.user_infos);
+                 } else {
+                     document.querySelector('.public-nc').style.display = 'flex';
+                 }
+             } else {
+                 if (Object.keys(data.user_infos).length !== 0) {
+                     document.querySelector('.private-c').style.display = 'flex';
+                     loadUserInfos('private-c', data.user_infos);
+                 } else {
+                     document.querySelector('.private-nc').style.display = 'flex';
+                 }
+             } */
             document.querySelector('.access').classList.remove('load');
             endLoading();
         })
@@ -80,7 +115,7 @@ document.querySelectorAll('.join').forEach(e => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                code: document.querySelector('.code').value,
+                password: document.querySelectorAll('.code')[0].value || document.querySelectorAll('.code')[1].value || '',
             }),
         })
             .then(res => res.json())
@@ -89,7 +124,7 @@ document.querySelectorAll('.join').forEach(e => {
                     document.querySelector('.access').classList.remove('load');
                     return toast({
                         title: 'Erreur',
-                        message: 'Code invalide',
+                        message: 'Le mot de passe est invalide',
                         type: 'error',
                         duration: 2500,
                     });

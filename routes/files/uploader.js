@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 
 router.get('/content', authorize(), async (req, res) => {
     try {
-        let folders = await Folder.find({ owner: req.user.id })
+        let folders = await Folder.find({ owner: req.user?.id })
             .sort({ lastUsage: -1 })
             .lean();
 

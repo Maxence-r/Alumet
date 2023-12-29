@@ -34,6 +34,7 @@ const AlumetSchema = mongoose.Schema({
     password: {
         type: String,
         required: false,
+        default: "",
         maxLength: 50,
     },
     subject: {
@@ -83,11 +84,6 @@ const AlumetSchema = mongoose.Schema({
         type: Array,
         required: true,
         default: [],
-    },
-    code: {
-        type: String,
-        required: true,
-        default: randomNumericCode(),
     },
     type: {
         type: String,
