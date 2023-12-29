@@ -54,20 +54,22 @@ function loadFolder(id) {
 }
 
 function openFP() {
-    document.querySelector('.folder-list > div:first-child').click();
+    selectedFile = [];
     if (unique === 'true') {
-        document.getElementById('post-file').setAttribute('multiple', false);
+        console.log('unique');
+        document.getElementById('post-file').removeAttribute('multiple');
         document.querySelector('.files-selected').style.display = 'none';
     } else {
         document.getElementById('post-file').setAttribute('multiple', true);
         document.querySelector('.files-selected').style.display = 'flex';
     }
-    selectedFile = [];
     if (!app.user_infos.id) {
         document.getElementById('load-post-file').click();
     } else {
-        document.querySelector('.file-picker').style.display = 'flex';
+        document.querySelector('.folder-list > div:first-child').click();
+
     }
+
 }
 
 function closeFP() {
