@@ -67,7 +67,7 @@ function openFP() {
         document.getElementById('load-post-file').click();
     } else {
         document.querySelector('.folder-list > div:first-child').click();
-
+        document.querySelector('.file-picker').style.display = 'flex';
     }
 
 }
