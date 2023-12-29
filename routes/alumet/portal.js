@@ -6,7 +6,7 @@ const Alumet = require('../../models/alumet');
 require('dotenv').config();
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
 const authorize = require('../../middlewares/authentification/authorize');
-
+const jwt = require('jsonwebtoken');
 router.get('/:id', validateObjectId, async (req, res) => {
     try {
         if (req.connected) {
@@ -31,33 +31,74 @@ router.get('/:id', validateObjectId, async (req, res) => {
 });
 
 router.post('/authorize/:id', authorize(), async (req, res) => {
+
     try {
         let alumet;
         if (mongoose.Types.ObjectId.isValid(req.params.id)) {
             alumet = await Alumet.findById(req.params.id);
-        } else {
-            alumet = await Alumet.findOne({
-                code: req.body.code,
-            });
         }
-
         if (!alumet) {
             return res.status(404).json({
-                error: 'Ce code ne correspond à aucun alumet',
+                error: 'Alumet not found',
             });
         }
-        if (alumet.private && req.body.code !== alumet.code) {
-            return res.status(401).json({
-                error: 'Le code est incorrect',
-            });
+        switch (alumet.security) {
+            case 'open':
+                if (req.user?.id) {
+                    alumet.participants.push({ userId: req.user.id, status: 2 });
+                    await alumet.save();
+                }
+                break;
+            case 'onpassword':
+                if (req.user?.id) {
+                    if (req.body.password === alumet.password) {
+                        alumet.participants.push({ userId: req.user.id, status: 2 });
+                        await alumet.save();
+                        return res.status(200).json({
+                            message: 'Alumet joined',
+                        });
+                    } else {
+                        return res.status(400).json({
+                            error: 'Wrong password',
+                        });
+                    }
+                } else {
+                    if (req.body.password === alumet.password) {
+                        return new Promise((resolve, reject) => {
+                            jwt.sign(
+                                { applicationId: alumet._id },
+                                process.env.TOKEN,
+                                { expiresIn: '1h' },
+                                (err, token) => {
+                                    if (err) {
+                                        console.error(err);
+                                        reject(res.status(500).json({
+                                            error: 'Internal Server Error',
+                                        }));
+                                    } else {
+                                        resolve(res.cookie('applicationToken', token, { maxAge: 3600000, httpOnly: true })
+                                            .status(200).json({
+                                                message: 'Alumet Authorized',
+                                            }));
+                                    }
+                                }
+                            );
+                        });
+                    } else {
+                        return res.status(400).json({
+                            error: 'Wrong password',
+                        });
+                    }
+                }
+                break;
+            case 'closed':
+                if (req.user?.id) {
+                    console.log('req.user.id: ', req.user.id);
+                    alumet.participants.push({ userId: req.user.id, status: 4 });
+                    await alumet.save();
+                }
+                break;
         }
-        if (alumet.participants.some(p => p.userId === req.user.id)) {
-            return res.status(400).json({
-                error: 'User is already a participant',
-            });
-        }
-        alumet.participants.push({ userId: req.user.id, status: 2 });
-        await alumet.save();
         res.status(200).json({
             message: 'Alumet joined',
         });

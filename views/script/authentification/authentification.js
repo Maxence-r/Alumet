@@ -115,7 +115,7 @@ document.querySelectorAll('.join').forEach(e => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                code: document.querySelector('.code').value,
+                password: document.querySelectorAll('.code')[0].value || document.querySelectorAll('.code')[1].value || '',
             }),
         })
             .then(res => res.json())
@@ -124,7 +124,7 @@ document.querySelectorAll('.join').forEach(e => {
                     document.querySelector('.access').classList.remove('load');
                     return toast({
                         title: 'Erreur',
-                        message: 'Code invalide',
+                        message: 'Le mot de passe est invalide',
                         type: 'error',
                         duration: 2500,
                     });

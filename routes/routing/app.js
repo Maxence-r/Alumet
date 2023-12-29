@@ -113,6 +113,9 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
             });
         }
 
+        alumet.lastUsage = Date.now();
+        await alumet.save();
+
         let participant = false;
         let user_infos = {};
         let admin = false;
@@ -146,8 +149,6 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
         const ownerAccount = await Account.findById(alumet.owner, 'id name icon lastname username accountType badges');
         participants.push({ ...ownerAccount.toObject(), status: 0 });
 
-        alumet.lastUsage = Date.now();
-        await alumet.save();
 
         res.json({
             infos: { ...alumet.toObject(), participant, participants },
