@@ -84,11 +84,6 @@ const AlumetSchema = mongoose.Schema({
         required: true,
         default: [],
     },
-    code: {
-        type: String,
-        required: true,
-        default: randomNumericCode(),
-    },
     type: {
         type: String,
         required: true,

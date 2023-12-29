@@ -17,7 +17,6 @@ function fetchReferenceInfos() {
 }
 
 function loadReferenceInfos(reference) {
-    console.log(reference);
     document.querySelector('.appInfos > img').src = reference.background ? '/cdn/u/' + reference.background : '../assets/global/hands.jpg';
     document.querySelector('.appDetails > h1').innerText = reference.title;
     document.querySelector('.appDetails > h3').innerText = reference.description || 'Aucune description';

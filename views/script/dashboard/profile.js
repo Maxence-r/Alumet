@@ -47,6 +47,7 @@ function createNotifications(invitations) {
     if (invitations.length !== 0) {
         document.querySelector('.notifications-container > .information').style.display = 'none';
         document.querySelector('[data-module="notifications-container"] > .redot').style.display = 'block';
+        document.querySelector('.ping').style.display = 'block';
     }
     invitations.forEach(invitation => {
         document.querySelector('.notifications-container').style.display = 'flex';
@@ -59,7 +60,7 @@ function createNotifications(invitations) {
         let subInfosElement = document.createElement('div');
         let nameElement = document.createElement('h3');
 
-        nameElement.textContent = invitation.inviter + ' vous à invité à collaborer sur ' + invitation.applicationName + '.';
+        nameElement.textContent = invitation.inviter + ' vous à invité à collaborer sur "' + invitation.applicationName + '".';
         let roleElement = document.createElement('p');
         roleElement.textContent = relativeTime(invitation.createdAt);
         subInfosElement.appendChild(nameElement);

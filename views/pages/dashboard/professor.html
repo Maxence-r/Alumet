@@ -82,7 +82,7 @@
                             <div data-ref="items" data-module="mindmaps">Cartes mentales</div>
                         </div>
                         <div class="modulable-right">
-                            <button onclick="startSetup()" class="large">Nouveau</button>
+                            <button onclick="startSetup()" class="large">Nouveau support</button>
                         </div>
                     </div>
                     <div data-reference="items" style="display: flex" class="module items alumets">
@@ -98,42 +98,6 @@
                     <div data-reference="items" class="module items mindmaps">
                         <div class="information">
                             <img src="../assets/global/no-items.svg" />
-                        </div>
-                    </div>
-                </div>
-                <div class="sub-container">
-                    <div class="modulable-header selector-plain">
-                        <div class="modulable-left">
-                            <div data-ref="informations" data-module="notifications-container" class="module-selected">Notifications<span class="redot"></span></div>
-                            <div data-ref="informations" data-module="news-container">Nouveautées</div>
-                        </div>
-                    </div>
-                    <div data-reference="informations" style="display: flex" class="notifications-container module">
-                        <div class="information">
-                            <img src="../assets/global/notifications.svg" />
-                        </div>
-                    </div>
-                    <div data-reference="informations" class="news-container module">
-                        <div class="new-item">
-                            <img src="../../assets/global/date.jpg" alt="banner" />
-                            <div class="new-item-infos">
-                                <h4>Date de publication</h4>
-                                <p>Passer votre souris sur une publication et vous pourrez désormais voir la date de publication !</p>
-                            </div>
-                        </div>
-                        <div class="new-item">
-                            <img src="../assets/global/new.jpg" alt="banner" />
-                            <div class="new-item-infos">
-                                <h4>Première vague</h4>
-                                <p>La première vague d'accès a Alumet aux professeurs est lancée</p>
-                            </div>
-                        </div>
-                        <div class="new-item">
-                            <img src="../assets/global/latex.gif" alt="banner" />
-                            <div class="new-item-infos">
-                                <h4>Latex</h4>
-                                <p>Ecriver en Latex dans vos publications Alumet</p>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -236,33 +200,26 @@
                 <div class="sub-container">
                     <div class="modulable-header selector-plain">
                         <div class="modulable-left">
-                            <div data-ref="messages" data-module="group-messages" class="module-selected">Alumets<span class="redot"></span></div>
-                            <div data-ref="messages" data-module="private-messages" class="">Privées<span class="redot"></span></div>
-                            <div data-ref="messages" data-module="official-messages" class="">Officiel<span class="redot"></span></div>
+                            <div data-ref="informations" data-module="notifications-container" class="module-selected">Notifications<span class="redot"></span></div>
+                            <div data-ref="informations" data-module="official-messages">Messages<span class="redot"></span></div>
                         </div>
                     </div>
-                    <div data-reference="messages" class="conversations-container group-messages">
+                    <div data-reference="informations" style="display: flex" class="notifications-container module">
                         <div class="information">
                             <img src="../assets/global/notifications.svg" />
                         </div>
                     </div>
-                    <div style="display: none" data-reference="messages" class="conversations-container private-messages">
+                    <div style="display: none" data-reference="informations" class="conversations-container official-messages">
                         <div class="information">
                             <img src="../assets/global/notifications.svg" />
                         </div>
                     </div>
-                    <div style="display: none" data-reference="messages" class="conversations-container official-messages">
-                        <div class="information">
-                            <img src="../assets/global/notifications.svg" />
-                        </div>
-                    </div>
-
-                    <button onclick="initConversation()" id="new-conv" class="large">Nouvelle conversation</button>
                 </div>
+
                 <div class="main-container no-conversation showing-group-settings">
                     <div class="full-screen">
                         <h1>Cliquez sur une conversation pour commencer !</h1>
-                        <p>Amélioré, Alumet garantit la sécurité de vos données, où que vous soyez !</p>
+                        <p>Alumet garantit la sécurité de vos données, où que vous soyez !</p>
                     </div>
                     <div class="loading-conversation full-screen">
                         <span class="loader"></span>

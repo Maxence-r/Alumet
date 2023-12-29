@@ -46,7 +46,7 @@
                 <h3>Autorisation en cours</h3>
             </section>
             <div class="container">
-                <h1>Accès à l'Alumet</h1>
+                <h1>Accès au support</h1>
                 <div class="public-nc">
                     <button class="large connect">Se connecter avec Alumet</button>
                     <button class="large greyed guest">Acceder en tant que visiteur</button>
@@ -59,18 +59,40 @@
                             <p>Connecté</p>
                         </div>
                     </div>
-                    <button class="large join">Rejoindre cet Alumet</button>
+                    <button class="large join">Acceder</button>
                 </div>
-                <div class="private-nc">
+
+                <div class="onpassword-nc">
                     <div class="user-infos">
                         <div class="user-details">
-                            <h3>Cet Alumet est privé</h3>
-                            <p>Vous devez vous conneter pour continuer</p>
+                            <h3>Mot de passe</h3>
+                            <p>Fournissez le mot de passe pour acceder au support</p>
+                        </div>
+                    </div>
+                    <input class="code" type="text" placeholder="Mot de passe" />
+                    <button class="large">Acceder</button>
+                </div>
+                <div class="onpassword-c">
+                    <div class="user-infos">
+                        <img src="../../assets/default/default_user.png" />
+                        <div class="user-details">
+                            <h3>Name Lastname</h3>
+                            <p>Connecté</p>
+                        </div>
+                    </div>
+                    <input class="code" type="text" placeholder="Mot de passe" />
+                    <button class="large">Acceder</button>
+                </div>
+                <div class="closed-nc">
+                    <div class="user-infos">
+                        <div class="user-details">
+                            <h3>Ce support est privé</h3>
+                            <p>Vous devez vous connecter pour demander un accès</p>
                         </div>
                     </div>
                     <button class="large connect">Se connecter</button>
                 </div>
-                <div class="private-c">
+                <div class="closed-c">
                     <div class="user-infos">
                         <img src="../../assets/default/default_user.png" />
                         <div class="user-details">
@@ -78,8 +100,13 @@
                             <p>Connecté</p>
                         </div>
                     </div>
-                    <input class="code" type="text" placeholder="Code d'accès" />
-                    <button class="large join">Rejoindre cet Alumet privé</button>
+                    <div class="user-infos">
+                        <div class="user-details">
+                            <h3>Ce support est privé</h3>
+                            <p>Vous devez demander un accès</p>
+                        </div>
+                    </div>
+                    <button class="large askAccess">Demander un accès</button>
                 </div>
                 <span class="footer-infos">
                     <p>Besoin d'aide ?</p>

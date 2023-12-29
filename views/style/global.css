@@ -492,9 +492,6 @@ textarea {
 
 .warning-box {
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     border-radius: 12px;
     font-size: 0.8rem;
     z-index: 20;
@@ -1448,6 +1445,7 @@ select {
     height: 50px;
     border-radius: 5px;
     object-fit: cover;
+    border: 1px solid #e5e5e5;
 }
 
 .modulable-header {

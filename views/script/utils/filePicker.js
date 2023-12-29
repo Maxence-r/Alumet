@@ -58,14 +58,13 @@ function openFP() {
     document.getElementById('post-file').value = '';
     document.getElementById('post-file').accept = ext.map(e => e.startsWith('.') ? e : '.' + e).join(',');
     if (unique === 'true') {
-        console.log('unique');
         document.getElementById('post-file').removeAttribute('multiple');
         document.querySelector('.files-selected').style.display = 'none';
     } else {
         document.getElementById('post-file').setAttribute('multiple', true);
         document.querySelector('.files-selected').style.display = 'flex';
     }
-    if (!app.user_infos.id) {
+    if (!app.user_infos.id || document.querySelector('.folder-list').children.length === 0) {
         document.getElementById('load-post-file').click();
     } else {
         document.querySelector('.folder-list > div:first-child').click();

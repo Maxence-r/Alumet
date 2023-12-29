@@ -10,6 +10,7 @@ body {
 
 .board {
     width: 100%;
+    position: relative;
     overflow: hidden;
     height: 100vh;
 }
@@ -42,6 +43,7 @@ p {
     justify-content: center;
     flex-direction: column;
     gap: 5px;
+    cursor: pointer;
 }
 
 .MindMapBlock::before {
@@ -240,6 +242,15 @@ p {
 
 .MindMapContextMenuItem:hover {
     background-color: #e8e8e8;
+}
+
+.actions-row {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    right: 20px;
+    top: 20px;
 }
 
 @media screen and (max-width: 600px) {
