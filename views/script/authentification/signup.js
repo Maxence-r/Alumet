@@ -12,6 +12,9 @@ document.querySelector('.continue').addEventListener('click', e => {
     let selectedOption = document.querySelector('.selectedOption');
     if (!selectedOption) return;
     accountType = selectedOption.id;
+    if (accountType == 'student') {
+        return toast({ title: 'Erreur', message: 'Les inscriptions étudiants ouvrirons à la rentrée', type: 'warning', duration: 6000 })
+    }
     document.querySelector(`.signup`).classList.add('activeStep');
     document.querySelector(`.choose`).classList.remove('activeStep');
 });

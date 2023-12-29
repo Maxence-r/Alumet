@@ -8,7 +8,7 @@ const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHan
 router.put('/updateinfos', async (req, res) => {
     try {
         const { username } = req.body;
-        const user = await Account.findById(req.user.id);
+        const user = await Account.findById(req.user?.id);
         if (!user) {
             return res.status(401).json({ error: 'Utilisateur non trouvé !' });
         }

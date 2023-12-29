@@ -17,6 +17,7 @@ const preview = require('./routes/files/preview.js');
 const viewer = require('./routes/files/viewer.js');
 const stripe = require('./routes/payment/stripe.js');
 const mail = require('./routes/mail/mail.js');
+const legal = require('./routes/alumet/legal.js');
 
 const homeworks = require('./routes/applications/tasker/eduTasker.js');
 const mindmap = require('./routes/applications/mindmap/mindmap.js');
@@ -61,6 +62,7 @@ app.use('/alumet', alumet);
 app.use('/auth', auth);
 app.use('/profile', profile);
 app.use('/mail', mail);
+app.use('/legal', legal);
 
 // Applications
 app.use('/swiftChat', swiftChat);
