@@ -275,17 +275,6 @@ section.appInfos {
     display: flex !important;
 }
 
-.buttons {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    width: 100%;
-}
-
-.buttons > button {
-    width: 100%;
-}
-
 @media screen and (max-width: 1300px) {
     body {
         flex-direction: column-reverse;

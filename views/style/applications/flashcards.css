@@ -163,21 +163,61 @@ body {
     font-weight: 600;
 }
 
-.ia > .keywords {
+.keywords-input {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
 }
-.ia > .keywords > button {
+.keywords-input > button {
     flex-grow: 0;
 }
-.ia > .keywords > input {
+.keywords-input > input {
     flex-grow: 1;
     width: auto;
 }
 
+.keywords-container {
+    margin: 10px 0;
+    display: none;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 10px;
+    border: 1px solid #ebebeb;
+    border-radius: 8px;
+}
+.keyword-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    width: fit-content;
+    align-items: center;
+    border-radius: 10px;
+    
+    background-color: #f6f8fc;
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: #d2d2d2;
+    outline-offset: -1px;
+    
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.keyword-box:hover {
+    background-color: #e6e6e6;
+    transform: scale(0.95);
+}
+.keyword-box > img {
+    width: 8px;
+    height: 8px;
+}
+
+.buttons {
+    margin-top: auto;
+}
 @media screen and (max-width: 600px) {
     .choose-option {
         padding: 10px;

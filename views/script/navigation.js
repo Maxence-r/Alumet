@@ -431,3 +431,25 @@ document.querySelectorAll('.colorSelector > div').forEach(color => {
         selectedColor = document.querySelector('.colorSelector > div.selectedColor').id;
     });
 });
+
+async function uploadFile(file) {
+    return new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        fetch('/cdn/upload/default', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    reject(data.error);
+                } else {
+                    resolve(data.file);
+                }
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+}

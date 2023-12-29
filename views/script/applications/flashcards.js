@@ -1,8 +1,9 @@
 let currentFlashcard = null;
+let flashcardSet = null;
 fetch(`/flashcards/${id}/sandbox/content`)
     .then(res => res.json())
     .then(async data => {
-        console.log(data);
+        flashcardSet = data;
         data.flashcards.forEach(flashcard => {
             flashcard = createFlashcardElement(flashcard.question, flashcard.answer, flashcard.userDatas?.status, 'modify', flashcard._id);
             document.querySelector('.flashcards-container').appendChild(flashcard);
@@ -157,13 +158,11 @@ function revise(option) {
 }
 async function createFlashcards(info, flashcards) {
     if (!flashcards) {
-        console.log('flashcards', flashcards);
         flashcards = JSON.parse(localStorage.getItem('flashcards-ia')) || [];
         flashcards = flashcards.map(flashcard => ({ question: flashcard.question, answer: flashcard.answer }));
     } else if (!Array.isArray(flashcards)) {
         flashcards = [flashcards];
     }
-    console.log('flashcards', flashcards)
     const response = await fetch(`/flashcards/${id}/check`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -183,7 +182,6 @@ async function createFlashcards(info, flashcards) {
         data.flashcards.forEach(flashcard => {
             const flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modify', flashcard._id);
             if (flashcard._id == currentFlashcard) {
-                console.log('ahhhhhhhhhhhhhhh')
                 document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).replaceWith(flashcardElement);
                 toast({ title: 'Succès', message: 'La carte a bien été modifiée !', type: 'success', duration: 2500 });
             } else {
@@ -217,18 +215,6 @@ function checkFlashcard() {
     createFlashcards('normal', { question: document.getElementById('question').value, answer: document.getElementById('answer').value, _id: localStorage.getItem('currentItem') });
 };
 
-/* document.querySelector('.drop-box').addEventListener('click', e => {
-    if (e.target.classList.contains('drop-box')) {
-        document.querySelectorAll('.loadfile > .files-items > .file-item:not([data-ext="pdf"])').forEach(item => {
-            item.remove();
-        });
-        navbar('loadfile');
-    }
-});
-function chooseFile(fileId) {
-    generateWithIA('document', fileId);
-} */ // OUTDATED AVEC LE NOUVEAU FILE PICKER
-
 //ANCHOR IA generation
 function displayPageIA() {
     let flashcards = localStorage.getItem('flashcards-ia');
@@ -238,67 +224,101 @@ function displayPageIA() {
             const flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modifyCreation', `${flashcard.id}`);
             document.querySelector('.verify-flashcards > .flashcards-container').appendChild(flashcardElement);
         });
-        navbar('verify-flashcards');
-        document.getElementById('ia').classList.add('navbar-active');
-    } else {
-        navbar('ia');
     }
-}
-function backToIA() {
-    localStorage.removeItem('flashcards-ia');
+
+    const button = document.querySelector('.buttons > button:nth-of-type(2)');
+    flashcards && flashcards.length > 0 ?  button.style.display = 'block' : button.style.display = 'none';
+
+    flashcardSet ? document.getElementById('app-subject').value = flashcardSet.subject : null;
     navbar('ia');
 }
-function addKeyword() {
-    const keywordInput = document.getElementById('keyword');
-    const keywords = keywordInput.value.split(' ');
 
-    if (keywords.some(keyword => keyword.length < 2)) {
-        return toast({ title: 'Erreur', message: 'Chaque mot-clé doit contenir au moins 2 caractères', type: 'error', duration: 7500 });
-    }
+function createKeywordElement(keyword) {
+    const keywordBox = document.createElement('div');
+    keywordBox.classList.add('keyword-box');
+    keywordBox.classList.add('greyed')
 
-    const container = document.querySelector('.keywords-container');
+    const keywordElement = document.createElement('div');
+    keywordElement.classList.add('keyword');
+    keywordElement.textContent = keyword;
 
-    keywords.forEach(keyword => {
-        const div = document.createElement('div');
-        div.classList.add('keyword');
-        div.textContent = keyword;
-        container.appendChild(div);
+    const deleteCross = document.createElement('img');
+    deleteCross.src = '../../assets/global/cross.svg';
+    deleteCross.alt = 'delete cross';
+
+    keywordBox.appendChild(keywordElement);
+    keywordBox.appendChild(deleteCross);
+
+    keywordBox.addEventListener('click', () => {
+        keywordBox.remove();
+        const container = document.querySelector('.keywords-container');
+        container.children.length > 0 ? container.style.display = 'flex' : container.style.display = 'none';
     });
-    keywordInput.value = '';
+    return keywordBox;
 }
 
-function generateWithIA(parameter, data) {
-    navbar('loading-flashcards');
-    const keywords = Array.from(document.querySelectorAll('.keywords-container > .keyword')).map(keyword => keyword.textContent);
-    /*  if (keywords.length < 1) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins un mot-clé', type: 'error', duration: 7500 }); */
-    parameter == 'keywords' ? data = keywords : data = data;
+function addKeyword() {
+    const keywordInput = document.getElementById('keyword');
+    if (keywordInput.value.length < 2) return toast({ title: 'Erreur', message: 'Le mot-clé doit contenir au moins 2 caractères', type: 'error', duration: 7500 });
 
+    document.querySelector('.keywords-container').style.display = 'flex';
+    document.querySelector('.keywords-container').appendChild(createKeywordElement(keywordInput.value));
+    keywordInput.value = '';
+    keywordInput.focus();
+}
+
+async function generateWithIA() {
+    let data = '';
+    const generationMode = document.querySelector('.module-selected').dataset.module;
+    let numberOfFlashcards = document.getElementById('flashcards-amount').value;
+    numberOfFlashcards = numberOfFlashcards < 1 || numberOfFlashcards > 20 ? 20 : numberOfFlashcards;
+    let schoolLevel = document.getElementById('level').value;
+    let subject = document.getElementById('app-subject').value;
+
+    const fileFromCloud = selectedFile[0]
+    const fileFromPC = document.getElementById('post-file').files[0];
+    const keywords = Array.from(document.querySelectorAll('.keyword')).map(keyword => keyword.textContent);
+
+    if (generationMode === 'document') {
+        if (!fileFromCloud && !fileFromPC) {
+            return toast({ title: 'Erreur', message: 'Vous devez ajouter un fichier', type: 'error', duration: 2500 });
+        }
+
+        data = fileFromCloud ? fileFromCloud : (await uploadFile(fileFromPC))._id;
+    } else if (generationMode === 'keywords') {
+        if (keywords.length < 1) {
+            return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins un mot-clé', type: 'error', duration: 2500 });
+        }
+
+        data = [keywords.join(', ')];
+    }
+    navbar('loadingRessources');
     fetch('/openai/flashcards/generate-flashcards', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            parameter,
+            generationMode,
+            numberOfFlashcards,
+            schoolLevel,
+            subject,
             data,
         }),
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             if (data.error) {
                 navbar('ia');
-                return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 })
-            } else if (data.message) {
-                toast({ title: 'Attention', message: data.message, type: 'warning', duration: 7500 })
-            }
+                return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 2500 })
+            } 
+            data.message ? toast({ title: 'Attention', message: data.message, type: 'warning', duration: 5000 }) : null;
+
             data.flashcards.forEach(flashcard => {
                 const id = Math.random().toString(36).substring(2);
                 const flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modifyCreation', `${id}`);
                 flashcard.id = id;
-                console.log(flashcard);
                 document.querySelector('.verify-flashcards > .flashcards-container').appendChild(flashcardElement);
-
             });
             localStorage.setItem('flashcards-ia', JSON.stringify(data.flashcards));
             navbar('verify-flashcards');

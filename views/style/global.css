@@ -36,6 +36,19 @@
     cursor: pointer;
 }
 
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.buttons > button {
+    flex-grow: 1;
+    min-width: auto;
+}
+
 .progression {
     display: flex;
     flex-direction: row;
@@ -1400,6 +1413,8 @@ select {
     font-size: 0.95rem;
     font-weight: bold;
     border-radius: 10px;
+    flex-grow: 1;
+    justify-content: center;
 }
 
 .user-details > h3 {
@@ -1449,6 +1464,7 @@ select {
     border: 1px solid #ebebeb;
     border-radius: 15px;
     padding: 8px;
+    gap: 10px;
 }
 .modulable-left::-webkit-scrollbar {
     display: none;
@@ -1779,7 +1795,7 @@ h1 {
     background-color: white;
     width: 90%;
     gap: 15px;
-    height: 65%;
+    height: 95%;
     padding: 15px;
     border-radius: 25px 25px 0 0;
     animation: slideIn 0.3s ease-in-out;

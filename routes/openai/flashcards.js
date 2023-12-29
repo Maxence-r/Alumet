@@ -14,7 +14,7 @@ const openai = new OpenAI({
 
 async function getContent(src) {
     const document = await Upload.findOne({ _id: src });
-    if (document.mimetype !== 'pdf') return "Le fichier n'est pas un pdf";
+    if (document.mimetype !== 'pdf') return null;
 
     const url = 'http://localhost:3000/cdn/u/' + src;
     const pdf = await pdfjsLib.getDocument(url).promise;
@@ -56,45 +56,36 @@ async function generateFlashcards(messages) {
     let flashcards = gptAnswer.substring(start, end + 1);
     return JSON.parse(flashcards);
 }
-
-async function gptFlashcardGeneration(parameter, data) {
-    switch (parameter) {
-        case 'document':
-            const flashcardsPromises = data.map(part => generateFlashcards([
-                { role: 'system', content: "You are given a raw pdf. You must answer in a json format an array of 10-15 flashcards objects with question and answer properties. Those properties must be short, concise and in the lang of the document (use key words)." },
-                { role: 'user', content: part },
-            ]));
-            const flashcardsArrays = await Promise.all(flashcardsPromises);
-            return [].concat(...flashcardsArrays);
-        case 'keywords':
-            const flashcards = await generateFlashcards([
-                { role: 'system', content: "You are an assistant of flashcard creation for students. You are given some keywords, you have to answer AN ARRAY of minimum 8 objects called 'flashcards' with 'question' and 'answer' properties in json format. Properties have to be in french and only composed of keywords (less than 60 characters per property). Finally, your flashcards must be pertinent, concise in the language of the keywords in order to help students progress." },
-                { role: 'user', content: data },
-            ]);
-            return flashcards.filter(flashcard => flashcard.question.length < 100 && flashcard.answer.length < 100 && flashcard.question.length > 1 && flashcard.answer.length > 1);
-        default:
-            throw new Error('Le paramètre est invalide');
-    }
+//TODO - verify if it's okay to merge the two functions
+async function gptFlashcardGeneration(generationMode, numberOfFlashcards, schoolLevel, subject, text) {
+    subject == 'other' ? subject = '' : null;
+    console.log(text)
+    const flashcardsPromises = text.map(part => generateFlashcards([
+        /* { role: 'system', content: `You are an assistant of flashcard creation for ${subject} students and you're now in ${generationMode} generation mode. You must follow some rules as a perfect ia flashcards creation assistant.`},
+        { role: 'assistant', content: 'Okay. What are those rules ?'},
+        { role: 'system', content: 'You must answer in a json format an array of flashcards object with question and answer properties. Those properties must be quite short, concise and always in the language of the document' },
+        { role: 'assistant', content: 'Okay. I understand. What is the level of the student ?'},
+        { role: 'system', content: `Your flashcards are adressed to a ${schoolLevel} student, adjust the difficulty of your flashcards accordingly.` },
+        { role: 'assistant', content: 'How many flashcards do you want ?'},
+        { role: 'system', content: `You must answer ${numberOfFlashcards} flashcards. By the way, you must do not answer sentences but use keywords in your questions and answers in order to be short as possible. The shorter, the best! Last but not least, don't create flashcards of examples: it's useless!` },
+        { role: 'assistant', content: 'Okay. I will do my best. Let\'s start !'},    */             
+        { role: 'user', content: part },
+    ]));
+    const flashcardsArrays = await Promise.all(flashcardsPromises);
+    return [].concat(...flashcardsArrays).filter(flashcard => flashcard.question.length < 100 && flashcard.answer.length < 100 && flashcard.question.length > 1 && flashcard.answer.length > 1);
 }
 
 router.post('/generate-flashcards', async (req, res) => {
     try {
-        let { parameter, data } = req.body;
+        let { generationMode, numberOfFlashcards, schoolLevel, subject, data } = req.body;
         let message = '';
-        switch (parameter) {
-            case 'document':
-                const { content, infoMessage } = await getContent(data);
-                if (!content) throw new Error("Le fichier n'est pas un pdf");
-                data = content;
-                message = infoMessage;
-                break;
-            case 'keywords':
-                data = data.join(', ');
-                break;
-            default:
-                throw new Error('Le paramètre est invalide');
+        if (generationMode === 'document') {
+            const { content, infoMessage } = await getContent(data);
+            if (!content) throw new Error("Le fichier n'est pas un pdf");
+            data = content;
+            message = infoMessage;
         }
-        const flashcards = await gptFlashcardGeneration(parameter, data);
+        const flashcards = await gptFlashcardGeneration(generationMode, numberOfFlashcards, schoolLevel, subject, data);
         res.json({ flashcards, message });
 
     } catch (error) {
