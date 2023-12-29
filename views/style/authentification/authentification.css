@@ -28,6 +28,10 @@ section.access {
     background-color: #ffffff;
 }
 
+.radio-option {
+    margin-top: 10px;
+}
+
 .options {
     display: flex;
     flex-direction: column;

@@ -28,12 +28,15 @@ function updateInfos(userInfos) {
     userLastNameInput.value = userInfos.lastname;
     userMailInput.value = userInfos.mail;
     toggleA2FBtn.innerText = userInfos.isA2FEnabled ? 'Désactiver la vérification par mail' : 'Activer la vérification par mail';
-    if (userInfos.isCertified) {
-        const certified = document.createElement('img');
-        certified.src = `/assets/badges/certified/${userInfos.accountType}-certified.svg`;
-        certified.title = 'Compte ' + userInfos.accountType + ' certifié';
-        certified.classList.add('badge');
-        userName.appendChild(certified);
+    if (userInfos.badges) {
+        userInfos.badges.forEach(badge => {
+            const badgeImg = document.createElement('img');
+            badgeImg.src = `/assets/badges/${badge}.svg`;
+            badgeImg.title = badge;
+            badgeImg.classList.add('badge');
+            badgeImg.setAttribute('draggable', false);
+            userName.appendChild(badgeImg);
+        });
     }
     userInfos.notifications.forEach(notification => {
         document.getElementById(notification).checked = true;

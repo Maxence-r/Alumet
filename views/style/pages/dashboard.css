@@ -303,6 +303,10 @@ body {
     margin-bottom: 15px;
 }
 
+.module[data-reference='items'] > .information {
+    display: none;
+}
+
 #new-alumet-participants {
     top: 60px;
     width: 100%;

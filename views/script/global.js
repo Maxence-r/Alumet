@@ -227,9 +227,7 @@ const searchUsers = async (query, type) => {
             roleElement.textContent = user.accountType;
             subInfosElement.appendChild(roleElement);
 
-            const selected = document.createElement('img');
-            selected.src = '../../assets/global/selected.svg';
-            selected.alt = 'selected icon';
+            const selected = document.createElement('div');
             selected.classList.add('ticked-user');
             userElement.appendChild(selected);
 

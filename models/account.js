@@ -33,11 +33,6 @@ const AccountSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    isCertified: {
-        type: Boolean,
-        required: true,
-        default: false,
-    },
     isA2FEnabled: {
         type: Boolean,
         required: true,

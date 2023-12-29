@@ -40,7 +40,7 @@ router.put('/:alumet/:wall', rateLimit(60), validatePost, authorize('alumet', 'a
             post = new Post(postFields);
             await post.save();
         }
-        postFields.owner = await Account.findById(postFields.owner).select('id name icon lastname accountType isCertified badges username');
+        postFields.owner = await Account.findById(postFields.owner).select('id name icon lastname accountType badges username');
         postFields.file = await Upload.findById(postFields.file).select('displayname mimetype');
         postFields._id = post._id;
         const postDate = new Date(postFields.postDate);
@@ -70,7 +70,7 @@ router.put('/:alumet/:id/comments', rateLimit(5), authorize('alumet', 'itemParti
     try {
         const comment = new Comment(commentFields);
         await comment.save();
-        commentFields.owner = await Account.findById(commentFields.owner).select('id name icon lastname accountType isCertified badges username');
+        commentFields.owner = await Account.findById(commentFields.owner).select('id name icon lastname accountType badges username');
         global.io.to(req.params.id).emit('addComment', commentFields);
         res.json(commentFields);
     } catch (error) {
@@ -88,7 +88,7 @@ router.get('/:alumet/:id/comments', authorize('alumet', 'alumetPrivate'), async 
             .populate({
                 path: 'owner',
                 model: 'Account',
-                select: 'id name lastname accountType isCertified badges username icon',
+                select: 'id name lastname accountType badges username icon',
             })
             .sort({ createdAt: 1 });
         res.json(comments);

@@ -11,7 +11,6 @@ function getContent() {
 
 
             data.walls.forEach(wall => {
-                console.log(wall);
                 const list = createInList(wall.title, wall.postAuthorized, wall._id);
                 const draggingContainer = list.querySelector('.draggingContainer');
                 wall.posts.forEach(post => {
@@ -22,11 +21,7 @@ function getContent() {
                 const parent = button.parentNode;
                 parent.insertBefore(list, button);
             });
-
-
             endLoading();
-            // to fix
-            socket.emit('joinAlumet', app.infos._id);
         });
 }
 
@@ -206,19 +201,10 @@ function createPostElement(post) {
     } else {
         author.textContent = 'Anonyme';
     }
-
-    if (post.owner?.isCertified) {
-        const certified = document.createElement('img');
-        certified.src = `/assets/badges/certified/${post.owner.accountType}-certified.svg`;
-        certified.title = 'Compte ' + post.owner.accountType + ' certifié';
-        certified.classList.add('badge');
-        certified.setAttribute('draggable', false);
-        author.appendChild(certified);
-    }
     if (post.owner?.badges) {
         post.owner.badges.forEach(badge => {
             const badgeImg = document.createElement('img');
-            badgeImg.src = `/assets/badges/specials/${badge}.svg`;
+            badgeImg.src = `/assets/badges/${badge}.svg`;
             badgeImg.title = badge;
             badgeImg.classList.add('badge');
             badgeImg.setAttribute('draggable', false);
@@ -643,11 +629,5 @@ function postComment() {
             const commented = createMessageElement(data.comment, data.owner);
             document.querySelector('.commentsContent').prepend(commented);
             document.getElementById('commentInput').value = '';
-            return toast({
-                title: 'Succès',
-                message: 'Votre commentaire a bien été posté',
-                type: 'success',
-                duration: 3000,
-            });
         });
 }

@@ -23,7 +23,7 @@ const mailsSubjects = {
 };
 
 async function createMail(type, receiver) {
-    const receiverInfos = await Account.findOne({ mail: receiver }, { name: 1, notifications: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isCertified: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1 });
+    const receiverInfos = await Account.findOne({ mail: receiver }, { name: 1, notifications: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1 });
 
     let receiverName = receiverInfos?.name ? receiverInfos.name : "";
     const filePath = path.join(__dirname, `../../views/pages/mails/${type}.html`);

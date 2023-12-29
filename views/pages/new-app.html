@@ -57,12 +57,12 @@
             </section>
             <div class="container">
                 <h1 id="new-app-title" class="indefinite-name">Créer une application</h1>
-                <div id="step1"  class="activeStep">
+                <div id="step1" class="activeStep">
                     <div class="user-details">
                         <h3>Un nom et une description</h3>
                         <p>Cela vous permettra facilement de facilement l'identifier</p>
                     </div>
-                    <input id="app-name" required type="text" placeholder="Nom"/>
+                    <input id="app-name" required type="text" placeholder="Nom" />
                     <input id="app-description" type="text" placeholder="Description" />
                     <div class="buttons">
                         <button onclick="window.location.href = '/dashboard';" class="large greyed">Annuler</button>
@@ -92,13 +92,6 @@
                             <option value="Japonais">Japonais</option>
                             <option value="Autre">Autre</option>
                         </select>
-                        <div class="option">
-                            <h1 class="app-name">Mode privé de l'application</h1>
-                            <label class="switch">
-                                <input id="app-private" type="checkbox" />
-                                <span class="slide round"></span>
-                            </label>
-                        </div>
 
                         <div class="option">
                             <h1 class="app-name">Messagerie de l'application</h1>
@@ -115,10 +108,43 @@
                 </div>
                 <div id="step3">
                     <div class="user-details">
-                        <h3>Collaborer</h3>
-                        <p class="app-name">Choisissez les collaborateurs avec qui vous créerez cette application</p>
+                        <h3>Sécurité</h3>
+                        <p class="app-name">Définissez qui aura accès à l'application</p>
+                        <div class="radio-option">
+                            <label class="radio" for="open">
+                                <input checked="" type="radio" name="radio" id="open" />
+                                <div class="radio-content">
+                                    <div class="radio-details">
+                                        <span>Ouvert</span>
+                                        <p>N'importe qui avec un lien peut acceder au contenue, les actions sont modérées par IA</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="radio" for="onpassword">
+                                <input type="radio" id="onpassword" name="radio" />
+                                <div class="radio-content">
+                                    <div class="radio-details">
+                                        <span>Mot de passe</span>
+                                        <p>L'accès est restreint par un mot de passe. Il n'est pas nécéssaire d'avoir un compte.</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <input class="disabledInput" maxlength="50" autocomplete="off" type="text" name="password" id="password-input" placeholder="Mot de passe" />
+
+                            <label class="radio" for="closed">
+                                <input type="radio" id="closed" name="radio" />
+                                <div class="radio-content">
+                                    <div class="radio-details">
+                                        <span>Fermé</span>
+                                        <p>L'utilisateur doit être connecté et demandé l'accès, vous pourrez refuser ou accepter.</p>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
                     </div>
-                    <button onclick="document.querySelector('.user-popup').classList.add('active-popup')" class="large greyed">Ajouter des collaborateurs</button>
+
                     <div class="buttons">
                         <button class="large greyed" onclick="next(3, 2)">Retour</button>
                         <button onclick="next(3, 4)" class="large">Continuer</button>

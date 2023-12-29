@@ -1,8 +1,8 @@
 let appType = window.location.pathname.split('/')[3];
 
 const apps = { flashcard: 'jeu de flashcards', mindmap: 'carte mentale', alumet: 'alumet' };
-const titles = { alumet: 'un alumet', flashcard: 'un jeu de flashcards', mindmap: 'une carte mentale'};
-const names = { alumet: 'l\'alumet', flashcard: 'le jeu de flashcards', mindmap: 'la carte mentale'};
+const titles = { alumet: 'un alumet', flashcard: 'un jeu de flashcards', mindmap: 'une carte mentale' };
+const names = { alumet: 'l\'alumet', flashcard: 'le jeu de flashcards', mindmap: 'la carte mentale' };
 
 document.title = `Créer ${titles[appType]}`;
 document.getElementById('new-app-title').textContent = `Créer ${titles[appType]}`;
@@ -33,8 +33,8 @@ async function createApp() {
     formData.append('description', document.getElementById('app-description').value);
     formData.append('subject', document.getElementById('app-subject').options[document.getElementById('app-subject').selectedIndex].value);
     formData.append('collaborators', JSON.stringify(participants));
-    formData.append('private', document.getElementById('app-private').checked);
     formData.append('chat', document.getElementById('app-chat').checked);
+    formData.append('security', document.querySelector('.radio-option > label > input:checked').id);
     formData.append('type', appType);
     fetch('/app/new', {
         method: 'PUT',

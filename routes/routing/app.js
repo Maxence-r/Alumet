@@ -106,7 +106,7 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
         }
 
         const participantIds = alumet.participants.map(p => p.userId);
-        const participantAccounts = await Promise.all(participantIds.map(id => Account.findById(id, 'id name icon lastname username accountType isCertified badges')));
+        const participantAccounts = await Promise.all(participantIds.map(id => Account.findById(id, 'id name icon lastname username accountType badges')));
 
         let participants = participantAccounts.map((account, index) => {
             if (account) {
@@ -114,7 +114,7 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
             }
         });
 
-        const ownerAccount = await Account.findById(alumet.owner, 'id name icon lastname username accountType isCertified badges');
+        const ownerAccount = await Account.findById(alumet.owner, 'id name icon lastname username accountType badges');
         participants.push({ ...ownerAccount.toObject(), status: 0 });
 
         res.json({
@@ -157,6 +157,39 @@ router.delete('/delete/:id', validateObjectId, authorize(), authorizeA2F, async 
 router.put('/collaborators/:app', authorize(), async (req, res) => {
     sendInvitations(req, res, req.params.app);
     res.json({ success: true });
+});
+
+router.put('/role/:app', authorize(), async (req, res) => {
+    try {
+        const alumet = await Alumet.findById(req.params.app);
+        if (!alumet) {
+            return res.status(404).json({
+                error: 'Alumet not found',
+            });
+        }
+        if (alumet.owner !== req.user.id) {
+            return res.status(403).json({
+                error: 'Unauthorized',
+            });
+        }
+        alumet.participants = alumet.participants.map(p => {
+            console.log(p.userId, req.body.user)
+            if (p.userId === req.body.user) {
+                console.log(p)
+                p.status = req.body.role;
+            }
+            return p;
+        });
+        await alumet.save();
+        res.json({
+            message: 'Alumet updated',
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Failed to update alumet',
+        });
+    }
 });
 
 module.exports = router;

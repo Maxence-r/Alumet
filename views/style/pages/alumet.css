@@ -119,7 +119,7 @@ body {
 }
 
 .admin {
-    display: none;
+    display: flex;
 }
 
 .profile > img {
@@ -274,14 +274,6 @@ body {
     flex-direction: column;
 }
 
-#password-input {
-    display: none;
-}
-
-#onpassword:checked + #password-input {
-    display: flex !important;
-}
-
 .card .title {
     font-size: 1.1rem;
     word-break: break-word;
@@ -311,10 +303,6 @@ body {
     margin-left: auto;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
-}
-
-label:has(#onpassword:checked) + #password-input {
-    display: flex;
 }
 
 #latexInput {
