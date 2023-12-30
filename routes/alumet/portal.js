@@ -16,6 +16,16 @@ router.get('/:id', validateObjectId, async (req, res) => {
             if (!alumet) {
                 return res.redirect('/404');
             }
+            if (req.cookies.applicationToken) {
+                try {
+                    const decoded = jwt.verify(req.cookies.applicationToken, process.env.TOKEN);
+                    if (decoded.applicationId === alumet._id) {
+                        return res.redirect('/app/' + req.params.id);
+                    }
+                } catch (error) {
+                    console.error('JWT verification error:', error);
+                }
+            }
             if (alumet.participants.some(p => p.userId === req.user.id && p.status === 1) || alumet.owner === req.user.id) {
                 return res.redirect('/app/' + req.params.id);
             }

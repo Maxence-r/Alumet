@@ -16,39 +16,36 @@ const jwt = require('jsonwebtoken');
 router.get('/:id', validateObjectId, async (req, res) => {
     let alumet = await Alumet.findById(req.params.id);
     if (!alumet) return res.redirect('/404');
-    /* switch (alumet.security) {
+    switch (alumet.security) {
         case 'open':
-            if (req.query.guest !== 'true') {
+            if (!req.connected && req.query.guest !== 'true') {
+                return res.redirect('/portal/' + req.params.id);
+            } else if (req.connected && (alumet.participants.every(p => p.userId !== req.user?.id) && alumet.owner !== req.user?.id)) {
                 return res.redirect('/portal/' + req.params.id);
             }
             break;
         case 'onpassword':
-            console.log(req.cookies.applicationToken)
-            jwt.verify(req.cookies.applicationToken, process.env.TOKEN, async (err, decoded) => {
-                if (err) {
-                    console.error(err);
-                    return res.status(401).send('Unauthorized'); // Send a response here
-                }
-                const account = await Account.findOne({ _id: decoded.userId });
-                if (!account) {
-                    return res.status(404).send('Account not found'); // Send a response here
-                }
-                if (alumet.participants.some(p => p.userId === account.id && p.status === 1) || alumet.owner === account.id) {
-                    return res.redirect('/portal/' + req.params.id);
-                }
-                if (req.cookies.password === alumet.password) {
-                    return res.redirect('/portal/' + req.params.id);
-                }
-                return res.redirect('/auth/portal/' + req.params.id);
-            });
-            return; // Prevent the function from continuing to execute
-            break;
-        case 'private':
-            if (req.query.guest !== 'true') {
-                return res.redirect('/auth/portal/' + req.params.id);
+            if (!req.connected) {
+                jwt.verify(req.cookies.applicationToken, process.env.TOKEN, async (err, decoded) => {
+                    if (err) {
+                        console.error(err);
+                        return res.redirect('/portal/' + req.params.id);
+                    }
+                    if (decoded.applicationId === alumet._id) {
+                        return res.redirect('/portal/' + req.params.id);
+                    }
+                });
+                return;
+            } else if (req.connected && (alumet.participants.every(p => p.userId !== req.user?.id) && alumet.owner !== req.user?.id)) {
+                return res.redirect('/portal/' + req.params.id);
             }
             break;
-    } */
+        case 'closed':
+            if ((alumet.participants.every(p => p.userId !== req.user?.id) && alumet.owner !== req.user?.id)) {
+                return res.redirect('/portal/' + req.params.id);
+            }
+            break;
+    }
 
     let filePath;
     if (alumet.type === 'flashcard') {

@@ -215,7 +215,7 @@ function createPostElement(post) {
     creationDate.classList.add('creationDate');
     creationDate.textContent = relativeTime(post.createdAt);
     author.appendChild(creationDate);
-    if (app.user_infos.admin || (alumet.user_infos?._id === post.owner?._id)) {
+    if (app.user_infos.admin || (app.user_infos?.id === post.owner?._id)) {
         const editButton = document.createElement('img');
         editButton.classList.add('edit');
         editButton.src = '/assets/global/edit.svg';
@@ -423,6 +423,10 @@ async function createPost(confirmed) {
         setTimeout(() => {
             navbar('home');
         }, 500);
+        if (!app.user_infos?.admin && adminsOnly) {
+            document.getElementById(`${localStorage.getItem('currentItem')}`).prepend(createPostElement(data));
+            getPostData(data._id, data);
+        }
     } catch (error) {
         console.error(error);
     }

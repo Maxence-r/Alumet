@@ -51,7 +51,7 @@ const AlumetSchema = mongoose.Schema({
             status: {
                 type: Number,
                 default: 2,
-                enum: [0, 1, 2, 3], // 0 - owner, 1 - admin, 2 - user, 3 - banned
+                enum: [0, 1, 2, 3, 4], // 0 - owner, 1 - admin, 2 - user, 3 - banned, 4 - requesting access
             }
         },
     ],

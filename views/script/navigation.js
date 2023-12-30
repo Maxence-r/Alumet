@@ -197,7 +197,7 @@ function loadParticipants(participants) {
         user.appendChild(userInfo);
 
         const select = document.createElement('select');
-        select.classList.add('user-role');
+        select.classList.add('user-role', 'disabledInput');
         select.dataset.id = participant._id;
         select.addEventListener('change', (e) => {
             fetch('/app/role/' + app.infos._id, {
