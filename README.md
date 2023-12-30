@@ -11,7 +11,7 @@
 </div>
 
 ![image alumet](https://i.imgur.com/SKPY01p.png)
-Alumet is a free, open-source tool designed to ensure the success of your projects. It is actively maintained and hosted in France.
+Alumet is a free tool designed to ensure the success of your projects. It is actively maintained and hosted in France.
 
 ## Alumet Online
 
@@ -24,7 +24,7 @@ You can check out the online version of Alumet at https://education.alumet.io
 | 11/09/23 | Alumet for education is almost ready                                                                                                                                                                                                                                                                                                                            | 1.2.6   |
 | 06/08/23 | Client and server-side verifications when loading a new profile picture. Generalization of the user search function, which can now be used in several places. Switch the README from french to english.                                                                                                                                                         | 1.2.5   |
 | 05/08/23 | Animations, front-end => create an alumet, create private or group conversations, display details, bug fixes and several optimizations, correction of a major display bug on phones                                                                                                                                                                             | 1.2.5   |
-| 20/07/23 | Multi-factor authentification, login page, display of memory usage statistics on the cloud, dynamic profile page, mail system created, addition of minor fixes                                                                                                                                                                                                    | 1.2.3   |
+| 20/07/23 | Multi-factor authentification, login page, display of memory usage statistics on the cloud, dynamic profile page, mail system created, addition of minor fixes                                                                                                                                                                                                  | 1.2.3   |
 | 18/07/23 | Global file reorganization. Modules are now becoming applications (Flashcard => flashcards, Messaging => SwiftChat, Homework => EduTasker, Idea Wall => IdeaFlow)                                                                                                                                                                                               | 1.2.1   |
 | 09/07/23 | Creation of the new dashboard, deletion of all obsolete files                                                                                                                                                                                                                                                                                                   | 1.2.0   |
 | 06/06/23 | Writing of the privacy policy and terms of use                                                                                                                                                                                                                                                                                                                  | 1.1     |
