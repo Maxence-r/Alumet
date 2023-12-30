@@ -93,7 +93,7 @@ router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['
         updatedAlumet = existantAlumet ? Object.assign(existantAlumet, alumetDatas) : new Alumet(alumetDatas);
         await updatedAlumet.save();
 
-        /* !existantAlumet ? sendInvitations(req, res, updatedAlumet._id) : null; */ //TODO - Make mails work correctly
+        !existantAlumet ? sendInvitations(req, res, updatedAlumet._id) : null;
         res.json({ alumet: updatedAlumet });
     } catch (error) {
         console.log(error);

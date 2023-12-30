@@ -263,16 +263,32 @@
                     <input type="file" name="alumet-background" id="alumet-background" accept="image/png, image/jpeg" />
                     <div class="grid-user-container">
                         <div class="item">
-                            <h3>Nom de l'Alumet</h3>
-                            <input class="disabledInput" type="text" name="alumetName" id="appName" placeholder="Nom de l'Alumet" />
+                            <h3>Nom du jeu de flashcards</h3>
+                            <input class="disabledInput" type="text" name="alumetName" id="appName" placeholder="Nom du jeu de flashcards" />
                         </div>
                         <div class="item">
-                            <h3>Description de l'Alumet</h3>
-                            <input class="disabledInput" type="text" name="alumetDescription" id="appDescription" placeholder="Description de l'Alumet" />
+                            <h3>Description du jeu de flashcards</h3>
+                            <input class="disabledInput" type="text" name="alumetDescription" id="appDescription" placeholder="Description du jeu de flashcards" />
                         </div>
                         <div class="item">
-                            <h3>Supprimer l'Alumet</h3>
-                            <button onclick="engageDeletion()" class="large reded">Supprimer l'Alumet</button>
+                            <h3>Matière du jeu de flashcards</h3>
+                            <select id="appSubject">
+                                <option value="mathematics">Mathématiques</option>
+                                <option value="french">Français</option>
+                                <option value="history">Histoire</option>
+                                <option value="geography">Géographie</option>
+                                <option value="physics">Physique</option>
+                                <option value="biology">SVT</option>
+                                <option value="philosophy">Philosophie</option>
+                                <option value="english">Anglais</option>
+                                <option value="language">Langues</option>
+                                <option value="technology">Technologie</option>
+                                <option value="other">Autre</option>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <h3>Supprimer le jeu de flashcards</h3>
+                            <button onclick="engageDeletion()" class="large reded">Supprimer le jeu de flashcards</button>
                         </div>
                     </div>
                 </div>
@@ -300,7 +316,7 @@
                                     <div class="radio-content">
                                         <div class="radio-details">
                                             <span>Ouvert</span>
-                                            <p>N'importe qui avec un lien peut acceder au contenue, les actions sont modérées par IA</p>
+                                            <p>N'importe qui avec un lien peut accéder au contenu, les actions sont modérées par IA</p>
                                         </div>
                                     </div>
                                 </label>
@@ -322,7 +338,7 @@
                                     <div class="radio-content">
                                         <div class="radio-details">
                                             <span>Fermé</span>
-                                            <p>L'utilisateur doit être connecté et demandé l'accès, vous pourrez refuser ou accepter.</p>
+                                            <p>L'utilisateur doit être connecté et demander l'accès, vous pourrez refuser ou accepter.</p>
                                         </div>
                                     </div>
                                 </label>
@@ -333,7 +349,7 @@
                             <h3>Option avancées</h3>
                             <div class="switch-options">
                                 <div class="option">
-                                    <h1>Messagerie de l'Alumet</h1>
+                                    <h1>Messagerie du jeu de flashcards</h1>
                                     <label class="switch">
                                         <input id="appChat" checked="" type="checkbox" />
                                         <span class="slide round"></span>
@@ -363,7 +379,7 @@
                     <div class="information">
                         <img src="../assets/global/collaboration.svg" />
                         <h3>Aucun participant</h3>
-                        <p>Les participants et collaborateurs de votre Alumet seront affichés ici, vous pourrez ensuite les gérer.</p>
+                        <p>Les participants et collaborateurs de votre jeu de flashcards seront affichés ici, vous pourrez ensuite les gérer.</p>
                     </div>
                 </div>
                 <div class="row-bottom-buttons admin">

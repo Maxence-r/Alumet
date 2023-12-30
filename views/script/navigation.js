@@ -121,6 +121,7 @@ function loadAppInfos(data) {
     document.querySelector('.backgroundImg').src = `/cdn/u/${data.background}`;
     document.getElementById('appName').value = data.title;
     document.getElementById('appDescription').value = data.description;
+    document.getElementById('appSubject').value = data.subject;
     document.getElementById('appChat').checked = data.swiftchat;
     document.getElementById('appDiscovery').checked = data.discovery
     document.getElementById('password-input').value = data.password || '';
@@ -249,7 +250,7 @@ async function modifyApp() {
     formData.append('file', file);
     formData.append('title', document.getElementById('appName').value);
     formData.append('description', document.getElementById('appDescription').value);
-
+    formData.append('subject', document.getElementById('appSubject').value);
     formData.append('chat', document.getElementById('appChat').checked);
     formData.append('discovery', document.getElementById('appDiscovery').checked);
     formData.append('app', app.infos._id);
@@ -276,7 +277,7 @@ async function modifyApp() {
         });
 }
 
-document.querySelector('.backgroundImg').addEventListener('click', () => { //ANCHOR - Change background
+document.querySelector('.backgroundImg').addEventListener('click', () => {
     document.getElementById('alumet-background').click();
 });
 
