@@ -67,7 +67,7 @@ function newFlashcards() {
     localStorage.setItem('currentItem', null);
     document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Nouvelle flashcard';
     document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Créez une nouvelle flashcard ci-dessous.'
-    document.querySelector('.flashcards > .post-buttons > .reded').style.display = 'none';
+    document.querySelector('.flashcards > .post-buttons > .buttons > .reded').style.display = 'none';
     document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Créer';
     document.getElementById('answer').value = '';
     document.getElementById('question').value = '';
@@ -118,15 +118,26 @@ function checkCreation() { // check flashcards for ia
 }
 
 function createFlashcardElement(question, answer, status, parameter, id) {
-    const div = document.createElement('div');
-    div.dataset.flashcardid = id;
-    div.classList.add('flashcard');
+    const flashcardElement = document.createElement('div');
+    flashcardElement.dataset.flashcardid = id;
+    flashcardElement.classList.add('flashcard');
+    flashcardElement.dataset.status = status;
 
-    div.dataset.status = status;
-    const h1 = document.createElement('h1');
-    h1.textContent = question;
-    div.appendChild(h1);
-    div.addEventListener('click', () => {
+    const questionElement = document.createElement('div');
+    questionElement.textContent = question;
+    flashcardElement.appendChild(questionElement);
+    if (parameter === 'modifyCreation') {
+        flashcardElement.classList.add('flashcard-with-answer');
+        const divider = document.createElement('div');
+        divider.classList.add('divider');
+        flashcardElement.appendChild(divider);
+
+        const answerElement = document.createElement('div');
+        answerElement.classList.add('answer');
+        answerElement.textContent = answer;
+        flashcardElement.appendChild(answerElement);
+    }
+    flashcardElement.addEventListener('click', () => {
         navbar('flashcards', id, 'flashcard')
         currentFlashcard = id;
         document.getElementById('question').value = question;
@@ -134,27 +145,23 @@ function createFlashcardElement(question, answer, status, parameter, id) {
         document.getElementById('question').focus();
         document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Modifier une carte';
         document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Vous pouvez modifier la carte ci-dessous.'
-        document.querySelector('.flashcards > .post-buttons > .reded').style.display = 'block';
+        document.querySelector('.flashcards > .post-buttons > .buttons > .reded').style.display = 'block';
         document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Modifier';
         if (parameter === 'modifyCreation') {
-            document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').onclick = () => { checkCreation() }
-            document.querySelector('.flashcards > .post-buttons > .reded').onclick = () => { deleteCreation() }
+            document.querySelector('.flashcards > .post-buttons > button').onclick = () => { checkCreation() };
+            document.querySelector('.flashcards > .post-buttons > .buttons >.reded').onclick = () => { deleteCreation() };
+            document.querySelector('.flashcards > .post-buttons > .buttons > button:nth-of-type(2)').onclick = () => { navbar('verify-flashcards') };
         } else if (parameter === 'modify') {
             document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').onclick = () => { checkFlashcard() }
-            document.querySelector('.flashcards > .post-buttons > .reded').onclick = () => { deleteFlashcard() }
+            document.querySelector('.flashcards > .post-buttons > .buttons > .reded').onclick = () => { deleteFlashcard() };
+            document.querySelector('.flashcards > .post-buttons > .buttons > button:nth-of-type(2)').onclick = () => { navbar('home') };
         }
     });
-    return div;
+    return flashcardElement;
 }
-
 function revise(option) {
-    if (option === 'sandbox') {
-        window.location.href = `/flashcards/revise/sandbox/${id}`;
-    } else if (option === 'smart') {
-        window.location.href = `/flashcards/revise/smart/${id}`;
-    } else {
-        return toast({ title: 'Erreur', message: 'Cette option n\'est pas encore disponible', type: 'error', duration: 7500 });
-    }
+    if (option !== 'sandbox' && option !== 'smart') return toast({ title: 'Erreur', message: 'Cette option de révision n\'est pas encore disponible', type: 'error', duration: 7500 });
+    window.location.href = `/flashcards/revise/${option}/${id}`;
 }
 async function createFlashcards(info, flashcards) {
     if (!flashcards) {
@@ -266,7 +273,6 @@ function addKeyword() {
     keywordInput.value = '';
     keywordInput.focus();
 }
-
 async function generateWithIA() {
     let data = '';
     const generationMode = document.querySelector('.module-selected').dataset.module;
@@ -292,7 +298,7 @@ async function generateWithIA() {
 
         data = [keywords.join(', ')];
     }
-    navbar('loadingRessources');
+    navbar('loading-flashcards');
     fetch('/openai/flashcards/generate-flashcards', {
         method: 'POST',
         headers: {
@@ -314,10 +320,11 @@ async function generateWithIA() {
             } 
             data.message ? toast({ title: 'Attention', message: data.message, type: 'warning', duration: 5000 }) : null;
 
+            document.querySelector('.verify-flashcards > .flashcards-container').innerHTML = '';
             data.flashcards.forEach(flashcard => {
                 const id = Math.random().toString(36).substring(2);
-                const flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modifyCreation', `${id}`);
                 flashcard.id = id;
+                let flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modifyCreation', `${id}`);
                 document.querySelector('.verify-flashcards > .flashcards-container').appendChild(flashcardElement);
             });
             localStorage.setItem('flashcards-ia', JSON.stringify(data.flashcards));

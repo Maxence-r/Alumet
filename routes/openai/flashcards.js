@@ -31,8 +31,8 @@ async function getContent(src) {
     let infoMessage = '';
     if (text.length < 50) {
         throw new Error('Le fichier n\'est pas assez volumineux');
-    } else if (text.length > 30001) {
-        infoMessage = 'Le fichier est trop volumineux, il a été tronqué à 30000 caractères';
+    } else if (text.length > 15001) {
+        infoMessage = 'Le fichier est trop volumineux, il a été tronqué à 15000 caractères';
     }
     const content = text.match(/.{1,7500}/g);
     return { content, infoMessage };
@@ -59,17 +59,17 @@ async function generateFlashcards(messages) {
 //TODO - verify if it's okay to merge the two functions
 async function gptFlashcardGeneration(generationMode, numberOfFlashcards, schoolLevel, subject, text) {
     subject == 'other' ? subject = '' : null;
-    console.log(text)
+    console.log(text.length)
     const flashcardsPromises = text.map(part => generateFlashcards([
-        /* { role: 'system', content: `You are an assistant of flashcard creation for ${subject} students and you're now in ${generationMode} generation mode. You must follow some rules as a perfect ia flashcards creation assistant.`},
+        { role: 'system', content: `You are an assistant of flashcard creation for ${subject} students and you're now in ${generationMode} generation mode. You must follow some rules as a perfect ia flashcards creation assistant.`},
         { role: 'assistant', content: 'Okay. What are those rules ?'},
         { role: 'system', content: 'You must answer in a json format an array of flashcards object with question and answer properties. Those properties must be quite short, concise and always in the language of the document' },
         { role: 'assistant', content: 'Okay. I understand. What is the level of the student ?'},
         { role: 'system', content: `Your flashcards are adressed to a ${schoolLevel} student, adjust the difficulty of your flashcards accordingly.` },
         { role: 'assistant', content: 'How many flashcards do you want ?'},
         { role: 'system', content: `You must answer ${numberOfFlashcards} flashcards. By the way, you must do not answer sentences but use keywords in your questions and answers in order to be short as possible. The shorter, the best! Last but not least, don't create flashcards of examples: it's useless!` },
-        { role: 'assistant', content: 'Okay. I will do my best. Let\'s start !'},    */             
-        { role: 'user', content: part },
+        { role: 'assistant', content: 'Okay. I\'m a performant ia flashcards creation assistant. Let\'s start !'},
+        { role: 'user', content: part },  
     ]));
     const flashcardsArrays = await Promise.all(flashcardsPromises);
     return [].concat(...flashcardsArrays).filter(flashcard => flashcard.question.length < 100 && flashcard.answer.length < 100 && flashcard.question.length > 1 && flashcard.answer.length > 1);

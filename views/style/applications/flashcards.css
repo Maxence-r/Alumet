@@ -138,10 +138,22 @@ body {
     transition: all 0.3s ease-in-out;
     text-align: center;
 }
-.verify-flashcards > .flashcards-container > .flashcard > h1 {
-    font-size: 16px;
-    font-weight: 500;
+.flashcard > div {
+    font-size: 20px;
+    font-weight: 600;
     text-align: center;
+    max-width: 90%;
+    word-break: break-word;
+    margin: 5px 0;
+}
+
+.flashcard-with-answer {
+    height: auto;
+    padding: 20px 10px;
+}
+.flashcard-with-answer > div {
+    font-size: 18px;
+    font-weight: 500;
 }
 .flashcard:hover {
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.07);
@@ -155,12 +167,6 @@ body {
 }
 [data-status='1'] {
     border: 2px solid #ff0000;
-}
-
-.flashcard > h1 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 600;
 }
 
 .keywords-input {
@@ -216,7 +222,11 @@ body {
 }
 
 .buttons {
+    position: sticky;
+    bottom: 0;
+    left: 0;
     margin-top: auto;
+
 }
 @media screen and (max-width: 600px) {
     .choose-option {
