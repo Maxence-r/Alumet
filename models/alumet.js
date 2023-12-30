@@ -42,7 +42,7 @@ const AlumetSchema = mongoose.Schema({
         required: false,
         minLength: 2,
         maxLength: 50,
-        default: 'Autre',
+        default: 'other',
         enum: ['mathematics', 'french', 'history', 'geography', 'physics', 'biology', 'philosophy', 'english', 'technology', 'language', 'other'],
     },
     participants: [
