@@ -50,7 +50,6 @@ function createNotifications(invitations) {
         document.querySelector('.ping').style.display = 'block';
     }
     invitations.forEach(invitation => {
-        document.querySelector('.notifications-container').style.display = 'flex';
         const notificationElement = document.createElement('div');
         notificationElement.classList.add('notification');
 

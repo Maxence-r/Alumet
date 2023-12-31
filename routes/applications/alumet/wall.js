@@ -3,8 +3,9 @@ const router = express.Router();
 const Wall = require('../../../models/wall');
 const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
 const authorize = require('../../../middlewares/authentification/authorize');
+const applicationAuthentication = require('../../../middlewares/authentification/applicationAuthentication');
 
-router.put('/:alumet', validateObjectId, authorize('alumet', 'itemAdmins'), (req, res) => {
+router.put('/:alumet', validateObjectId, applicationAuthentication([1]), (req, res) => {
     if (req.body.wallToEdit) {
         Wall.findById(req.body.wallToEdit)
             .then(wall => {

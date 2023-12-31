@@ -192,7 +192,6 @@ async function createFlashcards(info, flashcards) {
         if (!data.flashcards.some(flashcard => flashcard._id == currentFlashcard)) toast({ title: 'Succès', message: `La carte${data.flashcards.length > 1 ? 's ont' : ' a'} bien été ajoutée${data.flashcards.length > 1 ? 's' : ''} !`, type: 'success', duration: 2500 });
         document.getElementById('answer').value = '';
         document.getElementById('question').value = '';
-        document.getElementById('question').focus();
     }
 }
 
@@ -227,7 +226,7 @@ function displayPageIA() {
     }
 
     const button = document.querySelector('.buttons > button:nth-of-type(2)');
-    flashcards && flashcards.length > 0 ?  button.style.display = 'block' : button.style.display = 'none';
+    flashcards && flashcards.length > 0 ? button.style.display = 'block' : button.style.display = 'none';
 
     flashcardSet ? document.getElementById('app-subject').value = flashcardSet.subject : null;
     navbar('ia');
@@ -311,7 +310,7 @@ async function generateWithIA() {
             if (data.error) {
                 navbar('ia');
                 return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 2500 })
-            } 
+            }
             data.message ? toast({ title: 'Attention', message: data.message, type: 'warning', duration: 5000 }) : null;
 
             data.flashcards.forEach(flashcard => {

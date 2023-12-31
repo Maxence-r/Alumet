@@ -3,13 +3,13 @@ const router = express.Router();
 const Alumet = require('../../../models/alumet');
 const Upload = require('../../../models/upload');
 const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
-const authorize = require('../../../middlewares/authentification/authorize');
 const Account = require('../../../models/account');
 const Wall = require('../../../models/wall');
 const Post = require('../../../models/post');
 const Comment = require('../../../models/comment');
+const applicationAuthentication = require('../../../middlewares/authentification/applicationAuthentication');
 
-router.get('/:alumet/content', authorize('alumet', 'alumetPrivate'), validateObjectId, async (req, res) => {
+router.get('/:alumet/content', applicationAuthentication(), validateObjectId, async (req, res) => {
     try {
         const alumet = await Alumet.findOne({
             _id: req.params.alumet,

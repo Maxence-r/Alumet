@@ -8,8 +8,6 @@ function getContent() {
         .then(data => {
             alumet = data;
             localStorage.setItem('alumet', JSON.stringify(data));
-
-
             data.walls.forEach(wall => {
                 const list = createInList(wall.title, wall.postAuthorized, wall._id);
                 const draggingContainer = list.querySelector('.draggingContainer');

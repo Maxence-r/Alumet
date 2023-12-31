@@ -1395,7 +1395,7 @@ select {
     outline-style: solid;
     outline-width: 1px;
     outline-color: #d2d2d2;
-    outline-offset: -1px;
+    outline-offset: -2px;
 }
 
 .module {

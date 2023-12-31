@@ -11,6 +11,7 @@ const addBlurToImage = require('../../middlewares/utils/blur');
 const Account = require('../../models/account');
 const authorizeA2F = require('../../middlewares/authentification/authorizeA2f');
 const jwt = require('jsonwebtoken');
+const applicationAuthentication = require('../../middlewares/authentification/applicationAuthentication');
 
 
 router.get('/:id', validateObjectId, async (req, res) => {
@@ -101,9 +102,9 @@ router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['
     }
 });
 
-router.get('/info/:id', validateObjectId, async (req, res) => {
+router.get('/info/:alumet', validateObjectId, async (req, res) => {
     try {
-        const alumet = await Alumet.findById(req.params.id);
+        const alumet = await Alumet.findById(req.params.alumet);
         if (!alumet) {
             return res.status(404).json({
                 error: 'Alumet not found',
