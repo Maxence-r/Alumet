@@ -4,8 +4,9 @@ const Account = require('../../models/account');
 
 const A2F = require('../../models/a2f');
 const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
+const rateLimit = require('../../middlewares/authentification/rateLimit');
 
-router.put('/updateinfos', async (req, res) => {
+router.put('/updateinfos', rateLimit(10), async (req, res) => {
     try {
         const { username } = req.body;
         const user = await Account.findById(req.user?.id);
@@ -36,7 +37,7 @@ router.put('/updateinfos', async (req, res) => {
     }
 });
 
-router.put('/toggleA2f', async (req, res) => {
+router.put('/toggleA2f', rateLimit(3), async (req, res) => {
     try {
         const user = await Account.findOne({ mail: req.user.mail });
         if (!user) {
@@ -64,7 +65,7 @@ router.put('/toggleA2f', async (req, res) => {
     }
 });
 
-router.put('/updateicon', upload.single('file'), uploadAndSaveToDb('1', ['png', 'jpeg', 'jpg'], 'icon'), async (req, res) => {
+router.put('/updateicon', rateLimit(5), upload.single('file'), uploadAndSaveToDb('1', ['png', 'jpeg', 'jpg'], 'icon'), async (req, res) => {
     try {
         const user = await Account.findById(req.user.id);
         user.icon = req.upload._id;

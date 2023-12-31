@@ -20,7 +20,7 @@ const validatePost = async (req, res, next) => {
             return res.status(401).json({ error: 'Unauthorized x001' });
         }
 
-        const alumet = await Alumet.findOne({ _id: req.params.alumet });
+        const alumet = await Alumet.findOne({ _id: req.params.application });
         const wall = await Wall.findOne({ _id: req.params.wall });
         let error = null;
         if (!alumet || !wall) {

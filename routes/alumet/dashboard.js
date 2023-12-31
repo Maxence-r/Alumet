@@ -5,7 +5,7 @@ const authorize = require('../../middlewares/authentification/authorize');
 const Alumet = require('../../models/alumet');
 const Account = require('../../models/account');
 const Invitation = require('../../models/invitation');
-
+const rateLimit = require('../../middlewares/authentification/rateLimit');
 router.get('/', async (req, res) => {
     if (!req.connected) return res.redirect('/auth/signin');
     let filePath;
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
     res.sendFile(filePath);
 });
 
-router.get('/identity', authorize(), async (req, res) => {
+router.get('/identity', authorize(), rateLimit(60), async (req, res) => {
     try {
         const fetchedInvitations = await Invitation.find({ to: req.user.id }).sort({ createdAt: -1 });
         let invitations = [];

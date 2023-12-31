@@ -361,9 +361,14 @@ latex {
     background-color: #00000084;
 }
 
+img.post-rich-content {
+    padding: 0 !important;
+}
+
 .post-rich-content {
     display: flex;
     background-color: #f6f8fc;
+    object-fit: cover;
     position: relative;
     overflow: hidden;
     flex-direction: column;

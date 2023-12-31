@@ -124,7 +124,7 @@ document.querySelectorAll('.join').forEach(e => {
                     document.querySelector('.access').classList.remove('load');
                     return toast({
                         title: 'Erreur',
-                        message: 'Le mot de passe est invalide',
+                        message: data.error,
                         type: 'error',
                         duration: 2500,
                     });

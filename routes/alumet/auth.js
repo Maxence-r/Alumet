@@ -8,9 +8,6 @@ require('dotenv').config();
 const A2F = require('../../models/a2f');
 const authorizeA2F = require('../../middlewares/authentification/authorizeA2f');
 const validateAccount = require('../../middlewares/modelsValidation/validateAccount');
-const authorize = require('../../middlewares/authentification/authorize');
-const Invitation = require('../../models/invitation');
-const Alumet = require('../../models/alumet');
 const { sendMail } = require('../mail/mailing');
 const rateLimit = require('../../middlewares/authentification/rateLimit');
 
@@ -97,7 +94,7 @@ router.post('/signup', rateLimit(1), authorizeA2F, validateAccount, async (req, 
     }
 });
 
-router.post('/authorize', async (req, res) => {
+router.post('/authorize', rateLimit(3), async (req, res) => {
     try {
         console.log(req.body)
         const a2f = await A2F.findOne({ owner: req.body.mail, code: req.body.code });
@@ -131,7 +128,7 @@ router.post('/authorize', async (req, res) => {
 
 
 
-router.post('/resetpassword', authorizeA2F, async (req, res) => {
+router.post('/resetpassword', rateLimit(3), authorizeA2F, async (req, res) => {
     try {
         if (req.body.password.length < 6) {
             return res.status(400).json({ error: 'Le mot de passe doit contenir au moins 6 caractères !' });

@@ -8,10 +8,9 @@ const validateAlumet = require('../../middlewares/modelsValidation/validateAlume
 const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
 const sendInvitations = require('../../middlewares/mailManager/sendInvitations');
 const addBlurToImage = require('../../middlewares/utils/blur');
-const Account = require('../../models/account');
 const authorizeA2F = require('../../middlewares/authentification/authorizeA2f');
 const jwt = require('jsonwebtoken');
-const applicationAuthentication = require('../../middlewares/authentification/applicationAuthentication');
+const rateLimit = require('../../middlewares/authentification/rateLimit');
 
 
 router.get('/:id', validateObjectId, async (req, res) => {
@@ -70,7 +69,7 @@ router.get('/setup/:app', async (req, res) => {
     res.sendFile(filePath);
 });
 
-router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['png', 'jpeg', 'jpg']), addBlurToImage, validateAlumet, async (req, res) => {
+router.put('/new', rateLimit(3), upload.single('file'), uploadAndSaveToDb('3', ['png', 'jpeg', 'jpg']), addBlurToImage, validateAlumet, async (req, res) => {
     try {
         const existantAlumet = await Alumet.findById(req.body.app);
         let updatedAlumet;
@@ -102,65 +101,8 @@ router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['
     }
 });
 
-router.get('/info/:alumet', validateObjectId, async (req, res) => {
-    try {
-        const alumet = await Alumet.findById(req.params.alumet);
-        if (!alumet) {
-            return res.status(404).json({
-                error: 'Alumet not found',
-            });
-        }
 
-        alumet.lastUsage = Date.now();
-        await alumet.save();
-
-        let participant = false;
-        let user_infos = {};
-        let admin = false;
-        if (req.user) {
-            const account = await Account.findById(req.user.id, 'id name icon lastname username badges');
-            if (account) {
-                if (alumet.participants.some(p => p.userId === account._id.toString()) || alumet.owner === account._id) {
-                    participant = true;
-                }
-                if (alumet.owner === account._id.toString() || alumet.participants.some(p => p.userId === account._id.toString() && p.status === 1)) {
-
-                    admin = true;
-                }
-                user_infos = { id: account._id, name: account.name, icon: account.icon, lastname: account.lastname, username: account.username, badges: account.badges, admin, participant };
-            }
-        }
-        if (!alumet.participants.some(p => p.userId === req.user?.id && p.status === 1) && alumet.owner !== req.user?.id) {
-            alumet.code = null;
-            alumet.password = null;
-        }
-
-        const participantIds = alumet.participants.map(p => p.userId);
-        const participantAccounts = await Promise.all(participantIds.map(id => Account.findById(id, 'id name icon lastname username accountType badges')));
-
-        let participants = participantAccounts.map((account, index) => {
-            if (account) {
-                return { ...account.toObject(), status: alumet.participants[index].status };
-            }
-        });
-
-        const ownerAccount = await Account.findById(alumet.owner, 'id name icon lastname username accountType badges');
-        participants.push({ ...ownerAccount.toObject(), status: 0 });
-
-
-        res.json({
-            infos: { ...alumet.toObject(), participant, participants },
-            user_infos,
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            error: 'Failed to get alumet',
-        });
-    }
-});
-
-router.delete('/delete/:id', validateObjectId, authorize(), authorizeA2F, async (req, res) => {
+router.delete('/delete/:id', validateObjectId, rateLimit(30), authorizeA2F, async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.id);
         if (!alumet) {
@@ -185,12 +127,12 @@ router.delete('/delete/:id', validateObjectId, authorize(), authorizeA2F, async 
     }
 });
 
-router.put('/collaborators/:app', authorize(), async (req, res) => {
+router.put('/collaborators/:app', authorize(), rateLimit(4), async (req, res) => {
     sendInvitations(req, res, req.params.app);
     res.json({ success: true });
 });
 
-router.put('/role/:app', authorize(), async (req, res) => {
+router.put('/role/:app', rateLimit(60), async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.app);
         if (!alumet) {

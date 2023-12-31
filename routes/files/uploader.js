@@ -10,6 +10,7 @@ const Post = require('../../models/post');
 const Folder = require('../../models/folder');
 const authorize = require('../../middlewares/authentification/authorize');
 const mongoose = require('mongoose');
+const rateLimit = require('../../middlewares/authentification/rateLimit');
 
 const storage = multer.diskStorage({
     destination: './cdn',
@@ -18,7 +19,7 @@ const storage = multer.diskStorage({
     },
 });
 
-router.get('/content', authorize(), async (req, res) => {
+router.get('/content', rateLimit(30), async (req, res) => {
     try {
         let folders = await Folder.find({ owner: req.user?.id })
             .sort({ lastUsage: -1 })
@@ -39,7 +40,7 @@ router.get('/content', authorize(), async (req, res) => {
         res.json({ error });
     }
 });
-router.post('/folder/create', authorize(), (req, res) => {
+router.post('/folder/create', rateLimit(30), (req, res) => {
     const folder = new Folder({
         name: req.body.name,
         owner: req.user.id,
@@ -50,13 +51,7 @@ router.post('/folder/create', authorize(), (req, res) => {
         .catch(error => res.json({ error }));
 });
 
-router.get('/folder/list', authorize(), (req, res) => {
-    Folder.find({ owner: req.user.id })
-        .sort({ lastUsage: -1 })
-        .then(folders => res.json(folders))
-        .catch(error => res.json({ error }));
-});
-router.delete('/folder/delete/:id', authorize(), validateObjectId, async (req, res) => {
+router.delete('/folder/delete/:id', rateLimit(30), validateObjectId, async (req, res) => {
     if (!req.connected)
         return res.status(401).json({
             error: "Vous n'avez pas les permissions pour effectuer cette action !",
@@ -85,7 +80,7 @@ router.delete('/folder/delete/:id', authorize(), validateObjectId, async (req, r
     }
 });
 
-router.post('/folder/rename/:id', authorize(), validateObjectId, (req, res) => {
+router.post('/folder/rename/:id', rateLimit(30), validateObjectId, (req, res) => {
     Folder.findOne({ _id: req.params.id, owner: req.user.id })
         .then(folder => {
             if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
@@ -97,19 +92,6 @@ router.post('/folder/rename/:id', authorize(), validateObjectId, (req, res) => {
         .catch(error => res.json({ error }));
 });
 
-router.get('/folder/:id', authorize(), (req, res) => {
-    Folder.findOne({ _id: req.params.id, owner: req.user.id })
-        .then(folder => {
-            if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
-            folder.lastUsage = Date.now();
-            folder.save();
-            Upload.find({ folder: folder._id, mimetype: req.query.type || { $exists: true } })
-                .sort({ _id: -1 })
-                .then(uploads => res.json(uploads))
-                .catch(error => res.json({ error }));
-        })
-        .catch(error => res.json({ error }));
-});
 
 router.get('/u/defaultUser', (req, res) => {
     const filePath = path.join(__dirname, './../../views/assets/default/default_user.png');
@@ -128,7 +110,7 @@ router.get('/u/defaultGroup', (req, res) => {
 
 
 
-router.get('/u/:id', validateObjectId, (req, res) => {
+router.get('/u/:id', rateLimit(60), validateObjectId, (req, res) => {
     Upload.find({ _id: req.params.id })
         .then(upload => {
             if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
@@ -142,7 +124,7 @@ router.get('/u/:id', validateObjectId, (req, res) => {
         .catch(error => res.json({ error }));
 });
 
-router.get('/u/:id/download', validateObjectId, (req, res) => {
+router.get('/u/:id/download', rateLimit(30), validateObjectId, (req, res) => {
     Upload.find({ _id: req.params.id })
         .then(upload => {
             if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
@@ -160,7 +142,7 @@ const sanitizeFilename = filename => {
     return filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
 };
 
-router.patch('/update/:id', authorize(), validateObjectId, (req, res) => {
+router.patch('/update/:id', rateLimit(30), validateObjectId, (req, res) => {
     if (!req.body.displayname) return res.status(400).json({ error: 'Veuillez spéficier un nouveau nom' });
     Upload.find({ _id: req.params.id })
         .then(upload => {
@@ -187,47 +169,52 @@ router.patch('/update/:id', authorize(), validateObjectId, (req, res) => {
 const accountUpload = multer({
     storage: storage,
     limits: {
-        files: 50,
+        files: 150,
     },
 });
 
-router.post('/upload/:id', accountUpload.single('file'), async (req, res) => {
-    try {
-        let folder;
-        if (req.params.id && mongoose.Types.ObjectId.isValid(req.params.id)) {
-            folder = await Folder.findOne({
-                _id: req.params.id,
-                owner: req.user.id,
-            });
-        }
-
-        if (req.file) {
-            const ext = req.file.originalname.split('.').pop();
-            const sanitizedFilename = sanitizeFilename(req.file.originalname);
-            const upload = new Upload({
-                filename: req.file.filename,
-                displayname: sanitizedFilename,
-                mimetype: ext.toLowerCase(),
-                filesize: req.file.size,
-                owner: req.user?.id || req.ip,
-                folder: folder?._id || null,
-            });
-            await upload.save();
-            res.json({ file: upload });
-        } else {
-            res.status(400).json({
-                error: 'Une erreur inconnue est survenue ! x00',
-            });
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            error: "Une erreur est survenue lors de l'enregistrement du fichier",
+router.post('/upload/:id', rateLimit(240), async (req, res) => {
+    let folder;
+    if (req.params.id && mongoose.Types.ObjectId.isValid(req.params.id)) {
+        folder = await Folder.findOne({
+            _id: req.params.id,
+            owner: req.user.id,
         });
     }
+
+    accountUpload.single('file')(req, res, async (err) => {
+        try {
+            if (err) {
+                return res.status(500).json({ error: 'Upload failed' });
+            }
+            if (req.file) {
+                const ext = req.file.originalname.split('.').pop();
+                const sanitizedFilename = sanitizeFilename(req.file.originalname);
+                const upload = new Upload({
+                    filename: req.file.filename,
+                    displayname: sanitizedFilename,
+                    mimetype: ext.toLowerCase(),
+                    filesize: req.file.size,
+                    owner: req.user?.id || req.ip,
+                    folder: folder?._id || null,
+                });
+                await upload.save();
+                res.json({ file: upload });
+            } else {
+                res.status(400).json({
+                    error: 'Une erreur inconnue est survenue ! x00',
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                error: "Une erreur est survenue lors de l'enregistrement du fichier",
+            });
+        }
+    });
 });
 
-router.get('/info/:id', validateObjectId, (req, res) => {
+router.get('/info/:id', rateLimit(30), validateObjectId, (req, res) => {
     Upload.findOne({ _id: req.params.id })
         .then(upload => {
             if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
@@ -237,7 +224,7 @@ router.get('/info/:id', validateObjectId, (req, res) => {
         .catch(error => res.json({ error }));
 });
 
-router.delete('/:id', authorize(), validateObjectId, async (req, res) => {
+router.delete('/:id', rateLimit(30), validateObjectId, async (req, res) => {
     try {
         const upload = await Upload.find({ _id: req.params.id });
         if (!upload[0]) {

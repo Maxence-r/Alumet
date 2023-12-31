@@ -23,7 +23,7 @@ router.get('/:id', validateObjectId, authorize(), async (req, res) => {
     }
 });
 
-router.post('/accept/:id', authorize('alumet'), async (req, res) => {
+router.post('/accept/:id', rateLimit(30), authorize('alumet'), async (req, res) => {
     try {
         const invitation = await Invitation.findOne({
             reference: req.params.id,
@@ -57,7 +57,7 @@ router.post('/accept/:id', authorize('alumet'), async (req, res) => {
     }
 });
 
-router.post('/decline/:id', authorize('alumet'), async (req, res) => {
+router.post('/decline/:id', rateLimit(30), async (req, res) => {
     try {
         const invitation = await Invitation.findOne({
             reference: req.params.id,
@@ -83,4 +83,3 @@ router.post('/decline/:id', authorize('alumet'), async (req, res) => {
 
 
 module.exports = router;
-//

@@ -226,9 +226,12 @@ function createPostElement(post) {
     if (post.file) {
         const postRichContentContainer = document.createElement('div');
         postRichContentContainer.classList.add('post-rich-content-container');
-        const filePreview = document.createElement('div');
-        filePreview.setAttribute('onclick', `window.open("/viewer/${post.file._id}")`);
-        filePreview.style.backgroundImage = `url("/preview?id=${post.file._id}")`;
+        const filePreview = document.createElement('img');
+        filePreview.setAttribute('loading', 'lazy')
+        postRichContentContainer.setAttribute('onclick', `window.open("/viewer/${post.file._id}")`);
+        filePreview.src = `/preview?id=${post.file._id}`;
+        console.log('yes')
+        filePreview.setAttribute
         filePreview.classList.add('post-rich-content');
         const filePreviewTitle = document.createElement('h2');
         filePreviewTitle.textContent = post.file.displayname;

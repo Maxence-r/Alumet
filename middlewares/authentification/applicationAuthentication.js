@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const applicationAuthentication =
     (status) =>
         async (req, res, next) => {
-            item = await Alumet.findOne({ _id: req.params.alumet });
+            item = await Alumet.findOne({ _id: req.params.application });
             if (!item) return res.status(404).json({ error: "Alumet not found" });
             switch (item.security) {
                 case "open":
@@ -20,13 +20,13 @@ const applicationAuthentication =
                             console.error('JWT verification error:', error);
                         }
                     } else {
-                        if (!(item.participants.some(p => p.userId === req.user.id && p.status === 1 || p.status === 2) || item.owner === req.user.id)) {
+                        if (!(item.participants.some(p => p.userId === req.user?.id && p.status === 1 || p.status === 2) || item.owner === req.user?.id)) {
                             return res.status(403).json({ error: "Forbidden" });
                         }
                     }
                     break;
                 case "closed":
-                    if (!(item.participants.some(p => p.userId === req.user.id && p.status === 1 || p.status === 2) || item.owner === req.user.id)) {
+                    if (!(item.participants.some(p => p.userId === req.user?.id && p.status === 1 || p.status === 2) || item.owner === req.user?.id)) {
                         return res.status(403).json({ error: "Forbidden x001" });
                     }
                     break;
@@ -34,10 +34,11 @@ const applicationAuthentication =
                     break;
             }
             if (!status) return next();
-            const isForbidden = !status.some(s => item.participants.some(p => p.userId === req.user.id && p.status === s)) && item.owner !== req.user.id;
+            const isForbidden = !status.some(s => item.participants.some(p => p.userId === req.user?.id && p.status === s)) && item.owner !== req.user?.id;
             if (isForbidden) {
                 return res.status(403).json({ error: "Forbidden x002" });
             }
+
             next();
         };
 
