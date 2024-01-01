@@ -1559,7 +1559,7 @@ select {
 }
 
 .modulable-right > button {
-    border-radius: 8px;
+    border-radius: 10px;
     height: 100%;
 }
 .modulable-right > input {
