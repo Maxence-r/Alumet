@@ -5,6 +5,7 @@ const Invitation = require('../../models/invitation');
 const path = require('path');
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
 const Alumet = require('../../models/alumet');
+const rateLimit = require('../../middlewares/authentification/rateLimit');
 
 router.get('/:id', validateObjectId, authorize(), async (req, res) => {
     try {

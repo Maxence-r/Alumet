@@ -3,7 +3,7 @@ console.log("Welcome to Alumet Education website !");
 
 //ANCHOR - Coutdown Timer
 // Get the countdown date once
-const countDownDate = new Date("Jan 1, 2024 20:00:00").getTime();
+const countDownDate = new Date("Jan 1, 2024 21:00:00").getTime();
 
 // Create a function to update the countdown
 function updateCountdown() {
