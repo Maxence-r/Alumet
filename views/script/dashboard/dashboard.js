@@ -237,6 +237,7 @@ async function createConversation() {
 
 function startSetup() {
     let type = document.querySelector('.module-selected').dataset.module.slice(0, -1);
+    if (type === 'mindmap') return toast({ title: 'Erreur', message: 'Ce support est temporairement indisponible', type: 'error', duration: 5500 });
     window.location.href = `/app/setup/${type}`;
 }
 document.addEventListener('DOMContentLoaded', function () {

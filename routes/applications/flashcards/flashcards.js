@@ -6,11 +6,29 @@ const path = require('path');
 const Flashcards = require('../../../models/flashcards');
 const Alumet = require('../../../models/alumet');
 const Account = require('../../../models/account');
-const authorize = require('../../../middlewares/authentification/authorize');
+const rateLimit = require('../../../middlewares/authentification/rateLimit');
 
 
 
-router.get('/revise/sandbox/:flashcard', async (req, res) => {
+/* Bonjour Gabriel, bonne année; petite explication de comment sécurisé tes routes avec le brand
+new middleware application Authentication:
+Ce dernier s'occupera déja de verifier que la personne qui fait la requête avait accès 
+à l'application selon le niveau de sécurité, donc tu peux dégager si tu avais déja fait 
+ce genre de vérification
+
+How to use ?:
+Un paramètre seulement, un array [] dans lequel tu met qui a le droit de faire cette action
+exemple, delete une flashcard tu mettra le middlaware applicationAuthentication([1])
+Rappel:
+1 = collaborateur, 2 = participant
+Erreurs a ne pas faire:
+- Toujours fermer des parenthèses car ce middleware renvoie une fonction
+- Faire dans la route la sécurité comme si tu delete un commentaire sur un alumet,
+seul celui qui l'a créer peut le faire(normalement aucun problème pour flashcards) */
+
+
+
+router.get('/revise/sandbox/:flashcard', rateLimit(60), async (req, res) => {
     try {
         console.log('sandbox')
         if (mongoose.Types.ObjectId.isValid(req.params.flashcard) === false) return res.redirect('/404');
@@ -24,7 +42,7 @@ router.get('/revise/sandbox/:flashcard', async (req, res) => {
     }
 });
 
-router.get('/revise/smart/:flashcard', async (req, res) => {
+router.get('/revise/smart/:flashcard', rateLimit(60), async (req, res) => {
     try {
         if (mongoose.Types.ObjectId.isValid(req.params.flashcard) === false) return res.redirect('/404');
         const flashcardSet = await Alumet.findById(req.params.flashcard);
@@ -37,7 +55,7 @@ router.get('/revise/smart/:flashcard', async (req, res) => {
     }
 });
 
-router.get('/:flashcardSet/:revisionMethod/content', async (req, res) => {
+router.get('/:flashcardSet/:revisionMethod/content', rateLimit(60), async (req, res) => {
     try {
         const flashcardSet = await Alumet.findById(req.params.flashcardSet);
         if (!flashcardSet) return res.redirect('/404');
@@ -68,7 +86,7 @@ router.get('/:flashcardSet/:revisionMethod/content', async (req, res) => {
     }
 });
 
-router.post('/:flashcardSet/check', authorize(''), async (req, res) => {
+router.post('/:flashcardSet/check', rateLimit(10), async (req, res) => {
     try {
         const { flashcardSetId, flashcards } = req.body;
         const flashcardSet = await Alumet.findById(flashcardSetId);
@@ -98,7 +116,7 @@ router.post('/:flashcardSet/check', authorize(''), async (req, res) => {
     }
 });
 
-router.delete('/:flashcard/:flashcardId', authorize(''), async (req, res) => {
+router.delete('/:flashcard/:flashcardId', rateLimit(30), async (req, res) => {
     try {
         const flashcard = await Flashcards.findById(req.params.flashcardId);
         if (!flashcard) return res.json({ error: 'Flashcard not found' });
@@ -114,7 +132,7 @@ function determineNextReview(inRowNumber) {
     const days = [1, 3, 5, 8, 13, 21, 34, 55];
     return inRowNumber < 8 ? Date.now() + 1000 * 60 * 60 * 24 * days[inRowNumber] : Date.now() + 1000 * 60 * 60 * 24 * days[7];
 }
-router.post('/:flashcardSet/:flashcardId/review', authorize(), async (req, res) => {
+router.post('/:flashcardSet/:flashcardId/review', rateLimit(120), async (req, res) => {
     try {
         const { flashcardId } = req.params;
         const { status, cardReview } = req.body;
@@ -143,7 +161,7 @@ router.post('/resetProgress', async (req, res) => {
         const { flashcardSetId } = req.body;
         const flashcards = await Flashcards.find({ flashcardSetId });
         for (const flashcard of flashcards) {
-            flashcard.usersDatas = [{ userId: req.user.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0}];
+            flashcard.usersDatas = [{ userId: req.user.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0 }];
             await flashcard.save();
         }
         res.json({ success: true });

@@ -3,20 +3,22 @@ const router = express.Router();
 const Alumet = require('../../../models/alumet');
 const Upload = require('../../../models/upload');
 const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
-const authorize = require('../../../middlewares/authentification/authorize');
 const Account = require('../../../models/account');
 const Wall = require('../../../models/wall');
 const Post = require('../../../models/post');
 const Comment = require('../../../models/comment');
+const applicationAuthentication = require('../../../middlewares/authentification/applicationAuthentication');
+const rateLimit = require('../../../middlewares/authentification/rateLimit');
 
-router.get('/:alumet/content', authorize('alumet', 'alumetPrivate'), validateObjectId, async (req, res) => {
+router.get('/:application/content', applicationAuthentication(), rateLimit(60), validateObjectId, async (req, res) => {
     try {
+        console.log("yesy");
         const alumet = await Alumet.findOne({
-            _id: req.params.alumet,
+            _id: req.params.application,
         })
         let alumetContent = {}
 
-        const walls = await Wall.find({ alumetReference: req.params.alumet }).sort({ position: 1 }).lean();
+        const walls = await Wall.find({ alumetReference: req.params.application }).sort({ position: 1 }).lean();
 
         for (let wall of walls) {
             let posts;

@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
 const Alumet = require('../../models/alumet');
 require('dotenv').config();
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
-const authorize = require('../../middlewares/authentification/authorize');
 const jwt = require('jsonwebtoken');
+const rateLimit = require('../../middlewares/authentification/rateLimit');
 router.get('/:id', validateObjectId, async (req, res) => {
     try {
         if (req.connected) {
@@ -40,8 +40,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
     }
 });
 
-router.post('/authorize/:id', authorize(), async (req, res) => {
-
+router.post('/authorize/:id', rateLimit(10), async (req, res) => {
     try {
         let alumet;
         if (mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -69,7 +68,7 @@ router.post('/authorize/:id', authorize(), async (req, res) => {
                         });
                     } else {
                         return res.status(400).json({
-                            error: 'Wrong password',
+                            error: 'Le mot de passe est incorrect.',
                         });
                     }
                 } else {
@@ -120,7 +119,7 @@ router.post('/authorize/:id', authorize(), async (req, res) => {
     }
 });
 
-router.get('/leave/:id', authorize('alumet'), async (req, res) => {
+router.get('/leave/:id', rateLimit(30, true), async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.id);
         if (!alumet) {

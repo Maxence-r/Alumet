@@ -3,9 +3,7 @@ const router = express.Router();
 const OpenAI = require('openai');
 const pdfjsLib = require('pdfjs-dist');
 const Upload = require('../../models/upload');
-const path = require('path');
-const fs = require('fs');
-const { set } = require('mongoose');
+const rateLimit = require('../../middlewares/authentification/rateLimit');
 require('dotenv').config();
 
 const openai = new OpenAI({
@@ -68,14 +66,14 @@ async function gptFlashcardGeneration(generationMode, numberOfFlashcards, school
         { role: 'system', content: `Your flashcards are adressed to a ${schoolLevel} student, adjust the difficulty of your flashcards accordingly.` },
         { role: 'assistant', content: 'How many flashcards do you want ?'},
         { role: 'system', content: `You must answer ${numberOfFlashcards} flashcards. By the way, you must do not answer sentences but use keywords in your questions and answers in order to be short as possible. The shorter, the best! Last but not least, don't create flashcards of examples: it's useless!` },
-        { role: 'assistant', content: 'Okay. I\'m a performant ia flashcards creation assistant. Let\'s start !'},
-        { role: 'user', content: part },  
+        { role: 'assistant', content: 'Okay. I will do my best. Let\'s start !'},           
+        { role: 'user', content: part },
     ]));
     const flashcardsArrays = await Promise.all(flashcardsPromises);
     return [].concat(...flashcardsArrays).filter(flashcard => flashcard.question.length < 100 && flashcard.answer.length < 100 && flashcard.question.length > 1 && flashcard.answer.length > 1);
 }
 
-router.post('/generate-flashcards', async (req, res) => {
+router.post('/generate-flashcards', rateLimit(2), async (req, res) => {
     try {
         let { generationMode, numberOfFlashcards, schoolLevel, subject, data } = req.body;
         let message = '';

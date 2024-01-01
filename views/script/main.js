@@ -3,7 +3,7 @@ console.log("Welcome to Alumet Education website !");
 
 //ANCHOR - Coutdown Timer
 // Get the countdown date once
-const countDownDate = new Date("Jan 1, 2024 17:00:00").getTime();
+const countDownDate = new Date("Jan 1, 2024 23:59:00").getTime();
 
 // Create a function to update the countdown
 function updateCountdown() {
@@ -19,7 +19,7 @@ function updateCountdown() {
     distance %= (1000 * 60);
     const seconds = Math.floor(distance / 1000);
 
-    document.getElementById("coutdown").innerHTML = days + "J " + hours + "H "+ minutes + "M " + seconds + "S ";
+    document.getElementById("coutdown").innerHTML = days + "J " + hours + "H " + minutes + "M " + seconds + "S ";
 
     if (distance < 0) {
         clearInterval(intervalId);

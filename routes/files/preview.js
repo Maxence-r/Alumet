@@ -6,8 +6,9 @@ const sharp = require('sharp');
 const axios = require('axios');
 
 const Upload = require('../../models/upload');
+const rateLimit = require('../../middlewares/authentification/rateLimit');
 
-router.get('/meta', (req, res) => {
+router.get('/meta', rateLimit(4), (req, res) => {
     const url = req.query.url;
     urlMetadata(url)
         .then(metadata => {
@@ -18,7 +19,7 @@ router.get('/meta', (req, res) => {
         });
 });
 
-router.get('/', async (req, res) => {
+router.get('/', rateLimit(60), async (req, res) => {
     const upload = await Upload.findOne({ _id: req.query.id });
 
     if (!upload) {

@@ -83,7 +83,6 @@ socket.on('deleteWall', id => {
 
 
 socket.on('moveWall', (id, direction) => {
-    console.log(id, direction);
     const wall = document.querySelector(`.list[data-id="${id}"]`);
     if (!wall) {
         return;

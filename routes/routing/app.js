@@ -3,15 +3,14 @@ const router = express.Router();
 const path = require('path');
 const Alumet = require('../../models/alumet');
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
-const authorize = require('../../middlewares/authentification/authorize');
 const validateAlumet = require('../../middlewares/modelsValidation/validateAlumet');
 const { upload, uploadAndSaveToDb } = require('../../middlewares/utils/uploadHandler');
 const sendInvitations = require('../../middlewares/mailManager/sendInvitations');
 const addBlurToImage = require('../../middlewares/utils/blur');
-const Account = require('../../models/account');
 const authorizeA2F = require('../../middlewares/authentification/authorizeA2f');
 const jwt = require('jsonwebtoken');
-
+const rateLimit = require('../../middlewares/authentification/rateLimit');
+const Account = require('../../models/account');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     let alumet = await Alumet.findById(req.params.id);
@@ -62,48 +61,9 @@ router.get('/:id', validateObjectId, async (req, res) => {
     res.sendFile(filePath);
 });
 
-router.get('/setup/:app', async (req, res) => {
-    console.log(req.params.app)
-    req.params.app !== 'flashcard' && req.params.app !== 'mindmap' && req.params.app !== 'alumet' ? res.redirect('/404') : null;
-    let filePath = req.connected ? path.join(__dirname, '../../views/pages/new-app.html') : path.join(__dirname, '../../views/pages/404.html');
-    res.sendFile(filePath);
-});
-
-router.put('/new', authorize(), upload.single('file'), uploadAndSaveToDb('3', ['png', 'jpeg', 'jpg']), addBlurToImage, validateAlumet, async (req, res) => {
+router.get('/info/:application', validateObjectId, rateLimit(30), async (req, res) => {
     try {
-        const existantAlumet = await Alumet.findById(req.body.app);
-        let updatedAlumet;
-        const alumetDatas = Object.fromEntries(
-            Object.entries({
-                owner: req.user.id,
-                title: req.body.title,
-                description: req.body.description,
-                background: req.upload ? req.upload._id : undefined,
-                private: req.body.private,
-                swiftchat: req.body.chat,
-                lastUsage: Date.now(),
-                type: req.body.type,
-                subject: req.body.subject,
-                discovery: req.body.discovery,
-                security: req.body.security,
-                password: req.body.password,
-            }).filter(([_, value]) => value !== undefined)
-        );
-
-        updatedAlumet = existantAlumet ? Object.assign(existantAlumet, alumetDatas) : new Alumet(alumetDatas);
-        await updatedAlumet.save();
-
-        !existantAlumet ? sendInvitations(req, res, updatedAlumet._id) : null;
-        res.json({ alumet: updatedAlumet });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-
-router.get('/info/:id', validateObjectId, async (req, res) => {
-    try {
-        const alumet = await Alumet.findById(req.params.id);
+        const alumet = await Alumet.findById(req.params.application);
         if (!alumet) {
             return res.status(404).json({
                 error: 'Alumet not found',
@@ -159,7 +119,47 @@ router.get('/info/:id', validateObjectId, async (req, res) => {
     }
 });
 
-router.delete('/delete/:id', validateObjectId, authorize(), authorizeA2F, async (req, res) => {
+router.get('/setup/:app', async (req, res) => {
+    console.log(req.params.app)
+    req.params.app !== 'flashcard' && req.params.app !== 'mindmap' && req.params.app !== 'alumet' ? res.redirect('/404') : null;
+    let filePath = req.connected ? path.join(__dirname, '../../views/pages/new-app.html') : path.join(__dirname, '../../views/pages/404.html');
+    res.sendFile(filePath);
+});
+
+router.put('/new', rateLimit(3), upload.single('file'), uploadAndSaveToDb('3', ['png', 'jpeg', 'jpg']), addBlurToImage, validateAlumet, async (req, res) => {
+    try {
+        const existantAlumet = await Alumet.findById(req.body.app);
+        let updatedAlumet;
+        const alumetDatas = Object.fromEntries(
+            Object.entries({
+                owner: req.user.id,
+                title: req.body.title,
+                description: req.body.description,
+                background: req.upload ? req.upload._id : undefined,
+                private: req.body.private,
+                swiftchat: req.body.chat,
+                lastUsage: Date.now(),
+                type: req.body.type,
+                subject: req.body.subject,
+                discovery: req.body.discovery,
+                security: req.body.security,
+                password: req.body.password,
+            }).filter(([_, value]) => value !== undefined)
+        );
+
+        updatedAlumet = existantAlumet ? Object.assign(existantAlumet, alumetDatas) : new Alumet(alumetDatas);
+        await updatedAlumet.save();
+
+        /* !existantAlumet ? sendInvitations(req, res, updatedAlumet._id) : null; */ //TODO - Make mails work correctly
+        res.json({ alumet: updatedAlumet });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+router.delete('/delete/:id', validateObjectId, rateLimit(30), authorizeA2F, async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.id);
         if (!alumet) {
@@ -184,12 +184,12 @@ router.delete('/delete/:id', validateObjectId, authorize(), authorizeA2F, async 
     }
 });
 
-router.put('/collaborators/:app', authorize(), async (req, res) => {
+router.put('/collaborators/:app', rateLimit(4), async (req, res) => {
     sendInvitations(req, res, req.params.app);
     res.json({ success: true });
 });
 
-router.put('/role/:app', authorize(), async (req, res) => {
+router.put('/role/:app', rateLimit(60), async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.app);
         if (!alumet) {

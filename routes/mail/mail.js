@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { sendMail } = require('../mail/mailing');
 const A2F = require('../../models/a2f');
+const rateLimit = require('../../middlewares/authentification/rateLimit');
 
 
-router.post('/a2f', async (req, res) => {
+router.post('/a2f', rateLimit(3), async (req, res) => {
     const mail = req.user?.mail || req.body.mail;
     if (!mail) {
         return res.status(400).json({ error: 'Mail invalide !' });

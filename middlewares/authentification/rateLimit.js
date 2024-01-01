@@ -1,13 +1,18 @@
-
 const Request = require('../../models/request');
 
 const rateLimit =
-    (requestsPerMinutes) =>
+    (requestsPerMinutes, logged) =>
         async (req, res, next) => {
+            if (logged) {
+                if (!req.connected) {
+                    return res.status(401).json({ error: 'Unauthorized' });
+                }
+            }
             const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+            const routeIdentifier = req.route.path;
             const now = new Date();
             const oneMinuteAgo = new Date(now.getTime() - 60 * 1000);
-            const requests = await Request.find({ ip: ip, createdAt: { $gte: oneMinuteAgo } }).sort({ createdAt: -1 });
+            const requests = await Request.find({ ip: ip, route: routeIdentifier, createdAt: { $gte: oneMinuteAgo } }).sort({ createdAt: -1 });
 
             if (requests.length >= requestsPerMinutes) {
                 const oldestRequest = requests[requests.length - 1];
@@ -17,6 +22,7 @@ const rateLimit =
 
             const request = new Request({
                 ip: ip,
+                route: routeIdentifier,
             });
             await request.save();
             next();

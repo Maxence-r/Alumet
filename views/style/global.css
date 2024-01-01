@@ -1385,9 +1385,9 @@ select {
 .radio-option .radio input[type='radio']:checked + .radio-content {
     background: #eaf1fe;
     outline-style: solid;
-    outline-width: 2px;
+    outline-width: 3px;
     outline-color: #0597ff;
-    outline-offset: -2px;
+    outline-offset: -3px;
 }
 
 .module-selected {
@@ -1395,7 +1395,7 @@ select {
     outline-style: solid;
     outline-width: 1px;
     outline-color: #d2d2d2;
-    outline-offset: -1px;
+    outline-offset: -2px;
 }
 
 .module {

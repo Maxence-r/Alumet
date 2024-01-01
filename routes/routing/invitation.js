@@ -1,12 +1,12 @@
 const express = require('express');
-const authorize = require('../../middlewares/authentification/authorize');
 const router = express.Router();
 const Invitation = require('../../models/invitation');
 const path = require('path');
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
 const Alumet = require('../../models/alumet');
+const rateLimit = require('../../middlewares/authentification/rateLimit');
 
-router.get('/:id', validateObjectId, authorize(), async (req, res) => {
+router.get('/:id', validateObjectId, async (req, res) => {
     try {
         let invitation = await Invitation.findOne({ reference: req.params.id, mail: req.user.mail });
         if (!invitation) {
@@ -23,7 +23,7 @@ router.get('/:id', validateObjectId, authorize(), async (req, res) => {
     }
 });
 
-router.post('/accept/:id', authorize('alumet'), async (req, res) => {
+router.post('/accept/:id', rateLimit(30), async (req, res) => {
     try {
         const invitation = await Invitation.findOne({
             reference: req.params.id,
@@ -57,7 +57,7 @@ router.post('/accept/:id', authorize('alumet'), async (req, res) => {
     }
 });
 
-router.post('/decline/:id', authorize('alumet'), async (req, res) => {
+router.post('/decline/:id', rateLimit(30), async (req, res) => {
     try {
         const invitation = await Invitation.findOne({
             reference: req.params.id,
@@ -83,4 +83,3 @@ router.post('/decline/:id', authorize('alumet'), async (req, res) => {
 
 
 module.exports = router;
-//

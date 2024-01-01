@@ -7,14 +7,14 @@ const Alumet = require('../../../models/alumet');
 require('dotenv').config();
 
 const Upload = require('../../../models/upload');
-const authorize = require('../../../middlewares/authentification/authorize');
 const Wall = require('../../../models/wall');
 const Account = require('../../../models/account');
 const Comment = require('../../../models/comment');
 const rateLimit = require('../../../middlewares/authentification/rateLimit');
+const applicationAuthentication = require('../../../middlewares/authentification/applicationAuthentication');
 
 
-router.put('/:alumet/:wall', rateLimit(60), validatePost, authorize('alumet', 'alumetPrivate'), async (req, res) => {
+router.put('/:application/:wall', rateLimit(30), applicationAuthentication(), validatePost, async (req, res) => {
     const postId = req.body.postId;
     const postFields = {
         title: req.body.title,
@@ -45,7 +45,7 @@ router.put('/:alumet/:wall', rateLimit(60), validatePost, authorize('alumet', 'a
         postFields._id = post._id;
         const postDate = new Date(postFields.postDate);
         const currentDate = new Date();
-        const room = postFields.adminsOnly || postDate > currentDate ? `admin-${req.params.alumet}` : req.params.alumet;
+        const room = postFields.adminsOnly || postDate > currentDate ? `admin-${req.params.application}` : req.params.application;
         if (postId) {
             global.io.to(room).emit('editPost', postFields);
         } else {
@@ -60,7 +60,7 @@ router.put('/:alumet/:wall', rateLimit(60), validatePost, authorize('alumet', 'a
     }
 });
 
-router.put('/:alumet/:id/comments', rateLimit(5), authorize('alumet', 'itemParticipants'), authorize('alumet', 'alumetPrivate'), async (req, res) => {
+router.put('/:application/:id/comments', rateLimit(5), applicationAuthentication([1, 2]), async (req, res) => {
     const commentFields = {
         owner: req.user && req.user.id,
         content: req.body.content,
@@ -81,7 +81,7 @@ router.put('/:alumet/:id/comments', rateLimit(5), authorize('alumet', 'itemParti
     }
 });
 
-router.get('/:alumet/:id/comments', authorize('alumet', 'alumetPrivate'), async (req, res) => {
+router.get('/:application/:id/comments', applicationAuthentication(), rateLimit(60), async (req, res) => {
     try {
         const comments = await Comment.find({ postId: req.params.id })
 
@@ -100,7 +100,7 @@ router.get('/:alumet/:id/comments', authorize('alumet', 'alumetPrivate'), async 
     }
 });
 
-router.put('/move/:alumet/:wall/:post', authorize('alumet', 'itemAdmins'), async (req, res) => {
+router.put('/move/:application/:wall/:post', applicationAuthentication([1]), rateLimit(60), async (req, res) => {
     const { position } = req.body;
     try {
         const wall = await Wall.findOne({ _id: req.params.wall });
@@ -118,7 +118,7 @@ router.put('/move/:alumet/:wall/:post', authorize('alumet', 'itemAdmins'), async
         }
         const postDate = new Date(post.postDate);
         const currentDate = new Date();
-        const room = post.adminsOnly || postDate > currentDate ? `admin-${req.params.alumet}` : req.params.alumet;
+        const room = post.adminsOnly || postDate > currentDate ? `admin-${req.params.application}` : req.params.application;
         if (!topPost) {
             await Post.findOneAndUpdate({ _id: req.params.post }, { position: 0, wallId: req.params.wall }, { new: true });
             global.io.to(room).emit('movePost', req.params.wall, req.params.post, position);
@@ -148,9 +148,9 @@ router.put('/move/:alumet/:wall/:post', authorize('alumet', 'itemAdmins'), async
     }
 });
 
-router.delete('/:alumet/:post', async (req, res) => {
+router.delete('/:application/:post', applicationAuthentication(), rateLimit(60), async (req, res) => {
     try {
-        const alumet = await Alumet.findById(req.params.alumet);
+        const alumet = await Alumet.findById(req.params.application);
         if (!req.connected) {
             return res.status(404).json({
                 error: "Vous n'avez pas les permissions pour effectuer cette action !",
@@ -165,7 +165,7 @@ router.delete('/:alumet/:post', async (req, res) => {
         }
 
         const deletedPost = await Post.findByIdAndDelete(req.params.post);
-        global.io.to(req.params.alumet).emit('deletePost', req.params.post);
+        global.io.to(req.params.application).emit('deletePost', req.params.post);
         res.json(deletedPost);
     } catch (error) {
         console.error(error);

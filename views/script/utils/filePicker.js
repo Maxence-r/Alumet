@@ -28,6 +28,10 @@ function loadFiles() {
         });
 }
 
+folderSelection.addEventListener('change', e => {
+    loadFolder(e.currentTarget.value);
+});
+
 function loadFolder(id) {
     document.querySelectorAll('.file-item').forEach(file => file.remove());
     localStorage.setItem('currentFolder', id);
