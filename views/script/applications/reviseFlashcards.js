@@ -1,6 +1,6 @@
 //NOTE - This file is for the flashcards revision page
 //SECTION - Global variables
-'use strict';
+
 let storedData = null;
 const id = window.location.pathname.split('/')[4];
 const mode = window.location.pathname.split('/')[3];
@@ -147,8 +147,10 @@ function addFlashcard(id, question, answer, status, date) {
     newCard.appendChild(p);
     flashcardContainer.appendChild(newCard);
     setEventListener(newCard);
+    console.log('new flashcard added');
     // modify design of the flashcard behind
     if (currentSection[1]) {
+        console.log(currentSection.length)
         document.querySelector('.flashcards.loaded > div:first-child').style.border = `2px solid ${statusInfos[currentSection[1].userDatas.status].color}`;
         document.querySelector('.flashcards.loaded > div:first-child > h3').innerText = currentSection[1].question;
     }
@@ -157,11 +159,11 @@ function addFlashcard(id, question, answer, status, date) {
 function nextFlashcard(newStatus) {
     if (currentSection.length === 0) return;
     let lastCard = currentSection[currentSection.length - 1];  // current flashcard displayed
-    let newCard = currentSection[0] /* || currentSection[0] */; // next flashcard
+    let newCard = currentSection[0] // next flashcard
 
     if (newStatus) {
         lastCard.userDatas.status = newStatus;
-        if (mode === 'smart') lastCard.numberOfReview = newStatus === 3 ? lastCard.numberOfReview + 1 : 0
+        if (mode === 'smart') lastCard.numberOfReview = newStatus === 3 ? lastCard.numberOfReview + 1 : 0;
         currentSection.pop();
         newStatus === 1 ? currentSection.splice(3, 0, lastCard) : currentSection.push(lastCard);
     }
@@ -169,17 +171,13 @@ function nextFlashcard(newStatus) {
     currentSection.shift();
     currentSection.push(newCard);
 }
-
-function stopRevision() {
-    window.location.href = `/app/${id}`;
-}
 //!SECTION - Global functions
 
 //SECTION - Smart mode functions
 function createSections (flashcards) {
     flashcards = flashcards.filter(flashcard => flashcard.userDatas.nextReview <= Date.now());
     for (let i = 0; i < flashcards.length; i++) {
-        const sectionIndex = Math.floor(i / 4); //NOTE - Number of flashcards per section
+        const sectionIndex = Math.floor(i / 1); //NOTE - Number of flashcards per section
         !sections[sectionIndex] ? sections[sectionIndex] = [] : null;
         sections[sectionIndex].push(flashcards[i]);
     }
@@ -187,25 +185,59 @@ function createSections (flashcards) {
     return sections;
 }
 
+function nextSection() {
+    index++;
+    currentSection = sections[index];
+    Array.from(document.querySelectorAll('.flashcard--card'))
+        .filter(card => !card.classList.contains('behind-flashcard'))
+        .forEach(card => card.remove());
+    document.querySelector('.completed-flashcards').innerHTML = '';
+    document.querySelector('.ongoing-flashcards').innerHTML = '';
+    document.querySelector('.flashcards.loaded > div:first-child').style.display = 'flex';
+    updateSmartStatusPercentages(currentSection);
+    nextFlashcard();
+}
+   
+function resetProgress() {
+    fetch('/flashcards/resetProgress', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ flashcardSetId: id }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            toast({ title: 'Réinitialisation réussie', message: 'Les cartes ont bien été réinitialisées', type: 'success', duration: 2500});
+            document.getElementById('overlay').classList.remove('hidden');
+            setTimeout(() => {
+                window.location.href = `/app/${id}`;
+            }, 1500);
+        })
+        .catch(err => console.log(err));
+}
+
+function stopRevision() { window.location.href = `/app/${id}` }
+function redirectToSandBox() { window.location.href = `/flashcards/revise/sandbox/${id}`; }
+
+function displayEndOfSection(type) {
+    document.querySelectorAll('.intermediate-section').forEach(element => element.style.display = type === 'intermediate' ? 'flex' : 'none');
+    document.querySelectorAll('.end-of-section').forEach(element => element.style.display = type === 'end' ? 'flex' : 'none');
+    console.log(storedData.user_infos.name)
+    document.querySelector('.finish-box > .text > h1').textContent = 'Bravo, ' + storedData.user_infos.name + ' !';
+    const newCardText = sections[index].length === 1 ? ' nouvelle carte' : ' nouvelles cartes';
+    document.querySelector('.finish-box > .text > p.intermediate-section').textContent = 'Tu as terminé cette section de révision et appris ' + sections[index].length + newCardText + ' !';
+    
+    document.querySelector('.finish-section').style.display = 'flex';
+}
+
 const switchSectionIfFinished = () => {
-    function next() {
-        Array.from(document.querySelectorAll('.flashcard--card'))
-            .filter(card => !card.classList.contains('behind-flashcard'))
-            .forEach(card => card.remove());
-        document.querySelector('.completed-flashcards').innerHTML = '';
-        document.querySelector('.ongoing-flashcards').innerHTML = '';
-        document.querySelector('.flashcards.loaded > div:first-child').style.display = 'flex';
-        updateSmartStatusPercentages(currentSection);
-        nextFlashcard();
-    }
     if (!sections[index + 1] && currentSection.length === 0) {
-        console.log('no more sections'); //TODO - make end of revision page
+        displayEndOfSection('end');
     } else if (currentSection.length === 0) {
         console.log('section finished, switching to next section'); //TODO - make end of section page + add a button to go to next section
-        index++;
-        currentSection = sections[index];
-        next();
-    } else console.log('Section not finished, staying in current');
+        displayEndOfSection('intermediate');
+    } else { console.log('section not finished'); }
 }
 
 const updateSmartStatusPercentages = (flashcards) => {

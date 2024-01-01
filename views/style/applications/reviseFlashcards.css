@@ -73,6 +73,7 @@ body {
     align-items: center;
     width: 100%;
     height: 100%;
+    padding: 20px;
     background: #ffffff;
     border: 2px solid #e1e8ee;
     border-radius: 8px;
@@ -203,6 +204,7 @@ body {
     font-size: 32px;
     padding: 0 16px;
     pointer-events: none;
+    word-break: break-word;
 }
 
 .flashcard--card p {
@@ -218,9 +220,70 @@ body {
     color: #cdd6dd;
 }
 
+.finish-section {
+    position: fixed;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    animation: opacity 0.3s ease-in-out;
+}
 
+.finish-box {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    background-color: white;
+    width: 90%;
+    gap: 30px;
+    height: auto;
+    padding: 30px;
+    border-radius: 25px 25px 0 0;
+    animation: slideIn 0.3s ease-in-out;
+}
+.finish-box > .text {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.finish-box > .text > h1 {
+    color: #000;
+    font-family: Plus Jakarta Sans;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0;
+}
+.finish-box > .text > p {
+    color: #000;
+    font-family: Plus Jakarta Sans;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0;
+}
 
-
+#overlay {
+    position: fixed;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    user-select: none;
+    animation: opacity 0.3s ease-in-out;
+}
 @media screen and (max-width: 600px) {
     body {
         padding: 10px 10px 0;
@@ -228,5 +291,9 @@ body {
     .flashcard {
         gap: 10px;
         padding-bottom: 10px;
+    }
+    .finish-box {
+        padding: 18px;
+        width: 100%;
     }
 }

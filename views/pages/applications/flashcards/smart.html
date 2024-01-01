@@ -23,6 +23,24 @@
         <link rel="stylesheet" href="./../../../../style/applications/reviseFlashcards.css" />
     </head>
     <body>
+        <div id="overlay" class="hidden"></div>
+        <div id="toast"></div>
+        <div class="finish-section" style="display: none;">
+            <div class="finish-box">
+                <div class="text">
+                    <h1>Bravo, name !</h1>
+                    <p class="intermediate-section">Tu as appris 10 nouvelles flashcards.</p>
+                    <p class="end-of-section">Tu connais toutes tes flashcards par coeur !</p>
+                </div>
+                <div class="buttons">
+                    <button class="large greyed intermediate-section" onclick="stopRevision() ; document.querySelector('.finish-section').style.display = 'none'">Terminer la révision</button>
+                    <button class="large intermediate-section" onclick="nextSection() ; document.querySelector('.finish-section').style.display = 'none'">Prochaine section</button>
+
+                    <button class="large end-of-section" onclick=" redirectToSandBox() ; document.querySelector('.finish-section').style.display = 'none'">Révision bac à sable</button>
+                    <button class="large greyed end-of-section" onclick="resetProgress() ; document.querySelector('.finish-section').style.display = 'none'">Réinitialiser ma progression</button>
+                </div>
+            </div>
+        </div>
         <section class="loading" style="display: flex">
             <h4>Alumet <span>Education</span></h4>
             <span class="loader-bar"></span>

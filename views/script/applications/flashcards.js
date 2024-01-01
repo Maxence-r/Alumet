@@ -4,15 +4,22 @@ fetch(`/flashcards/${id}/sandbox/content`)
     .then(res => res.json())
     .then(async data => {
         flashcardSet = data;
+        console.log(data);
         data.flashcards.forEach(flashcard => {
             flashcard = createFlashcardElement(flashcard.question, flashcard.answer, flashcard.userDatas?.status, 'modify', flashcard._id);
             document.querySelector('.flashcards-container').appendChild(flashcard);
         });
-        endLoading();
+        displayReviseBtn(data.flashcards);
         updateStatusPercentages(data.flashcards);
+        endLoading();
     })
     .catch(err => console.log(err));
 
+function displayReviseBtn(flashcards) {
+    !flashcards ? flashcards = document.querySelectorAll('.alumet > .flashcards-container > .flashcard:not([new-flashcards])') : null;
+    const button = document.querySelector('.header > button');
+    flashcards.length > 0 ? button.style.display = 'block' : button.style.display = 'none';
+}
 function modifyFlashcardSet() {
     let title = document.getElementById('flashcardName').value;
     if (title.length < 2) {
@@ -48,7 +55,7 @@ function modifyFlashcardSet() {
     });
 }
 function resetUsersdatas() {
-    fetch('/flashcards/reset', {
+    fetch('/flashcards/resetProgress', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -89,8 +96,9 @@ function deleteFlashcard() {
                 navbar('flashcards');
                 toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
             } else {
-                toast({ title: 'Succès', message: 'La carte a bien été supprimée !', type: 'success', duration: 2500 });
                 document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).remove();
+                displayReviseBtn();
+                toast({ title: 'Succès', message: 'La carte a bien été supprimée !', type: 'success', duration: 2500 });
                 setTimeout(() => {
                     navbar('home');
                 }, 500);
@@ -160,7 +168,6 @@ function createFlashcardElement(question, answer, status, parameter, id) {
     return flashcardElement;
 }
 function revise(option) {
-    if (option !== 'sandbox' && option !== 'smart') return toast({ title: 'Erreur', message: 'Cette option de révision n\'est pas encore disponible', type: 'error', duration: 7500 });
     window.location.href = `/flashcards/revise/${option}/${id}`;
 }
 async function createFlashcards(info, flashcards) {
@@ -196,6 +203,7 @@ async function createFlashcards(info, flashcards) {
             }
             document.querySelector('.new-flashcard').insertAdjacentElement('afterend', flashcardElement);
         });
+        displayReviseBtn();
         if (!data.flashcards.some(flashcard => flashcard._id == currentFlashcard)) toast({ title: 'Succès', message: `La carte${data.flashcards.length > 1 ? 's ont' : ' a'} bien été ajoutée${data.flashcards.length > 1 ? 's' : ''} !`, type: 'success', duration: 2500 });
         document.getElementById('answer').value = '';
         document.getElementById('question').value = '';

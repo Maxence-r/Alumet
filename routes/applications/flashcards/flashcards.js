@@ -138,7 +138,7 @@ router.post('/:flashcardSet/:flashcardId/review', authorize(), async (req, res) 
         res.json({ error });
     }
 });
-router.post('/reset', async (req, res) => {
+router.post('/resetProgress', async (req, res) => {
     try {
         const { flashcardSetId } = req.body;
         const flashcards = await Flashcards.find({ flashcardSetId });
