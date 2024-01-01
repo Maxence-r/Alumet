@@ -1,5 +1,4 @@
 document.querySelectorAll('.options > div').forEach(div => {
-    console.log(div);
     div.addEventListener('click', e => {
         document.querySelectorAll('.options > div').forEach(div => {
             div.classList.remove('selectedOption');
@@ -10,11 +9,8 @@ document.querySelectorAll('.options > div').forEach(div => {
 let accountType;
 document.querySelector('.continue').addEventListener('click', e => {
     let selectedOption = document.querySelector('.selectedOption');
-    if (!selectedOption) return;
-    accountType = selectedOption.id;
-    if (accountType == 'student') {
-        return toast({ title: 'Erreur', message: 'Les inscriptions étudiants ouvrirons à la rentrée', type: 'warning', duration: 6000 })
-    }
+    /* if (!selectedOption) return; */
+    accountType = /* selectedOption.id; */ 'professor';
     document.querySelector(`.signup`).classList.add('activeStep');
     document.querySelector(`.choose`).classList.remove('activeStep');
 });
@@ -74,7 +70,7 @@ function verify() {
     const emailDomain = mailInput.value.split('@')[1];
 
     if (!emailRegex.test(mailInput.value) || (accountType == 'professor' && !allowedDomains.includes(emailDomain))) {
-        return toast({ title: 'Erreur', message: 'Utiliser une adresse mail académique, @ac-{region}.fr', type: 'error', duration: 6000 });
+        return toast({ title: 'Erreur', message: 'Utilisez une adresse mail académique, @ac-{region}.fr', type: 'error', duration: 6000 });
     }
 
     if (passwordInput.value.length < 6) {
