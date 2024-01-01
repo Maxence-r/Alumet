@@ -7,7 +7,6 @@ const Alumet = require('../../../models/alumet');
 require('dotenv').config();
 
 const Upload = require('../../../models/upload');
-const authorize = require('../../../middlewares/authentification/authorize');
 const Wall = require('../../../models/wall');
 const Account = require('../../../models/account');
 const Comment = require('../../../models/comment');
@@ -15,7 +14,7 @@ const rateLimit = require('../../../middlewares/authentification/rateLimit');
 const applicationAuthentication = require('../../../middlewares/authentification/applicationAuthentication');
 
 
-router.put('/:application/:wall', rateLimit(30), applicationAuthentication(), validatePost, authorize('alumet', 'alumetPrivate'), async (req, res) => {
+router.put('/:application/:wall', rateLimit(30), applicationAuthentication(), validatePost, async (req, res) => {
     const postId = req.body.postId;
     const postFields = {
         title: req.body.title,

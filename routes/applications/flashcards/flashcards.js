@@ -6,7 +6,6 @@ const path = require('path');
 const Flashcards = require('../../../models/flashcards');
 const Alumet = require('../../../models/alumet');
 const Account = require('../../../models/account');
-const authorize = require('../../../middlewares/authentification/authorize');
 const rateLimit = require('../../../middlewares/authentification/rateLimit');
 
 
@@ -87,7 +86,7 @@ router.get('/:flashcardSet/:revisionMethod/content', rateLimit(60), async (req, 
     }
 });
 
-router.post('/:flashcardSet/check', authorize(''), rateLimit(10), async (req, res) => {
+router.post('/:flashcardSet/check', rateLimit(10), async (req, res) => {
     try {
         const { flashcardSetId, flashcards } = req.body;
         const flashcardSet = await Alumet.findById(flashcardSetId);
@@ -117,7 +116,7 @@ router.post('/:flashcardSet/check', authorize(''), rateLimit(10), async (req, re
     }
 });
 
-router.delete('/:flashcard/:flashcardId', authorize(''), rateLimit(30), async (req, res) => {
+router.delete('/:flashcard/:flashcardId', rateLimit(30), async (req, res) => {
     try {
         const flashcard = await Flashcards.findById(req.params.flashcardId);
         if (!flashcard) return res.json({ error: 'Flashcard not found' });
@@ -133,7 +132,7 @@ function determineNextReview(inRowNumber) {
     const days = [1, 3, 5, 8, 13, 21, 34, 55];
     return inRowNumber < 8 ? Date.now() + 1000 * 60 * 60 * 24 * days[inRowNumber] : Date.now() + 1000 * 60 * 60 * 24 * days[7];
 }
-router.post('/:flashcardSet/:flashcardId/review', authorize(), rateLimit(120), async (req, res) => {
+router.post('/:flashcardSet/:flashcardId/review', rateLimit(120), async (req, res) => {
     try {
         const { flashcardId } = req.params;
         const { status, cardReview } = req.body;

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Wall = require('../../../models/wall');
 const validateObjectId = require('../../../middlewares/modelsValidation/validateObjectId');
-const authorize = require('../../../middlewares/authentification/authorize');
 const applicationAuthentication = require('../../../middlewares/authentification/applicationAuthentication');
 const rateLimit = require('../../../middlewares/authentification/rateLimit');
 

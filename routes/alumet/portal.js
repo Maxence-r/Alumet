@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const Alumet = require('../../models/alumet');
 require('dotenv').config();
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
-const authorize = require('../../middlewares/authentification/authorize');
 const jwt = require('jsonwebtoken');
 const rateLimit = require('../../middlewares/authentification/rateLimit');
 router.get('/:id', validateObjectId, async (req, res) => {
@@ -41,7 +40,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
     }
 });
 
-router.post('/authorize/:id', rateLimit(10), authorize(), async (req, res) => {
+router.post('/authorize/:id', rateLimit(10), async (req, res) => {
     try {
         let alumet;
         if (mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -120,7 +119,7 @@ router.post('/authorize/:id', rateLimit(10), authorize(), async (req, res) => {
     }
 });
 
-router.get('/leave/:id', authorize('alumet'), rateLimit(30), async (req, res) => {
+router.get('/leave/:id', rateLimit(30, true), async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.id);
         if (!alumet) {

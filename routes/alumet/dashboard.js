@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const authorize = require('../../middlewares/authentification/authorize');
 const Alumet = require('../../models/alumet');
 const Account = require('../../models/account');
 const Invitation = require('../../models/invitation');
@@ -18,7 +17,7 @@ router.get('/', async (req, res) => {
     res.sendFile(filePath);
 });
 
-router.get('/identity', authorize(), rateLimit(60), async (req, res) => {
+router.get('/identity', rateLimit(60, true), async (req, res) => {
     try {
         const fetchedInvitations = await Invitation.find({ to: req.user.id }).sort({ createdAt: -1 });
         let invitations = [];

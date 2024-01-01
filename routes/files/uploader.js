@@ -8,7 +8,6 @@ const fs = require('fs');
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
 const Post = require('../../models/post');
 const Folder = require('../../models/folder');
-const authorize = require('../../middlewares/authentification/authorize');
 const mongoose = require('mongoose');
 const rateLimit = require('../../middlewares/authentification/rateLimit');
 

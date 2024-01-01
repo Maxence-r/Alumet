@@ -3,6 +3,7 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 require('dotenv').config();
+const helmet = require('helmet');
 
 const authentification = require('./middlewares/authentification/authentification');
 
@@ -31,7 +32,12 @@ const flashcardsAi = require('./routes/openai/flashcards');
 
 const setup = require('./routes/alumet/setup.js');
 const invitation = require('./routes/routing/invitation.js');
+
+// SECURITY 
+app.disable('x-powered-by')
 app.use(cookieParser());
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./views'));
