@@ -35,7 +35,6 @@ const invitation = require('./routes/routing/invitation.js');
 
 // SECURITY 
 app.disable('x-powered-by')
-app.use(helmet()); // tu le mets deux fois l enleève et pus urgenta ??
 app.use(
     helmet({
       contentSecurityPolicy: false,
