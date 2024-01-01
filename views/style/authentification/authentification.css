@@ -26,6 +26,7 @@ section.access {
     border-radius: 20px;
     gap: 10px;
     background-color: #ffffff;
+    overflow-y: auto;
 }
 
 .radio-option {

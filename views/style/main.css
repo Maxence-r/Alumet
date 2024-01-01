@@ -37,7 +37,7 @@ body > section {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    gap: 10px;
+    gap: 25px;
     width: 100%;
 }
 

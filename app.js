@@ -35,7 +35,11 @@ const invitation = require('./routes/routing/invitation.js');
 
 // SECURITY 
 app.disable('x-powered-by')
-app.use(helmet());
+app.use(
+    helmet({
+      contentSecurityPolicy: false,
+    })
+  );
 app.use(cookieParser());
 
 

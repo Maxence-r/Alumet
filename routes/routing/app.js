@@ -30,7 +30,8 @@ router.get('/:id', validateObjectId, async (req, res) => {
                         console.error(err);
                         return res.redirect('/portal/' + req.params.id);
                     }
-                    if (decoded.applicationId === alumet._id) {
+                    if (decoded.applicationId !== alumet._id.toString()) {
+                        console.log(decoded.applicationId, alumet._id.toString());
                         return res.redirect('/portal/' + req.params.id);
                     }
                 });
@@ -46,6 +47,8 @@ router.get('/:id', validateObjectId, async (req, res) => {
             break;
     }
 
+
+    console.log("ok");
     let filePath;
     if (alumet.type === 'flashcard') {
         filePath = path.join(__dirname, '../../views/pages/applications/flashcards.html');
