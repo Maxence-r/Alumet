@@ -74,24 +74,22 @@ router.post('/authorize/:id', rateLimit(10), async (req, res) => {
                 } else {
                     if (req.body.password === alumet.password) {
                         return new Promise((resolve, reject) => {
-                            jwt.sign(
-                                { applicationId: alumet._id },
-                                process.env.TOKEN,
-                                { expiresIn: '1h' },
-                                (err, token) => {
-                                    if (err) {
-                                        console.error(err);
-                                        reject(res.status(500).json({
+                            jwt.sign({ applicationId: alumet._id }, process.env.TOKEN, { expiresIn: '1h' }, (err, token) => {
+                                if (err) {
+                                    console.error(err);
+                                    reject(
+                                        res.status(500).json({
                                             error: 'Internal Server Error',
-                                        }));
-                                    } else {
-                                        resolve(res.cookie('applicationToken', token, { maxAge: 3600000, httpOnly: true })
-                                            .status(200).json({
-                                                message: 'Alumet Authorized',
-                                            }));
-                                    }
+                                        })
+                                    );
+                                } else {
+                                    resolve(
+                                        res.cookie('applicationToken', token, { maxAge: 3600000, httpOnly: true }).status(200).json({
+                                            message: 'Alumet Authorized',
+                                        })
+                                    );
                                 }
-                            );
+                            });
                         });
                     } else {
                         return res.status(400).json({
@@ -144,7 +142,5 @@ router.get('/leave/:id', rateLimit(30, true), async (req, res) => {
         });
     }
 });
-
-
 
 module.exports = router;

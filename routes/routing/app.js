@@ -12,56 +12,76 @@ const jwt = require('jsonwebtoken');
 const rateLimit = require('../../middlewares/authentification/rateLimit');
 const Account = require('../../models/account');
 
-router.get('/:id', validateObjectId, async (req, res) => {
-    let alumet = await Alumet.findById(req.params.id);
-    if (!alumet) return res.redirect('/404');
-    switch (alumet.security) {
-        case 'open':
-            if (!req.connected && req.query.guest !== 'true') {
-                return res.redirect('/portal/' + req.params.id);
-            } else if (req.connected && (alumet.participants.every(p => p.userId !== req.user?.id) && alumet.owner !== req.user?.id)) {
-                return res.redirect('/portal/' + req.params.id);
+const verifyToken = (token, secret) => {
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, secret, (err, decoded) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(decoded);
             }
-            break;
-        case 'onpassword':
-            if (!req.connected) {
-                jwt.verify(req.cookies.applicationToken, process.env.TOKEN, async (err, decoded) => {
-                    if (err) {
+        });
+    });
+};
+
+router.get('/:id', validateObjectId, async (req, res) => {
+    try {
+        const alumet = await Alumet.findById(req.params.id);
+        if (!alumet) {
+            return res.redirect('/404');
+        }
+
+        const isParticipantOrOwner = (alumet, user) => {
+            return alumet.participants.some(p => p.userId === user?.id) || alumet.owner === user?.id;
+        };
+
+        switch (alumet.security) {
+            case 'open':
+                if (!req.connected && req.query.guest !== 'true') {
+                    return res.redirect('/portal/' + req.params.id);
+                } else if (req.connected && !isParticipantOrOwner(alumet, req.user)) {
+                    return res.redirect('/portal/' + req.params.id);
+                }
+                break;
+            case 'onpassword':
+                if (!req.connected && req.cookies.applicationToken) {
+                    try {
+                        const decoded = await verifyToken(req.cookies.applicationToken, process.env.TOKEN);
+                        if (decoded.applicationId !== alumet._id.toString()) {
+                            return res.redirect('/portal/' + req.params.id);
+                        }
+                    } catch (err) {
                         console.error(err);
                         return res.redirect('/portal/' + req.params.id);
                     }
-                    if (decoded.applicationId !== alumet._id.toString()) {
-                        console.log(decoded.applicationId, alumet._id.toString());
-                        return res.redirect('/portal/' + req.params.id);
-                    }
-                });
-                return;
-            } else if (req.connected && (alumet.participants.every(p => p.userId !== req.user?.id) && alumet.owner !== req.user?.id)) {
+                } else if (req.connected && !isParticipantOrOwner(alumet, req.user)) {
+                    return res.redirect('/portal/' + req.params.id);
+                }
+                break;
+            case 'closed':
+                if (!isParticipantOrOwner(alumet, req.user)) {
+                    return res.redirect('/portal/' + req.params.id);
+                }
+                break;
+            default:
                 return res.redirect('/portal/' + req.params.id);
-            }
-            break;
-        case 'closed':
-            if ((alumet.participants.every(p => p.userId !== req.user?.id) && alumet.owner !== req.user?.id)) {
-                return res.redirect('/portal/' + req.params.id);
-            }
-            break;
-    }
+        }
 
+        const filePath = path.join(
+            __dirname,
+            '../../views/pages/',
+            {
+                flashcard: 'applications/flashcards.html',
+                alumet: 'alumet.html',
+                mindmap: 'applications/mindmap.html',
+            }[alumet.type] || '404.html'
+        );
 
-    console.log("ok");
-    let filePath;
-    if (alumet.type === 'flashcard') {
-        filePath = path.join(__dirname, '../../views/pages/applications/flashcards.html');
-    } else if (alumet.type === 'alumet') {
-        filePath = path.join(__dirname, '../../views/pages/alumet.html');
-    } else if (alumet.type === 'mindmap') {
-        filePath = path.join(__dirname, '../../views/pages/applications/mindmap.html');
+        res.sendFile(filePath);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
     }
-
-    else {
-        filePath = path.join(__dirname, '../../views/pages/404.html');
-    }
-    res.sendFile(filePath);
 });
 
 router.get('/info/:application', validateObjectId, rateLimit(30), async (req, res) => {
@@ -86,7 +106,6 @@ router.get('/info/:application', validateObjectId, rateLimit(30), async (req, re
                     participant = true;
                 }
                 if (alumet.owner === account._id.toString() || alumet.participants.some(p => p.userId === account._id.toString() && p.status === 1)) {
-
                     admin = true;
                 }
                 user_infos = { id: account._id, name: account.name, icon: account.icon, lastname: account.lastname, username: account.username, badges: account.badges, admin, participant };
@@ -109,7 +128,6 @@ router.get('/info/:application', validateObjectId, rateLimit(30), async (req, re
         const ownerAccount = await Account.findById(alumet.owner, 'id name icon lastname username accountType badges');
         participants.push({ ...ownerAccount.toObject(), status: 0 });
 
-
         res.json({
             infos: { ...alumet.toObject(), participant, participants },
             user_infos,
@@ -123,7 +141,7 @@ router.get('/info/:application', validateObjectId, rateLimit(30), async (req, re
 });
 
 router.get('/setup/:app', async (req, res) => {
-    console.log(req.params.app)
+    console.log(req.params.app);
     req.params.app !== 'flashcard' && req.params.app !== 'mindmap' && req.params.app !== 'alumet' ? res.redirect('/404') : null;
     let filePath = req.connected ? path.join(__dirname, '../../views/pages/new-app.html') : path.join(__dirname, '../../views/pages/404.html');
     res.sendFile(filePath);
@@ -160,7 +178,6 @@ router.put('/new', rateLimit(3), upload.single('file'), uploadAndSaveToDb('3', [
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
 
 router.delete('/delete/:id', validateObjectId, rateLimit(30), authorizeA2F, async (req, res) => {
     try {
@@ -206,9 +223,9 @@ router.put('/role/:app', rateLimit(60), async (req, res) => {
             });
         }
         alumet.participants = alumet.participants.map(p => {
-            console.log(p.userId, req.body.user)
+            console.log(p.userId, req.body.user);
             if (p.userId === req.body.user) {
-                console.log(p)
+                console.log(p);
                 p.status = req.body.role;
             }
             return p;

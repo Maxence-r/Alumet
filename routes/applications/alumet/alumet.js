@@ -12,11 +12,10 @@ const rateLimit = require('../../../middlewares/authentification/rateLimit');
 
 router.get('/:application/content', applicationAuthentication(), rateLimit(60), validateObjectId, async (req, res) => {
     try {
-        console.log("yesy");
         const alumet = await Alumet.findOne({
             _id: req.params.application,
-        })
-        let alumetContent = {}
+        });
+        let alumetContent = {};
 
         const walls = await Wall.find({ alumetReference: req.params.application }).sort({ position: 1 }).lean();
 
@@ -60,6 +59,5 @@ router.get('/:application/content', applicationAuthentication(), rateLimit(60), 
         });
     }
 });
-
 
 module.exports = router;

@@ -3,3 +3,4 @@ node_modules
 cdn
 .idea
 .env
+package-lock.json
