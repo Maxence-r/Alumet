@@ -197,31 +197,67 @@ router.put('/role/:app', rateLimit(60), async (req, res) => {
         const alumet = await Alumet.findById(req.params.app);
         if (!alumet) {
             return res.status(404).json({
-                error: 'Alumet not found',
+                error: 'L\'application n\'a pas été trouvée',
             });
         }
         if (alumet.owner !== req.user.id) {
             return res.status(403).json({
-                error: 'Unauthorized',
+                error: 'Vous n\'êtes pas autorisé à effectuer cette action',
+            });
+        }
+        if (alumet.owner === req.body.user) { //TODO - add button transfer ownership
+            return res.status(403).json({
+                error: 'Vous ne pouvez pas vous retirer le rôle de propriétaire',
+            });
+        }
+        if (req.body.role == 0) {
+            return res.json({
+                userId: req.body.user,
+                alert: 'Vous ne pouvez pas retirer le rôle de propriétaire',
             });
         }
         alumet.participants = alumet.participants.map(p => {
-            console.log(p.userId, req.body.user)
-            if (p.userId === req.body.user) {
-                console.log(p)
-                p.status = req.body.role;
-            }
+            p.userId === req.body.user ? p.status = req.body.role : null;
             return p;
         });
         await alumet.save();
         res.json({
-            message: 'Alumet updated',
+            message: 'Le rôle a bien été modifié',
         });
     } catch (error) {
         console.error(error);
         res.status(500).json({
             error: 'Failed to update alumet',
         });
+    }
+});
+
+router.put('/giveOwnership/:app', rateLimit(60), async (req, res) => {
+    try {
+        const alumet = await Alumet.findById(req.params.app);
+        if (!alumet) {
+            return res.status(404).json({
+                error: 'L\'application n\'a pas été trouvée',
+            });
+        }
+        if (alumet.owner !== req.user.id) {
+            return res.status(403).json({
+                error: 'Vous n\'êtes pas autorisé à effectuer cette action',
+            });
+        }
+        let owner = alumet.owner;
+        alumet.owner = req.body.user;
+        alumet.participants = alumet.participants.filter(p => p.userId !== req.body.user);
+        alumet.participants.push({ userId: owner, status: 1 });
+        await alumet.save();
+        res.json({
+            message: 'La propriété de l\'application a bien été transférée',
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Failed to update alumet',
+        });        
     }
 });
 

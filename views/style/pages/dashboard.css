@@ -1356,7 +1356,13 @@ h3 {
 .main-container > .items {
     overflow-y: auto;
 }
-
+#profile-picture {
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+#profile-picture:hover {
+    transform: scale(0.94);
+}
 @media (max-width: 1100px) {
     .participants-show {
         display: flex !important;

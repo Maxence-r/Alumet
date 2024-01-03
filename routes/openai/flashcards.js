@@ -29,8 +29,8 @@ async function getContent(src) {
     let infoMessage = '';
     if (text.length < 50) {
         throw new Error('Le fichier n\'est pas assez volumineux');
-    } else if (text.length > 15001) {
-        infoMessage = 'Le fichier est trop volumineux, il a été tronqué à 15000 caractères';
+    } else if (text.length > 30001) {
+        infoMessage = 'Le fichier est trop volumineux, il a été tronqué à 30000 caractères';
     }
     const content = text.match(/.{1,7500}/g);
     return { content, infoMessage };

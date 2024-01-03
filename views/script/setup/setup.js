@@ -9,6 +9,7 @@ document.getElementById('new-app-title').textContent = `Créer ${titles[appType]
 document.querySelectorAll('.app-name').forEach(text => {
     text.textContent = text.textContent.replace('l\'application', names[appType]);
 });
+document.querySelectorAll('.app-name').forEach(text => { text.textContent = text.textContent.replace('de le', 'du') });
 
 document.querySelector('.alumet-background').addEventListener('click', () => {
     document.getElementById('alumet-background').click();

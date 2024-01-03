@@ -71,7 +71,7 @@ function handleReset() {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 3000 });
                 document.querySelector('.full-screen').style.display = 'none';
             } else {
                 document.querySelector('.login-container').classList.remove('activeStep');
@@ -80,7 +80,11 @@ function handleReset() {
             }
         });
 }
-
+function backToLogin() {
+    document.querySelector('.fg-passwd').classList.remove('activeStep');
+    document.querySelector('.login-container').classList.add('activeStep');
+    document.querySelector('.full-screen').style.display = 'none';
+}
 function resetPassword() {
     document.querySelector('.full-screen').style.display = 'flex';
     fetch('/auth/resetpassword', {
