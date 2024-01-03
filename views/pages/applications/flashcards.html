@@ -126,7 +126,28 @@
             </div>
 
             <div class="overlay-content revise">
-                <div class="choose-option">
+                <div class="radio-option">
+                    <label for="sandbox" class="radio">
+                        <input checked type="radio" id="sandbox-revision" name="radio">
+                        <div class="radio-content">
+                            <div class="radio-details">
+                                <span>Révision bac à sable</span>
+                                <p>Le mode de révision "bac à sable" vous permet de réviser de manière aléatoire l'ensemble de votre jeu de flashcards.</p>
+                            </div>
+                        </div>
+                    </label>
+                    <label for="smart" class="radio">
+                        <input type="radio" id="smart-revision" name="radio">
+                        <div class="radio-content">
+                            <div class="radio-details">
+                                <span>Révision intelligente</span>
+                                <p>Le mode de révision "intelligent" vous fait réviser vos flashcards par sections de 10.<br>Lorsqu'une flashcard est validée, un algorithme détermine la prochaine révison afin d'optimiser la révision à long terme.</p>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <button class="large">Réviser</button>
+                <!-- <div class="choose-option">
                     <div>
                         <h1>Révision bac à sable</h1>
                         <p>Tous réviser libremement</p>
@@ -139,7 +160,7 @@
                         <p>Réviser à votre rythme</p>
                     </div>
                     <button onclick="revise('smart')" class="large">Commencer</button>
-                </div>
+                </div> -->
             </div>
 
             <div class="overlay-content ia">
@@ -310,7 +331,7 @@
                     <div class="grid-user-container">
                         <div class="item">
                             <h3>Niveau d'accès</h3>
-                            <div class="radio-option">
+                            <div class="radio-option"> //TODO - Make it works
                                 <label class="radio" for="open">
                                     <input checked type="radio" name="radio" id="open" />
                                     <div class="radio-content">

@@ -200,50 +200,64 @@ function loadParticipants(participants) {
         const select = document.createElement('select');
         select.classList.add('user-role', 'disabledInput');
         select.dataset.id = participant._id;
-        select.addEventListener('change', (e) => {
+        select.addEventListener('change', (event) => {
             fetch('/app/role/' + app.infos._id, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    user: e.target.dataset.id,
-                    role: e.target.options[e.target.selectedIndex].value,
+                    user: event.target.dataset.id,
+                    role: event.target.options[event.target.selectedIndex].value,
                 }),
             })
                 .then(res => res.json())
                 .then(data => {
+                    if (data.alert) {
+                        document.querySelector('.user-role[data-id="' + event.target.dataset.id + '"]').selectedIndex = participant.status;
+                        return createPrompt({ head: 'Donner la propriété', desc: 'Souhaitez-vous donner la propriété de cette application. Cette action est irréversible.', action: `giveAppOwnership('${data.userId}')` });
+                    }
                     if (data.error) {
-                        document.querySelector('.user-role[data-id="' + e.target.dataset.id + '"]').selectedIndex = participant.status;
+                        document.querySelector('.user-role[data-id="' + event.target.dataset.id + '"]').selectedIndex = participant.status;
                         return toast({ title: 'Erreur', message: data.error, type: 'error' });
                     }
-
-                    toast({ title: 'Succès', message: 'Le rôle de l\'utilisateur a bien été modifié', type: 'success' });
+                    
+                    toast({ title: 'Succès', message: data.message, type: 'success' });
                 });
         });
-        const option1 = document.createElement('option');
-        option1.value = 0;
-        option1.textContent = 'Propriétaire';
-        const option2 = document.createElement('option');
-        option2.value = 1;
-        option2.textContent = 'Collaborateur';
-        const option3 = document.createElement('option');
-        option3.value = 2;
-        option3.textContent = 'Participant';
-        const option4 = document.createElement('option');
-        option4.value = 3;
-        option4.textContent = 'Banni';
-        select.appendChild(option1);
-        select.appendChild(option2);
-        select.appendChild(option3);
-        select.appendChild(option4);
+        const roles = ['Propriétaire', 'Collaborateur', 'Participant', 'Banni'];
+        for (let i = 0; i < roles.length; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = roles[i];
+            select.appendChild(option);
+        }
         select.selectedIndex = participant.status;
         user.appendChild(select);
         participantsContainer.prepend(user);
     };
     participants.forEach(participant => createParticipant(participant));
 }
+function giveAppOwnership(id) {
+    fetch('/app/giveOwnership/' + app.infos._id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user: id }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                return toast({ title: 'Erreur', message: data.error, type: 'error' });
+            }
+            toast({ title: 'Succès', message: data.message, type: 'success' });
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
 
+        });
+}
 async function modifyApp() {
     const file = document.getElementById('alumet-background').files[0];
     const formData = new FormData();

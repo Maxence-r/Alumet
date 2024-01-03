@@ -177,7 +177,7 @@ function nextFlashcard(newStatus) {
 function createSections (flashcards) {
     flashcards = flashcards.filter(flashcard => flashcard.userDatas.nextReview <= Date.now());
     for (let i = 0; i < flashcards.length; i++) {
-        const sectionIndex = Math.floor(i / 1); //NOTE - Number of flashcards per section
+        const sectionIndex = Math.floor(i / 10); //NOTE - Number of flashcards per section
         !sections[sectionIndex] ? sections[sectionIndex] = [] : null;
         sections[sectionIndex].push(flashcards[i]);
     }
@@ -223,8 +223,7 @@ function redirectToSandBox() { window.location.href = `/flashcards/revise/sandbo
 function displayEndOfSection(type) {
     document.querySelectorAll('.intermediate-section').forEach(element => element.style.display = type === 'intermediate' ? 'flex' : 'none');
     document.querySelectorAll('.end-of-section').forEach(element => element.style.display = type === 'end' ? 'flex' : 'none');
-    console.log(storedData.user_infos.name)
-    document.querySelector('.finish-box > .text > h1').textContent = 'Bravo, ' + storedData.user_infos.name + ' !';
+    document.querySelector('.finish-box > .text > h1').textContent = 'Bravo ' + storedData.user_infos.name + ' !';
     const newCardText = sections[index].length === 1 ? ' nouvelle carte' : ' nouvelles cartes';
     document.querySelector('.finish-box > .text > p.intermediate-section').textContent = 'Tu as terminé cette section de révision et appris ' + sections[index].length + newCardText + ' !';
     

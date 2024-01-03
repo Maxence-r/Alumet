@@ -45,7 +45,6 @@ router.put('/toggleA2f', rateLimit(3), async (req, res) => {
                 error: 'Utilisateur non trouvé !',
             });
         }
-
         const a2f = await A2F.findOne({ owner: req.user.mail, code: req.body.code });
         if (!a2f || a2f.expireAt < new Date()) return res.status(400).json({ error: 'Code invalide !' });
 
