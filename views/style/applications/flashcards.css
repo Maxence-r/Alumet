@@ -145,13 +145,13 @@ body {
 }
 
 [data-status='3'] {
-    border: 2px solid #296eff;
+    border-bottom: 3px solid #296eff;
 }
 [data-status='2'] {
-    border: 2px solid #f0ac00;
+    border-bottom: 3px solid #f0ac00;
 }
 [data-status='1'] {
-    border: 2px solid #ff0000;
+    border-bottom: 3px solid #ff0000;
 }
 
 .keywords-input {
@@ -187,13 +187,13 @@ body {
     width: fit-content;
     align-items: center;
     border-radius: 10px;
-    
+
     background-color: #f6f8fc;
     outline-style: solid;
     outline-width: 1px;
     outline-color: #d2d2d2;
     outline-offset: -1px;
-    
+
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
@@ -211,7 +211,6 @@ body {
     bottom: 0;
     left: 0;
     margin-top: auto;
-
 }
 @media screen and (max-width: 600px) {
     .choose-option {
