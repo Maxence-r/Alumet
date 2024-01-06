@@ -103,7 +103,7 @@ body {
 
 .flashcards-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(315px, 1fr));
     grid-gap: 15px;
     overflow-y: auto;
 }
