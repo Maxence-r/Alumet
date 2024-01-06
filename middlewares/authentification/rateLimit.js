@@ -8,7 +8,7 @@ const rateLimit =
                     return res.status(401).json({ error: 'Unauthorized' });
                 }
             }
-            const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+            const ip = req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0].trim() || req.connection.remoteAddress;
             const routeIdentifier = req.route.path;
             const now = new Date();
             const oneMinuteAgo = new Date(now.getTime() - 60 * 1000);
