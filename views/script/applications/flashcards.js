@@ -8,6 +8,7 @@ fetch(`/flashcards/${id}/sandbox/content`)
             flashcard = createFlashcardElement(flashcard.question, flashcard.answer, flashcard.userDatas?.status, 'modify', flashcard._id);
             document.querySelector('.flashcards-container').appendChild(flashcard);
         });
+        flashcardSet = flashcardSetInfo;
         displayReviseBtn(flashcardSetInfo.flashcards);
         updateStatusPercentages(flashcardSetInfo.flashcards);
         endLoading();
@@ -63,7 +64,10 @@ function resetUsersdatas() {
     })
         .then(res => res.json())
         .then(data => {
-            window.location.reload();
+            toast({ title: 'Succès', message: 'Les données des utilisateurs ont bien été réinitialisées !', type: 'success', duration: 2500 });
+            setTimeout(() => {
+            window.location.reload();                
+            }, 1000);
         })
         .catch(err => console.log(err));
 }
@@ -178,10 +182,10 @@ function createFlashcardElement(question, answer, status, parameter, id) {
 }
 function revise() {
     if (flashcardSet.flashcards.length === 0) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins une carte', type: 'error', duration: 2500 });
-    if (option === 'smart' && !flashcardSet.flashcards.some(flashcard => flashcard.userDatas.nextReview < Date.now())) {
+    let selectedOption = document.querySelector('#radio-revise input[type="radio"]:checked')?.id; 
+    if (selectedOption === 'smart' && !flashcardSet.flashcards.some(flashcard => flashcard.userDatas.nextReview < Date.now())) {
         return toast({ title: 'Erreur', message: 'Vous avez révisé toutes vos cartes ! Revenez plus tard', type: 'error', duration: 2500 });
     }
-    let selectedOption = document.querySelector('#radio-revise input[type="radio"]:checked').id;
 
     if (!selectedOption) return toast({ title: 'Erreur', message: 'Vous devez sélectionner une option', type: 'error', duration: 2500 });
     window.location.href = `/flashcards/revise/${selectedOption}/${id}`;
