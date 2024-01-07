@@ -11,8 +11,6 @@ const validateAccount = require('../../middlewares/modelsValidation/validateAcco
 const { sendMail } = require('../mail/mailing');
 const rateLimit = require('../../middlewares/authentification/rateLimit');
 
-
-
 router.get('/signin', async (req, res) => {
     if (req.connected) return res.redirect('/dashboard');
     const filePath = path.join(__dirname, '../../views/pages/authentification/signin.html');
@@ -29,7 +27,6 @@ router.get('/logout', async (req, res) => {
     res.clearCookie('token');
     res.redirect('/auth/signin');
 });
-
 
 router.post('/signin', rateLimit(3), async (req, res) => {
     try {
@@ -96,9 +93,7 @@ router.post('/signup', rateLimit(1), authorizeA2F, validateAccount, async (req, 
 
 router.post('/authorize', rateLimit(3), async (req, res) => {
     try {
-        console.log(req.body)
         const a2f = await A2F.findOne({ owner: req.body.mail, code: req.body.code });
-        console.log(a2f)
         if (!a2f || a2f.expireAt < new Date()) {
             res.status(400).json({ error: 'Code invalide !' });
         } else {
@@ -123,10 +118,6 @@ router.post('/authorize', rateLimit(3), async (req, res) => {
         res.status(500).json({ error });
     }
 });
-
-
-
-
 
 router.post('/resetpassword', rateLimit(3), authorizeA2F, async (req, res) => {
     try {

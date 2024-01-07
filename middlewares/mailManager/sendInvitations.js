@@ -25,11 +25,7 @@ async function sendInvitations(req, res, reference) {
                 createdAt: new Date(),
             });
             await invitation.save();
-            console.log('invitation saved');
-            sendMail(
-                "collaboration",
-                account.mail,
-            );
+            sendMail('collaboration', account.mail);
         }
     } catch (error) {
         console.error(error);

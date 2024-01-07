@@ -27,7 +27,6 @@ function load(boolean) {
                 window.location.href = '/app/' + id;
             }
             if (Object.keys(data.user_infos).length !== 0) {
-                console.log(data.infos.security);
                 switch (data.infos.security) {
                     case 'open':
                         document.querySelector('.public-c').style.display = 'flex';
@@ -45,9 +44,7 @@ function load(boolean) {
                         break;
                 }
             } else {
-                console.log(data.infos.security);
                 switch (data.infos.security) {
-
                     case 'open':
                         document.querySelector('.public-nc').style.display = 'flex';
                         break;
@@ -96,13 +93,11 @@ function loadAppInfos(app) {
     };
 }
 
-
-
 document.querySelector('.guest').addEventListener('click', () => {
     document.querySelector('.access').classList.add('load');
     setTimeout(() => {
         document.querySelector('.access').classList.remove('load');
-        window.location.href = '/app/' + id + '?guest=true';
+        window.location.href = '/app/' + id;
     }, 500);
 });
 
@@ -129,6 +124,7 @@ document.querySelectorAll('.join').forEach(e => {
                         duration: 2500,
                     });
                 }
+                window.location.href = '/app/' + id;
                 load(false);
             })
             .catch(err => console.log(err));

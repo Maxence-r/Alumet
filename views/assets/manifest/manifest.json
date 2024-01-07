@@ -1,0 +1,16 @@
+{
+    "name": "Alumet Education",
+    "short_name": "Alumet Edu",
+    "description": "Alumet Education",
+    "start_url": "/dashboard",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#296EFF",
+    "icons": [
+        {
+            "src": "https://i.imgur.com/hPP7xCp_d.webp?maxwidth=760&fidelity=grand",
+            "sizes": "144x144",
+            "type": "image/png"
+        }
+    ]
+}

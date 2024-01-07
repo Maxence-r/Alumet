@@ -12,21 +12,20 @@ const applicationAuthentication = status => async (req, res, next) => {
                 try {
                     const decoded = jwt.verify(req.cookies.applicationToken, process.env.TOKEN);
                     if (decoded.applicationId !== item._id.toString()) {
-                        return res.status(403).json({ error: 'Forbidden' });
+                        return req.method === 'GET' ? res.redirect(`/portal/${req.params.application}`) : res.status(403).json({ error: 'Forbidden' });
                     }
                 } catch (error) {
-                    console.error('JWT verification error:', error);
+                    return req.method === 'GET' ? res.redirect(`/portal/${req.params.application}`) : res.status(403).json({ error: 'Forbidden' });
                 }
             } else {
-                if (!(item.participants.some(p => (p.userId === req.user?.id && p.status === 1) || p.status === 2) || item.owner === req.user?.id)) {
-                    return res.status(403).json({ error: 'Forbidden' });
+                if (!(item.participants.some(p => p.userId === req.user?.id && (p.status === 1 || p.status === 2)) || item.owner === req.user?.id)) {
+                    return req.method === 'GET' ? res.redirect(`/portal/${req.params.application}`) : res.status(403).json({ error: 'Forbidden x001' });
                 }
             }
             break;
         case 'closed':
-            console.log(!(item.participants.some(p => (p.userId === req.user?.id && p.status === 1) || p.status === 2) || item.owner === req.user?.id));
             if (!(item.participants.some(p => p.userId === req.user?.id && (p.status === 1 || p.status === 2)) || item.owner === req.user?.id)) {
-                return res.status(403).json({ error: 'Forbidden x001' });
+                return req.method === 'GET' ? res.redirect(`/portal/${req.params.application}`) : res.status(403).json({ error: 'Forbidden x001' });
             }
             break;
         default:
@@ -35,10 +34,9 @@ const applicationAuthentication = status => async (req, res, next) => {
     if (!status) return next();
     const isForbidden = !status.some(s => item.participants.some(p => p.userId === req.user?.id && p.status === s)) && item.owner !== req.user?.id;
     if (isForbidden) {
-        return res.status(403).json({ error: 'Forbidden x002' });
+        return req.method === 'GET' ? res.redirect(`/portal/${req.params.application}`) : res.status(403).json({ error: 'Forbidden x002' });
     }
 
     next();
 };
-
 module.exports = applicationAuthentication;

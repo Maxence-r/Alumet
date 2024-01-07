@@ -4,7 +4,6 @@ fetch(`/flashcards/${id}/sandbox/content`)
     .then(res => res.json())
     .then(async data => {
         flashcardSet = data;
-        console.log(data);
         data.flashcards.forEach(flashcard => {
             flashcard = createFlashcardElement(flashcard.question, flashcard.answer, flashcard.userDatas?.status, 'modify', flashcard._id);
             document.querySelector('.flashcards-container').appendChild(flashcard);
@@ -16,9 +15,9 @@ fetch(`/flashcards/${id}/sandbox/content`)
     .catch(err => console.log(err));
 
 function displayReviseBtn(flashcards) {
-    !flashcards ? flashcards = document.querySelectorAll('.alumet > .flashcards-container > .flashcard:not([new-flashcards])') : null;
+    !flashcards ? (flashcards = document.querySelectorAll('.alumet > .flashcards-container > .flashcard:not([new-flashcards])')) : null;
     const button = document.querySelector('.header > button');
-    flashcards.length > 0 ? button.style.display = 'block' : button.style.display = 'none';
+    flashcards.length > 0 ? (button.style.display = 'block') : (button.style.display = 'none');
 }
 function modifyFlashcardSet() {
     let title = document.getElementById('flashcardName').value;
@@ -64,7 +63,6 @@ function resetUsersdatas() {
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             window.location.reload();
         })
         .catch(err => console.log(err));
@@ -73,7 +71,7 @@ function newFlashcards() {
     navbar('flashcards');
     localStorage.setItem('currentItem', null);
     document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Nouvelle flashcard';
-    document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Créez une nouvelle flashcard ci-dessous.'
+    document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Créez une nouvelle flashcard ci-dessous.';
     document.querySelector('.flashcards > .post-buttons > .buttons > .reded').style.display = 'none';
     document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Créer';
     document.getElementById('answer').value = '';
@@ -103,8 +101,7 @@ function deleteFlashcard() {
                     navbar('home');
                 }, 500);
             }
-        }
-        );
+        });
     });
 }
 function deleteCreation() {
@@ -115,7 +112,8 @@ function deleteCreation() {
     document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).remove();
     navbar('verify-flashcards');
 }
-function checkCreation() { // check flashcards for ia
+function checkCreation() {
+    // check flashcards for ia
     const flashcards = JSON.parse(localStorage.getItem('flashcards-ia'));
     const modifyFlashcard = flashcards.find(flashcard => flashcard.id == currentFlashcard);
     modifyFlashcard.question = document.getElementById('question').value;
@@ -146,23 +144,34 @@ function createFlashcardElement(question, answer, status, parameter, id) {
         flashcardElement.appendChild(answerElement);
     }
     flashcardElement.addEventListener('click', () => {
-        navbar('flashcards', id, 'flashcard')
+        navbar('flashcards', id, 'flashcard');
         currentFlashcard = id;
         document.getElementById('question').value = question;
         document.getElementById('answer').value = answer;
-        document.getElementById('question').focus();
         document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Modifier une carte';
-        document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Vous pouvez modifier la carte ci-dessous.'
+        document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Vous pouvez modifier la carte ci-dessous.';
         document.querySelector('.flashcards > .post-buttons > .buttons > .reded').style.display = 'block';
         document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Modifier';
         if (parameter === 'modifyCreation') {
-            document.querySelector('.flashcards > .post-buttons > button').onclick = () => { checkCreation() };
-            document.querySelector('.flashcards > .post-buttons > .buttons >.reded').onclick = () => { deleteCreation() };
-            document.querySelector('.flashcards > .post-buttons > .buttons > button:nth-of-type(2)').onclick = () => { navbar('verify-flashcards') };
+            document.querySelector('.flashcards > .post-buttons > button').onclick = () => {
+                checkCreation();
+            };
+            document.querySelector('.flashcards > .post-buttons > .buttons >.reded').onclick = () => {
+                deleteCreation();
+            };
+            document.querySelector('.flashcards > .post-buttons > .buttons > button:nth-of-type(2)').onclick = () => {
+                navbar('verify-flashcards');
+            };
         } else if (parameter === 'modify') {
-            document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').onclick = () => { checkFlashcard() }
-            document.querySelector('.flashcards > .post-buttons > .buttons > .reded').onclick = () => { deleteFlashcard() };
-            document.querySelector('.flashcards > .post-buttons > .buttons > button:nth-of-type(2)').onclick = () => { navbar('home') };
+            document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').onclick = () => {
+                checkFlashcard();
+            };
+            document.querySelector('.flashcards > .post-buttons > .buttons > .reded').onclick = () => {
+                deleteFlashcard();
+            };
+            document.querySelector('.flashcards > .post-buttons > .buttons > button:nth-of-type(2)').onclick = () => {
+                navbar('home');
+            };
         }
     });
     return flashcardElement;
@@ -204,7 +213,8 @@ async function createFlashcards(info, flashcards) {
             document.querySelector('.new-flashcard').insertAdjacentElement('afterend', flashcardElement);
         });
         displayReviseBtn();
-        if (!data.flashcards.some(flashcard => flashcard._id == currentFlashcard)) toast({ title: 'Succès', message: `La carte${data.flashcards.length > 1 ? 's ont' : ' a'} bien été ajoutée${data.flashcards.length > 1 ? 's' : ''} !`, type: 'success', duration: 2500 });
+        if (!data.flashcards.some(flashcard => flashcard._id == currentFlashcard))
+            toast({ title: 'Succès', message: `La carte${data.flashcards.length > 1 ? 's ont' : ' a'} bien été ajoutée${data.flashcards.length > 1 ? 's' : ''} !`, type: 'success', duration: 2500 });
         document.getElementById('answer').value = '';
         document.getElementById('question').value = '';
     }
@@ -213,21 +223,19 @@ async function createFlashcards(info, flashcards) {
 function checkFlashcard() {
     const fields = [
         { id: 'question', messageShort: 'Vous devez ajouter une question', messageLong: 'La question ne doit pas dépasser 100 caractères' },
-        { id: 'answer', messageShort: 'Vous devez ajouter une réponse', messageLong: 'La réponse ne doit pas dépasser 100 caractères' }
+        { id: 'answer', messageShort: 'Vous devez ajouter une réponse', messageLong: 'La réponse ne doit pas dépasser 100 caractères' },
     ];
     for (const field of fields) {
         let fieldValue = document.getElementById(field.id).value;
         if (fieldValue.length < 1) {
-            document.getElementById(field.id).focus();
             return toast({ title: 'Erreur', message: field.messageShort, type: 'error', duration: 7500 });
         } else if (fieldValue.length > 100) {
-            document.getElementById(field.id).focus();
             return toast({ title: 'Erreur', message: field.messageLong, type: 'error', duration: 7500 });
         }
     }
     navbar('loadingRessources');
     createFlashcards('normal', { question: document.getElementById('question').value, answer: document.getElementById('answer').value, _id: localStorage.getItem('currentItem') });
-};
+}
 
 //ANCHOR IA generation
 function displayPageIA() {
@@ -241,16 +249,16 @@ function displayPageIA() {
     }
 
     const button = document.querySelector('.buttons > button:nth-of-type(2)');
-    flashcards && flashcards.length > 0 ? button.style.display = 'block' : button.style.display = 'none';
+    flashcards && flashcards.length > 0 ? (button.style.display = 'block') : (button.style.display = 'none');
 
-    flashcardSet ? document.getElementById('app-subject').value = flashcardSet.subject : null;
+    flashcardSet ? (document.getElementById('app-subject').value = flashcardSet.subject) : null;
     navbar('ia');
 }
 
 function createKeywordElement(keyword) {
     const keywordBox = document.createElement('div');
     keywordBox.classList.add('keyword-box');
-    keywordBox.classList.add('greyed')
+    keywordBox.classList.add('greyed');
 
     const keywordElement = document.createElement('div');
     keywordElement.classList.add('keyword');
@@ -266,7 +274,7 @@ function createKeywordElement(keyword) {
     keywordBox.addEventListener('click', () => {
         keywordBox.remove();
         const container = document.querySelector('.keywords-container');
-        container.children.length > 0 ? container.style.display = 'flex' : container.style.display = 'none';
+        container.children.length > 0 ? (container.style.display = 'flex') : (container.style.display = 'none');
     });
     return keywordBox;
 }
@@ -278,7 +286,6 @@ function addKeyword() {
     document.querySelector('.keywords-container').style.display = 'flex';
     document.querySelector('.keywords-container').appendChild(createKeywordElement(keywordInput.value));
     keywordInput.value = '';
-    keywordInput.focus();
 }
 async function generateWithIA() {
     let data = '';
@@ -288,7 +295,7 @@ async function generateWithIA() {
     let schoolLevel = document.getElementById('level').value;
     let subject = document.getElementById('app-subject').value;
 
-    const fileFromCloud = selectedFile[0]
+    const fileFromCloud = selectedFile[0];
     const fileFromPC = document.getElementById('post-file').files[0];
     const keywords = Array.from(document.querySelectorAll('.keyword')).map(keyword => keyword.textContent);
 
@@ -323,7 +330,7 @@ async function generateWithIA() {
         .then(data => {
             if (data.error) {
                 navbar('ia');
-                return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 2500 })
+                return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 2500 });
             }
             data.message ? toast({ title: 'Attention', message: data.message, type: 'warning', duration: 5000 }) : null;
 

@@ -4,7 +4,7 @@ const navbarMenu = document.querySelector('.menu');
 const burgerMenu = document.getElementById('burger');
 const url = new URL(window.location.href);
 const id = url.pathname.split('/').pop();
-let app = {}
+let app = {};
 function navbar(id, currentItem, newItem) {
     if (currentItem) {
         localStorage.setItem('currentItem', currentItem);
@@ -77,7 +77,6 @@ function enableConnected(data) {
             el.style.display = 'none';
         });
 
-
         document.querySelector('.navProfile > img').src = '/cdn/u/' + data.icon;
         document.querySelector('.user-infos > img').src = '/cdn/u/' + data.icon;
         document.querySelector('.user-details > h3').innerText = data.username;
@@ -123,7 +122,7 @@ function loadAppInfos(data) {
     document.getElementById('appDescription').value = data.description;
     document.getElementById('appSubject').value = data.subject;
     document.getElementById('appChat').checked = data.swiftchat;
-    document.getElementById('appDiscovery').checked = data.discovery
+    document.getElementById('appDiscovery').checked = data.discovery;
     document.getElementById('password-input').value = data.password || '';
     if (data.type === 'alumet') {
         document.querySelector('body').style.backgroundImage = `url(/cdn/u/${data.background})`;
@@ -140,7 +139,7 @@ function loadAppInfos(data) {
 function promptLeave() {
     createPrompt({
         head: "Quitter l'application",
-        desc: 'Êtes-vous sûr de vouloir quitter cette application ? Vous ne pourrez plus y accéder si vous n\'êtes pas inviter a nouveau.',
+        desc: "Êtes-vous sûr de vouloir quitter cette application ? Vous ne pourrez plus y accéder si vous n'êtes pas inviter a nouveau.",
         action: 'leaveApplication()',
     });
 }
@@ -154,7 +153,6 @@ function addParticipants() {
     });
     document.getElementById('prompt-input').value = window.location.host + '/portal/' + app.infos._id + '?code=' + app.infos.code;
 }
-
 
 function leaveApplication() {
     fetch('/portal/leave/' + app.infos._id, {
@@ -173,13 +171,12 @@ function leaveApplication() {
         });
 }
 
-
 function loadParticipants(participants) {
     const participantsContainer = document.querySelector('.participants-container');
     if (participants.length === 0) return;
     participantsContainer.innerHTML = '';
 
-    const createParticipant = (participant) => {
+    const createParticipant = participant => {
         const user = document.createElement('div');
         user.classList.add('user');
         user.dataset.id = participant._id;
@@ -188,7 +185,7 @@ function loadParticipants(participants) {
 
         const userInfo = document.createElement('div');
         const userName = document.createElement('h3');
-        userName.textContent = `${participant.name} ${(participant.lastname).substr(0, 3)}`;
+        userName.textContent = `${participant.name} ${participant.lastname.substr(0, 3)}`;
         const userRole = document.createElement('p');
         userRole.textContent = participant.status === 0 ? 'Propriétaire' : participant.status === 1 ? 'Collaborateur' : participant.status === 2 ? 'Participant' : 'Banni';
         userInfo.appendChild(userName);
@@ -198,9 +195,10 @@ function loadParticipants(participants) {
         user.appendChild(userInfo);
 
         const select = document.createElement('select');
+        select.setAttribute('name', 'role');
         select.classList.add('user-role', 'disabledInput');
         select.dataset.id = participant._id;
-        select.addEventListener('change', (event) => {
+        select.addEventListener('change', event => {
             fetch('/app/role/' + app.infos._id, {
                 method: 'PUT',
                 headers: {
@@ -221,7 +219,7 @@ function loadParticipants(participants) {
                         document.querySelector('.user-role[data-id="' + event.target.dataset.id + '"]').selectedIndex = participant.status;
                         return toast({ title: 'Erreur', message: data.error, type: 'error' });
                     }
-                    
+
                     toast({ title: 'Succès', message: data.message, type: 'success' });
                 });
         });
@@ -255,7 +253,6 @@ function giveAppOwnership(id) {
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
-
         });
 }
 async function modifyApp() {
@@ -269,7 +266,7 @@ async function modifyApp() {
     formData.append('discovery', document.getElementById('appDiscovery').checked);
     formData.append('app', app.infos._id);
     formData.append('security', document.querySelector('label > input:checked').id);
-    formData.append('password', document.getElementById("password-input").value);
+    formData.append('password', document.getElementById('password-input').value);
     navbar('loadingRessources');
     fetch('/app/new', {
         method: 'PUT',
@@ -305,8 +302,6 @@ document.getElementById('alumet-background').addEventListener('change', () => {
     }
     document.querySelector('.backgroundImg').src = URL.createObjectURL(file);
 });
-
-
 
 function addCollaborators() {
     document.querySelector('.user-popup').classList.add('active-popup');
@@ -353,7 +348,7 @@ function deleteItem() {
                 toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
             }
             createPrompt({
-                head: "Confirmation de suppression",
+                head: 'Confirmation de suppression',
                 desc: "Un code de sécurité vous a été envoyé par mail. Veuillez le saisir ci-dessous pour confirmer la suppression de l'application. ",
                 placeholder: 'Code de sécurité',
                 action: `confirmDeleteItem()`,
@@ -381,7 +376,6 @@ function confirmDeleteItem() {
         });
 }
 
-
 const editor = document.getElementById('editor');
 let oldLink = null;
 if (editor) {
@@ -400,7 +394,6 @@ if (editor) {
             oldLink = link;
         }
     });
-
 
     editor.addEventListener('paste', function (event) {
         const items = (event.clipboardData || event.originalEvent.clipboardData).items;
@@ -463,7 +456,6 @@ function handleLink(link) {
         .then(res => res.json())
         .then(data => {
             document.getElementById('preview-title').innerText = data.title || data['og:title'] || getDomainFromUrl(link);
-            console.log(data.image || data['og:image'] || '../assets/global/default.png');
             document.querySelector('.link-preview').style.backgroundImage = `url(${data.image || data['og:image'] || '../assets/global/banner.jpg'})`;
             document.getElementById('preview-link').innerText = data.url || link;
             document.querySelector('.link-preview').classList.remove('active-link-loading');
@@ -476,8 +468,6 @@ function removeLink() {
     oldLink = null;
     localStorage.removeItem('link');
 }
-
-
 
 function getDomainFromUrl(url) {
     const a = document.createElement('a');

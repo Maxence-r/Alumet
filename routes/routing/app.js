@@ -11,22 +11,11 @@ const authorizeA2F = require('../../middlewares/authentification/authorizeA2f');
 const jwt = require('jsonwebtoken');
 const rateLimit = require('../../middlewares/authentification/rateLimit');
 const Account = require('../../models/account');
+const applicationAuthentication = require('../../middlewares/authentification/applicationAuthentication');
 
-const verifyToken = (token, secret) => {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, secret, (err, decoded) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(decoded);
-            }
-        });
-    });
-};
-
-router.get('/:id', validateObjectId, async (req, res) => {
+router.get('/:application', validateObjectId, applicationAuthentication(), async (req, res) => {
     try {
-        const alumet = await Alumet.findById(req.params.id);
+        const alumet = await Alumet.findById(req.params.application);
         if (!alumet) {
             return res.redirect('/404');
         }
@@ -34,40 +23,6 @@ router.get('/:id', validateObjectId, async (req, res) => {
         const isParticipantOrOwner = (alumet, user) => {
             return alumet.participants.some(p => p.userId === user?.id) || alumet.owner === user?.id;
         };
-
-        switch (alumet.security) {
-            case 'open':
-                if (!req.connected && req.query.guest !== 'true') {
-                    return res.redirect('/portal/' + req.params.id);
-                } else if (req.connected && !isParticipantOrOwner(alumet, req.user)) {
-                    return res.redirect('/portal/' + req.params.id);
-                }
-                break;
-            case 'onpassword':
-                if (!req.connected && req.cookies.applicationToken) {
-                    try {
-                        const decoded = await verifyToken(req.cookies.applicationToken, process.env.TOKEN);
-                        if (decoded.applicationId !== alumet._id.toString()) {
-                            return res.redirect('/portal/' + req.params.id);
-                        }
-                    } catch (err) {
-                        console.error(err);
-                        return res.redirect('/portal/' + req.params.id);
-                    }
-                } else if (req.connected && !isParticipantOrOwner(alumet, req.user)) {
-                    return res.redirect('/portal/' + req.params.id);
-                } else if (!req.connected && !req.cookies.applicationToken) {
-                    return res.redirect('/portal/' + req.params.id);
-                }
-                break;
-            case 'closed':
-                if (!isParticipantOrOwner(alumet, req.user)) {
-                    return res.redirect('/portal/' + req.params.id);
-                }
-                break;
-            default:
-                return res.redirect('/portal/' + req.params.id);
-        }
 
         const filePath = path.join(
             __dirname,
@@ -104,7 +59,7 @@ router.get('/info/:application', validateObjectId, rateLimit(30), async (req, re
         if (req.user) {
             const account = await Account.findById(req.user.id, 'id name icon lastname username badges');
             if (account) {
-                if (alumet.participants.some(p => p.userId === account._id.toString()) || alumet.owner === account._id) {
+                if (alumet.participants.some(p => p.userId === req.user?.id && (p.status === 1 || p.status === 2)) || alumet.owner === req.user?.id) {
                     participant = true;
                 }
                 if (alumet.owner === account._id.toString() || alumet.participants.some(p => p.userId === account._id.toString() && p.status === 1)) {

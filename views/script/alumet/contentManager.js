@@ -1,7 +1,5 @@
 let alumet = {};
 
-
-
 function getContent() {
     fetch('/alumet/' + id + '/content')
         .then(response => response.json())
@@ -22,9 +20,6 @@ function getContent() {
             endLoading();
         });
 }
-
-
-
 
 function getPostData(id, replace) {
     let post;
@@ -213,7 +208,7 @@ function createPostElement(post) {
     creationDate.classList.add('creationDate');
     creationDate.textContent = relativeTime(post.createdAt);
     author.appendChild(creationDate);
-    if (app.user_infos.admin || (app.user_infos?.id === post.owner?._id)) {
+    if (app.user_infos.admin || app.user_infos?.id === post.owner?._id) {
         const editButton = document.createElement('img');
         editButton.classList.add('edit');
         editButton.src = '/assets/global/edit.svg';
@@ -227,16 +222,13 @@ function createPostElement(post) {
         const postRichContentContainer = document.createElement('div');
         postRichContentContainer.classList.add('post-rich-content-container');
         const filePreview = document.createElement('img');
-        filePreview.setAttribute('loading', 'lazy')
+        filePreview.setAttribute('loading', 'lazy');
         postRichContentContainer.setAttribute('onclick', `window.open("/viewer/${post.file._id}")`);
         filePreview.src = `/preview?id=${post.file._id}`;
-        console.log('yes')
-        filePreview.setAttribute
+        filePreview.setAttribute;
         filePreview.classList.add('post-rich-content');
         const filePreviewTitle = document.createElement('h2');
         filePreviewTitle.textContent = post.file.displayname;
-
-
 
         postRichContentContainer.appendChild(filePreview);
         postRichContentContainer.appendChild(filePreviewTitle);
@@ -308,7 +300,6 @@ function createPostElement(post) {
 
     return card;
 }
-
 
 function createInList(title, postAuthorized, id) {
     const list = document.createElement('div');
@@ -564,8 +555,6 @@ function createWall() {
         });
 }
 
-
-
 function openPost(id) {
     navbar('comments', id);
     document.querySelector('.comments > .full-screen').style.display = 'flex';
@@ -595,8 +584,6 @@ function openPost(id) {
                 commentsContainer.prepend(commentElement);
             });
         });
-
-
 }
 
 function postComment() {

@@ -61,6 +61,11 @@ router.post('/authorize/:id', rateLimit(10), async (req, res) => {
             case 'onpassword':
                 if (req.user?.id) {
                     if (req.body.password === alumet.password) {
+                        if (alumet.participants.some(p => p.userId === req.user.id)) {
+                            return res.status(400).json({
+                                error: 'Vous avez déjà rejoint cet alumet',
+                            });
+                        }
                         alumet.participants.push({ userId: req.user.id, status: 2 });
                         await alumet.save();
                         return res.status(200).json({
@@ -100,7 +105,6 @@ router.post('/authorize/:id', rateLimit(10), async (req, res) => {
                 break;
             case 'closed':
                 if (req.user?.id) {
-                    console.log('req.user.id: ', req.user.id);
                     alumet.participants.push({ userId: req.user.id, status: 4 });
                     await alumet.save();
                 }
