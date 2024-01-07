@@ -176,12 +176,15 @@ function createFlashcardElement(question, answer, status, parameter, id) {
     });
     return flashcardElement;
 }
-function revise(option) {
+function revise() {
     if (flashcardSet.flashcards.length === 0) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins une carte', type: 'error', duration: 2500 });
     if (option === 'smart' && !flashcardSet.flashcards.some(flashcard => flashcard.userDatas.nextReview < Date.now())) {
         return toast({ title: 'Erreur', message: 'Vous avez révisé toutes vos cartes ! Revenez plus tard', type: 'error', duration: 2500 });
     }
-    window.location.href = `/flashcards/revise/${option}/${id}`;
+    let selectedOption = document.querySelector('#radio-revise input[type="radio"]:checked').id;
+
+    if (!selectedOption) return toast({ title: 'Erreur', message: 'Vous devez sélectionner une option', type: 'error', duration: 2500 });
+    window.location.href = `/flashcards/revise/${selectedOption}/${id}`;
 }
 async function createFlashcards(info, flashcards) {
     if (!flashcards) {

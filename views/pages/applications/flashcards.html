@@ -126,9 +126,9 @@
             </div>
 
             <div class="overlay-content revise">
-                <div class="radio-option">
-                    <label for="sandbox-revision" class="radio">
-                        <input checked type="radio" id="sandbox-revision" name="radio" />
+                <div id="radio-revise" class="radio-option">
+                    <label for="sandbox" class="radio">
+                        <input checked type="radio" id="sandbox" name="radio" />
                         <div class="radio-content">
                             <div class="radio-details">
                                 <span>Révision bac à sable</span>
@@ -136,8 +136,8 @@
                             </div>
                         </div>
                     </label>
-                    <label for="smart-revision" class="radio">
-                        <input type="radio" id="smart-revision" name="radio" />
+                    <label for="smart" class="radio">
+                        <input type="radio" id="smart" name="radio" />
                         <div class="radio-content">
                             <div class="radio-details">
                                 <span>Révision intelligente</span>
@@ -148,7 +148,7 @@
                         </div>
                     </label>
                 </div>
-                <button class="large">Commencer mes révisions</button>
+                <button onclick="revise()" class="large">Commencer mes révisions</button>
             </div>
 
             <div class="overlay-content ia">
