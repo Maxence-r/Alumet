@@ -3,13 +3,13 @@ let flashcardSet = null;
 fetch(`/flashcards/${id}/sandbox/content`)
     .then(res => res.json())
     .then(async data => {
-        flashcardSet = data;
-        data.flashcards.forEach(flashcard => {
+        const { flashcardSetInfo } = data;
+        flashcardSetInfo.flashcards.forEach(flashcard => {
             flashcard = createFlashcardElement(flashcard.question, flashcard.answer, flashcard.userDatas?.status, 'modify', flashcard._id);
             document.querySelector('.flashcards-container').appendChild(flashcard);
         });
-        displayReviseBtn(data.flashcards);
-        updateStatusPercentages(data.flashcards);
+        displayReviseBtn(flashcardSetInfo.flashcards);
+        updateStatusPercentages(flashcardSetInfo.flashcards);
         endLoading();
     })
     .catch(err => console.log(err));
@@ -177,6 +177,10 @@ function createFlashcardElement(question, answer, status, parameter, id) {
     return flashcardElement;
 }
 function revise(option) {
+    if (flashcardSet.flashcards.length === 0) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins une carte', type: 'error', duration: 2500 });
+    if (option === 'smart' && !flashcardSet.flashcards.some(flashcard => flashcard.userDatas.nextReview < Date.now())) {
+        return toast({ title: 'Erreur', message: 'Vous avez révisé toutes vos cartes ! Revenez plus tard', type: 'error', duration: 2500 });
+    }
     window.location.href = `/flashcards/revise/${option}/${id}`;
 }
 async function createFlashcards(info, flashcards) {

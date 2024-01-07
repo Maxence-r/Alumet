@@ -73,7 +73,10 @@ router.get('/:application/:revisionMethod/content', rateLimit(60), applicationAu
             delete flashcard.usersDatas;
             flashcardSetInfo.flashcards.push(flashcard);
         }
-        res.json(flashcardSetInfo);
+        if (req.params.revisionMethod === 'smart' && !flashcardSetInfo.flashcards.some(flashcard => flashcard.userDatas.nextReview < Date.now()) || flashcardSetInfo.flashcards.length === 0) {
+            return res.json({flashcardSetInfo, redirect: true});
+        }
+        res.json({flashcardSetInfo, redirect: false});
     } catch (error) {
         console.log(error);
         res.json({ error });
