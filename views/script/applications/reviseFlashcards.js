@@ -22,9 +22,11 @@ fetch(`/flashcards/${id}/${mode}/content`, {
 })
     .then(res => res.json())
     .then(data => {
-        data.flashcards.length === 0 ? console.log('no flashcards') : null; //TODO - add page when there is no flashcards in the set
+        const { flashcardSetInfo, redirect } = data;
+        console.log(redirect)
+        redirect ? window.location.href = `/app/${id}` : null;
         if (mode === 'smart') {
-            sections = createSections(data.flashcards);
+            sections = createSections(flashcardSetInfo.flashcards);
             currentSection = sections[index];
             updateSmartStatusPercentages(currentSection);
             if (sections.length === 0) {
@@ -33,14 +35,14 @@ fetch(`/flashcards/${id}/${mode}/content`, {
                 return;
             }
         } else {
-            currentSection = data.flashcards;
+            currentSection = flashcardSetInfo.flashcards;
             updateStatusPercentages(currentSection);
         }
-        document.querySelector('.header > h1').innerText = data.title;
+        document.querySelector('.header > h1').innerText = flashcardSetInfo.title;
         endLoading();
         nextFlashcard();
         currentSection.forEach(flashcard => (flashcard.numberOfReview = 0));
-        storedData = data;
+        storedData = flashcardSetInfo;
     })
     .catch(err => console.log(err));
 //!SECTION - Initialize the page
@@ -191,6 +193,7 @@ function createSections(flashcards) {
 function nextSection() {
     index++;
     currentSection = sections[index];
+    currentSection.forEach(flashcard => (flashcard.numberOfReview = 0));
     Array.from(document.querySelectorAll('.flashcard--card'))
         .filter(card => !card.classList.contains('behind-flashcard'))
         .forEach(card => card.remove());
