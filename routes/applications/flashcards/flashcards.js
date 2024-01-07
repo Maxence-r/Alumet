@@ -7,9 +7,7 @@ const Flashcards = require('../../../models/flashcards');
 const Alumet = require('../../../models/alumet');
 const Account = require('../../../models/account');
 const rateLimit = require('../../../middlewares/authentification/rateLimit');
-
-
-
+const applicationAuthentication = require('../../../middlewares/authentification/applicationAuthentication');
 /* Bonjour Gabriel, bonne année; petite explication de comment sécurisé tes routes avec le brand
 new middleware application Authentication:
 Ce dernier s'occupera déja de verifier que la personne qui fait la requête avait accès 
@@ -26,13 +24,10 @@ Erreurs a ne pas faire:
 - Faire dans la route la sécurité comme si tu delete un commentaire sur un alumet,
 seul celui qui l'a créer peut le faire(normalement aucun problème pour flashcards) */
 
-
-
-router.get('/revise/sandbox/:flashcard', rateLimit(60), async (req, res) => {
+router.get('/revise/sandbox/:application', rateLimit(60), applicationAuthentication(), async (req, res) => {
     try {
-        console.log('sandbox')
-        if (mongoose.Types.ObjectId.isValid(req.params.flashcard) === false) return res.redirect('/404');
-        const flashcardSet = await Alumet.findById(req.params.flashcard);
+        if (mongoose.Types.ObjectId.isValid(req.params.application) === false) return res.redirect('/404');
+        const flashcardSet = await Alumet.findById(req.params.application);
         if (!flashcardSet) return res.redirect('/404');
         const filePath = path.join(__dirname, '../../../views/pages/applications/flashcards/sandbox.html');
         res.sendFile(filePath);
@@ -42,10 +37,10 @@ router.get('/revise/sandbox/:flashcard', rateLimit(60), async (req, res) => {
     }
 });
 
-router.get('/revise/smart/:flashcard', rateLimit(60), async (req, res) => {
+router.get('/revise/smart/:application', rateLimit(60), applicationAuthentication(), async (req, res) => {
     try {
-        if (mongoose.Types.ObjectId.isValid(req.params.flashcard) === false) return res.redirect('/404');
-        const flashcardSet = await Alumet.findById(req.params.flashcard);
+        if (mongoose.Types.ObjectId.isValid(req.params.application) === false) return res.redirect('/404');
+        const flashcardSet = await Alumet.findById(req.params.application);
         if (!flashcardSet) return res.redirect('/404');
         const filePath = path.join(__dirname, '../../../views/pages/applications/flashcards/smart.html');
         res.sendFile(filePath);
@@ -55,9 +50,9 @@ router.get('/revise/smart/:flashcard', rateLimit(60), async (req, res) => {
     }
 });
 
-router.get('/:flashcardSet/:revisionMethod/content', rateLimit(60), async (req, res) => {
+router.get('/:application/:revisionMethod/content', rateLimit(60), applicationAuthentication(), async (req, res) => {
     try {
-        const flashcardSet = await Alumet.findById(req.params.flashcardSet);
+        const flashcardSet = await Alumet.findById(req.params.application);
         if (!flashcardSet) return res.redirect('/404');
         const owner = await Account.findById(flashcardSet.owner, 'username icon _id name lastname');
         const participants = [];
@@ -70,23 +65,22 @@ router.get('/:flashcardSet/:revisionMethod/content', rateLimit(60), async (req, 
         await getParticipantInfo();
         const isAdmin = req.user && (req.user._id.toString() === flashcardSet.owner.toString() || flashcardSet.participants.some(p => p.userId === req.user._id.toString() && [0, 1].includes(p.status)));
         const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], owner, participants, user_infos: null, admin: isAdmin };
-        req.user ? flashcardSetInfo.user_infos = { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname, id: req.user._id } : null;
+        req.user ? (flashcardSetInfo.user_infos = { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname, id: req.user._id }) : null;
         const flashcards = await Flashcards.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
         for (let flashcard of flashcards) {
-            let userDatas = flashcard.usersDatas.find((data) => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0 }; // Add flashcard user datas and default values if not found
+            let userDatas = flashcard.usersDatas.find(data => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0 }; // Add flashcard user datas and default values if not found
             flashcard = { ...flashcard.toObject(), userDatas };
             delete flashcard.usersDatas;
             flashcardSetInfo.flashcards.push(flashcard);
         }
         res.json(flashcardSetInfo);
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error);
         res.json({ error });
     }
 });
 
-router.post('/:flashcardSet/check', rateLimit(10), async (req, res) => {
+router.post('/:application/check', rateLimit(10), applicationAuthentication(), async (req, res) => {
     try {
         const { flashcardSetId, flashcards } = req.body;
         const flashcardSet = await Alumet.findById(flashcardSetId);
@@ -116,7 +110,7 @@ router.post('/:flashcardSet/check', rateLimit(10), async (req, res) => {
     }
 });
 
-router.delete('/:flashcard/:flashcardId', rateLimit(30), async (req, res) => {
+router.delete('/:application/:flashcardId', rateLimit(30), applicationAuthentication([1]), async (req, res) => {
     try {
         const flashcard = await Flashcards.findById(req.params.flashcardId);
         if (!flashcard) return res.json({ error: 'Flashcard not found' });
@@ -132,22 +126,22 @@ function determineNextReview(inRowNumber) {
     const days = [1, 3, 5, 8, 13, 21, 34, 55];
     return inRowNumber < 8 ? Date.now() + 1000 * 60 * 60 * 24 * days[inRowNumber] : Date.now() + 1000 * 60 * 60 * 24 * days[7];
 }
-router.post('/:flashcardSet/:flashcardId/review', rateLimit(120), async (req, res) => {
+router.post('/:application/:flashcardId/review', rateLimit(120), applicationAuthentication(), async (req, res) => {
     try {
         const { flashcardId } = req.params;
         const { status, cardReview } = req.body;
         const flashcard = await Flashcards.findById(flashcardId);
         if (!flashcard) return res.json({ error: 'Flashcard not found' });
-        let userDatas = flashcard.usersDatas.find((data) => data.userId == req.user.id);
-        !userDatas ? userDatas = { nextReview: Date.now(), inRow: 0 } : null;
+        let userDatas = flashcard.usersDatas.find(data => data.userId == req.user.id);
+        !userDatas ? (userDatas = { nextReview: Date.now(), inRow: 0 }) : null;
         userDatas = {
             userId: req.user.id,
             status,
             lastReview: Date.now(),
             nextReview: cardReview ? determineNextReview(userDatas.inRow) : userDatas.nextReview,
-            inRow: cardReview ? parseInt(userDatas.inRow + 1) : 0
+            inRow: cardReview ? parseInt(userDatas.inRow + 1) : 0,
         };
-        flashcard.usersDatas = flashcard.usersDatas.filter((data) => data.userId !== req.user.id);
+        flashcard.usersDatas = flashcard.usersDatas.filter(data => data.userId !== req.user.id);
         flashcard.usersDatas.push(userDatas);
         await flashcard.save();
         res.json({ userDatas: userDatas });
@@ -169,7 +163,6 @@ router.post('/resetProgress', async (req, res) => {
         console.log(error);
         res.json({ error });
     }
-}
-);
+});
 
 module.exports = router;

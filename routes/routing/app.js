@@ -56,6 +56,8 @@ router.get('/:id', validateObjectId, async (req, res) => {
                     }
                 } else if (req.connected && !isParticipantOrOwner(alumet, req.user)) {
                     return res.redirect('/portal/' + req.params.id);
+                } else if (!req.connected && !req.cookies.applicationToken) {
+                    return res.redirect('/portal/' + req.params.id);
                 }
                 break;
             case 'closed':

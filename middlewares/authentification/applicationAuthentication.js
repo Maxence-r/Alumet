@@ -24,7 +24,8 @@ const applicationAuthentication = status => async (req, res, next) => {
             }
             break;
         case 'closed':
-            if (!(item.participants.some(p => (p.userId === req.user?.id && p.status === 1) || p.status === 2) || item.owner === req.user?.id)) {
+            console.log(!(item.participants.some(p => (p.userId === req.user?.id && p.status === 1) || p.status === 2) || item.owner === req.user?.id));
+            if (!(item.participants.some(p => p.userId === req.user?.id && (p.status === 1 || p.status === 2)) || item.owner === req.user?.id)) {
                 return res.status(403).json({ error: 'Forbidden x001' });
             }
             break;

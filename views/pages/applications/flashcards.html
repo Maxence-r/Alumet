@@ -24,7 +24,7 @@
         <link rel="stylesheet" type="text/css" href="../../style/global.css" />
         <link rel="stylesheet" type="text/css" href="../../style/applications/flashcards.css" />
 
-        <title>Flashcards - Alumet Education </title>
+        <title>Flashcards - Alumet Education</title>
     </head>
     <body>
         <section class="loading" style="display: flex">
@@ -127,8 +127,8 @@
 
             <div class="overlay-content revise">
                 <div class="radio-option">
-                    <label for="sandbox" class="radio">
-                        <input checked type="radio" id="sandbox-revision" name="radio">
+                    <label for="sandbox-revision" class="radio">
+                        <input checked type="radio" id="sandbox-revision" name="radio" />
                         <div class="radio-content">
                             <div class="radio-details">
                                 <span>Révision bac à sable</span>
@@ -136,31 +136,19 @@
                             </div>
                         </div>
                     </label>
-                    <label for="smart" class="radio">
-                        <input type="radio" id="smart-revision" name="radio">
+                    <label for="smart-revision" class="radio">
+                        <input type="radio" id="smart-revision" name="radio" />
                         <div class="radio-content">
                             <div class="radio-details">
                                 <span>Révision intelligente</span>
-                                <p>Le mode de révision "intelligent" vous fait réviser vos flashcards par sections de 10.<br>Lorsqu'une flashcard est validée, un algorithme détermine la prochaine révison afin d'optimiser la révision à long terme.</p>
+                                <p>
+                                    Le mode de révision "intelligent" vous fait réviser vos flashcards par sections de 10.<br />Lorsqu'une flashcard est validée, un algorithme détermine la prochaine révison afin d'optimiser la révision à long terme.
+                                </p>
                             </div>
                         </div>
                     </label>
                 </div>
-                <button class="large">Réviser</button>
-                <!-- <div class="choose-option">
-                    <div>
-                        <h1>Révision bac à sable</h1>
-                        <p>Tous réviser libremement</p>
-                    </div>
-                    <button onclick="revise('sandbox')" class="large">Commencer</button>
-                </div>
-                <div class="choose-option">
-                    <div>
-                        <h1>Révision intelligente</h1>
-                        <p>Réviser à votre rythme</p>
-                    </div>
-                    <button onclick="revise('smart')" class="large">Commencer</button>
-                </div> -->
+                <button class="large">Commencer mes révisions</button>
             </div>
 
             <div class="overlay-content ia">
@@ -206,7 +194,7 @@
                     </div>
                     <div class="item">
                         <h3>Combien de flashcards voulez vous générer ?</h3>
-                        <input min="1" max="20" type="number" id="flashcards-amount" placeholder="Nombre de flashcards" value="10"/>
+                        <input min="1" max="20" type="number" id="flashcards-amount" placeholder="Nombre de flashcards" value="10" />
                     </div>
                     <div class="item">
                         <h3>Quel est le niveau scolaire visé ?</h3>
@@ -232,8 +220,7 @@
                             <option value="technology">Technologie</option>
                             <option value="other">Autre</option>
                         </select>
-                    </div>                        
-                    </select>
+                    </div>
                 </div>
                 <div class="buttons">
                     <button class="large" onclick="generateWithIA('keywords')">Générer les flashcards</button>

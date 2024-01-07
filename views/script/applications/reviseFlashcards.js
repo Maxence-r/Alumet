@@ -10,7 +10,7 @@ const allCards = document.querySelectorAll('.flashcard--card');
 let currentSection = [];
 let index = 0;
 let sections = [];
-const verifyIfFlashcardFinish = (flashcard) => flashcard.userDatas?.status === 3 && flashcard.numberOfReview === 2 ? true : false;
+const verifyIfFlashcardFinish = flashcard => (flashcard.userDatas?.status === 3 && flashcard.numberOfReview === 2 ? true : false);
 //!SECTION - Global variables
 
 //SECTION - Initialize the page
@@ -18,8 +18,8 @@ fetch(`/flashcards/${id}/${mode}/content`, {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
-    }
-    })  
+    },
+})
     .then(res => res.json())
     .then(data => {
         data.flashcards.length === 0 ? console.log('no flashcards') : null; //TODO - add page when there is no flashcards in the set
@@ -27,9 +27,10 @@ fetch(`/flashcards/${id}/${mode}/content`, {
             sections = createSections(data.flashcards);
             currentSection = sections[index];
             updateSmartStatusPercentages(currentSection);
-            if (sections.length === 0) { // TODO - add page when there is no flashcards to revise in smart mode
+            if (sections.length === 0) {
+                // TODO - add page when there is no flashcards to revise in smart mode
                 console.log('no flashcards to revise');
-                return
+                return;
             }
         } else {
             currentSection = data.flashcards;
@@ -38,14 +39,16 @@ fetch(`/flashcards/${id}/${mode}/content`, {
         document.querySelector('.header > h1').innerText = data.title;
         endLoading();
         nextFlashcard();
-        currentSection.forEach(flashcard => flashcard.numberOfReview = 0);
+        currentSection.forEach(flashcard => (flashcard.numberOfReview = 0));
         storedData = data;
     })
     .catch(err => console.log(err));
 //!SECTION - Initialize the page
-            
+
 // SECTION - Global functions
-async function newStatusToServer(flashcardId, status, cardReview) { //cardReview = true if the flashcard is finished
+async function newStatusToServer(flashcardId, status, cardReview) {
+    //cardReview = true if the flashcard is finished
+    if (!storedData.user_infos) return;
     fetch(`/flashcards/${id}/${flashcardId}/review`, {
         method: 'POST',
         headers: {
@@ -55,7 +58,7 @@ async function newStatusToServer(flashcardId, status, cardReview) { //cardReview
     })
         .then(res => res.json())
         .then(data => {
-            mode == 'smart' && !cardReview ? currentSection.find(flashcard => flashcard._id === flashcardId).userDatas = data.userDatas : null // if mode is smart and card always in section (cardReview is true), update the flashcard userDatas
+            mode == 'smart' && !cardReview ? (currentSection.find(flashcard => flashcard._id === flashcardId).userDatas = data.userDatas) : null; // if mode is smart and card always in section (cardReview is true), update the flashcard userDatas
         })
         .catch(err => console.log(err));
 }
@@ -67,7 +70,7 @@ function toggleQuestionAnswer(card) {
 }
 function setEventListener(card) {
     const hammertime = new Hammer(card);
-    hammertime.on('pan', (event) => {
+    hammertime.on('pan', event => {
         card.classList.add('moving');
         if (event.deltaX === 0) return;
         if (event.center.x === 0 && event.center.y === 0) return;
@@ -78,7 +81,7 @@ function setEventListener(card) {
         flashcardContainer.classList.toggle('flashcard_love', event.deltaX > 0);
         flashcardContainer.classList.toggle('flashcard_nope', event.deltaX < 0);
     });
-    hammertime.on('panend', async (event) => {
+    hammertime.on('panend', async event => {
         card.classList.remove('moving');
         flashcardContainer.classList.remove('flashcard_love');
         flashcardContainer.classList.remove('flashcard_nope');
@@ -98,15 +101,15 @@ function setEventListener(card) {
             card.style.transform = `translate(${toX}px, ${toY + event.deltaY}px) rotate(${rotate}deg)`;
             let status = parseInt(card.dataset.status);
             let newStatus;
-            event.deltaX > 0 ? newStatus = status === 0 ? 2 : (status < 3 ? status + 1 : 3) : newStatus = 1;
-            
+            event.deltaX > 0 ? (newStatus = status === 0 ? 2 : status < 3 ? status + 1 : 3) : (newStatus = 1);
+
             const flashcard = storedData.flashcards.find(flashcard => flashcard._id === card.dataset.id);
             nextFlashcard(newStatus); // modifie status sur client et modifie emplacement carte
-            mode === 'sandbox' ? updateStatusPercentages(currentSection) :  updateSmartStatusPercentages(flashcard);
-            currentSection.length == 1 ? document.querySelector('.flashcards.loaded > div:first-child').style.display = 'none' : null;
+            mode === 'sandbox' ? updateStatusPercentages(currentSection) : updateSmartStatusPercentages(flashcard);
+            currentSection.length == 1 ? (document.querySelector('.flashcards.loaded > div:first-child').style.display = 'none') : null;
             currentSection.length == 0 ? switchSectionIfFinished() : null;
-            
-            await newStatusToServer(card.dataset.id, newStatus, verifyIfFlashcardFinish(flashcard)); // modifie status sur serveur 
+
+            await newStatusToServer(card.dataset.id, newStatus, verifyIfFlashcardFinish(flashcard)); // modifie status sur serveur
             setTimeout(() => {
                 card.remove();
             }, 300);
@@ -115,10 +118,10 @@ function setEventListener(card) {
     card.addEventListener('click', () => toggleQuestionAnswer(card));
 }
 const statusInfos = {
-    0: {text: 'Neutre', color: '#c6c9ce'},
-    1: {text: 'Pas connu', color: '#ff0000'},
-    2: {text: 'En cours', color: '#f0ac00'},
-    3: {text: 'Acquis', color: '#296eff'},
+    0: { text: 'Neutre', color: '#c6c9ce' },
+    1: { text: 'Pas connu', color: '#ff0000' },
+    2: { text: 'En cours', color: '#f0ac00' },
+    3: { text: 'Acquis', color: '#296eff' },
 };
 function addFlashcard(id, question, answer, status, date) {
     const newCard = document.createElement('div');
@@ -150,7 +153,7 @@ function addFlashcard(id, question, answer, status, date) {
     console.log('new flashcard added');
     // modify design of the flashcard behind
     if (currentSection[1]) {
-        console.log(currentSection.length)
+        console.log(currentSection.length);
         document.querySelector('.flashcards.loaded > div:first-child').style.border = `2px solid ${statusInfos[currentSection[1].userDatas.status].color}`;
         document.querySelector('.flashcards.loaded > div:first-child > h3').innerText = currentSection[1].question;
     }
@@ -158,8 +161,8 @@ function addFlashcard(id, question, answer, status, date) {
 
 function nextFlashcard(newStatus) {
     if (currentSection.length === 0) return;
-    let lastCard = currentSection[currentSection.length - 1];  // current flashcard displayed
-    let newCard = currentSection[0] // next flashcard
+    let lastCard = currentSection[currentSection.length - 1]; // current flashcard displayed
+    let newCard = currentSection[0]; // next flashcard
 
     if (newStatus) {
         lastCard.userDatas.status = newStatus;
@@ -174,11 +177,11 @@ function nextFlashcard(newStatus) {
 //!SECTION - Global functions
 
 //SECTION - Smart mode functions
-function createSections (flashcards) {
+function createSections(flashcards) {
     flashcards = flashcards.filter(flashcard => flashcard.userDatas.nextReview <= Date.now());
     for (let i = 0; i < flashcards.length; i++) {
         const sectionIndex = Math.floor(i / 10); //NOTE - Number of flashcards per section
-        !sections[sectionIndex] ? sections[sectionIndex] = [] : null;
+        !sections[sectionIndex] ? (sections[sectionIndex] = []) : null;
         sections[sectionIndex].push(flashcards[i]);
     }
     console.log(`There is ${sections.length} sections of revision`);
@@ -197,7 +200,7 @@ function nextSection() {
     updateSmartStatusPercentages(currentSection);
     nextFlashcard();
 }
-   
+
 function resetProgress() {
     fetch('/flashcards/resetProgress', {
         method: 'POST',
@@ -208,7 +211,7 @@ function resetProgress() {
     })
         .then(res => res.json())
         .then(data => {
-            toast({ title: 'Réinitialisation réussie', message: 'Les cartes ont bien été réinitialisées', type: 'success', duration: 2500});
+            toast({ title: 'Réinitialisation réussie', message: 'Les cartes ont bien été réinitialisées', type: 'success', duration: 2500 });
             document.getElementById('overlay').classList.remove('hidden');
             setTimeout(() => {
                 window.location.href = `/app/${id}`;
@@ -217,16 +220,20 @@ function resetProgress() {
         .catch(err => console.log(err));
 }
 
-function stopRevision() { window.location.href = `/app/${id}` }
-function redirectToSandBox() { window.location.href = `/flashcards/revise/sandbox/${id}`; }
+function stopRevision() {
+    window.location.href = `/app/${id}`;
+}
+function redirectToSandBox() {
+    window.location.href = `/flashcards/revise/sandbox/${id}`;
+}
 
 function displayEndOfSection(type) {
-    document.querySelectorAll('.intermediate-section').forEach(element => element.style.display = type === 'intermediate' ? 'flex' : 'none');
-    document.querySelectorAll('.end-of-section').forEach(element => element.style.display = type === 'end' ? 'flex' : 'none');
+    document.querySelectorAll('.intermediate-section').forEach(element => (element.style.display = type === 'intermediate' ? 'flex' : 'none'));
+    document.querySelectorAll('.end-of-section').forEach(element => (element.style.display = type === 'end' ? 'flex' : 'none'));
     document.querySelector('.finish-box > .text > h1').textContent = 'Bravo ' + storedData.user_infos.name + ' !';
     const newCardText = sections[index].length === 1 ? ' nouvelle carte' : ' nouvelles cartes';
     document.querySelector('.finish-box > .text > p.intermediate-section').textContent = 'Tu as terminé cette section de révision et appris ' + sections[index].length + newCardText + ' !';
-    
+
     document.querySelector('.finish-section').style.display = 'flex';
 }
 
@@ -236,20 +243,22 @@ const switchSectionIfFinished = () => {
     } else if (currentSection.length === 0) {
         console.log('section finished, switching to next section'); //TODO - make end of section page + add a button to go to next section
         displayEndOfSection('intermediate');
-    } else { console.log('section not finished'); }
-}
+    } else {
+        console.log('section not finished');
+    }
+};
 
-const updateSmartStatusPercentages = (flashcards) => {
+const updateSmartStatusPercentages = flashcards => {
     const completedFlashcardsContainer = document.querySelector('.completed-flashcards');
     const ongoingFlashcardsContainer = document.querySelector('.ongoing-flashcards');
 
-    function validateElement (flashcardId) {
+    function validateElement(flashcardId) {
         currentSection = currentSection.filter(flashcard => flashcard._id !== flashcardId);
         const element = ongoingFlashcardsContainer.querySelector(`[data-id="${flashcardId}"]`);
         element.remove();
         completedFlashcardsContainer.prepend(element);
     }
-    function modifyElement (flashcard, isBad) {
+    function modifyElement(flashcard, isBad) {
         const status = flashcard.userDatas.status;
         const element = ongoingFlashcardsContainer.querySelector(`[data-id="${flashcard._id}"]`);
         element.dataset.cellulestatus = status;
@@ -257,24 +266,27 @@ const updateSmartStatusPercentages = (flashcards) => {
         isBad ? ongoingFlashcardsContainer.insertBefore(element, ongoingFlashcardsContainer.children[3]) : ongoingFlashcardsContainer.appendChild(element);
         verifyIfFlashcardFinish(flashcard) && flashcard._id ? validateElement(flashcard._id) : null;
     }
-    function addElement (flashcard) {
+    function addElement(flashcard) {
         const status = flashcard.userDatas.status;
         const newElement = document.createElement('div');
         newElement.dataset.id = flashcard._id;
         newElement.dataset.cellulestatus = status;
         ongoingFlashcardsContainer.appendChild(newElement);
     }
-    if (Array.isArray(flashcards)) { //check if flashcards is an array or a single flashcard
+    if (Array.isArray(flashcards)) {
+        //check if flashcards is an array or a single flashcard
         flashcards.forEach(flashcard => {
             const element = ongoingFlashcardsContainer.querySelector(`[data-id="${flashcard._id}"]`);
             element ? modifyElement(flashcard) : addElement(flashcard);
         });
-    } else { flashcards.userDatas.status === 1 ? modifyElement(flashcards, true) : modifyElement(flashcards) }
+    } else {
+        flashcards.userDatas.status === 1 ? modifyElement(flashcards, true) : modifyElement(flashcards);
+    }
 
     const numberOfFlashcards = sections[index].length;
     const elementWidth = 100 / numberOfFlashcards;
     completedFlashcardsContainer.style.width = elementWidth * completedFlashcardsContainer.children.length + '%';
     ongoingFlashcardsContainer.style.width = elementWidth * ongoingFlashcardsContainer.children.length + '%';
-    completedFlashcardsContainer.children.length > 0 ? completedFlashcardsContainer.style.display = 'flex' : completedFlashcardsContainer.style.display = 'none';
-}
+    completedFlashcardsContainer.children.length > 0 ? (completedFlashcardsContainer.style.display = 'flex') : (completedFlashcardsContainer.style.display = 'none');
+};
 //!SECTION - Smart mode functions
