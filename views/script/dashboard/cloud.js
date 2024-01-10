@@ -150,7 +150,6 @@ function deleteFile() {
                 document.querySelector('.active-popup').classList.remove('active-popup');
             }
         });
-
 }
 localStorage.removeItem('currentFile');
 document.addEventListener('keydown', e => {
@@ -290,11 +289,10 @@ function renameFolder() {
 function triggerFolder() {
     const folderElements = folderList.querySelectorAll('h2');
     folderElements.forEach(folder => {
-        folder.removeEventListener('click', () => { });
+        folder.removeEventListener('click', () => {});
         folder.addEventListener('click', () => {
             folderElements.forEach(folder => folder.classList.remove('active-folder'));
             folder.classList.add('active-folder');
-
 
             loadFolder(folder.dataset.id);
         });
@@ -363,7 +361,6 @@ folderSelection.addEventListener('change', e => {
     loadFolder(e.currentTarget.value);
 });
 
-
 fetch('/cdn/content', {
     method: 'GET',
     headers: {
@@ -381,16 +378,13 @@ fetch('/cdn/content', {
         }
     });
 
-
-
-
 function loadFolder(id) {
     document.querySelectorAll('.file-item').forEach(file => file.remove());
     localStorage.setItem('currentFolder', id);
     document.querySelectorAll('.active-folder').forEach(folder => folder.classList.remove('active-folder'));
-    const loading = document.querySelector('.files-items > .full-screen')
+    const loading = document.querySelector('.files-items > .full-screen');
     document.querySelector(`[data-id="${id}"]`).classList.add('active-folder');
-    document
+    document;
     files.forEach(folder => {
         if (folder._id === id) {
             if (folder.uploads.length === 0) {
@@ -404,7 +398,6 @@ function loadFolder(id) {
         }
     });
 }
-
 
 document.getElementById('search-bar').addEventListener('input', e => {
     const search = e.currentTarget.value.toLowerCase();
@@ -423,4 +416,31 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && document.querySelector('.cloud.active-section') && document.querySelector('.active-sub-container')) {
         document.querySelector('.active-sub-container').classList.remove('active-sub-container');
     }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    var subContainer = document.querySelector('.right-container');
+    var startY;
+
+    subContainer.addEventListener(
+        'touchstart',
+        function (e) {
+            startY = e.touches[0].clientY;
+        },
+        false
+    );
+
+    subContainer.addEventListener(
+        'touchend',
+        function (e) {
+            var endY = e.changedTouches[0].clientY;
+
+            // Check if it was a swipe down
+            if (endY - startY > 100) {
+                // 100 is the minimum swipe length
+                subContainer.classList.remove('active-sub-container');
+            }
+        },
+        false
+    );
 });

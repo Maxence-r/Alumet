@@ -105,6 +105,7 @@
                 <!-- <h1 onclick="navbar('messages')">Messages</h1> -->
                 <h1 onclick="navbar('settings')">Paramètres</h1>
                 <h1 onclick="navbar('participants')">Participants</h1>
+                <h1 onclick="navbar('share')">Partager</h1>
                 <h1 onclick="navbar('profile')">Identité</h1>
                 <div class="row-bottom-buttons">
                     <button onclick="window.location.href='/dashboard'" class="large greyed">Retour tableau de bord</button>
@@ -145,7 +146,7 @@
                 <input id="wallTitle" type="text" placeholder="Nom du mur" />
                 <div class="switch-options">
                     <div class="option">
-                        <h1>Autoriser les commentaires</h1>
+                        <h1>Autoriser les publications des participants</h1>
                         <label class="switch">
                             <input id="postAuthorized" type="checkbox" />
                             <span class="slide round"></span>
@@ -285,7 +286,7 @@
                                         <span class="slide round"></span>
                                     </label>
                                 </div>
-                                <div class="option">
+                                <div data-title="Ce paramètre n'a pas d'influence pour le moment." class="option">
                                     <h1>Repertorié dans votre organisation</h1>
                                     <label class="switch">
                                         <input id="appDiscovery" type="checkbox" />
@@ -294,6 +295,58 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay-content share">
+                <div style="display: none" class="closed">
+                    <div class="warning-box">Vous pouvez modifier le niveau d'accès de votre support dans les paramètres afin de le partager avec vos élèves ou d'autres personnes.</div>
+                    <div class="header-setting">
+                        <div>
+                            <h1>Votre support est privé !</h1>
+                            <p>Si vous souhaitez partager votre contenu avec davantage de personnes, comme une classe par exemple, vous devrez ajouter manuellement les collaborateurs et modifier le niveau d'accès dans les paramètres de sécurité.</p>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+
+                    <div class="row-bottom-buttons">
+                        <button onclick="navbar('settings')" class="large greyed">Paramètres</button>
+                        <button onclick="addCollaborators()" class="large">Ajouter des collaborateurs</button>
+                    </div>
+                </div>
+
+                <div style="display: none" class="onpassword">
+                    <div class="header-setting">
+                        <div>
+                            <h1>Votre support est sécurisé !</h1>
+                            <p>Il est nécessaire d'entrer un mot de passe pour accéder à votre support. Vous pouvez le partager avec vos élèves ou d'autres personnes grâce au lien ci-dessous.</p>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+
+                    <div class="row-bottom-buttons">
+                        <div class="option">
+                            <h1>Inclure le mot de passe dans le lien</h1>
+                            <label class="switch">
+                                <input id="passwordLink" checked="" type="checkbox" />
+                                <span class="slide round"></span>
+                            </label>
+                        </div>
+                        <input autocomplete="off" class="app-link" type="text" placeholder="Lien d'invitation" disabled="true" style="display: block" />
+                    </div>
+                </div>
+
+                <div style="display: none" class="open">
+                    <div class="header-setting">
+                        <div>
+                            <h1>Votre support est ouvert !</h1>
+                            <p>Toute personne possédant le lien ci-dessous peut accéder à votre support. Cependant, si elles ne sont pas collaboratrices ou si vous n'avez pas autorisé la publication, elles ne pourront que le consulter.</p>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+
+                    <div class="row-bottom-buttons">
+                        <input autocomplete="off" class="app-link" type="text" placeholder="Lien d'invitation" disabled="true" style="display: block" />
                     </div>
                 </div>
             </div>
@@ -314,7 +367,7 @@
                 </div>
                 <div class="row-bottom-buttons admin">
                     <button onclick="addCollaborators()" class="large greyed">Ajouter des collaborateurs</button>
-                    <button onclick="addParticipants()" class="large">Ajouter des participants</button>
+                    <button onclick="navbar('share');" class="large">Ajouter des élèves / tierces</button>
                 </div>
             </div>
 
@@ -462,6 +515,10 @@
             <button onclick="navbar('participants')" id="participants">
                 <img src="../assets/global/participants.svg" alt="Participants" />
                 <p>Participants</p>
+            </button>
+            <button onclick="navbar('share')" id="share">
+                <img src="../assets/global/share.svg" alt="Partager" />
+                <p>Partager</p>
             </button>
             <button class="admin" onclick="navbar('settings')" id="settings">
                 <img src="../assets/global/settings.svg" alt="paramètres" />

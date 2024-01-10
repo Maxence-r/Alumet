@@ -82,6 +82,19 @@ function enableConnected(data) {
         document.querySelector('.user-details > h3').innerText = data.username;
         document.querySelector('.user-details > p').innerText = 'Connecté';
         document.querySelector('.profile > .row-bottom-buttons').classList.add('connected');
+        if (data.admin) {
+            document.querySelectorAll('.app-link').forEach(el => {
+                el.value = window.location.host + '/portal/' + app.infos._id + '?password=' + app.infos.password;
+            });
+        }
+        if (data.experimental) {
+            document.querySelectorAll('.experimental').forEach(el => {
+                el.style.display = 'flex';
+            });
+            document.querySelectorAll('.experimentalRv').forEach(el => {
+                el.style.display = 'none';
+            });
+        }
     } else {
         document.querySelectorAll('.connectedOnly').forEach(el => {
             el.style.display = 'none';
@@ -124,6 +137,9 @@ function loadAppInfos(data) {
     document.getElementById('appChat').checked = data.swiftchat;
     document.getElementById('appDiscovery').checked = data.discovery;
     document.getElementById('password-input').value = data.password || '';
+    document.querySelectorAll(`.${app.infos.security}`).forEach(el => {
+        el.style.display = 'flex';
+    });
     if (data.type === 'alumet') {
         document.querySelector('body').style.backgroundImage = `url(/cdn/u/${data.background})`;
         socket.emit('joinAlumet', app.infos._id);
@@ -142,16 +158,6 @@ function promptLeave() {
         desc: "Êtes-vous sûr de vouloir quitter cette application ? Vous ne pourrez plus y accéder si vous n'êtes pas inviter a nouveau.",
         action: 'leaveApplication()',
     });
-}
-
-function addParticipants() {
-    createPrompt({
-        head: 'Ajouter des participants',
-        desc: 'Coller le lien ci dessous et partager le pour inviter des participants à votre alumet.',
-        placeholder: "Lien d'invitation",
-        disabled: true,
-    });
-    document.getElementById('prompt-input').value = window.location.host + '/portal/' + app.infos._id + '?code=' + app.infos.code;
 }
 
 function leaveApplication() {
@@ -504,3 +510,11 @@ async function uploadFile(file) {
             });
     });
 }
+
+document.getElementById('passwordLink').addEventListener('click', () => {
+    if (document.getElementById('passwordLink').checked) {
+        document.querySelector('.app-link').value = window.location.host + '/portal/' + app.infos._id + '?password=' + app.infos.password;
+    } else {
+        document.querySelector('.app-link').value = window.location.host + '/portal/' + app.infos._id;
+    }
+});

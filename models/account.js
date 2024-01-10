@@ -58,6 +58,11 @@ const AccountSchema = mongoose.Schema({
         required: true,
         default: [],
     },
+    experimental: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
 });
 
 const Account = mongoose.model('Account', AccountSchema);

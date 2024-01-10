@@ -1057,6 +1057,8 @@ label:has(#onpassword:checked) + #password-input {
 
 .backgroundImg {
     width: 100%;
+    padding: 10px;
+    border: 2px dashed #e5e5e5;
     min-height: 150px;
     border-radius: 10px;
     object-fit: cover;
@@ -1388,6 +1390,34 @@ select {
     outline-width: 3px;
     outline-color: #0597ff;
     outline-offset: -3px;
+}
+
+/*You can use [title] selector as well*/
+
+[data-title]:hover::before {
+    content: attr(data-title);
+    position: absolute;
+    bottom: 60px;
+    display: inline-block;
+    padding: 9px;
+    left: 0;
+    border-radius: 8px;
+    background: #000;
+    color: #fff;
+    font-size: 12px;
+    white-space: nowrap;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .module-selected {
@@ -1737,7 +1767,12 @@ select {
     font-size: 0.9rem;
     font-weight: 400;
     margin: 0;
+    margin-top: 4px;
     color: #9ea1a7;
+}
+
+.experimental {
+    display: none;
 }
 
 .active-section {
@@ -1924,9 +1959,7 @@ h1 {
     .files {
         gap: 10px;
     }
-    .header-setting > div > p {
-        display: none;
-    }
+
     .overlay-content {
         padding: 10px;
         width: 100%;

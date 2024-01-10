@@ -9,8 +9,8 @@ document.querySelectorAll('.options > div').forEach(div => {
 let accountType;
 document.querySelector('.continue').addEventListener('click', e => {
     let selectedOption = document.querySelector('.selectedOption');
-    /* if (!selectedOption) return; */
-    accountType = /* selectedOption.id; */ 'professor';
+    if (!selectedOption) return;
+    accountType = selectedOption.id;
     document.querySelector(`.signup`).classList.add('activeStep');
     document.querySelector(`.choose`).classList.remove('activeStep');
 });

@@ -47,12 +47,11 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
-
 function createAppBox(title, lastUsage, background, id, subject) {
-    const subjects = ['mathematics', 'french', 'history', 'geography', 'physics', 'biology', 'philosophy', 'english', 'technology', 'language', 'other']
-    const subjectsInFrench = ['Mathématiques', 'Français', 'Histoire', 'Géographie', 'Physique', 'SVT', 'Philosophie', 'Anglais', 'Technologie', 'Langue', 'Autre']
+    const subjects = ['mathematics', 'french', 'history', 'geography', 'physics', 'biology', 'philosophy', 'english', 'technology', 'language', 'other'];
+    const subjectsInFrench = ['Mathématiques', 'Français', 'Histoire', 'Géographie', 'Physique', 'SVT', 'Philosophie', 'Anglais', 'Technologie', 'Langue', 'Autre'];
     subject = subjectsInFrench[subjects.indexOf(subject)];
-    
+
     const appBox = document.createElement('div');
     appBox.classList.add('app-box');
 
@@ -148,8 +147,6 @@ const createConversationElement = conversation => {
 
     conversationElement.appendChild(iconElement);
 
-
-
     const infosElement = document.createElement('div');
     infosElement.classList.add('conversation-infos');
     conversationElement.appendChild(infosElement);
@@ -188,10 +185,8 @@ function initConversation() {
         message: 'Cette fonctionnalité a été restreinte sur ce compte. Ressayer plus tard. Vous avez toujours accès aux messages officiels.',
         type: 'warning',
         duration: 10000,
-    })
+    });
 }
-
-
 
 async function createConversation() {
     if (participants.length === 0) return toast({ title: 'Erreur', message: 'Vous devez sélectionner au moins un utilisateur', type: 'error', duration: 2500 });
@@ -232,28 +227,8 @@ async function createConversation() {
 }
 
 /* End search manager */
-
-
-
 function startSetup() {
     let type = document.querySelector('.module-selected').dataset.module.slice(0, -1);
     if (type === 'mindmap') return toast({ title: 'Erreur', message: 'Ce support est temporairement indisponible', type: 'error', duration: 5500 });
     window.location.href = `/app/setup/${type}`;
 }
-document.addEventListener('DOMContentLoaded', function () {
-    var subContainer = document.querySelector('.right-container');
-    var startY;
-
-    subContainer.addEventListener('touchstart', function (e) {
-        startY = e.touches[0].clientY;
-    }, false);
-
-    subContainer.addEventListener('touchend', function (e) {
-        var endY = e.changedTouches[0].clientY;
-
-        // Check if it was a swipe down
-        if (endY - startY > 100) { // 100 is the minimum swipe length
-            subContainer.classList.remove('active-sub-container');
-        }
-    }, false);
-});

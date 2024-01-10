@@ -2,9 +2,11 @@ const path = window.location.pathname;
 const id = path.substring(path.lastIndexOf('/') + 1);
 
 const urlParams = new URLSearchParams(window.location.search);
-const code = urlParams.get('code');
+const code = urlParams.get('password');
 if (code) {
-    document.querySelector('.code').value = code;
+    document.querySelectorAll('.code').forEach(e => {
+        e.value = code;
+    });
 }
 
 function load(boolean) {
@@ -84,8 +86,6 @@ function loadAppInfos(app) {
     document.querySelector('.appInfos > img').src = '/cdn/u/' + app.background;
     document.querySelector('.appDetails > h1').innerText = app.title;
     document.querySelector('.appDetails > h3').innerText = app.description;
-    document.getElementById('creator').innerText = app.owner + ' ';
-    document.getElementById('lastusage').innerText = relativeTime(app.lastUsage);
     const img = new Image();
     img.src = '/cdn/u/' + app.background;
     img.onload = () => {

@@ -520,7 +520,7 @@ function createWall() {
     if (title.length < 1) {
         return toast({
             title: 'Erreur',
-            message: 'Vous devez entrer un titre',
+            message: 'Vous devez entrer un nom pour cette colonne !',
             type: 'error',
             duration: 5000,
         });

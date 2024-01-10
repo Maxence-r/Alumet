@@ -104,10 +104,9 @@ router.post('/authorize/:id', rateLimit(10), async (req, res) => {
                 }
                 break;
             case 'closed':
-                if (req.user?.id) {
-                    alumet.participants.push({ userId: req.user.id, status: 4 });
-                    await alumet.save();
-                }
+                res.status(400).json({
+                    error: 'Alumet is closed',
+                });
                 break;
         }
         res.status(200).json({
