@@ -172,11 +172,13 @@ function createFlashcardElement(question, answer, status, parameter, id) {
     return flashcardElement;
 }
 async function revise() {
+    console.log(flashcardSet)
     let selectedOption = document.querySelector('#radio-revise input[type="radio"]:checked')?.id;
     if (!selectedOption) return toast({ title: 'Erreur', message: 'Vous devez sélectionner une option', type: 'error', duration: 2500 });
+    if (selectedOption == 'smart' && !flashcardSet.user_infos) return toast({ title: 'Erreur', message: 'Vous devez être connecté pour utiliser ce mode de révision', type: 'error', duration: 2500 });
     if (document.querySelectorAll('.alumet > .flashcards-container > .flashcard').length < 1) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins une carte pour réviser', type: 'error', duration: 2500 });
     let isSmartRevision = null;
-    if (selectedOption === 'smart')
+    if (selectedOption === 'smart') {
         await fetch(`/flashcards/${id}/isSmartRevision`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -185,6 +187,7 @@ async function revise() {
             .then(data => {
                 isSmartRevision = data.isSmartRevision;
             });
+    }
     if (!isSmartRevision && selectedOption === 'smart') return toast({ title: 'Erreur', message: 'Vous avez révisé toutes vos cartes ! Revenez plus tard', type: 'error', duration: 2500 });
     window.location.href = `/flashcards/revise/${selectedOption}/${id}`;
 }
