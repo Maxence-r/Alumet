@@ -63,6 +63,11 @@ const AccountSchema = mongoose.Schema({
         required: true,
         default: false,
     },
+    aiCredits: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
 });
 
 const Account = mongoose.model('Account', AccountSchema);

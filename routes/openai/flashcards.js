@@ -4,6 +4,7 @@ const OpenAI = require('openai');
 const pdfjsLib = require('pdfjs-dist');
 const Upload = require('../../models/upload');
 const rateLimit = require('../../middlewares/authentification/rateLimit');
+const Account = require('../../models/account');
 require('dotenv').config();
 
 const openai = new OpenAI({
@@ -36,10 +37,10 @@ async function getContent(src) {
     return { content, infoMessage };
 }
 
-async function generateFlashcards(messages) {
+async function generateFlashcards(messages, userId) {
     const completion = await openai.chat.completions.create({
         messages,
-        model: 'gpt-3.5-turbo-1106',
+        model: 'gpt-4-1106-preview',
         response_format: { type: 'json_object' },
     });
     const gptAnswer = completion.choices[0].message.content;
@@ -50,12 +51,15 @@ async function generateFlashcards(messages) {
         console.error('ERROR: ', gptAnswer);
         return [];
     }
+    let account = await Account.findOne({ _id: userId });
+    account.aiCredits -= 1;
+    await account.save();
 
     let flashcards = gptAnswer.substring(start, end + 1);
     return JSON.parse(flashcards);
 }
 //TODO - verify if it's okay to merge the two functions
-async function gptFlashcardGeneration(generationMode, numberOfFlashcards, subject, text) {
+async function gptFlashcardGeneration(generationMode, numberOfFlashcards, subject, text, userId) {
     if (subject === 'other') {
         subject = '';
     }
@@ -63,7 +67,7 @@ async function gptFlashcardGeneration(generationMode, numberOfFlashcards, subjec
     let instructions = '';
     if (generationMode === 'document') {
         instructions =
-            "Use the raw text of a PDF, focusing on core content while ignoring formatting, page numbers, and professor's educational instructions. Ensure every flashcard uses the original document's language. YOU MUST MAXIMIZE the number of flashcards the MOST POSSIBLE, keeping text ultra brief (around 50 characters max, ideally less).";
+            "the raw text of a PDF, focusing on core content while ignoring formatting, page numbers, and professor's educational instructions. Ensure EVERY single flashcard uses the language of the document. YOU MUST MAXIMIZE the number of flashcards generate the MOST POSSIBLE, keeping text brief around 50 characters max, avoid sentence if possible.";
     } else if (generationMode === 'keywords') {
         instructions = `Leverage your knowledge to create ${numberOfFlashcards} flashcards in FRENCH. Each should cover a different aspect of the subjects, emphasizing key concepts. Achieve the exact count of ${numberOfFlashcards} for a complete subject overview, with ultra-brief text on each card.`;
     } else if (generationMode === 'youtube') {
@@ -71,13 +75,16 @@ async function gptFlashcardGeneration(generationMode, numberOfFlashcards, subjec
     }
 
     const flashcardsPromises = text.map(part =>
-        generateFlashcards([
-            {
-                role: 'system',
-                content: `Create flashcards for ${subject} in JSON format. Each flashcard is an object with 'question' and 'answer' fields. Maximize the number of flashcards, with ultra-brief and relevant content. Generate these flashcards using ${instructions}`,
-            },
-            { role: 'user', content: part },
-        ])
+        generateFlashcards(
+            [
+                {
+                    role: 'system',
+                    content: `Create flashcards for ${subject} in JSON format. Each flashcard is an object with 'question' and 'answer' fields. Maximize the number of flashcards, with ultra-brief and relevant content. Every single flashcard must be in the language of the raw text, even if you add your own knowledge. Generate these flashcards using ${instructions}`,
+                },
+                { role: 'user', content: part },
+            ],
+            userId
+        )
     );
 
     const flashcardsArrays = await Promise.all(flashcardsPromises);
@@ -85,6 +92,8 @@ async function gptFlashcardGeneration(generationMode, numberOfFlashcards, subjec
 }
 
 router.post('/generate-flashcards', rateLimit(2), async (req, res) => {
+    if (!req.user || req.user.experimental === false) return res.json({ error: "Vous devez être inscrit à l'offre expérimentale pour utiliser cette fonctionnalité" });
+    if (req.user.aiCredits < 1) return res.json({ error: "Vous n'avez pas assez de crédits pour utiliser cette fonctionnalité" });
     try {
         let { generationMode, numberOfFlashcards, schoolLevel, subject, data } = req.body;
         let message = '';
@@ -94,7 +103,7 @@ router.post('/generate-flashcards', rateLimit(2), async (req, res) => {
             data = content;
             message = infoMessage;
         }
-        const flashcards = await gptFlashcardGeneration(generationMode, numberOfFlashcards, subject, data);
+        const flashcards = await gptFlashcardGeneration(generationMode, numberOfFlashcards, subject, data, req.user.id);
         res.json({ flashcards, message });
     } catch (error) {
         res.json({ error: error.message });
