@@ -155,6 +155,10 @@ body {
     border-bottom: 3px solid #ff0000;
 }
 
+.keywords > .item {
+    margin-top: 20px;
+}
+
 .keywords-input {
     display: flex;
     flex-direction: row;
@@ -200,7 +204,6 @@ body {
 }
 .keyword-box:hover {
     background-color: #e6e6e6;
-    transform: scale(0.95);
 }
 .keyword-box > img {
     width: 8px;

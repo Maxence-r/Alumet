@@ -28,19 +28,19 @@ async function getContent(src) {
     const text = textPages.join('');
     let infoMessage = '';
     if (text.length < 50) {
-        throw new Error('Le fichier n\'est pas assez volumineux');
+        throw new Error("Le fichier n'est pas assez volumineux");
     } else if (text.length > 30001) {
         infoMessage = 'Le fichier est trop volumineux, il a été tronqué à 30000 caractères';
     }
     const content = text.match(/.{1,7500}/g);
     return { content, infoMessage };
-};
+}
 
 async function generateFlashcards(messages) {
     const completion = await openai.chat.completions.create({
         messages,
         model: 'gpt-3.5-turbo-1106',
-        response_format: { type: "json_object" }
+        response_format: { type: 'json_object' },
     });
     const gptAnswer = completion.choices[0].message.content;
     const start = gptAnswer.indexOf('[');
@@ -49,28 +49,39 @@ async function generateFlashcards(messages) {
     if (start === -1 || end === -1) {
         console.error('ERROR: ', gptAnswer);
         return [];
-    };
+    }
 
     let flashcards = gptAnswer.substring(start, end + 1);
     return JSON.parse(flashcards);
 }
 //TODO - verify if it's okay to merge the two functions
-async function gptFlashcardGeneration(generationMode, numberOfFlashcards, schoolLevel, subject, text) {
-    subject == 'other' ? subject = '' : null;
-    console.log(text.length)
-    const flashcardsPromises = text.map(part => generateFlashcards([
-        { role: 'system', content: `You are an assistant of flashcard creation for ${subject} students and you're now in ${generationMode} generation mode. You must follow some rules as a perfect ia flashcards creation assistant.`},
-        { role: 'assistant', content: 'Okay. What are those rules ?'},
-        { role: 'system', content: 'You must answer in a json format an array of flashcards object with question and answer properties. Those properties must be quite short, concise and always in the language of the document' },
-        { role: 'assistant', content: 'Okay. I understand. What is the level of the student ?'},
-        { role: 'system', content: `Your flashcards are adressed to a ${schoolLevel} student, adjust the difficulty of your flashcards accordingly.` },
-        { role: 'assistant', content: 'How many flashcards do you want ?'},
-        { role: 'system', content: `You must answer ${numberOfFlashcards} flashcards. By the way, you must do not answer sentences but use keywords in your questions and answers in order to be short as possible. The shorter, the best! Last but not least, don't create flashcards of examples: it's useless!` },
-        { role: 'assistant', content: 'Okay. I will do my best. Let\'s start !'},           
-        { role: 'user', content: part },
-    ]));
+async function gptFlashcardGeneration(generationMode, numberOfFlashcards, subject, text) {
+    if (subject === 'other') {
+        subject = '';
+    }
+
+    let instructions = '';
+    if (generationMode === 'document') {
+        instructions =
+            "Use the raw text of a PDF, focusing on core content while ignoring formatting, page numbers, and professor's educational instructions. Ensure every flashcard uses the original document's language. YOU MUST MAXIMIZE the number of flashcards the MOST POSSIBLE, keeping text ultra brief (around 50 characters max, ideally less).";
+    } else if (generationMode === 'keywords') {
+        instructions = `Leverage your knowledge to create ${numberOfFlashcards} flashcards in FRENCH. Each should cover a different aspect of the subjects, emphasizing key concepts. Achieve the exact count of ${numberOfFlashcards} for a complete subject overview, with ultra-brief text on each card.`;
+    } else if (generationMode === 'youtube') {
+        instructions = `Develop ${numberOfFlashcards} flashcards using subject-related videos. Each card should capture a unique concept or aspect, using the language of the subjects. Ensure the set totals exactly ${numberOfFlashcards}, with concise text for comprehensive coverage.`;
+    }
+
+    const flashcardsPromises = text.map(part =>
+        generateFlashcards([
+            {
+                role: 'system',
+                content: `Create flashcards for ${subject} in JSON format. Each flashcard is an object with 'question' and 'answer' fields. Maximize the number of flashcards, with ultra-brief and relevant content. Generate these flashcards using ${instructions}`,
+            },
+            { role: 'user', content: part },
+        ])
+    );
+
     const flashcardsArrays = await Promise.all(flashcardsPromises);
-    return [].concat(...flashcardsArrays).filter(flashcard => flashcard.question.length < 100 && flashcard.answer.length < 100 && flashcard.question.length > 1 && flashcard.answer.length > 1);
+    return [].concat(...flashcardsArrays).filter(flashcard => flashcard.question.length < 150 && flashcard.answer.length < 150 && flashcard.question.length > 1 && flashcard.answer.length > 1);
 }
 
 router.post('/generate-flashcards', rateLimit(2), async (req, res) => {
@@ -83,9 +94,8 @@ router.post('/generate-flashcards', rateLimit(2), async (req, res) => {
             data = content;
             message = infoMessage;
         }
-        const flashcards = await gptFlashcardGeneration(generationMode, numberOfFlashcards, schoolLevel, subject, data);
+        const flashcards = await gptFlashcardGeneration(generationMode, numberOfFlashcards, subject, data);
         res.json({ flashcards, message });
-
     } catch (error) {
         res.json({ error: error.message });
     }

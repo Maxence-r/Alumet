@@ -50,6 +50,7 @@
         "socket.io": "^4.6.1",
         "stripe": "^14.10.0",
         "url-metadata": "^3.0.3",
-        "uuid": "^9.0.0"
+        "uuid": "^9.0.0",
+        "youtube-transcript": "^1.0.6"
     }
 }

@@ -66,7 +66,7 @@ function resetUsersdatas() {
         .then(data => {
             toast({ title: 'Succès', message: 'Les données des utilisateurs ont bien été réinitialisées !', type: 'success', duration: 2500 });
             setTimeout(() => {
-            window.location.reload();                
+                window.location.reload();
             }, 1000);
         })
         .catch(err => console.log(err));
@@ -182,7 +182,7 @@ function createFlashcardElement(question, answer, status, parameter, id) {
 }
 function revise() {
     if (flashcardSet.flashcards.length === 0) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins une carte', type: 'error', duration: 2500 });
-    let selectedOption = document.querySelector('#radio-revise input[type="radio"]:checked')?.id; 
+    let selectedOption = document.querySelector('#radio-revise input[type="radio"]:checked')?.id;
     if (selectedOption === 'smart' && !flashcardSet.flashcards.some(flashcard => flashcard.userDatas.nextReview < Date.now())) {
         return toast({ title: 'Erreur', message: 'Vous avez révisé toutes vos cartes ! Revenez plus tard', type: 'error', duration: 2500 });
     }
@@ -303,7 +303,6 @@ async function generateWithIA() {
     const generationMode = document.querySelector('.module-selected').dataset.module;
     let numberOfFlashcards = document.getElementById('flashcards-amount').value;
     numberOfFlashcards = numberOfFlashcards < 1 || numberOfFlashcards > 20 ? 20 : numberOfFlashcards;
-    let schoolLevel = document.getElementById('level').value;
     let subject = document.getElementById('app-subject').value;
 
     const fileFromCloud = selectedFile[0];
@@ -332,7 +331,6 @@ async function generateWithIA() {
         body: JSON.stringify({
             generationMode,
             numberOfFlashcards,
-            schoolLevel,
             subject,
             data,
         }),
