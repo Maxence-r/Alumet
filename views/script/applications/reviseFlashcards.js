@@ -23,17 +23,11 @@ fetch(`/flashcards/${id}/${mode}/content`, {
     .then(res => res.json())
     .then(data => {
         const { flashcardSetInfo, redirect } = data;
-        console.log(redirect)
         redirect ? window.location.href = `/app/${id}` : null;
         if (mode === 'smart') {
             sections = createSections(flashcardSetInfo.flashcards);
             currentSection = sections[index];
             updateSmartStatusPercentages(currentSection);
-            if (sections.length === 0) {
-                // TODO - add page when there is no flashcards to revise in smart mode
-                console.log('no flashcards to revise');
-                return;
-            }
         } else {
             currentSection = flashcardSetInfo.flashcards;
             updateStatusPercentages(currentSection);

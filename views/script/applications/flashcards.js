@@ -9,17 +9,11 @@ fetch(`/flashcards/${id}/sandbox/content`)
             document.querySelector('.flashcards-container').appendChild(flashcard);
         });
         flashcardSet = flashcardSetInfo;
-        displayReviseBtn(flashcardSetInfo.flashcards);
         updateStatusPercentages(flashcardSetInfo.flashcards);
         endLoading();
     })
     .catch(err => console.log(err));
 
-function displayReviseBtn(flashcards) {
-    !flashcards ? (flashcards = document.querySelectorAll('.alumet > .flashcards-container > .flashcard:not([new-flashcards])')) : null;
-    const button = document.querySelector('.header > button');
-    flashcards.length > 0 ? (button.style.display = 'block') : (button.style.display = 'none');
-}
 function modifyFlashcardSet() {
     let title = document.getElementById('flashcardName').value;
     if (title.length < 2) {
@@ -76,8 +70,8 @@ function newFlashcards() {
     localStorage.setItem('currentItem', null);
     document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Nouvelle flashcard';
     document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Créez une nouvelle flashcard ci-dessous.';
-    document.querySelector('.flashcards > .post-buttons > .buttons > .reded').style.display = 'none';
-    document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Créer';
+    document.querySelector('.flashcards > .post-buttons > .reded').style.display = 'none';
+    document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').innerText = 'Créer';
     document.getElementById('answer').value = '';
     document.getElementById('question').value = '';
 }
@@ -99,7 +93,7 @@ function deleteFlashcard() {
                 toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
             } else {
                 document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).remove();
-                displayReviseBtn();
+                flashcardSet.flashcards = flashcardSet.flashcards.filter(flashcard => flashcard._id != currentFlashcard);
                 toast({ title: 'Succès', message: 'La carte a bien été supprimée !', type: 'success', duration: 2500 });
                 setTimeout(() => {
                     navbar('home');
@@ -154,8 +148,8 @@ function createFlashcardElement(question, answer, status, parameter, id) {
         document.getElementById('answer').value = answer;
         document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Modifier une carte';
         document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Vous pouvez modifier la carte ci-dessous.';
-        document.querySelector('.flashcards > .post-buttons > .buttons > .reded').style.display = 'block';
-        document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Modifier';
+        document.querySelector('.flashcards > .post-buttons > .reded').style.display = 'block';
+        document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').innerText = 'Modifier';
         if (parameter === 'modifyCreation') {
             document.querySelector('.flashcards > .post-buttons > button').onclick = () => {
                 checkCreation();
@@ -167,10 +161,10 @@ function createFlashcardElement(question, answer, status, parameter, id) {
                 navbar('verify-flashcards');
             };
         } else if (parameter === 'modify') {
-            document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').onclick = () => {
+            document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').onclick = () => {
                 checkFlashcard();
             };
-            document.querySelector('.flashcards > .post-buttons > .buttons > .reded').onclick = () => {
+            document.querySelector('.flashcards > .post-buttons > .reded').onclick = () => {
                 deleteFlashcard();
             };
             document.querySelector('.flashcards > .post-buttons > .buttons > button:nth-of-type(2)').onclick = () => {
@@ -181,13 +175,20 @@ function createFlashcardElement(question, answer, status, parameter, id) {
     return flashcardElement;
 }
 function revise() {
-    if (flashcardSet.flashcards.length === 0) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins une carte', type: 'error', duration: 2500 });
-    let selectedOption = document.querySelector('#radio-revise input[type="radio"]:checked')?.id; 
-    if (selectedOption === 'smart' && !flashcardSet.flashcards.some(flashcard => flashcard.userDatas.nextReview < Date.now())) {
-        return toast({ title: 'Erreur', message: 'Vous avez révisé toutes vos cartes ! Revenez plus tard', type: 'error', duration: 2500 });
-    }
-
+    let selectedOption = document.querySelector('#radio-revise input[type="radio"]:checked')?.id;
     if (!selectedOption) return toast({ title: 'Erreur', message: 'Vous devez sélectionner une option', type: 'error', duration: 2500 });
+    if (document.querySelectorAll(".alumet > .flashcards-container > .flashcard").length < 1) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins une carte pour réviser', type: 'error', duration: 2500 });
+    if (selectedOption === 'smart') fetch(`/flashcards/${id}/isSmartRevision`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.isSmartRevision) {
+                return toast({ title: 'Erreur', message: 'Vous avez révisé toutes vos cartes ! Revenez plus tard', type: 'error', duration: 2500 });
+            }
+    });
+
     window.location.href = `/flashcards/revise/${selectedOption}/${id}`;
 }
 async function createFlashcards(info, flashcards) {
@@ -223,7 +224,6 @@ async function createFlashcards(info, flashcards) {
             }
             document.querySelector('.new-flashcard').insertAdjacentElement('afterend', flashcardElement);
         });
-        displayReviseBtn();
         if (!data.flashcards.some(flashcard => flashcard._id == currentFlashcard))
             toast({ title: 'Succès', message: `La carte${data.flashcards.length > 1 ? 's ont' : ' a'} bien été ajoutée${data.flashcards.length > 1 ? 's' : ''} !`, type: 'success', duration: 2500 });
         document.getElementById('answer').value = '';

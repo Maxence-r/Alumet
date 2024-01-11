@@ -73,7 +73,7 @@ router.get('/:application/:revisionMethod/content', rateLimit(60), applicationAu
             delete flashcard.usersDatas;
             flashcardSetInfo.flashcards.push(flashcard);
         }
-        if (req.params.revisionMethod === 'smart' && !flashcardSetInfo.flashcards.some(flashcard => flashcard.userDatas.nextReview < Date.now()) || flashcardSetInfo.flashcards.length === 0) {
+        if (req.params.revisionMethod === 'smart' && flashcardSetInfo.flashcards.some(flashcard => flashcard.userDatas.nextReview < Date.now()) || flashcardSetInfo.flashcards.length === 0) {
             return res.json({flashcardSetInfo, redirect: true});
         }
         res.json({flashcardSetInfo, redirect: false});
@@ -81,7 +81,7 @@ router.get('/:application/:revisionMethod/content', rateLimit(60), applicationAu
         console.log(error);
         res.json({ error });
     }
-});
+}); 
 
 router.post('/:application/check', rateLimit(10), applicationAuthentication(), async (req, res) => {
     try {
@@ -108,6 +108,22 @@ router.post('/:application/check', rateLimit(10), applicationAuthentication(), a
         }
         res.json({ flashcards: flashcardsData });
     } catch (error) {
+        console.log(error);
+        res.json({ error });
+    }
+});
+
+router.get('/:application/isSmartRevision', rateLimit(10), applicationAuthentication(), async (req, res) => {
+    try {
+        const { userId } = req.user;
+        const flashcardSet = await Alumet.findById(req.params.application);
+        if (!flashcardSet) return res.json({ error: 'Flashcard not found' });
+        const flashcards = await Flashcards.find({ flashcardSetId: flashcardSet._id });
+        const userDatas = flashcards.map(flashcard => flashcard.usersDatas.find(data => data.userId === userId));
+        const isSmartRevision = userDatas;
+        res.json({ isSmartRevision });        
+    }
+    catch (error) {
         console.log(error);
         res.json({ error });
     }
