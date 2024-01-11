@@ -146,10 +146,8 @@ function addFlashcard(id, question, answer, status, date) {
     newCard.appendChild(p);
     flashcardContainer.appendChild(newCard);
     setEventListener(newCard);
-    console.log('new flashcard added');
     // modify design of the flashcard behind
     if (currentSection[1]) {
-        console.log(currentSection.length);
         document.querySelector('.flashcards.loaded > div:first-child').style.border = `2px solid ${statusInfos[currentSection[1].userDatas.status].color}`;
         document.querySelector('.flashcards.loaded > div:first-child > h3').innerText = currentSection[1].question;
     }
@@ -220,9 +218,6 @@ function resetProgress() {
 function stopRevision() {
     window.location.href = `/app/${id}`;
 }
-function redirectToSandBox() {
-    window.location.href = `/flashcards/revise/sandbox/${id}`;
-}
 
 function displayEndOfSection(type) {
     document.querySelectorAll('.intermediate-section').forEach(element => (element.style.display = type === 'intermediate' ? 'flex' : 'none'));
@@ -238,10 +233,7 @@ const switchSectionIfFinished = () => {
     if (!sections[index + 1] && currentSection.length === 0) {
         displayEndOfSection('end');
     } else if (currentSection.length === 0) {
-        console.log('section finished, switching to next section'); //TODO - make end of section page + add a button to go to next section
         displayEndOfSection('intermediate');
-    } else {
-        console.log('section not finished');
     }
 };
 

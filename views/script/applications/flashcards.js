@@ -167,28 +167,22 @@ function createFlashcardElement(question, answer, status, parameter, id) {
             document.querySelector('.flashcards > .post-buttons > .reded').onclick = () => {
                 deleteFlashcard();
             };
-            document.querySelector('.flashcards > .post-buttons > .buttons > button:nth-of-type(2)').onclick = () => {
-                navbar('home');
-            };
         }
     });
     return flashcardElement;
 }
-function revise() {
+async function revise() {
     let selectedOption = document.querySelector('#radio-revise input[type="radio"]:checked')?.id;
     if (!selectedOption) return toast({ title: 'Erreur', message: 'Vous devez sélectionner une option', type: 'error', duration: 2500 });
     if (document.querySelectorAll(".alumet > .flashcards-container > .flashcard").length < 1) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins une carte pour réviser', type: 'error', duration: 2500 });
-    if (selectedOption === 'smart') fetch(`/flashcards/${id}/isSmartRevision`, {
+    let isSmartRevision = null;
+    if (selectedOption === 'smart') await fetch(`/flashcards/${id}/isSmartRevision`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     })
         .then(res => res.json())
-        .then(data => {
-            if (!data.isSmartRevision) {
-                return toast({ title: 'Erreur', message: 'Vous avez révisé toutes vos cartes ! Revenez plus tard', type: 'error', duration: 2500 });
-            }
-    });
-
+        .then(data => { isSmartRevision = data.isSmartRevision })
+    if (!isSmartRevision && selectedOption === 'smart') return toast({ title: 'Erreur', message: 'Vous avez révisé toutes vos cartes ! Revenez plus tard', type: 'error', duration: 2500 });
     window.location.href = `/flashcards/revise/${selectedOption}/${id}`;
 }
 async function createFlashcards(info, flashcards) {
