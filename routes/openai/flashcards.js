@@ -40,7 +40,7 @@ async function getContent(src) {
 async function generateFlashcards(messages, userId) {
     const completion = await openai.chat.completions.create({
         messages,
-        model: 'gpt-4-1106-preview',
+        model: 'gpt-3.5-turbo-1106',
         response_format: { type: 'json_object' },
     });
     const gptAnswer = completion.choices[0].message.content;
