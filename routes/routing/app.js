@@ -110,7 +110,6 @@ router.put('/new', rateLimit(3), upload.single('file'), uploadAndSaveToDb('3', [
         let updatedAlumet;
         const alumetDatas = Object.fromEntries(
             Object.entries({
-                owner: req.user.id,
                 title: req.body.title,
                 description: req.body.description,
                 background: req.upload ? req.upload._id : undefined,
@@ -125,10 +124,17 @@ router.put('/new', rateLimit(3), upload.single('file'), uploadAndSaveToDb('3', [
             }).filter(([_, value]) => value !== undefined)
         );
 
-        updatedAlumet = existantAlumet ? Object.assign(existantAlumet, alumetDatas) : new Alumet(alumetDatas);
+        if (existantAlumet) {
+            updatedAlumet = Object.assign(existantAlumet, alumetDatas);
+        } else {
+            updatedAlumet = new Alumet({
+                ...alumetDatas,
+                owner: req.user.id,
+            });
+        }
+
         await updatedAlumet.save();
 
-        /* !existantAlumet ? sendInvitations(req, res, updatedAlumet._id) : null; */ //TODO - Make mails work correctly
         res.json({ alumet: updatedAlumet });
     } catch (error) {
         console.log(error);
