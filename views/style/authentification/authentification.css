@@ -261,6 +261,7 @@ section.appInfos {
 .appInfos > img {
     position: absolute;
     width: 100%;
+    filter: brightness(0.5);
     height: 100%;
     border-radius: 20px;
     object-fit: cover;

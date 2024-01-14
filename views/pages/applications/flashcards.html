@@ -119,10 +119,10 @@
         <div class="overlay">
             <div class="overlay-content menu">
                 <h1 onclick="navbar('home')">Accueil</h1>
-                <h1 onclick="navbar('ia')">IA</h1>
+                <h1 class="admin" onclick="navbar('ia')">IA</h1>
                 <h1 onclick="navbar('participants')">Participants</h1>
-                <h1 onclick="navbar('share')">Partager</h1>
-                <h1 onclick="navbar('settings')">Paramètres</h1>
+                <h1 class="admin" onclick="navbar('share')">Partager</h1>
+                <h1 class="admin" onclick="navbar('settings')">Paramètres</h1>
                 <h1 onclick="navbar('profile')">Identité</h1>
                 <div class="row-bottom-buttons">
                     <button onclick="window.location.href='/dashboard'" class="large greyed">Retour tableau de bord</button>
@@ -160,7 +160,7 @@
                             <span class="slide round"></span>
                         </label>
                     </div>
-                    <button onclick="resetUsersdatas()" class="large reded">Réinitialiser ma progression</button>
+                    <button onclick="resetUsersdatas()" class="large reded connectedOnly">Réinitialiser ma progression</button>
                     <button onclick="revise()" class="large">Commencer ma révision</button>
                 </div>
             </div>
@@ -212,9 +212,9 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <div class="info-box experimental">Un accès illimité à cette fonctionnalité vous a été donné.</div>
+                    <div class="info-box experimental">Vous disposez d'un accès excusif, peut être instable.</div>
                     <button class="large experimental" onclick="generateWithIA('keywords')">Générer les flashcards</button>
-                    <button class="large greyed experimental" onclick="navbar('verify-flashcards')">Flashcards en création</button>
+                    <button class="large greyed experimental" onclick="navbar('verify-flashcards')">Flashcards créées</button>
                     <div class="warning-box experimentalRv">Cette fonctionnalité est expérimentale, vous devez demander l'accès pour l'utiliser.</div>
                 </div>
             </div>
@@ -235,9 +235,8 @@
             </div>
 
             <div class="overlay-content loading-flashcards">
-                <div class="loading full-screen">
-                    <span class="loader"></span>
-                    <h3>Génération des flashcards par l'intelligence artificielle<br />Patientez quelques instants</h3>
+                <div class="full-screen">
+                    <span class="loader-bar"></span>
                 </div>
             </div>
             <div class="overlay-content loadingRessources">
@@ -504,7 +503,7 @@
                 <img src="../assets/global/participants.svg" alt="Participants" />
                 <p>Collaboration</p>
             </button>
-            <button onclick="navbar('share')" id="share">
+            <button class="admin" onclick="navbar('share')" id="share">
                 <img src="../assets/global/share.svg" alt="Partager" />
                 <p>Partager</p>
             </button>

@@ -31,16 +31,16 @@ async function getContent(src) {
     } else if (text.length > 30001) {
         infoMessage = 'Le fichier est trop volumineux, il a été tronqué à 30000 caractères';
     }
-    const content = text.match(/.{1,2500}/g);
+    const content = text.match(/.{1,5000}/g);
     return { content, infoMessage };
 }
 
-async function generateFlashcards(messages, userId, prompt) {
+async function generateFlashcards(prompt, userId) {
     try {
         const data = await new Promise((resolve, reject) => {
             gpt(
                 {
-                    messages: messages,
+                    messages: [],
                     prompt: prompt,
                     model: 'gpt-4-32k',
                     markdown: false,
@@ -83,26 +83,14 @@ async function gptFlashcardGeneration(generationMode, numberOfFlashcards, subjec
 
     let instructions = '';
     if (generationMode === 'document') {
-        instructions =
-            "the provided content, focusing on core content while ignoring formatting, page numbers, and professor's educational instructions. Ensure EVERY single flashcard uses the language of the document. YOU MUST MAXIMIZE the number of flashcards generate the MOST POSSIBLE, keeping text brief around 50 characters max, avoid sentence if possible.";
+        instructions = '';
     } else if (generationMode === 'keywords') {
-        instructions = `Leverage your knowledge to create ${numberOfFlashcards} flashcards in FRENCH. Each should cover a different aspect of the subjects, emphasizing key concepts. Achieve the exact count of ${numberOfFlashcards} for a complete subject overview, with ultra-brief text on each card.`;
+        instructions = `Here the provided content are keywords ententered by the user, you need to add you own knowledge to the provided subjects, always prefer french if the language is not clear`;
     } else if (generationMode === 'youtube') {
         instructions = `Develop ${numberOfFlashcards} flashcards using subject-related videos. Each card should capture a unique concept or aspect, using the language of the subjects. Ensure the set totals exactly ${numberOfFlashcards}, with concise text for comprehensive coverage.`;
     }
-    let prompt = `Assume you are a multilingual JSON expert AI. Your task is to return an array of JSON objects, you MUST in ANY case return an array of flashcards according to the provided content and IN THE LANGUAGE of the content. Each flashcard is an object with 'question' and 'answer' fields. Maximize the number of flashcards, with ultra-brief and relevant content. Every single flashcard must be in the language of the raw text, even if you add your own knowledge. Generate these flashcards using ${instructions}`;
-    const flashcardsPromises = text.map(part =>
-        generateFlashcards(
-            [
-                {
-                    role: 'user',
-                    content: part,
-                },
-            ],
-            userId,
-            prompt
-        )
-    );
+    let prompt = `As a multilingual JSON expert AI, your mission is to produce a dense array of JSON ONLY (you can't send plain text) flashcards that encapsulate the essence of the provided content. Strictly follow these instructions: Craft a large number of flashcards that cover the entire document, focusing on core content while ignoring formatting, page numbers, and professor's educational instructions or reference to external ressources, someone who don't have the original content need to be able to learn the content. You MUST craft each flashcard in the language of the original content. The shorter the flashcard, the better. Aim for under 40 characters for both 'question' and 'answer' fields, if possible, if you can't but an information is important then create. Generate the maximum number of flashcards possible without compromising their educational value, it need to cover the learned subject of the given content, cover the entire document thoroughly. Begin the JSON array of flashcard creation process with the following content, adhering to the above guidelines for succinct and informative learning aids in JSON ONLY ${instructions}:`;
+    const flashcardsPromises = text.map(part => generateFlashcards(prompt + part, userId));
 
     const flashcardsArrays = await Promise.all(flashcardsPromises);
     return [].concat(...flashcardsArrays).filter(flashcard => flashcard.question.length < 150 && flashcard.answer.length < 150 && flashcard.question.length > 1 && flashcard.answer.length > 1);

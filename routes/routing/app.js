@@ -76,11 +76,13 @@ router.get('/info/:application', validateObjectId, rateLimit(30), async (req, re
         const participantIds = alumet.participants.map(p => p.userId);
         const participantAccounts = await Promise.all(participantIds.map(id => Account.findById(id, 'id name icon lastname username accountType badges')));
 
-        let participants = participantAccounts.map((account, index) => {
-            if (account) {
-                return { ...account.toObject(), status: alumet.participants[index].status };
-            }
-        });
+        let participants = participantAccounts
+            .map((account, index) => {
+                if (account) {
+                    return { ...account.toObject(), status: alumet.participants[index].status };
+                }
+            })
+            .filter(Boolean);
 
         const ownerAccount = await Account.findById(alumet.owner, 'id name icon lastname username accountType badges');
         participants.push({ ...ownerAccount.toObject(), status: 0 });
@@ -98,10 +100,13 @@ router.get('/info/:application', validateObjectId, rateLimit(30), async (req, re
 });
 
 router.get('/setup/:app', async (req, res) => {
-    console.log(req.params.app);
-    req.params.app !== 'flashcard' && req.params.app !== 'mindmap' && req.params.app !== 'alumet' ? res.redirect('/404') : null;
-    let filePath = req.connected ? path.join(__dirname, '../../views/pages/new-app.html') : path.join(__dirname, '../../views/pages/404.html');
-    res.sendFile(filePath);
+    req.params.app !== 'flashcard' && req.params.app !== 'mindmap' && req.params.app !== 'alumet' ? res.redirect('/dashboard') : null;
+    let filePath = path.join(__dirname, '../../views/pages/new-app.html');
+    if (req.connected) {
+        res.sendFile(filePath);
+    } else {
+        res.redirect('/auth/signin');
+    }
 });
 
 router.put('/new', rateLimit(3), upload.single('file'), uploadAndSaveToDb('3', ['png', 'jpeg', 'jpg']), addBlurToImage, validateAlumet, async (req, res) => {

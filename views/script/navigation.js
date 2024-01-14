@@ -84,7 +84,7 @@ function enableConnected(data) {
         document.querySelector('.profile > .row-bottom-buttons').classList.add('connected');
         if (data.admin) {
             document.querySelectorAll('.app-link').forEach(el => {
-                el.value = window.location.host + '/portal/' + app.infos._id + '?password=' + app.infos.password;
+                el.value = window.location.protocol + '//' + window.location.host + '/portal/' + app.infos._id + (app.infos.password !== '' || null ? '?password=' + app.infos.password : '');
             });
         }
         if (data.experimental) {
@@ -513,8 +513,8 @@ async function uploadFile(file) {
 
 document.getElementById('passwordLink').addEventListener('click', () => {
     if (document.getElementById('passwordLink').checked) {
-        document.querySelector('.app-link').value = window.location.host + '/portal/' + app.infos._id + '?password=' + app.infos.password;
+        document.querySelector('.app-link').value = window.location.protocol + '//' + window.location.host + '/portal/' + app.infos._id + (app.infos.password ? '?password=' + app.infos.password : '');
     } else {
-        document.querySelector('.app-link').value = window.location.host + '/portal/' + app.infos._id;
+        document.querySelector('.app-link').value = window.location.protocol + '//' + window.location.host + '/portal/' + app.infos._id;
     }
 });

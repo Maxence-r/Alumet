@@ -181,7 +181,7 @@ body {
     flex-wrap: wrap;
     padding: 10px;
     border: 1px solid #ebebeb;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 .keyword-box {
     display: flex;
@@ -189,9 +189,10 @@ body {
     align-items: center;
     gap: 10px;
     padding: 10px;
+    font-size: 0.85rem;
     width: fit-content;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 6px;
 
     background-color: #f6f8fc;
     outline-style: solid;

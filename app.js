@@ -29,19 +29,16 @@ const wall = require('./routes/applications/alumet/wall.js');
 const post = require('./routes/applications/alumet/post.js');
 
 const flashcardsAi = require('./routes/openai/flashcards');
-
-const setup = require('./routes/alumet/setup.js');
 const invitation = require('./routes/routing/invitation.js');
 
-// SECURITY 
-app.disable('x-powered-by')
+// SECURITY
+app.disable('x-powered-by');
 app.use(
     helmet({
-      contentSecurityPolicy: false,
+        contentSecurityPolicy: false,
     })
-  );
+);
 app.use(cookieParser());
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -66,7 +63,6 @@ app.get('/', (req, res) => {
     res.sendFile('main.html', { root: './views/pages' });
 });
 
-
 // Alumet application
 app.use('/portal', portal);
 app.use('/alumet', alumet);
@@ -86,7 +82,6 @@ app.use('/preview', preview);
 app.use('/viewer', viewer);
 app.use('/cdn', uploader);
 
-
 // Alumet API
 app.use('/app', alumetRender);
 app.use('/api/wall', wall);
@@ -100,11 +95,7 @@ app.use('/openai/flashcards', flashcardsAi);
 
 // Dashboard related
 app.use('/dashboard', dashboard);
-app.use('/setup', setup);
 app.use('/invitation', invitation);
-
-
-
 
 const path = require('path');
 app.get('*', async (req, res) => {

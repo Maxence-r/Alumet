@@ -165,6 +165,19 @@
                 </div>
                 <button onclick="createWall()" class="large confirm">Créer le mur</button>
             </div>
+            <div class="overlay-content help">
+                <div class="header-setting">
+                    <div>
+                        <h1>Aide</h1>
+                        <p>Apprenez à utiliser votre Alumet dans les moindres détails !</p>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="information">
+                    <img src="../assets/global/messages_top.svg" />
+                    <p>Nous préparons le centre d'aide, en attendant parcourez les onglets pour découvrir votre espace !</p>
+                </div>
+            </div>
             <div class="overlay-content comments">
                 <div style="display: none" class="full-screen">
                     <span class="loader"></span>
@@ -519,6 +532,10 @@
             <button onclick="navbar('share')" id="share">
                 <img src="../assets/global/share.svg" alt="Partager" />
                 <p>Partager</p>
+            </button>
+            <button onclick="navbar('help')" id="help">
+                <img src="../assets/global/help.svg" alt="Aide" />
+                <p>Aide</p>
             </button>
             <button class="admin" onclick="navbar('settings')" id="settings">
                 <img src="../assets/global/settings.svg" alt="paramètres" />
