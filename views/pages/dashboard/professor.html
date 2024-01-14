@@ -39,7 +39,7 @@
                 <h4 id="prompt-desc"></h4>
                 <input autocomplete="off" id="prompt-input" type="text" placeholder="Prompt placeholder" />
                 <div class="prompt-buttons">
-                    <button class="large" id="prompt-red">Supprimer</button> <button class="large" onclick="document.querySelector('.prompt-popup').classList.remove('active-popup')">Annuler</button>
+                    <button class="large" id="prompt-red">Supprimer</button> <button class="large greyed" onclick="document.querySelector('.prompt-popup').classList.remove('active-popup')">Annuler</button>
                     <button class="large" id="prompt-confirm">Confirmer</button>
                 </div>
                 <datalist id="users"> </datalist>
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div class="prompt-buttons">
-                    <button class="large">Supprimer</button> <button class="large" onclick="document.querySelector('.user-popup').classList.remove('active-popup')">Annuler</button>
+                    <button class="large">Supprimer</button> <button class="large greyed" onclick="document.querySelector('.user-popup').classList.remove('active-popup')">Annuler</button>
                     <button onclick="createConversation()" class="large">Confirmer</button>
                 </div>
             </div>

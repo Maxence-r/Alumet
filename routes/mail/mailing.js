@@ -4,14 +4,14 @@ const fs = require('fs');
 const A2F = require('../../models/a2f');
 require('dotenv').config();
 const Account = require('../../models/account');
+
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.email.eu-paris-1.oci.oraclecloud.com',
+    port: 587,
+    secure: false,
     auth: {
-        user: `${process.env.GMAIL_EMAIL}`,
-        pass: `${process.env.GMAIL_API_KEY}`,
-    },
-    tls: {
-        rejectUnauthorized: false,
+        user: `${process.env.SMTP_USERNAME}`,
+        pass: `${process.env.SMTP_PASSWORD}`,
     },
 });
 
@@ -25,7 +25,7 @@ const mailsSubjects = {
 async function createMail(type, receiver) {
     const receiverInfos = await Account.findOne({ mail: receiver }, { name: 1, notifications: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1 });
 
-    let receiverName = receiverInfos?.name ? receiverInfos.name : "";
+    let receiverName = receiverInfos?.name ? receiverInfos.name : '';
     const filePath = path.join(__dirname, `../../views/pages/mails/${type}.html`);
     let mailContent = fs.readFileSync(filePath, 'utf8');
     switch (type) {
@@ -69,10 +69,13 @@ async function sendMail(type, receiver) {
     if (!mailContent) return;
 
     const mailOptions = {
-        from: 'alumet.education@gmail.com',
+        from: {
+            name: 'Alumet Education',
+            address: 'security@alumet.io',
+        },
         to: receiver,
         subject: mailsSubjects[type],
-        html: mailContent
+        html: mailContent,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
