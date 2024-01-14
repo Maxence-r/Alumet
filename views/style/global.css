@@ -160,6 +160,7 @@
 .button__text {
     display: flex;
     justify-content: center;
+    font-size: 0.85rem;
     color: #ffffff;
     transition: all 0.2s;
 }
@@ -513,6 +514,16 @@ textarea {
     background-color: rgba(255, 0, 0, 0.199);
 }
 
+.info-box {
+    width: 100%;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    z-index: 20;
+    margin: 0;
+    padding: 15px;
+    background-color: #296eff26;
+}
+
 #toast {
     position: fixed;
     top: 15px;
@@ -817,6 +828,10 @@ label.switch:hover {
     box-shadow: none;
 }
 
+.greyed > .button__text {
+    color: #000000;
+}
+
 .greyed:hover {
     background-color: #e6e6e6;
     border-radius: 10px;
@@ -936,12 +951,6 @@ label.switch:hover {
 
 .prompt-buttons > button {
     width: 100%;
-}
-
-.prompt-buttons > button:nth-child(2) {
-    background-color: #f6f8fc;
-    color: #000000;
-    box-shadow: none;
 }
 
 .prompt > h1 {

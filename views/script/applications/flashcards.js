@@ -172,7 +172,7 @@ function createFlashcardElement(question, answer, status, parameter, id) {
     return flashcardElement;
 }
 async function revise() {
-    console.log(flashcardSet)
+    console.log(flashcardSet);
     let selectedOption = document.querySelector('#radio-revise input[type="radio"]:checked')?.id;
     if (!selectedOption) return toast({ title: 'Erreur', message: 'Vous devez sélectionner une option', type: 'error', duration: 2500 });
     if (selectedOption == 'smart' && !flashcardSet.user_infos) return toast({ title: 'Erreur', message: 'Vous devez être connecté pour utiliser ce mode de révision', type: 'error', duration: 2500 });
@@ -188,8 +188,9 @@ async function revise() {
                 isSmartRevision = data.isSmartRevision;
             });
     }
+    let reversed = document.getElementById('reversed').checked;
     if (!isSmartRevision && selectedOption === 'smart') return toast({ title: 'Erreur', message: 'Vous avez révisé toutes vos cartes ! Revenez plus tard', type: 'error', duration: 2500 });
-    window.location.href = `/flashcards/revise/${selectedOption}/${id}`;
+    window.location.href = `/flashcards/revise/${selectedOption}/${id}` + (reversed ? '?reverse=true' : '');
 }
 async function createFlashcards(info, flashcards) {
     if (!flashcards) {
@@ -262,7 +263,6 @@ function displayPageIA() {
     const button = document.querySelector('.buttons > button:nth-of-type(2)');
     flashcards && flashcards.length > 0 ? (button.style.display = 'block') : (button.style.display = 'none');
 
-    flashcardSet ? (document.getElementById('app-subject').value = flashcardSet.subject) : null;
     navbar('ia');
 }
 
@@ -303,7 +303,6 @@ async function generateWithIA() {
     const generationMode = document.querySelector('.module-selected').dataset.module;
     let numberOfFlashcards = document.getElementById('flashcards-amount').value;
     numberOfFlashcards = numberOfFlashcards < 1 || numberOfFlashcards > 20 ? 20 : numberOfFlashcards;
-    let subject = document.getElementById('app-subject').value;
 
     const fileFromCloud = selectedFile[0];
     const fileFromPC = document.getElementById('post-file').files[0];
@@ -331,7 +330,6 @@ async function generateWithIA() {
         body: JSON.stringify({
             generationMode,
             numberOfFlashcards,
-            subject,
             data,
         }),
     })

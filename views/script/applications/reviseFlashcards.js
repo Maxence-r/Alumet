@@ -23,7 +23,7 @@ fetch(`/flashcards/${id}/${mode}/content`, {
     .then(res => res.json())
     .then(data => {
         const { flashcardSetInfo, redirect } = data;
-        redirect ? window.location.href = `/app/${id}` : null;
+        redirect ? (window.location.href = `/app/${id}`) : null;
         if (mode === 'smart') {
             sections = createSections(flashcardSetInfo.flashcards);
             currentSection = sections[index];
@@ -58,11 +58,16 @@ async function newStatusToServer(flashcardId, status, cardReview) {
         })
         .catch(err => console.log(err));
 }
-function toggleQuestionAnswer(card) {
+function toggleQuestionAnswer(card, reverseMode = false) {
     const question = card.querySelector('h3');
     const answer = card.querySelector('p');
-    question.style.display = question.style.display === 'none' ? 'block' : 'none';
-    answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+    if (reverseMode) {
+        answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+        question.style.display = question.style.display === 'none' ? 'block' : 'none';
+    } else {
+        question.style.display = question.style.display === 'none' ? 'block' : 'none';
+        answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+    }
 }
 function setEventListener(card) {
     const hammertime = new Hammer(card);
@@ -82,7 +87,7 @@ function setEventListener(card) {
         flashcardContainer.classList.remove('flashcard_love');
         flashcardContainer.classList.remove('flashcard_nope');
         const moveOutWidth = document.body.clientWidth;
-        const keep = Math.abs(event.deltaX) < 80 || Math.abs(event.velocityX) < 0.5;
+        const keep = Math.abs(event.deltaX) < 50 || Math.abs(event.velocityX) < 0.2;
         card.classList.toggle('removed', !keep);
         if (keep) {
             card.style.transform = '';
@@ -111,8 +116,19 @@ function setEventListener(card) {
             }, 300);
         }
     });
-    card.addEventListener('click', () => toggleQuestionAnswer(card));
+    card.addEventListener('click', () => {
+        if (reverseCards) {
+            toggleQuestionAnswer(card, true);
+        } else {
+            toggleQuestionAnswer(card);
+        }
+    });
 }
+
+//SECTION - Check for reverse parameter in URL
+const queryParams = new URLSearchParams(window.location.search);
+const reverseCards = queryParams.get('reverse') === 'true';
+
 const statusInfos = {
     0: { text: 'Neutre', color: '#c6c9ce' },
     1: { text: 'Pas connu', color: '#ff0000' },
@@ -137,11 +153,14 @@ function addFlashcard(id, question, answer, status, date) {
     infos.appendChild(h2);
     infos.appendChild(h2date);
     newCard.appendChild(infos);
+
     let h3 = document.createElement('h3');
-    h3.innerText = question;
     let p = document.createElement('p');
-    p.innerText = answer;
+
+    h3.innerText = reverseCards ? answer : question;
+    p.innerText = reverseCards ? question : answer;
     p.style.display = 'none';
+
     newCard.appendChild(h3);
     newCard.appendChild(p);
     flashcardContainer.appendChild(newCard);
@@ -279,3 +298,45 @@ const updateSmartStatusPercentages = flashcards => {
     completedFlashcardsContainer.children.length > 0 ? (completedFlashcardsContainer.style.display = 'flex') : (completedFlashcardsContainer.style.display = 'none');
 };
 //!SECTION - Smart mode functions
+
+// SECTION - Keyboard controls
+document.addEventListener('keydown', function (event) {
+    const cards = document.querySelectorAll('.flashcard--card:not(.removed)');
+    const activeCard = cards[cards.length - 1];
+    if (!activeCard) return; // No active card to interact with
+
+    switch (event.key) {
+        case 'ArrowRight':
+            swipeCard(activeCard, true);
+            break;
+        case 'ArrowLeft':
+            swipeCard(activeCard, false);
+            break;
+        case ' ':
+            toggleQuestionAnswer(activeCard);
+            break;
+        default:
+            break;
+    }
+});
+
+function swipeCard(card, isRightSwipe) {
+    const moveOutWidth = document.body.clientWidth;
+    const endX = moveOutWidth * (isRightSwipe ? 1 : -1);
+    card.style.transform = `translate(${endX}px, 0px)`;
+    card.classList.add('removed');
+
+    let status = parseInt(card.dataset.status);
+    let newStatus = isRightSwipe ? (status === 0 ? 2 : status < 3 ? status + 1 : 3) : 1;
+
+    const flashcard = storedData.flashcards.find(flashcard => flashcard._id === card.dataset.id);
+    nextFlashcard(newStatus);
+    mode === 'sandbox' ? updateStatusPercentages(currentSection) : updateSmartStatusPercentages(flashcard);
+    currentSection.length === 1 && (document.querySelector('.flashcards.loaded > div:first-child').style.display = 'none');
+    currentSection.length === 0 && switchSectionIfFinished();
+
+    newStatusToServer(card.dataset.id, newStatus, verifyIfFlashcardFinish(flashcard));
+    setTimeout(() => {
+        card.remove();
+    }, 300);
+}

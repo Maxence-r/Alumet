@@ -30,7 +30,7 @@ router.get('/logout', async (req, res) => {
 
 router.post('/signin', rateLimit(3), async (req, res) => {
     try {
-        const user = await Account.findOne({ mail: req.body.mail });
+        const user = await Account.findOne({ mail: req.body.mail.toLowerCase() });
         if (!user) {
             return res.status(401).json({
                 error: 'Utilisateur non trouvé !',
@@ -55,7 +55,7 @@ router.post('/signin', rateLimit(3), async (req, res) => {
                 },
                 process.env.TOKEN.toString(),
                 {
-                    expiresIn: '24h',
+                    expiresIn: '14d',
                 }
             );
             res.cookie('token', token).status(200).json({
@@ -74,7 +74,7 @@ router.post('/signup', rateLimit(1), authorizeA2F, validateAccount, async (req, 
     const account = new Account({
         name: req.body.name,
         lastname: req.body.lastname,
-        mail: req.body.mail,
+        mail: req.body.mail.toLowerCase(),
         password: req.body.password,
         accountType: req.body.accountType,
         username: req.body.name.substring(0, 1) + req.body.lastname.substring(0, 22),
