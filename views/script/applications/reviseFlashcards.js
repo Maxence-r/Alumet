@@ -13,6 +13,13 @@ let sections = [];
 const verifyIfFlashcardFinish = flashcard => (flashcard.userDatas?.status === 3 && flashcard.numberOfReview === 2 ? true : false);
 //!SECTION - Global variables
 
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 //SECTION - Initialize the page
 fetch(`/flashcards/${id}/${mode}/content`, {
     method: 'GET',
@@ -27,9 +34,11 @@ fetch(`/flashcards/${id}/${mode}/content`, {
         if (mode === 'smart') {
             sections = createSections(flashcardSetInfo.flashcards);
             currentSection = sections[index];
+            shuffleArray(currentSection);
             updateSmartStatusPercentages(currentSection);
         } else {
             currentSection = flashcardSetInfo.flashcards;
+            shuffleArray(currentSection);
             updateStatusPercentages(currentSection);
         }
         document.querySelector('.header > h1').innerText = flashcardSetInfo.title;
