@@ -48,7 +48,15 @@ function modifyFlashcardSet() {
         });
     });
 }
-function resetUsersdatas() {
+function promptResetUserDatas() {
+    createPrompt({
+        head: 'Réinitialiser votre progression ?',
+        desc: 'Vous pouvez réinitialiser votre progression pour recommencer à zéro. Cette action est irréversible.',
+        content: 'Êtes-vous sûr de vouloir réinitialiser votre progression ? Cette action est irréversible.',
+        action: 'resetUserdatas()'
+    });
+}
+function resetUserdatas() {
     fetch('/flashcards/resetProgress', {
         method: 'POST',
         headers: {
@@ -70,8 +78,8 @@ function newFlashcards() {
     localStorage.setItem('currentItem', null);
     document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Nouvelle flashcard';
     document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Créez une nouvelle flashcard ci-dessous.';
-    document.querySelector('.flashcards > .post-buttons > .reded').style.display = 'none';
-    document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').innerText = 'Créer';
+    document.querySelector('.flashcards > .post-buttons > .buttons > .reded').style.display = 'none';
+    document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Créer';
     document.getElementById('answer').value = '';
     document.getElementById('question').value = '';
 }
@@ -148,31 +156,34 @@ function createFlashcardElement(question, answer, status, parameter, id) {
         document.getElementById('answer').value = answer;
         document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Modifier une carte';
         document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Vous pouvez modifier la carte ci-dessous.';
-        document.querySelector('.flashcards > .post-buttons > .reded').style.display = 'block';
-        document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').innerText = 'Modifier';
+        document.querySelector('.flashcards > .post-buttons > .buttons > .reded').style.display = 'block';
+        document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Modifier';
+        console.log(parameter);
         if (parameter === 'modifyCreation') {
             document.querySelector('.flashcards > .post-buttons > button').onclick = () => {
                 checkCreation();
             };
-            document.querySelector('.flashcards > .post-buttons > .buttons >.reded').onclick = () => {
+            document.querySelector('.flashcards > .post-buttons > .buttons > .reded').onclick = () => {
                 deleteCreation();
             };
-            document.querySelector('.flashcards > .post-buttons > .buttons > button:nth-of-type(2)').onclick = () => {
+            document.querySelector('.flashcards > .post-buttons > .buttons > .greyed').onclick = () => {
                 navbar('verify-flashcards');
             };
         } else if (parameter === 'modify') {
-            document.querySelector('.flashcards > .post-buttons > button:nth-of-type(2)').onclick = () => {
+            document.querySelector('.flashcards > .post-buttons > button').onclick = () => {
                 checkFlashcard();
             };
-            document.querySelector('.flashcards > .post-buttons > .reded').onclick = () => {
+            document.querySelector('.flashcards > .post-buttons > .buttons > .reded').onclick = () => {
                 deleteFlashcard();
+            };
+            document.querySelector('.flashcards > .post-buttons > .buttons > .greyed').onclick = () => {
+                navbar('home');
             };
         }
     });
     return flashcardElement;
 }
 async function revise() {
-    console.log(flashcardSet);
     let selectedOption = document.querySelector('#radio-revise input[type="radio"]:checked')?.id;
     if (!selectedOption) return toast({ title: 'Erreur', message: 'Vous devez sélectionner une option', type: 'error', duration: 2500 });
     if (selectedOption == 'smart' && !flashcardSet.user_infos) return toast({ title: 'Erreur', message: 'Vous devez être connecté pour utiliser ce mode de révision', type: 'error', duration: 2500 });
