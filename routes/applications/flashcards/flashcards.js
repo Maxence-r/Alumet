@@ -67,6 +67,7 @@ router.get('/:application/:revisionMethod/content', rateLimit(60), applicationAu
         const flashcardSetInfo = { ...flashcardSet.toObject(), flashcards: [], owner, participants, user_infos: null, admin: isAdmin };
         req.user ? (flashcardSetInfo.user_infos = { username: req.user.username, icon: req.user.icon, name: req.user.name, lastname: req.user.lastname, id: req.user._id }) : null;
         const flashcards = await Flashcards.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
+
         for (let flashcard of flashcards) {
             let userDatas = flashcard.usersDatas.find(data => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now(), nextReview: Date.now() - 1, inRow: 0 }; // Add flashcard user datas and default values if not found
             flashcard = { ...flashcard.toObject(), userDatas };
@@ -77,6 +78,7 @@ router.get('/:application/:revisionMethod/content', rateLimit(60), applicationAu
         if (req.params.revisionMethod === 'smart' && (!req.connected || !flashcardSetInfo.flashcards.some(flashcard => flashcard.userDatas.nextReview < Date.now()) || flashcardSetInfo.flashcards.length === 0)) {
             return res.json({flashcardSetInfo, redirect: true });
         }
+
         res.json({flashcardSetInfo, redirect: false});
     } catch (error) {
         console.log(error);
