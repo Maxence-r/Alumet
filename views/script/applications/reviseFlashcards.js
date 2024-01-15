@@ -309,7 +309,13 @@ const updateSmartStatusPercentages = flashcards => {
 //!SECTION - Smart mode functions
 
 // SECTION - Keyboard controls
+let canInteract = true;
+
 document.addEventListener('keydown', function (event) {
+    if (!canInteract) return;
+    canInteract = false;
+    setTimeout(() => (canInteract = true), 500);
+
     const cards = document.querySelectorAll('.flashcard--card:not(.removed)');
     const activeCard = cards[cards.length - 1];
     if (!activeCard) return; // No active card to interact with

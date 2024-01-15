@@ -70,19 +70,19 @@ router.get('/:application/:revisionMethod/content', rateLimit(60), applicationAu
         for (let flashcard of flashcards) {
             let userDatas = flashcard.usersDatas.find(data => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now(), nextReview: Date.now() - 1, inRow: 0 }; // Add flashcard user datas and default values if not found
             flashcard = { ...flashcard.toObject(), userDatas };
-            req.params.revisionMethod == 'smart' ? flashcard.userDatas.status = flashcard.userDatas.status === 3 ? 2 : flashcard.userDatas.status : null;
+            req.params.revisionMethod == 'smart' ? (flashcard.userDatas.status = flashcard.userDatas.status === 3 ? 2 : flashcard.userDatas.status) : null;
             delete flashcard.usersDatas;
             flashcardSetInfo.flashcards.push(flashcard);
         }
         if (req.params.revisionMethod === 'smart' && (!req.connected || !flashcardSetInfo.flashcards.some(flashcard => flashcard.userDatas.nextReview < Date.now()) || flashcardSetInfo.flashcards.length === 0)) {
-            return res.json({flashcardSetInfo, redirect: true });
+            return res.json({ flashcardSetInfo, redirect: true });
         }
-        res.json({flashcardSetInfo, redirect: false});
+        res.json({ flashcardSetInfo, redirect: false });
     } catch (error) {
         console.log(error);
         res.json({ error });
     }
-}); 
+});
 
 router.post('/:application/check', rateLimit(10), applicationAuthentication(), async (req, res) => {
     try {
@@ -121,9 +121,8 @@ router.get('/:application/isSmartRevision', rateLimit(10), applicationAuthentica
         const flashcards = await Flashcards.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
         if (flashcards.length === 0) return res.json({ isSmartRevision: false });
         const isSmartRevision = flashcards.some(flashcard => !flashcard.usersDatas.some(data => data.userId === req.user.id)) || flashcards.some(flashcard => flashcard.usersDatas.find(data => data.userId === req.user.id)?.nextReview <= Date.now()); //REVIEW - Maybe change this piece of code
-        res.json({ isSmartRevision });        
-    }
-    catch (error) {
+        res.json({ isSmartRevision });
+    } catch (error) {
         console.log(error);
         res.json({ error });
     }
