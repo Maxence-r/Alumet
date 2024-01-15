@@ -299,6 +299,7 @@ function addKeyword() {
     keywordInput.value = '';
 }
 async function generateWithIA() {
+    navbar('loading-flashcards');
     let data = '';
     const generationMode = document.querySelector('.module-selected').dataset.module;
     let numberOfFlashcards = document.getElementById('flashcards-amount').value;
@@ -321,7 +322,6 @@ async function generateWithIA() {
 
         data = [keywords.join(', ')];
     }
-    navbar('loading-flashcards');
     fetch('/openai/flashcards/generate-flashcards', {
         method: 'POST',
         headers: {

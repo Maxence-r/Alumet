@@ -99,7 +99,8 @@ app.use('/invitation', invitation);
 
 const path = require('path');
 app.get('*', async (req, res) => {
-    const filePath = path.join(__dirname, './views/pages/404.html');
+    console.log('404');
+    const filePath = path.join(__dirname, '/views/pages/404.html');
     res.sendFile(filePath);
 });
 

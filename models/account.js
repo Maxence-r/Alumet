@@ -68,6 +68,11 @@ const AccountSchema = mongoose.Schema({
         required: true,
         default: 0,
     },
+    mailValidated: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
 });
 
 const Account = mongoose.model('Account', AccountSchema);

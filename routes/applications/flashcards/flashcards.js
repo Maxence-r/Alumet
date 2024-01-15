@@ -8,21 +8,6 @@ const Alumet = require('../../../models/alumet');
 const Account = require('../../../models/account');
 const rateLimit = require('../../../middlewares/authentification/rateLimit');
 const applicationAuthentication = require('../../../middlewares/authentification/applicationAuthentication');
-/* Bonjour Gabriel, bonne année; petite explication de comment sécurisé tes routes avec le brand
-new middleware application Authentication:
-Ce dernier s'occupera déja de verifier que la personne qui fait la requête avait accès 
-à l'application selon le niveau de sécurité, donc tu peux dégager si tu avais déja fait 
-ce genre de vérification
-
-How to use ?:
-Un paramètre seulement, un array [] dans lequel tu met qui a le droit de faire cette action
-exemple, delete une flashcard tu mettra le middlaware applicationAuthentication([1])
-Rappel:
-1 = collaborateur, 2 = participant
-Erreurs a ne pas faire:
-- Toujours fermer des parenthèses car ce middleware renvoie une fonction
-- Faire dans la route la sécurité comme si tu delete un commentaire sur un alumet,
-seul celui qui l'a créer peut le faire(normalement aucun problème pour flashcards) */
 
 router.get('/revise/sandbox/:application', rateLimit(60), applicationAuthentication(), async (req, res) => {
     try {

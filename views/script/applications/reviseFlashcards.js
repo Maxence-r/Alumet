@@ -30,7 +30,7 @@ fetch(`/flashcards/${id}/${mode}/content`, {
     .then(res => res.json())
     .then(data => {
         const { flashcardSetInfo, redirect } = data;
-        redirect ? (window.location.href = `/app/${id}`) : null;
+        if (redirect) window.location.href = `/app/${id}`;
         if (mode === 'smart') {
             sections = createSections(flashcardSetInfo.flashcards);
             currentSection = sections[index];
@@ -73,9 +73,6 @@ function toggleQuestionAnswer(card, reverseMode = false) {
     if (reverseMode) {
         answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
         question.style.display = question.style.display === 'none' ? 'block' : 'none';
-    } else {
-        question.style.display = question.style.display === 'none' ? 'block' : 'none';
-        answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
     }
 }
 function setEventListener(card) {
