@@ -77,6 +77,7 @@ function toggleQuestionAnswer(card, reverseMode = false) {
         question.style.display = question.style.display === 'none' ? 'block' : 'none';
         answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
 }
+}
 function setEventListener(card) {
     const hammertime = new Hammer(card);
     hammertime.on('pan', event => {
