@@ -73,7 +73,10 @@ function toggleQuestionAnswer(card, reverseMode = false) {
     if (reverseMode) {
         answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
         question.style.display = question.style.display === 'none' ? 'block' : 'none';
-    }
+    } else {
+        question.style.display = question.style.display === 'none' ? 'block' : 'none';
+        answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+}
 }
 function setEventListener(card) {
     const hammertime = new Hammer(card);
