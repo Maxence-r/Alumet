@@ -76,7 +76,7 @@ function verify() {
     if (passwordInput.value.length < 6) {
         return toast({ title: 'Erreur', message: 'Le mot de passe doit faire au moins 6 caractères', type: 'error', duration: 6000 });
     }
-    signup();
+    send2FA(mailInput.value);
 }
 
 function send2FA(mail) {
@@ -101,7 +101,7 @@ function send2FA(mail) {
         });
 }
 
-function signup() {
+document.querySelector('.confirm').addEventListener('click', e => {
     document.querySelector('.full-screen').style.display = 'flex';
     fetch('/auth/signup', {
         method: 'POST',
@@ -122,10 +122,15 @@ function signup() {
             if (data.error) {
                 toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
             } else {
-                window.location.href = '/dashboard';
+                const urlParams = new URLSearchParams(window.location.search);
+                const redirect = urlParams.get('redirect');
+                if (redirect === 'loginCallback') {
+                    window.close();
+                }
+                window.location.href = '/auth/signin';
             }
             document.querySelector('.full-screen').style.display = 'none';
         });
-}
+});
 
 endLoading();

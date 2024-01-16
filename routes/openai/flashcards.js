@@ -64,10 +64,6 @@ async function generateFlashcards(prompt, userId) {
             return [];
         }
 
-        let account = await Account.findOne({ _id: userId });
-        account.aiCredits += 1;
-        await account.save();
-
         let flashcards = gptAnswer.substring(start, end + 1);
 
         return JSON.parse(flashcards);

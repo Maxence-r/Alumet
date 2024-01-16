@@ -20,18 +20,18 @@ const storage = multer.diskStorage({
 
 router.get('/content', rateLimit(30), async (req, res) => {
     try {
-        let folders = await Folder.find({ owner: req.user?.id })
-            .sort({ lastUsage: -1 })
-            .lean();
+        let folders = await Folder.find({ owner: req.user?.id }).sort({ lastUsage: -1 }).lean();
 
         const extensions = req.query.ext ? req.query.ext.split(',') : [];
         const regex = extensions.length > 0 ? new RegExp(`\\.(${extensions.join('|')})$`, 'i') : null;
 
-        await Promise.all(folders.map(async (folder) => {
-            let query = { folder: folder._id };
-            if (regex) query.filename = regex;
-            folder.uploads = await Upload.find(query).sort({ _id: -1 });
-        }));
+        await Promise.all(
+            folders.map(async folder => {
+                let query = { folder: folder._id };
+                if (regex) query.filename = regex;
+                folder.uploads = await Upload.find(query).sort({ _id: -1 });
+            })
+        );
 
         res.json(folders);
     } catch (error) {
@@ -91,7 +91,6 @@ router.post('/folder/rename/:id', rateLimit(30), validateObjectId, (req, res) =>
         .catch(error => res.json({ error }));
 });
 
-
 router.get('/u/defaultUser', (req, res) => {
     const filePath = path.join(__dirname, './../../views/assets/default/default_user.png');
     res.sendFile(filePath);
@@ -106,8 +105,6 @@ router.get('/u/defaultGroup', (req, res) => {
     const filePath = path.join(__dirname, './../../views/assets/default/default_group.png');
     res.sendFile(filePath);
 });
-
-
 
 router.get('/u/:id', rateLimit(60), validateObjectId, (req, res) => {
     Upload.find({ _id: req.params.id })
@@ -181,7 +178,7 @@ router.post('/upload/:id', rateLimit(240), async (req, res) => {
         });
     }
 
-    accountUpload.single('file')(req, res, async (err) => {
+    accountUpload.single('file')(req, res, async err => {
         try {
             if (err) {
                 return res.status(500).json({ error: 'Upload failed' });
@@ -194,7 +191,7 @@ router.post('/upload/:id', rateLimit(240), async (req, res) => {
                     displayname: sanitizedFilename,
                     mimetype: ext.toLowerCase(),
                     filesize: req.file.size,
-                    owner: req.user?.id || req.ip,
+                    owner: req.user?.id || req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0].trim() || req.connection.remoteAddress,
                     folder: folder?._id || null,
                 });
                 await upload.save();

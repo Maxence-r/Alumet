@@ -271,7 +271,7 @@ async function modifyApp() {
     formData.append('chat', document.getElementById('appChat').checked);
     formData.append('discovery', document.getElementById('appDiscovery').checked);
     formData.append('app', app.infos._id);
-    formData.append('security', document.querySelector('label > input:checked').id);
+    formData.append('security', document.querySelector('.radio-option > label > input:checked').id);
     formData.append('password', document.getElementById('password-input').value);
     navbar('loadingRessources');
     fetch('/app/new', {
