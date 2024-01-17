@@ -76,7 +76,7 @@ function toggleQuestionAnswer(card, reverseMode = false) {
     } else {
         question.style.display = question.style.display === 'none' ? 'block' : 'none';
         answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
-}
+    }
 }
 function setEventListener(card) {
     const hammertime = new Hammer(card);
@@ -207,6 +207,7 @@ function createSections(flashcards) {
         sections[sectionIndex].push(flashcards[i]);
     }
     console.log(`There is ${sections.length} sections of revision`);
+
     return sections;
 }
 

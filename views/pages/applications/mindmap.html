@@ -120,8 +120,8 @@
             <div class="overlay">
                 <div class="overlay-content menu">
                     <h1 onclick="navbar('participants')">Participants</h1>
-                    <h1 onclick="navbar('share')">Partager</h1>
-                    <h1 onclick="navbar('settings')">Paramètres</h1>
+                    <h1 class="admin" onclick="navbar('share')">Partager</h1>
+                    <h1 class="admin" onclick="navbar('settings')">Paramètres</h1>
                     <h1 onclick="navbar('profile')">Identité</h1>
                     <div class="row-bottom-buttons">
                         <button onclick="window.location.href='/dashboard'" class="large greyed">Retour tableau de bord</button>
@@ -465,7 +465,7 @@
                     <img src="../assets/global/participants.svg" alt="Participants" />
                     <p>Collaboration</p>
                 </button>
-                <button onclick="navbar('share')" id="share">
+                <button class="admin" onclick="navbar('share')" id="share">
                     <img src="../assets/global/share.svg" alt="Partager" />
                     <p>Partager</p>
                 </button>

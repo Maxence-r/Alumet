@@ -54,7 +54,13 @@ router.get('/:application/:revisionMethod/content', rateLimit(60), applicationAu
         const flashcards = await Flashcards.find({ flashcardSetId: flashcardSet._id }).sort({ dateCreated: -1 });
 
         for (let flashcard of flashcards) {
-            let userDatas = flashcard.usersDatas.find(data => data.userId === req.user?.id) || { userId: req.user?.id, status: 0, lastReview: Date.now(), nextReview: Date.now() - 1, inRow: 0 }; // Add flashcard user datas and default values if not found
+            let userDatas = flashcard.usersDatas.find(data => data.userId === req.user?.id) || {
+                userId: req.user?.id,
+                status: 0,
+                lastReview: Date.now(),
+                nextReview: new Date().setHours(new Date().getHours() + 3),
+                inRow: 0,
+            };
             flashcard = { ...flashcard.toObject(), userDatas };
             req.params.revisionMethod == 'smart' ? (flashcard.userDatas.status = flashcard.userDatas.status === 3 ? 2 : flashcard.userDatas.status) : null;
             delete flashcard.usersDatas;
