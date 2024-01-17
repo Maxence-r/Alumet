@@ -161,7 +161,6 @@ router.post('/resetProgress', async (req, res) => {
 
         for (const flashcard of flashcards) {
             let userDatas = flashcard.usersDatas.find(data => data.userId === req.user.id);
-
             if (userDatas) {
                 userDatas.status = 0;
                 userDatas.lastReview = Date.now();
@@ -170,7 +169,6 @@ router.post('/resetProgress', async (req, res) => {
             } else {
                 flashcard.usersDatas.push({ userId: req.user.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0 });
             }
-
             await flashcard.save();
         }
         res.json({ success: true });
