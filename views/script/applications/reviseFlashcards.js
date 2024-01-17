@@ -29,8 +29,8 @@ fetch(`/flashcards/${id}/${mode}/content`, {
 })
     .then(res => res.json())
     .then(data => {
-        const { flashcardSetInfo, redirect } = data;
-        if (redirect) window.location.href = `/app/${id}`;
+        const { flashcardSetInfo } = data;
+
         if (mode === 'smart') {
             sections = createSections(flashcardSetInfo.flashcards);
             currentSection = sections[index];
@@ -207,7 +207,9 @@ function createSections(flashcards) {
         sections[sectionIndex].push(flashcards[i]);
     }
     console.log(`There is ${sections.length} sections of revision`);
-
+    if (sections.length === 0) {
+        window.location.href = `/app/${id}`;
+    }
     return sections;
 }
 
