@@ -15,7 +15,7 @@ const authentification = async (req, res, next) => {
         const userId = decodedToken.userId;
         const user = await Account.findOne({ _id: userId });
 
-        if (!user || user.suspended) {
+        if (!user || user.suspended.reason) {
             res.clearCookie('token');
             return next();
         }
