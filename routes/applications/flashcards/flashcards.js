@@ -58,7 +58,7 @@ router.get('/:application/:revisionMethod/content', rateLimit(60), applicationAu
                 userId: req.user?.id,
                 status: 0,
                 lastReview: Date.now(),
-                nextReview: new Date().setHours(new Date().getHours() + 3),
+                nextReview: new Date().setHours(new Date().getHours() - 3),
                 inRow: 0,
             };
             flashcard = { ...flashcard.toObject(), userDatas };
@@ -66,7 +66,7 @@ router.get('/:application/:revisionMethod/content', rateLimit(60), applicationAu
             delete flashcard.usersDatas;
             flashcardSetInfo.flashcards.push(flashcard);
         }
-        if (req.params.revisionMethod === 'smart' && (!req.connected || !flashcardSetInfo.flashcards.some(flashcard => flashcard.userDatas.nextReview < new Date().setHours(new Date().getHours() + 3)) || flashcardSetInfo.flashcards.length === 0)) {
+        if (req.params.revisionMethod === 'smart' && (!req.connected || !flashcardSetInfo.flashcards.some(flashcard => flashcard.userDatas.nextReview < new Date().setHours(new Date().getHours() - 3)) || flashcardSetInfo.flashcards.length === 0)) {
             return res.json({ flashcardSetInfo, redirect: true });
         }
         res.json({ flashcardSetInfo, redirect: false });
