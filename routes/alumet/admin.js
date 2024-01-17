@@ -12,17 +12,17 @@ router.post('/suspend/:userId', async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-        console.log(req.body.reason);
 
         user.suspended = {
             reason: req.body.reason,
             date: new Date(),
         };
-        sendMail('suspended', user.mail);
         await user.save();
+        sendMail('suspended', user.mail);
 
         res.json({ message: 'User suspended successfully' });
     } catch (err) {
+        console.log(err);
         res.status(500).json({ error: 'Server error' });
     }
 });
