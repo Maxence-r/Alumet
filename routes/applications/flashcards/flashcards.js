@@ -164,8 +164,17 @@ router.post('/resetProgress', async (req, res) => {
     try {
         const { flashcardSetId } = req.body;
         const flashcards = await Flashcards.find({ flashcardSetId });
+
         for (const flashcard of flashcards) {
-            flashcard.usersDatas = [{ userId: req.user.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0 }];
+            let userDatas = flashcard.usersDatas.find(data => data.userId === req.user.id);
+            if (userDatas) {
+                userDatas.status = 0;
+                userDatas.lastReview = Date.now();
+                userDatas.nextReview = Date.now();
+                userDatas.inRow = 0;
+            } else {
+                flashcard.usersDatas.push({ userId: req.user.id, status: 0, lastReview: Date.now(), nextReview: Date.now(), inRow: 0 });
+            }
             await flashcard.save();
         }
         res.json({ success: true });
