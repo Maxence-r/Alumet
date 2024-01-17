@@ -122,6 +122,11 @@ document.querySelector('.confirm').addEventListener('click', e => {
             if (data.error) {
                 toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
             } else {
+                const urlParams = new URLSearchParams(window.location.search);
+                const redirect = urlParams.get('redirect');
+                if (redirect === 'loginCallback') {
+                    window.close();
+                }
                 window.location.href = '/auth/signin';
             }
             document.querySelector('.full-screen').style.display = 'none';

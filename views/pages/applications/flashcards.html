@@ -118,7 +118,6 @@
 
         <div class="overlay">
             <div class="overlay-content menu">
-                <h1 onclick="navbar('home')">Accueil</h1>
                 <h1 class="admin" onclick="navbar('ia')">IA</h1>
                 <h1 onclick="navbar('participants')">Participants</h1>
                 <h1 class="admin" onclick="navbar('share')">Partager</h1>
@@ -494,17 +493,13 @@
                 <span class="burger-line"></span>
             </div>
             <div id="menu"></div>
-            <button onclick="navbar('home')" class="navbar-active" id="home">
-                <img src="../assets/global/home_a.svg" alt="home" />
-                <p>Accueil</p>
-            </button>
-            <button onclick="displayPageIA()" class="admin" id="ia">
-                <img src="../../assets/global/rocket_a.svg" alt="messagerie" />
-                <p>IA</p>
-            </button>
             <button onclick="navbar('participants')" id="participants">
                 <img src="../assets/global/participants.svg" alt="Participants" />
                 <p>Collaboration</p>
+            </button>
+            <button onclick="displayPageIA()" class="admin" id="ia">
+                <img src="../../assets/global/ai.svg" alt="messagerie" />
+                <p>IA</p>
             </button>
             <button class="admin" onclick="navbar('share')" id="share">
                 <img src="../assets/global/share.svg" alt="Partager" />

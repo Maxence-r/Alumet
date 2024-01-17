@@ -129,8 +129,13 @@ body {
     font-weight: 600;
     text-align: center;
     max-width: 90%;
+    overflow: scroll;
     word-break: break-word;
     margin: 5px 0;
+}
+
+.flashcard > div::-webkit-scrollbar {
+    display: none;
 }
 
 .flashcard-with-answer {

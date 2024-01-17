@@ -106,7 +106,7 @@ async function editWall(id) {
 
 function clearWall() {
     document.getElementById('wallTitle').value = '';
-    document.getElementById('postAuthorized').checked = false;
+    document.getElementById('postAuthorized').checked = true;
     document.querySelector('.wall').classList.remove('editing');
 }
 

@@ -134,9 +134,6 @@ function relativeTime(timestamp) {
     }
 }
 
-
-
-
 function next(current, next) {
     let hasEmptyInput = false;
     document.querySelectorAll('.activeStep > input').forEach(input => {
@@ -240,8 +237,6 @@ const searchUsers = async (query, type) => {
     }
 };
 
-
-
 const userPrompt = document.querySelector('#user-prompt');
 const debounceDelay = 500;
 let debounceTimeoutId;
@@ -255,7 +250,6 @@ if (userPrompt) {
         }, debounceDelay);
     });
 }
-
 
 function updateStatusPercentages(flashcards) {
     const percentages = {
@@ -292,14 +286,13 @@ document.querySelectorAll('[data-module]').forEach(element => {
             document.querySelector(`.${element.dataset.module}`).style.display = 'flex';
             target.classList.remove('module-selected');
             element.classList.add('module-selected');
-
         });
     });
 });
 
 document.querySelectorAll('.connect').forEach(e => {
     e.addEventListener('click', () => {
-        const popupWindow = window.open('/auth/signin?redirect=loginCallback', '_blank', 'height=600,width=400');
+        const popupWindow = window.open(`${e.dataset.type === 'signup' ? '/auth/signup?redirect=loginCallback' : '/auth/signin?redirect=loginCallback'}`, '_blank', 'height=600,width=400');
         let timer = setInterval(function () {
             if (popupWindow.closed) {
                 clearInterval(timer);
@@ -308,5 +301,3 @@ document.querySelectorAll('.connect').forEach(e => {
         }, 1000);
     });
 });
-
-

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title>Email Confirmation</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style type="text/css">
+            /**
+         * Google webfonts. Recommended to include the .woff version for cross-client compatibility.
+         */
+            @media screen {
+                @font-face {
+                    font-family: 'Plus Jakarta Sans';
+                    font-style: normal;
+                    font-weight: 400;
+                    src: url(https://cdn.jsdelivr.net/fontsource/fonts/plus-jakarta-sans:vf@latest/latin-wght-normal.woff2) format('woff2-variations');
+                }
+                @font-face {
+                    font-family: 'Plus Jakarta Sans';
+                    font-style: normal;
+                    font-weight: 700;
+                    src: url(https://cdn.jsdelivr.net/fontsource/fonts/plus-jakarta-sans:vf@latest/latin-wght-normal.woff2) format('woff2-variations');
+                }
+            }
+            body,
+            table,
+            td,
+            a {
+                -ms-text-size-adjust: 100%; /* 1 */
+                -webkit-text-size-adjust: 100%; /* 2 */
+            }
+            table,
+            img {
+                -ms-interpolation-mode: bicubic;
+            }
+            a[x-apple-data-detectors] {
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                color: inherit !important;
+                text-decoration: none !important;
+            }
+            td {
+                border-radius: 15px;
+            }
+            div[style*='margin: 16px 0;'] {
+                margin: 0 !important;
+            }
+            body {
+                width: 100% !important;
+                height: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            table {
+                border-spacing: 0 20px !important;
+                width: 98% !important;
+                margin: auto;
+            }
+            a {
+                color: #296eff;
+            }
+            img {
+                height: auto;
+                line-height: 100%;
+                text-decoration: none;
+                border: 0;
+                outline: none;
+            }
+        </style>
+    </head>
+    <body style="background-color: #f6f8fc">
+        <!-- start preheader -->
+        <div class="preheader" style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0">Votre code de sécurité Alumet Education</div>
+        <!-- end preheader -->
+        <!-- start body -->
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <!-- start copy block -->
+            <tr>
+                <td align="center" bgcolor="#f6f8fc">
+                    <!--[if (gte mso 9)|(IE)]>
+               <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
+                  <tr>
+                     <td align="center" valign="top" width="600">
+                        <![endif]-->
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px">
+                        <!-- start copy -->
+                        <tr>
+                            <td align="center" valign="top" style="padding: 36px 24px">
+                                <a href="https://education.alumet.io" target="_blank" style="display: inline-block">
+                                    <img src="https://i.imgur.com/JH8OtNu.png" alt="Logo" border="0" width="90%" style="display: block; width: 100%; max-width: 100%; min-width: 100%" />
+                                </a>
+                            </td>
+                        </tr>
+                        <!-- end copy -->
+                        <!-- start copy -->
+                        <tr>
+                            <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Plus Jakarta Sans', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px">
+                                <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px">Bonjour, {{name}}</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Plus Jakarta Sans', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px">
+                                <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px">{{code}}</h1>
+                            </td>
+                        </tr>
+                        <!-- end copy -->
+                        <!-- start copy -->
+                        <tr>
+                            <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Plus Jakarta Sans', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px">
+                                <p style="margin: 0">
+                                    Ce code est strictement personnel et confidentiel. Il est important de ne pas le partager avec quiconque. Veuillez noter que ce code expirera dans 15 minutes. Utilisez-le rapidement pour éviter qu'il ne devienne
+                                    invalide.
+                                </p>
+                            </td>
+                        </tr>
+
+                        <!-- IMAGE <tr>
+                            <td align="left" bgcolor="#ffffff" style="padding: 15px; font-family: 'Plus Jakarta Sans', Helvetica, Arial, sans-serif">
+                                <img
+                                    style="width: 100%; height: 100%; border-radius: 8px"
+                                    src="data:image/jpeg;base64,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"
+                                />
+                            </td>
+                        </tr> -->
+                        <!-- end copy -->
+                        <!-- start button -->
+                        <!-- <tr>
+                              <td align="left" bgcolor="#ffffff">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                  <tr>
+                                    <td align="center" bgcolor="#ffffff" style="padding: 12px;">
+                                      <table border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                          <td align="center" bgcolor="#296EFF" style="border-radius: 6px;">
+                                            <a href="https://education.alumet.io" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Plus Jakarta Sans', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">{{code}}</a>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                              </tr> -->
+                        <!-- end button -->
+                        <!-- start copy -->
+                        <!-- <tr>
+                              <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Plus Jakarta Sans', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
+                                <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
+                                <p style="margin: 0;"><a href="https://education.alumet.io" target="_blank">https://education.alumet.io</a></p>
+                              </td>
+                              </tr> -->
+                        <!-- end copy -->
+                        <!-- start copy -->
+                        <tr>
+                            <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Plus Jakarta Sans', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #296eff">
+                                <p style="margin: 0">
+                                    Cordialement,<br />
+                                    Alumet Education
+                                </p>
+                            </td>
+                        </tr>
+                        <!-- end copy -->
+                        <!--[if (gte mso 9)|(IE)]>
+                           <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
+                              <tr>
+                                 <td align="center" valign="top" width="600">
+                                    <![endif]-->
+                        <!-- start permission -->
+                        <tr>
+                            <td align="center" bgcolor="#f6f8fc" style="padding: 12px 24px; font-family: 'Plus Jakarta Sans', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666">
+                                <p style="margin: 0">Vous avez reçu cet e-mail car une action a été effectuée sur votre compte Alumet Éducation. Si vous n'êtes pas à l'origine de cette demande, veuillez changer immédiatement votre mot de passe !</p>
+                            </td>
+                        </tr>
+                        <!-- end permission -->
+                        <!-- start unsubscribe -->
+                        <!--  <tr>
+                            <td align="center" bgcolor="#f6f8fc" style="padding: 12px 24px; font-family: 'Plus Jakarta Sans', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666">
+                                <p style="margin: 0">To stop receiving these emails, you can <a href="https://education.alumet.io" target="_blank">unsubscribe</a> at any time.</p>
+                                <p style="margin: 0">Paste 1234 S. Broadway St. City, State 12345</p>
+                            </td>
+                        </tr> -->
+                        <!-- end unsubscribe -->
+                        <!--[if (gte mso 9)|(IE)]>
+                              </td>
+                              </tr>
+                           </table>
+                           <![endif]-->
+                    </table>
+                    <!--[if (gte mso 9)|(IE)]>
+                     </td>
+                  </tr>
+               </table>
+               <![endif]-->
+                </td>
+            </tr>
+            <!-- end copy block -->
+            <!-- start footer -->
+            <!-- end footer -->
+        </table>
+        <!-- end body -->
+    </body>
+</html>

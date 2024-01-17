@@ -70,7 +70,7 @@ router.post('/signin', rateLimit(3), async (req, res) => {
     }
 });
 
-router.post('/signup', rateLimit(1), authorizeA2F, validateAccount, async (req, res) => {
+router.post('/signup', rateLimit(1), validateAccount, async (req, res) => {
     const account = new Account({
         name: req.body.name,
         lastname: req.body.lastname,
@@ -83,8 +83,20 @@ router.post('/signup', rateLimit(1), authorizeA2F, validateAccount, async (req, 
         const hash = await bcrypt.hash(account.password, 10);
         account.password = hash;
         const newAccount = await account.save();
-        delete newAccount.password;
-        res.status(201).json(newAccount);
+        const token = jwt.sign(
+            {
+                userId: newAccount._id,
+                mail: newAccount.mail,
+            },
+            process.env.TOKEN.toString(),
+            {
+                expiresIn: '14d',
+            }
+        );
+        res.cookie('token', token).status(201).json({
+            message: 'Account created successfully!',
+            token: token,
+        });
     } catch (err) {
         console.log(err);
         res.status(400).json({ message: err });
