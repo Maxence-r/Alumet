@@ -29,7 +29,7 @@ router.get('/:application/content', applicationAuthentication(), rateLimit(60), 
                     wallId: wall._id,
                     $and: [
                         {
-                            $or: [{ adminsOnly: false }, { owner: { $exists: true, $eq: req.user?.id } }, { ip: req.ip }],
+                            $or: [{ adminsOnly: false }, { owner: { $exists: true, $eq: req.user?.id } }, { ip: req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0].trim() || req.connection.remoteAddress }],
                         },
                         {
                             $or: [{ owner: req.user?.id }, { postDate: { $exists: false }, adminsOnly: false }, { postDate: null, adminsOnly: false }, { postDate: { $lt: new Date().toISOString() }, adminsOnly: false }],
@@ -42,6 +42,10 @@ router.get('/:application/content', applicationAuthentication(), rateLimit(60), 
 
             for (let post of posts) {
                 await Account.populate(post, { path: 'owner', select: 'id name icon lastname accountType badges username' });
+
+                if (!post.owner && post.ip === (req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0].trim() || req.connection.remoteAddress)) {
+                    post.editable = true;
+                }
                 post.commentsLength = await Comment.countDocuments({ postId: post._id });
                 if (post.file) {
                     post.file = await Upload.findById(post.file);

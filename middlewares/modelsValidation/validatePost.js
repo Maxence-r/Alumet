@@ -16,10 +16,6 @@ function getDomainFromUrl(url) {
 
 const validatePost = async (req, res, next) => {
     try {
-        if (req.body.postId && !req.connected) {
-            return res.status(401).json({ error: 'Unauthorized x001' });
-        }
-
         const alumet = await Alumet.findOne({ _id: req.params.application });
         const wall = await Wall.findOne({ _id: req.params.wall });
         let error = null;
@@ -29,8 +25,10 @@ const validatePost = async (req, res, next) => {
 
         if (req.body.postId) {
             const post = await Post.findOne({ _id: req.body.postId });
-            if (!post || post.owner !== req.user.id && !alumet.participants.some(p => p.userId === req.user.id && p.status === 1) && alumet.owner !== req.user.id) {
-                return res.status(400).json({ error: 'Unauthorized post x001' });
+            if (!req.connected && post.ip !== (req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0].trim() || req.connection.remoteAddress)) {
+                return res.status(401).json({ error: 'Unauthorized x001' });
+            } else if (req.connected && (!post || (post.owner !== req.user.id && !alumet.participants.some(p => p.userId === req.user.id && p.status === 1) && alumet.owner !== req.user.id))) {
+                return res.status(400).json({ error: "Vous n'avez pas la permission de modifier cette publication !" });
             }
         }
 
@@ -67,7 +65,7 @@ const validatePost = async (req, res, next) => {
                     span: ['style'],
                 },
                 allowedStyles: {
-                    'span': {
+                    span: {
                         'background-color': [/^yellow$/],
                     },
                 },

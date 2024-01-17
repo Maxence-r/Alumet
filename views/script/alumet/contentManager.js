@@ -208,7 +208,7 @@ function createPostElement(post) {
     creationDate.classList.add('creationDate');
     creationDate.textContent = relativeTime(post.createdAt);
     author.appendChild(creationDate);
-    if (app.user_infos.admin || app.user_infos?.id === post.owner?._id) {
+    if (app.user_infos.admin || (app.user_infos?.id && app.user_infos?.id === post.owner?._id) || post.editable) {
         const editButton = document.createElement('img');
         editButton.classList.add('edit');
         editButton.src = '/assets/global/edit.svg';
@@ -344,7 +344,7 @@ async function createPost(confirmed) {
     if (!app.user_infos.username && !confirmed) {
         return createPrompt({
             head: "Vous n'êtes pas connecté",
-            desc: 'Vous ne serez plus en capacité de modifier cette publication une fois créée',
+            desc: "Si vous changez de lieux vous ne pourrez plus modifier cette publication, créer un compte Alumet Education pour sauvegarder vos publications et les modifier depuis n'importe où !",
             action: 'createPost(true)',
         });
     }

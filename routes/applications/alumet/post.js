@@ -13,14 +13,13 @@ const Comment = require('../../../models/comment');
 const rateLimit = require('../../../middlewares/authentification/rateLimit');
 const applicationAuthentication = require('../../../middlewares/authentification/applicationAuthentication');
 
-
 router.put('/:application/:wall', rateLimit(30), applicationAuthentication(), validatePost, async (req, res) => {
     const postId = req.body.postId;
     const postFields = {
         title: req.body.title,
         content: req.body.content,
         owner: req.user && req.user.id,
-        ip: req.ip,
+        ip: req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0].trim() || req.connection.remoteAddress,
         file: req.body.file || null,
         link: req.body.link,
         color: req.body.postColor,
@@ -43,6 +42,7 @@ router.put('/:application/:wall', rateLimit(30), applicationAuthentication(), va
         postFields.owner = await Account.findById(postFields.owner).select('id name icon lastname accountType badges username');
         postFields.file = await Upload.findById(postFields.file).select('displayname mimetype');
         postFields._id = post._id;
+        postFields.editable = true;
         const postDate = new Date(postFields.postDate);
         const currentDate = new Date();
         const room = postFields.adminsOnly || postDate > currentDate ? `admin-${req.params.application}` : req.params.application;
@@ -151,14 +151,13 @@ router.put('/move/:application/:wall/:post', applicationAuthentication([1]), rat
 router.delete('/:application/:post', applicationAuthentication(), rateLimit(60), async (req, res) => {
     try {
         const alumet = await Alumet.findById(req.params.application);
-        if (!req.connected) {
-            return res.status(404).json({
-                error: "Vous n'avez pas les permissions pour effectuer cette action !",
-            });
-        }
 
         const post = await Post.findById(req.params.post);
-        if (!post || (post.owner !== req.user.id && !alumet.participants.some(p => p.userId === req.user.id && p.status === 1) && alumet.owner !== req.user.id)) {
+        if (
+            (!req.connected && post.ip !== (req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0].trim() || req.connection.remoteAddress)) ||
+            !post ||
+            (post.owner !== req.user?.id && !alumet.participants.some(p => p.userId === req.user.id && p.status === 1) && alumet.owner !== req.user.id)
+        ) {
             return res.status(404).json({
                 error: "Vous n'avez pas les permissions pour effectuer cette action !",
             });
