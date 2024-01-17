@@ -43,7 +43,7 @@ router.post('/signin', rateLimit(3), async (req, res) => {
             });
         }
 
-        if (user.suspended) {
+        if (user.suspended.reason) {
             return res.status(403).json({
                 error: "Votre compte a été suspendu ! Merci de consulter vos mails pour plus d'informations.",
             });
