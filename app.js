@@ -6,6 +6,7 @@ require('dotenv').config();
 const helmet = require('helmet');
 
 const authentification = require('./middlewares/authentification/authentification');
+const admin = require('./routes/alumet/admin.js');
 
 const dashboard = require('./routes/alumet/dashboard.js');
 const profile = require('./routes/alumet/profile.js');
@@ -70,6 +71,7 @@ app.use('/auth', auth);
 app.use('/profile', profile);
 app.use('/mail', mail);
 app.use('/legal', legal);
+app.use('/admin', admin);
 
 // Applications
 app.use('/swiftChat', swiftChat);

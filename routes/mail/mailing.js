@@ -20,10 +20,11 @@ const mailsSubjects = {
     passwordReset: 'Alumet Education - Réinitialisation de mot de passe',
     collaboration: 'Alumet Education - Invitation',
     certification: 'Alumet Education - Certification',
+    suspended: 'Alumet Education - Suspension de compte',
 };
 
 async function createMail(type, receiver) {
-    const receiverInfos = await Account.findOne({ mail: receiver }, { name: 1, notifications: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1 });
+    const receiverInfos = await Account.findOne({ mail: receiver }, { name: 1, notifications: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1, suspended: 1 });
 
     let receiverName = receiverInfos?.name ? receiverInfos.name : '';
     const filePath = path.join(__dirname, `../../views/pages/mails/${type}.html`);
@@ -61,6 +62,10 @@ async function createMail(type, receiver) {
             return mailContent;
         case 'certification':
         // to do
+        case 'suspended':
+            mailContent = mailContent.replace(/{{name}}/g, receiverName);
+            mailContent = mailContent.replace(/{{raison}}/g, receiverInfos.suspended.reason);
+            return mailContent;
     }
 }
 

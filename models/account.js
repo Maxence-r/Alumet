@@ -63,6 +63,16 @@ const AccountSchema = mongoose.Schema({
         required: true,
         default: false,
     },
+    suspended: {
+        reason: {
+            type: String,
+            required: true,
+        },
+        date: {
+            type: Date,
+            required: true,
+        },
+    },
 });
 
 const Account = mongoose.model('Account', AccountSchema);

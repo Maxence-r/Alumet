@@ -42,6 +42,12 @@ router.post('/signin', rateLimit(3), async (req, res) => {
                 error: 'Mot de passe incorrect !',
             });
         }
+
+        if (user.suspended) {
+            return res.status(403).json({
+                error: "Votre compte a été suspendu ! Merci de consulter vos mails pour plus d'informations.",
+            });
+        }
         if (user.isA2FEnabled) {
             await sendMail('a2f', user.mail);
             res.status(200).json({
