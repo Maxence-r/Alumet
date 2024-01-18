@@ -53,7 +53,7 @@ function promptResetUserDatas() {
         head: 'Réinitialiser votre progression ?',
         desc: 'Vous pouvez réinitialiser votre progression pour recommencer à zéro. Cette action est irréversible.',
         content: 'Êtes-vous sûr de vouloir réinitialiser votre progression ? Cette action est irréversible.',
-        action: 'resetUserdatas()'
+        action: 'resetUserdatas()',
     });
 }
 function resetUserdatas() {
@@ -310,7 +310,6 @@ function addKeyword() {
     keywordInput.value = '';
 }
 async function generateWithIA() {
-    navbar('loading-flashcards');
     let data = '';
     const generationMode = document.querySelector('.module-selected').dataset.module;
     let numberOfFlashcards = document.getElementById('flashcards-amount').value;
@@ -324,12 +323,13 @@ async function generateWithIA() {
         if (!fileFromCloud && !fileFromPC) {
             return toast({ title: 'Erreur', message: 'Vous devez ajouter un fichier', type: 'error', duration: 2500 });
         }
-
+        navbar('loading-flashcards');
         data = fileFromCloud ? fileFromCloud : (await uploadFile(fileFromPC))._id;
     } else if (generationMode === 'keywords') {
         if (keywords.length < 1) {
             return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins un mot-clé', type: 'error', duration: 2500 });
         }
+        navbar('loading-flashcards');
 
         data = [keywords.join(', ')];
     }

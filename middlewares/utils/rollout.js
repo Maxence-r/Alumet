@@ -10,8 +10,6 @@ async function rolloutExperiment(experimentId, endDate) {
     const delay = accounts.length > 0 ? Math.abs(new Date() - new Date(endDate)) / accounts.length : 0;
     console.log('Rollout delay: ' + delay);
 
-    await new Promise(resolve => setTimeout(resolve, delay));
-
     for (let i = 0; i < accounts.length; i++) {
         accounts[i].experiments.push(experimentId);
         await accounts[i].save();
@@ -19,6 +17,7 @@ async function rolloutExperiment(experimentId, endDate) {
         sendMail('experiment', accounts[i].mail);
         await new Promise(resolve => setTimeout(resolve, delay));
     }
+    await new Promise(resolve => setTimeout(resolve, delay));
 }
 
 module.exports = rolloutExperiment;
