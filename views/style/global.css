@@ -530,10 +530,11 @@ textarea {
     width: 100%;
     border-radius: 12px;
     font-size: 0.8rem;
+    flex-direction: column;
     z-index: 20;
     margin: 0;
     padding: 15px;
-    background-color: #296eff26;
+    background-color: #dfe9ff;
 }
 
 #toast {
