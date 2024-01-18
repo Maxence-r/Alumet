@@ -20,6 +20,8 @@ const authentification = async (req, res, next) => {
             return next();
         }
 
+        console.log('User connected: ' + user.username || req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0].trim() || req.connection.remoteAddress);
+
         req.user = user;
         req.connected = true;
         return next();
