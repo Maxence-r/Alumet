@@ -57,7 +57,7 @@ router.get('/info/:application', validateObjectId, rateLimit(30), async (req, re
         let user_infos = {};
         let admin = false;
         if (req.user) {
-            const account = await Account.findById(req.user.id, 'id name icon lastname username badges experimental');
+            const account = await Account.findById(req.user.id, 'id name icon lastname username badges experiments');
             if (account) {
                 if (alumet.participants.some(p => p.userId === req.user?.id && (p.status === 1 || p.status === 2)) || alumet.owner === req.user?.id) {
                     participant = true;
@@ -65,7 +65,7 @@ router.get('/info/:application', validateObjectId, rateLimit(30), async (req, re
                 if (alumet.owner === account._id.toString() || alumet.participants.some(p => p.userId === account._id.toString() && p.status === 1)) {
                     admin = true;
                 }
-                user_infos = { id: account._id, name: account.name, icon: account.icon, lastname: account.lastname, username: account.username, badges: account.badges, experimental: account.experimental, admin, participant };
+                user_infos = { id: account._id, name: account.name, icon: account.icon, lastname: account.lastname, username: account.username, badges: account.badges, experiments: account.experiments, admin, participant };
             }
         }
         if (!alumet.participants.some(p => p.userId === req.user?.id && p.status === 1) && alumet.owner !== req.user?.id) {

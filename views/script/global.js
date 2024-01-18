@@ -301,3 +301,39 @@ document.querySelectorAll('.connect').forEach(e => {
         }, 1000);
     });
 });
+
+function toggleDetailsIncidents() {
+    let detailsIncidents = document.querySelector('.details-incidents');
+    detailsIncidents.classList.toggle('incident-transition');
+}
+
+let incident = document.querySelector('.alumet-status');
+if (incident) {
+    fetch('/admin/incidents')
+        .then(res => res.json())
+        .then(json => {
+            if (json.length === 0) {
+                return;
+            }
+            incident.style.display = 'flex';
+            incident.querySelector('.indicator').dataset.level = json[0].level;
+            incident.querySelector('.lookup > p').innerText = '1 incident ' + (json[0].level === 'low' ? 'mineur' : json[0].level === 'medium' ? 'moyen' : 'grave') + ' en cours';
+
+            let detailsIncidents = incident.querySelector('.details-incidents');
+            json.forEach(incidentData => {
+                let incidentDiv = document.createElement('div');
+                incidentDiv.className = 'incident';
+
+                let h1 = document.createElement('h1');
+                h1.innerText = incidentData.title + ' (' + relativeTime(incidentData.createdAt) + ')'; // replace 'title' with the actual property name in your JSON data
+                incidentDiv.appendChild(h1);
+
+                let p = document.createElement('p');
+                p.innerText = incidentData.description; // replace 'description' with the actual property name in your JSON data
+                incidentDiv.appendChild(p);
+
+                detailsIncidents.appendChild(incidentDiv);
+            });
+        })
+        .catch(err => console.error(err));
+}

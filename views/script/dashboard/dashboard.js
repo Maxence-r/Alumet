@@ -232,3 +232,9 @@ function startSetup() {
     if (type === 'mindmap') return toast({ title: 'Erreur', message: 'Ce support est temporairement indisponible', type: 'error', duration: 5500 });
     window.location.href = `/app/setup/${type}`;
 }
+
+const urlsParams = new URL(window.location).searchParams;
+const firstConnection = urlsParams.get('firstConnection');
+if (firstConnection) {
+    document.querySelector('#help > .ping').style.display = 'block';
+}

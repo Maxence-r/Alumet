@@ -37,8 +37,8 @@ fetch(`/flashcards/${id}/${mode}/content`, {
             shuffleArray(currentSection);
             updateSmartStatusPercentages(currentSection);
         } else {
-            currentSection = flashcardSetInfo.flashcards;
             shuffleArray(currentSection);
+            currentSection = flashcardSetInfo.flashcards;
             updateStatusPercentages(currentSection);
         }
         document.querySelector('.header > h1').innerText = flashcardSetInfo.title;
@@ -96,7 +96,7 @@ function setEventListener(card) {
         flashcardContainer.classList.remove('flashcard_love');
         flashcardContainer.classList.remove('flashcard_nope');
         const moveOutWidth = document.body.clientWidth;
-        const keep = Math.abs(event.deltaX) < 50 || Math.abs(event.velocityX) < 0.2;
+        const keep = Math.abs(event.deltaX) < 30 || Math.abs(event.velocityX) < 0.1;
         card.classList.toggle('removed', !keep);
         if (keep) {
             card.style.transform = '';
@@ -357,4 +357,9 @@ function swipeCard(card, isRightSwipe) {
     setTimeout(() => {
         card.remove();
     }, 300);
+}
+
+if (!localStorage.getItem('flashcardsTutorial')) {
+    document.getElementById('tutorial-fc').style.display = 'flex';
+    localStorage.setItem('flashcardsTutorial', true);
 }

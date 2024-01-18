@@ -21,7 +21,9 @@ function login() {
                 document.querySelector('.full-screen').style.display = 'none';
             } else {
                 toast({ title: 'Succès', message: 'Vous êtes connecté !', type: 'success', duration: 2500 });
-                handleRedirect();
+                setTimeout(() => {
+                    handleRedirect();
+                }, 1500);
             }
         })
         .catch(err => {

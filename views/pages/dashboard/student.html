@@ -71,10 +71,26 @@
                 <img src="../assets/global/chat.svg" alt="messagerie" />
                 <div class="ping"></div>
             </button>
+            <button id="help">
+                <img src="../assets/global/helpcenter.svg" alt="Centre d'aide" />
+                <div class="ping"></div>
+            </button>
             <button id="profile"><img src="../assets/global/profile.svg" alt="paramètres" /></button>
         </div>
         <section class="sections-container">
             <section class="home active-section">
+                <div class="alumet-incidents-overlay">
+                    <div onclick="toggleDetailsIncidents()" class="alumet-status">
+                        <div class="lookup">
+                            <div data-incident="red" class="indicator"></div>
+                            <p>1 incident majeur en cours</p>
+                        </div>
+
+                        <div class="details-incidents">
+                            <div class="divider"></div>
+                        </div>
+                    </div>
+                </div>
                 <div class="main-container">
                     <div class="modulable-header">
                         <div class="modulable-left">
@@ -293,6 +309,95 @@
                                     <input id="alumetA" type="checkbox" />
                                     <span class="slide round"></span>
                                 </label>
+                            </div>
+                            <div class="option">
+                                <h1>Recevoir les nouvelles fonctionnalités en avant-première</h1>
+                                <label class="switch">
+                                    <input id="experiments" type="checkbox" />
+                                    <span class="slide round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ================== Centre d'aude =================== -->
+            <section class="help">
+                <div class="main-container">
+                    <div class="header-help">
+                        <div class="header-help-left">
+                            <h1>Centre d'aide</h1>
+                            <p>Vous avez une question ? Nous avons la réponse !</p>
+                        </div>
+                    </div>
+                    <div class="accordions">
+                        <div class="accordion">
+                            <h1 class="accordion-title">Alumet, Flashcards et Cartes Mentales (Supports)</h1>
+                            <div class="accordion-item">
+                                <input type="checkbox" id="accordion1" />
+                                <label for="accordion1" class="accordion-item-title"><span class="icon"></span>Comment créer un nouveau support ?</label>
+                                <div class="accordion-item-desc">
+                                    Pour créer un nouveau support, assurez-vous d'être dans le premier onglet en cliquant sur la petite maison située en haut à gauche de votre écran. Ensuite, choisissez le type de support que vous souhaitez créer et
+                                    cliquez sur le bouton "Nouveau" en haut à droite de votre écran. Vous serez ensuite guidé pour la création de votre support.
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <input type="checkbox" id="accordion5" />
+                                <label for="accordion5" class="accordion-item-title"><span class="icon"></span>Comment changer les paramètres de mon support (nom, image, niveau d'accès, etc.) ?</label>
+                                <div class="accordion-item-desc">
+                                    Pour modifier les paramètres de votre support, cliquez sur celui-ci pour l'ouvrir. Ensuite, dans la barre de navigation à droite, ouvrez les paramètres. Vous pourrez alors ajuster les paramètres de votre support
+                                    selon vos besoins.
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <input type="checkbox" id="accordion2" />
+                                <label for="accordion2" class="accordion-item-title"><span class="icon"></span>Comment supprimer un de mes supports ?</label>
+                                <div class="accordion-item-desc">
+                                    Pour supprimer l'un de vos supports, cliquez dessus pour l'ouvrir, puis, dans la barre de navigation à droite, ouvrez les paramètres où vous trouverez l'option de suppression de votre support.
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <input type="checkbox" id="accordion3" />
+                                <label for="accordion3" class="accordion-item-title"><span class="icon"></span>Comment partager un de mes supports ?</label>
+                                <div class="accordion-item-desc">
+                                    Pour partager un de vos supports avec un autre utilisateur, cliquez sur le support concerné pour l'ouvrir, puis, dans la barre de navigation, cliquez sur "Partager". Vous serez ensuite guidé pour partager votre
+                                    support.
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <input type="checkbox" id="accordion4" />
+                                <label for="accordion4" class="accordion-item-title"><span class="icon"></span>Pourquoi je n'ai pas accès à tous les supports ?</label>
+                                <div class="accordion-item-desc">
+                                    Nous développons continuellement de nouveaux supports pour Alumet Education, et leur mise en ligne se fait progressivement. Si vous ne voyez pas un support, c'est qu'il n'est pas encore disponible pour vous.
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <input type="checkbox" id="accordion14" />
+                                <label for="accordion14" class="accordion-item-title"><span class="icon"></span>Je n'ai pas trouvé la réponse à ma question.</label>
+                                <div class="accordion-item-desc">
+                                    Pour chaque support, cliquez sur "Aide" dans la barre de navigation. Une fenêtre s'ouvrira avec des questions fréquemment posées sur le support en question. Si vous ne trouvez pas la réponse à votre question,
+                                    contactez alumet.education@gmail.com.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion">
+                            <h1 class="accordion-title">Compte</h1>
+                            <div class="accordion-item">
+                                <input type="checkbox" id="accordion10" />
+                                <label for="accordion10" class="accordion-item-title"><span class="icon"></span>Qui peut voir mes données ?</label>
+                                <div class="accordion-item-desc">
+                                    Seuls les utilisateurs d'Alumet ont accès à votre prénom et nom. Votre adresse e-mail n'est pas visible. Votre mot de passe est crypté et reste inaccessible aux équipes d'Alumet Education.
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <input type="checkbox" id="accordion11" />
+                                <label for="accordion11" class="accordion-item-title"><span class="icon"></span>Comment modifier mes données ?</label>
+                                <div class="accordion-item-desc">Pour des raisons de sécurité, la modification de vos données est limitée. Si vous souhaitez les modifier, veuillez envoyer un email à alumet.education@gmail.com.</div>
+                            </div>
+                            <div class="accordion-item">
+                                <input type="checkbox" id="accordion12" />
+                                <label for="accordion12" class="accordion-item-title"><span class="icon"></span>Comment supprimer mon compte ?</label>
+                                <div class="accordion-item-desc">Pour supprimer votre compte, veuillez envoyer un email à alumet.education@gmail.com.</div>
                             </div>
                         </div>
                     </div>

@@ -51,17 +51,12 @@ const AccountSchema = mongoose.Schema({
     notifications: {
         type: Array,
         required: false,
-        default: ['messageP', 'messageG', 'invitationC', 'commentP', 'alumetA'],
+        default: ['messageG', 'invitationC', 'commentP', 'experiments'],
     },
     badges: {
         type: Array,
         required: true,
         default: [],
-    },
-    experimental: {
-        type: Boolean,
-        required: true,
-        default: false,
     },
     suspended: {
         reason: {
@@ -72,6 +67,11 @@ const AccountSchema = mongoose.Schema({
             type: Date,
             required: false,
         },
+    },
+    experiments: {
+        type: Array,
+        required: true,
+        default: [],
     },
 });
 

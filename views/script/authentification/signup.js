@@ -127,7 +127,7 @@ document.querySelector('.confirm').addEventListener('click', e => {
                 if (redirect === 'loginCallback') {
                     window.close();
                 }
-                window.location.href = '/auth/signin';
+                window.location.href = '/dashboard?firstConnection=true';
             }
             document.querySelector('.full-screen').style.display = 'none';
         });

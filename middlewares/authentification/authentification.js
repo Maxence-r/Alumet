@@ -14,7 +14,6 @@ const authentification = async (req, res, next) => {
         const decodedToken = jwt.verify(token, process.env.TOKEN.toString());
         const userId = decodedToken.userId;
         const user = await Account.findOne({ _id: userId });
-        console.log('User connected: ' + user.username || req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0].trim() || req.connection.remoteAddress);
         if (!user || user.suspended.reason) {
             res.clearCookie('token');
             return next();

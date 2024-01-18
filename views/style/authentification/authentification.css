@@ -268,6 +268,12 @@ section.appInfos {
     object-position: center;
 }
 
+.divider {
+    width: 100%;
+    min-height: 1px;
+    background-color: #ebebeb;
+}
+
 .row-inputs {
     display: flex;
     flex-direction: row;
@@ -283,6 +289,16 @@ section.appInfos {
     display: flex !important;
 }
 
+.alumet-status-div {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+@media screen and (max-width: 600px) {
+    .alumet-status-div {
+        width: calc(100% - 40px);
+    }
+}
 @media screen and (max-width: 1300px) {
     body {
         flex-direction: column-reverse;

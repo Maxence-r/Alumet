@@ -64,6 +64,10 @@ app.get('/', (req, res) => {
     res.sendFile('main.html', { root: './views/pages' });
 });
 
+// ROLLOUT
+const rolloutExperiment = require('./middlewares/utils/rollout.js');
+rolloutExperiment('aiFlashcards', '2024-01-23T23:00:30.000Z');
+
 // Alumet application
 app.use('/portal', portal);
 app.use('/alumet', alumet);
@@ -101,7 +105,6 @@ app.use('/invitation', invitation);
 
 const path = require('path');
 app.get('*', async (req, res) => {
-    console.log('404');
     const filePath = path.join(__dirname, '/views/pages/404.html');
     res.sendFile(filePath);
 });

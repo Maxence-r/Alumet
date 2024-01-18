@@ -246,6 +246,7 @@ function saveSettings() {
     let invitationC = document.getElementById('invitationC').checked;
     let alumetA = document.getElementById('alumetA').checked;
     let commentP = document.getElementById('commentP').checked;
+    let experiments = document.getElementById('experiments').checked;
     let username = document.getElementById('usernameField').value;
     fetch('/profile/updateinfos', {
         method: 'PUT',
@@ -258,6 +259,7 @@ function saveSettings() {
             messageG: messageG,
             invitationC: invitationC,
             commentP: commentP,
+            experiments: experiments,
             alumetA: alumetA,
         }),
     })
@@ -265,7 +267,6 @@ function saveSettings() {
         .then(data => {
             if (!data.error) {
                 toast({ title: 'Paramètres modifiés !', message: 'Vos paramètres ont bien été modifiés.', type: 'success', duration: 2500 });
-
             } else {
                 toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
             }

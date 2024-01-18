@@ -87,14 +87,15 @@ function enableConnected(data) {
                 el.value = window.location.protocol + '//' + window.location.host + '/portal/' + app.infos._id + (app.infos.password !== '' || null ? '?password=' + app.infos.password : '');
             });
         }
-        if (data.experimental) {
-            document.querySelectorAll('.experimental').forEach(el => {
+        data.experiments.forEach(experiment => {
+            document.querySelectorAll(`.experiments-${experiment}`).forEach(el => {
                 el.style.display = 'flex';
             });
-            document.querySelectorAll('.experimentalRv').forEach(el => {
+
+            document.querySelectorAll(`.experiments-${experiment}-rv`).forEach(el => {
                 el.style.display = 'none';
             });
-        }
+        });
     } else {
         document.querySelectorAll('.connectedOnly').forEach(el => {
             el.style.display = 'none';

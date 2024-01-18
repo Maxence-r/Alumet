@@ -27,6 +27,30 @@
             <h4>Alumet <span>Education</span></h4>
             <span class="loader-bar"></span>
         </section>
+        <div class="finish-section" style="display: none">
+            <div class="finish-box">
+                <div class="text">
+                    <h1>Comment ça marche ?</h1>
+                    <div class="tutorial">
+                        <div>
+                            <img src="../../../assets/global/swipeleft.svg" alt="Swipe left" />
+                            <p>Glisse vers la gauche si tu ne connais pas la flashcard</p>
+                        </div>
+                        <div>
+                            <img src="../../../assets/global/tap.svg" alt="Swipe left" />
+                            <p>Clique sur la flashcard pour afficher la réponse</p>
+                        </div>
+                        <div>
+                            <img src="../../../assets/global/swiperight.svg" alt="Swipe left" />
+                            <p>Glisse vers la droite si tu connais la flashcard</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button class="large end-of-section" onclick="document.querySelector('.finish-section').style.display = 'none'">Compris !</button>
+                </div>
+            </div>
+        </div>
         <div class="header">
             <h1 id="flashcard-title">Titre du jeu de flashcard</h1>
             <button onclick="stopRevision()" class="large greyed">Quitter</button>

@@ -61,12 +61,14 @@ router.post('/signin', rateLimit(3), async (req, res) => {
                 },
                 process.env.TOKEN.toString(),
                 {
-                    expiresIn: '14d',
+                    expiresIn: '60d',
                 }
             );
-            res.cookie('token', token).status(200).json({
-                message: 'Connexion réussie !',
-            });
+            res.cookie('token', token, { maxAge: 60 * 24 * 60 * 60 * 1000 })
+                .status(200)
+                .json({
+                    message: 'Connexion réussie !',
+                });
         }
     } catch (error) {
         console.log('error: ', error);
@@ -96,13 +98,15 @@ router.post('/signup', rateLimit(1), validateAccount, async (req, res) => {
             },
             process.env.TOKEN.toString(),
             {
-                expiresIn: '14d',
+                expiresIn: '60d',
             }
         );
-        res.cookie('token', token).status(201).json({
-            message: 'Account created successfully!',
-            token: token,
-        });
+        res.cookie('token', token, { maxAge: 60 * 24 * 60 * 60 * 1000 })
+            .status(201)
+            .json({
+                message: 'Account created successfully!',
+                token: token,
+            });
     } catch (err) {
         console.log(err);
         res.status(400).json({ message: err });
@@ -123,13 +127,15 @@ router.post('/authorize', rateLimit(3), async (req, res) => {
                 },
                 process.env.TOKEN.toString(),
                 {
-                    expiresIn: '24h',
+                    expiresIn: '60d',
                 }
             );
             await A2F.deleteOne({ owner: a2f.owner });
-            res.cookie('token', token).status(200).json({
-                message: 'Connexion réussie !',
-            });
+            res.cookie('token', token, { maxAge: 60 * 24 * 60 * 60 * 1000 })
+                .status(200)
+                .json({
+                    message: 'Connexion réussie !',
+                });
         }
     } catch (error) {
         console.log(error);

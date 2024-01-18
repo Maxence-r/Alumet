@@ -93,7 +93,7 @@ async function gptFlashcardGeneration(generationMode, numberOfFlashcards, subjec
 }
 
 router.post('/generate-flashcards', rateLimit(2), async (req, res) => {
-    if (!req.user || req.user.experimental === false) return res.json({ error: "Vous devez être inscrit à l'offre expérimentale pour utiliser cette fonctionnalité" });
+    if (!req.user || req.user.experiments.includes('aiFlashcards') === false) return res.json({ error: "Vous devez être inscrit à l'offre expérimentale pour utiliser cette fonctionnalité" });
     try {
         let { generationMode, numberOfFlashcards, subject, data } = req.body;
         let message = '';

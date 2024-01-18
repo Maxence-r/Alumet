@@ -21,10 +21,16 @@ const mailsSubjects = {
     collaboration: 'Alumet Education - Invitation',
     certification: 'Alumet Education - Certification',
     suspended: 'Alumet Education - Suspension de compte',
+    experiment: 'Alumet Education - Nouvelle fonctionnalité expérimentale',
+};
+
+const experiments = {
+    aiFlashcards:
+        "L'intelligence Artificielle est disponible sur votre compte ! Créez rapidement des jeux de flashcards (cartes mémoires) directement à partir de vos cours(pdf) ou de mots-clés spécifiques. Lancez-vous dans la révision en seulement quelques clics ! Pour accéder à cette fonctionnalité, rendez-vous sur un jeu de flashcards existant et sélectionnez l`'option 'IA' dans le menu.",
 };
 
 async function createMail(type, receiver) {
-    const receiverInfos = await Account.findOne({ mail: receiver }, { name: 1, notifications: 1, lastname: 1, _id: 1, mail: 1, accountType: 1, isA2FEnabled: 1, badges: 1, username: 1, icon: 1, suspended: 1 });
+    const receiverInfos = await Account.findOne({ mail: receiver });
 
     let receiverName = receiverInfos?.name ? receiverInfos.name : '';
     const filePath = path.join(__dirname, `../../views/pages/mails/${type}.html`);
@@ -65,6 +71,10 @@ async function createMail(type, receiver) {
         case 'suspended':
             mailContent = mailContent.replace(/{{name}}/g, receiverName);
             mailContent = mailContent.replace(/{{raison}}/g, receiverInfos.suspended.reason);
+            return mailContent;
+        case 'experiment':
+            mailContent = mailContent.replace(/{{name}}/g, receiverName);
+            mailContent = mailContent.replace(/{{raison}}/g, experiments[receiverInfos.experiments[receiverInfos.experiments.length - 1]]);
             return mailContent;
     }
 }

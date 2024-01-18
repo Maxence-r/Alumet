@@ -18,9 +18,7 @@ router.put('/updateinfos', rateLimit(10), async (req, res) => {
         }
         user.username = username;
 
-
-        const notificationTypes = ['messageP', 'messageG', 'invitationC', 'commentP', 'alumetA'];
-
+        const notificationTypes = ['messageP', 'messageG', 'invitationC', 'commentP', 'alumetA', 'experiments'];
 
         notificationTypes.forEach(type => {
             if (req.body[type] && !user.notifications.includes(type)) {

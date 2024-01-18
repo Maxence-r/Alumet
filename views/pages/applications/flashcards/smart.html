@@ -25,6 +25,7 @@
     <body>
         <div id="overlay" class="hidden"></div>
         <div id="toast"></div>
+
         <div class="finish-section" style="display: none">
             <div class="finish-box">
                 <div class="text">
@@ -38,6 +39,30 @@
 
                     <button class="large greyed end-of-section" onclick="resetProgress() ; document.querySelector('.finish-section').style.display = 'none'">Réinitialiser ma progression</button>
                     <button class="large end-of-section" onclick="stopRevision() ; document.querySelector('.finish-section').style.display = 'none'">Quitter</button>
+                </div>
+            </div>
+        </div>
+        <div class="finish-section" id="tutorial-fc" style="display: none">
+            <div class="finish-box">
+                <div class="text">
+                    <h1>Comment ça marche ?</h1>
+                    <div class="tutorial">
+                        <div>
+                            <img src="../../../assets/global/swipeleft.svg" alt="Swipe left" />
+                            <p>Glisse vers la gauche si tu ne connais pas la flashcard</p>
+                        </div>
+                        <div>
+                            <img src="../../../assets/global/tap.svg" alt="Swipe left" />
+                            <p>Clique sur la flashcard pour afficher la réponse</p>
+                        </div>
+                        <div>
+                            <img src="../../../assets/global/swiperight.svg" alt="Swipe left" />
+                            <p>Glisse vers la droite si tu connais la flashcard</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button class="large end-of-section" onclick="document.getElementById('tutorial-fc').style.display = 'none'">Compris !</button>
                 </div>
             </div>
         </div>

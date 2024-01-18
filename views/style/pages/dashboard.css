@@ -351,6 +351,42 @@ body {
     transform: scale(0.98);
 }
 
+.header-help {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 25%;
+    background-image: url('../../assets/global/helpbanner.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 14px;
+    padding: 5%;
+}
+
+.header-help-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.header-help-left > h1 {
+    font-family: 'Mona Sans';
+    font-size: 2.5rem;
+    font-stretch: 150%;
+    font-weight: 700;
+    margin: 0;
+}
+
+.header-help-left > p {
+    font-size: 1.1rem;
+    font-weight: 400;
+    font-family: 'Mona Sans';
+    font-stretch: 150%;
+    margin: 0;
+}
+
 .participant > img {
     width: 50px;
     height: 50px;
@@ -369,6 +405,10 @@ body {
     font-size: 0.8rem;
     font-weight: 400;
     margin: 0;
+}
+
+.help > .main-container {
+    overflow: auto;
 }
 
 .column-infos {
@@ -394,6 +434,13 @@ body {
     margin: 10px 0;
     min-height: 1px;
     background-color: #ebebeb;
+}
+
+.alumet-incidents-overlay {
+    position: absolute;
+    display: flex;
+    right: 15px;
+    bottom: 15px;
 }
 
 .user-settings {
@@ -1418,6 +1465,13 @@ h3 {
 }
 
 @media (max-width: 600px) {
+    .header-help {
+        height: 15%;
+    }
+    .alumet-incidents-overlay {
+        bottom: 10px;
+        right: 10px;
+    }
     .items {
         grid-gap: 10px;
     }

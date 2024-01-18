@@ -18,6 +18,18 @@
     transform: scale(0.98);
 }
 
+.indicator[data-level='low'] {
+    background-color: #ff9100;
+}
+
+.indicator[data-level='medium'] {
+    background-color: #f0ac00;
+}
+
+.indicator[data-level='high'] {
+    background-color: #ff0000;
+}
+
 .large {
     display: flex;
     justify-content: center;
@@ -982,6 +994,77 @@ label.switch:hover {
     overflow-y: auto;
 }
 
+.alumet-status {
+    display: none;
+    flex-direction: column;
+    border: 1px solid #e5e5e5;
+    max-width: 350px;
+    padding: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.03);
+}
+
+.alumet-status > .lookup > div {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
+
+.lookup {
+    width: 100%;
+}
+
+.alumet-status > .lookup {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.alumet-status > .lookup > p,
+.alumet-status > .details-incidents > .incident > h1 {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin: 0;
+    color: #000000;
+    word-break: break-word;
+}
+
+.alumet-status > .details-incidents > .incident > p {
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin: 0;
+    color: #6a6a6a;
+}
+
+.details-incidents {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s, max-height 0.5s;
+}
+
+.details-incidents > .divider {
+    margin-top: 15px;
+}
+
+.incident-transition {
+    opacity: 1;
+    max-height: 350px;
+}
+
+.incident {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
 .searching > .loading-users {
     display: flex !important;
     z-index: 1501;
@@ -1635,6 +1718,80 @@ select {
     transition: 0.35s ease;
 }
 
+.accordions {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    margin-top: 10px;
+}
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Sora', sans-serif;
+    width: 100%;
+}
+.accordion-item {
+    margin-top: 16px;
+    border: 1px solid #fcfcfc;
+    border-radius: 15px;
+    background: #ffffff;
+    border: 1px solid #ebebeb;
+}
+.accordion-item .accordion-item-title {
+    position: relative;
+    margin: 0;
+    display: flex;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    padding: 14px 20px;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.accordion-title {
+    font-family: 'Mona Sans';
+    font-stretch: 150%;
+}
+.accordion-item .accordion-item-desc {
+    display: none;
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    color: #444;
+    border-top: 1px dashed #ddd;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.accordion-item input[type='checkbox'] {
+    position: absolute;
+    height: 0;
+    width: 0;
+    opacity: 0;
+}
+.accordion-item input[type='checkbox']:checked ~ .accordion-item-desc {
+    display: block;
+}
+.accordion-item input[type='checkbox']:checked ~ .accordion-item-title .icon:after {
+    content: '-';
+    font-size: 20px;
+}
+.accordion-item input[type='checkbox'] ~ .accordion-item-title .icon:after {
+    content: '+';
+    font-size: 20px;
+}
+.accordion-item:first-child {
+    margin-top: 0;
+}
+.accordion-item .icon {
+    margin-left: 14px;
+}
+
 .burger-line {
     position: absolute;
     display: block;
@@ -1959,6 +2116,9 @@ h1 {
 }
 
 @media screen and (max-width: 600px) {
+    #help {
+        display: none;
+    }
     .files-container {
         padding: 10px;
         width: 100%;
@@ -2028,5 +2188,8 @@ h1 {
     #toast {
         top: 10px;
         right: 10px;
+    }
+    .alumet-status {
+        max-width: 100%;
     }
 }
