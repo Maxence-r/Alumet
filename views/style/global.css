@@ -1548,6 +1548,7 @@ select {
 
 .user-details > h3 {
     display: flex;
+    align-items: center;
     font-size: 1.1rem;
     font-weight: 500;
     color: rgb(0, 0, 0);

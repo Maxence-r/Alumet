@@ -289,8 +289,8 @@ body {
 }
 
 .badge {
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
 }
 
 .card:hover .author .edit {
