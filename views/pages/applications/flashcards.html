@@ -121,6 +121,7 @@
                 <h1 class="admin" onclick="navbar('ia')">IA</h1>
                 <h1 onclick="navbar('participants')">Participants</h1>
                 <h1 class="admin" onclick="navbar('share')">Partager</h1>
+                <h1 onclick="navbar('share')">Aide</h1>
                 <h1 class="admin" onclick="navbar('settings')">Paramètres</h1>
                 <h1 onclick="navbar('profile')">Identité</h1>
                 <div class="row-bottom-buttons">
@@ -405,7 +406,7 @@
                                 <span class="slide round"></span>
                             </label>
                         </div>
-                        <input autocomplete="off" class="app-link" type="text" placeholder="Lien d'invitation" disabled="true" style="display: block" />
+                        <input name="invitationLink" autocomplete="off" class="app-link" type="text" placeholder="Lien d'invitation" disabled="true" style="display: block" />
                     </div>
                 </div>
 
@@ -419,7 +420,7 @@
                     <div class="divider"></div>
 
                     <div class="row-bottom-buttons">
-                        <input autocomplete="off" class="app-link" type="text" placeholder="Lien d'invitation" disabled="true" style="display: block" />
+                        <input name="invitationLink" autocomplete="off" class="app-link" type="text" placeholder="Lien d'invitation" disabled="true" style="display: block" />
                     </div>
                 </div>
             </div>
@@ -439,8 +440,7 @@
                     </div>
                 </div>
                 <div class="row-bottom-buttons admin">
-                    <button onclick="addCollaborators()" class="large greyed">Ajouter des collaborateurs</button>
-                    <button onclick="addParticipants()" class="large">Ajouter des élèves</button>
+                    <button onclick="addCollaborators()" class="large">Ajouter des collaborateurs</button>
                 </div>
             </div>
 
@@ -492,6 +492,46 @@
                     <button onclick="checkFlashcard()" class="large">Créer</button>
                 </div>
             </div>
+            <div class="overlay-content help">
+                <div class="header-setting">
+                    <div>
+                        <h1>Aide</h1>
+                        <p>Apprenez à utiliser votre Alumet dans les moindres détails !</p>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <input type="checkbox" id="accordion50" />
+                        <label for="accordion50" class="accordion-item-title"><span class="icon"></span>Comment ajouter de nouvelles flashcards</label>
+                        <div class="accordion-item-desc">
+                            Pour ajouter de nouvelles flashcards, utilisez le bouton "Ajouter des flashcards". Si ce bouton n'est pas visible, cela peut signifier que vous n'êtes ni collaborateur ni propriétaire. Dans ce cas, demandez à un
+                            administrateur de vous ajouter. Vous avez également la possibilité d'utiliser l'intelligence artificielle pour générer rapidement du contenu à partir de cours ou de mots-clés.
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <input type="checkbox" id="accordion6" />
+                        <label for="accordion6" class="accordion-item-title"><span class="icon"></span>Comment réviser mes flashcards ?</label>
+                        <div class="accordion-item-desc">
+                            Pour réviser vos flashcards, cliquez sur le bouton "Réviser". Vous aurez ensuite le choix entre deux modes de révision. Si vous connaissez la réponse à une flashcard, faites-la glisser vers la droite, sinon vers la gauche.
+                            Utilisez la touche espace pour révéler la réponse.
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <input type="checkbox" id="accordion7" />
+                        <label for="accordion7" class="accordion-item-title"><span class="icon"></span>Pourquoi ne puis-je plus réviser en mode intelligent ?</label>
+                        <div class="accordion-item-desc">
+                            Le mode de révision intelligent est conçu pour favoriser le développement de la mémoire à long terme. Pour cette raison, il peut être nécessaire d'attendre quelques jours avant de pouvoir réviser à nouveau votre jeu de
+                            flashcards.
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <input type="checkbox" id="accordion8" />
+                        <label for="accordion8" class="accordion-item-title"><span class="icon"></span>À quoi correspond cette page comparée au mode de révision ?</label>
+                        <div class="accordion-item-desc">Cette page permet aux administrateurs de gérer les flashcards et offre aux utilisateurs un aperçu des flashcards ainsi que de leur progression.</div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="navbar">
             <div class="burger" id="burger">
@@ -511,6 +551,10 @@
             <button class="admin" onclick="navbar('share')" id="share">
                 <img src="../assets/global/share.svg" alt="Partager" />
                 <p>Partager</p>
+            </button>
+            <button onclick="navbar('help')" id="help">
+                <img src="../assets/global/help.svg" alt="Aide" />
+                <p>Aide</p>
             </button>
             <button class="admin" onclick="navbar('settings')" id="settings">
                 <img src="../assets/global/settings.svg" alt="paramètres" />

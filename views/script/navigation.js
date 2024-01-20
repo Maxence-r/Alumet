@@ -197,7 +197,16 @@ function loadParticipants(participants) {
         userRole.textContent = participant.status === 0 ? 'Propriétaire' : participant.status === 1 ? 'Collaborateur' : participant.status === 2 ? 'Participant' : 'Banni';
         userInfo.appendChild(userName);
         userInfo.appendChild(userRole);
-
+        if (participant.badges.length > 0) {
+            participant.badges.forEach(badge => {
+                const badgeImg = document.createElement('img');
+                badgeImg.src = `/assets/badges/${badge}.svg`;
+                badgeImg.title = badge;
+                badgeImg.classList.add('badge');
+                badgeImg.setAttribute('draggable', false);
+                userName.appendChild(badgeImg);
+            });
+        }
         user.appendChild(userImage);
         user.appendChild(userInfo);
 
@@ -463,7 +472,7 @@ function handleLink(link) {
         .then(res => res.json())
         .then(data => {
             document.getElementById('preview-title').innerText = data.title || data['og:title'] || getDomainFromUrl(link);
-            document.querySelector('.link-preview').style.backgroundImage = `url(${data.image || data['og:image'] || '../assets/global/banner.jpg'})`;
+            document.querySelector('.link-preview').style.backgroundImage = `url(${data.image || data['og:image'] || '../assets/preview/site.png'})`;
             document.getElementById('preview-link').innerText = data.url || link;
             document.querySelector('.link-preview').classList.remove('active-link-loading');
             localStorage.setItem('link', link);

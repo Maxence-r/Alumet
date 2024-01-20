@@ -218,6 +218,16 @@ const searchUsers = async (query, type) => {
 
             const nameElement = document.createElement('h3');
             nameElement.textContent = `${user.name} ${user.lastname}`;
+            if (user.badges?.length > 0) {
+                user.badges.forEach(badge => {
+                    const badgeImg = document.createElement('img');
+                    badgeImg.src = `/assets/badges/${badge}.svg`;
+                    badgeImg.title = badge;
+                    badgeImg.classList.add('badge');
+                    badgeImg.setAttribute('draggable', false);
+                    nameElement.appendChild(badgeImg);
+                });
+            }
             subInfosElement.appendChild(nameElement);
 
             const roleElement = document.createElement('p');

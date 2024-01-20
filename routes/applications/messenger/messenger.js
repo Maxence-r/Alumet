@@ -1,16 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const Account = require('../../../models/account');
+const rateLimit = require('../../../middlewares/authentification/rateLimit');
 
-
-
-router.get('/search', async (req, res) => {
+router.get('/search', rateLimit(10), async (req, res) => {
     const searchQuery = req.query.q.trim();
     const searchType = req.query.type;
     if (searchQuery.length < 2) {
         return res.json([]);
     }
-    const [firstName, lastName] = searchQuery.split(' ');
+
     let accountTypeQuery = {};
     if (searchType === 'professor') {
         accountTypeQuery = { accountType: 'professor' };
@@ -28,7 +27,7 @@ router.get('/search', async (req, res) => {
                     accountTypeQuery,
                 ],
             },
-            '_id name lastname icon accountType'
+            '_id name lastname icon accountType badges'
         );
         res.json(contacts);
     } catch (error) {
@@ -36,6 +35,5 @@ router.get('/search', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
 
 module.exports = router;

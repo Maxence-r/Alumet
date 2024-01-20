@@ -44,7 +44,7 @@ const validatePost = async (req, res, next) => {
             return res.status(400).json(error);
         }
         if (req.body.postDate) {
-            const publicationDate = new Date(new Date(req.body.postDate).getTime() + 2 * 60 * 60 * 1000);
+            const publicationDate = new Date(new Date(req.body.postDate).getTime());
             const publicationDateString = publicationDate.toISOString();
             if (isNaN(publicationDate.getTime()) || publicationDateString <= new Date()) {
                 return res.status(400).json({ error: 'La date de publication est déja passé' });

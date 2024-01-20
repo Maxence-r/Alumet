@@ -64,7 +64,7 @@ router.post('/signin', rateLimit(3), async (req, res) => {
                     expiresIn: '60d',
                 }
             );
-            res.cookie('token', token, { maxAge: 60 * 24 * 60 * 60 * 1000 })
+            res.cookie('token', token, { maxAge: 60 * 24 * 60 * 60 * 1000, sameSite: 'Lax', secure: true })
                 .status(200)
                 .json({
                     message: 'Connexion réussie !',
@@ -101,11 +101,10 @@ router.post('/signup', rateLimit(1), validateAccount, async (req, res) => {
                 expiresIn: '60d',
             }
         );
-        res.cookie('token', token, { maxAge: 60 * 24 * 60 * 60 * 1000 })
-            .status(201)
+        res.cookie('token', token, { maxAge: 60 * 24 * 60 * 60 * 1000, sameSite: 'Lax', secure: true })
+            .status(200)
             .json({
-                message: 'Account created successfully!',
-                token: token,
+                message: 'Connexion réussie !',
             });
     } catch (err) {
         console.log(err);
@@ -131,7 +130,7 @@ router.post('/authorize', rateLimit(3), async (req, res) => {
                 }
             );
             await A2F.deleteOne({ owner: a2f.owner });
-            res.cookie('token', token, { maxAge: 60 * 24 * 60 * 60 * 1000 })
+            res.cookie('token', token, { maxAge: 60 * 24 * 60 * 60 * 1000, sameSite: 'Lax', secure: true })
                 .status(200)
                 .json({
                     message: 'Connexion réussie !',

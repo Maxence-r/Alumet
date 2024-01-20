@@ -15,7 +15,7 @@ router.get('/meta', rateLimit(4), (req, res) => {
             res.json(metadata);
         })
         .catch(err => {
-            res.json(err);
+            res.json({});
         });
 });
 

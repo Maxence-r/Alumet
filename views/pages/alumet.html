@@ -106,6 +106,7 @@
                 <h1 class="admin" onclick="navbar('settings')">Paramètres</h1>
                 <h1 onclick="navbar('participants')">Participants</h1>
                 <h1 class="admin" onclick="navbar('share')">Partager</h1>
+                <h1 onclick="navbar('help')">Aide</h1>
                 <h1 onclick="navbar('profile')">Identité</h1>
                 <div class="row-bottom-buttons">
                     <button onclick="window.location.href='/dashboard'" class="large greyed">Retour tableau de bord</button>
@@ -173,9 +174,40 @@
                     </div>
                 </div>
                 <div class="divider"></div>
-                <div class="information">
-                    <img src="../assets/global/messages_top.svg" />
-                    <p>Nous préparons le centre d'aide, en attendant parcourez les onglets pour découvrir votre espace !</p>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <input type="checkbox" id="accordion50" />
+                        <label for="accordion50" class="accordion-item-title"><span class="icon"></span>Comment créer ou modifier une colonne ?</label>
+                        <div class="accordion-item-desc">
+                            Pour créer une nouvelle colonne, cliquez sur le bouton "Ajouter une colonne". Si ce bouton n'est pas visible, cela signifie que vous ne disposez pas des permissions d'administration ou que vous devez vous connecter. Après
+                            avoir cliqué, vous aurez la possibilité de définir si les participants peuvent publier ou non dans cette colonne. Pour modifier une colonne, survolez le titre de celle-ci ; une icône de modification apparaîtra, cliquez
+                            dessus pour procéder aux changements.
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <input type="checkbox" id="accordion6" />
+                        <label for="accordion6" class="accordion-item-title"><span class="icon"></span>Comment ajouter ou modifier une publication ?</label>
+                        <div class="accordion-item-desc">
+                            Pour ajouter une publication, cliquez sur le bouton "Ajouter une publication", disponible dans chaque colonne (si vous avez un statut d'administrateur). Pour modifier une publication, survolez-la et cliquez sur l'icône
+                            d'édition.
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <input type="checkbox" id="accordion7" />
+                        <label for="accordion7" class="accordion-item-title"><span class="icon"></span>Pourquoi ne puis-je pas voir toutes les publications ?</label>
+                        <div class="accordion-item-desc">
+                            Certaines publications peuvent être cachées en raison d'une date de publication définie ou si l'option "Visible uniquement par les administrateurs" est activée. Connectez-vous avec un compte collaborateur pour accéder à
+                            toutes les publications.
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <input type="checkbox" id="accordion8" />
+                        <label for="accordion8" class="accordion-item-title"><span class="icon"></span>Pourquoi ai-je des difficultés à supprimer ou modifier une publication ?</label>
+                        <div class="accordion-item-desc">
+                            Si l'icône d'édition n'apparaît pas au survol, cela indique que vous n'êtes pas propriétaire de cette publication. Les publications anonymes ne peuvent être modifiées que sur l'ordinateur où elles ont été publiées. Vous
+                            pouvez toujours demander à un administrateur de modifier ou de supprimer une publication pour vous.
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="overlay-content comments">
@@ -345,7 +377,7 @@
                                 <span class="slide round"></span>
                             </label>
                         </div>
-                        <input autocomplete="off" class="app-link" type="text" placeholder="Lien d'invitation" disabled="true" style="display: block" />
+                        <input name="invitationLink" autocomplete="off" class="app-link" type="text" placeholder="Lien d'invitation" disabled="true" style="display: block" />
                     </div>
                 </div>
 
@@ -359,7 +391,7 @@
                     <div class="divider"></div>
 
                     <div class="row-bottom-buttons">
-                        <input autocomplete="off" class="app-link" type="text" placeholder="Lien d'invitation" disabled="true" style="display: block" />
+                        <input name="invitationLink" autocomplete="off" class="app-link" type="text" placeholder="Lien d'invitation" disabled="true" style="display: block" />
                     </div>
                 </div>
             </div>
@@ -379,7 +411,7 @@
                     </div>
                 </div>
                 <div class="row-bottom-buttons admin">
-                    <button onclick="addCollaborators()" class="large greyed">Ajouter des collaborateurs</button>
+                    <button onclick="addCollaborators()" class="large">Ajouter des collaborateurs</button>
                 </div>
             </div>
 

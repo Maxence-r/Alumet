@@ -89,7 +89,7 @@ router.post('/authorize/:id', rateLimit(10), async (req, res) => {
                                     );
                                 } else {
                                     resolve(
-                                        res.cookie('applicationToken', token, { maxAge: 3600000, httpOnly: true }).status(200).json({
+                                        res.cookie('applicationToken', token, { maxAge: 3600000, httpOnly: true, secure: true, sameSite: 'Lax' }).status(200).json({
                                             message: 'Alumet Authorized',
                                         })
                                     );

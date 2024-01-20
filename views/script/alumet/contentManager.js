@@ -239,9 +239,7 @@ function createPostElement(post) {
         postRichContentContainer.classList.add('post-rich-content-container');
         const linkPreview = document.createElement('div');
         linkPreview.setAttribute('onclick', `window.open("${post.link.url}")`);
-        if (post.link.image) {
-            linkPreview.style.backgroundImage = `url(${post.link.image})`;
-        }
+        linkPreview.style.backgroundImage = post.link.image ? `url(${post.link.image}) ` : `url('../assets/preview/site.png')`;
         linkPreview.classList.add('post-rich-content');
         const linkPreviewTitle = document.createElement('h2');
         linkPreviewTitle.textContent = post.link.title;
@@ -415,7 +413,7 @@ async function createPost(confirmed) {
         setTimeout(() => {
             navbar('home');
         }, 500);
-        if (!app.user_infos?.admin && adminsOnly) {
+        if (!app.user_infos?.admin && (adminsOnly || postDate)) {
             document.getElementById(`${localStorage.getItem('currentItem')}`).prepend(createPostElement(data));
             getPostData(data._id, data);
         }
