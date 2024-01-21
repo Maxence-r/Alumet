@@ -1002,7 +1002,7 @@ label.switch:hover {
     border: 1px solid #e5e5e5;
     max-width: 350px;
     padding: 16px;
-    border-radius: 10px;
+    border-radius: 15px;
     cursor: pointer;
     z-index: 1000;
     background-color: white;
@@ -2201,5 +2201,6 @@ h1 {
     }
     .alumet-status {
         max-width: 100%;
+        width: 100%;
     }
 }

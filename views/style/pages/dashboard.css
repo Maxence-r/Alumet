@@ -1469,8 +1469,9 @@ h3 {
         height: 15%;
     }
     .alumet-incidents-overlay {
-        bottom: 10px;
-        right: 10px;
+        bottom: 5px;
+        right: 5px;
+        left: 5px;
     }
     .items {
         grid-gap: 10px;
