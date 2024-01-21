@@ -24,6 +24,9 @@
         <link rel="stylesheet" href="../../style/applications/ideaFlow.css" />
     </head>
     <body style="overflow: hidden; margin: 0">
+        <div class="overlay-pp">
+            <div class="printable-area"></div>
+        </div>
         <section class="loading" style="display: flex">
             <h4>Alumet <span>Education</span></h4>
             <span class="loader-bar"></span>
@@ -62,6 +65,7 @@
         <div id="toast"></div>
         <section class="board">
             <div class="actions-row">
+                <div class="info-box">Sur un téléphone vous ne pouvez uniquement que lire une carte mentale</div>
                 <button class="large greyed">Nouveau Bloc</button>
                 <button class="large">Sauvegarder</button>
             </div>
@@ -479,6 +483,7 @@
                 <button onclick="navbar('profile')" class="navProfile"><img src="../assets/default/default_user.png" /></button>
             </div>
         </section>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.1/canvg.js"></script>
         <script src="../../script/global.js"></script>
         <script src="../../script/applications/ideaFlow.js"></script>
         <script src="../../script/navigation.js"></script>

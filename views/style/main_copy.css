@@ -1,0 +1,340 @@
+body {
+    padding: 20px;
+    margin: 0;
+    overflow: auto;
+}
+
+html,
+body {
+    height: 100%;
+    min-height: 100%;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+section {
+    overflow: auto;
+}
+
+.nav-header {
+    display: flex;
+    position: fixed;
+    flex-direction: row;
+    z-index: 100;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: calc(100% - 40px);
+    padding-inline: 20px;
+    height: 70px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 44px 0px rgba(0, 0, 0, 0.08);
+}
+
+.nav-header > img {
+    position: absolute;
+    left: 20px;
+    width: 34px;
+}
+
+.pages {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 50px;
+}
+
+.pages > a {
+    text-decoration: none;
+    color: #000;
+    white-space: nowrap;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Mona Sans';
+    font-stretch: 150%;
+    font-size: 0.9rem;
+}
+
+.nav-header > .actions {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    gap: 10px;
+    right: 10px;
+}
+
+.nav-header > .actions > button {
+    font-family: 'Mona Sans';
+    font-stretch: 150%;
+    font-weight: 600;
+}
+
+.activePage {
+    text-decoration: underline !important;
+}
+
+.pages a {
+    animation: fadeIn 1s ease-in-out forwards;
+    opacity: 0;
+}
+
+.mobile-nav {
+    display: flex;
+    transform: translate(0, 30px);
+    opacity: 0;
+    pointer-events: none;
+    flex-direction: column;
+    width: calc(100% - 20px);
+    background-color: white;
+    top: 90px;
+    height: calc(100% - 100px);
+    border: 1px solid #e5e5e5;
+    border-radius: 15px;
+    box-shadow: 0px 0px 44px 0px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    transition: all 0.3s ease-in-out;
+}
+
+.gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    overflow: hidden;
+}
+
+.blue-gradient {
+    left: 50%;
+    width: 100%;
+    z-index: -1;
+    transform: translateX(-50%);
+    position: absolute;
+    top: 0;
+    box-shadow: 0px 0px 400px 40px #296dff86;
+}
+
+.grid {
+    position: absolute;
+    top: -70px;
+    left: 50%;
+    z-index: -1;
+    transform: translateX(-50%);
+    animation: grid 1s ease-in-out forwards;
+    height: 900px;
+    width: 100%;
+    background-size: 80px 80px;
+    background-image: linear-gradient(to right, #dee1e9 1px, transparent 1px), linear-gradient(to bottom, #dee1e9 1px, transparent 1px);
+}
+
+@keyframes grid {
+    0% {
+        background-position: 0 75px, 0 75px;
+    }
+    100% {
+        background-position: 0 0, 0 0;
+    }
+}
+
+.overlay-grid {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(at top, transparent, white, white);
+}
+
+.mobile-nav.displayed {
+    display: none;
+    transform: translate(0, 0);
+    background-color: white;
+    z-index: 100;
+    opacity: 1;
+    pointer-events: all;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 30px;
+}
+
+.mobile-nav > .links > a {
+    text-decoration: none;
+    color: #000;
+    opacity: 0;
+    white-space: nowrap;
+    font-weight: bold;
+    font-family: 'Mona Sans';
+    font-stretch: 150%;
+    font-size: 1.5rem;
+}
+
+.row-low-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    margin-bottom: 10px;
+    padding-inline: 10px;
+}
+
+.row-low-buttons > button {
+    font-family: 'Mona Sans';
+    font-stretch: 150%;
+    font-weight: 600;
+    flex: 1;
+}
+
+section {
+    margin-top: 135px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.heading-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 80%;
+    margin-bottom: 40px;
+}
+
+.heading-section > h1 {
+    font-family: 'Mona Sans';
+    font-stretch: 150%;
+    font-weight: 900;
+    font-size: 4.5rem;
+    text-align: center;
+    margin: 0;
+    animation: mobileFadeIn 1s ease-in-out forwards;
+}
+
+.heading-section > p {
+    font-family: 'Mona Sans';
+    font-stretch: 150%;
+    font-weight: 400;
+    font-size: 1.3rem;
+    text-align: center;
+    opacity: 0;
+    margin: 0;
+    animation: mobileFadeIn 1s ease-in-out forwards;
+    animation-delay: 1000ms;
+}
+
+.app-selector {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 80%;
+    position: relative;
+    border-radius: 15px;
+    backdrop-filter: blur(2px);
+    border: 1px solid #ececec;
+    padding: 10px;
+    flex-wrap: wrap;
+    animation: mobileFadeIn 1s ease-in-out forwards;
+    animation-delay: 2000ms;
+    opacity: 0;
+    box-shadow: 0px 0px 29.9px 0px rgba(0, 0, 0, 0.05);
+}
+
+.app-selector > p {
+    display: flex;
+    font-family: 'Mona Sans';
+    font-stretch: 150%;
+    font-weight: 500;
+    height: 50px;
+    padding-inline: 5%;
+    white-space: nowrap;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    align-items: center;
+    flex: 1;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.app-selector > p.activeApp {
+    background-color: #f4f4f4;
+    border: 1px solid #d7d7d7;
+    z-index: -1;
+    border-radius: 8px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes mobileFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(0, 75px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    body {
+        padding: 10px;
+    }
+    .pages {
+        display: none;
+    }
+    .actions {
+        display: none !important;
+    }
+    .burger {
+        display: flex !important;
+        position: absolute;
+        right: 20px;
+    }
+    .nav-header {
+        width: calc(100% - 20px);
+    }
+    .mobile-nav.displayed {
+        display: flex;
+    }
+    .grid {
+        background-size: 40px 40px;
+    }
+    section {
+        margin-top: 90px;
+    }
+    .heading-section {
+        width: 98%;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .heading-section > h1 {
+        font-size: 2rem;
+        text-align: start;
+    }
+    .heading-section > p {
+        display: none;
+        font-size: 0.9rem;
+        text-align: start;
+    }
+    .app-selector {
+        width: 100%;
+    }
+    .app-selector > p {
+        font-size: 0.9rem;
+    }
+}

@@ -25,7 +25,7 @@ router.get('/signup', async (req, res) => {
 
 router.get('/logout', async (req, res) => {
     res.clearCookie('token');
-    res.redirect('/auth/signin');
+    res.redirect('/');
 });
 
 router.post('/signin', rateLimit(3), async (req, res) => {

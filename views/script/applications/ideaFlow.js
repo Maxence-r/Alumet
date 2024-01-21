@@ -16,6 +16,7 @@ class MindMapBoard {
 
         this.movingBlock = null;
         this.originOnBlock = { x: 0, y: 0 };
+        this.lastTouch = { x: 0, y: 0 };
 
         this.resizing = null;
 
@@ -30,13 +31,58 @@ class MindMapBoard {
         this.links = [];
 
         window.addEventListener('mouseup', this.onMouseUp.bind(this));
-        svg.addEventListener('mousedown', this.onMouseDown.bind(this))
+        svg.addEventListener('mousedown', this.onMouseDown.bind(this));
         svg.addEventListener('mousemove', this.onMouseMove.bind(this));
         svg.addEventListener('wheel', this.onWheel.bind(this), { passive: false });
         svg.addEventListener('contextmenu', this.onContextMenu.bind(this));
         svg.addEventListener('click', this.onClick.bind(this));
 
+        svg.addEventListener('touchstart', this.onTouchStart.bind(this));
+        svg.addEventListener('touchmove', this.onTouchMove.bind(this));
+        svg.addEventListener('touchend', this.onTouchEnd.bind(this));
+        svg.addEventListener('touchcancel', this.onTouchEnd.bind(this));
+
         this.updateBoardTransform();
+    }
+
+    onTouchStart(e) {
+        if (e.touches.length === 1) {
+            this.dragging = true;
+
+            this.lastTouch.x = e.touches[0].clientX;
+            this.lastTouch.y = e.touches[0].clientY;
+        }
+    }
+
+    onTouchMove(e) {
+        e.preventDefault();
+
+        if (e.touches.length === 1) {
+            const touchX = e.touches[0].clientX;
+            const touchY = e.touches[0].clientY;
+
+            const movementX = touchX - this.lastTouch.x;
+            const movementY = touchY - this.lastTouch.y;
+
+            this.lastTouch = { x: touchX, y: touchY };
+
+            if (this.dragging) {
+                this.blocksGroupDrag.x += movementX;
+                this.blocksGroupDrag.y += movementY;
+                this.updateBoardTransform();
+            }
+        }
+    }
+
+    onTouchEnd(e) {
+        if (e.touches.length === 0) {
+            this.dragging = false;
+            this.movingBlock = null;
+            this.resizing = null;
+            this.connectingBlockId = null;
+            this.connectingWhich = null;
+            this.lastTouch = { x: 0, y: 0 };
+        }
     }
 
     onClick(e) {
@@ -67,9 +113,6 @@ class MindMapBoard {
             };
         }
     }
-
-
-
 
     onWheel(e) {
         e.preventDefault();
@@ -239,14 +282,18 @@ class MindMapBoard {
                 this.connectingBlockId = id;
                 this.connectingWhich = which;
 
-                window.addEventListener('mouseup', () => {
-                    elem.firstChild.classList.remove('connectingBlock');
-                    connector.classList.remove('connecting');
-                    this.blocksGroup.classList.remove('receiving', receiving);
+                window.addEventListener(
+                    'mouseup',
+                    () => {
+                        elem.firstChild.classList.remove('connectingBlock');
+                        connector.classList.remove('connecting');
+                        this.blocksGroup.classList.remove('receiving', receiving);
 
-                    this.connectingBlockId = null;
-                    this.connectingWhich = null;
-                }, { once: true });
+                        this.connectingBlockId = null;
+                        this.connectingWhich = null;
+                    },
+                    { once: true }
+                );
             });
 
             connector.addEventListener('mouseup', () => {
@@ -393,7 +440,7 @@ class MindMapBoard {
     getJsonSchema() {
         let schema = {
             blocks: [],
-            links: []
+            links: [],
         };
 
         for (let id in this.blocks) {
@@ -404,7 +451,7 @@ class MindMapBoard {
                 description: block.description,
                 x: block.x,
                 y: block.y,
-                additionalGridUnitsX: block.additionalGridUnitsX
+                additionalGridUnitsX: block.additionalGridUnitsX,
             });
         }
 
@@ -413,7 +460,7 @@ class MindMapBoard {
                 from: link[0],
                 fromWhich: link[1],
                 to: link[2],
-                toWhich: link[3]
+                toWhich: link[3],
             });
         }
 
@@ -438,14 +485,14 @@ class MindMapBoard {
 
 const mindMap = new MindMapBoard(board, blocksGroup, linksGroup);
 
-mindMap.createAndInsertBlock('test', 'Napoléon', '1769-1821', 25312, 25508)
-mindMap.createAndInsertBlock('tdsfsdt', 'SES BATAILLES', '', 25396, 25508)
-mindMap.createAndInsertBlock('tdsqsdqsdt', 'GRANDES VICTOIRES', '', 25396, 25508)
-mindMap.createAndInsertBlock('tdssdqsfsfsdt', 'DEFAITES', '', 25396, 25508)
-mindMap.createAndInsertBlock('tddfdgfdsfsdt', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25508)
-mindMap.createAndInsertBlock('tdsfgdfgsdt', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25508)
+mindMap.createAndInsertBlock('test', 'Napoléon', '1769-1821', 25312, 25508);
+mindMap.createAndInsertBlock('tdsfsdt', 'SES BATAILLES', '', 25396, 25508);
+mindMap.createAndInsertBlock('tdsqsdqsdt', 'GRANDES VICTOIRES', '', 25396, 25508);
+mindMap.createAndInsertBlock('tdssdqsfsfsdt', 'DEFAITES', '', 25396, 25508);
+mindMap.createAndInsertBlock('tddfdgfdsfsdt', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25508);
+mindMap.createAndInsertBlock('tdsfgdfgsdt', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25508);
 
-mindMap.createAndInsertBlock('tests', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25312)
-mindMap.createAndInsertBlock('t', '1', '2', 25900, 25704)
+mindMap.createAndInsertBlock('tests', 'test 1 qsdqsdq sqd', 'test 2', 25396, 25312);
+mindMap.createAndInsertBlock('t', '1', '2', 25900, 25704);
 /* mindMap.loadJsonSchema({ "blocks": [{ "id": "test", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25536, "y": 25088, "additionalGridUnitsX": 0 }, { "id": "tdsfsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25536, "y": 25312, "additionalGridUnitsX": 0 }, { "id": "tdsqsdqsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2q sdqsdqsd qsdqsdq sd qsd qsd", "x": 25452, "y": 25312, "additionalGridUnitsX": 0 }, { "id": "tdssdqsfsfsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25760, "y": 25312, "additionalGridUnitsX": 0 }, { "id": "tddfdgfdsfsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25536, "y": 24976, "additionalGridUnitsX": 0 }, { "id": "tdsfgdfgsdt", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25508, "y": 25200, "additionalGridUnitsX": 2 }, { "id": "tests", "title": "test 1 qsdqsdq sqd", "description": "test 2", "x": 25312, "y": 25312, "additionalGridUnitsX": 0 }, { "id": "t", "title": "1", "description": "2", "x": 26320, "y": 24332, "additionalGridUnitsX": 0 }], "links": [{ "from": "test", "fromWhich": "bottom", "to": "tdsfgdfgsdt", "toWhich": "top" }, { "from": "tddfdgfdsfsdt", "fromWhich": "top", "to": "t", "toWhich": "bottom" }] }); */
-endLoading()
+endLoading();

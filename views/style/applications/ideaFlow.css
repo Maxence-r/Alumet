@@ -49,8 +49,8 @@ p {
 .MindMapBlock::before {
     content: '';
     position: absolute;
-    width: 175%;
-    height: 175%;
+    width: 130%;
+    height: 130%;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -146,35 +146,6 @@ p {
     padding-bottom: 5px;
 }
 
-#blocks:not(.receiving) .MindMapBlock:hover .connector.left,
-.connector.left.connecting,
-.receiving.horizontal .MindMapBlock:not(.connectingBlock) .connector.left {
-    transform: translate(-40px);
-}
-
-#blocks:not(.receiving) .MindMapBlock:hover .connector.right,
-#blocks:not(.receiving) .MindMapBlock:hover .resizer,
-.connector.right.connecting,
-.receiving.horizontal .MindMapBlock:not(.connectingBlock) .connector.right {
-    transform: translate(40px);
-}
-
-#blocks:not(.receiving) .MindMapBlock:hover .connector.right {
-    top: calc(50% - 45px);
-}
-
-#blocks:not(.receiving) .MindMapBlock:hover .connector.top,
-.connector.top.connecting,
-.receiving.vertical .MindMapBlock:not(.connectingBlock) .connector.top {
-    transform: translateY(-40px);
-}
-
-#blocks:not(.receiving) .MindMapBlock:hover .connector.bottom,
-.connector.bottom.connecting,
-.receiving.vertical .MindMapBlock:not(.connectingBlock) .connector.bottom {
-    transform: translateY(40px);
-}
-
 .receiving.vertical .connector.top,
 .receiving.vertical .connector.bottom,
 .receiving.horizontal .connector.left,
@@ -253,8 +224,89 @@ p {
     top: 20px;
 }
 
+.actions-row > div {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    #blocks:not(.receiving) .MindMapBlock:hover .connector.left,
+    .connector.left.connecting,
+    .receiving.horizontal .MindMapBlock:not(.connectingBlock) .connector.left {
+        transform: translate(-40px);
+    }
+
+    #blocks:not(.receiving) .MindMapBlock:hover .connector.right,
+    #blocks:not(.receiving) .MindMapBlock:hover .resizer,
+    .connector.right.connecting,
+    .receiving.horizontal .MindMapBlock:not(.connectingBlock) .connector.right {
+        transform: translate(40px);
+    }
+
+    #blocks:not(.receiving) .MindMapBlock:hover .connector.right {
+        top: calc(50% - 45px);
+    }
+
+    #blocks:not(.receiving) .MindMapBlock:hover .connector.top,
+    .connector.top.connecting,
+    .receiving.vertical .MindMapBlock:not(.connectingBlock) .connector.top {
+        transform: translateY(-40px);
+    }
+
+    #blocks:not(.receiving) .MindMapBlock:hover .connector.bottom,
+    .connector.bottom.connecting,
+    .receiving.vertical .MindMapBlock:not(.connectingBlock) .connector.bottom {
+        transform: translateY(40px);
+    }
+}
+
 @media screen and (max-width: 600px) {
+    .actions-row {
+        left: 20px;
+    }
+    .actions-row > button {
+        display: none;
+    }
+    .actions-row > div {
+        display: flex;
+    }
     body {
         flex-direction: column-reverse;
+    }
+}
+
+.overlay-pp {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: transparent;
+    pointer-events: none;
+}
+
+.printable-area {
+    width: 297mm;
+    height: 210mm;
+    border: 2px solid #296eff;
+    border-radius: 0 0 20px 0;
+}
+
+@page {
+    size: 297mm 210mm;
+    margin: 0;
+}
+
+@media print {
+    .printable-area {
+        border: none;
+    }
+    .actions-row {
+        opacity: 0;
+        display: none;
+    }
+    .navbar {
+        display: none;
     }
 }
