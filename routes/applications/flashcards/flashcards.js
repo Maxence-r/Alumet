@@ -7,6 +7,7 @@ const Flashcards = require('../../../models/flashcards');
 const Alumet = require('../../../models/alumet');
 const Account = require('../../../models/account');
 const rateLimit = require('../../../middlewares/authentification/rateLimit');
+const sanitizeHtml = require('sanitize-html');
 const applicationAuthentication = require('../../../middlewares/authentification/applicationAuthentication');
 
 router.get('/revise/sandbox/:application', rateLimit(60), applicationAuthentication(), async (req, res) => {
@@ -74,17 +75,73 @@ router.get('/:application/:revisionMethod/content', rateLimit(60), applicationAu
     }
 });
 
+const sanitizeOptions = {
+    allowedTags: ['b', 'i', 'u', 'br', 'span'],
+    allowedAttributes: {
+        b: ['style'],
+        i: ['style'],
+        u: ['style'],
+        span: ['style'],
+    },
+    allowedStyles: {
+        span: {
+            'background-color': [/^yellow$/],
+        },
+    },
+};
+
+router.post('/import/:application', rateLimit(10), applicationAuthentication(), async (req, res) => {
+    try {
+        const { content } = req.body;
+        const flashcardSet = await Alumet.findById(req.params.application);
+        if (!flashcardSet) return res.json({ error: 'Flashcard set not found' });
+
+        const flashcardsData = content
+            .split('!!!')
+            .map(line => {
+                const [question, answer] = line.split('$$$');
+                console.log(question, answer);
+                if (!question || !answer) return null;
+                return {
+                    flashcardSetId: req.params.application,
+                    question: sanitizeHtml(question, sanitizeOptions),
+                    answer: sanitizeHtml(answer, sanitizeOptions),
+                };
+            })
+            .filter(flashcard => flashcard !== null);
+
+        const flashcardsPromises = flashcardsData.map(flashcardData => {
+            const newFlashcard = new Flashcards(flashcardData);
+            return newFlashcard.save();
+        });
+
+        const flashcards = await Promise.all(flashcardsPromises);
+        res.json({ flashcards });
+    } catch (error) {
+        console.log(error);
+        res.json({ error });
+    }
+});
+
 router.post('/:application/check', rateLimit(10), applicationAuthentication(), async (req, res) => {
     try {
         const { flashcardSetId, flashcards } = req.body;
         const flashcardSet = await Alumet.findById(flashcardSetId);
         if (!flashcardSet) return res.json({ error: 'Flashcard not found' });
-        const flashcardsData = [];
-        for (let flashcard of flashcards) {
+
+        const flashcardsPromises = flashcards.map(async flashcard => {
+            let formattedQuestion = flashcard.question.replace(/<div>/g, '<br>');
+            const sanitizedQuestion = sanitizeHtml(formattedQuestion, sanitizeOptions);
+            flashcard.question = sanitizedQuestion;
+
+            let formattedAnswer = flashcard.answer.replace(/<div>/g, '<br>');
+            const sanitizedAnswer = sanitizeHtml(formattedAnswer, sanitizeOptions);
+            flashcard.answer = sanitizedAnswer;
+
             let newFlashcard;
             if (flashcard._id && mongoose.Types.ObjectId.isValid(flashcard._id)) {
                 newFlashcard = await Flashcards.findById(flashcard._id);
-                if (!flashcard) return res.json({ error: 'Flashcard not found' });
+                if (!newFlashcard) return res.json({ error: 'Flashcard not found' });
                 newFlashcard.question = flashcard.question;
                 newFlashcard.answer = flashcard.answer;
             } else {
@@ -94,9 +151,10 @@ router.post('/:application/check', rateLimit(10), applicationAuthentication(), a
                     answer: flashcard.answer,
                 });
             }
-            await newFlashcard.save();
-            flashcardsData.push(newFlashcard);
-        }
+            return newFlashcard.save();
+        });
+
+        const flashcardsData = await Promise.all(flashcardsPromises);
         res.json({ flashcards: flashcardsData });
     } catch (error) {
         console.log(error);

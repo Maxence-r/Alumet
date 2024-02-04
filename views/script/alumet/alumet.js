@@ -73,20 +73,3 @@ function registerEventsOnCard(card) {
         card.classList.remove('dragging');
     });
 }
-
-
-
-document.getElementById('latexInput').addEventListener('input', e => {
-    const latex = e.currentTarget.value;
-    const latexPreview = document.getElementById('latexPreview');
-    latexPreview.src = `https://latex.codecogs.com/svg.latex?${latex}`;
-});
-
-function insertLatex() {
-    const latex = document.getElementById('latexInput').value;
-    const latexBlock = document.createElement('latex');
-    latexBlock.setAttribute('contenteditable', false);
-    latexBlock.innerText = latex;
-    document.getElementById('editor').appendChild(latexBlock);
-    navbar('post');
-}

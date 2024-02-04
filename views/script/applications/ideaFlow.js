@@ -5,6 +5,8 @@ const linksGroup = blocksGroup.querySelector('g#links');
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const MIN_CURVE_CONTROL = 200;
 
+let modifyingBlock = null;
+
 class MindMapBoard {
     constructor(svg, blocksGroup, linksGroup, gridSize = 28) {
         this.blocks = {};
@@ -17,6 +19,7 @@ class MindMapBoard {
         this.movingBlock = null;
         this.originOnBlock = { x: 0, y: 0 };
         this.lastTouch = { x: 0, y: 0 };
+        this.addBlockCoords = { x: 0, y: 0 };
 
         this.resizing = null;
 
@@ -107,7 +110,10 @@ class MindMapBoard {
 
                 switch (menuItem.dataset.action) {
                     case 'add':
-                        this.createAndInsertBlock(Math.random().toString(36).substr(2, 9), 'Nouveau bloc', '', x, y);
+                        this.addBlockCoords = { x, y };
+                        clearBlockCreation();
+                        navbar('block');
+                        /* this.createAndInsertBlock(crypto.randomUUID(), 'Nouveau bloc', '', x, y); */
                         break;
                 }
             };
@@ -151,12 +157,38 @@ class MindMapBoard {
         return { x: x / this.zoom, y: y / this.zoom, width, height };
     }
 
-    static createBlock(title, description) {
+    static createBlock(id, title, description, color = 'white', file = null) {
         const template = document.querySelector('.MindMapBlockTemplate');
 
         const clone = template.content.firstElementChild.cloneNode(true);
         clone.querySelector('.MindMapBlockTitle').innerText = title;
-        clone.querySelector('.MindMapBlockDescription').innerText = description;
+        clone.querySelector('.MindMapBlockDescription').innerHTML = description;
+        clone.classList.add(color);
+
+        clone.addEventListener('dblclick', () => {
+            navbar('block');
+            clearBlockCreation();
+            modifyingBlock = id;
+            document.getElementById('blockTitle').value = title;
+            document.getElementById('blockDescription').innerHTML = description;
+            document.querySelector('.colorSelector > #' + color).click();
+            file ? document.querySelector('.drop-box').classList.add('ready-to-send') : document.querySelector('.drop-box').classList.remove('ready-to-send');
+            selectedFile = file ? [file] : null;
+        });
+
+        if (!title) clone.querySelector('.MindMapBlockTitle').remove();
+        if (!description) clone.querySelector('.MindMapBlockDescription').remove();
+
+        if (file) {
+            const img = document.createElement('img');
+            img.src = `/preview?id=${file}`;
+            img.alt = file;
+            img.classList.add('blockImage');
+            /* img.ondblclick = () => {
+                window.open(`/viewer/${file}`);
+            }; */
+            clone.prepend(img);
+        }
 
         const foreignObj = document.createElementNS(SVG_NS, 'foreignObject');
         foreignObj.setAttribute('overflow', 'visible');
@@ -250,11 +282,10 @@ class MindMapBoard {
         }
     }
 
-    createAndInsertBlock(id, title, description, x, y, additionalGridUnitsX = 0) {
-        this.blocks[id] = { title, description, x, y, additionalGridUnitsX };
+    createAndInsertBlock(id, title, description, x, y, color, file = null, additionalGridUnitsX = 0) {
+        this.blocks[id] = { id, title, description, x, y, color, file, additionalGridUnitsX };
 
-        const elem = this.constructor.createBlock(title, description);
-        elem.dataset.id = id;
+        const elem = this.constructor.createBlock(id, title, description, color, file);
         elem.onmousedown = e => e.stopPropagation();
         elem.setAttribute('x', x);
         elem.setAttribute('y', y);
@@ -430,7 +461,7 @@ class MindMapBoard {
         const newHeight = Math.ceil(block.clientHeight / this.gridSize) * this.gridSize;
 
         block.style.setProperty('width', `${newWidth}px`);
-        block.style.setProperty('height', `${newHeight}px`);
+        /* block.style.setProperty('height', `${newHeight}px`); */
 
         this.updateBlockLinks(id);
 
@@ -451,6 +482,8 @@ class MindMapBoard {
                 description: block.description,
                 x: block.x,
                 y: block.y,
+                color: block.color,
+                file: block.file,
                 additionalGridUnitsX: block.additionalGridUnitsX,
             });
         }
@@ -472,13 +505,35 @@ class MindMapBoard {
         this.links = [];
 
         for (let block of schema.blocks) {
-            this.createAndInsertBlock(block.id, block.title, block.description, block.x, block.y, block.additionalGridUnitsX);
+            this.createAndInsertBlock(block.id, block.title, block.description, block.x, block.y, block.color, block.file, block.additionalGridUnitsX);
         }
 
         for (let link of schema.links) {
             this.connect(link.from, link.fromWhich, link.to, link.toWhich);
         }
     }
+}
+
+function clearBlockCreation() {
+    modifyingBlock = null;
+    document.getElementById('blockTitle').value = '';
+    document.getElementById('blockDescription').innerHTML = '';
+    document.querySelector('.colorSelector > #white').click();
+    selectedFile = null;
+    document.getElementById('post-file').value = '';
+    document.querySelector('.drop-box').classList.remove('ready-to-send');
+}
+
+function createBlock() {
+    const title = document.getElementById('blockTitle').value;
+    const description = document.getElementById('blockDescription').innerHTML;
+    let color = document.querySelector('.colorSelector > .selectedColor').id;
+    let file = selectedFile ? selectedFile[0] : null || document.getElementById('post-file').files[0] || null;
+    console.log(file);
+
+    mindMap.createAndInsertBlock(crypto.randomUUID(), title, description, mindMap.addBlockCoords.x - 50, mindMap.addBlockCoords.y - 50, color, file);
+    navbar('home');
+    clearBlockCreation();
 }
 
 // TEST

@@ -34,7 +34,7 @@ const AlumetSchema = mongoose.Schema({
     password: {
         type: String,
         required: false,
-        default: "",
+        default: '',
         maxLength: 50,
     },
     subject: {
@@ -43,7 +43,7 @@ const AlumetSchema = mongoose.Schema({
         minLength: 2,
         maxLength: 50,
         default: 'other',
-        enum: ['mathematics', 'french', 'history', 'geography', 'physics', 'biology', 'philosophy', 'english', 'technology', 'language', 'other'],
+        enum: ['mathematics', 'french', 'history', 'geography', 'physics', 'biology', 'philosophy', 'english', 'technology', 'snt', 'nsi', 'language', 'other'],
     },
     participants: [
         {
@@ -52,7 +52,7 @@ const AlumetSchema = mongoose.Schema({
                 type: Number,
                 default: 2,
                 enum: [0, 1, 2, 3, 4], // 0 - owner, 1 - admin, 2 - user, 3 - banned, 4 - requesting access
-            }
+            },
         },
     ],
     private: {

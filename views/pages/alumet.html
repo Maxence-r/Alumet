@@ -135,14 +135,7 @@
                     <div class="send-text"><img id="send-text" src="../assets/global/send.svg" alt="send icon" /></div>
                 </div>
             </div>
-            <div class="overlay-content latex">
-                <h1>Ecrire au format LaTeX</h1>
-                <div class="divider"></div>
-                <input id="latexInput" type="text" placeholder="Ecrivez votre formule" />
-                <div class="divider"></div>
-                <img id="latexPreview" src="https://latex.codecogs.com/svg.image?=f(x)" />
-                <button onclick="insertLatex()" class="large confirm">Inserer la formule</button>
-            </div>
+
             <div class="overlay-content wall">
                 <input id="wallTitle" type="text" placeholder="Nom de la colonne" />
                 <div class="switch-options">
@@ -259,6 +252,8 @@
                                 <option value="english">Anglais</option>
                                 <option value="language">Langues</option>
                                 <option value="technology">Technologie</option>
+                                <option value="snt">SNT</option>
+                                <option value="nsi">NSI</option>
                                 <option value="other">Autre</option>
                             </select>
                         </div>
@@ -445,24 +440,17 @@
                 </div>
                 <div class="divider"></div>
                 <input maxlength="300" id="postTitle" type="text" placeholder="Titre de la publication" />
-                <div id="toolbar">
-                    <div>
-                        <button onclick="navbar('latex')" id="latex">
-                            <img src="../assets/global/latex.svg" />
-                        </button>
-                        <!-- <button onclick="navbar('audio')" id="latex">
-                            <img src="../assets/global/mic.svg" />
-                        </button> -->
-                    </div>
-                    <div>
-                        <button id="bold" onclick="makeHighlight()"><b>H</b></button>
-                        <button id="bold" onclick="makeBold()"><b>G</b></button>
-                        <button id="italic" onclick="makeItalic()"><i>I</i></button>
-                        <button id="underline" onclick="doUnderline()"><u>S</u></button>
-                    </div>
-                </div>
+
                 <div class="description-container">
-                    <div id="editor" placeholder="Ecrivez ici le contenu" spellcheck="false" contenteditable="true" onkeypress="return (this.innerText.length <= 4000)"></div>
+                    <div class="editor" id="editorPost" placeholder="Ecrivez ici le contenu" spellcheck="false" contenteditable="true" onkeypress="return (this.innerText.length <= 4000)"></div>
+                    <div id="toolbar">
+                        <div>
+                            <button id="bold" onclick="makeHighlight()"><b>H</b></button>
+                            <button id="bold" onclick="makeBold()"><b>G</b></button>
+                            <button id="italic" onclick="makeItalic()"><i>I</i></button>
+                            <button id="underline" onclick="doUnderline()"><u>S</u></button>
+                        </div>
+                    </div>
                     <div onclick="removeLink()" contenteditable="false" class="link-preview">
                         <div class="loading rounded">
                             <span class="loader"></span>

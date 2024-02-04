@@ -4,14 +4,13 @@ const Account = require('../models/account');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-
 // security authentification mecanism, to be changed
 
 module.exports = function (io) {
     io.on('connection', socket => {
         const cookies = socket.handshake.headers.cookie?.split('; ');
         const token = cookies?.find(cookie => cookie.startsWith('token='))?.split('=')[1];
-        socket.on('joinAlumet', async (alumetId) => {
+        socket.on('joinAlumet', async alumetId => {
             try {
                 const alumet = await Alumet.findOne({ _id: alumetId });
                 if (!alumet) {
@@ -41,8 +40,7 @@ module.exports = function (io) {
                         if (alumet.participants.some(p => p.userId === account._id.toString() && p.status === 1) || alumet.owner == account._id.toString()) {
                             socket.join(`admin-${alumetId}`);
                         }
-                    }
-                    );
+                    });
                 }
             } catch (error) {
                 console.error(error);
@@ -50,5 +48,3 @@ module.exports = function (io) {
         });
     });
 };
-
-

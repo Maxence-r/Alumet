@@ -314,19 +314,15 @@
 }
 
 .sending-box {
-    display: flex;
+    display: none;
     align-items: center;
     padding: 8px;
     position: absolute;
     width: calc(100% - 20px);
     border-radius: 5px;
     bottom: 10px;
-    pointer-events: none;
     background-color: white;
     box-shadow: 0px 0px 23px 0px rgba(0, 0, 0, 0.08);
-    transform: translateY(30%);
-    opacity: 0;
-    transition: all 0.3s ease-in-out;
     cursor: default;
     overflow: hidden;
 }
@@ -358,9 +354,7 @@
 }
 
 .ready-to-send > .rts {
-    opacity: 1;
-    transform: translateY(0%);
-    pointer-events: all;
+    display: flex;
 }
 
 .indications {
@@ -531,7 +525,7 @@ textarea {
     border-radius: 12px;
     font-size: 0.8rem;
     flex-direction: column;
-    z-index: 20;
+    z-index: 10;
     margin: 0;
     padding: 15px;
     background-color: #dfe9ff;

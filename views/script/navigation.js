@@ -392,9 +392,10 @@ function confirmDeleteItem() {
         });
 }
 
-const editor = document.getElementById('editor');
+const editors = document.querySelectorAll('.editor');
 let oldLink = null;
-if (editor) {
+
+editors.forEach(editor => {
     editor.addEventListener('input', function () {
         const text = editor.textContent;
         const linkRegex = /(https?:\/\/[^\s]+\.[a-z]{2,}\S*)/gi;
@@ -421,26 +422,25 @@ if (editor) {
             }
         }
     });
-}
+});
 function makeBold() {
     document.execCommand('bold');
     if (document.getElementById('bold').isToggled) {
         document.getElementById('bold').isToggled = false;
-        document.getElementById('bold').classList.remove('active-effect');
     } else {
         document.getElementById('bold').isToggled = true;
-        document.getElementById('bold').classList.add('active-effect');
     }
 }
 
+let isToggled = false;
 function makeHighlight() {
     document.execCommand('hiliteColor', false, 'yellow');
-    if (document.getElementById('highlight').isToggled) {
-        document.getElementById('highlight').isToggled = false;
-        document.getElementById('highlight').classList.remove('active-effect');
+    if (isToggled) {
+        document.execCommand('hiliteColor', false, 'transparent');
+        isToggled = false;
     } else {
-        document.getElementById('highlight').isToggled = true;
-        document.getElementById('highlight').classList.add('active-effect');
+        document.execCommand('hiliteColor', false, 'yellow');
+        isToggled = true;
     }
 }
 
@@ -448,10 +448,8 @@ function makeItalic() {
     document.execCommand('italic');
     if (document.getElementById('italic').isToggled) {
         document.getElementById('italic').isToggled = false;
-        document.getElementById('bold').classList.remove('active-effect');
     } else {
         document.getElementById('italic').isToggled = true;
-        document.getElementById('bold').classList.add('active-effect');
     }
 }
 
@@ -459,10 +457,8 @@ function doUnderline() {
     document.execCommand('underline');
     if (document.getElementById('underline').isToggled) {
         document.getElementById('underline').isToggled = false;
-        document.getElementById('bold').classList.remove('active-effect');
     } else {
         document.getElementById('underline').isToggled = true;
-        document.getElementById('bold').classList.add('active-effect');
     }
 }
 

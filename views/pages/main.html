@@ -29,104 +29,116 @@
         <link href="../style/global.css" rel="stylesheet" type="text/css" />
         <link href="../style/main.css" rel="stylesheet" type="text/css" />
         <link rel="icon" href="../assets/global/alumet.ico" />
-        <title>Bienvenue sur Alumet Education</title>
+        <title>Alumet Education</title>
     </head>
     <body>
-        <section class="header">
-            <div class="warning-box">Cette page d'accueil est temporaire, nous avons souhaité concentrer nos efforts sur l'application Alumet Education !</div>
-            <h1>
-                Vous offrir les <span>outils</span><br />
-                qui font la <span>différence.</span>
-            </h1>
-            <button onclick="window.location.href='/auth/signup'" style="margin: auto" class="large">S'inscrire sur Alumet Education</button>
-            <button onclick="window.location.href='/auth/signin'" style="margin: auto" class="large">Se connecter</button>
-        </section>
-
-        <div id="toast"></div>
-        <section class="bento">
-            <div class="bento-1">
-                <div>
-                    <h2>Un tableau de bord moderne</h2>
-                    <img src="../assets/global/bento-1.png" alt="bento 1" />
-                </div>
-                <div>
-                    <h2>Des flaschards intelligentes pour réviser</h2>
-                    <img src="../assets/global/bento-2.png" alt="bento 1" />
-                </div>
-            </div>
-            <div class="bento-2">
-                <div>
-                    <h2>Une messagerie sécurisée</h2>
-                    <img src="../assets/global/bento-3.png" alt="bento 1" />
-                </div>
-                <div>
-                    <h2>Des espaces de partage</h2>
-                    <img src="../assets/global/bento-4.png" alt="bento 1" />
-                </div>
-            </div>
-        </section>
-
-        <!-- <section class="support-section">
-      <h2>Soutenir Alumet Education</h2>
-      <p>Pourquoi soutenir Alumet Education ?</p>
-      <div class="support-choices">
-        <div class="support-box">
-          <div class="support-infos">
-            <div class="support-box-header">
-              <h3>Soutien</h3>
-              <img src="../assets/global/gift-icon.png" alt="gift icon">
-            </div>
-            <p>1.99€/mois ~ 0.01€ toutes les 13460 secondes</p>
-          </div>
-          <div class="divider"></div>
-          <button class="large">Soutenir</button>
+        <h1 style="display: none">Alumet Education</h1>
+        <p style="display: none">Un environnement numérique de travail innovant, offrant un écosystème complet d'outils conçus pour favoriser la réussite éducative.</p>
+        <div class="grid">
+            <div class="overlay-grid"></div>
+            <div class="blue-gradient"></div>
+            <div class="grid-overlay"></div>
         </div>
-        <div class="support-box">
-          <div class="support-infos">
-            <div class="support-box-header">
-              <h3>Soutien</h3>
-              <img src="../assets/global/party-icon.png" alt="party icon">
+        <!-- <img class="grid" src="../assets/global/homepage_gradient.png" /> -->
+        <div class="nav-header">
+            <img class="logo" src="../assets/global/alumet.png" alt="logo" />
+            <div class="pages">
+                <!-- <a class="activePage" href="/auth/signup">Accueil</a> -->
+                <!-- <a href="/auth/signin">Prix</a> -->
+                <!-- <a href="/auth/signin">Blog</a> -->
+                <!-- <a href="/auth/signin">A propos</a> -->
+                <!-- <a href="/auth/signin">Status</a> -->
             </div>
-            <p>4.99€/mois ~ 0.2 secondes de saut en parachute </p>
-          </div>
-          <div class="divider"></div>
-          <button class="large">Soutenir</button>
-        </div>
-        <div class="support-box">
-          <div class="support-infos">
-            <div class="support-box-header">
-              <h3>Soutien</h3>
-              <img src="../assets/global/gold-ticket-icon.png" alt="gold-ticket-icon">
+            <div class="actions">
+                <button onclick="window.location.href='/auth/signup'" class="large greyed">S'inscrire</button>
+                <button onclick="window.location.href='/auth/signin'" class="large">Se connecter</button>
             </div>
-            <p>9.99€/mois ~ 0.002% d’une Rolls-royce Phantom</p>
-          </div>
-          <div class="divider"></div>
-          <button class="large">Soutenir</button>
+            <div class="burger" id="burger">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+            </div>
         </div>
-      </div>
-      <div class="security-infos">
-        <img src="../assets/global/lock.png" alt="lock icon">
-        <p>Les paiements sont sécurisés par Stripe</p>
-      </div>
-    </section> -->
+        <div class="mobile-nav">
+            <!-- <div class="links">
+                <a class="activePage" href="/auth/signup">Accueil</a>
+                <a href="/auth/signin">Prix</a>
+                <a href="/auth/signin">Blog</a>
+                <a href="/auth/signin">A propos</a>
+                <a href="/auth/signin">Status</a>
+            </div> -->
+            <div class="row-low-buttons">
+                <button onclick="window.location.href='/auth/signup'" class="large greyed">S'inscrire</button>
+                <button onclick="window.location.href='/auth/signin'" class="large">Se connecter</button>
+            </div>
+        </div>
+        <section class="home">
+            <div class="heading-section">
+                <h1>Vous offrir les outils qui font la différence, gratuitement !</h1>
+            </div>
+            <div class="showRoom">
+                <div class="showRoom-item">
+                    <div>
+                        <img src="../assets/global/showRoom1_1.png" alt="logo" />
+                    </div>
+                    <div>
+                        <img src="../assets/global/showRoom2_1.png" alt="logo" />
+                    </div>
+                    <div>
+                        <img src="../assets/global/showRoom3_1.png" alt="logo" />
+                    </div>
+                </div>
+                <div class="showRoom-text">
+                    <div>
+                        <h2>Alumets</h2>
+                        <p>Espace de ressources partager en colonne</p>
+                    </div>
+                    <div>
+                        <h2>Flashcards</h2>
+                        <p>Cartes d’apprentissage intélligente</p>
+                    </div>
+                    <div>
+                        <h2>Cartes Mentale</h2>
+                        <p>Tableau d’idée vide pour organiser des idées</p>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill"></div>
+                    </div>
+                </div>
+            </div>
 
-        <section class="conference-section">
-            <div class="conference-section-header">
-                <div class="conference-section-text">
-                    <h2>Vous avez raté la conférence ?</h2>
-                    <p>Vous pouvez visionner son enregistrement ou lire le pdf détaillé la résumant.</p>
+            <div class="container">
+                <div class="first">
+                    <h1>4x</h1>
+                    <h3>Plus rapide</h3>
+                    <img src="../assets/global/faster.svg" />
                 </div>
-                <a href="../assets/global/conference.pdf" download>
-                    <button class="large">Télécharger le résumé</button>
-                </a>
-            </div>
-            <div onclick="showToast()" class="watch-conference">
-                <img src="../assets/global/conferance.png" alt="conferance background" />
-                <div class="watch-button">
-                    <h2>Visionner</h2>
-                    <img src="../assets/global/white-arrow.svg" alt="arrow" />
+                <div class="second">
+                    <img src="../assets/global/validatez.svg" />
+                    <p>Disponible pour tous <br /><strong>gratuitement</strong></p>
+                </div>
+                <div class="third">
+                    <h1>Tableau de bord</h1>
+                    <p>Moderne, épurée et efficace, tous au même endroit !</p>
+                    <img src="../assets/global/bento-1.png" />
+                </div>
+                <div class="quatro">
+                    <img src="../assets/global/smart.svg" />
+                </div>
+                <div class="collab">
+                    <h1>Collaboration</h1>
+                    <p>Tout seul on va plus vite, ensemble, on va plus loin</p>
+                </div>
+                <div class="last">
+                    <img src="../assets/global/hands.jpg" />
                 </div>
             </div>
+
+            <!-- <div class="app-selector">
+                <p class="activeApp">Alumets</p>
+                <p>Flashcards</p>
+                <p>Cartes Mentales</p>
+            </div> -->
         </section>
     </body>
     <script src="../script/global.js"></script>

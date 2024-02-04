@@ -288,6 +288,8 @@
                                 <option value="english">Anglais</option>
                                 <option value="language">Langues</option>
                                 <option value="technology">Technologie</option>
+                                <option value="snt">SNT</option>
+                                <option value="nsi">NSI</option>
                                 <option value="other">Autre</option>
                             </select>
                         </div>
@@ -465,22 +467,59 @@
                 </div>
             </div>
 
+            <div class="overlay-content quizlet">
+                <div class="header-setting">
+                    <div>
+                        <h1>Importer depuis Quizlet</h1>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <h3>
+                    Pour importer vos flashcards depuis Quizlet, rendez-vous sur votre jeu de flashcards Quizlet. Cliquez sur "...", puis sélectionnez "Exporter". Dans le champ "Entre le terme et la définition", saisissez "$$$". Dans le champ "Entre
+                    les rangées", entrez "!!!". Ensuite, cliquez sur "Copier le texte" et collez-le ci-dessous.
+                </h3>
+                <textarea id="quizletInput" placeholder="Collez le texte ici"></textarea>
+                <div class="row-bottom-buttons">
+                    <button onclick="importFlashcard()" class="large">Importer les flashcards</button>
+                </div>
+            </div>
             <div class="overlay-content flashcards">
                 <div class="header-setting">
                     <div>
                         <h1>Nouvelle flaschard</h1>
                         <p>Créez une nouvelle flashcard ci-dessous.</p>
                     </div>
+                    <button onclick="navbar('quizlet')" id="quizlet">
+                        <img src="../../assets/global/quizlet.svg" />
+                    </button>
                 </div>
                 <div class="divider"></div>
-                <div class="grid-user-container">
-                    <div class="item">
-                        <h3>Ecrivez ici la question</h3>
-                        <input maxlength="120" type="text" id="question" class="disabledInput" placeholder="Question" autocomplete="off" />
+                <div class="item">
+                    <h3>Ecrivez ici la question</h3>
+                    <div class="description-container">
+                        <div class="editor" id="question" placeholder="Question" spellcheck="false" contenteditable="true" onkeypress="return (this.innerText.length <= 300)"></div>
+                        <div id="toolbar">
+                            <div>
+                                <button id="bold" onclick="makeHighlight()"><b>H</b></button>
+                                <button id="bold" onclick="makeBold()"><b>G</b></button>
+                                <button id="italic" onclick="makeItalic()"><i>I</i></button>
+                                <button id="underline" onclick="doUnderline()"><u>S</u></button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="item">
-                        <h3>Ecrivez ici la réponse</h3>
-                        <input maxlength="120" type="text" id="answer" class="disabledInput" placeholder="Réponse" autocomplete="off" />
+                </div>
+                <div class="item">
+                    <h3>Ecrivez ici la réponse</h3>
+                    <div class="description-container">
+                        <div class="editor" id="answer" placeholder="Réponse" spellcheck="false" contenteditable="true" onkeypress="return (this.innerText.length <= 300)"></div>
+                        <div id="toolbar">
+                            <div>
+                                <button id="bold" onclick="makeHighlight()"><b>H</b></button>
+                                <button id="bold" onclick="makeBold()"><b>G</b></button>
+                                <button id="italic" onclick="makeItalic()"><i>I</i></button>
+                                <button id="underline" onclick="doUnderline()"><u>S</u></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

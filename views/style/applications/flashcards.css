@@ -60,6 +60,7 @@ body {
 }
 
 .new-flashcard {
+    position: relative;
     border: 1px dashed #dddddd !important;
     height: 125px;
     padding: 10px;
@@ -70,10 +71,6 @@ body {
     background-color: white;
     align-items: center;
     cursor: pointer;
-}
-
-.flashcards > #toolbar {
-    margin-bottom: 10px;
 }
 
 .description-container {
@@ -128,6 +125,7 @@ body {
     font-size: 20px;
     font-weight: 600;
     text-align: center;
+    overflow: auto;
     max-width: 90%;
     word-break: break-word;
     margin: 5px 0;

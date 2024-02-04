@@ -166,8 +166,8 @@ function addFlashcard(id, question, answer, status, date) {
     let h3 = document.createElement('h3');
     let p = document.createElement('p');
 
-    h3.innerText = reverseCards ? answer : question;
-    p.innerText = reverseCards ? question : answer;
+    h3.innerHTML = reverseCards ? answer : question;
+    p.innerHTML = reverseCards ? question : answer;
     p.style.display = 'none';
 
     newCard.appendChild(h3);

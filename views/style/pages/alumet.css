@@ -62,10 +62,6 @@ body {
     overflow-y: auto;
 }
 
-#latexPreview {
-    max-height: 50%;
-}
-
 .alumet {
     display: flex;
     flex-direction: column;
@@ -188,10 +184,6 @@ body {
     word-break: break-word;
 }
 
-.card > .description > .latexImg {
-    height: 40px;
-}
-
 .list > .titleList > img {
     width: 14px;
     margin-left: auto;
@@ -288,11 +280,6 @@ body {
     font-size: 0.8rem;
 }
 
-.badge {
-    width: 15px;
-    height: 15px;
-}
-
 .card:hover .author .edit {
     opacity: 1;
     cursor: pointer;
@@ -303,17 +290,6 @@ body {
     margin-left: auto;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
-}
-
-#latexInput {
-    font-family: 'Courier New', sans-serif;
-}
-
-latex {
-    font-family: 'Courier New', sans-serif;
-    color: #af0000;
-    font-weight: 600;
-    font-size: 1rem;
 }
 
 .commentFooter {

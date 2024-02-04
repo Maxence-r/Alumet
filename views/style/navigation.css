@@ -1,7 +1,7 @@
 #toolbar {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: end;
     flex-wrap: wrap;
     gap: 5px;
     min-height: 38px;
@@ -18,8 +18,14 @@
     gap: 5px;
 }
 
+.badge {
+    width: 15px;
+    height: 15px;
+}
+
 #toolbar > div > button {
     display: flex;
+    gap: 6px;
     min-width: 40px;
     align-items: center;
     justify-content: center;
@@ -39,14 +45,33 @@
     height: 14px;
 }
 
+#quizlet {
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid #e5e5e5;
+    background-color: #f6f8fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#quizlet > img {
+    height: 20px;
+}
+
 .description-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     width: 100%;
     padding: 10px;
     border: 1px solid #e5e5e5;
     border-radius: 10px;
 }
 
-#editor {
+.editor {
     position: relative;
     min-height: 50px;
     border-radius: 2px;
@@ -55,12 +80,12 @@
     padding: 10px;
 }
 
-#editor[placeholder]:empty:before {
+.editor[placeholder]:empty:before {
     content: attr(placeholder);
     color: #555;
 }
 
-#editor[placeholder]:empty:focus:before {
+.editor[placeholder]:empty:focus:before {
     content: '';
 }
 
@@ -99,7 +124,6 @@
     background-position: center;
     padding: 20px;
     border-radius: 10px;
-    margin-top: 10px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     border: 1px solid #e5e5e5;
@@ -117,7 +141,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
     position: absolute;
     margin-left: auto;
     height: 30px;

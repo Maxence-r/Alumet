@@ -135,7 +135,7 @@ async function editPost(id) {
     }
     localStorage.setItem('currentItem', postData.wallId);
     document.getElementById('postTitle').value = postData.title;
-    document.getElementById('editor').innerHTML = postData.content;
+    document.getElementById('editorPost').innerHTML = postData.content;
     document.getElementById('postCommentAuthorized').checked = postData.commentAuthorized;
     document.getElementById('administatorsAuthorized').checked = postData.adminsOnly;
     if (postData.file) {
@@ -148,7 +148,7 @@ async function editPost(id) {
         document.querySelector('.link-preview').classList.add('active-link-preview');
         document.getElementById('preview-title').innerText = postData.link.title;
         document.getElementById('preview-link').innerText = postData.link.description;
-        document.querySelector('.link-preview').style.backgroundImage = `url(${postData.link.image})`;
+        document.querySelector('.link-preview').style.backgroundImage = `url(${postData.link.image || '/assets/preview/site.png'})`;
     }
     if (postData.postDate) {
         document.getElementById('publicationDate').checked = true;
@@ -261,17 +261,7 @@ function createPostElement(post) {
     if (post.content) {
         const cardDescription = document.createElement('div');
         cardDescription.classList.add('description');
-        const latexRegex = /<latex>(.*?)<\/latex>/g;
-        const matches = post.content.matchAll(latexRegex);
         let content = post.content;
-        for (const match of matches) {
-            let imgLatex = document.createElement('img');
-            imgLatex.src = `https://latex.codecogs.com/svg.latex?\\dpi{300}&space;${match[1]}`;
-            imgLatex.alt = 'LaTeX equation';
-            imgLatex.classList.add('latexImg');
-            content = content.replace(match[0], imgLatex.outerHTML);
-        }
-
         cardDescription.innerHTML = content;
         card.appendChild(cardDescription);
     }
@@ -350,7 +340,7 @@ async function createPost(confirmed) {
     let fileFromDevice = document.getElementById('post-file').files[0];
     let fileFromCloud = selectedFile[0];
     let title = document.getElementById('postTitle').value;
-    let content = document.getElementById('editor').innerHTML;
+    let content = document.getElementById('editorPost').innerHTML;
     let commentAuthorized = document.getElementById('postCommentAuthorized').checked;
     let adminsOnly = document.getElementById('administatorsAuthorized').checked;
     let postDate = document.getElementById('date').value;
@@ -472,7 +462,7 @@ function clearPost() {
     });
     document.getElementById('white').classList.add('selectedColor');
     document.getElementById('postTitle').value = '';
-    document.getElementById('editor').innerHTML = '';
+    document.getElementById('editorPost').innerHTML = '';
     document.getElementById('post-file').value = '';
     document.getElementById('postCommentAuthorized').checked = false;
     document.getElementById('administatorsAuthorized').checked = false;

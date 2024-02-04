@@ -2,6 +2,8 @@
     --blue: #1e54e3;
     --orange: #f0932b;
     box-sizing: border-box;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 body {
@@ -23,7 +25,6 @@ p {
 .MindMapBlock {
     position: relative;
 
-    background: white;
     border: 1px solid #ebebeb;
     border-radius: 10px;
 
@@ -49,8 +50,8 @@ p {
 .MindMapBlock::before {
     content: '';
     position: absolute;
-    width: 130%;
-    height: 130%;
+    width: 140%;
+    height: 140%;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -62,6 +63,13 @@ p {
 
 .MindMapBlockDescription {
     font-size: 1.1em;
+}
+
+.blockImage {
+    width: 200px;
+    border-radius: 4px;
+    -webkit-user-drag: none;
+    border: 1px solid #ebebeb;
 }
 
 .connector,
@@ -299,6 +307,10 @@ p {
 }
 
 @media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
     .printable-area {
         border: none;
     }

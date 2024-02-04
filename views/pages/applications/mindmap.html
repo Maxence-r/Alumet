@@ -31,7 +31,37 @@
             <h4>Alumet <span>Education</span></h4>
             <span class="loader-bar"></span>
         </section>
-
+        <div style="display: none" class="file-picker">
+            <div class="files-container">
+                <div class="from-device">
+                    <h3>Le fichier est sur votre appareil ?</h3>
+                    <button id="load-post-file" class="large greyed">Charger le fichier</button>
+                    <input type="file" style="display: none" id="post-file" />
+                </div>
+                <div class="row-fm-header">
+                    <select name="folder" id="folder-selection"></select>
+                </div>
+                <div class="files-selector">
+                    <div class="folder-container">
+                        <div class="folder-list"></div>
+                    </div>
+                    <div class="files">
+                        <div class="files-box">
+                            <div class="files-items connected">
+                                <div class="full-screen" style="display: none">
+                                    <h1>Pas de fichiers</h1>
+                                    <p>Ce dossier ne contient pas de fichiers</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="files-selected">
+                            <button onclick="document.querySelector('.file-picker').style.display='none'" class="large greyed">Annuler</button>
+                            <button class="large">Selectionner</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="prompt-popup popup">
             <div class="prompt">
                 <h1 id="prompt-head">Prompt name</h1>
@@ -66,7 +96,7 @@
         <section class="board">
             <div class="actions-row">
                 <div class="info-box">Sur un téléphone vous ne pouvez uniquement que lire une carte mentale</div>
-                <button class="large greyed">Nouveau Bloc</button>
+                <button class="large greyed">Tutoriel</button>
                 <button class="large">Sauvegarder</button>
             </div>
             <div class="MindMapContextMenu" style="display: none; position: absolute">
@@ -96,9 +126,8 @@
 
             <template class="MindMapBlockTemplate">
                 <div class="MindMapBlock">
-                    <div class="MindMapBlockHeader">
-                        <h4 class="MindMapBlockTitle"></h4>
-                    </div>
+                    <h4 class="MindMapBlockTitle"></h4>
+
                     <p class="MindMapBlockDescription"></p>
 
                     <div class="connector left">
@@ -224,25 +253,24 @@
                 </div>
 
                 <div class="overlay-content block">
-                    <input maxlength="300" id="postTitle" type="text" placeholder="Titre du bloc" />
-                    <div id="toolbar">
+                    <div class="header-setting">
                         <div>
-                            <button onclick="navbar('latex')" id="latex">
-                                <img src="../assets/global/latex.svg" />
-                            </button>
-                            <!-- <button onclick="navbar('audio')" id="latex">
-                                <img src="../assets/global/mic.svg" />
-                            </button> -->
-                        </div>
-                        <div>
-                            <button id="bold" onclick="makeHighlight()"><b>H</b></button>
-                            <button id="bold" onclick="makeBold()"><b>G</b></button>
-                            <button id="italic" onclick="makeItalic()"><i>I</i></button>
-                            <button id="underline" onclick="doUnderline()"><u>S</u></button>
+                            <h1>Créer ou modifier un bloc</h1>
+                            <p>Modifier les détails ci dessous pour créer ou modifier un bloc</p>
                         </div>
                     </div>
+                    <div class="divider"></div>
+                    <input maxlength="300" id="blockTitle" type="text" placeholder="Titre du bloc" />
                     <div class="description-container">
-                        <div id="editor" placeholder="Ecrivez ici le contenu" spellcheck="false" contenteditable="true" onkeypress="return (this.innerText.length <= 4000)"></div>
+                        <div class="editor" id="blockDescription" placeholder="Ecrivez ici le contenu du bloc" spellcheck="false" contenteditable="true" onkeypress="return (this.innerText.length <= 4000)"></div>
+                        <div id="toolbar">
+                            <div>
+                                <button id="bold" onclick="makeHighlight()"><b>H</b></button>
+                                <button id="bold" onclick="makeBold()"><b>G</b></button>
+                                <button id="italic" onclick="makeItalic()"><i>I</i></button>
+                                <button id="underline" onclick="doUnderline()"><u>S</u></button>
+                            </div>
+                        </div>
                         <div onclick="removeLink()" contenteditable="false" class="link-preview">
                             <div class="loading rounded">
                                 <span class="loader"></span>
@@ -274,7 +302,7 @@
                         </div>
                     </div>
 
-                    <div class="drop-box">
+                    <div data-unique="true" class="drop-box">
                         <div class="indications">
                             <div>
                                 <img src="../assets/global/upload.svg" alt="file icon" />
@@ -291,7 +319,7 @@
 
                     <div class="post-buttons">
                         <button onclick="deletePost()" class="large reded confirm">Supprimer ce block</button>
-                        <button onclick="createPost()" class="large confirm">Ajouter ce bloc</button>
+                        <button onclick="createBlock()" class="large confirm">Ajouter ce bloc</button>
                     </div>
                 </div>
 
@@ -330,6 +358,8 @@
                                     <option value="english">Anglais</option>
                                     <option value="language">Langues</option>
                                     <option value="technology">Technologie</option>
+                                    <option value="snt">SNT</option>
+                                    <option value="nsi">NSI</option>
                                     <option value="other">Autre</option>
                                 </select>
                             </div>
@@ -445,10 +475,10 @@
                     </div>
                     <div class="divider"></div>
                     <div class="user-infos">
-                        <img src="/cdn/u/6550d10ec6d8dffbff6fe374" />
+                        <img src="../assets/default/default_user.png" />
                         <div class="user-details">
-                            <h3>Name Lastname</h3>
-                            <p>Connecté</p>
+                            <h3>Anonyme</h3>
+                            <p>Déconnecté</p>
                         </div>
                     </div>
                     <div class="row-bottom-buttons connected">
@@ -466,7 +496,7 @@
                 <div id="menu"></div>
                 <button onclick="navbar('participants')" id="participants">
                     <img src="../assets/global/participants.svg" alt="Participants" />
-                    <p>Collaboration</p>
+                    <p>Participants</p>
                 </button>
                 <button class="admin" onclick="navbar('share')" id="share">
                     <img src="../assets/global/share.svg" alt="Partager" />
@@ -483,9 +513,9 @@
                 <button onclick="navbar('profile')" class="navProfile"><img src="../assets/default/default_user.png" /></button>
             </div>
         </section>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.1/canvg.js"></script>
         <script src="../../script/global.js"></script>
         <script src="../../script/applications/ideaFlow.js"></script>
         <script src="../../script/navigation.js"></script>
+        <script src="../../script/utils/filePicker.js"></script>
     </body>
 </html>

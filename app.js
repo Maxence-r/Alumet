@@ -65,8 +65,8 @@ app.get('/', (req, res) => {
 });
 
 // ROLLOUT
-const rolloutExperiment = require('./middlewares/utils/rollout.js');
-rolloutExperiment('aiFlashcards', '2024-01-23T23:00:30.000Z');
+/* const rolloutExperiment = require('./middlewares/utils/rollout.js');
+rolloutExperiment('aiFlashcards', '2024-01-23T23:00:30.000Z'); */
 
 // Alumet application
 app.use('/portal', portal);

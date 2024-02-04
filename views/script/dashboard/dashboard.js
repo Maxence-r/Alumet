@@ -48,8 +48,8 @@ document.addEventListener('keydown', function (event) {
 });
 
 function createAppBox(title, lastUsage, background, id, subject) {
-    const subjects = ['mathematics', 'french', 'history', 'geography', 'physics', 'biology', 'philosophy', 'english', 'technology', 'language', 'other'];
-    const subjectsInFrench = ['Mathématiques', 'Français', 'Histoire', 'Géographie', 'Physique', 'SVT', 'Philosophie', 'Anglais', 'Technologie', 'Langue', 'Autre'];
+    const subjects = ['mathematics', 'french', 'history', 'geography', 'physics', 'biology', 'philosophy', 'english', 'technology', 'nsi', 'snt', 'language', 'other'];
+    const subjectsInFrench = ['Mathématiques', 'Français', 'Histoire', 'Géographie', 'Physique', 'SVT', 'Philosophie', 'Anglais', 'Technologie', 'NSI', 'SNT', 'Langue', 'Autre'];
     subject = subjectsInFrench[subjects.indexOf(subject)];
 
     const appBox = document.createElement('div');

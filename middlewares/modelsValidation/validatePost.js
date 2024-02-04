@@ -57,7 +57,7 @@ const validatePost = async (req, res, next) => {
             const regex = /<div>/g;
             formattedText = formattedText.replace(regex, '<br>');
             const sanitizedText = sanitizeHtml(formattedText, {
-                allowedTags: ['b', 'i', 'u', 'br', 'latex', 'span'],
+                allowedTags: ['b', 'i', 'u', 'br', 'span'],
                 allowedAttributes: {
                     b: ['style'],
                     i: ['style'],

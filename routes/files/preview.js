@@ -59,7 +59,7 @@ router.get('/', rateLimit(60), async (req, res) => {
                     const url = `${req.protocol}://${req.get('host')}/cdn/u/${id}`;
                     const { data: imageData } = await axios.get(url, { responseType: 'arraybuffer' });
 
-                    const previewImage = await sharp(imageData).resize(200).toBuffer();
+                    const previewImage = await sharp(imageData).resize(500).toBuffer();
 
                     res.set('Content-Type', 'image/png');
                     res.send(previewImage);
