@@ -53,7 +53,7 @@ router.post('/authorize/:id', rateLimit(10), async (req, res) => {
         }
         switch (alumet.security) {
             case 'open':
-                if (req.user?.id) {
+                if (req.user?.id && alumet.participants.every(p => p.userId !== req.user.id)) {
                     alumet.participants.push({ userId: req.user.id, status: 2 });
                     await alumet.save();
                 }

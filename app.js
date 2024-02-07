@@ -103,6 +103,10 @@ app.use('/openai/flashcards', flashcardsAi);
 app.use('/dashboard', dashboard);
 app.use('/invitation', invitation);
 
+app.get('/philo', (req, res) => {
+    res.redirect('https://education.alumet.io/portal/65be34e467f994b25660ddbe');
+});
+
 const path = require('path');
 app.get('*', async (req, res) => {
     const filePath = path.join(__dirname, '/views/pages/404.html');
