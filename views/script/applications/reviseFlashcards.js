@@ -317,7 +317,7 @@ let canInteract = true;
 document.addEventListener('keydown', function (event) {
     if (!canInteract) return;
     canInteract = false;
-    setTimeout(() => (canInteract = true), 500);
+    setTimeout(() => (canInteract = true), 100);
 
     const cards = document.querySelectorAll('.flashcard--card:not(.removed)');
     const activeCard = cards[cards.length - 1];

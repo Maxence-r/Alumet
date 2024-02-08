@@ -90,7 +90,7 @@ const sanitizeOptions = {
     },
 };
 
-router.post('/import/:application', rateLimit(10), applicationAuthentication(), async (req, res) => {
+router.post('/import/:application', rateLimit(10), applicationAuthentication([1]), async (req, res) => {
     try {
         const { content } = req.body;
         const flashcardSet = await Alumet.findById(req.params.application);
@@ -123,7 +123,7 @@ router.post('/import/:application', rateLimit(10), applicationAuthentication(), 
     }
 });
 
-router.post('/:application/check', rateLimit(10), applicationAuthentication(), async (req, res) => {
+router.post('/:application/check', rateLimit(10), applicationAuthentication([1]), async (req, res) => {
     try {
         const { flashcardSetId, flashcards } = req.body;
         const flashcardSet = await Alumet.findById(flashcardSetId);
@@ -216,7 +216,7 @@ router.post('/:application/:flashcardId/review', rateLimit(120), applicationAuth
         res.json({ error });
     }
 });
-router.post('/resetProgress', async (req, res) => {
+router.post('/resetProgress', rateLimit(60), applicationAuthentication(), async (req, res) => {
     try {
         const { flashcardSetId } = req.body;
         const flashcards = await Flashcards.find({ flashcardSetId });
