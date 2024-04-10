@@ -56,6 +56,7 @@ mongoose.set('strictQuery', true);
         console.log('Connexion à MongoDB réussie !');
     } catch (err) {
         console.log('Connexion à MongoDB échouée !');
+        console.log(err)
     }
 })();
 

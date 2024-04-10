@@ -203,6 +203,9 @@ async function revise() {
     window.location.href = `/flashcards/revise/${selectedOption}/${id}` + (reversed ? '?reverse=true' : '');
 }
 async function createFlashcards(info, flashcards) {
+    if (info == 'ia') {
+        navbar('loading-flashcards')
+    }
     if (!flashcards) {
         flashcards = JSON.parse(localStorage.getItem('flashcards-ia')) || [];
         flashcards = flashcards.map(flashcard => ({ question: flashcard.question, answer: flashcard.answer }));
