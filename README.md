@@ -1,5 +1,7 @@
 # Alumet
 
+This project is tested with BrowserStack
+
 <div>
   <img href="https://www.oracle.com/fr/cloud/" alt="Oracle Cloud" src="https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=Oracle&logoColor=white">
   <img href="https://www.mongodb.com/" alt="MongoDB" src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white">
@@ -39,4 +41,4 @@ You can check out the online version of Alumet at https://education.alumet.io
 | 08/05/23 | UI & UX improvements on alumets (button visibility and interactions), many bugs fixed, correction of a major performance issue affecting less performant devices                                                                                                                                                                                                | 1.0.3   |
 | 02/05/23 | UI improvements on alumets (accent color), many bugs fixed                                                                                                                                                                                                                                                                                                      | 1.0.2   |
 | 30/04/23 | UX improvements on alumets (takes up the entire size), development of the Table module still ongoing, many bugs fixed, performance optimization on less performant devices                                                                                                                                                                                      | 1.0.1   |
-This project is tested with BrowserStack
+
