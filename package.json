@@ -30,7 +30,7 @@
         "ffmpeg-static": "^5.1.0",
         "fluent-ffmpeg": "^2.1.2",
         "googleapis": "^126.0.1",
-        "gpti": "^2.0.0",
+        "gpti": "^2.1.7",
         "helmet": "^7.1.0",
         "jimp": "^0.3.5",
         "js-beautify": "^1.14.7",

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const AccountSchema = mongoose.Schema({
     name: {
@@ -15,7 +15,7 @@ const AccountSchema = mongoose.Schema({
     },
     username: {
         type: String,
-        required: true,
+        required: false,
         minLength: 2,
         maxLength: 25,
     },
@@ -46,12 +46,12 @@ const AccountSchema = mongoose.Schema({
     icon: {
         type: String,
         required: false,
-        default: 'defaultUser',
+        default: "defaultUser",
     },
     notifications: {
         type: Array,
         required: false,
-        default: ['messageG', 'invitationC', 'commentP', 'experiments'],
+        default: ["messageG", "invitationC", "commentP", "experiments"],
     },
     badges: {
         type: Array,
@@ -75,5 +75,5 @@ const AccountSchema = mongoose.Schema({
     },
 });
 
-const Account = mongoose.model('Account', AccountSchema);
+const Account = mongoose.model("Account", AccountSchema);
 module.exports = Account;
