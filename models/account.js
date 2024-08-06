@@ -15,7 +15,7 @@ const AccountSchema = mongoose.Schema({
     },
     username: {
         type: String,
-        required: false,
+        required: true,
         minLength: 2,
         maxLength: 25,
     },

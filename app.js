@@ -67,7 +67,7 @@ app.get("/", (req, res) => {
 
 // ROLLOUT
 const rolloutExperiment = require("./middlewares/utils/rollout.js");
-rolloutExperiment("disableAlumet", "2024-08-10T15:29:30.000Z");
+rolloutExperiment("disableAlumet", "2024-08-09T01:01:30.000Z");
 
 // Alumet application
 app.use("/portal", portal);
