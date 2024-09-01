@@ -41,6 +41,7 @@ app.use(
 );
 app.use(cookieParser());
 
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("./views"));
