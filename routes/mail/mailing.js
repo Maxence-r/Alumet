@@ -20,7 +20,7 @@ const mailsSubjects = {
     passwordReset: "Alumet Education - Réinitialisation de mot de passe",
     collaboration: "Alumet Education - Invitation",
     certification: "Alumet Education - Certification",
-    suspended: "Alumet Education - Suspension de compte",
+    suspended: "Alumet Education - Compte désactivé",
     experiment: "Alumet Education - La fin",
 };
 
