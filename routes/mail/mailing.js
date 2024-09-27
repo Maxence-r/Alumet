@@ -22,6 +22,7 @@ const mailsSubjects = {
     certification: "Alumet Education - Certification",
     suspended: "Alumet Education - Compte désactivé",
     experiment: "Alumet Education - La fin",
+    unsuspended: "Alumet Education - Compte réactivé"
 };
 
 const experiments = {
@@ -76,6 +77,13 @@ async function createMail(type, receiver) {
         case "certification":
         // to do
         case "suspended":
+            mailContent = mailContent.replace(/{{name}}/g, receiverName);
+            mailContent = mailContent.replace(
+                /{{raison}}/g,
+                receiverInfos.suspended.reason
+            );
+            return mailContent;
+        case "unsuspended":
             mailContent = mailContent.replace(/{{name}}/g, receiverName);
             mailContent = mailContent.replace(
                 /{{raison}}/g,

@@ -29,6 +29,29 @@ router.post('/suspend/:userId', async (req, res) => {
     }
 });
 
+router.post('/unsuspend/:userId', async (req, res) => {
+    if (!req.connected || req.user.accountType !== 'staff') {
+        return res.status(403).json({ error: 'Unauthorized' });
+    }
+
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        
+        user.suspended = undefined;
+        await user.save();
+        sendMail('unsuspended', user.mail);
+
+        res.json({ message: 'User unsuspended successfully' });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+}
+);
+
 router.get('/incidents', rateLimit(30), async (req, res) => {
     try {
         const incidents = await Incident.find().sort({ createdAt: 1 });
