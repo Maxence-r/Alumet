@@ -119,6 +119,9 @@ router.post('/authorize', rateLimit(3), async (req, res) => {
             res.status(400).json({ error: 'Code invalide !' });
         } else {
             const user = await Account.findOne({ mail: a2f.owner });
+            if (!user) {
+                return res.status(400).json({ error: 'Utilisateur non trouvé !' });
+            }
             const token = jwt.sign(
                 {
                     userId: user._id,
