@@ -8,6 +8,9 @@ const rateLimit = require('../../middlewares/authentification/rateLimit');
 
 router.get('/:id', validateObjectId, async (req, res) => {
     try {
+        if (!req.user || !req.user.mail) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
         let invitation = await Invitation.findOne({ reference: req.params.id, mail: req.user.mail });
         if (!invitation) {
             res.redirect('/404');
@@ -25,6 +28,9 @@ router.get('/:id', validateObjectId, async (req, res) => {
 
 router.post('/accept/:id', rateLimit(30), async (req, res) => {
     try {
+        if (!req.user || !req.user.mail) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
         const invitation = await Invitation.findOne({
             reference: req.params.id,
             mail: req.user.mail,
@@ -59,6 +65,9 @@ router.post('/accept/:id', rateLimit(30), async (req, res) => {
 
 router.post('/decline/:id', rateLimit(30), async (req, res) => {
     try {
+        if (!req.user || !req.user.mail) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
         const invitation = await Invitation.findOne({
             reference: req.params.id,
             mail: req.user.mail,
@@ -79,7 +88,5 @@ router.post('/decline/:id', rateLimit(30), async (req, res) => {
         });
     }
 });
-
-
 
 module.exports = router;

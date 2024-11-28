@@ -21,7 +21,7 @@ router.get('/:application/content', applicationAuthentication(), rateLimit(60), 
 
         for (let wall of walls) {
             let posts;
-            if (req.connected && (alumet.owner === req.user.id || alumet.participants.some(p => p.userId.toString() === req.user.id && p.status === 1))) {
+            if (req.connected && (alumet.owner === req.user?.id || alumet.participants.some(p => p.userId.toString() === req.user?.id && p.status === 1))) {
                 posts = await Post.find({ wallId: wall._id }).sort({ position: -1 }).lean();
             } else {
                 delete alumetContent.code;

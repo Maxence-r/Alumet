@@ -155,7 +155,7 @@ router.delete('/delete/:id', validateObjectId, rateLimit(30), authorizeA2F, asyn
                 error: 'Alumet not found',
             });
         }
-        if (alumet.owner !== req.user.id) {
+        if (alumet.owner !== req.user?.id) {
             return res.status(403).json({
                 error: 'Unauthorized',
             });
@@ -185,7 +185,7 @@ router.put('/role/:app', rateLimit(60), async (req, res) => {
                 error: "L'application n'a pas été trouvée",
             });
         }
-        if (alumet.owner !== req.user.id) {
+        if (alumet.owner !== req.user?.id) {
             return res.status(403).json({
                 error: "Vous n'êtes pas autorisé à effectuer cette action",
             });
@@ -226,7 +226,7 @@ router.put('/giveOwnership/:app', rateLimit(60), async (req, res) => {
                 error: "L'application n'a pas été trouvée",
             });
         }
-        if (alumet.owner !== req.user.id) {
+        if (alumet.owner !== req.user?.id) {
             return res.status(403).json({
                 error: "Vous n'êtes pas autorisé à effectuer cette action",
             });
