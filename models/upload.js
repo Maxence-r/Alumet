@@ -40,5 +40,8 @@ const UploadSchema = mongoose.Schema({
     },
 });
 
+UploadSchema.index({ owner: 1, date: -1 });
+UploadSchema.index({ folder: 1, _id: -1 });
+
 const Upload = mongoose.model('Upload', UploadSchema);
 module.exports = Upload;

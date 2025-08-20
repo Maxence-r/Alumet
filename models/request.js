@@ -15,6 +15,8 @@ const RequestSchema = new mongoose.Schema({
     }
 });
 
+RequestSchema.index({ ip: 1, route: 1, createdAt: -1 });
+
 const Request = mongoose.model('Request', RequestSchema);
 
 module.exports = Request;

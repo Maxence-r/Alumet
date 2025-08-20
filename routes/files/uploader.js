@@ -166,6 +166,7 @@ const accountUpload = multer({
     storage: storage,
     limits: {
         files: 150,
+        fileSize: 200 * 1024 * 1024,
     },
 });
 
@@ -191,7 +192,7 @@ router.post('/upload/:id', rateLimit(240), async (req, res) => {
                     displayname: sanitizedFilename,
                     mimetype: ext.toLowerCase(),
                     filesize: req.file.size,
-                    owner: req.user?.id || req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0].trim() || req.connection.remoteAddress,
+                    owner: req.user?.id || (req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.connection?.remoteAddress || '').toString(),
                     folder: folder?._id || null,
                 });
                 await upload.save();

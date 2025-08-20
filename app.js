@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const fs = require("fs");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 require("dotenv").config();
@@ -42,9 +43,18 @@ app.use(
 app.use(cookieParser());
 
 
+app.set("trust proxy", 1);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("./views"));
+// Ensure CDN directory exists at runtime
+if (!fs.existsSync("./cdn")) {
+    try {
+        fs.mkdirSync("./cdn", { recursive: true });
+    } catch (e) {
+        console.warn("Unable to create ./cdn directory:", e?.message || e);
+    }
+}
+app.use(express.static("./views", { maxAge: "7d" }));
 app.use(express.static("./cdn"));
 
 mongoose.set("strictQuery", true);

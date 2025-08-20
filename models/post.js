@@ -61,5 +61,9 @@ const PostSchema = mongoose.Schema({
     },
 });
 
+PostSchema.index({ wallId: 1, position: -1 });
+PostSchema.index({ wallId: 1, createdAt: -1 });
+PostSchema.index({ owner: 1, createdAt: -1 });
+
 const Post = mongoose.model('Post', PostSchema);
 module.exports = Post;

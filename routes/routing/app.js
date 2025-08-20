@@ -74,7 +74,7 @@ router.get('/info/:application', validateObjectId, rateLimit(30), async (req, re
         }
 
         const participantIds = alumet.participants.map(p => p.userId);
-        const participantAccounts = await Promise.all(participantIds.map(id => Account.findById(id, 'id name icon lastname username accountType badges')));
+        const participantAccounts = await Promise.all(participantIds.map(id => Account.findById(id, 'id name icon lastname username accountType badges').lean()));
 
         let participants = participantAccounts
             .map((account, index) => {
@@ -84,8 +84,8 @@ router.get('/info/:application', validateObjectId, rateLimit(30), async (req, re
             })
             .filter(Boolean);
 
-        const ownerAccount = await Account.findById(alumet.owner, 'id name icon lastname username accountType badges');
-        participants.push({ ...ownerAccount.toObject(), status: 0 });
+        const ownerAccount = await Account.findById(alumet.owner, 'id name icon lastname username accountType badges').lean();
+        participants.push({ ...ownerAccount, status: 0 });
 
         res.json({
             infos: { ...alumet.toObject(), participant, participants },

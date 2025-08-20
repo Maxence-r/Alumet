@@ -1,9 +1,13 @@
 const http = require('http');
 const app = require('./app');
 const server = http.createServer(app);
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, { cors: { origin: '*', methods: ['GET','POST','PUT','PATCH','DELETE'] } });
 app.set('socketio', io);
 global.io = io;
+process.on('SIGTERM', () => {
+    try { io.close(); } catch {}
+    try { server.close(() => process.exit(0)); } catch { process.exit(0); }
+});
 chatSocket = require('./socket/chatSocket')(io);
 alumetSocket = require('./socket/alumetSocket.js')(io);
 

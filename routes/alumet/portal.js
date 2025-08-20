@@ -31,7 +31,9 @@ router.get('/:id', validateObjectId, async (req, res) => {
             }
         }
         const filePath = path.join(__dirname, '../../views/pages/authentification/authentication.html');
-        return res.sendFile(filePath);
+        return res.sendFile(filePath, err => {
+            if (err) return res.status(404).end();
+        });
     } catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -88,11 +90,8 @@ router.post('/authorize/:id', rateLimit(10), async (req, res) => {
                                         })
                                     );
                                 } else {
-                                    resolve(
-                                        res.cookie('applicationToken', token, { maxAge: 3600000, sameSite: 'Lax' }).status(200).json({
-                                            message: 'Alumet Authorized',
-                                        })
-                                    );
+                                    const cookieOptions = { maxAge: 3600000, sameSite: 'Lax', httpOnly: true, secure: false };
+                                    resolve(res.cookie('applicationToken', token, cookieOptions).status(200).json({ message: 'Alumet Authorized' }));
                                 }
                             });
                         });
