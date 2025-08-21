@@ -4,7 +4,6 @@ const { sendMail } = require('../mail/mailing');
 const A2F = require('../../models/a2f');
 const rateLimit = require('../../middlewares/authentification/rateLimit');
 
-
 router.post('/a2f', rateLimit(3), async (req, res) => {
     const mail = req.user?.mail || req.body.mail;
     if (!mail) {
@@ -13,6 +12,7 @@ router.post('/a2f', rateLimit(3), async (req, res) => {
     sendMail('a2f', mail);
     res.status(200).json({ a2f: true });
 });
+
 async function sendA2FCode(mail, res) {
     try {
         const a2fCodeDb = await A2F.findOne({ owner: mail }).sort({ expireAt: -1 });
@@ -38,7 +38,6 @@ async function sendA2FCode(mail, res) {
         res.status(500).json({ error });
     }
 }
-
 
 module.exports = router;
 module.exports.sendA2FCode = sendA2FCode;

@@ -156,7 +156,7 @@ router.delete('/:application/:post', applicationAuthentication(), rateLimit(60),
         if (
             (!req.connected && post.ip !== (req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0].trim() || req.connection.remoteAddress)) ||
             !post ||
-            (post.owner !== req.user?.id && !alumet.participants.some(p => p.userId === req.user.id && p.status === 1) && alumet.owner !== req.user.id)
+            (post.owner !== req.user?.id && !alumet.participants.some(p => p.userId === req.user?.id && p.status === 1) && alumet.owner !== req.user?.id)
         ) {
             return res.status(404).json({
                 error: "Vous n'avez pas les permissions pour effectuer cette action !",
