@@ -7,15 +7,71 @@
     font-stretch: 75% 125%;
 }
 
+:root {
+    --color-primary: #296eff;
+    --color-primary-strong: #1e54e3;
+    --color-accent: #00a878;
+    --color-warning: #f0ac00;
+    --color-danger: #ef4444;
+    --surface: #ffffff;
+    --surface-muted: #f6f8fc;
+    --surface-raised: rgba(255, 255, 255, 0.92);
+    --text-primary: #111827;
+    --text-secondary: #667085;
+    --border-subtle: #e6eaf2;
+    --shadow-soft: 0 16px 45px rgba(17, 24, 39, 0.08);
+    --shadow-tight: 0 8px 24px rgba(17, 24, 39, 0.1);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --duration-fast: 150ms;
+    --duration-normal: 240ms;
+    color-scheme: light;
+}
+
 * {
     font-family: 'Plus Jakarta Sans', sans-serif;
     scrollbar-width: thin;
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    color: var(--text-primary);
+    background: var(--surface);
+}
+
+img,
+svg,
+video,
+canvas {
+    max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--color-primary) 32%, transparent);
+    outline-offset: 3px;
+}
+
 .large:hover {
-    background-color: #1e54e3;
-    transform: scale(0.98);
+    background-color: var(--color-primary-strong);
+    transform: translateY(-1px);
 }
 
 .indicator[data-level='low'] {
@@ -38,13 +94,13 @@
     font-size: 0.85rem;
     white-space: nowrap;
     padding: 0 20px;
-    background-color: #296eff;
-    border-radius: 10px;
+    background-color: var(--color-primary);
+    border-radius: var(--radius-sm);
     border: none;
     color: white;
     font-weight: 500;
-    box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
+    box-shadow: var(--shadow-tight);
+    transition: transform var(--duration-normal) ease, background-color var(--duration-normal) ease, box-shadow var(--duration-normal) ease;
     cursor: pointer;
 }
 
@@ -125,8 +181,8 @@
 }
 
 .large-white:hover {
-    background-color: #f1f1f1;
-    transform: scale(0.98);
+    background-color: var(--surface-muted);
+    transform: translateY(-1px);
 }
 .large-white {
     display: flex;
@@ -137,16 +193,16 @@
     padding: 0 20px;
     background-color: #fff;
     border-radius: 10px;
-    border: 2px solid #296eff;
-    color: #296eff;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
     font-weight: 600;
-    box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
+    box-shadow: var(--shadow-tight);
+    transition: transform var(--duration-normal) ease, background-color var(--duration-normal) ease;
     cursor: pointer;
 }
 
 .active {
-    background-color: #296eff !important;
+    background-color: var(--color-primary) !important;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -306,11 +362,12 @@
     border-radius: 8px;
     padding: 10px;
     border: 2px dashed #e5e5e5;
-    transition: all 0.3s ease-in-out;
+    transition: border-color var(--duration-normal) ease, box-shadow var(--duration-normal) ease, transform var(--duration-normal) ease;
 }
 
 .drop-box:hover {
-    box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.1);
+    border-color: color-mix(in srgb, var(--color-primary) 45%, var(--border-subtle));
+    box-shadow: var(--shadow-tight);
 }
 
 .sending-box {
@@ -346,11 +403,11 @@
 }
 
 .selected-file {
-    background-color: #e4edff;
+    background-color: color-mix(in srgb, var(--color-primary) 12%, white);
 }
 
 .selected-file > .file-name > h4 {
-    color: #1e54e3 !important;
+    color: var(--color-primary-strong) !important;
 }
 
 .ready-to-send > .rts {
@@ -1535,7 +1592,8 @@ select {
     gap: 15px;
 }
 
-.modulable-left > div {
+.modulable-left > div,
+.modulable-left > button {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -1546,6 +1604,18 @@ select {
     border-radius: 10px;
     flex-grow: 1;
     justify-content: center;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-family: inherit;
+}
+
+.modulable-left > .module-selected {
+    background-color: #f4f4f4;
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: #d2d2d2;
+    outline-offset: -1px;
 }
 
 .user-details > h3 {
@@ -2171,7 +2241,8 @@ h1 {
     .grid-user-container {
         grid-gap: 15px;
     }
-    .modulable-left > div {
+    .modulable-left > div,
+    .modulable-left > button {
         flex: 1;
         padding: 0 2%;
         justify-content: center;

@@ -23,7 +23,7 @@ function sendMessage() {
         .then(json => {
             if (json.error)
                 return toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: `${json.error}`,
                     type: 'error',
                     duration: 2500,
@@ -93,7 +93,7 @@ function deleteMessage(id) {
         .then(json => {
             if (json.error)
                 return toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: `${json.error}`,
                     type: 'error',
                     duration: 2500,

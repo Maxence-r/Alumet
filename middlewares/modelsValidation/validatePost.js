@@ -28,7 +28,7 @@ const validatePost = async (req, res, next) => {
             if (!req.connected && post.ip !== (req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0].trim() || req.connection.remoteAddress)) {
                 return res.status(401).json({ error: 'Unauthorized x001' });
             } else if (req.connected && (!post || (post.owner !== req.user.id && !alumet.participants.some(p => p.userId === req.user.id && p.status === 1) && alumet.owner !== req.user.id))) {
-                return res.status(400).json({ error: "Vous n'avez pas la permission de modifier cette publication !" });
+                return res.status(400).json({ error: "You do not have permission to edit this post!" });
             }
         }
 
@@ -47,7 +47,7 @@ const validatePost = async (req, res, next) => {
             const publicationDate = new Date(new Date(req.body.postDate).getTime());
             const publicationDateString = publicationDate.toISOString();
             if (isNaN(publicationDate.getTime()) || publicationDateString <= new Date()) {
-                return res.status(400).json({ error: 'La date de publication est déja passé' });
+                return res.status(400).json({ error: 'The publication date has already passed' });
             }
             req.body.postDate = publicationDateString;
         }

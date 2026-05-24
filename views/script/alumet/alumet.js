@@ -37,7 +37,7 @@ function registerEventsOnList(list) {
             .then(data => {
                 if (data.error) {
                     return toast({
-                        title: 'Erreur',
+                        title: 'Error',
                         message: data.error,
                         type: 'error',
                     });

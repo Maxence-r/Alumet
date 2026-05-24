@@ -4,7 +4,8 @@
     "description": "The best way to manage your classes",
     "main": "app.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "check": "find config utils routes middlewares models socket views/script -type f -name '*.js' -print0 | xargs -0 -n 1 node --check && node --check app.js && node --check server.js",
+        "test": "npm run check",
         "start": "node server.js",
         "dev": "nodemon server.js"
     },
@@ -53,5 +54,8 @@
         "url-metadata": "^3.0.3",
         "uuid": "^9.0.0",
         "youtube-transcript": "^1.0.6"
+    },
+    "devDependencies": {
+        "serval": "file:../unknown/packages/cli"
     }
 }

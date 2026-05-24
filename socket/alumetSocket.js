@@ -1,8 +1,7 @@
 const Alumet = require('../models/alumet');
-const Post = require('../models/post');
 const Account = require('../models/account');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const { verifyJwt } = require('../utils/auth');
+const logger = require('../utils/logger');
 
 // security authentification mecanism, to be changed
 
@@ -23,12 +22,8 @@ module.exports = function (io) {
                     return;
                 }
                 if (token) {
-                    jwt.verify(token, process.env.TOKEN, async (err, decoded) => {
-                        if (err) {
-                            console.error(err);
-                            return;
-                        }
-
+                    try {
+                        const decoded = verifyJwt(token);
                         const account = await Account.findOne({ _id: decoded.userId });
                         if (!account) {
                             return;
@@ -40,10 +35,12 @@ module.exports = function (io) {
                         if (alumet.participants.some(p => p.userId === account._id.toString() && p.status === 1) || alumet.owner == account._id.toString()) {
                             socket.join(`admin-${alumetId}`);
                         }
-                    });
+                    } catch (error) {
+                        logger.warn('Socket Alumet authentication failed', error.message);
+                    }
                 }
             } catch (error) {
-                console.error(error);
+                logger.error('Socket joinAlumet failed', error);
             }
         });
     });

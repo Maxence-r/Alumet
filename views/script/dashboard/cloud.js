@@ -89,18 +89,18 @@ function createFileElement(file) {
 
 function editFolder() {
     createPrompt({
-        head: 'Renommer le dossier',
-        placeholder: 'Nouveau nom',
+        head: 'Rename folder',
+        placeholder: 'New last name',
         action: 'renameFolder()',
         redAction: 'deleteFolder()',
-        redActionText: 'Supprimer le dossier',
+        redActionText: 'Delete folder',
     });
 }
 
 function modifyFile() {
     createPrompt({
-        head: 'Renommer le fichier',
-        placeholder: 'Nouveau nom',
+        head: 'Rename file',
+        placeholder: 'New last name',
         action: 'renameFileRequest()',
     });
 }
@@ -120,7 +120,7 @@ function deleteFile() {
         .then(data => {
             if (data.error) {
                 toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: `${data.error}`,
                     type: 'error',
                     duration: 5000,
@@ -128,8 +128,8 @@ function deleteFile() {
                 return;
             }
             toast({
-                title: 'Succès',
-                message: 'Le fichier a été supprimé.',
+                title: 'Success',
+                message: 'The file has been deleted.',
                 type: 'success',
                 duration: 5000,
             });
@@ -155,8 +155,8 @@ localStorage.removeItem('currentFile');
 document.addEventListener('keydown', e => {
     if (e.keyCode === 46 && localStorage.getItem('currentFile') && document.getElementById('cloud').classList.contains('active')) {
         createPrompt({
-            head: 'Supprimer le fichier',
-            desc: 'Êtes-vous sûr de vouloir supprimer ce fichier ?',
+            head: 'Delete file',
+            desc: 'Are you sure you want to delete this file?',
             action: 'deleteFile()',
         });
     }
@@ -171,8 +171,8 @@ function renameFileRequest() {
     let name = document.getElementById('prompt-input').value;
     if (!name) {
         toast({
-            title: 'Erreur',
-            message: 'Veuillez entrer un nom de fichier.',
+            title: 'Error',
+            message: 'Please enter a file name.',
             type: 'error',
             duration: 5000,
         });
@@ -191,7 +191,7 @@ function renameFileRequest() {
         .then(data => {
             if (data.error) {
                 toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: `${data.error}`,
                     type: 'error',
                     duration: 5000,
@@ -199,8 +199,8 @@ function renameFileRequest() {
                 return;
             }
             toast({
-                title: 'Succès',
-                message: 'Le fichier a été renommé.',
+                title: 'Success',
+                message: 'The file has been renamed.',
                 type: 'success',
                 duration: 5000,
             });
@@ -223,7 +223,7 @@ function deleteFolder(id) {
         .then(data => {
             if (data.error) {
                 toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: `${data.error}`,
                     type: 'error',
                     duration: 5000,
@@ -231,8 +231,8 @@ function deleteFolder(id) {
                 return;
             }
             toast({
-                title: 'Succès',
-                message: 'Le dossier a été supprimé.',
+                title: 'Success',
+                message: 'The folder has been deleted.',
                 type: 'success',
                 duration: 5000,
             });
@@ -248,8 +248,8 @@ function renameFolder() {
     let name = document.getElementById('prompt-input').value;
     if (!name) {
         toast({
-            title: 'Erreur',
-            message: 'Veuillez entrer un nom de dossier.',
+            title: 'Error',
+            message: 'Please enter a folder name.',
             type: 'error',
             duration: 5000,
         });
@@ -268,7 +268,7 @@ function renameFolder() {
         .then(data => {
             if (data.error) {
                 toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: `${data.error}`,
                     type: 'error',
                     duration: 5000,
@@ -276,8 +276,8 @@ function renameFolder() {
                 return;
             }
             toast({
-                title: 'Succès',
-                message: 'Le dossier a été renommé.',
+                title: 'Success',
+                message: 'The folder has been renamed.',
                 type: 'success',
                 duration: 5000,
             });
@@ -306,8 +306,8 @@ function addFolder(folder) {
 
 function newFolder() {
     createPrompt({
-        head: 'Nouveau dossier',
-        placeholder: 'Nom du dossier',
+        head: 'New folder',
+        placeholder: 'Folder name',
         action: 'createFolder()',
     });
 }
@@ -316,8 +316,8 @@ function createFolder() {
     let name = document.getElementById('prompt-input').value;
     if (!name) {
         toast({
-            title: 'Erreur',
-            message: 'Veuillez entrer un nom de dossier.',
+            title: 'Error',
+            message: 'Please enter a folder name.',
             type: 'error',
             duration: 5000,
         });
@@ -336,7 +336,7 @@ function createFolder() {
         .then(data => {
             if (data.error) {
                 toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: `${data.error}`,
                     type: 'error',
                     duration: 5000,
@@ -349,8 +349,8 @@ function createFolder() {
             const folder = folderList.querySelector(`div[data-id="${data._id}"]`);
             folder.click();
             toast({
-                title: 'Succès',
-                message: 'Le dossier a été créé.',
+                title: 'Success',
+                message: 'The folder has been created.',
                 type: 'success',
                 duration: 5000,
             });

@@ -118,7 +118,7 @@ document.querySelectorAll('.join').forEach(e => {
                 if (data.error) {
                     document.querySelector('.access').classList.remove('load');
                     return toast({
-                        title: 'Erreur',
+                        title: 'Error',
                         message: data.error,
                         type: 'error',
                         duration: 2500,

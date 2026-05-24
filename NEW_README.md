@@ -82,7 +82,7 @@ cd client && npm run dev
 - **Files**: Upload, preview, and organize documents
 - **Homework**: Assign and track student progress
 - **Mindmaps**: Visual brainstorming and planning
-- **Profiles**: Manage accounts and preferences
+- **Profilees**: Manage accounts and preferences
 
 ## 🔐 Security
 

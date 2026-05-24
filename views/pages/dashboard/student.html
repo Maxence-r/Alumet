@@ -5,10 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <link rel="icon" href="../assets/global/alumet.ico" />
 
-        <meta name="description" content="Tableau de bord interactif : Organisez et gérez efficacement tous vos supports d'apprentissage et fichiers en un seul endroit, facilitant ainsi votre expérience éducative." />
-        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers, education, messagerie, français, temps réel, gratuit" />
+        <meta name="description" content="Interactive dashboard: organize and manage all your learning spaces and files in one place." />
+        <meta name="keywords" content="Alumet, class, free, organization, boards, files, education, messaging, English, real time" />
         <meta property="og:title" content="Alumet Education" />
-        <meta property="og:description" content="Tableau de bord interactif : Organisez et gérez efficacement tous vos supports d'apprentissage et fichiers en un seul endroit, facilitant ainsi votre expérience éducative." />
+        <meta property="og:description" content="Interactive dashboard: organize and manage all your learning spaces and files in one place." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://education.alumet.io" />
         <meta property="og:image" content="https://i.imgur.com/dtHIa4A.png" />
@@ -16,7 +16,7 @@
         <meta name="twitter:domain" content="alumet.io" />
         <meta name="twitter:url" content="https://education.alumet.io/" />
         <meta name="twitter:title" content="Alumet Education" />
-        <meta name="twitter:description" content="Tableau de bord interactif : Organisez et gérez efficacement tous vos supports d'apprentissage et fichiers en un seul endroit, facilitant ainsi votre expérience éducative." />
+        <meta name="twitter:description" content="Interactive dashboard: organize and manage all your learning spaces and files in one place." />
         <meta name="twitter:image" content="https://i.imgur.com/dtHIa4A.png" />
 
         <link href="../style/pages/dashboard.css" rel="stylesheet" type="text/css" />
@@ -25,7 +25,7 @@
         <link rel="apple-touch-icon" sizes="180x180" href="../../assets/global/logopwa.png" />
 
         <link rel="manifest" href="./../../assets/manifest/manifest.json" />
-        <title>Alumet - Tableau de bord</title>
+        <title>Alumet - Dashboard</title>
     </head>
 
     <body>
@@ -40,28 +40,28 @@
                 <h4 id="prompt-desc"></h4>
                 <input autocomplete="off" id="prompt-input" type="text" placeholder="Prompt placeholder" />
                 <div class="prompt-buttons">
-                    <button class="large" id="prompt-red">Supprimer</button> <button class="large greyed" onclick="document.querySelector('.prompt-popup').classList.remove('active-popup')">Annuler</button>
-                    <button class="large" id="prompt-confirm">Confirmer</button>
+                    <button class="large" id="prompt-red">Delete</button> <button class="large greyed" onclick="document.querySelector('.prompt-popup').classList.remove('active-popup')">Cancel</button>
+                    <button class="large" id="prompt-confirm">Confirm</button>
                 </div>
                 <datalist id="users"> </datalist>
             </div>
         </div>
         <div class="user-popup popup">
             <div class="prompt">
-                <h1>Créer une discussion</h1>
-                <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Entrez un nom ou prénom" />
+                <h1>Create a conversation</h1>
+                <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Enter a first or last name" />
                 <div class="users-fetch">
                     <div class="details loading-users">
                         <span class="loader"></span>
                     </div>
                     <div class="details no-result">
-                        <h1>Aucun resultats</h1>
-                        <p>Affiner votre recherche</p>
+                        <h1>No resultats</h1>
+                        <p>Affiner your recherche</p>
                     </div>
                 </div>
                 <div class="prompt-buttons">
-                    <button class="large">Supprimer</button> <button class="large greyed" onclick="document.querySelector('.user-popup').classList.remove('active-popup')">Annuler</button>
-                    <button onclick="createConversation()" class="large">Confirmer</button>
+                    <button class="large">Delete</button> <button class="large greyed" onclick="document.querySelector('.user-popup').classList.remove('active-popup')">Cancel</button>
+                    <button onclick="createConversation()" class="large">Confirm</button>
                 </div>
             </div>
         </div>
@@ -76,7 +76,7 @@
                 <img src="../assets/global/helpcenter.svg" alt="Centre d'aide" />
                 <div class="ping"></div>
             </button>
-            <button id="profile"><img src="../assets/global/profile.svg" alt="paramètres" /></button>
+            <button id="profile"><img src="../assets/global/profile.svg" alt="settings" /></button>
         </div>
         <section class="sections-container">
             <section class="home active-section">
@@ -84,7 +84,7 @@
                     <div onclick="toggleDetailsIncidents()" class="alumet-status">
                         <div class="lookup">
                             <div data-incident="red" class="indicator"></div>
-                            <p>1 incident majeur en cours</p>
+                            <p>1 major incident in progress</p>
                         </div>
 
                         <div class="details-incidents">
@@ -97,10 +97,10 @@
                         <div class="modulable-left">
                             <div data-ref="items" data-module="alumets" class="module-selected">Alumets</div>
                             <div data-ref="items" data-module="flashcards">Flashcards</div>
-                            <!-- <div style="cursor: not-allowed" data-ref="items" data-module="mindmaps">Cartes mentales</div> -->
+                            <!-- <div style="cursor: not-allowed" data-ref="items" data-module="mindmaps">Mind maps</div> -->
                         </div>
                         <div class="modulable-right">
-                            <button onclick="startSetup()" class="large">Nouveau</button>
+                            <button onclick="startSetup()" class="large">New</button>
                         </div>
                     </div>
                     <div data-reference="items" style="display: flex" class="module items alumets">
@@ -145,7 +145,7 @@
                 <div class="main-container no-conversation showing-group-settings">
                     <div class="full-screen">
                         <h1>Cliquez sur une conversation pour commencer !</h1>
-                        <p>Alumet garantit la sécurité de vos données, où que vous soyez !</p>
+                        <p>Alumet keeps your data secure wherever you are.</p>
                     </div>
                     <div class="loading-conversation full-screen">
                         <span class="loader"></span>
@@ -159,20 +159,20 @@
                                     <p id="conversation-lastTime">conversation.lastusage</p>
                                 </div>
                             </div>
-                            <div class="options"><button id="close-conversation-button" class="large greyed">Fermer</button></div>
+                            <div class="options"><button id="close-conversation-button" class="large greyed">Close</button></div>
                         </div>
                         <div class="conversation-body">
                             <img class="lueur" src="../../assets/global/lueur.png" />
                         </div>
-                        <textarea rows="1" autocomplete="off" type="text" name="message" id="message" placeholder="Écrire un message"></textarea>
+                        <textarea rows="1" autocomplete="off" type="text" name="message" id="message" placeholder="Write a message"></textarea>
                         <div class="send-text"><img id="send-text" src="../assets/global/send.svg" alt="send icon" /></div>
                         <div class="upload-text"><img id="upload-text" src="../assets/global/upload.svg" alt="file icon" /></div>
                     </div>
                     <div class="conversation-settings">
                         <div class="header">
-                            <h2>Paramètres de la conversation</h2>
+                            <h2>Conversation settings</h2>
                             <button onclick="document.querySelector('.showing-group-settings').classList.remove('showing-group-settings'), document.querySelector('.context-menu').classList.remove('active-context')" class="large greyed">
-                                Fermer
+                                Close
                             </button>
                         </div>
                         <div class="divider"></div>
@@ -181,20 +181,20 @@
                                 <div>
                                     <img id="group-profile-picture" src="../assets/global/default_group.png" alt="file icon" />
                                     <input type="file" id="group-profile-picture-input" accept="image/png, image/jpeg" />
-                                    <input id="parameter-group-name" type="text" class="group-name" placeholder="Nom du groupe" />
+                                    <input id="parameter-group-name" type="text" class="group-name" placeholder="Group name" />
                                 </div>
-                                <!-- <button class="large greyed">Renommer</button> -->
+                                <!-- <button class="large greyed">Rename</button> -->
                                 <button id="leave-group-btn" class="large reded">Quitter le groupe</button>
                             </div>
                             <div class="context-menu">
                                 <div class="row-context-menu">
                                     <h2>Actions</h2>
-                                    <button onclick="document.querySelector('.context-menu').classList.remove('active-context')" class="large greyed">Fermer</button>
+                                    <button onclick="document.querySelector('.context-menu').classList.remove('active-context')" class="large greyed">Close</button>
                                 </div>
                                 <div class="divider"></div>
                                 <button onclick="promoteAdmin()" class="large">Promouvoir administrateur</button>
                                 <button onclick="demoteAdmin()" class="large greyed">Retrograder administrateur</button>
-                                <button onclick="promoteOwnerPrompt()" class="large greyed">Transferer la proprieté</button>
+                                <button onclick="promoteOwnerPrompt()" class="large greyed">Transfer ownership</button>
                                 <button onclick="removeUser()" class="large reded">Expulser du groupe</button>
                             </div>
 
@@ -207,37 +207,37 @@
                             <div class="information">
                                 <img src="../assets/global/locked.svg" />
                                 <h3>
-                                    Bientôt disponible en
+                                    Coming soon in
                                     <div class="beta">BETA</div>
                                 </h3>
-                                <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
+                                <p>You have access to an early version of Alumet. Many features are still being rolled out.</p>
                             </div>
                         </div>
                         <div class="alumet-content">
                             <div class="information">
                                 <img src="../assets/global/locked.svg" />
                                 <h3>
-                                    Bientôt disponible en
+                                    Coming soon in
                                     <div class="beta">BETA</div>
                                 </h3>
-                                <p>Vous avez accès à une version préliminaire d'Alumet. De nombreuses fonctionnalités sont encore en cours de déploiement.</p>
+                                <p>You have access to an early version of Alumet. Many features are still being rolled out.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- ================== Profil =================== -->
+            <!-- ================== Profile =================== -->
             <section class="profile">
                 <div class="main-container">
                     <div class="modulable-header">
                         <div class="modulable-left">
-                            <div data-ref="profile" data-module="informations" class="module-selected">Informations</div>
-                            <div data-ref="profile" data-module="security">Sécurité</div>
+                            <div data-ref="profile" data-module="informations" class="module-selected">Information</div>
+                            <div data-ref="profile" data-module="security">Security</div>
                             <div data-ref="profile" data-module="notificationsparams">Notifications</div>
                         </div>
                         <div class="modulable-right">
-                            <button onclick="saveSettings()" class="large">Enregistrer</button>
+                            <button onclick="saveSettings()" class="large">Save</button>
                         </div>
                     </div>
                     <div data-reference="profile" style="display: grid" class="module informations">
@@ -251,68 +251,68 @@
 
                         <div class="grid-user-container">
                             <div class="item">
-                                <h3>Nom d'utilisateur</h3>
-                                <input disabled spellcheck="false" maxlength="18" type="text" name="username" id="usernameField" placeholder="Nom d'utilisateur" autocomplete="on" />
+                                <h3>Username</h3>
+                                <input disabled spellcheck="false" maxlength="18" type="text" name="username" id="usernameField" placeholder="Username" autocomplete="on" />
                             </div>
                             <div class="item">
-                                <h3>Prénom</h3>
-                                <input disabled="true" type="text" name="firstname" id="firstnameField" placeholder="Prénom" autocomplete="on" />
+                                <h3>First name</h3>
+                                <input disabled="true" type="text" name="firstname" id="firstnameField" placeholder="First name" autocomplete="on" />
                             </div>
                             <div class="item">
-                                <h3>Nom</h3>
-                                <input disabled="true" type="text" name="lastname" id="lastnameField" placeholder="Nom" autocomplete="on" />
+                                <h3>Last name</h3>
+                                <input disabled="true" type="text" name="lastname" id="lastnameField" placeholder="Last name" autocomplete="on" />
                             </div>
                             <div class="item">
-                                <h3>Adresse e-mail</h3>
-                                <input disabled="true" type="text" name="email" autocomplete="on" id="mailField" placeholder="Adresse e-mail" />
+                                <h3>Email address</h3>
+                                <input disabled="true" type="text" name="email" autocomplete="on" id="mailField" placeholder="Email address" />
                             </div>
                         </div>
                     </div>
                     <div data-reference="profile" class="module security">
                         <div class="grid-user-container">
-                            <button id="changePasswordBtn" class="large greyed">Changer de mot de passe</button> <button id="toggleA2FBtn" class="large greyed">Activer l'A2F</button>
-                            <button onclick="window.location='/auth/logout'" class="large greyed">Déconnexion</button> <button id="deleteAccountBtn" class="large reded">Supprimer mon compte</button>
+                            <button id="changePasswordBtn" class="large greyed">Change password</button> <button id="toggleA2FBtn" class="large greyed">Enable 2FA</button>
+                            <button onclick="window.location='/auth/logout'" class="large greyed">Sign out</button> <button id="deleteAccountBtn" class="large reded">Delete my account</button>
                         </div>
                     </div>
                     <div data-reference="profile" class="module notificationsparams">
                         <div class="grid-user-container">
                             <div class="option">
-                                <h1>Nouveau message d'application</h1>
+                                <h1>New application message</h1>
                                 <label class="switch">
                                     <input id="messageG" type="checkbox" />
                                     <span class="slide round"></span>
                                 </label>
                             </div>
                             <div class="option">
-                                <h1>Nouveau message privé</h1>
+                                <h1>New private message</h1>
                                 <label class="switch">
                                     <input id="messageP" type="checkbox" />
                                     <span class="slide round"></span>
                                 </label>
                             </div>
                             <div class="option">
-                                <h1>Nouveau commentaire</h1>
+                                <h1>New comment</h1>
                                 <label class="switch">
                                     <input id="commentP" type="checkbox" />
                                     <span class="slide round"></span>
                                 </label>
                             </div>
                             <div class="option">
-                                <h1>Invitation à collaborer</h1>
+                                <h1>Collaboration invitation</h1>
                                 <label class="switch">
                                     <input id="invitationC" type="checkbox" />
                                     <span class="slide round"></span>
                                 </label>
                             </div>
                             <div class="option">
-                                <h1>Demande d'accès aux Alumets</h1>
+                                <h1>Alumet access request</h1>
                                 <label class="switch">
                                     <input id="alumetA" type="checkbox" />
                                     <span class="slide round"></span>
                                 </label>
                             </div>
                             <div class="option">
-                                <h1>Recevoir les nouvelles fonctionnalités en avant-première</h1>
+                                <h1>Receive new features early</h1>
                                 <label class="switch">
                                     <input id="experiments" type="checkbox" />
                                     <span class="slide round"></span>
@@ -328,55 +328,53 @@
                     <div class="header-help">
                         <div class="header-help-left">
                             <h1>Centre d'aide</h1>
-                            <p>Vous avez une question ? Nous avons la réponse !</p>
+                            <p>Have a question? We have the answer.</p>
                         </div>
                     </div>
                     <div class="accordions">
                         <div class="accordion">
-                            <h1 class="accordion-title">Alumet, Flashcards et Cartes Mentales (Supports)</h1>
+                            <h1 class="accordion-title">Alumet, Flashcards, and Mind Maps (Resources)</h1>
                             <div class="accordion-item">
                                 <input type="checkbox" id="accordion1" />
-                                <label for="accordion1" class="accordion-item-title"><span class="icon"></span>Comment créer un nouveau support ?</label>
+                                <label for="accordion1" class="accordion-item-title"><span class="icon"></span>How do I create a new workspace?</label>
                                 <div class="accordion-item-desc">
-                                    Pour créer un nouveau support, assurez-vous d'être dans le premier onglet en cliquant sur la petite maison située en haut à gauche de votre écran. Ensuite, choisissez le type de support que vous souhaitez créer et
-                                    cliquez sur le bouton "Nouveau" en haut à droite de votre écran. Vous serez ensuite guidé pour la création de votre support.
+                                    To create a new workspace, open the first tab by clicking the small home icon at the top left. Then choose the type of workspace you want and click "New" at the top right. You will then be guided through setup.
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <input type="checkbox" id="accordion5" />
-                                <label for="accordion5" class="accordion-item-title"><span class="icon"></span>Comment changer les paramètres de mon support (nom, image, niveau d'accès, etc.) ?</label>
+                                <label for="accordion5" class="accordion-item-title"><span class="icon"></span>How do I change workspace settings (name, image, access level, etc.)?</label>
                                 <div class="accordion-item-desc">
-                                    Pour modifier les paramètres de votre support, cliquez sur celui-ci pour l'ouvrir. Ensuite, dans la barre de navigation à droite, ouvrez les paramètres. Vous pourrez alors ajuster les paramètres de votre support
-                                    selon vos besoins.
+                                    To edit workspace settings, open the workspace, then open settings from the right navigation bar. You can then adjust its settings.
+                                    selon your besoins.
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <input type="checkbox" id="accordion2" />
-                                <label for="accordion2" class="accordion-item-title"><span class="icon"></span>Comment supprimer un de mes supports ?</label>
+                                <label for="accordion2" class="accordion-item-title"><span class="icon"></span>How do I delete one of my workspaces?</label>
                                 <div class="accordion-item-desc">
-                                    Pour supprimer l'un de vos supports, cliquez dessus pour l'ouvrir, puis, dans la barre de navigation à droite, ouvrez les paramètres où vous trouverez l'option de suppression de votre support.
+                                    To delete one of your workspaces, open it, then open settings from the right navigation bar and use the delete option.
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <input type="checkbox" id="accordion3" />
-                                <label for="accordion3" class="accordion-item-title"><span class="icon"></span>Comment partager un de mes supports ?</label>
+                                <label for="accordion3" class="accordion-item-title"><span class="icon"></span>Comment partager un de mes workspaces ?</label>
                                 <div class="accordion-item-desc">
-                                    Pour partager un de vos supports avec un autre utilisateur, cliquez sur le support concerné pour l'ouvrir, puis, dans la barre de navigation, cliquez sur "Partager". Vous serez ensuite guidé pour partager votre
-                                    support.
+                                    To share a workspace with another user, open it and click "Share" in the navigation bar. You will then be guided through sharing.
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <input type="checkbox" id="accordion4" />
-                                <label for="accordion4" class="accordion-item-title"><span class="icon"></span>Pourquoi je n'ai pas accès à tous les supports ?</label>
+                                <label for="accordion4" class="accordion-item-title"><span class="icon"></span>Why don't I have access to every workspace?</label>
                                 <div class="accordion-item-desc">
-                                    Nous développons continuellement de nouveaux supports pour Alumet Education, et leur mise en ligne se fait progressivement. Si vous ne voyez pas un support, c'est qu'il n'est pas encore disponible pour vous.
+                                    We continuously develop new workspace types for Alumet Education, and they are released gradually. If you do not see one, it is not available to you yet.
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <input type="checkbox" id="accordion14" />
-                                <label for="accordion14" class="accordion-item-title"><span class="icon"></span>Je n'ai pas trouvé la réponse à ma question.</label>
+                                <label for="accordion14" class="accordion-item-title"><span class="icon"></span>I didn't find the answer to my question.</label>
                                 <div class="accordion-item-desc">
-                                    Pour chaque support, cliquez sur "Aide" dans la barre de navigation. Une fenêtre s'ouvrira avec des questions fréquemment posées sur le support en question. Si vous ne trouvez pas la réponse à votre question,
+                                    For each workspace, click "Help" in the navigation bar. A window will open with frequently asked questions for that workspace. If you do not find your answer,
                                     contactez alumet.education@gmail.com.
                                 </div>
                             </div>
@@ -385,20 +383,20 @@
                             <h1 class="accordion-title">Compte</h1>
                             <div class="accordion-item">
                                 <input type="checkbox" id="accordion10" />
-                                <label for="accordion10" class="accordion-item-title"><span class="icon"></span>Qui peut voir mes données ?</label>
+                                <label for="accordion10" class="accordion-item-title"><span class="icon"></span>Who can see my data?</label>
                                 <div class="accordion-item-desc">
-                                    Seuls les utilisateurs d'Alumet ont accès à votre prénom et nom. Votre adresse e-mail n'est pas visible. Votre mot de passe est crypté et reste inaccessible aux équipes d'Alumet Education.
+                                    Only Alumet users can see your first and last name. Your email address is not visible. Your password is encrypted and remains inaccessible to the Alumet Education team.
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <input type="checkbox" id="accordion11" />
-                                <label for="accordion11" class="accordion-item-title"><span class="icon"></span>Comment modifier mes données ?</label>
-                                <div class="accordion-item-desc">Pour des raisons de sécurité, la modification de vos données est limitée. Si vous souhaitez les modifier, veuillez envoyer un email à alumet.education@gmail.com.</div>
+                                <label for="accordion11" class="accordion-item-title"><span class="icon"></span>How do I edit my data?</label>
+                                <div class="accordion-item-desc">For security reasons, editing your data is limited. To request changes, email alumet.education@gmail.com.</div>
                             </div>
                             <div class="accordion-item">
                                 <input type="checkbox" id="accordion12" />
-                                <label for="accordion12" class="accordion-item-title"><span class="icon"></span>Comment supprimer mon compte ?</label>
-                                <div class="accordion-item-desc">Pour supprimer votre compte, veuillez envoyer un email à alumet.education@gmail.com.</div>
+                                <label for="accordion12" class="accordion-item-title"><span class="icon"></span>How do I delete my account?</label>
+                                <div class="accordion-item-desc">To delete your account, email alumet.education@gmail.com.</div>
                             </div>
                         </div>
                     </div>

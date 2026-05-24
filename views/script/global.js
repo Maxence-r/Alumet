@@ -124,13 +124,13 @@ function relativeTime(timestamp) {
     const diffInHours = Math.floor(diffInMinutes / 60);
     const diffInDays = Math.floor(diffInHours / 24);
     if (diffInMinutes <= 0) {
-        return "à l'instant";
+        return "just now";
     } else if (diffInMinutes < 60) {
-        return 'il y a ' + diffInMinutes + 'min';
+        return '' + diffInMinutes + 'min';
     } else if (diffInHours < 24) {
-        return 'il y a ' + diffInHours + 'h';
+        return '' + diffInHours + 'h';
     } else {
-        return 'il y a ' + diffInDays + 'j';
+        return '' + diffInDays + 'j';
     }
 }
 
@@ -139,7 +139,7 @@ function next(current, next) {
     document.querySelectorAll('.activeStep > input').forEach(input => {
         if (input.value.length < 2 && input.required) {
             hasEmptyInput = true;
-            return toast({ title: 'Erreur', message: 'Veuillez remplir tous les champs avec 2 caractères minimum', type: 'error', duration: 2500 });
+            return toast({ title: 'Error', message: 'Please fill every field with at least 2 characters', type: 'error', duration: 2500 });
         }
     });
     if (hasEmptyInput) {
@@ -285,19 +285,62 @@ function updateStatusPercentages(flashcards) {
     }
 }
 
+function activateModule(element) {
+    const tabs = document.querySelectorAll('[data-ref="' + element.dataset.ref + '"]');
+    const panels = document.querySelectorAll('[data-reference="' + element.dataset.ref + '"]');
+    const selectedPanel = Array.from(panels).find(panel => panel.classList.contains(element.dataset.module));
+
+    panels.forEach(panel => {
+        panel.style.display = 'none';
+        panel.hidden = true;
+    });
+
+    if (selectedPanel) {
+        selectedPanel.style.display = 'flex';
+        selectedPanel.hidden = false;
+    }
+
+    tabs.forEach(tab => {
+        const isSelected = tab === element;
+        tab.classList.toggle('module-selected', isSelected);
+
+        if (tab.getAttribute('role') === 'tab') {
+            tab.setAttribute('aria-selected', String(isSelected));
+            tab.tabIndex = isSelected ? 0 : -1;
+        }
+    });
+}
+
 document.querySelectorAll('[data-module]').forEach(element => {
     element.addEventListener('click', () => {
-        let targets = document.querySelectorAll('[data-ref="' + element.dataset.ref + '"]');
-        targets.forEach(target => {
-            let targets2 = document.querySelectorAll('[data-reference="' + element.dataset.ref + '"]');
-            targets2.forEach(target2 => {
-                target2.style.display = 'none';
-            });
-            document.querySelector(`.${element.dataset.module}`).style.display = 'flex';
-            target.classList.remove('module-selected');
-            element.classList.add('module-selected');
-        });
+        activateModule(element);
     });
+
+    if (element.getAttribute('role') === 'tab') {
+        element.addEventListener('keydown', event => {
+            if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
+                return;
+            }
+
+            const tabs = Array.from(document.querySelectorAll('[role="tab"][data-ref="' + element.dataset.ref + '"]'));
+            const currentIndex = tabs.indexOf(element);
+            let nextIndex = currentIndex;
+
+            if (event.key === 'ArrowLeft') {
+                nextIndex = currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
+            } else if (event.key === 'ArrowRight') {
+                nextIndex = currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
+            } else if (event.key === 'Home') {
+                nextIndex = 0;
+            } else if (event.key === 'End') {
+                nextIndex = tabs.length - 1;
+            }
+
+            event.preventDefault();
+            tabs[nextIndex].focus();
+            activateModule(tabs[nextIndex]);
+        });
+    }
 });
 
 document.querySelectorAll('.connect').forEach(e => {
@@ -327,7 +370,7 @@ if (incident) {
             }
             incident.style.display = 'flex';
             incident.querySelector('.indicator').dataset.level = json[0].level;
-            incident.querySelector('.lookup > p').innerText = '1 incident ' + (json[0].level === 'low' ? 'mineur' : json[0].level === 'medium' ? 'moyen' : 'grave') + ' en cours';
+            incident.querySelector('.lookup > p').innerText = '1 ' + (json[0].level === 'low' ? 'minor' : json[0].level === 'medium' ? 'moderate' : 'major') + ' incident in progress';
 
             let detailsIncidents = incident.querySelector('.details-incidents');
             json.forEach(incidentData => {

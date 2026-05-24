@@ -13,21 +13,21 @@ function login() {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 2500 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 2500 });
                 document.querySelector('.full-screen').style.display = 'none';
             } else if (data.a2f == true) {
                 document.querySelector('.login-container').classList.remove('activeStep');
                 document.querySelector('.verify').classList.add('activeStep');
                 document.querySelector('.full-screen').style.display = 'none';
             } else {
-                toast({ title: 'Succès', message: 'Vous êtes connecté !', type: 'success', duration: 2500 });
+                toast({ title: 'Success', message: 'You are signed in.', type: 'success', duration: 2500 });
                 setTimeout(() => {
                     handleRedirect();
                 }, 1500);
             }
         })
         .catch(err => {
-            toast({ title: 'Erreur', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
+            toast({ title: 'Error', message: 'An error occurred.', type: 'error', duration: 2500 });
             document.querySelector('.full-screen').style.display = 'none';
         });
 }
@@ -47,10 +47,10 @@ function authorizeCode() {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 6000 });
                 document.querySelector('.full-screen').style.display = 'none';
             } else {
-                toast({ title: 'Succès', message: 'Vous êtes connecté !', type: 'success', duration: 2500 });
+                toast({ title: 'Success', message: 'You are signed in.', type: 'success', duration: 2500 });
                 handleRedirect();
             }
         });
@@ -58,7 +58,7 @@ function authorizeCode() {
 
 function handleReset() {
     if (document.getElementById('mail').value == '') {
-        return toast({ title: 'Erreur', message: 'Veuillez entrer une adresse mail.', type: 'error', duration: 6000 });
+        return toast({ title: 'Error', message: 'Please enter an email address.', type: 'error', duration: 6000 });
     }
     document.querySelector('.full-screen').style.display = 'flex';
     fetch('/mail/a2f', {
@@ -73,7 +73,7 @@ function handleReset() {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 3000 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 3000 });
                 document.querySelector('.full-screen').style.display = 'none';
             } else {
                 document.querySelector('.login-container').classList.remove('activeStep');
@@ -103,7 +103,7 @@ function resetPassword() {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 6000 });
                 document.querySelector('.full-screen').style.display = 'none';
             } else {
                 window.location.reload();

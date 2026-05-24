@@ -49,7 +49,7 @@ document.addEventListener('keydown', function (event) {
 
 function createAppBox(title, lastUsage, background, id, subject) {
     const subjects = ['mathematics', 'french', 'history', 'geography', 'physics', 'biology', 'philosophy', 'english', 'technology', 'nsi', 'snt', 'language', 'other'];
-    const subjectsInFrench = ['Mathématiques', 'Français', 'Histoire', 'Géographie', 'Physique', 'SVT', 'Philosophie', 'Anglais', 'Technologie', 'NSI', 'SNT', 'Langue', 'Autre'];
+    const subjectsInFrench = ['Mathematics', 'French', 'History', 'Geography', 'Physics', 'SVT', 'Philosophy', 'English', 'Technology', 'NSI', 'SNT', 'Language', 'Other'];
     subject = subjectsInFrench[subjects.indexOf(subject)];
 
     const appBox = document.createElement('div');
@@ -68,7 +68,7 @@ function createAppBox(title, lastUsage, background, id, subject) {
     layerBlurInfo.appendChild(h4);
 
     const p = document.createElement('p');
-    p.textContent = `Utilisé ${relativeTime(lastUsage)} - ${subject}`;
+    p.textContent = `Used ${relativeTime(lastUsage)} - ${subject}`;
     layerBlurInfo.appendChild(p);
 
     appBox.setAttribute('onclick', `openItem('${id}')`);
@@ -82,8 +82,8 @@ openItem = itemId => {
 
 function joinAlumet() {
     createPrompt({
-        head: 'Rejoindre un alumet',
-        desc: "Si l'alumet est privé, vous devez entrez un code d'invitation ici.",
+        head: 'Join un alumet',
+        desc: "If the Alumet is private, you must enter an invitation code here.",
         placeholder: 'Entrer le code ici',
         action: 'authorizeAlumet()',
     });
@@ -103,15 +103,15 @@ function authorizeAlumet() {
         .then(data => {
             if (data.error) {
                 return toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: data.error,
                     type: 'error',
                     duration: 2500,
                 });
             }
             toast({
-                title: 'Succès',
-                message: "Vous avez rejoint l'alumet !",
+                title: 'Success',
+                message: "You joined the Alumet!",
                 type: 'success',
                 duration: 2500,
             });
@@ -182,14 +182,14 @@ const createConversationElement = conversation => {
 function initConversation() {
     return toast({
         title: 'Restreint',
-        message: 'Cette fonctionnalité a été restreinte sur ce compte. Ressayer plus tard. Vous avez toujours accès aux messages officiels.',
+        message: 'This feature has been restricted on this account. Try again later. You still have access to official messages.',
         type: 'warning',
         duration: 10000,
     });
 }
 
 async function createConversation() {
-    if (participants.length === 0) return toast({ title: 'Erreur', message: 'Vous devez sélectionner au moins un utilisateur', type: 'error', duration: 2500 });
+    if (participants.length === 0) return toast({ title: 'Error', message: 'You must select at least one user', type: 'error', duration: 2500 });
     const conversationName = document.querySelector('#prompt-input').value;
     try {
         const response = await fetch('/swiftChat/create', {
@@ -206,7 +206,7 @@ async function createConversation() {
         const data = await response.json();
         if (data.error)
             return toast({
-                title: 'Erreur',
+                title: 'Error',
                 message: `${data.error}`,
                 type: 'error',
                 duration: 2500,

@@ -1,11 +1,11 @@
 let appType = window.location.pathname.split('/')[3];
 
-const apps = { flashcard: 'jeu de flashcards', mindmap: 'carte mentale', alumet: 'alumet' };
-const titles = { alumet: 'un alumet', flashcard: 'un jeu de flashcards', mindmap: 'une carte mentale' };
-const names = { alumet: 'l\'alumet', flashcard: 'le jeu de flashcards', mindmap: 'la carte mentale' };
+const apps = { flashcard: 'flashcard set', mindmap: 'mind map', alumet: 'alumet' };
+const titles = { alumet: 'un alumet', flashcard: 'un flashcard set', mindmap: 'une mind map' };
+const names = { alumet: 'l\'alumet', flashcard: 'le flashcard set', mindmap: 'la mind map' };
 
-document.title = `Créer ${titles[appType]}`;
-document.getElementById('new-app-title').textContent = `Créer ${titles[appType]}`;
+document.title = `Create ${titles[appType]}`;
+document.getElementById('new-app-title').textContent = `Create ${titles[appType]}`;
 document.querySelectorAll('.app-name').forEach(text => {
     text.textContent = text.textContent.replace('l\'application', names[appType]);
 });
@@ -21,7 +21,7 @@ document.getElementById('alumet-background').addEventListener('change', () => {
     const fileSize = file.size / 1024 / 1024;
     if (fileType !== 'image' || fileSize > 3) {
         document.getElementById('alumet-background').value = '';
-        return toast({ title: 'Erreur', message: 'Veuillez sélectionner une image de moins de 3MB', type: 'error', duration: 2500 });
+        return toast({ title: 'Error', message: 'Please select an image under 3 MB', type: 'error', duration: 2500 });
     }
     document.querySelector('.alumet-background').src = URL.createObjectURL(file);
 });
@@ -45,12 +45,12 @@ async function createApp() {
         .then(data => {
             if (data.error) {
                 document.querySelector('.full-screen').style.display = 'none';
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 7500 });
                 setTimeout(() => {
                     window.location.reload();
                 }, 1500);
             } else {
-                toast({ title: 'Succès', message: `Votre ${apps[appType]} a bien été créé`, type: 'success', duration: 2500 });
+                toast({ title: 'Success', message: `Your ${apps[appType]} has been created successfully`, type: 'success', duration: 2500 });
                 setTimeout(() => {
                     window.location.href = `/app/${data.alumet._id}`;
                 }, 1000);

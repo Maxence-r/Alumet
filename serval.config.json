@@ -1,0 +1,30 @@
+{
+  "project_id": "proj_JBRFusmkxoNeF8CDY0xBxQHg",
+  "atlas": {
+    "mode": "frontend",
+    "root": ".",
+    "ignore": [
+      "node_modules",
+      ".git",
+      ".next",
+      "dist",
+      "build",
+      "coverage",
+      ".turbo",
+      ".vercel",
+      ".cache",
+      ".serval",
+      "serval.config.json",
+      ".env",
+      ".env.local",
+      ".env.development",
+      ".env.production",
+      "package-lock.json",
+      "yarn.lock",
+      "pnpm-lock.yaml",
+      "images",
+      "videos",
+      "fonts"
+    ]
+  }
+}

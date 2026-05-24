@@ -1,6 +1,5 @@
-const jwt = require('jsonwebtoken');
 const Account = require('../../models/account');
-require('dotenv').config();
+const { verifyJwt } = require('../../utils/auth');
 
 const authentification = async (req, res, next) => {
     const token = req.cookies.token;
@@ -11,7 +10,7 @@ const authentification = async (req, res, next) => {
     }
 
     try {
-        const decodedToken = jwt.verify(token, process.env.TOKEN.toString());
+        const decodedToken = verifyJwt(token);
         const userId = decodedToken.userId;
         const user = await Account.findOne({ _id: userId });
         if (!user || user.suspended.reason) {

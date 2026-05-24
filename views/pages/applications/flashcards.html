@@ -4,10 +4,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <link rel="icon" href="../assets/global/alumet.ico" />
 
-        <meta name="description" content="Flashcards : Un outil efficace pour faciliter et accélérer l'apprentissage de nouvelles notions, tout en développant durablement la mémoire à long terme." />
-        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers, education, messagerie, français, temps réel, gratuit" />
+        <meta name="description" content="Flashcards: an effective tool to make learning new concepts faster while building long-term memory." />
+        <meta name="keywords" content="Alumet, class, free, organization, boards, files, education, messaging, English, real time" />
         <meta property="og:title" content="Alumet Education" />
-        <meta property="og:description" content="Flashcards : Un outil efficace pour faciliter et accélérer l'apprentissage de nouvelles notions, tout en développant durablement la mémoire à long terme." />
+        <meta property="og:description" content="Flashcards: an effective tool to make learning new concepts faster while building long-term memory." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://education.alumet.io" />
         <meta property="og:image" content="https://i.imgur.com/vL2azjy.png" />
@@ -15,7 +15,7 @@
         <meta name="twitter:domain" content="alumet.io" />
         <meta name="twitter:url" content="https://education.alumet.io/" />
         <meta name="twitter:title" content="Alumet Education" />
-        <meta name="twitter:description" content="Flashcards : Un outil efficace pour faciliter et accélérer l'apprentissage de nouvelles notions, tout en développant durablement la mémoire à long terme." />
+        <meta name="twitter:description" content="Flashcards: an effective tool to make learning new concepts faster while building long-term memory." />
         <meta name="twitter:image" content="https://i.imgur.com/vL2azjy.png" />
 
         <title>Flashcards</title>
@@ -38,8 +38,8 @@
                 <h4 id="prompt-desc"></h4>
                 <input autocomplete="off" id="prompt-input" type="text" placeholder="Prompt placeholder" />
                 <div class="prompt-buttons">
-                    <button class="large" id="prompt-red">Supprimer</button> <button class="large greyed" onclick="document.querySelector('.prompt-popup').classList.remove('active-popup')">Annuler</button>
-                    <button class="large" id="prompt-confirm">Confirmer</button>
+                    <button class="large" id="prompt-red">Delete</button> <button class="large greyed" onclick="document.querySelector('.prompt-popup').classList.remove('active-popup')">Cancel</button>
+                    <button class="large" id="prompt-confirm">Confirm</button>
                 </div>
                 <datalist id="users"> </datalist>
             </div>
@@ -47,8 +47,8 @@
         <div style="display: none" class="file-picker">
             <div class="files-container">
                 <div class="from-device">
-                    <h3>Le fichier est sur votre appareil ?</h3>
-                    <button id="load-post-file" class="large greyed">Charger le fichier</button>
+                    <h3>Is the file on your device?</h3>
+                    <button id="load-post-file" class="large greyed">Upload file</button>
                     <input type="file" style="display: none" id="post-file" />
                 </div>
                 <div class="row-fm-header">
@@ -62,13 +62,13 @@
                         <div class="files-box">
                             <div class="files-items connected">
                                 <div class="full-screen" style="display: none">
-                                    <h1>Pas de fichiers</h1>
-                                    <p>Ce dossier ne contient pas de fichiers</p>
+                                    <h1>Pas de files</h1>
+                                    <p>This folder does not contain any files</p>
                                 </div>
                             </div>
                         </div>
                         <div class="files-selected">
-                            <button onclick="document.querySelector('.file-picker').style.display='none'" class="large greyed">Annuler</button>
+                            <button onclick="document.querySelector('.file-picker').style.display='none'" class="large greyed">Cancel</button>
                             <button class="large">Selectionner</button>
                         </div>
                     </div>
@@ -77,19 +77,19 @@
         </div>
         <div class="user-popup popup">
             <div class="prompt">
-                <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Entrez un nom ou prénom" />
+                <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Enter a first or last name" />
                 <div class="users-fetch">
                     <div class="details loading-users">
                         <span class="loader"></span>
                     </div>
                     <div class="details no-result">
-                        <h1>Aucun resultats</h1>
-                        <p>Affiner votre recherche</p>
+                        <h1>No resultats</h1>
+                        <p>Affiner your recherche</p>
                     </div>
                 </div>
                 <div class="prompt-buttons">
-                    <button class="large">Supprimer</button> <button class="large greyed" onclick="document.querySelector('.user-popup').classList.remove('active-popup')">Annuler</button>
-                    <button onclick="confirmCollaborators('flashcards')" class="large">Confirmer</button>
+                    <button class="large">Delete</button> <button class="large greyed" onclick="document.querySelector('.user-popup').classList.remove('active-popup')">Cancel</button>
+                    <button onclick="confirmCollaborators('flashcards')" class="large">Confirm</button>
                 </div>
             </div>
         </div>
@@ -97,10 +97,10 @@
         <div class="alumet">
             <div class="header">
                 <div>
-                    <h1 id="flashcard-title">Titre du jeu de flashcard</h1>
-                    <p id="flashcard-description">Description du jeu de flashcard</p>
+                    <h1 id="flashcard-title">Title du jeu de flashcard</h1>
+                    <p id="flashcard-description">Flashcard set description</p>
                 </div>
-                <button onclick="navbar('revise')" class="large">Réviser</button>
+                <button onclick="navbar('revise')" class="large">Review</button>
             </div>
             <div class="progression">
                 <div data-bar="3" id="good"></div>
@@ -111,7 +111,7 @@
             <div class="flashcards-container">
                 <div onclick="newFlashcards()" class="new-flashcard admin">
                     <img src="../../assets/global/flashcards_a.svg" />
-                    <h3>Ajouter des flashcards</h3>
+                    <h3>Add flashcards</h3>
                 </div>
             </div>
         </div>
@@ -122,10 +122,10 @@
                 <h1 onclick="navbar('participants')">Participants</h1>
                 <h1 class="admin" onclick="navbar('share')">Partager</h1>
                 <h1 onclick="navbar('help')">Aide</h1>
-                <h1 class="admin" onclick="navbar('settings')">Paramètres</h1>
-                <h1 onclick="navbar('profile')">Identité</h1>
+                <h1 class="admin" onclick="navbar('settings')">Settings</h1>
+                <h1 onclick="navbar('profile')">Identity</h1>
                 <div class="row-bottom-buttons">
-                    <button onclick="window.location.href='/dashboard'" class="large greyed">Retour tableau de bord</button>
+                    <button onclick="window.location.href='/dashboard'" class="large greyed">Back to dashboard</button>
                 </div>
             </div>
 
@@ -135,8 +135,8 @@
                         <input checked type="radio" id="sandbox" name="radio" />
                         <div class="radio-content">
                             <div class="radio-details">
-                                <span>Révision bac à sable</span>
-                                <p>Le mode de révision "bac à sable" vous permet de réviser de manière aléatoire l'ensemble de votre jeu de flashcards.</p>
+                                <span>Sandbox review</span>
+                                <p>Sandbox review lets you review the whole flashcard set randomly.</p>
                             </div>
                         </div>
                     </label>
@@ -144,9 +144,9 @@
                         <input type="radio" id="smart" name="radio" />
                         <div class="radio-content">
                             <div class="radio-details">
-                                <span>Révision intelligente</span>
+                                <span>Smart review</span>
                                 <p>
-                                    Le mode de révision "intelligent" vous fait réviser vos flashcards par sections de 10.<br />Lorsqu'une flashcard est validée, un algorithme détermine la prochaine révison afin d'optimiser la révision à long terme.
+                                    Smart review presents flashcards in sections of 10.<br />When a flashcard is validated, an algorithm schedules the next review to optimize long-term learning.
                                 </p>
                             </div>
                         </div>
@@ -154,32 +154,32 @@
                 </div>
                 <div class="buttons">
                     <div class="option">
-                        <h1>Inversion questions / réponses</h1>
+                        <h1>Reverse questions / answers</h1>
                         <label class="switch">
                             <input id="reversed" type="checkbox" />
                             <span class="slide round"></span>
                         </label>
                     </div>
-                    <button onclick="promptResetUserDatas()" class="large reded connectedOnly">Réinitialiser ma progression</button>
-                    <button onclick="revise()" class="large">Commencer ma révision</button>
+                    <button onclick="promptResetUserDatas()" class="large reded connectedOnly">Reset my progress</button>
+                    <button onclick="revise()" class="large">Start my review</button>
                 </div>
             </div>
 
             <div class="overlay-content ia">
                 <div class="header-setting">
                     <div>
-                        <h1>Créer avec l'IA</h1>
-                        <p>Créer des flashcards grâce à la <b>puissance</b> de l'intelligence artificielle.</p>
+                        <h1>Create avec l'IA</h1>
+                        <p>Create flashcards with the <b>power</b> of artificial intelligence.</p>
                     </div>
                 </div>
                 <div class="divider"></div>
                 <div class="grid-user-container">
                     <div class="item">
-                        <h3>Comment voulez vous générez vos flaschards ?</h3>
+                        <h3>How do you want to generate your flashcards?</h3>
                         <div class="modulable-header">
                             <div class="modulable-left">
                                 <div data-ref="ia" data-module="document" class="module-selected">Document PDF<span class="redot"></span></div>
-                                <div data-ref="ia" data-module="keywords">Mots-clés</div>
+                                <div data-ref="ia" data-module="keywords">Keywords</div>
                             </div>
                         </div>
                         <div style="display: flex" data-reference="ia" class="module document selector-plain">
@@ -194,50 +194,50 @@
                                     <div class="file-sending-infos">
                                         <h3>file_name<span id="file-upload-ext">.ext</span></h3>
                                     </div>
-                                    <div class="send-actions"><button onclick="cancelSend()" id="cancel-send" class="large greyed">Retirer</button></div>
+                                    <div class="send-actions"><button onclick="cancelSend()" id="cancel-send" class="large greyed">Remove</button></div>
                                 </div>
                             </div>
                         </div>
                         <div data-reference="ia" style="display: none" class="module keywords">
                             <div class="keywords-input">
-                                <input type="text" id="keyword" placeholder="Mots clés" />
-                                <button class="large" onclick="addKeyword()">Ajouter</button>
+                                <input type="text" id="keyword" placeholder="Keywords" />
+                                <button class="large" onclick="addKeyword()">Add</button>
                             </div>
                             <div class="keywords-container"></div>
                             <div class="item">
-                                <h3>Combien de flashcards voulez vous générer ? (20 max)</h3>
-                                <input min="1" max="20" type="number" id="flashcards-amount" placeholder="Nombre de flashcards" value="10" />
+                                <h3>How many flashcards do you want to generate? (20 max)</h3>
+                                <input min="1" max="20" type="number" id="flashcards-amount" placeholder="Number of flashcards" value="10" />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="buttons">
                     <div class="info-box experimental experiments-aiFlashcards" style="display: flex">
-                        Vous bénéficiez d'un accès exclusif qui peut être instable. <strong>Conseils :</strong>
+                        You have exclusive access that may be unstable. <strong>Tips:</strong>
 
-                        <li>Fonctionne bien pour les cours théoriques ou les feuilles de vocabulaire.</li>
-                        <li>Moins efficace pour les cours avec de nombreux exercices ou applications pratiques (ex : mathématiques).</li>
-                        <li>Il est recommandé d'essayer plusieurs fois, car les résultats peuvent varier considérablement.</li>
+                        <li>Works well for theory lessons or vocabulary sheets.</li>
+                        <li>Less effective for lessons with many exercises or practical applications (for example, mathematics).</li>
+                        <li>Try several times, as results may vary significantly.</li>
                     </div>
 
-                    <button class="large experimental experiments-aiFlashcards" onclick="generateWithIA('keywords')">Générer les flashcards</button>
-                    <button class="large experimental greyed experiments-aiFlashcards" onclick="navbar('verify-flashcards')">Flashcards créées</button>
-                    <div class="warning-box experiments-aiFlashcards-rv">Cette fonctionnalité est expérimentale, vous devez demander l'accès pour l'utiliser.</div>
+                    <button class="large experimental experiments-aiFlashcards" onclick="generateWithIA('keywords')">Generate flashcards</button>
+                    <button class="large experimental greyed experiments-aiFlashcards" onclick="navbar('verify-flashcards')">Created flashcards</button>
+                    <div class="warning-box experiments-aiFlashcards-rv">This feature is experimental; you must request access to use it.</div>
                 </div>
             </div>
 
             <div class="overlay-content verify-flashcards">
                 <div class="header-setting">
                     <div>
-                        <h1>Vérifier les flashcards</h1>
-                        <p>Vérifier et modifier les flashcards créées par l'intelligence artificielle</p>
+                        <h1>Review generated flashcards</h1>
+                        <p>Review and edit flashcards created by artificial intelligence</p>
                     </div>
                 </div>
                 <div class="divider"></div>
                 <div class="flashcards-container"></div>
                 <div class="row-bottom-buttons">
-                    <button class="large greyed" onclick="displayPageIA()">Retour</button>
-                    <button class="large" onclick="createFlashcards('ia')">Ajouter les flashcards</button>
+                    <button class="large greyed" onclick="displayPageIA()">Back</button>
+                    <button class="large" onclick="createFlashcards('ia')">Add flashcards</button>
                 </div>
             </div>
 
@@ -246,67 +246,67 @@
                     <span class="loader-bar"></span>
                 </div>
             </div>
-            <div class="overlay-content loadingRessources">
+            <div class="overlay-content loadingResources">
                 <div class="loading full-screen">
                     <span class="loader"></span>
-                    <h3>Nous appliquons les modifications<br />Patientez quelques instants</h3>
+                    <h3>We are applying the changes<br />Please wait a moment</h3>
                 </div>
             </div>
 
             <div class="overlay-content settings">
                 <div class="modulable-header">
                     <div class="modulable-left">
-                        <div data-ref="settings" data-module="informationsS" class="module-selected">Informations<span class="redot"></span></div>
+                        <div data-ref="settings" data-module="informationsS" class="module-selected">Information<span class="redot"></span></div>
                         <div data-ref="settings" data-module="style">Style<span class="redot"></span></div>
-                        <div data-ref="settings" data-module="security" class="">Sécurité</div>
+                        <div data-ref="settings" data-module="security" class="">Security</div>
                     </div>
                     <div class="modulable-right">
-                        <button onclick="modifyApp()" class="large">Enregistrer</button>
+                        <button onclick="modifyApp()" class="large">Save</button>
                     </div>
                 </div>
                 <div data-reference="settings" style="display: flex" class="module informationsS">
                     <input type="file" name="alumet-background" id="alumet-background" accept="image/png, image/jpeg" />
                     <div class="grid-user-container">
                         <div class="item">
-                            <h3>Nom du jeu de flashcards</h3>
-                            <input class="disabledInput" type="text" name="alumetName" id="appName" placeholder="Nom du jeu de flashcards" />
+                            <h3>Flashcard set name</h3>
+                            <input class="disabledInput" type="text" name="alumetName" id="appName" placeholder="Flashcard set name" />
                         </div>
                         <div class="item">
-                            <h3>Description du jeu de flashcards</h3>
-                            <input class="disabledInput" type="text" name="alumetDescription" id="appDescription" placeholder="Description du jeu de flashcards" />
+                            <h3>Flashcard set description</h3>
+                            <input class="disabledInput" type="text" name="alumetDescription" id="appDescription" placeholder="Flashcard set description" />
                         </div>
                         <div class="item">
-                            <h3>Matière du jeu de flashcards</h3>
+                            <h3>Flashcard set subject</h3>
                             <select id="appSubject">
-                                <option value="mathematics">Mathématiques</option>
-                                <option value="french">Français</option>
-                                <option value="history">Histoire</option>
-                                <option value="geography">Géographie</option>
-                                <option value="physics">Physique</option>
+                                <option value="mathematics">Mathematics</option>
+                                <option value="french">French</option>
+                                <option value="history">History</option>
+                                <option value="geography">Geography</option>
+                                <option value="physics">Physics</option>
                                 <option value="biology">SVT</option>
-                                <option value="philosophy">Philosophie</option>
-                                <option value="english">Anglais</option>
-                                <option value="language">Langues</option>
-                                <option value="technology">Technologie</option>
+                                <option value="philosophy">Philosophy</option>
+                                <option value="english">English</option>
+                                <option value="language">Languages</option>
+                                <option value="technology">Technology</option>
                                 <option value="snt">SNT</option>
                                 <option value="nsi">NSI</option>
-                                <option value="other">Autre</option>
+                                <option value="other">Other</option>
                             </select>
                         </div>
                         <div class="item">
-                            <h3>Supprimer le jeu de flashcards</h3>
-                            <button onclick="engageDeletion()" class="large reded">Supprimer le jeu de flashcards</button>
+                            <h3>Delete flashcard set</h3>
+                            <button onclick="engageDeletion()" class="large reded">Delete flashcard set</button>
                         </div>
                     </div>
                 </div>
                 <div data-reference="settings" class="module style">
                     <div class="grid-user-container">
                         <div class="item">
-                            <h3>Image d'arrière plan</h3>
+                            <h3>Background image</h3>
                             <img class="backgroundImg" src="../assets/global/dev.png" />
                         </div>
                         <div class="item">
-                            <h3>Police d'écriture</h3>
+                            <h3>Font</h3>
                             <select name="font" disabled="true" style="cursor: not-allowed">
                                 <option value="arial">Plus Jakarta Sans</option>
                             </select>
@@ -316,14 +316,14 @@
                 <div data-reference="settings" class="module security">
                     <div class="grid-user-container">
                         <div class="item">
-                            <h3>Niveau d'accès</h3>
+                            <h3>Access level</h3>
                             <div class="radio-option">
                                 <label class="radio" for="open">
                                     <input checked type="radio" name="radio" id="open" />
                                     <div class="radio-content">
                                         <div class="radio-details">
-                                            <span>Ouvert</span>
-                                            <p>N'importe qui avec un lien peut accéder au contenu, les actions sont modérées par IA</p>
+                                            <span>Open</span>
+                                            <p>Anyone with a link can access the content; actions are AI moderated</p>
                                         </div>
                                     </div>
                                 </label>
@@ -332,20 +332,20 @@
                                     <input type="radio" id="onpassword" name="radio" />
                                     <div class="radio-content">
                                         <div class="radio-details">
-                                            <span>Mot de passe</span>
-                                            <p>L'accès est restreint par un mot de passe. Il n'est pas nécéssaire d'avoir un compte</p>
+                                            <span>Password</span>
+                                            <p>Access is restricted by a password. An account is not required</p>
                                         </div>
                                     </div>
                                 </label>
 
-                                <input class="disabledInput" maxlength="50" autocomplete="off" type="text" name="password" id="password-input" placeholder="Mot de passe" />
+                                <input class="disabledInput" maxlength="50" autocomplete="off" type="text" name="password" id="password-input" placeholder="Password" />
 
                                 <label class="radio" for="closed">
                                     <input type="radio" id="closed" name="radio" />
                                     <div class="radio-content">
                                         <div class="radio-details">
-                                            <span>Fermé</span>
-                                            <p>L'utilisateur doit être connecté et demander l'accès, vous pourrez refuser ou accepter</p>
+                                            <span>Closed</span>
+                                            <p>The user must be signed in and request access; you can accept or decline.</p>
                                         </div>
                                     </div>
                                 </label>
@@ -353,17 +353,17 @@
                         </div>
 
                         <div class="item">
-                            <h3>Option avancées</h3>
+                            <h3>Advanced options</h3>
                             <div class="switch-options">
                                 <div class="option">
-                                    <h1>Messagerie du jeu de flashcards</h1>
+                                    <h1>Flashcard set messaging</h1>
                                     <label class="switch">
                                         <input id="appChat" checked="" type="checkbox" />
                                         <span class="slide round"></span>
                                     </label>
                                 </div>
                                 <div class="option">
-                                    <h1>Repertorié dans votre organisation</h1>
+                                    <h1>Listed in your organization</h1>
                                     <label class="switch">
                                         <input id="appDiscovery" type="checkbox" />
                                         <span class="slide round"></span>
@@ -376,33 +376,33 @@
             </div>
             <div class="overlay-content share">
                 <div style="display: none" class="closed">
-                    <div class="warning-box">Vous pouvez modifier le niveau d'accès de votre support dans les paramètres afin de le partager avec vos élèves ou d'autres personnes.</div>
+                    <div class="warning-box">You can change the access level in settings to share this workspace with students or other people.</div>
                     <div class="header-setting">
                         <div>
-                            <h1>Votre support est privé !</h1>
-                            <p>Si vous souhaitez partager votre contenu avec davantage de personnes, comme une classe par exemple, vous devrez ajouter manuellement les collaborateurs et modifier le niveau d'accès dans les paramètres de sécurité.</p>
+                            <h1>Your workspace is private.</h1>
+                            <p>To share your content with more people, such as a class, manually add collaborators and adjust access in security settings.</p>
                         </div>
                     </div>
                     <div class="divider"></div>
 
                     <div class="row-bottom-buttons">
-                        <button onclick="navbar('settings')" class="large greyed">Paramètres</button>
-                        <button onclick="addCollaborators()" class="large">Ajouter des collaborateurs</button>
+                        <button onclick="navbar('settings')" class="large greyed">Settings</button>
+                        <button onclick="addCollaborators()" class="large">Add collaborators</button>
                     </div>
                 </div>
 
                 <div style="display: none" class="onpassword">
                     <div class="header-setting">
                         <div>
-                            <h1>Votre support est sécurisé !</h1>
-                            <p>Il est nécessaire d'entrer un mot de passe pour accéder à votre support. Vous pouvez le partager avec vos élèves ou d'autres personnes grâce au lien ci-dessous.</p>
+                            <h1>Your workspace is protected.</h1>
+                            <p>A password is required to access this workspace. You can share it with students or others using the link below.</p>
                         </div>
                     </div>
                     <div class="divider"></div>
 
                     <div class="row-bottom-buttons">
                         <div class="option">
-                            <h1>Inclure le mot de passe dans le lien</h1>
+                            <h1>Include the password in the link</h1>
                             <label class="switch">
                                 <input id="passwordLink" checked="" type="checkbox" />
                                 <span class="slide round"></span>
@@ -415,8 +415,8 @@
                 <div style="display: none" class="open">
                     <div class="header-setting">
                         <div>
-                            <h1>Votre support est ouvert !</h1>
-                            <p>Toute personne possédant le lien ci-dessous peut accéder à votre support. Cependant, si elles ne sont pas collaboratrices ou si vous n'avez pas autorisé la publication, elles ne pourront que le consulter.</p>
+                            <h1>Your workspace is open.</h1>
+                            <p>Anyone with the link below can access this workspace. If they are not collaborators or posting is disabled, they can only view it.</p>
                         </div>
                     </div>
                     <div class="divider"></div>
@@ -430,27 +430,27 @@
                 <div class="header-setting">
                     <div>
                         <h1>Participants</h1>
-                        <p>Gérer les participants ici</p>
+                        <p>Manage participants here</p>
                     </div>
                 </div>
                 <div class="divider"></div>
                 <div class="participants-container">
                     <div class="information">
                         <img src="../assets/global/collaboration.svg" />
-                        <h3>Aucun participant</h3>
-                        <p>Les participants et collaborateurs de votre jeu de flashcards seront affichés ici, vous pourrez ensuite les gérer.</p>
+                        <h3>No participant</h3>
+                        <p>Participants and collaborators for your flashcard set will appear here so you can manage them.</p>
                     </div>
                 </div>
                 <div class="row-bottom-buttons admin">
-                    <button onclick="addCollaborators()" class="large">Ajouter des collaborateurs</button>
+                    <button onclick="addCollaborators()" class="large">Add collaborators</button>
                 </div>
             </div>
 
             <div class="overlay-content profile">
                 <div class="header-setting">
                     <div>
-                        <h1>Identité</h1>
-                        <p>Votre identité sur cet application</p>
+                        <h1>Identity</h1>
+                        <p>Your identity in this application</p>
                     </div>
                 </div>
                 <div class="divider"></div>
@@ -458,12 +458,12 @@
                     <img src="../assets/default/default_user.png" />
                     <div class="user-details">
                         <h3>Anonyme</h3>
-                        <p>Déconnecté</p>
+                        <p>Signed out</p>
                     </div>
                 </div>
                 <div class="row-bottom-buttons">
                     <button onclick="promptLeave()" class="large reded connectedOnly">Quitter cet application</button>
-                    <button class="large connect">Se connecter</button>
+                    <button class="large connect">Sign in</button>
                 </div>
             </div>
 
@@ -475,8 +475,7 @@
                 </div>
                 <div class="divider"></div>
                 <h3>
-                    Pour importer vos flashcards depuis Quizlet, rendez-vous sur votre jeu de flashcards Quizlet. Cliquez sur "...", puis sélectionnez "Exporter". Dans le champ "Entre le terme et la définition", saisissez "$$$". Dans le champ "Entre
-                    les rangées", entrez "!!!". Ensuite, cliquez sur "Copier le texte" et collez-le ci-dessous.
+                    To import flashcards from Quizlet, open your Quizlet set, click "...", then choose "Export". In the field between term and definition, enter "$$$". Between rows, enter "!!!". Then copy the text and paste it below.
                 </h3>
                 <textarea id="quizletInput" placeholder="Collez le texte ici"></textarea>
                 <div class="row-bottom-buttons">
@@ -487,7 +486,7 @@
                 <div class="header-setting">
                     <div>
                         <h1>Nouvelle flaschard</h1>
-                        <p>Créez une nouvelle flashcard ci-dessous.</p>
+                        <p>Create a new flashcard below.</p>
                     </div>
                     <button onclick="navbar('quizlet')" id="quizlet">
                         <img src="../../assets/global/quizlet.svg" />
@@ -495,7 +494,7 @@
                 </div>
                 <div class="divider"></div>
                 <div class="item">
-                    <h3>Ecrivez ici la question</h3>
+                    <h3>Write the question here</h3>
                     <div class="description-container">
                         <div class="editor" id="question" placeholder="Question" spellcheck="false" contenteditable="true" onkeypress="return (this.innerText.length <= 300)"></div>
                         <div id="toolbar">
@@ -509,9 +508,9 @@
                     </div>
                 </div>
                 <div class="item">
-                    <h3>Ecrivez ici la réponse</h3>
+                    <h3>Write the answer here</h3>
                     <div class="description-container">
-                        <div class="editor" id="answer" placeholder="Réponse" spellcheck="false" contenteditable="true" onkeypress="return (this.innerText.length <= 300)"></div>
+                        <div class="editor" id="answer" placeholder="Answer" spellcheck="false" contenteditable="true" onkeypress="return (this.innerText.length <= 300)"></div>
                         <div id="toolbar">
                             <div>
                                 <button id="bold" onclick="makeHighlight()"><b>H</b></button>
@@ -525,17 +524,17 @@
 
                 <div class="post-buttons admin">
                     <div class="buttons">
-                        <button onclick="navbar('home')" class="large greyed">Retour</button>
-                        <button onclick="deleteFlashcard()" class="large reded">Supprimer</button>
+                        <button onclick="navbar('home')" class="large greyed">Back</button>
+                        <button onclick="deleteFlashcard()" class="large reded">Delete</button>
                     </div>
-                    <button onclick="checkFlashcard()" class="large">Créer</button>
+                    <button onclick="checkFlashcard()" class="large">Create</button>
                 </div>
             </div>
             <div class="overlay-content help">
                 <div class="header-setting">
                     <div>
                         <h1>Aide</h1>
-                        <p>Apprenez à utiliser votre Alumet dans les moindres détails !</p>
+                        <p>Learn how to use your Alumet in every detail.</p>
                     </div>
                 </div>
                 <div class="divider"></div>
@@ -544,30 +543,28 @@
                         <input type="checkbox" id="accordion50" />
                         <label for="accordion50" class="accordion-item-title"><span class="icon"></span>Comment ajouter de nouvelles flashcards</label>
                         <div class="accordion-item-desc">
-                            Pour ajouter de nouvelles flashcards, utilisez le bouton "Ajouter des flashcards". Si ce bouton n'est pas visible, cela peut signifier que vous n'êtes ni collaborateur ni propriétaire. Dans ce cas, demandez à un
-                            administrateur de vous ajouter. Vous avez également la possibilité d'utiliser l'intelligence artificielle pour générer rapidement du contenu à partir de cours ou de mots-clés.
+                            To add new flashcards, use the "Add flashcards" button. If this button is not visible, you are probably neither a collaborator nor the owner. In that case, ask an administrator to add you. You can also use artificial intelligence to quickly generate content from courses or keywords.
                         </div>
                     </div>
                     <div class="accordion-item">
                         <input type="checkbox" id="accordion6" />
-                        <label for="accordion6" class="accordion-item-title"><span class="icon"></span>Comment réviser mes flashcards ?</label>
+                        <label for="accordion6" class="accordion-item-title"><span class="icon"></span>How do I review my flashcards?</label>
                         <div class="accordion-item-desc">
-                            Pour réviser vos flashcards, cliquez sur le bouton "Réviser". Vous aurez ensuite le choix entre deux modes de révision. Si vous connaissez la réponse à une flashcard, faites-la glisser vers la droite, sinon vers la gauche.
-                            Utilisez la touche espace pour révéler la réponse.
+                            To review your flashcards, click the "Review" button. You will then choose between two review modes. If you know the answer to a flashcard, drag it to the right; otherwise, drag it to the left. Use the spacebar to reveal the answer.
                         </div>
                     </div>
                     <div class="accordion-item">
                         <input type="checkbox" id="accordion7" />
-                        <label for="accordion7" class="accordion-item-title"><span class="icon"></span>Pourquoi ne puis-je plus réviser en mode intelligent ?</label>
+                        <label for="accordion7" class="accordion-item-title"><span class="icon"></span>Why can I no longer review in smart mode?</label>
                         <div class="accordion-item-desc">
-                            Le mode de révision intelligent est conçu pour favoriser le développement de la mémoire à long terme. Pour cette raison, il peut être nécessaire d'attendre quelques jours avant de pouvoir réviser à nouveau votre jeu de
+                            Smart review mode is designed to support long-term memory. For that reason, you may need to wait a few days before reviewing your set again.
                             flashcards.
                         </div>
                     </div>
                     <div class="accordion-item">
                         <input type="checkbox" id="accordion8" />
-                        <label for="accordion8" class="accordion-item-title"><span class="icon"></span>À quoi correspond cette page comparée au mode de révision ?</label>
-                        <div class="accordion-item-desc">Cette page permet aux administrateurs de gérer les flashcards et offre aux utilisateurs un aperçu des flashcards ainsi que de leur progression.</div>
+                        <label for="accordion8" class="accordion-item-title"><span class="icon"></span>How is this page different from review mode?</label>
+                        <div class="accordion-item-desc">This page lets administrators manage flashcards and gives users an overview of the cards and their progress.</div>
                     </div>
                 </div>
             </div>
@@ -596,14 +593,14 @@
                 <p>Aide</p>
             </button>
             <button class="admin" onclick="navbar('settings')" id="settings">
-                <img src="../assets/global/settings.svg" alt="paramètres" />
-                <p>Paramètres</p>
+                <img src="../assets/global/settings.svg" alt="settings" />
+                <p>Settings</p>
             </button>
             <button id="bottomNav" onclick="window.location.href='/dashboard'">
-                <img src="../assets/global/back.svg" alt="paramètres" />
-                <p>Tableau de bord</p>
+                <img src="../assets/global/back.svg" alt="settings" />
+                <p>Dashboard</p>
             </button>
-            <button onclick="navbar('profile')" class="navProfile"><img src="../assets/default/default_user.png" /></button>
+            <button onclick="navbar('profile')" class="navProfilee"><img src="../assets/default/default_user.png" /></button>
         </div>
     </body>
     <script src="/socket.io/socket.io.js"></script>

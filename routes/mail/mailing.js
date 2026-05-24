@@ -4,6 +4,7 @@ const fs = require("fs");
 const A2F = require("../../models/a2f");
 require("dotenv").config();
 const Account = require("../../models/account");
+const logger = require("../../utils/logger");
 
 const transporter = nodemailer.createTransport({
     host: "smtp.email.eu-paris-1.oci.oraclecloud.com",
@@ -16,18 +17,18 @@ const transporter = nodemailer.createTransport({
 });
 
 const mailsSubjects = {
-    a2f: "Alumet Education - Code de vérification",
-    passwordReset: "Alumet Education - Réinitialisation de mot de passe",
+    a2f: "Alumet Education - Verification code",
+    passwordReset: "Alumet Education - Password reset",
     collaboration: "Alumet Education - Invitation",
     certification: "Alumet Education - Certification",
-    suspended: "Alumet Education - Compte désactivé",
-    experiment: "Alumet Education - La fin",
-    unsuspended: "Alumet Education - Compte réactivé"
+    suspended: "Alumet Education - Account disabled",
+    experiment: "Alumet Education - The end",
+    unsuspended: "Alumet Education - Account reactivated"
 };
 
 const experiments = {
     aiFlashcards:
-        "L'intelligence Artificielle est disponible sur votre compte ! Créez rapidement des jeux de flashcards (cartes mémoires) directement à partir de vos cours(pdf) ou de mots-clés spécifiques. Lancez-vous dans la révision en seulement quelques clics ! Pour accéder à cette fonctionnalité, rendez-vous sur un jeu de flashcards existant et sélectionnez l`'option 'IA' dans le menu.",
+        "Artificial intelligence is now available on your account! Quickly create flashcard sets directly from your course PDFs or specific keywords. Start reviewing in just a few clicks. To access this feature, open an existing flashcard set and select the AI option from the menu.",
 };
 
 async function createMail(type, receiver) {
@@ -120,8 +121,8 @@ async function sendMail(type, receiver) {
 
     transporter.sendMail(mailOptions, (error, info) => {
         !error
-            ? console.log("Email sent: " + info.response)
-            : console.log(error);
+            ? logger.info("Email sent: " + info.response)
+            : logger.error("Email sending failed", error);
     });
 }
 

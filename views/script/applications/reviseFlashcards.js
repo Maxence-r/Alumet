@@ -237,7 +237,7 @@ function resetProgress() {
     })
         .then(res => res.json())
         .then(data => {
-            toast({ title: 'Réinitialisation réussie', message: 'Les cartes ont bien été réinitialisées', type: 'success', duration: 2500 });
+            toast({ title: 'Reset successful', message: 'The cards have been reset successfully', type: 'success', duration: 2500 });
             document.getElementById('overlay').classList.remove('hidden');
             setTimeout(() => {
                 window.location.href = `/app/${id}`;
@@ -255,7 +255,7 @@ function displayEndOfSection(type) {
     document.querySelectorAll('.end-of-section').forEach(element => (element.style.display = type === 'end' ? 'flex' : 'none'));
     document.querySelector('.finish-box > .text > h1').textContent = 'Bravo ' + storedData.user_infos.name + ' !';
     const newCardText = sections[index].length === 1 ? ' nouvelle carte' : ' nouvelles cartes';
-    document.querySelector('.finish-box > .text > p.intermediate-section').textContent = 'Tu as terminé cette section de révision et appris ' + sections[index].length + newCardText + ' !';
+    document.querySelector('.finish-box > .text > p.intermediate-section').textContent = 'You finished this review section and learned ' + sections[index].length + newCardText + ' !';
 
     document.querySelector('.finish-section').style.display = 'flex';
 }

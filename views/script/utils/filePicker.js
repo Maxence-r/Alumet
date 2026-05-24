@@ -142,7 +142,7 @@ function createFolderElement(folder) {
 function selectFile(id) {
     if (unique === 'true') {
         selectedFile = [id];
-        document.querySelector('.file-sending-infos > h3').innerText = `1 fichier(s) selectionné(s)`;
+        document.querySelector('.file-sending-infos > h3').innerText = `1 file(s) selected`;
         document.querySelector('.drop-box').classList.add('ready-to-send');
         closeFP();
     } else {
@@ -171,7 +171,7 @@ document.getElementById('post-file').addEventListener('change', e => {
     const file = e.target.files;
     if (!file) return;
     localStorage.removeItem('file-ts');
-    document.querySelector('.file-sending-infos > h3').innerText = `${file.length} fichier(s) selectionné(s)`;
+    document.querySelector('.file-sending-infos > h3').innerText = `${file.length} file(s) selected`;
     document.querySelector('.drop-box').classList.add('ready-to-send');
     closeFP();
 });

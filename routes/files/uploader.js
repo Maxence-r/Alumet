@@ -5,25 +5,55 @@ const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const Upload = require('../../models/upload');
 const fs = require('fs');
+const fsp = require('fs/promises');
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
 const Post = require('../../models/post');
 const Folder = require('../../models/folder');
 const mongoose = require('mongoose');
 const rateLimit = require('../../middlewares/authentification/rateLimit');
+const config = require('../../config/env');
+const logger = require('../../utils/logger');
+const asyncHandler = require('../../utils/asyncHandler');
+const { extensionFromName, sanitizeFilename } = require('../../utils/files');
 
 const storage = multer.diskStorage({
-    destination: './cdn',
+    destination: config.paths.cdn,
     filename: (req, file, cb) => {
         cb(null, uuidv4() + path.extname(file.originalname));
     },
 });
 
-router.get('/content', rateLimit(30), async (req, res) => {
+const removeFromDisk = async filename => {
+    if (!filename) {
+        return;
+    }
+
+    try {
+        await fsp.unlink(path.join(config.paths.cdn, filename));
+    } catch (error) {
+        if (error.code !== 'ENOENT') {
+            logger.warn('Unable to remove uploaded file from disk', filename, error.message);
+        }
+    }
+};
+
+const requireConnected = (req, res, next) => {
+    if (!req.connected) {
+        return res.status(401).json({
+            error: "You do not have permission to perform this action.",
+        });
+    }
+
+    return next();
+};
+
+router.get('/content', rateLimit(30), requireConnected, async (req, res) => {
     try {
         let folders = await Folder.find({ owner: req.user?.id }).sort({ lastUsage: -1 }).lean();
 
-        const extensions = req.query.ext ? req.query.ext.split(',') : [];
-        const regex = extensions.length > 0 ? new RegExp(`\\.(${extensions.join('|')})$`, 'i') : null;
+        const extensions = req.query.ext ? req.query.ext.split(',').map(extensionFromName).filter(Boolean) : [];
+        const escapedExtensions = extensions.map(ext => ext.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+        const regex = escapedExtensions.length > 0 ? new RegExp(`\\.(${escapedExtensions.join('|')})$`, 'i') : null;
 
         await Promise.all(
             folders.map(async folder => {
@@ -35,13 +65,17 @@ router.get('/content', rateLimit(30), async (req, res) => {
 
         res.json(folders);
     } catch (error) {
-        console.log(error);
-        res.json({ error });
+        logger.error('Cloud content loading failed', error);
+        res.status(500).json({ error: 'Server error' });
     }
 });
-router.post('/folder/create', rateLimit(30), (req, res) => {
+router.post('/folder/create', rateLimit(30), requireConnected, (req, res) => {
+    if (!req.body.name) {
+        return res.status(400).json({ error: 'Please specify a folder name' });
+    }
+
     const folder = new Folder({
-        name: req.body.name,
+        name: sanitizeFilename(req.body.name),
         owner: req.user.id,
     });
     folder
@@ -50,41 +84,30 @@ router.post('/folder/create', rateLimit(30), (req, res) => {
         .catch(error => res.json({ error }));
 });
 
-router.delete('/folder/delete/:id', rateLimit(30), validateObjectId, async (req, res) => {
-    if (!req.connected)
-        return res.status(401).json({
-            error: "Vous n'avez pas les permissions pour effectuer cette action !",
-        });
+router.delete('/folder/delete/:id', rateLimit(30), requireConnected, validateObjectId, async (req, res) => {
     try {
         const folder = await Folder.findOne({ _id: req.params.id, owner: req.user.id });
-        if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
-        await folder.remove();
+        if (!folder) return res.status(404).json({ error: 'Folder not found' });
         const uploads = await Upload.find({ folder: folder._id });
         for (const upload of uploads) {
-            const uploadRecord = await Upload.find({ _id: upload._id });
-            if (!uploadRecord[0]) {
-                return res.status(404).json({ error: 'Fichier non trouvé' });
-            }
-            await uploadRecord[0].deleteOne();
-            await Post.deleteMany({ file: req.params.id });
-            fs.unlink(`./cdn/${uploadRecord[0].filename}`, err => {
-                if (err) {
-                    console.error(err);
-                }
-            });
+            await upload.deleteOne();
+            await Post.deleteMany({ file: upload._id.toString() });
+            await removeFromDisk(upload.filename);
         }
+        await folder.deleteOne();
         res.json(folder);
     } catch (error) {
-        res.json({ error });
+        logger.error('Folder deletion failed', error);
+        res.status(500).json({ error: 'Server error' });
     }
 });
 
-router.post('/folder/rename/:id', rateLimit(30), validateObjectId, (req, res) => {
+router.post('/folder/rename/:id', rateLimit(30), requireConnected, validateObjectId, (req, res) => {
     Folder.findOne({ _id: req.params.id, owner: req.user.id })
         .then(folder => {
-            if (!folder) return res.status(404).json({ error: 'Dossier introuvable' });
-            if (!req.body.name) return res.status(400).json({ error: 'Veuillez spéficier un nouveau nom' });
-            folder.name = req.body.name;
+            if (!folder) return res.status(404).json({ error: 'Folder not found' });
+            if (!req.body.name) return res.status(400).json({ error: 'Please specify a new name' });
+            folder.name = sanitizeFilename(req.body.name);
             folder.save();
             res.json(folder);
         })
@@ -106,70 +129,54 @@ router.get('/u/defaultGroup', (req, res) => {
     res.sendFile(filePath);
 });
 
-router.get('/u/:id', rateLimit(60), validateObjectId, (req, res) => {
-    Upload.find({ _id: req.params.id })
-        .then(upload => {
-            if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
-            const filePath = path.join(__dirname, './../../cdn/' + upload[0].filename);
-            if (fs.existsSync(filePath)) {
-                res.sendFile(filePath);
-            } else {
-                res.redirect('/404');
-            }
-        })
-        .catch(error => res.json({ error }));
-});
+router.get('/u/:id', rateLimit(60), validateObjectId, asyncHandler(async (req, res) => {
+    const upload = await Upload.findById(req.params.id);
+    if (!upload) return res.status(404).json({ error: 'File not found' });
 
-router.get('/u/:id/download', rateLimit(30), validateObjectId, (req, res) => {
-    Upload.find({ _id: req.params.id })
-        .then(upload => {
-            if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
-            const filePath = path.join(__dirname, './../../cdn/' + upload[0].filename);
-            if (fs.existsSync(filePath)) {
-                res.download(filePath, upload[0].originalname);
-            } else {
-                res.redirect('/404');
-            }
-        })
-        .catch(error => res.json({ error }));
-});
+    const filePath = path.join(config.paths.cdn, upload.filename);
+    if (fs.existsSync(filePath)) {
+        return res.sendFile(filePath);
+    }
 
-const sanitizeFilename = filename => {
-    return filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
-};
+    return res.redirect('/404');
+}));
 
-router.patch('/update/:id', rateLimit(30), validateObjectId, (req, res) => {
-    if (!req.body.displayname) return res.status(400).json({ error: 'Veuillez spéficier un nouveau nom' });
-    Upload.find({ _id: req.params.id })
-        .then(upload => {
-            if (upload[0].modifiable === false)
-                return res.status(401).json({
-                    error: 'Ce fichiers est utilisé par un de vos Alumets, impossible de le modifié',
-                });
-            if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
-            upload[0].displayname = sanitizeFilename(req.body.displayname) + '.' + upload[0].mimetype;
-            upload[0]
-                .save()
-                .then(() => res.json({ upload }))
-                .catch(error => {
-                    console.error(error);
-                    res.status(500).json({ error });
-                });
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ error });
+router.get('/u/:id/download', rateLimit(30), validateObjectId, asyncHandler(async (req, res) => {
+    const upload = await Upload.findById(req.params.id);
+    if (!upload) return res.status(404).json({ error: 'File not found' });
+
+    const filePath = path.join(config.paths.cdn, upload.filename);
+    if (fs.existsSync(filePath)) {
+        return res.download(filePath, upload.displayname);
+    }
+
+    return res.redirect('/404');
+}));
+
+router.patch('/update/:id', rateLimit(30), requireConnected, validateObjectId, asyncHandler(async (req, res) => {
+    if (!req.body.displayname) return res.status(400).json({ error: 'Please specify a new name' });
+    const upload = await Upload.findOne({ _id: req.params.id, owner: req.user.id });
+    if (!upload) return res.status(404).json({ error: 'File not found' });
+    if (upload.modifiable === false) {
+        return res.status(401).json({
+            error: 'This file is used by one of your Alumets and cannot be edited.',
         });
-});
+    }
+
+    upload.displayname = sanitizeFilename(req.body.displayname) + '.' + upload.mimetype;
+    await upload.save();
+    res.json({ upload: [upload] });
+}));
 
 const accountUpload = multer({
     storage: storage,
     limits: {
+        fileSize: 50 * 1024 * 1024,
         files: 150,
     },
 });
 
-router.post('/upload/:id', rateLimit(240), async (req, res) => {
+router.post('/upload/:id', rateLimit(240), requireConnected, async (req, res) => {
     let folder;
     if (req.params.id && mongoose.Types.ObjectId.isValid(req.params.id)) {
         folder = await Folder.findOne({
@@ -184,7 +191,7 @@ router.post('/upload/:id', rateLimit(240), async (req, res) => {
                 return res.status(500).json({ error: 'Upload failed' });
             }
             if (req.file) {
-                const ext = req.file.originalname.split('.').pop();
+                const ext = extensionFromName(req.file.originalname);
                 const sanitizedFilename = sanitizeFilename(req.file.originalname);
                 const upload = new Upload({
                     filename: req.file.filename,
@@ -198,13 +205,13 @@ router.post('/upload/:id', rateLimit(240), async (req, res) => {
                 res.json({ file: upload });
             } else {
                 res.status(400).json({
-                    error: 'Une erreur inconnue est survenue ! x00',
+                    error: 'An unknown error occurred.',
                 });
             }
         } catch (error) {
-            console.log(error);
+            logger.error('Upload save failed', error);
             res.status(500).json({
-                error: "Une erreur est survenue lors de l'enregistrement du fichier",
+                error: "An error occurred while saving the file",
             });
         }
     });
@@ -213,39 +220,35 @@ router.post('/upload/:id', rateLimit(240), async (req, res) => {
 router.get('/info/:id', rateLimit(30), validateObjectId, (req, res) => {
     Upload.findOne({ _id: req.params.id })
         .then(upload => {
-            if (!upload) return res.status(404).json({ error: 'Fichier non trouvé' });
+            if (!upload) return res.status(404).json({ error: 'File not found' });
             res.json({ upload });
         })
 
         .catch(error => res.json({ error }));
 });
 
-router.delete('/:id', rateLimit(30), validateObjectId, async (req, res) => {
+router.delete('/:id', rateLimit(30), requireConnected, validateObjectId, async (req, res) => {
     try {
-        const upload = await Upload.find({ _id: req.params.id });
-        if (!upload[0]) {
-            return res.status(404).json({ error: 'Fichier non trouvé' });
+        const upload = await Upload.findById(req.params.id);
+        if (!upload) {
+            return res.status(404).json({ error: 'File not found' });
         }
-        if (!upload[0].modifiable) {
+        if (!upload.modifiable) {
             return res.status(401).json({
-                error: 'Ce fichier est utilisé par un de vos Alumet, impossible de le supprimer !',
+                error: 'This file is used by one of your Alumets and cannot be deleted.',
             });
         }
-        if (upload[0].owner.toString() !== req.user.id) {
+        if (upload.owner.toString() !== req.user.id) {
             return res.status(401).json({
-                error: "Vous n'avez pas les permissions pour effectuer cette action !",
+                error: "You do not have permission to perform this action.",
             });
         }
-        await upload[0].deleteOne();
+        await upload.deleteOne();
         await Post.deleteMany({ file: req.params.id });
-        fs.unlink(`./cdn/${upload[0].filename}`, err => {
-            if (err) {
-                console.error(err);
-            }
-        });
+        await removeFromDisk(upload.filename);
         return res.json({ success: 'Upload deleted' });
     } catch (error) {
-        console.error(error);
+        logger.error('Upload deletion failed', error);
         return res.status(500).json({ error: 'Server error' });
     }
 });

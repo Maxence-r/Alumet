@@ -182,24 +182,24 @@ router.put('/role/:app', rateLimit(60), async (req, res) => {
         const alumet = await Alumet.findById(req.params.app);
         if (!alumet) {
             return res.status(404).json({
-                error: "L'application n'a pas été trouvée",
+                error: "The application was not found",
             });
         }
         if (alumet.owner !== req.user?.id) {
             return res.status(403).json({
-                error: "Vous n'êtes pas autorisé à effectuer cette action",
+                error: "You are not allowed to perform this action",
             });
         }
         if (alumet.owner === req.body.user) {
             //TODO - add button transfer ownership
             return res.status(403).json({
-                error: 'Vous ne pouvez pas vous retirer le rôle de propriétaire',
+                error: 'You cannot remove your own owner role',
             });
         }
         if (req.body.role == 0) {
             return res.json({
                 userId: req.body.user,
-                alert: 'Vous ne pouvez pas retirer le rôle de propriétaire',
+                alert: 'You cannot remove the owner role',
             });
         }
         alumet.participants = alumet.participants.map(p => {
@@ -208,7 +208,7 @@ router.put('/role/:app', rateLimit(60), async (req, res) => {
         });
         await alumet.save();
         res.json({
-            message: 'Le rôle a bien été modifié',
+            message: 'The role was updated successfully',
         });
     } catch (error) {
         console.error(error);
@@ -223,12 +223,12 @@ router.put('/giveOwnership/:app', rateLimit(60), async (req, res) => {
         const alumet = await Alumet.findById(req.params.app);
         if (!alumet) {
             return res.status(404).json({
-                error: "L'application n'a pas été trouvée",
+                error: "The application was not found",
             });
         }
         if (alumet.owner !== req.user?.id) {
             return res.status(403).json({
-                error: "Vous n'êtes pas autorisé à effectuer cette action",
+                error: "You are not allowed to perform this action",
             });
         }
         let owner = alumet.owner;
@@ -237,7 +237,7 @@ router.put('/giveOwnership/:app', rateLimit(60), async (req, res) => {
         alumet.participants.push({ userId: owner, status: 1 });
         await alumet.save();
         res.json({
-            message: "La propriété de l'application a bien été transférée",
+            message: "Application ownership was transferred successfully",
         });
     } catch (error) {
         console.error(error);

@@ -17,6 +17,17 @@ Alumet is a free tool designed to ensure the success of your projects. It is act
 
 You can check out the online version of Alumet at https://education.alumet.io
 
+## Local Development
+
+```bash
+npm install
+cp exemple.env .env
+npm run check
+npm run dev
+```
+
+Important runtime settings live in `.env`: `MONGODB_URI`, `TOKEN`, `PUBLIC_BASE_URL`, Stripe keys, OpenAI keys, and optional Serval analytics settings. Secrets should stay out of source files.
+
 ## Commit history
 
 | Date     | Content                                                                                                                                                                                                                                                                                                                                                         | Version |
@@ -39,4 +50,3 @@ You can check out the online version of Alumet at https://education.alumet.io
 | 08/05/23 | UI & UX improvements on alumets (button visibility and interactions), many bugs fixed, correction of a major performance issue affecting less performant devices                                                                                                                                                                                                | 1.0.3   |
 | 02/05/23 | UI improvements on alumets (accent color), many bugs fixed                                                                                                                                                                                                                                                                                                      | 1.0.2   |
 | 30/04/23 | UX improvements on alumets (takes up the entire size), development of the Table module still ongoing, many bugs fixed, performance optimization on less performant devices                                                                                                                                                                                      | 1.0.1   |
-

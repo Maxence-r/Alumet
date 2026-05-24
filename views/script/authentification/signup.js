@@ -59,22 +59,22 @@ function verify() {
     passwordInput = document.getElementById('password');
 
     if (nameInput.value.length < 2) {
-        return toast({ title: 'Erreur', message: 'Le prénom doit faire au moins 2 caractères', type: 'error', duration: 6000 });
+        return toast({ title: 'Error', message: 'First name must be at least 2 characters', type: 'error', duration: 6000 });
     }
 
     if (lastnameInput.value.length < 2) {
-        return toast({ title: 'Erreur', message: 'Le nom doit faire au moins 2 caractères', type: 'error', duration: 6000 });
+        return toast({ title: 'Error', message: 'Last name must be at least 2 characters', type: 'error', duration: 6000 });
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const emailDomain = mailInput.value.split('@')[1];
 
     if (!emailRegex.test(mailInput.value) || (accountType == 'professor' && !allowedDomains.includes(emailDomain))) {
-        return toast({ title: 'Erreur', message: 'Utilisez une adresse mail académique, @ac-{region}.fr', type: 'error', duration: 6000 });
+        return toast({ title: 'Error', message: 'Use an academic email address, @ac-{region}.fr', type: 'error', duration: 6000 });
     }
 
     if (passwordInput.value.length < 6) {
-        return toast({ title: 'Erreur', message: 'Le mot de passe doit faire au moins 6 caractères', type: 'error', duration: 6000 });
+        return toast({ title: 'Error', message: 'Password must be at least 6 characters', type: 'error', duration: 6000 });
     }
     send2FA(mailInput.value);
 }
@@ -93,7 +93,7 @@ function send2FA(mail) {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 6000 });
             }
             document.querySelector('.full-screen').style.display = 'none';
             document.querySelector('.signup').classList.remove('activeStep');
@@ -120,7 +120,7 @@ document.querySelector('.confirm').addEventListener('click', e => {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 6000 });
             } else {
                 const urlParams = new URLSearchParams(window.location.search);
                 const redirect = urlParams.get('redirect');

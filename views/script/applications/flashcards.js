@@ -18,11 +18,11 @@ function modifyFlashcardSet() {
     let title = document.getElementById('flashcardName').value;
     if (title.length < 2) {
         navbar('settings');
-        return toast({ title: 'Erreur', message: 'Le titre doit contenir au moins 2 caractères', type: 'error', duration: 7500 });
+        return toast({ title: 'Error', message: 'Le titre doit contenir au moins 2 characters', type: 'error', duration: 7500 });
     }
     let description = document.getElementById('flashcardDescription').value;
     let isPublic = document.getElementById('flashcardPublic').checked;
-    navbar('loadingRessources');
+    navbar('loadingResources');
     fetch(`/app/new`, {
         method: 'PUT',
         headers: {
@@ -38,9 +38,9 @@ function modifyFlashcardSet() {
         res.json().then(data => {
             if (data.error) {
                 navbar('settings');
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 7500 });
             } else {
-                toast({ title: 'Succès', message: 'Le jeu de flashcard a bien été modifié !', type: 'success', duration: 2500 });
+                toast({ title: 'Success', message: 'The flashcard set has been updated successfully!', type: 'success', duration: 2500 });
                 setTimeout(() => {
                     window.location.reload();
                 }, 2500);
@@ -50,9 +50,9 @@ function modifyFlashcardSet() {
 }
 function promptResetUserDatas() {
     createPrompt({
-        head: 'Réinitialiser votre progression ?',
-        desc: 'Vous pouvez réinitialiser votre progression pour recommencer à zéro. Cette action est irréversible.',
-        content: 'Êtes-vous sûr de vouloir réinitialiser votre progression ? Cette action est irréversible.',
+        head: 'Reset your progress?',
+        desc: 'You can reset your progress to start from scratch. This action cannot be undone.',
+        content: 'Are you sure you want to reset your progress? This action cannot be undone.',
         action: 'resetUserdatas()',
     });
 }
@@ -66,7 +66,7 @@ function resetUserdatas() {
     })
         .then(res => res.json())
         .then(data => {
-            toast({ title: 'Succès', message: 'Les données des utilisateurs ont bien été réinitialisées !', type: 'success', duration: 2500 });
+            toast({ title: 'Success', message: 'User data has been reset successfully!', type: 'success', duration: 2500 });
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
@@ -77,15 +77,15 @@ function newFlashcards() {
     navbar('flashcards');
     localStorage.setItem('currentItem', null);
     document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Nouvelle flashcard';
-    document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Créez une nouvelle flashcard ci-dessous.';
+    document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Create a new flashcard below.';
     document.querySelector('.flashcards > .post-buttons > .buttons > .reded').style.display = 'none';
-    document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Créer';
+    document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Create';
     document.getElementById('answer').innerHTML = '';
     document.getElementById('question').innerHTML = '';
 }
 
 function deleteFlashcard() {
-    navbar('loadingRessources');
+    navbar('loadingResources');
     fetch(`/flashcards/${id}/${currentFlashcard}`, {
         method: 'DELETE',
         headers: {
@@ -98,11 +98,11 @@ function deleteFlashcard() {
         res.json().then(data => {
             if (data.error) {
                 navbar('flashcards');
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 7500 });
             } else {
                 document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).remove();
                 flashcardSet.flashcards = flashcardSet.flashcards.filter(flashcard => flashcard._id != currentFlashcard);
-                toast({ title: 'Succès', message: 'La carte a bien été supprimée !', type: 'success', duration: 2500 });
+                toast({ title: 'Success', message: 'The card has been deleted successfully!', type: 'success', duration: 2500 });
                 setTimeout(() => {
                     navbar('home');
                 }, 500);
@@ -154,10 +154,10 @@ function createFlashcardElement(question, answer, status, parameter, id) {
         currentFlashcard = id;
         document.getElementById('question').innerHTML = question;
         document.getElementById('answer').innerHTML = answer;
-        document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Modifier une carte';
-        document.querySelector('.flashcards > .header-setting > div > p').innerText = 'Vous pouvez modifier la carte ci-dessous.';
+        document.querySelector('.flashcards > .header-setting > div > h1').innerText = 'Edit a card';
+        document.querySelector('.flashcards > .header-setting > div > p').innerText = 'You pouvez modifier la carte ci-dessous.';
         document.querySelector('.flashcards > .post-buttons > .buttons > .reded').style.display = 'block';
-        document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Modifier';
+        document.querySelector('.flashcards > .post-buttons > button:nth-of-type(1)').innerText = 'Edit';
         if (parameter === 'modifyCreation') {
             document.querySelector('.flashcards > .post-buttons > button').onclick = () => {
                 checkCreation();
@@ -184,9 +184,9 @@ function createFlashcardElement(question, answer, status, parameter, id) {
 }
 async function revise() {
     let selectedOption = document.querySelector('#radio-revise input[type="radio"]:checked')?.id;
-    if (!selectedOption) return toast({ title: 'Erreur', message: 'Vous devez sélectionner une option', type: 'error', duration: 2500 });
-    if (selectedOption == 'smart' && !flashcardSet.user_infos) return toast({ title: 'Erreur', message: 'Vous devez être connecté pour utiliser ce mode de révision', type: 'error', duration: 2500 });
-    if (document.querySelectorAll('.alumet > .flashcards-container > .flashcard').length < 1) return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins une carte pour réviser', type: 'error', duration: 2500 });
+    if (!selectedOption) return toast({ title: 'Error', message: 'You must select an option', type: 'error', duration: 2500 });
+    if (selectedOption == 'smart' && !flashcardSet.user_infos) return toast({ title: 'Error', message: 'You must be signed in to use this review mode', type: 'error', duration: 2500 });
+    if (document.querySelectorAll('.alumet > .flashcards-container > .flashcard').length < 1) return toast({ title: 'Error', message: 'You must add at least one card to review', type: 'error', duration: 2500 });
     let isSmartRevision = null;
     if (selectedOption === 'smart') {
         await fetch(`/flashcards/${id}/isSmartRevision`, {
@@ -199,7 +199,7 @@ async function revise() {
             });
     }
     let reversed = document.getElementById('reversed').checked;
-    if (!isSmartRevision && selectedOption === 'smart') return toast({ title: 'Erreur', message: 'Vous avez révisé toutes vos cartes ! Revenez plus tard', type: 'error', duration: 2500 });
+    if (!isSmartRevision && selectedOption === 'smart') return toast({ title: 'Error', message: 'You have reviewed all your cards. Come back later.', type: 'error', duration: 2500 });
     window.location.href = `/flashcards/revise/${selectedOption}/${id}` + (reversed ? '?reverse=true' : '');
 }
 async function createFlashcards(info, flashcards) {
@@ -226,20 +226,20 @@ async function createFlashcards(info, flashcards) {
     const data = await response.json();
 
     if (data.error) {
-        toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
+        toast({ title: 'Error', message: data.error, type: 'error', duration: 7500 });
     } else {
         data.flashcards.forEach(flashcard => {
             const flashcardElement = createFlashcardElement(flashcard.question, flashcard.answer, 'neutral', 'modify', flashcard._id);
             if (flashcard._id == currentFlashcard) {
                 document.querySelector(`.flashcard[data-flashcardid="${currentFlashcard}"]`).replaceWith(flashcardElement);
-                toast({ title: 'Succès', message: 'La carte a bien été modifiée !', type: 'success', duration: 2500 });
+                toast({ title: 'Success', message: 'The card has been updated successfully!', type: 'success', duration: 2500 });
             } else {
                 document.querySelector('.flashcards-container').appendChild(flashcardElement);
             }
             document.querySelector('.new-flashcard').insertAdjacentElement('afterend', flashcardElement);
         });
         if (!data.flashcards.some(flashcard => flashcard._id == currentFlashcard))
-            toast({ title: 'Succès', message: `La carte${data.flashcards.length > 1 ? 's ont' : ' a'} bien été ajoutée${data.flashcards.length > 1 ? 's' : ''} !`, type: 'success', duration: 2500 });
+            toast({ title: 'Success', message: `The card${data.flashcards.length > 1 ? 's have' : ' has'} been added successfully!`, type: 'success', duration: 2500 });
         document.getElementById('answer').innerHTML = '';
         document.getElementById('question').innerHTML = '';
     }
@@ -247,18 +247,18 @@ async function createFlashcards(info, flashcards) {
 
 function checkFlashcard() {
     const fields = [
-        { id: 'question', messageShort: 'Vous devez ajouter une question', messageLong: 'La question ne doit pas dépasser 300 caractères' },
-        { id: 'answer', messageShort: 'Vous devez ajouter une réponse', messageLong: 'La réponse ne doit pas dépasser 300 caractères' },
+        { id: 'question', messageShort: 'You must add a question', messageLong: 'The question must not exceed 300 characters' },
+        { id: 'answer', messageShort: 'You must add an answer', messageLong: 'The answer must not exceed 300 characters' },
     ];
     for (const field of fields) {
         let fieldValue = document.getElementById(field.id).innerHTML;
         if (fieldValue.length < 1) {
-            return toast({ title: 'Erreur', message: field.messageShort, type: 'error', duration: 7500 });
+            return toast({ title: 'Error', message: field.messageShort, type: 'error', duration: 7500 });
         } else if (fieldValue.length > 300) {
-            return toast({ title: 'Erreur', message: field.messageLong, type: 'error', duration: 7500 });
+            return toast({ title: 'Error', message: field.messageLong, type: 'error', duration: 7500 });
         }
     }
-    navbar('loadingRessources');
+    navbar('loadingResources');
     createFlashcards('normal', { question: document.getElementById('question').innerHTML, answer: document.getElementById('answer').innerHTML, _id: localStorage.getItem('currentItem') });
 }
 
@@ -305,7 +305,7 @@ function createKeywordElement(keyword) {
 
 function addKeyword() {
     const keywordInput = document.getElementById('keyword');
-    if (keywordInput.value.length < 2) return toast({ title: 'Erreur', message: 'Le mot-clé doit contenir au moins 2 caractères', type: 'error', duration: 7500 });
+    if (keywordInput.value.length < 2) return toast({ title: 'Error', message: 'The keyword must contain at least 2 characters', type: 'error', duration: 7500 });
 
     document.querySelector('.keywords-container').style.display = 'flex';
     document.querySelector('.keywords-container').appendChild(createKeywordElement(keywordInput.value));
@@ -323,13 +323,13 @@ async function generateWithIA() {
 
     if (generationMode === 'document') {
         if (!fileFromCloud && !fileFromPC) {
-            return toast({ title: 'Erreur', message: 'Vous devez ajouter un fichier', type: 'error', duration: 2500 });
+            return toast({ title: 'Error', message: 'You devez ajouter un file', type: 'error', duration: 2500 });
         }
         navbar('loading-flashcards');
         data = fileFromCloud ? fileFromCloud : (await uploadFile(fileFromPC))._id;
     } else if (generationMode === 'keywords') {
         if (keywords.length < 1) {
-            return toast({ title: 'Erreur', message: 'Vous devez ajouter au moins un mot-clé', type: 'error', duration: 2500 });
+            return toast({ title: 'Error', message: 'You must add at least one keyword', type: 'error', duration: 2500 });
         }
         navbar('loading-flashcards');
 
@@ -350,7 +350,7 @@ async function generateWithIA() {
         .then(data => {
             if (data.error) {
                 navbar('ia');
-                return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 2500 });
+                return toast({ title: 'Error', message: data.error, type: 'error', duration: 2500 });
             }
             data.message ? toast({ title: 'Attention', message: data.message, type: 'warning', duration: 5000 }) : null;
 
@@ -378,9 +378,9 @@ function importFlashcard() {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                return toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
+                return toast({ title: 'Error', message: data.error, type: 'error', duration: 7500 });
             }
-            toast({ title: 'Succès', message: 'Les flashcards ont bien été importées !', type: 'success', duration: 2500 });
+            toast({ title: 'Success', message: 'The flashcards have been imported successfully!', type: 'success', duration: 2500 });
             setTimeout(() => {
                 window.location.reload();
             }, 2500);

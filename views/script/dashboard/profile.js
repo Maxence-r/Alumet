@@ -27,7 +27,7 @@ function updateInfos(userInfos) {
     userFirstNameInput.value = userInfos.name;
     userLastNameInput.value = userInfos.lastname;
     userMailInput.value = userInfos.mail;
-    toggleA2FBtn.innerText = userInfos.isA2FEnabled ? 'Désactiver la vérification par mail' : 'Activer la vérification par mail';
+    toggleA2FBtn.innerText = userInfos.isA2FEnabled ? 'Disable email verification' : 'Enable email verification';
     if (userInfos.badges) {
         userInfos.badges.forEach(badge => {
             const badgeImg = document.createElement('img');
@@ -59,7 +59,7 @@ function createNotifications(invitations) {
         let subInfosElement = document.createElement('div');
         let nameElement = document.createElement('h3');
 
-        nameElement.textContent = invitation.inviter + ' vous à invité à collaborer sur "' + invitation.applicationName + '".';
+        nameElement.textContent = invitation.inviter + ' invited you to collaborate on "' + invitation.applicationName + '".';
         let roleElement = document.createElement('p');
         roleElement.textContent = relativeTime(invitation.createdAt);
         subInfosElement.appendChild(nameElement);
@@ -100,10 +100,10 @@ function handleReset() {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 6000 });
                 document.querySelector('.full-screen').style.display = 'none';
             } else {
-                return toast({ title: 'Code envoyé !', message: 'Un code de vérification vous a été envoyé par mail.', type: 'success', duration: 2500 });
+                return toast({ title: 'Code sent !', message: 'A verification code has been sent to you by email.', type: 'success', duration: 2500 });
             }
         });
 }
@@ -124,27 +124,27 @@ function resetPassword(code) {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 6000 });
             } else {
-                return toast({ title: 'Mot de passe modifié !', message: 'Votre mot de passe a bien été modifié.', type: 'success', duration: 2500 });
+                return toast({ title: 'Password updated.', message: 'Your password has been updated successfully.', type: 'success', duration: 2500 });
             }
         });
 }
 changePasswordBtn.addEventListener('click', () => {
     handleReset();
     createPrompt({
-        head: 'Un code de sécurité vous a été envoyer',
-        placeholder: 'Entrez le code reçu par mail',
-        desc: 'Veuillez entrer le code de sécurité que vous avez reçu par mail.',
+        head: 'A security code has been sent to you',
+        placeholder: 'Enter the code received by email',
+        desc: 'Please enter the security code you received by email.',
         action: 'confirmPassword()',
     });
 });
 function confirmPassword() {
     let code = document.getElementById('prompt-input').value;
     createPrompt({
-        head: 'Nouveau mot de passe',
-        desc: 'Veuillez entrer votre nouveau mot de passe sécurisé de 6 caractères minimum.',
-        placeholder: 'Tapez votre nouveau mot de passe',
+        head: 'New password',
+        desc: 'Please enter your new secure password with at least 6 characters.',
+        placeholder: 'Enter your new password',
         placeholderType: 'password',
         action: `resetPassword('${code}')`,
     });
@@ -162,13 +162,13 @@ toggleA2FBtn.addEventListener('click', () => {
         .then(data => {
             if (!data.error) {
                 createPrompt({
-                    head: 'Code de vérification',
-                    desc: 'Un code de vérification vous a été envoyé par mail.',
-                    placeholder: 'Tapez votre code de vérification',
+                    head: 'Verification code',
+                    desc: 'A verification code has been sent to you by email.',
+                    placeholder: 'Enter your verification code',
                     action: `confirmA2F()`,
                 });
             } else {
-                toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
+                toast({ title: 'Error !', message: data.error, type: 'error', duration: 2500 });
             }
         });
 });
@@ -187,15 +187,15 @@ function confirmA2F() {
         .then(res => res.json())
         .then(data => {
             if (!data.error) {
-                document.getElementById('toggleA2FBtn').innerText = data.isA2FEnabled ? 'Désactiver la vérification par mail' : 'Activer la vérification par mail';
-                toast({ title: 'A2F modifié !', message: "Vos paramètres d'authentification à double facteurs ont bien été modifiés.", type: 'success', duration: 2500 });
+                document.getElementById('toggleA2FBtn').innerText = data.isA2FEnabled ? 'Disable email verification' : 'Enable email verification';
+                toast({ title: '2FA updated!', message: "Your two-factor authentication settings have been updated successfully.", type: 'success', duration: 2500 });
             } else {
-                toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
+                toast({ title: 'Error !', message: data.error, type: 'error', duration: 2500 });
             }
         })
         .catch(err => {
             console.error(err);
-            toast({ title: 'Erreur !', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
+            toast({ title: 'Error !', message: 'An error occurred.', type: 'error', duration: 2500 });
         });
 }
 //!SECTION  - A2F
@@ -213,10 +213,10 @@ document.getElementById('profile-picture-input').addEventListener('change', asyn
         let idxDot = fileName.lastIndexOf('.') + 1;
         let extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
         if (extFile !== 'jpg' && extFile !== 'jpeg' && extFile !== 'png') {
-            return toast({ title: 'Erreur !', message: 'Seuls les fichiers jpg, jpeg et png sont autorisés !', type: 'error', duration: 2500 });
+            return toast({ title: 'Error !', message: 'Only jpg, jpeg, and png files are allowed!', type: 'error', duration: 2500 });
         }
         if (fileSize > 1 * 1024 * 1024) {
-            return toast({ title: 'Erreur !', message: "La taille de l'image ne doit pas dépasser 1 Mo !", type: 'error', duration: 2500 });
+            return toast({ title: 'Error !', message: "The image size must not exceed 1 MB!", type: 'error', duration: 2500 });
         }
 
         const updateResponse = await fetch('/profile/updateicon', {
@@ -225,18 +225,18 @@ document.getElementById('profile-picture-input').addEventListener('change', asyn
         });
         const updateData = await updateResponse.json();
         if (!updateData.error) {
-            toast({ title: 'Image de profil modifiée !', message: 'Votre image de profil a bien été modifiée', type: 'success', duration: 2500 });
+            toast({ title: 'Profile picture updated!', message: 'Your profile picture has been updated successfully.', type: 'success', duration: 2500 });
             document.getElementById('profile-picture').src = '/cdn/u/' + updateData.icon;
             document.getElementById('profile-picture').alt = 'user icon';
             const userInfos = identity.user;
             userInfos.icon = updateData.icon;
             user = userInfos;
         } else {
-            toast({ title: 'Erreur !', message: updateData.error, type: 'error', duration: 2500 });
+            toast({ title: 'Error !', message: updateData.error, type: 'error', duration: 2500 });
         }
     } catch (error) {
         console.error(error);
-        toast({ title: 'Erreur !', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
+        toast({ title: 'Error !', message: 'An error occurred.', type: 'error', duration: 2500 });
     }
 });
 
@@ -266,13 +266,13 @@ function saveSettings() {
         .then(res => res.json())
         .then(data => {
             if (!data.error) {
-                toast({ title: 'Paramètres modifiés !', message: 'Vos paramètres ont bien été modifiés.', type: 'success', duration: 2500 });
+                toast({ title: 'Settings updated!', message: 'Your settings have been updated successfully.', type: 'success', duration: 2500 });
             } else {
-                toast({ title: 'Erreur !', message: data.error, type: 'error', duration: 2500 });
+                toast({ title: 'Error !', message: data.error, type: 'error', duration: 2500 });
             }
         })
         .catch(err => {
             console.error(err);
-            toast({ title: 'Erreur !', message: 'Une erreur est survenue.', type: 'error', duration: 2500 });
+            toast({ title: 'Error !', message: 'An error occurred.', type: 'error', duration: 2500 });
         });
 }

@@ -73,7 +73,7 @@ router.patch('/:application/:wall/move', validateObjectId, applicationAuthentica
             }).sort({ position: -1 }).limit(1);
         }
         if (wallToSwap.length === 0) {
-            return res.status(404).json({ error: 'Ce mur est déjà à une extremité !' });
+            return res.status(404).json({ error: 'This board is already at an edge.' });
         }
         let temp = currentWall.position;
         currentWall.position = wallToSwap[0].position;

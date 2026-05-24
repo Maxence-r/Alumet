@@ -3,7 +3,7 @@ fetch('/cdn/info/' + window.location.href.split('/')[4])
     .then(data => {
         if (data.error) {
             toast({
-                title: 'Erreur',
+                title: 'Error',
                 message: data.error,
                 type: 'error',
                 duration: 2500,

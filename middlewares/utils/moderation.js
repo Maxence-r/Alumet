@@ -1,12 +1,18 @@
-require('dotenv').config();
+const config = require('../../config/env');
+const logger = require('../../utils/logger');
+
 function moderation(req, res, next) {
+    if (!config.openai.apiKey) {
+        return next();
+    }
+
     const inputData = JSON.stringify({ input: req.body.message });
 
     const apiUrl = 'https://api.openai.com/v1/moderations';
 
     const headers = {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        Authorization: `Bearer ${config.openai.apiKey}`,
     };
 
     fetch(apiUrl, {
@@ -20,12 +26,15 @@ function moderation(req, res, next) {
                 next();
             } else if (data.results[0].flagged) {
                 res.status(400).json({
-                    error: 'Votre message a été modéré',
+                    error: 'Your message was moderated',
                 });
             } else {
                 next();
             }
         })
-        .catch(error => console.error(error));
+        .catch(error => {
+            logger.warn('Moderation request failed', error.message);
+            next();
+        });
 }
 module.exports = moderation;

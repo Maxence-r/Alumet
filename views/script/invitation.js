@@ -19,7 +19,7 @@ function fetchReferenceInfos() {
 function loadReferenceInfos(reference) {
     document.querySelector('.appInfos > img').src = reference.background ? '/cdn/u/' + reference.background : '../assets/global/hands.jpg';
     document.querySelector('.appDetails > h1').innerText = reference.title;
-    document.querySelector('.appDetails > h3').innerText = reference.description || 'Aucune description';
+    document.querySelector('.appDetails > h3').innerText = reference.description || 'No description';
     document.getElementById('lastusage').innerText = relativeTime(reference.createdAt);
     const img = new Image();
     img.src = '/cdn/u/' + reference.background;
@@ -36,7 +36,7 @@ function acceptInvite() {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 2500 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 2500 });
             } else {
                 window.location.href = '/dashboard';
             }
@@ -54,7 +54,7 @@ function declineInvite() {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 2500 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 2500 });
             } else {
                 window.location.href = '/dashboard';
             }

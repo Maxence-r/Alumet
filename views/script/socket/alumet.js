@@ -67,7 +67,7 @@ socket.on('editWall', data => {
         let button = document.createElement('button');
         button.classList.add('add');
         button.setAttribute('onclick', `navbar('post', '${data._id}')`, 'post');
-        button.innerText = 'Ajouter une publication';
+        button.innerText = 'Add a post';
         const dragginContainer = wall.querySelector('.draggingContainer');
         dragginContainer.parentNode.insertBefore(button, dragginContainer);
     }

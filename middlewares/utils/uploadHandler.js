@@ -2,9 +2,11 @@ const multer = require('multer');
 const Upload = require('../../models/upload');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
+const config = require('../../config/env');
+const { extensionFromName, sanitizeFilename } = require('../../utils/files');
 
 const storage = multer.diskStorage({
-    destination: './cdn',
+    destination: config.paths.cdn,
     filename: (req, file, cb) => {
         cb(null, uuidv4() + path.extname(file.originalname));
     },
@@ -18,17 +20,13 @@ const upload = multer({
     },
 });
 
-const sanitizeFilename = filename => {
-    return filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
-};
-
 const uploadAndSaveToDb =
     (maxSize, allowedExtensions = []) =>
         async (req, res, next) => {
             if (!req.file) {
                 return next();
             }
-            const ext = req.file.originalname.split('.').pop();
+            const ext = extensionFromName(req.file.originalname);
             const sanitizedFilename = sanitizeFilename(req.file.originalname);
             const fileSizeInMb = req.file.size / (1024 * 1024);
             if (maxSize && fileSizeInMb > maxSize) {

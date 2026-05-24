@@ -34,7 +34,7 @@ async function sendFiles() {
             const formData = new FormData();
             formData.append('file', file);
             fileInfoHead.innerHTML = `<span>Envoi de</span> ${file.name}`;
-            fileInfoSub.innerHTML = `${filesToUpload.length} fichier(s) à envoyer`;
+            fileInfoSub.innerHTML = `${filesToUpload.length} file(s) to upload`;
             const response = await fetch(`/cdn/upload/${localStorage.getItem('currentFolder')}`, {
                 method: 'POST',
                 body: formData,
@@ -65,7 +65,7 @@ async function sendFiles() {
 
     } catch (error) {
         toast({
-            title: 'Erreur',
+            title: 'Error',
             message: `${error}`,
             type: 'error',
             duration: 5000,

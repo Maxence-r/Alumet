@@ -4,10 +4,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <link rel="icon" href="../assets/global/alumet.ico" />
 
-        <meta name="description" content="Cartes Mentales : Outil polyvalent pour structurer vos idées, stimuler la réflexion créative et optimiser l'apprentissage de manière intelligente !" />
-        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers, education, messagerie, français, temps réel, gratuit" />
+        <meta name="description" content="Mind Maps: a versatile tool to structure ideas, spark creative thinking, and improve learning." />
+        <meta name="keywords" content="Alumet, class, free, organization, boards, files, education, messaging, English, real time" />
         <meta property="og:title" content="Alumet Education" />
-        <meta property="og:description" content="Cartes Mentales : Outil polyvalent pour structurer vos idées, stimuler la réflexion créative et optimiser l'apprentissage de manière intelligente !" />
+        <meta property="og:description" content="Mind Maps: a versatile tool to structure ideas, spark creative thinking, and improve learning." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://education.alumet.io" />
         <meta property="og:image" content="https://i.imgur.com/kt6JJni.png" />
@@ -15,7 +15,7 @@
         <meta name="twitter:domain" content="alumet.io" />
         <meta name="twitter:url" content="https://education.alumet.io" />
         <meta name="twitter:title" content="Alumet Education" />
-        <meta name="twitter:description" content="Cartes Mentales : Outil polyvalent pour structurer vos idées, stimuler la réflexion créative et optimiser l'apprentissage de manière intelligente !" />
+        <meta name="twitter:description" content="Mind Maps: a versatile tool to structure ideas, spark creative thinking, and improve learning." />
         <meta name="twitter:image" content="https://i.imgur.com/kt6JJni.png" />
 
         <title>Carte Mental</title>
@@ -34,8 +34,8 @@
         <div style="display: none" class="file-picker">
             <div class="files-container">
                 <div class="from-device">
-                    <h3>Le fichier est sur votre appareil ?</h3>
-                    <button id="load-post-file" class="large greyed">Charger le fichier</button>
+                    <h3>Is the file on your device?</h3>
+                    <button id="load-post-file" class="large greyed">Upload file</button>
                     <input type="file" style="display: none" id="post-file" />
                 </div>
                 <div class="row-fm-header">
@@ -49,13 +49,13 @@
                         <div class="files-box">
                             <div class="files-items connected">
                                 <div class="full-screen" style="display: none">
-                                    <h1>Pas de fichiers</h1>
-                                    <p>Ce dossier ne contient pas de fichiers</p>
+                                    <h1>Pas de files</h1>
+                                    <p>This folder does not contain any files</p>
                                 </div>
                             </div>
                         </div>
                         <div class="files-selected">
-                            <button onclick="document.querySelector('.file-picker').style.display='none'" class="large greyed">Annuler</button>
+                            <button onclick="document.querySelector('.file-picker').style.display='none'" class="large greyed">Cancel</button>
                             <button class="large">Selectionner</button>
                         </div>
                     </div>
@@ -68,39 +68,39 @@
                 <h4 id="prompt-desc"></h4>
                 <input autocomplete="off" id="prompt-input" type="text" placeholder="Prompt placeholder" />
                 <div class="prompt-buttons">
-                    <button class="large" id="prompt-red">Supprimer</button> <button class="large greyed" onclick="document.querySelector('.prompt-popup').classList.remove('active-popup')">Annuler</button>
-                    <button class="large" id="prompt-confirm">Confirmer</button>
+                    <button class="large" id="prompt-red">Delete</button> <button class="large greyed" onclick="document.querySelector('.prompt-popup').classList.remove('active-popup')">Cancel</button>
+                    <button class="large" id="prompt-confirm">Confirm</button>
                 </div>
                 <datalist id="users"> </datalist>
             </div>
         </div>
         <div class="user-popup popup">
             <div class="prompt">
-                <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Entrez un nom ou prénom" />
+                <input spellcheck="false" autocomplete="off" id="user-prompt" type="text" placeholder="Enter a first or last name" />
                 <div class="users-fetch">
                     <div class="details loading-users">
                         <span class="loader"></span>
                     </div>
                     <div class="details no-result">
-                        <h1>Aucun resultats</h1>
-                        <p>Affiner votre recherche</p>
+                        <h1>No resultats</h1>
+                        <p>Affiner your recherche</p>
                     </div>
                 </div>
                 <div class="prompt-buttons">
-                    <button class="large">Supprimer</button> <button class="large greyed" onclick="document.querySelector('.user-popup').classList.remove('active-popup')">Annuler</button>
-                    <button onclick="confirmCollaborators('flashcards')" class="large">Confirmer</button>
+                    <button class="large">Delete</button> <button class="large greyed" onclick="document.querySelector('.user-popup').classList.remove('active-popup')">Cancel</button>
+                    <button onclick="confirmCollaborators('flashcards')" class="large">Confirm</button>
                 </div>
             </div>
         </div>
         <div id="toast"></div>
         <section class="board">
             <div class="actions-row">
-                <div class="info-box">Sur un téléphone vous ne pouvez uniquement que lire une carte mentale</div>
+                <div class="info-box">On a phone you can only read a mind map</div>
                 <button class="large greyed">Tutoriel</button>
                 <button class="large">Sauvegarder</button>
             </div>
             <div class="MindMapContextMenu" style="display: none; position: absolute">
-                <div class="MindMapContextMenuItem" data-action="add">Ajouter un bloc</div>
+                <div class="MindMapContextMenuItem" data-action="add">Add block</div>
             </div>
             <svg width="50000" height="50000">
                 <defs>
@@ -154,44 +154,44 @@
                 <div class="overlay-content menu">
                     <h1 onclick="navbar('participants')">Participants</h1>
                     <h1 class="admin" onclick="navbar('share')">Partager</h1>
-                    <h1 class="admin" onclick="navbar('settings')">Paramètres</h1>
-                    <h1 onclick="navbar('profile')">Identité</h1>
+                    <h1 class="admin" onclick="navbar('settings')">Settings</h1>
+                    <h1 onclick="navbar('profile')">Identity</h1>
                     <div class="row-bottom-buttons">
-                        <button onclick="window.location.href='/dashboard'" class="large greyed">Retour tableau de bord</button>
+                        <button onclick="window.location.href='/dashboard'" class="large greyed">Back to dashboard</button>
                     </div>
                 </div>
 
                 <div class="overlay-content share">
                     <div style="display: none" class="closed">
-                        <div class="warning-box">Vous pouvez modifier le niveau d'accès de votre support dans les paramètres afin de le partager avec vos élèves ou d'autres personnes.</div>
+                        <div class="warning-box">You can change the access level in settings to share this workspace with students or other people.</div>
                         <div class="header-setting">
                             <div>
-                                <h1>Votre support est privé !</h1>
+                                <h1>Your workspace is private.</h1>
                                 <p>
-                                    Si vous souhaitez partager votre contenu avec davantage de personnes, comme une classe par exemple, vous devrez ajouter manuellement les collaborateurs et modifier le niveau d'accès dans les paramètres de sécurité.
+                                    To share your content with more people, such as a class, manually add collaborators and adjust access in security settings.
                                 </p>
                             </div>
                         </div>
                         <div class="divider"></div>
 
                         <div class="row-bottom-buttons">
-                            <button onclick="navbar('settings')" class="large greyed">Paramètres</button>
-                            <button onclick="addCollaborators()" class="large">Ajouter des collaborateurs</button>
+                            <button onclick="navbar('settings')" class="large greyed">Settings</button>
+                            <button onclick="addCollaborators()" class="large">Add collaborators</button>
                         </div>
                     </div>
 
                     <div style="display: none" class="onpassword">
                         <div class="header-setting">
                             <div>
-                                <h1>Votre support est sécurisé !</h1>
-                                <p>Il est nécessaire d'entrer un mot de passe pour accéder à votre support. Vous pouvez le partager avec vos élèves ou d'autres personnes grâce au lien ci-dessous.</p>
+                                <h1>Your workspace is protected.</h1>
+                                <p>A password is required to access this workspace. You can share it with students or others using the link below.</p>
                             </div>
                         </div>
                         <div class="divider"></div>
 
                         <div class="row-bottom-buttons">
                             <div class="option">
-                                <h1>Inclure le mot de passe dans le lien</h1>
+                                <h1>Include the password in the link</h1>
                                 <label class="switch">
                                     <input id="passwordLink" checked="" type="checkbox" />
                                     <span class="slide round"></span>
@@ -204,8 +204,8 @@
                     <div style="display: none" class="open">
                         <div class="header-setting">
                             <div>
-                                <h1>Votre support est ouvert !</h1>
-                                <p>Toute personne possédant le lien ci-dessous peut accéder à votre support. Cependant, si elles ne sont pas collaboratrices ou si vous n'avez pas autorisé la publication, elles ne pourront que le consulter.</p>
+                                <h1>Your workspace is open.</h1>
+                                <p>Anyone with the link below can access this workspace. If they are not collaborators or posting is disabled, they can only view it.</p>
                             </div>
                         </div>
                         <div class="divider"></div>
@@ -223,44 +223,44 @@
                     <div class="choose">
                         <div class="choose-option">
                             <div>
-                                <h1>Révision bac à sable</h1>
-                                <p>Tous réviser libremement</p>
+                                <h1>Sandbox review</h1>
+                                <p>Review freely</p>
                             </div>
-                            <button onclick="revise('sandbox')" class="large">Commencer</button>
+                            <button onclick="revise('sandbox')" class="large">Get started</button>
                         </div>
                         <div class="choose-option">
                             <div>
-                                <h1>Révision intelligente</h1>
-                                <p>Réviser à votre rythme</p>
+                                <h1>Smart review</h1>
+                                <p>Review at your own pace</p>
                             </div>
-                            <button onclick="revise('smart')" class="large">Commencer</button>
+                            <button onclick="revise('smart')" class="large">Get started</button>
                         </div>
                         <div class="choose-option">
                             <div>
-                                <h1>Révision pour contrôle</h1>
-                                <p>Étalé sur plusieurs jours</p>
+                                <h1>Test review</h1>
+                                <p>Spread over several days</p>
                             </div>
-                            <button onclick="revise('control')" class="large">Bientôt</button>
+                            <button onclick="revise('control')" class="large">Soon</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="overlay-content loadingRessources">
+                <div class="overlay-content loadingResources">
                     <div class="loading full-screen">
                         <span class="loader"></span>
-                        <h3>Nous appliquons les modifications<br />Patientez quelques instants</h3>
+                        <h3>We are applying the changes<br />Please wait a moment</h3>
                     </div>
                 </div>
 
                 <div class="overlay-content block">
                     <div class="header-setting">
                         <div>
-                            <h1>Créer ou modifier un bloc</h1>
-                            <p>Modifier les détails ci dessous pour créer ou modifier un bloc</p>
+                            <h1>Create or edit a block</h1>
+                            <p>Edit the details below to create or update a block</p>
                         </div>
                     </div>
                     <div class="divider"></div>
-                    <input maxlength="300" id="blockTitle" type="text" placeholder="Titre du bloc" />
+                    <input maxlength="300" id="blockTitle" type="text" placeholder="Title du bloc" />
                     <div class="description-container">
                         <div class="editor" id="blockDescription" placeholder="Ecrivez ici le contenu du bloc" spellcheck="false" contenteditable="true" onkeypress="return (this.innerText.length <= 4000)"></div>
                         <div id="toolbar">
@@ -274,7 +274,7 @@
                         <div onclick="removeLink()" contenteditable="false" class="link-preview">
                             <div class="loading rounded">
                                 <span class="loader"></span>
-                                <h3>Chargement d'un aperçu</h3>
+                                <h3>Loading preview</h3>
                             </div>
                             <h2 id="preview-title">Website Title</h2>
                             <p id="preview-link">https://domain.com</p>
@@ -313,70 +313,70 @@
                             <div class="file-sending-infos">
                                 <h3>file_name<span id="file-upload-ext">.ext</span></h3>
                             </div>
-                            <div class="send-actions"><button onclick="cancelSend()" id="cancel-send" class="large greyed">Retirer</button></div>
+                            <div class="send-actions"><button onclick="cancelSend()" id="cancel-send" class="large greyed">Remove</button></div>
                         </div>
                     </div>
 
                     <div class="post-buttons">
-                        <button onclick="deletePost()" class="large reded confirm">Supprimer ce block</button>
-                        <button onclick="createBlock()" class="large confirm">Ajouter ce bloc</button>
+                        <button onclick="deletePost()" class="large reded confirm">Delete this block</button>
+                        <button onclick="createBlock()" class="large confirm">Add this block</button>
                     </div>
                 </div>
 
                 <div class="overlay-content settings">
                     <div class="modulable-header">
                         <div class="modulable-left">
-                            <div data-ref="settings" data-module="informationsS" class="module-selected">Informations<span class="redot"></span></div>
+                            <div data-ref="settings" data-module="informationsS" class="module-selected">Information<span class="redot"></span></div>
                             <div data-ref="settings" data-module="style">Style<span class="redot"></span></div>
-                            <div data-ref="settings" data-module="security" class="">Sécurité</div>
+                            <div data-ref="settings" data-module="security" class="">Security</div>
                         </div>
                         <div class="modulable-right">
-                            <button onclick="modifyApp()" class="large">Enregistrer</button>
+                            <button onclick="modifyApp()" class="large">Save</button>
                         </div>
                     </div>
                     <div data-reference="settings" style="display: flex" class="module informationsS">
                         <input type="file" name="alumet-background" id="alumet-background" accept="image/png, image/jpeg" />
                         <div class="grid-user-container">
                             <div class="item">
-                                <h3>Nom de la carte mentale</h3>
-                                <input class="disabledInput" type="text" name="alumetName" id="appName" placeholder="Nom de la carte mentale" />
+                                <h3>Mind map name</h3>
+                                <input class="disabledInput" type="text" name="alumetName" id="appName" placeholder="Mind map name" />
                             </div>
                             <div class="item">
-                                <h3>Description de la carte mentale</h3>
-                                <input class="disabledInput" type="text" name="alumetDescription" id="appDescription" placeholder="Description de la carte mentale" />
+                                <h3>Mind map description</h3>
+                                <input class="disabledInput" type="text" name="alumetDescription" id="appDescription" placeholder="Mind map description" />
                             </div>
                             <div class="item">
-                                <h3>Matière de la carte mentale</h3>
+                                <h3>Mind map subject</h3>
                                 <select id="appSubject">
-                                    <option value="mathematics">Mathématiques</option>
-                                    <option value="french">Français</option>
-                                    <option value="history">Histoire</option>
-                                    <option value="geography">Géographie</option>
-                                    <option value="physics">Physique</option>
+                                    <option value="mathematics">Mathematics</option>
+                                    <option value="french">French</option>
+                                    <option value="history">History</option>
+                                    <option value="geography">Geography</option>
+                                    <option value="physics">Physics</option>
                                     <option value="biology">SVT</option>
-                                    <option value="philosophy">Philosophie</option>
-                                    <option value="english">Anglais</option>
-                                    <option value="language">Langues</option>
-                                    <option value="technology">Technologie</option>
+                                    <option value="philosophy">Philosophy</option>
+                                    <option value="english">English</option>
+                                    <option value="language">Languages</option>
+                                    <option value="technology">Technology</option>
                                     <option value="snt">SNT</option>
                                     <option value="nsi">NSI</option>
-                                    <option value="other">Autre</option>
+                                    <option value="other">Other</option>
                                 </select>
                             </div>
                             <div class="item">
-                                <h3>Supprimer la carte mentale</h3>
-                                <button onclick="engageDeletion()" class="large reded">Supprimer la carte mentale</button>
+                                <h3>Delete mind map</h3>
+                                <button onclick="engageDeletion()" class="large reded">Delete mind map</button>
                             </div>
                         </div>
                     </div>
                     <div data-reference="settings" class="module style">
                         <div class="grid-user-container">
                             <div class="item">
-                                <h3>Image d'arrière plan</h3>
+                                <h3>Background image</h3>
                                 <img class="backgroundImg" src="../assets/global/dev.png" />
                             </div>
                             <div class="item">
-                                <h3>Police d'écriture</h3>
+                                <h3>Font</h3>
                                 <select name="font" disabled="true" style="cursor: not-allowed">
                                     <option value="arial">Plus Jakarta Sans</option>
                                 </select>
@@ -386,14 +386,14 @@
                     <div data-reference="settings" class="module security">
                         <div class="grid-user-container">
                             <div class="item">
-                                <h3>Niveau d'accès</h3>
+                                <h3>Access level</h3>
                                 <div class="radio-option">
                                     <label class="radio" for="open">
                                         <input checked type="radio" name="radio" id="open" />
                                         <div class="radio-content">
                                             <div class="radio-details">
-                                                <span>Ouvert</span>
-                                                <p>N'importe qui avec un lien peut accéder au contenu, les actions sont modérées par IA</p>
+                                                <span>Open</span>
+                                                <p>Anyone with a link can access the content; actions are AI moderated</p>
                                             </div>
                                         </div>
                                     </label>
@@ -402,20 +402,20 @@
                                         <input type="radio" id="onpassword" name="radio" />
                                         <div class="radio-content">
                                             <div class="radio-details">
-                                                <span>Mot de passe</span>
-                                                <p>L'accès est restreint par un mot de passe. Il n'est pas nécéssaire d'avoir un compte</p>
+                                                <span>Password</span>
+                                                <p>Access is restricted by a password. An account is not required</p>
                                             </div>
                                         </div>
                                     </label>
 
-                                    <input class="disabledInput" maxlength="50" autocomplete="off" type="text" name="password" id="password-input" placeholder="Mot de passe" />
+                                    <input class="disabledInput" maxlength="50" autocomplete="off" type="text" name="password" id="password-input" placeholder="Password" />
 
                                     <label class="radio" for="closed">
                                         <input type="radio" id="closed" name="radio" />
                                         <div class="radio-content">
                                             <div class="radio-details">
-                                                <span>Fermé</span>
-                                                <p>L'utilisateur doit être connecté et demander l'accès, vous pourrez refuser ou accepter</p>
+                                                <span>Closed</span>
+                                                <p>The user must be signed in and request access; you can accept or decline.</p>
                                             </div>
                                         </div>
                                     </label>
@@ -423,17 +423,17 @@
                             </div>
 
                             <div class="item">
-                                <h3>Option avancées</h3>
+                                <h3>Advanced options</h3>
                                 <div class="switch-options">
                                     <div class="option">
-                                        <h1>Messagerie de la carte mentale</h1>
+                                        <h1>Mind map messaging</h1>
                                         <label class="switch">
                                             <input id="appChat" checked="" type="checkbox" />
                                             <span class="slide round"></span>
                                         </label>
                                     </div>
                                     <div class="option">
-                                        <h1>Repertorié dans votre organisation</h1>
+                                        <h1>Listed in your organization</h1>
                                         <label class="switch">
                                             <input id="appDiscovery" type="checkbox" />
                                             <span class="slide round"></span>
@@ -462,15 +462,15 @@
                         </div>
                     </div>
                     <div class="row-bottom-buttons admin">
-                        <button onclick="addCollaborators()" class="large greyed">Ajouter des collaborateurs</button>
+                        <button onclick="addCollaborators()" class="large greyed">Add collaborators</button>
                     </div>
                 </div>
 
                 <div class="overlay-content profile">
                     <div class="header-setting">
                         <div>
-                            <h1>Identité</h1>
-                            <p>Votre identité sur cet application</p>
+                            <h1>Identity</h1>
+                            <p>Your identity in this application</p>
                         </div>
                     </div>
                     <div class="divider"></div>
@@ -478,12 +478,12 @@
                         <img src="../assets/default/default_user.png" />
                         <div class="user-details">
                             <h3>Anonyme</h3>
-                            <p>Déconnecté</p>
+                            <p>Signed out</p>
                         </div>
                     </div>
                     <div class="row-bottom-buttons connected">
                         <button onclick="promptLeave()" class="large reded connectedOnly">Quitter cet application</button>
-                        <button class="large connect">Se connecter</button>
+                        <button class="large connect">Sign in</button>
                     </div>
                 </div>
             </div>
@@ -503,14 +503,14 @@
                     <p>Partager</p>
                 </button>
                 <button class="admin" onclick="navbar('settings')" id="settings">
-                    <img src="../assets/global/settings.svg" alt="paramètres" />
-                    <p>Paramètres</p>
+                    <img src="../assets/global/settings.svg" alt="settings" />
+                    <p>Settings</p>
                 </button>
                 <button id="bottomNav" onclick="window.location.href='/dashboard'">
-                    <img src="../assets/global/back.svg" alt="paramètres" />
-                    <p>Tableau de bord</p>
+                    <img src="../assets/global/back.svg" alt="settings" />
+                    <p>Dashboard</p>
                 </button>
-                <button onclick="navbar('profile')" class="navProfile"><img src="../assets/default/default_user.png" /></button>
+                <button onclick="navbar('profile')" class="navProfilee"><img src="../assets/default/default_user.png" /></button>
             </div>
         </section>
         <script src="../../script/global.js"></script>

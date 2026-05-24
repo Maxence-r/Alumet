@@ -66,7 +66,7 @@ function getWallData(id, replace) {
 }
 
 function patchWall(position) {
-    navbar('loadingRessources');
+    navbar('loadingResources');
     fetch('/api/wall/' + app.infos._id + '/' + wallToEdit + '/move?direction=' + position, {
         method: 'PATCH',
     })
@@ -77,7 +77,7 @@ function patchWall(position) {
             }, 500);
             if (data.error) {
                 return toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: data.error,
                     type: 'error',
                     duration: 5000,
@@ -92,8 +92,8 @@ async function editWall(id) {
     let wallData = await getWallData(id);
     if (!wallData) {
         toast({
-            title: 'Erreur',
-            message: 'Impossible de trouver le tableau',
+            title: 'Error',
+            message: 'Unable to find the board',
             type: 'error',
             duration: 5000,
         });
@@ -116,8 +116,8 @@ async function editPost(id) {
     let postData = await getPostData(id);
     if (!postData) {
         toast({
-            title: 'Erreur',
-            message: 'Impossible de trouver la publication',
+            title: 'Error',
+            message: 'Unable to find the post',
             type: 'error',
             duration: 5000,
         });
@@ -179,7 +179,7 @@ function createPostElement(post) {
     if (post.postDate && new Date(post.postDate) > Date.now()) {
         const date = document.createElement('h3');
         date.classList.add('info');
-        date.textContent = 'Programmé: ' + new Date(post.postDate).toLocaleString();
+        date.textContent = 'Scheduled: ' + new Date(post.postDate).toLocaleString();
         card.appendChild(date);
     }
     if (post.adminsOnly) {
@@ -306,7 +306,7 @@ function createInList(title, postAuthorized, id) {
         const button = document.createElement('button');
         button.setAttribute('id', 'post');
         button.classList.add('add');
-        button.textContent = 'Ajouter une publication';
+        button.textContent = 'Add a post';
         button.setAttribute('onclick', `navbar("post", "${id}", "post")`);
         list.appendChild(button);
     }
@@ -331,8 +331,8 @@ document.getElementById('publicationDate').addEventListener('change', e => {
 async function createPost(confirmed) {
     if (!app.user_infos.username && !confirmed) {
         return createPrompt({
-            head: "Vous n'êtes pas connecté",
-            desc: "Si vous changez de lieux vous ne pourrez plus modifier cette publication, créer un compte Alumet Education pour sauvegarder vos publications et les modifier depuis n'importe où !",
+            head: "You are not signed in",
+            desc: "If you leave this page, you will no longer be able to edit this post. Create an Alumet Education account to save your posts and edit them from anywhere.",
             action: 'createPost(true)',
         });
     }
@@ -349,14 +349,14 @@ async function createPost(confirmed) {
 
     if (!title && (!content || content === 'Ecrivez ici le contenu') && !fileFromDevice && !fileFromCloud && !link) {
         return toast({
-            title: 'Erreur',
-            message: "Vous n'avez pas spécifié de contenu pour cette publication",
+            title: 'Error',
+            message: "You did not specify any content for this post",
             type: 'error',
             duration: 5000,
         });
     }
 
-    navbar('loadingRessources');
+    navbar('loadingResources');
 
     const body = {
         title,
@@ -394,7 +394,7 @@ async function createPost(confirmed) {
         if (data.error) {
             navbar('post');
             return toast({
-                title: 'Erreur',
+                title: 'Error',
                 message: data.error,
                 type: 'error',
                 duration: 5000,
@@ -413,7 +413,7 @@ async function createPost(confirmed) {
 }
 
 function deletePost() {
-    navbar('loadingRessources');
+    navbar('loadingResources');
     fetch('/api/post/' + app.infos._id + '/' + postToEdit, {
         method: 'DELETE',
     })
@@ -422,7 +422,7 @@ function deletePost() {
             if (data.error) {
                 navbar('post');
                 return toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: data.error,
                     type: 'error',
                     duration: 5000,
@@ -435,7 +435,7 @@ function deletePost() {
 }
 
 function deleteWall() {
-    navbar('loadingRessources');
+    navbar('loadingResources');
     fetch('/api/wall/' + app.infos._id + '/' + wallToEdit, {
         method: 'DELETE',
     })
@@ -443,7 +443,7 @@ function deleteWall() {
         .then(data => {
             if (data.error) {
                 return toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: data.error,
                     type: 'error',
                     duration: 5000,
@@ -507,13 +507,13 @@ function createWall() {
     let postAuthorized = document.getElementById('postAuthorized').checked;
     if (title.length < 1) {
         return toast({
-            title: 'Erreur',
-            message: 'Vous devez entrer un nom pour cette colonne !',
+            title: 'Error',
+            message: 'You devez entrer un last name pour cette colonne !',
             type: 'error',
             duration: 5000,
         });
     }
-    navbar('loadingRessources');
+    navbar('loadingResources');
     fetch('/api/wall/' + id, {
         method: 'PUT',
         headers: {
@@ -526,7 +526,7 @@ function createWall() {
             if (!data.title) {
                 navbar('wall');
                 return toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: data.error,
                     type: 'error',
                     duration: 5000,
@@ -554,7 +554,7 @@ function openPost(id) {
             document.querySelector('.comments > .full-screen').style.display = 'none';
             if (data.error) {
                 return toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: data.error,
                     type: 'error',
                     duration: 5000,
@@ -576,11 +576,11 @@ function openPost(id) {
 
 function postComment() {
     const comment = document.getElementById('commentInput').value;
-    if (comment.length < 1) return toast({ title: 'Erreur', message: 'Vous devez entrer un commentaire', type: 'error', duration: 5000 });
+    if (comment.length < 1) return toast({ title: 'Error', message: 'You must enter a comment', type: 'error', duration: 5000 });
     if (comment.length < 1) {
         return toast({
-            title: 'Erreur',
-            message: 'Vous devez entrer un commentaire',
+            title: 'Error',
+            message: 'You must enter a comment',
             type: 'error',
             duration: 5000,
         });
@@ -596,7 +596,7 @@ function postComment() {
         .then(data => {
             if (data.error) {
                 return toast({
-                    title: 'Erreur',
+                    title: 'Error',
                     message: data.error,
                     type: 'error',
                     duration: 5000,

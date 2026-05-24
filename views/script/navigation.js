@@ -77,10 +77,10 @@ function enableConnected(data) {
             el.style.display = 'none';
         });
 
-        document.querySelector('.navProfile > img').src = '/cdn/u/' + data.icon;
+        document.querySelector('.navProfilee > img').src = '/cdn/u/' + data.icon;
         document.querySelector('.user-infos > img').src = '/cdn/u/' + data.icon;
         document.querySelector('.user-details > h3').innerText = data.username;
-        document.querySelector('.user-details > p').innerText = 'Connecté';
+        document.querySelector('.user-details > p').innerText = 'Signed in';
         document.querySelector('.profile > .row-bottom-buttons').classList.add('connected');
         if (data.admin) {
             document.querySelectorAll('.app-link').forEach(el => {
@@ -156,7 +156,7 @@ function loadAppInfos(data) {
 function promptLeave() {
     createPrompt({
         head: "Quitter l'application",
-        desc: "Êtes-vous sûr de vouloir quitter cette application ? Vous ne pourrez plus y accéder si vous n'êtes pas inviter a nouveau.",
+        desc: "Are you sure you want to leave this application? You will not be able to access it unless you are invited again.",
         action: 'leaveApplication()',
     });
 }
@@ -172,7 +172,7 @@ function leaveApplication() {
         .then(data => {
             document.querySelector('.prompt-popup').classList.remove('active-popup');
             if (data.error) {
-                return toast({ title: 'Erreur', message: data.error, type: 'error' });
+                return toast({ title: 'Error', message: data.error, type: 'error' });
             }
             window.location.href = '/dashboard';
         });
@@ -194,7 +194,7 @@ function loadParticipants(participants) {
         const userName = document.createElement('h3');
         userName.textContent = `${participant.name} ${participant.lastname.substr(0, 3)}`;
         const userRole = document.createElement('p');
-        userRole.textContent = participant.status === 0 ? 'Propriétaire' : participant.status === 1 ? 'Collaborateur' : participant.status === 2 ? 'Participant' : 'Banni';
+        userRole.textContent = participant.status === 0 ? 'Owner' : participant.status === 1 ? 'Collaborator' : participant.status === 2 ? 'Participant' : 'Banned';
         userInfo.appendChild(userName);
         userInfo.appendChild(userRole);
         if (participant.badges.length > 0) {
@@ -229,17 +229,17 @@ function loadParticipants(participants) {
                 .then(data => {
                     if (data.alert) {
                         document.querySelector('.user-role[data-id="' + event.target.dataset.id + '"]').selectedIndex = participant.status;
-                        return createPrompt({ head: 'Donner la propriété', desc: 'Souhaitez-vous donner la propriété de cette application. Cette action est irréversible.', action: `giveAppOwnership('${data.userId}')` });
+                        return createPrompt({ head: 'Transfer ownership', desc: 'Do you want to transfer ownership of this application? This action cannot be undone.', action: `giveAppOwnership('${data.userId}')` });
                     }
                     if (data.error) {
                         document.querySelector('.user-role[data-id="' + event.target.dataset.id + '"]').selectedIndex = participant.status;
-                        return toast({ title: 'Erreur', message: data.error, type: 'error' });
+                        return toast({ title: 'Error', message: data.error, type: 'error' });
                     }
 
-                    toast({ title: 'Succès', message: data.message, type: 'success' });
+                    toast({ title: 'Success', message: data.message, type: 'success' });
                 });
         });
-        const roles = ['Propriétaire', 'Collaborateur', 'Participant', 'Banni'];
+        const roles = ['Owner', 'Collaborator', 'Participant', 'Banned'];
         for (let i = 0; i < roles.length; i++) {
             const option = document.createElement('option');
             option.value = i;
@@ -263,9 +263,9 @@ function giveAppOwnership(id) {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                return toast({ title: 'Erreur', message: data.error, type: 'error' });
+                return toast({ title: 'Error', message: data.error, type: 'error' });
             }
-            toast({ title: 'Succès', message: data.message, type: 'success' });
+            toast({ title: 'Success', message: data.message, type: 'success' });
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
@@ -283,7 +283,7 @@ async function modifyApp() {
     formData.append('app', app.infos._id);
     formData.append('security', document.querySelector('.radio-option > label > input:checked').id);
     formData.append('password', document.getElementById('password-input').value);
-    navbar('loadingRessources');
+    navbar('loadingResources');
     fetch('/app/new', {
         method: 'PUT',
         body: formData,
@@ -292,7 +292,7 @@ async function modifyApp() {
         .then(data => {
             if (data.error) {
                 navbar('settings');
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 7500 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 7500 });
             } else {
                 setTimeout(() => {
                     window.location.reload();
@@ -314,7 +314,7 @@ document.getElementById('alumet-background').addEventListener('change', () => {
     const fileSize = file.size / 1024 / 1024;
     if (fileType !== 'image' || fileSize > 3) {
         document.getElementById('alumet-background').value = '';
-        return toast({ title: 'Erreur', message: 'Veuillez sélectionner une image de moins de 3MB', type: 'error', duration: 2500 });
+        return toast({ title: 'Error', message: 'Please select an image under 3 MB', type: 'error', duration: 2500 });
     }
     document.querySelector('.backgroundImg').src = URL.createObjectURL(file);
 });
@@ -337,16 +337,16 @@ function confirmCollaborators() {
         .then(data => {
             document.querySelector('.user-popup').classList.remove('active-popup');
             if (data.error) {
-                return toast({ title: 'Erreur', message: data.error, type: 'error' });
+                return toast({ title: 'Error', message: data.error, type: 'error' });
             }
-            toast({ title: 'Succès', message: 'Les invitations ont bien été envoyées', type: 'success' });
+            toast({ title: 'Success', message: 'Invitations were sent successfully', type: 'success' });
         });
 }
 
 function engageDeletion() {
     createPrompt({
         head: "Suppression de l'application",
-        desc: 'Êtes-vous sûr de vouloir supprimer cette application ? Cette action est irréversible et entraînera la suppression de toutes les données associées à cet alumet.',
+        desc: 'Are you sure you want to delete this application? This cannot be undone and will remove all related data.',
         action: `deleteItem()`,
     });
 }
@@ -361,12 +361,12 @@ function deleteItem() {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 6000 });
             }
             createPrompt({
                 head: 'Confirmation de suppression',
-                desc: "Un code de sécurité vous a été envoyé par mail. Veuillez le saisir ci-dessous pour confirmer la suppression de l'application. ",
-                placeholder: 'Code de sécurité',
+                desc: "A security code has been emailed to you. Enter it below to confirm application deletion. ",
+                placeholder: 'Security code',
                 action: `confirmDeleteItem()`,
             });
         });
@@ -385,7 +385,7 @@ function confirmDeleteItem() {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                toast({ title: 'Erreur', message: data.error, type: 'error', duration: 6000 });
+                toast({ title: 'Error', message: data.error, type: 'error', duration: 6000 });
             } else {
                 window.location.href = '/dashboard';
             }

@@ -34,7 +34,7 @@ const allowedDomains = [
 async function validateAccount(req, res, next) {
     const account = await Account.findOne({ mail: req.body.mail });
     if (account) {
-        return res.status(400).json({ error: 'Un compte est déja lié a cette adresse mail' });
+        return res.status(400).json({ error: 'An account is already linked to this email address' });
     }
 
     accountTypes = ['student', 'professor'];
@@ -46,7 +46,7 @@ async function validateAccount(req, res, next) {
     const emailDomain = req.body.mail.split('@')[1];
 
     if (req.body.accountType == 'professor' && (!emailRegex.test(req.body.mail) || !allowedDomains.includes(emailDomain))) {
-        return res.status(400).json({ error: 'Seule les adresses mail académique peuve être utilisé pour créer un compte professeur.' });
+        return res.status(400).json({ error: 'Only academic email addresses can be used to create a teacher account.' });
     }
     next();
 }

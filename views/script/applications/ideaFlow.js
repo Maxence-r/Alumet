@@ -113,7 +113,7 @@ class MindMapBoard {
                         this.addBlockCoords = { x, y };
                         clearBlockCreation();
                         navbar('block');
-                        /* this.createAndInsertBlock(crypto.randomUUID(), 'Nouveau bloc', '', x, y); */
+                        /* this.createAndInsertBlock(crypto.randomUUID(), 'New bloc', '', x, y); */
                         break;
                 }
             };
@@ -540,7 +540,7 @@ function createBlock() {
 
 const mindMap = new MindMapBoard(board, blocksGroup, linksGroup);
 
-mindMap.createAndInsertBlock('test', 'Napoléon', '1769-1821', 25312, 25508);
+mindMap.createAndInsertBlock('test', 'Napoleon', '1769-1821', 25312, 25508);
 mindMap.createAndInsertBlock('tdsfsdt', 'SES BATAILLES', '', 25396, 25508);
 mindMap.createAndInsertBlock('tdsqsdqsdt', 'GRANDES VICTOIRES', '', 25396, 25508);
 mindMap.createAndInsertBlock('tdssdqsfsfsdt', 'DEFAITES', '', 25396, 25508);

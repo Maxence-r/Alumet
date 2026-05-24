@@ -7,13 +7,13 @@
         <link rel="icon" href="../assets/global/alumet.ico" />
         <meta
             name="description"
-            content="Alumet Education : Un environnement numérique de travail innovant, offrant un écosystème complet d'outils conçus pour favoriser la réussite éducative. Unique en son genre, il a été développé par et pour les élèves et les professeurs. Fièrement maintenu et hébergé en France, il incarne l'excellence dans l'éducation numérique."
+            content="Alumet Education: an innovative digital workspace with a complete ecosystem of tools designed to workspace educational success. Built by and for students and teachers."
         />
-        <meta name="keywords" content="Alumet, classe, free, organisation, murs, fichiers, education, messagerie, français, temps réel, gratuit" />
+        <meta name="keywords" content="Alumet, class, free, organization, boards, files, education, messaging, English, real time" />
         <meta property="og:title" content="Alumet Education" />
         <meta
             property="og:description"
-            content="Alumet Education : Un environnement numérique de travail innovant, offrant un écosystème complet d'outils conçus pour favoriser la réussite éducative. Unique en son genre, il a été développé par et pour les élèves et les professeurs. Fièrement maintenu et hébergé en France, il incarne l'excellence dans l'éducation numérique."
+            content="Alumet Education: an innovative digital workspace with a complete ecosystem of tools designed to workspace educational success. Built by and for students and teachers."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://education.alumet.io" />
@@ -24,7 +24,7 @@
         <meta name="twitter:title" content="Alumet Education" />
         <meta
             name="twitter:description"
-            content="Alumet Education : Un environnement numérique de travail innovant, offrant un écosystème complet d'outils conçus pour favoriser la réussite éducative. Unique en son genre, il a été développé par et pour les élèves et les professeurs. Fièrement maintenu et hébergé en France, il incarne l'excellence dans l'éducation numérique."
+            content="Alumet Education: an innovative digital workspace with a complete ecosystem of tools designed to workspace educational success. Built by and for students and teachers."
         />
         <meta name="twitter:image" content="https://i.imgur.com/r9fXjM9.png" />
 
@@ -43,13 +43,13 @@
         <section class="access load">
             <section style="display: none" class="full-screen">
                 <span class="loader"></span>
-                <h3>Nous essayons de vous connecter à votre compte</h3>
+                <h3>We are signing you in to your account</h3>
             </section>
             <div class="alumet-status-div">
                 <div onclick="toggleDetailsIncidents()" class="alumet-status">
                     <div class="lookup">
                         <div data-incident="red" class="indicator"></div>
-                        <p>1 incident majeur en cours</p>
+                        <p>1 major incident in progress</p>
                     </div>
 
                     <div class="details-incidents">
@@ -61,44 +61,44 @@
                 <h1>Alumet <span>Education</span></h1>
                 <div class="login-container activeStep">
                     <div class="user-details">
-                        <h3>Portail de connexion</h3>
-                        <p>Fournissez vos identifiants pour accéder à votre espace.</p>
+                        <h3>Sign-in Portal</h3>
+                        <p>Enter your credentials to access your workspace.</p>
                     </div>
-                    <input id="mail" type="email" placeholder="Adresse mail" />
-                    <input id="password" type="password" placeholder="Mot de passe" />
-                    <button onclick="login()" id="login" class="large">Se connecter</button>
+                    <input id="mail" type="email" placeholder="Email address" />
+                    <input id="password" type="password" placeholder="Password" />
+                    <button onclick="login()" id="login" class="large">Sign in</button>
                 </div>
 
                 <div class="verify">
                     <div class="user-details">
-                        <h3>Défis de sécurité</h3>
-                        <p>Un code de sécurité vous a été envoyé</p>
+                        <h3>Security Challenge</h3>
+                        <p>A security code has been sent to you</p>
                     </div>
-                    <input id="code" type="text" placeholder="Code de sécurité" />
-                    <div class="warning-box">Vous n'avez pas reçu de code ? Verifier vos spams ! (Un code peut prendre jusqu'à 10 minutes pour arriver la première fois.)</div>
+                    <input id="code" type="text" placeholder="Security code" />
+                    <div class="warning-box">Did not receive a code? Check your spam folder. A code can take up to 10 minutes to arrive the first time.</div>
 
-                    <button onclick="authorizeCode()" class="large">Confirmer le code</button>
+                    <button onclick="authorizeCode()" class="large">Confirm code</button>
                 </div>
 
                 <!-- ------------------------------------ -->
 
                 <div class="fg-passwd">
                     <div class="user-details">
-                        <h3>Confirmer votre identité</h3>
-                        <p>Un code de sécurité vous a été envoyé</p>
+                        <h3>Confirm your identity</h3>
+                        <p>A security code has been sent to you</p>
                     </div>
                     <input id="auth-code" type="text" placeholder="Code" />
-                    <input id="new-password" type="password" placeholder="Nouveau mot de passe" />
+                    <input id="new-password" type="password" placeholder="New password" />
                     <div class="buttons">
-                        <button onclick="backToLogin()" class="large greyed">Retour</button>
-                        <button onclick="resetPassword()" class="large">Changer de mot de passe</button>
+                        <button onclick="backToLogin()" class="large greyed">Back</button>
+                        <button onclick="resetPassword()" class="large">Change password</button>
                     </div>
                 </div>
 
                 <!-- ------------------------------------ -->
                 <span class="footer-infos">
-                    <p onclick="handleReset()">Mot de passe oublié ?</p>
-                    <p onclick="window.location.href='/auth/signup' + window.location.search">Pas de compte ?</p>
+                    <p onclick="handleReset()">Forgot password?</p>
+                    <p onclick="window.location.href='/auth/signup' + window.location.search">No account?</p>
                 </span>
             </div>
         </section>

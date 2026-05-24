@@ -1,4 +1,5 @@
 const Conversation = require('../models/conversation');
+const logger = require('../utils/logger');
 
 module.exports = function (io) {
     io.on('connection', socket => {
@@ -9,12 +10,12 @@ module.exports = function (io) {
                     $or: [{ participants: userId }, { administrators: userId }, { owner: userId }],
                 });
                 if (!conversation) {
-                    console.log(`User ${socket.id} attempted to join unauthorized room ${conversationId}`);
+                    logger.warn(`User ${socket.id} attempted to join unauthorized room ${conversationId}`);
                     return;
                 }
                 socket.join(conversationId);
             } catch (error) {
-                console.error(error);
+                logger.error('Socket joinChatRoom failed', error);
             }
         });
 

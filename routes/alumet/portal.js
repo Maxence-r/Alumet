@@ -3,10 +3,11 @@ const router = express.Router();
 const path = require('path');
 const mongoose = require('mongoose');
 const Alumet = require('../../models/alumet');
-require('dotenv').config();
 const validateObjectId = require('../../middlewares/modelsValidation/validateObjectId');
-const jwt = require('jsonwebtoken');
 const rateLimit = require('../../middlewares/authentification/rateLimit');
+const { authCookieOptions, signJwt, verifyJwt } = require('../../utils/auth');
+const logger = require('../../utils/logger');
+
 router.get('/:id', validateObjectId, async (req, res) => {
     try {
         if (req.connected) {
@@ -18,12 +19,12 @@ router.get('/:id', validateObjectId, async (req, res) => {
             }
             if (req.cookies.applicationToken) {
                 try {
-                    const decoded = jwt.verify(req.cookies.applicationToken, process.env.TOKEN);
-                    if (decoded.applicationId === alumet._id) {
+                    const decoded = verifyJwt(req.cookies.applicationToken);
+                    if (decoded.applicationId === alumet._id.toString()) {
                         return res.redirect('/app/' + req.params.id);
                     }
                 } catch (error) {
-                    console.error('JWT verification error:', error);
+                    logger.warn('Application token verification failed', error.message);
                 }
             }
             if (alumet.participants.some(p => p.userId === req.user.id && p.status === 1) || alumet.owner === req.user.id) {
@@ -33,7 +34,7 @@ router.get('/:id', validateObjectId, async (req, res) => {
         const filePath = path.join(__dirname, '../../views/pages/authentification/authentication.html');
         return res.sendFile(filePath);
     } catch (error) {
-        console.error(error);
+        logger.error('Portal render failed', error);
         return res.status(500).json({
             error: 'Internal Server Error',
         });
@@ -63,7 +64,7 @@ router.post('/authorize/:id', rateLimit(10), async (req, res) => {
                     if (req.body.password === alumet.password) {
                         if (alumet.participants.some(p => p.userId === req.user.id)) {
                             return res.status(400).json({
-                                error: 'Vous avez déjà rejoint cet alumet',
+                                error: 'You have already joined this Alumet',
                             });
                         }
                         alumet.participants.push({ userId: req.user.id, status: 2 });
@@ -73,28 +74,14 @@ router.post('/authorize/:id', rateLimit(10), async (req, res) => {
                         });
                     } else {
                         return res.status(400).json({
-                            error: 'Le mot de passe est incorrect.',
+                            error: 'The password is incorrect.',
                         });
                     }
                 } else {
                     if (req.body.password === alumet.password) {
-                        return new Promise((resolve, reject) => {
-                            jwt.sign({ applicationId: alumet._id }, process.env.TOKEN, { expiresIn: '1h' }, (err, token) => {
-                                if (err) {
-                                    console.error(err);
-                                    reject(
-                                        res.status(500).json({
-                                            error: 'Internal Server Error',
-                                        })
-                                    );
-                                } else {
-                                    resolve(
-                                        res.cookie('applicationToken', token, { maxAge: 3600000, sameSite: 'Lax' }).status(200).json({
-                                            message: 'Alumet Authorized',
-                                        })
-                                    );
-                                }
-                            });
+                        const token = signJwt({ applicationId: alumet._id.toString() }, { expiresIn: '1h' });
+                        return res.cookie('applicationToken', token, authCookieOptions(3600000)).status(200).json({
+                            message: 'Alumet authorized',
                         });
                     } else {
                         return res.status(400).json({
@@ -104,18 +91,17 @@ router.post('/authorize/:id', rateLimit(10), async (req, res) => {
                 }
                 break;
             case 'closed':
-                res.status(400).json({
+                return res.status(400).json({
                     error: 'Alumet is closed',
                 });
-                break;
         }
         res.status(200).json({
             message: 'Alumet joined',
         });
     } catch (error) {
-        console.error(error);
+        logger.error('Portal authorization failed', error);
         res.status(500).json({
-            error,
+            error: 'Internal Server Error',
         });
     }
 });
@@ -130,7 +116,7 @@ router.get('/leave/:id', rateLimit(30, true), async (req, res) => {
         }
         if (!alumet.participants.some(p => p.userId === req.user.id)) {
             return res.status(400).json({
-                error: "Vous devez conceder la propriété de l'alumet avant de le quitter",
+                error: "You must transfer ownership before leaving this Alumet",
             });
         }
         alumet.participants = alumet.participants.filter(participant => participant.userId !== req.user.id);
@@ -139,9 +125,9 @@ router.get('/leave/:id', rateLimit(30, true), async (req, res) => {
             message: 'Alumet left',
         });
     } catch (error) {
-        console.error(error);
+        logger.error('Leave Alumet failed', error);
         res.status(500).json({
-            error,
+            error: 'Internal Server Error',
         });
     }
 });

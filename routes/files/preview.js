@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const urlMetadata = require('url-metadata');
-const pdf2img = require('pdf-img-convert');
-const sharp = require('sharp');
 const axios = require('axios');
 
 const Upload = require('../../models/upload');
 const rateLimit = require('../../middlewares/authentification/rateLimit');
+const config = require('../../config/env');
+const logger = require('../../utils/logger');
 
 router.get('/meta', rateLimit(4), (req, res) => {
     const url = req.query.url;
@@ -23,11 +23,12 @@ router.get('/', rateLimit(60), async (req, res) => {
     const upload = await Upload.findOne({ _id: req.query.id });
 
     if (!upload) {
-        res.sendFile('unknow.png', { root: './views/assets/preview' });
+        res.sendFile('unknow.png', { root: `${config.paths.views}/assets/preview` });
     } else {
         switch (upload.mimetype) {
             case 'pdf':
                 try {
+                    const pdf2img = require('pdf-img-convert');
                     const { id } = req.query;
                     const url = `${req.protocol}://${req.get('host')}/cdn/u/${id}`;
                     if (!url) {
@@ -47,7 +48,7 @@ router.get('/', rateLimit(60), async (req, res) => {
                     });
                     res.end(imageBuffer);
                 } catch (error) {
-                    console.error(`Error generating image: ${error}`);
+                    logger.error('Error generating PDF preview', error);
                     res.status(500).send('Error generating image');
                 }
                 break;
@@ -55,6 +56,7 @@ router.get('/', rateLimit(60), async (req, res) => {
             case 'jpeg':
             case 'jpg':
                 try {
+                    const sharp = require('sharp');
                     const { id } = req.query;
                     const url = `${req.protocol}://${req.get('host')}/cdn/u/${id}`;
                     const { data: imageData } = await axios.get(url, { responseType: 'arraybuffer' });
@@ -64,7 +66,7 @@ router.get('/', rateLimit(60), async (req, res) => {
                     res.set('Content-Type', 'image/png');
                     res.send(previewImage);
                 } catch (err) {
-                    console.error(`Error generating image: ${err}`);
+                    logger.error('Error generating image preview', err);
                     res.status(500).send('Internal server error');
                 }
                 break;
@@ -75,7 +77,7 @@ router.get('/', rateLimit(60), async (req, res) => {
             case 'm4a':
             case 'wma':
             case 'aac':
-                res.sendFile('audio.png', { root: './views/assets/preview' });
+                res.sendFile('audio.png', { root: `${config.paths.views}/assets/preview` });
                 break;
             case 'mp4':
             case 'webm':
@@ -86,29 +88,29 @@ router.get('/', rateLimit(60), async (req, res) => {
             case 'flv':
             case '3gp':
             case 'm4v':
-                res.sendFile('video.png', { root: './views/assets/preview' });
+                res.sendFile('video.png', { root: `${config.paths.views}/assets/preview` });
                 break;
             case 'doc':
             case 'docx':
-                res.sendFile('doc.png', { root: './views/assets/preview' });
+                res.sendFile('doc.png', { root: `${config.paths.views}/assets/preview` });
                 break;
             case 'xls':
             case 'xlsx':
-                res.sendFile('sheet.png', { root: './views/assets/preview' });
+                res.sendFile('sheet.png', { root: `${config.paths.views}/assets/preview` });
                 break;
             case 'ppt':
             case 'pptx':
-                res.sendFile('slide.png', { root: './views/assets/preview' });
+                res.sendFile('slide.png', { root: `${config.paths.views}/assets/preview` });
                 break;
             case 'zip':
             case 'rar':
             case '7z':
             case 'tar':
             case 'gz':
-                res.sendFile('zip.png', { root: './views/assets/preview' });
+                res.sendFile('zip.png', { root: `${config.paths.views}/assets/preview` });
                 break;
             default:
-                res.sendFile('unknow.png', { root: './views/assets/preview' });
+                res.sendFile('unknow.png', { root: `${config.paths.views}/assets/preview` });
                 break;
         }
     }
