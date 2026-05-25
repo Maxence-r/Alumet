@@ -21,7 +21,7 @@ function updateInfos(userInfos) {
     userMail.innerText = userInfos.mail;
     usernameField.value = userInfos.username;
 
-    userIcon.src = '/cdn/u/' + userInfos.icon;
+    userIcon.src = fileUrl(userInfos.icon);
     userIcon.alt = 'user icon';
 
     userFirstNameInput.value = userInfos.name;
@@ -68,7 +68,7 @@ function createNotifications(invitations) {
         invitationElement.appendChild(subInfosElement);
         notificationElement.appendChild(invitationElement);
 
-        notificationElement.setAttribute('onclick', `window.location.href = '/invitation/${invitation.invitationId}'`);
+        notificationElement.setAttribute('onclick', `window.location.href = '/invitations/${invitation.invitationId}'`);
 
         document.querySelector('.notifications-container').appendChild(notificationElement);
     });
@@ -88,7 +88,7 @@ function createNotifications(invitations) {
 /** Change the password */
 
 function handleReset() {
-    fetch('/mail/a2f', {
+    fetch('/api/auth/2fa-codes', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -110,8 +110,8 @@ function handleReset() {
 
 function resetPassword(code) {
     document.querySelector('.full-screen').style.display = 'flex';
-    fetch('/auth/resetpassword', {
-        method: 'POST',
+    fetch('/api/accounts/password', {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -152,7 +152,7 @@ function confirmPassword() {
 
 // SECTION - A2F
 toggleA2FBtn.addEventListener('click', () => {
-    fetch('/mail/a2f', {
+    fetch('/api/auth/2fa-codes', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -175,7 +175,7 @@ toggleA2FBtn.addEventListener('click', () => {
 
 function confirmA2F() {
     let a2fCode = document.getElementById('prompt-input').value;
-    fetch('/profile/toggleA2f', {
+    fetch('/api/me/2fa', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -219,14 +219,14 @@ document.getElementById('profile-picture-input').addEventListener('change', asyn
             return toast({ title: 'Error !', message: "The image size must not exceed 1 MB!", type: 'error', duration: 2500 });
         }
 
-        const updateResponse = await fetch('/profile/updateicon', {
+        const updateResponse = await fetch('/api/me/avatar', {
             method: 'PUT',
             body: formData,
         });
         const updateData = await updateResponse.json();
         if (!updateData.error) {
             toast({ title: 'Profile picture updated!', message: 'Your profile picture has been updated successfully.', type: 'success', duration: 2500 });
-            document.getElementById('profile-picture').src = '/cdn/u/' + updateData.icon;
+            document.getElementById('profile-picture').src = fileUrl(updateData.icon);
             document.getElementById('profile-picture').alt = 'user icon';
             const userInfos = identity.user;
             userInfos.icon = updateData.icon;
@@ -248,7 +248,7 @@ function saveSettings() {
     let commentP = document.getElementById('commentP').checked;
     let experiments = document.getElementById('experiments').checked;
     let username = document.getElementById('usernameField').value;
-    fetch('/profile/updateinfos', {
+    fetch('/api/me', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

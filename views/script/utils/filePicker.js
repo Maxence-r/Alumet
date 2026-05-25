@@ -5,7 +5,7 @@ let selectedFile = [];
 let unique, ext;
 function loadFiles() {
 
-    fetch('/cdn/content', {
+    fetch('/api/folders', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

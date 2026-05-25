@@ -35,7 +35,7 @@ async function sendFiles() {
             formData.append('file', file);
             fileInfoHead.innerHTML = `<span>Envoi de</span> ${file.name}`;
             fileInfoSub.innerHTML = `${filesToUpload.length} file(s) to upload`;
-            const response = await fetch(`/cdn/upload/${localStorage.getItem('currentFolder')}`, {
+            const response = await fetch(`/api/files?folderId=${localStorage.getItem('currentFolder')}`, {
                 method: 'POST',
                 body: formData,
             });

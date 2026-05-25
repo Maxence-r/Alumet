@@ -12,7 +12,7 @@ function sendMessage() {
     const message = textarea.value;
     if (textarea.value === '') return;
     textarea.value = '';
-    fetch('/swiftChat/send/' + currentConversation, {
+    fetch('/api/chat/conversations/' + currentConversation + '/messages', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ function createMessageElement(message, userSender) {
     }
 
     const imageElement = document.createElement('img');
-    imageElement.src = `/cdn/u/` + userSender.icon;
+    imageElement.src = fileUrl(userSender.icon);
     imageElement.alt = 'file icon';
 
     const messageDetailsElement = document.createElement('div');
@@ -86,7 +86,7 @@ function createMessageElement(message, userSender) {
 }
 
 function deleteMessage(id) {
-    fetch(`/swiftChat/delete/${id}`, {
+    fetch(`/api/chat/messages/${id}`, {
         method: 'DELETE',
     })
         .then(response => response.json())
@@ -104,7 +104,5 @@ function deleteMessage(id) {
 }
 
 function joinSocketRoom(id, userId) {
-    socket.emit('joinChatRoom', id, userId);
+    socket.emit('chat:room:join', id, userId);
 }
-
-

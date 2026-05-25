@@ -1,5 +1,5 @@
 const path = window.location.pathname;
-const id = path.substring(path.lastIndexOf('/') + 1);
+const id = path.split('/')[2];
 
 const urlParams = new URLSearchParams(window.location.search);
 const code = urlParams.get('password');
@@ -14,7 +14,7 @@ function load(boolean) {
     document.querySelectorAll('.container > div').forEach(e => {
         e.style.display = 'none';
     });
-    fetch('/app/info/' + id, {
+    fetch('/api/alumets/' + id, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ function load(boolean) {
                 loadAppInfos(data.infos);
             }
             if (data.infos.participant === true) {
-                window.location.href = '/app/' + id;
+                window.location.href = appUrl(id, data.infos.type);
             }
             if (Object.keys(data.user_infos).length !== 0) {
                 switch (data.infos.security) {
@@ -83,11 +83,11 @@ function load(boolean) {
 load();
 
 function loadAppInfos(app) {
-    document.querySelector('.appInfos > img').src = '/cdn/u/' + app.background;
+    document.querySelector('.appInfos > img').src = fileUrl(app.background);
     document.querySelector('.appDetails > h1').innerText = app.title;
     document.querySelector('.appDetails > h3').innerText = app.description;
     const img = new Image();
-    img.src = '/cdn/u/' + app.background;
+    img.src = fileUrl(app.background);
     img.onload = () => {
         endLoading();
     };
@@ -97,14 +97,14 @@ document.querySelector('.guest').addEventListener('click', () => {
     document.querySelector('.access').classList.add('load');
     setTimeout(() => {
         document.querySelector('.access').classList.remove('load');
-        window.location.href = '/app/' + id;
+        window.location.href = appUrl(id, 'alumet');
     }, 500);
 });
 
 document.querySelectorAll('.join').forEach(e => {
     e.addEventListener('click', () => {
         document.querySelector('.access').classList.add('load');
-        fetch('/portal/authorize/' + id, {
+        fetch('/api/alumets/' + id + '/access-grants', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ document.querySelectorAll('.join').forEach(e => {
                         duration: 2500,
                     });
                 }
-                window.location.href = '/app/' + id;
+                window.location.href = appUrl(id, data.application?.type || 'alumet');
                 load(false);
             })
             .catch(err => console.log(err));
@@ -132,6 +132,6 @@ document.querySelectorAll('.join').forEach(e => {
 });
 
 function loadUserInfos(container, user) {
-    document.querySelector(`.${container} > .user-infos > img`).src = '/cdn/u/' + user.icon;
+    document.querySelector(`.${container} > .user-infos > img`).src = fileUrl(user.icon);
     document.querySelector(`.${container} > .user-infos > .user-details > h3`).innerText = user.name + ' ' + user.lastname;
 }

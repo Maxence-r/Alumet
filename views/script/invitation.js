@@ -2,7 +2,7 @@ const path = window.location.pathname;
 const id = path.substring(path.lastIndexOf('/') + 1);
 
 function fetchReferenceInfos() {
-    fetch('/app/info/' + id, {
+    fetch('/api/alumets/' + id, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -17,21 +17,22 @@ function fetchReferenceInfos() {
 }
 
 function loadReferenceInfos(reference) {
-    document.querySelector('.appInfos > img').src = reference.background ? '/cdn/u/' + reference.background : '../assets/global/hands.jpg';
+    document.querySelector('.appInfos > img').src = reference.background ? fileUrl(reference.background) : '../assets/global/hands.jpg';
     document.querySelector('.appDetails > h1').innerText = reference.title;
     document.querySelector('.appDetails > h3').innerText = reference.description || 'No description';
     document.getElementById('lastusage').innerText = relativeTime(reference.createdAt);
     const img = new Image();
-    img.src = '/cdn/u/' + reference.background;
+    img.src = fileUrl(reference.background);
     document.querySelector('.access > .full-screen').style.display = 'none';
 }
 
 function acceptInvite() {
-    fetch('/invitation/accept/' + id, {
-        method: 'POST',
+    fetch('/api/invitations/' + id, {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ status: 'accepted' }),
     })
         .then(res => res.json())
         .then(data => {
@@ -45,11 +46,12 @@ function acceptInvite() {
 }
 
 function declineInvite() {
-    fetch('/invitation/decline/' + id, {
-        method: 'POST',
+    fetch('/api/invitations/' + id, {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ status: 'declined' }),
     })
         .then(res => res.json())
         .then(data => {

@@ -3,7 +3,7 @@ const logger = require('../utils/logger');
 
 module.exports = function (io) {
     io.on('connection', socket => {
-        socket.on('joinChatRoom', async (conversationId, userId) => {
+        socket.on('chat:room:join', async (conversationId, userId) => {
             try {
                 const conversation = await Conversation.findOne({
                     _id: conversationId,
@@ -15,11 +15,11 @@ module.exports = function (io) {
                 }
                 socket.join(conversationId);
             } catch (error) {
-                logger.error('Socket joinChatRoom failed', error);
+                logger.error('Socket chat:room:join failed', error);
             }
         });
 
-        socket.on('leaveChatRoom', conversationId => {
+        socket.on('chat:room:leave', conversationId => {
             socket.leave(conversationId);
         });
     });

@@ -23,7 +23,7 @@ if (redirect) {
     }
 }
 
-fetch('/dashboard/identity')
+fetch('/api/me')
     .then(response => response.json())
     .then(data => {
         identity = data;
@@ -31,7 +31,7 @@ fetch('/dashboard/identity')
         socket.emit('joinDashboard', data.user._id);
         updateInfos(data.user);
         data.alumets.forEach(alumet => {
-            document.querySelector(`.${alumet.type}s`).append(createAppBox(alumet.title, alumet.lastUsage, alumet.background, alumet._id, alumet.subject));
+            document.querySelector(`.${alumet.type}s`).append(createAppBox(alumet.title, alumet.lastUsage, alumet.background, alumet._id, alumet.subject, alumet.type));
         });
         document.querySelectorAll('.module[data-reference="items"]').forEach(section => {
             if (section.children.length === 1) {
@@ -47,7 +47,7 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
-function createAppBox(title, lastUsage, background, id, subject) {
+function createAppBox(title, lastUsage, background, id, subject, type) {
     const subjects = ['mathematics', 'french', 'history', 'geography', 'physics', 'biology', 'philosophy', 'english', 'technology', 'nsi', 'snt', 'language', 'other'];
     const subjectsInFrench = ['Mathematics', 'French', 'History', 'Geography', 'Physics', 'SVT', 'Philosophy', 'English', 'Technology', 'NSI', 'SNT', 'Language', 'Other'];
     subject = subjectsInFrench[subjects.indexOf(subject)];
@@ -56,7 +56,7 @@ function createAppBox(title, lastUsage, background, id, subject) {
     appBox.classList.add('app-box');
 
     const img = document.createElement('img');
-    img.src = '/cdn/u/' + background;
+    img.src = fileUrl(background);
     appBox.appendChild(img);
 
     const layerBlurInfo = document.createElement('div');
@@ -71,13 +71,13 @@ function createAppBox(title, lastUsage, background, id, subject) {
     p.textContent = `Used ${relativeTime(lastUsage)} - ${subject}`;
     layerBlurInfo.appendChild(p);
 
-    appBox.setAttribute('onclick', `openItem('${id}')`);
+    appBox.setAttribute('onclick', `openItem('${id}', '${type}')`);
 
     return appBox;
 }
 
-openItem = itemId => {
-    window.location.href = `/app/${itemId}`;
+openItem = (itemId, type) => {
+    window.location.href = appUrl(itemId, type);
 };
 
 function joinAlumet() {
@@ -90,7 +90,7 @@ function joinAlumet() {
 }
 
 function authorizeAlumet() {
-    fetch('/portal/authorize/join', {
+    fetch('/api/alumets/join', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ const createConversationElement = conversation => {
     }
 
     const iconElement = document.createElement('img');
-    iconElement.src = `/cdn/u/${conversationIcon || icon}`;
+    iconElement.src = fileUrl(conversationIcon || icon);
     iconElement.alt = 'file icon';
 
     conversationElement.appendChild(iconElement);
@@ -192,7 +192,7 @@ async function createConversation() {
     if (participants.length === 0) return toast({ title: 'Error', message: 'You must select at least one user', type: 'error', duration: 2500 });
     const conversationName = document.querySelector('#prompt-input').value;
     try {
-        const response = await fetch('/swiftChat/create', {
+        const response = await fetch('/api/chat/conversations', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -229,7 +229,7 @@ async function createConversation() {
 /* End search manager */
 function startSetup() {
     let type = document.querySelector('.module-selected').dataset.module.slice(0, -1);
-    window.location.href = `/app/setup/${type}`;
+    window.location.href = newAppUrl(type);
 }
 
 const urlsParams = new URL(window.location).searchParams;

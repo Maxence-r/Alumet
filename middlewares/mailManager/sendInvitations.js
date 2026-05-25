@@ -15,7 +15,7 @@ async function sendInvitations(req, res, reference) {
             });
             let referenceDetails = await Alumet.findById(reference);
             let invitationCheck = await Invitation.findOne({ to: participant, reference: reference });
-            if (!account || invitationCheck || referenceDetails.participants.some(p => p.userId === participant && p.status === 1) || referenceDetails.owner == participant) {
+            if (!account || invitationCheck || referenceDetails.participants.some(p => p.userId === participant && p.role === 'admin') || referenceDetails.owner == participant) {
                 continue;
             }
             const invitation = new Invitation({

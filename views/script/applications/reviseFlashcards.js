@@ -2,8 +2,8 @@
 //SECTION - Global variables
 
 let storedData = null;
-const id = window.location.pathname.split('/')[4];
-const mode = window.location.pathname.split('/')[3];
+const id = window.location.pathname.split('/')[2];
+const mode = window.location.pathname.split('/')[4];
 mode !== 'sandbox' && mode !== 'smart' ? console.error('mode must be sandbox or smart') : null;
 const flashcardContainer = document.querySelector('.flashcards');
 const allCards = document.querySelectorAll('.flashcard--card');
@@ -21,7 +21,7 @@ function shuffleArray(array) {
 }
 
 //SECTION - Initialize the page
-fetch(`/flashcards/${id}/${mode}/content`, {
+fetch(`/api/flashcard-sets/${id}/cards?mode=${mode}`, {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ fetch(`/flashcards/${id}/${mode}/content`, {
 async function newStatusToServer(flashcardId, status, cardReview) {
     //cardReview = true if the flashcard is finished
     if (!storedData.user_infos) return;
-    fetch(`/flashcards/${id}/${flashcardId}/review`, {
+    fetch(`/api/flashcard-sets/${id}/cards/${flashcardId}/reviews`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -208,7 +208,7 @@ function createSections(flashcards) {
     }
     console.log(`There is ${sections.length} sections of revision`);
     if (sections.length === 0) {
-        window.location.href = `/app/${id}`;
+        window.location.href = `/flashcards/${id}`;
     }
     return sections;
 }
@@ -228,8 +228,8 @@ function nextSection() {
 }
 
 function resetProgress() {
-    fetch('/flashcards/resetProgress', {
-        method: 'POST',
+    fetch(`/api/flashcard-sets/${id}/progress/me`, {
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -240,14 +240,14 @@ function resetProgress() {
             toast({ title: 'Reset successful', message: 'The cards have been reset successfully', type: 'success', duration: 2500 });
             document.getElementById('overlay').classList.remove('hidden');
             setTimeout(() => {
-                window.location.href = `/app/${id}`;
+                window.location.href = `/flashcards/${id}`;
             }, 1500);
         })
         .catch(err => console.log(err));
 }
 
 function stopRevision() {
-    window.location.href = `/app/${id}`;
+    window.location.href = `/flashcards/${id}`;
 }
 
 function displayEndOfSection(type) {

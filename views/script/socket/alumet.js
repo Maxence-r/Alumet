@@ -3,7 +3,7 @@ socket.on("connect", () => {
 });
 
 socket.io.on("reconnect", () => {
-    socket.emit('joinAlumet', app.infos._id, "6505e1fc19c363addbab5c3d");
+    socket.emit('alumet:join', app.infos._id);
     navbar('home')
 });
 
@@ -14,20 +14,20 @@ socket.on('disconnect', () => {
 
 
 
-socket.on('addPost', data => {
+socket.on('alumet:post:created', data => {
     const list = document.getElementById(data.wallId);
     const newPost = createPostElement(data);
     list.prepend(newPost);
     getPostData(data._id, data);
 });
 
-socket.on('deletePost', id => {
+socket.on('alumet:post:deleted', id => {
     const post = document.querySelector(`.card[data-id="${id}"]`);
     if (!post) return;
     post.parentNode.removeChild(post);
 });
 
-socket.on('movePost', (listId, blockId, position) => {
+socket.on('alumet:post:moved', (listId, blockId, position) => {
     let block = document.querySelector(`.card[data-id="${blockId}"]`);
     if (!block) return;
     let list = document.getElementById(listId);
@@ -39,7 +39,7 @@ socket.on('movePost', (listId, blockId, position) => {
     }
 });
 
-socket.on('editPost', data => {
+socket.on('alumet:post:updated', data => {
     const newPost = createPostElement(data);
     const post = document.querySelector(`.card[data-id="${data._id}"]`);
     if (!post) return;
@@ -47,7 +47,7 @@ socket.on('editPost', data => {
     getPostData(data._id, data);
 });
 
-socket.on('addWall', data => {
+socket.on('alumet:wall:created', data => {
     getWallData(data._id, data);
     const list = createInList(data.title, data.postAuthorized, data._id);
     const button = document.getElementById('wall');
@@ -55,7 +55,7 @@ socket.on('addWall', data => {
     parent.insertBefore(list, button);
 });
 
-socket.on('editWall', data => {
+socket.on('alumet:wall:updated', data => {
     getWallData(data._id, data);
     const wall = document.querySelector(`.list[data-id="${data._id}"]`);
     wall.querySelector('h1').innerText = data.title;
@@ -73,7 +73,7 @@ socket.on('editWall', data => {
     }
 });
 
-socket.on('deleteWall', id => {
+socket.on('alumet:wall:deleted', id => {
     const wall = document.querySelector(`.list[data-id="${id}"]`);
     if (!wall) {
         return;
@@ -82,7 +82,7 @@ socket.on('deleteWall', id => {
 });
 
 
-socket.on('moveWall', (id, direction) => {
+socket.on('alumet:wall:moved', (id, direction) => {
     const wall = document.querySelector(`.list[data-id="${id}"]`);
     if (!wall) {
         return;

@@ -12,7 +12,7 @@ async function getContent(src) {
     if (!document) throw new Error('File not found');
     if (document.mimetype !== 'pdf') return null;
 
-    const url = config.server.publicBaseUrl + '/cdn/u/' + src;
+    const url = config.server.publicBaseUrl + '/api/files/' + src + '/content';
     const pdf = await pdfjsLib.getDocument(url).promise;
 
     const numPages = pdf.numPages;
@@ -104,7 +104,7 @@ async function gptFlashcardGeneration(generationMode, numberOfFlashcards, subjec
         .slice(0, limit);
 }
 
-router.post('/generate-flashcards', rateLimit(2), async (req, res) => {
+router.post('/', rateLimit(2), async (req, res) => {
     if (!req.user || req.user.experiments.includes('aiFlashcards') === false) return res.json({ error: "You must be enrolled in the experimental offer to use this feature" });
     try {
         let { generationMode, numberOfFlashcards, subject, data } = req.body;

@@ -41,7 +41,7 @@ function openDetails(id) {
     document.querySelector('.file-basic-info > img').src = file.dataset.imgRef;
     document.querySelector('.file-basic-info > img').alt = 'file icon';
     document.querySelector('.file-preview').classList.add('loading-fp');
-    document.querySelector('.file-preview > img').src = `/preview?id=${id}`;
+    document.querySelector('.file-preview > img').src = `/api/files/${id}/preview`;
     document.querySelector('.file-preview > img').onload = () => {
         document.querySelector('.file-preview').classList.remove('loading-fp');
     };
@@ -106,11 +106,11 @@ function modifyFile() {
 }
 
 function openFile() {
-    window.open(`/viewer/${localStorage.getItem('currentFile')}`, '_blank');
+    window.open(`/files/${localStorage.getItem('currentFile')}`, '_blank');
 }
 
 function deleteFile() {
-    fetch(`/cdn/${localStorage.getItem('currentFile')}`, {
+    fetch(`/api/files/${localStorage.getItem('currentFile')}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -178,7 +178,7 @@ function renameFileRequest() {
         });
         return;
     }
-    fetch(`/cdn/update/${localStorage.getItem('currentFile')}`, {
+    fetch(`/api/files/${localStorage.getItem('currentFile')}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -213,7 +213,7 @@ function renameFileRequest() {
 }
 
 function deleteFolder(id) {
-    fetch(`/cdn/folder/delete/${localStorage.getItem('currentFolder')}`, {
+    fetch(`/api/folders/${localStorage.getItem('currentFolder')}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -255,8 +255,8 @@ function renameFolder() {
         });
         return;
     }
-    fetch(`/cdn/folder/rename/${localStorage.getItem('currentFolder')}`, {
-        method: 'POST',
+    fetch(`/api/folders/${localStorage.getItem('currentFolder')}`, {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -323,7 +323,7 @@ function createFolder() {
         });
         return;
     }
-    fetch('/cdn/folder/create', {
+    fetch('/api/folders', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -361,7 +361,7 @@ folderSelection.addEventListener('change', e => {
     loadFolder(e.currentTarget.value);
 });
 
-fetch('/cdn/content', {
+fetch('/api/folders', {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',

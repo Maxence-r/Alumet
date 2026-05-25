@@ -4,6 +4,58 @@ let previousSender = null;
 let selectedColor = 'white';
 let type = null;
 let files = null;
+let csrfTokenPromise = null;
+
+function getCsrfToken() {
+    if (!csrfTokenPromise) {
+        csrfTokenPromise = nativeFetch('/api/csrf-token', { credentials: 'include' })
+            .then(response => response.json())
+            .then(data => data.csrfToken);
+    }
+    return csrfTokenPromise;
+}
+
+const nativeFetch = window.fetch.bind(window);
+window.fetch = async (input, options = {}) => {
+    const url = typeof input === 'string' ? input : input.url;
+    const method = String(options.method || 'GET').toUpperCase();
+    const isSameOrigin = !/^https?:\/\//i.test(url) || url.startsWith(window.location.origin);
+
+    if (isSameOrigin && !['GET', 'HEAD', 'OPTIONS'].includes(method)) {
+        const headers = new Headers(options.headers || {});
+        headers.set('x-csrf-token', await getCsrfToken());
+        options.headers = headers;
+        options.credentials = options.credentials || 'include';
+    }
+
+    return nativeFetch(input, options);
+};
+
+function fileUrl(id, fallback = '/api/files/default/alumet') {
+    if (!id) return fallback;
+    if (id === 'defaultUser') return '/api/files/default/user';
+    if (id === 'defaultAlumet') return '/api/files/default/alumet';
+    if (id === 'defaultGroup') return '/api/files/default/group';
+    return `/api/files/${id}/content`;
+}
+
+function appUrl(id, type = 'alumet') {
+    if (type === 'flashcard') return `/flashcards/${id}`;
+    if (type === 'mindmap') return `/mindmaps/${id}`;
+    return `/alumets/${id}`;
+}
+
+function newAppUrl(type = 'alumet') {
+    if (type === 'flashcard') return '/flashcards/new';
+    if (type === 'mindmap') return '/mindmaps/new';
+    return '/alumets/new';
+}
+
+async function signOut() {
+    await fetch('/api/sessions/current', { method: 'DELETE' });
+    window.location.href = '/';
+}
+
 const fileIconReference = {
     png: '../assets/files-icons/img.png',
     jpg: '../assets/files-icons/img.png',
@@ -191,7 +243,7 @@ const searchUsers = async (query, type) => {
     });
 
     try {
-        const response = await fetch(`/swiftChat/search?q=${query}&type=${type}`);
+        const response = await fetch(`/api/users/search?q=${query}&type=${type}`);
         const json = await response.json();
         if (json.length === 0) {
             document.querySelector('.no-result').style.display = 'flex';
@@ -208,7 +260,7 @@ const searchUsers = async (query, type) => {
             userElement.dataset.id = user._id;
             userElement.setAttribute('onclick', `toggleParticipant('${user._id}')`);
             const iconElement = document.createElement('img');
-            iconElement.src = `/cdn/u/${user.icon}`;
+            iconElement.src = fileUrl(user.icon);
 
             userElement.appendChild(iconElement);
 
@@ -362,7 +414,7 @@ function toggleDetailsIncidents() {
 
 let incident = document.querySelector('.alumet-status');
 if (incident) {
-    fetch('/admin/incidents')
+    fetch('/api/admin/incidents')
         .then(res => res.json())
         .then(json => {
             if (json.length === 0) {

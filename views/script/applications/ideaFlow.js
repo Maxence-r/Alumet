@@ -181,11 +181,11 @@ class MindMapBoard {
 
         if (file) {
             const img = document.createElement('img');
-            img.src = `/preview?id=${file}`;
+            img.src = `/api/files/${file}/preview`;
             img.alt = file;
             img.classList.add('blockImage');
             /* img.ondblclick = () => {
-                window.open(`/viewer/${file}`);
+                window.open(`/files/${file}`);
             }; */
             clone.prepend(img);
         }

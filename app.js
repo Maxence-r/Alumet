@@ -8,33 +8,12 @@ const path = require("path");
 const config = require("./config/env");
 const logger = require("./utils/logger");
 const { isApiRequest } = require("./utils/http");
+const { normalizeApiError } = require("./utils/errors");
 
 const authentification = require("./middlewares/authentification/authentification");
-const admin = require("./routes/alumet/admin.js");
-
-const dashboard = require("./routes/alumet/dashboard.js");
-const profile = require("./routes/alumet/profile.js");
-const uploader = require("./routes/files/uploader.js");
-const alumet = require("./routes/applications/alumet/alumet.js");
-const auth = require("./routes/alumet/auth.js");
-const portal = require("./routes/alumet/portal.js");
-const alumetRender = require("./routes/routing/app.js");
-const preview = require("./routes/files/preview.js");
-const viewer = require("./routes/files/viewer.js");
-const stripe = require("./routes/payment/stripe.js");
-const mail = require("./routes/mail/mail.js");
-const legal = require("./routes/alumet/legal.js");
-
-const homeworks = require("./routes/applications/tasker/eduTasker.js");
-const mindmap = require("./routes/applications/mindmap/mindmap.js");
-const flashcards = require("./routes/applications/flashcards/flashcards.js");
-const swiftChat = require("./routes/applications/messenger/messenger.js");
-
-const wall = require("./routes/applications/alumet/wall.js");
-const post = require("./routes/applications/alumet/post.js");
-
-const flashcardsAi = require("./routes/openai/flashcards");
-const invitation = require("./routes/routing/invitation.js");
+const apiRoutes = require("./routes/api");
+const pageRoutes = require("./routes/pages");
+const { csrfProtection } = require("./middlewares/security/csrf");
 
 const servalWidget =
     config.analytics.servalWidgetUrl && config.analytics.servalSiteId
@@ -165,48 +144,16 @@ app.get("/", (req, res) => {
 const rolloutExperiment = require("./middlewares/utils/rollout.js");
 rolloutExperiment("disableAlumet", "2024-08-12T18:01:30.000Z");
 
-// Alumet application
-app.use("/portal", portal);
-app.use("/alumet", alumet);
-app.use("/auth", auth);
-app.use("/profile", profile);
-app.use("/mail", mail);
-app.use("/legal", legal);
-app.use("/admin", admin);
-
-// Applications
-app.use("/swiftChat", swiftChat);
-app.use("/flashcards", flashcards);
-app.use("/mindmaps", mindmap);
-app.use("/homeworks", homeworks);
-
-// Files related
-app.use("/preview", preview);
-app.use("/viewer", viewer);
-app.use("/cdn", uploader);
-
-// Alumet API
-app.use("/app", alumetRender);
-app.use("/api/wall", wall);
-app.use("/api/post", post);
-
-// Payment related
-app.use("/payment", stripe);
-
-// Ai related
-app.use("/openai/flashcards", flashcardsAi);
-
-// Dashboard related
-app.use("/dashboard", dashboard);
-app.use("/invitation", invitation);
+app.use(pageRoutes);
+app.use("/api", csrfProtection, apiRoutes);
 
 app.get("/philo", (req, res) => {
-    res.redirect("https://education.alumet.io/portal/65be34e467f994b25660ddbe");
+    res.redirect("https://education.alumet.io/alumets/65be34e467f994b25660ddbe/join");
 });
 
 app.get("*", async (req, res) => {
     if (isApiRequest(req)) {
-        return res.status(404).json({ error: "Route not found" });
+        return res.status(404).json({ error: "Route not found", code: "NOT_FOUND" });
     }
 
     const filePath = path.join(config.paths.pages, "404.html");
@@ -221,7 +168,8 @@ app.use((err, req, res, next) => {
     }
 
     if (isApiRequest(req)) {
-        return res.status(err.status || 500).json({ error: err.message || "Server error" });
+        const apiError = normalizeApiError(err);
+        return res.status(apiError.status || 500).json({ error: apiError.message || "Server error", code: apiError.code });
     }
 
     return res.status(err.status || 500).sendFile(path.join(config.paths.pages, "404.html"));

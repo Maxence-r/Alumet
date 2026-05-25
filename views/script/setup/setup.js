@@ -1,4 +1,5 @@
-let appType = window.location.pathname.split('/')[3];
+const appTypeByPath = { alumets: 'alumet', flashcards: 'flashcard', mindmaps: 'mindmap' };
+let appType = appTypeByPath[window.location.pathname.split('/')[1]] || 'alumet';
 
 const apps = { flashcard: 'flashcard set', mindmap: 'mind map', alumet: 'alumet' };
 const titles = { alumet: 'un alumet', flashcard: 'un flashcard set', mindmap: 'une mind map' };
@@ -37,8 +38,8 @@ async function createApp() {
     formData.append('chat', document.getElementById('app-chat').checked);
     formData.append('security', document.querySelector('.radio-option > label > input:checked').id);
     formData.append('type', appType);
-    fetch('/app/new', {
-        method: 'PUT',
+    fetch('/api/alumets', {
+        method: 'POST',
         body: formData,
     })
         .then(response => response.json())
@@ -52,7 +53,7 @@ async function createApp() {
             } else {
                 toast({ title: 'Success', message: `Your ${apps[appType]} has been created successfully`, type: 'success', duration: 2500 });
                 setTimeout(() => {
-                    window.location.href = `/app/${data.alumet._id}`;
+                    window.location.href = appUrl(data.alumet._id, data.alumet.type);
                 }, 1000);
             }
         })

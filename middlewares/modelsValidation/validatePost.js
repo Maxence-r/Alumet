@@ -4,6 +4,7 @@ const Upload = require('../../models/upload');
 const Wall = require('../../models/wall');
 const sanitizeHtml = require('sanitize-html');
 const urlMetadata = require('url-metadata');
+const { canAdminAlumet } = require('../../utils/roles');
 
 function getDomainFromUrl(url) {
     const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
@@ -16,23 +17,26 @@ function getDomainFromUrl(url) {
 
 const validatePost = async (req, res, next) => {
     try {
-        const alumet = await Alumet.findOne({ _id: req.params.application });
-        const wall = await Wall.findOne({ _id: req.params.wall });
+        const applicationId = req.params.application || req.params.alumetId;
+        const wallId = req.params.wall || req.params.wallId || req.body.wallId;
+        const postId = req.body.postId || req.params.postId;
+        const alumet = await Alumet.findOne({ _id: applicationId });
+        const wall = await Wall.findOne({ _id: wallId });
         let error = null;
         if (!alumet || !wall) {
             return res.status(404).json({ error: 'Unable to proceed your requests x002' });
         }
 
-        if (req.body.postId) {
-            const post = await Post.findOne({ _id: req.body.postId });
+        if (postId) {
+            const post = await Post.findOne({ _id: postId });
             if (!req.connected && post.ip !== (req.headers['x-real-ip'] || req.headers['x-forwarded-for']?.split(',')[0].trim() || req.connection.remoteAddress)) {
                 return res.status(401).json({ error: 'Unauthorized x001' });
-            } else if (req.connected && (!post || (post.owner !== req.user.id && !alumet.participants.some(p => p.userId === req.user.id && p.status === 1) && alumet.owner !== req.user.id))) {
+            } else if (req.connected && (!post || (post.owner !== req.user.id && !canAdminAlumet(alumet, req.user.id)))) {
                 return res.status(400).json({ error: "You do not have permission to edit this post!" });
             }
         }
 
-        if ((!wall && !req.body.postId) || (!wall.postAuthorized && alumet.owner !== req.user.id && !alumet.participants.some(p => p.userId === req.user.id && p.status === 1))) {
+        if ((!wall && !postId) || (!wall.postAuthorized && !canAdminAlumet(alumet, req.user?.id))) {
             return res.status(400).json({ error: 'Unauthorized wall x001' });
         }
 
@@ -73,7 +77,7 @@ const validatePost = async (req, res, next) => {
             req.body.content = sanitizedText;
         }
 
-        const position = await Post.find({ wallId: req.params.wall }).sort({ position: -1 }).limit(1);
+        const position = await Post.find({ wallId }).sort({ position: -1 }).limit(1);
 
         req.body.position = position.length > 0 ? position[0].position + 1 : 1;
 

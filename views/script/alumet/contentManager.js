@@ -1,7 +1,7 @@
 let alumet = {};
 
 function getContent() {
-    fetch('/alumet/' + id + '/content')
+    fetch('/api/alumets/' + id + '/content')
         .then(response => response.json())
         .then(data => {
             alumet = data;
@@ -67,8 +67,10 @@ function getWallData(id, replace) {
 
 function patchWall(position) {
     navbar('loadingResources');
-    fetch('/api/wall/' + app.infos._id + '/' + wallToEdit + '/move?direction=' + position, {
+    fetch('/api/alumets/' + app.infos._id + '/walls/' + wallToEdit + '/position', {
         method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ direction: position }),
     })
         .then(response => response.json())
         .then(data => {
@@ -223,8 +225,8 @@ function createPostElement(post) {
         postRichContentContainer.classList.add('post-rich-content-container');
         const filePreview = document.createElement('img');
         filePreview.setAttribute('loading', 'lazy');
-        postRichContentContainer.setAttribute('onclick', `window.open("/viewer/${post.file._id}")`);
-        filePreview.src = `/preview?id=${post.file._id}`;
+        postRichContentContainer.setAttribute('onclick', `window.open("/files/${post.file._id}")`);
+        filePreview.src = `/api/files/${post.file._id}/preview`;
         filePreview.setAttribute;
         filePreview.classList.add('post-rich-content');
         const filePreviewTitle = document.createElement('h2');
@@ -383,8 +385,8 @@ async function createPost(confirmed) {
     }
 
     try {
-        const response = await fetch('/api/post/' + app.infos._id + '/' + localStorage.getItem('currentItem'), {
-            method: 'PUT',
+        const response = await fetch(postToEdit ? '/api/alumets/' + app.infos._id + '/posts/' + postToEdit : '/api/alumets/' + app.infos._id + '/walls/' + localStorage.getItem('currentItem') + '/posts', {
+            method: postToEdit ? 'PATCH' : 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -414,7 +416,7 @@ async function createPost(confirmed) {
 
 function deletePost() {
     navbar('loadingResources');
-    fetch('/api/post/' + app.infos._id + '/' + postToEdit, {
+    fetch('/api/alumets/' + app.infos._id + '/posts/' + postToEdit, {
         method: 'DELETE',
     })
         .then(response => response.json())
@@ -436,7 +438,7 @@ function deletePost() {
 
 function deleteWall() {
     navbar('loadingResources');
-    fetch('/api/wall/' + app.infos._id + '/' + wallToEdit, {
+    fetch('/api/alumets/' + app.infos._id + '/walls/' + wallToEdit, {
         method: 'DELETE',
     })
         .then(response => response.json())
@@ -479,7 +481,7 @@ async function uploadFile(file) {
     return new Promise((resolve, reject) => {
         const formData = new FormData();
         formData.append('file', file);
-        fetch('/cdn/upload/default', {
+        fetch('/api/files', {
             method: 'POST',
             body: formData,
         })
@@ -514,8 +516,8 @@ function createWall() {
         });
     }
     navbar('loadingResources');
-    fetch('/api/wall/' + id, {
-        method: 'PUT',
+    fetch(wallToEdit ? '/api/alumets/' + id + '/walls/' + wallToEdit : '/api/alumets/' + id + '/walls', {
+        method: wallToEdit ? 'PATCH' : 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -546,7 +548,7 @@ function createWall() {
 function openPost(id) {
     navbar('comments', id);
     document.querySelector('.comments > .full-screen').style.display = 'flex';
-    fetch('/api/post/' + app.infos._id + '/' + id + '/comments', {
+    fetch('/api/alumets/' + app.infos._id + '/posts/' + id + '/comments', {
         method: 'GET',
     })
         .then(response => response.json())
@@ -585,8 +587,8 @@ function postComment() {
             duration: 5000,
         });
     }
-    fetch('/api/post/' + app.infos._id + '/' + localStorage.getItem('currentItem') + '/comments', {
-        method: 'PUT',
+    fetch('/api/alumets/' + app.infos._id + '/posts/' + localStorage.getItem('currentItem') + '/comments', {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },

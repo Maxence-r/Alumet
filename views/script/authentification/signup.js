@@ -81,7 +81,7 @@ function verify() {
 
 function send2FA(mail) {
     document.querySelector('.full-screen').style.display = 'flex';
-    fetch('/mail/a2f', {
+    fetch('/api/auth/2fa-codes', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ function send2FA(mail) {
 
 document.querySelector('.confirm').addEventListener('click', e => {
     document.querySelector('.full-screen').style.display = 'flex';
-    fetch('/auth/signup', {
+    fetch('/api/accounts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

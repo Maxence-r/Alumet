@@ -48,10 +48,10 @@ const AlumetSchema = mongoose.Schema({
     participants: [
         {
             userId: String,
-            status: {
-                type: Number,
-                default: 2,
-                enum: [0, 1, 2, 3, 4], // 0 - owner, 1 - admin, 2 - user, 3 - banned, 4 - requesting access
+            role: {
+                type: String,
+                default: 'member',
+                enum: ['admin', 'member', 'banned', 'requesting'],
             },
         },
     ],

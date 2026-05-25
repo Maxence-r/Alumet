@@ -2,6 +2,7 @@ const Alumet = require('../models/alumet');
 const Account = require('../models/account');
 const { verifyJwt } = require('../utils/auth');
 const logger = require('../utils/logger');
+const { canAccessAlumet, canAdminAlumet } = require('../utils/roles');
 
 // security authentification mecanism, to be changed
 
@@ -9,7 +10,7 @@ module.exports = function (io) {
     io.on('connection', socket => {
         const cookies = socket.handshake.headers.cookie?.split('; ');
         const token = cookies?.find(cookie => cookie.startsWith('token='))?.split('=')[1];
-        socket.on('joinAlumet', async alumetId => {
+        socket.on('alumet:join', async alumetId => {
             try {
                 const alumet = await Alumet.findOne({ _id: alumetId });
                 if (!alumet) {
@@ -28,11 +29,11 @@ module.exports = function (io) {
                         if (!account) {
                             return;
                         }
-                        if (alumet.private && (!account || (!alumet.participants.some(p => p.userId === account.id) && alumet.owner != account.id))) {
+                        if (alumet.private && (!account || !canAccessAlumet(alumet, account.id))) {
                             return;
                         }
                         socket.join(alumetId);
-                        if (alumet.participants.some(p => p.userId === account._id.toString() && p.status === 1) || alumet.owner == account._id.toString()) {
+                        if (canAdminAlumet(alumet, account._id.toString())) {
                             socket.join(`admin-${alumetId}`);
                         }
                     } catch (error) {
@@ -40,7 +41,7 @@ module.exports = function (io) {
                     }
                 }
             } catch (error) {
-                logger.error('Socket joinAlumet failed', error);
+                logger.error('Socket alumet:join failed', error);
             }
         });
     });

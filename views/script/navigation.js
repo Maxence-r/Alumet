@@ -77,14 +77,14 @@ function enableConnected(data) {
             el.style.display = 'none';
         });
 
-        document.querySelector('.navProfilee > img').src = '/cdn/u/' + data.icon;
-        document.querySelector('.user-infos > img').src = '/cdn/u/' + data.icon;
+        document.querySelector('.navProfilee > img').src = fileUrl(data.icon);
+        document.querySelector('.user-infos > img').src = fileUrl(data.icon);
         document.querySelector('.user-details > h3').innerText = data.username;
         document.querySelector('.user-details > p').innerText = 'Signed in';
         document.querySelector('.profile > .row-bottom-buttons').classList.add('connected');
         if (data.admin) {
             document.querySelectorAll('.app-link').forEach(el => {
-                el.value = window.location.protocol + '//' + window.location.host + '/portal/' + app.infos._id + (app.infos.password !== '' || null ? '?password=' + app.infos.password : '');
+                el.value = window.location.protocol + '//' + window.location.host + '/alumets/' + app.infos._id + '/join' + (app.infos.password !== '' || null ? '?password=' + app.infos.password : '');
             });
         }
         data.experiments.forEach(experiment => {
@@ -112,7 +112,7 @@ function enableConnected(data) {
 }
 
 function fetchAppInfos() {
-    fetch('/app/info/' + id, {
+    fetch('/api/alumets/' + id, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ function fetchAppInfos() {
 fetchAppInfos();
 
 function loadAppInfos(data) {
-    document.querySelector('.backgroundImg').src = `/cdn/u/${data.background}`;
+    document.querySelector('.backgroundImg').src = fileUrl(data.background);
     document.getElementById('appName').value = data.title;
     document.getElementById('appDescription').value = data.description;
     document.getElementById('appSubject').value = data.subject;
@@ -142,8 +142,8 @@ function loadAppInfos(data) {
         el.style.display = 'flex';
     });
     if (data.type === 'alumet') {
-        document.querySelector('body').style.backgroundImage = `url(/cdn/u/${data.background})`;
-        socket.emit('joinAlumet', app.infos._id);
+        document.querySelector('body').style.backgroundImage = `url(${fileUrl(data.background)})`;
+        socket.emit('alumet:join', app.infos._id);
         getContent();
     }
     if (data.type === 'flashcard') {
@@ -162,8 +162,8 @@ function promptLeave() {
 }
 
 function leaveApplication() {
-    fetch('/portal/leave/' + app.infos._id, {
-        method: 'GET',
+    fetch('/api/alumets/' + app.infos._id + '/members/me', {
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -188,13 +188,13 @@ function loadParticipants(participants) {
         user.classList.add('user');
         user.dataset.id = participant._id;
         const userImage = document.createElement('img');
-        userImage.src = `/cdn/u/${participant.icon}`;
+        userImage.src = fileUrl(participant.icon);
 
         const userInfo = document.createElement('div');
         const userName = document.createElement('h3');
         userName.textContent = `${participant.name} ${participant.lastname.substr(0, 3)}`;
         const userRole = document.createElement('p');
-        userRole.textContent = participant.status === 0 ? 'Owner' : participant.status === 1 ? 'Collaborator' : participant.status === 2 ? 'Participant' : 'Banned';
+        userRole.textContent = participant.role === 'owner' ? 'Owner' : participant.role === 'admin' ? 'Admin' : participant.role === 'member' ? 'Member' : 'Banned';
         userInfo.appendChild(userName);
         userInfo.appendChild(userRole);
         if (participant.badges.length > 0) {
@@ -215,46 +215,45 @@ function loadParticipants(participants) {
         select.classList.add('user-role', 'disabledInput');
         select.dataset.id = participant._id;
         select.addEventListener('change', event => {
-            fetch('/app/role/' + app.infos._id, {
-                method: 'PUT',
+            fetch('/api/alumets/' + app.infos._id + '/members/' + event.target.dataset.id, {
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    user: event.target.dataset.id,
                     role: event.target.options[event.target.selectedIndex].value,
                 }),
             })
                 .then(res => res.json())
                 .then(data => {
                     if (data.alert) {
-                        document.querySelector('.user-role[data-id="' + event.target.dataset.id + '"]').selectedIndex = participant.status;
+                        document.querySelector('.user-role[data-id="' + event.target.dataset.id + '"]').value = participant.role;
                         return createPrompt({ head: 'Transfer ownership', desc: 'Do you want to transfer ownership of this application? This action cannot be undone.', action: `giveAppOwnership('${data.userId}')` });
                     }
                     if (data.error) {
-                        document.querySelector('.user-role[data-id="' + event.target.dataset.id + '"]').selectedIndex = participant.status;
+                        document.querySelector('.user-role[data-id="' + event.target.dataset.id + '"]').value = participant.role;
                         return toast({ title: 'Error', message: data.error, type: 'error' });
                     }
 
                     toast({ title: 'Success', message: data.message, type: 'success' });
                 });
         });
-        const roles = ['Owner', 'Collaborator', 'Participant', 'Banned'];
+        const roles = participant.role === 'owner' ? [['owner', 'Owner']] : [['admin', 'Admin'], ['member', 'Member'], ['banned', 'Banned']];
         for (let i = 0; i < roles.length; i++) {
             const option = document.createElement('option');
-            option.value = i;
-            option.textContent = roles[i];
+            option.value = roles[i][0];
+            option.textContent = roles[i][1];
             select.appendChild(option);
         }
-        select.selectedIndex = participant.status;
+        select.value = participant.role;
         user.appendChild(select);
         participantsContainer.prepend(user);
     };
     participants.forEach(participant => createParticipant(participant));
 }
 function giveAppOwnership(id) {
-    fetch('/app/giveOwnership/' + app.infos._id, {
-        method: 'PUT',
+    fetch('/api/alumets/' + app.infos._id + '/owner', {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -284,8 +283,8 @@ async function modifyApp() {
     formData.append('security', document.querySelector('.radio-option > label > input:checked').id);
     formData.append('password', document.getElementById('password-input').value);
     navbar('loadingResources');
-    fetch('/app/new', {
-        method: 'PUT',
+    fetch('/api/alumets/' + app.infos._id, {
+        method: 'PATCH',
         body: formData,
     })
         .then(response => response.json())
@@ -326,8 +325,8 @@ function addCollaborators() {
 }
 
 function confirmCollaborators() {
-    fetch(`/app/collaborators/` + id, {
-        method: 'PUT',
+    fetch(`/api/alumets/` + id + '/access-grants', {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -352,35 +351,11 @@ function engageDeletion() {
 }
 
 function deleteItem() {
-    fetch('/mail/a2f', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(res => res.json())
-        .then(data => {
-            if (data.error) {
-                toast({ title: 'Error', message: data.error, type: 'error', duration: 6000 });
-            }
-            createPrompt({
-                head: 'Confirmation de suppression',
-                desc: "A security code has been emailed to you. Enter it below to confirm application deletion. ",
-                placeholder: 'Security code',
-                action: `confirmDeleteItem()`,
-            });
-        });
-}
-
-function confirmDeleteItem() {
-    fetch('/app/delete/' + id, {
+    fetch('/api/alumets/' + id, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-            code: document.getElementById('prompt-input').value,
-        }),
     })
         .then(res => res.json())
         .then(data => {
@@ -464,7 +439,7 @@ function doUnderline() {
 
 function handleLink(link) {
     document.querySelector('.link-preview').classList.add('active-link-loading', 'active-link-preview');
-    fetch('/preview/meta?url=' + link)
+    fetch('/api/link-metadata?url=' + link)
         .then(res => res.json())
         .then(data => {
             document.getElementById('preview-title').innerText = data.title || data['og:title'] || getDomainFromUrl(link);
@@ -499,7 +474,7 @@ async function uploadFile(file) {
     return new Promise((resolve, reject) => {
         const formData = new FormData();
         formData.append('file', file);
-        fetch('/cdn/upload/default', {
+        fetch('/api/files', {
             method: 'POST',
             body: formData,
         })
@@ -519,8 +494,8 @@ async function uploadFile(file) {
 
 document.getElementById('passwordLink').addEventListener('click', () => {
     if (document.getElementById('passwordLink').checked) {
-        document.querySelector('.app-link').value = window.location.protocol + '//' + window.location.host + '/portal/' + app.infos._id + (app.infos.password ? '?password=' + app.infos.password : '');
+        document.querySelector('.app-link').value = window.location.protocol + '//' + window.location.host + '/alumets/' + app.infos._id + '/join' + (app.infos.password ? '?password=' + app.infos.password : '');
     } else {
-        document.querySelector('.app-link').value = window.location.protocol + '//' + window.location.host + '/portal/' + app.infos._id;
+        document.querySelector('.app-link').value = window.location.protocol + '//' + window.location.host + '/alumets/' + app.infos._id + '/join';
     }
 });

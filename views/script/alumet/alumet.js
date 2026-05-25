@@ -24,8 +24,8 @@ function registerEventsOnList(list) {
         let listId = e.currentTarget.getAttribute('data-id');
         let postPosition = [...e.currentTarget.querySelectorAll('.card')].indexOf(e.currentTarget.querySelector('.dragging'));
 
-        fetch('/api/post/move/' + app.infos._id + '/' + listId + '/' + draggedCard.dataset.id, {
-            method: 'PUT',
+        fetch('/api/alumets/' + app.infos._id + '/walls/' + listId + '/posts/' + draggedCard.dataset.id + '/position', {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },

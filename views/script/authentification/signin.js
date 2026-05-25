@@ -1,6 +1,6 @@
 function login() {
     document.querySelector('.full-screen').style.display = 'flex';
-    fetch('/auth/signin', {
+    fetch('/api/sessions', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ function login() {
 
 function authorizeCode() {
     document.querySelector('.full-screen').style.display = 'flex';
-    fetch('/auth/authorize', {
+    fetch('/api/auth/2fa-verifications', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ function handleReset() {
         return toast({ title: 'Error', message: 'Please enter an email address.', type: 'error', duration: 6000 });
     }
     document.querySelector('.full-screen').style.display = 'flex';
-    fetch('/mail/a2f', {
+    fetch('/api/auth/2fa-codes', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -89,8 +89,8 @@ function backToLogin() {
 }
 function resetPassword() {
     document.querySelector('.full-screen').style.display = 'flex';
-    fetch('/auth/resetpassword', {
-        method: 'POST',
+    fetch('/api/accounts/password', {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },

@@ -1,6 +1,6 @@
 let currentFlashcard = null;
 let flashcardSet = null;
-fetch(`/flashcards/${id}/sandbox/content`)
+fetch(`/api/flashcard-sets/${id}/cards?mode=sandbox`)
     .then(res => res.json())
     .then(async data => {
         const { flashcardSetInfo } = data;
@@ -23,8 +23,8 @@ function modifyFlashcardSet() {
     let description = document.getElementById('flashcardDescription').value;
     let isPublic = document.getElementById('flashcardPublic').checked;
     navbar('loadingResources');
-    fetch(`/app/new`, {
-        method: 'PUT',
+    fetch(`/api/alumets/${id}`, {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -57,8 +57,8 @@ function promptResetUserDatas() {
     });
 }
 function resetUserdatas() {
-    fetch('/flashcards/resetProgress', {
-        method: 'POST',
+    fetch(`/api/flashcard-sets/${id}/progress/me`, {
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -86,7 +86,7 @@ function newFlashcards() {
 
 function deleteFlashcard() {
     navbar('loadingResources');
-    fetch(`/flashcards/${id}/${currentFlashcard}`, {
+    fetch(`/api/flashcard-sets/${id}/cards/${currentFlashcard}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -189,7 +189,7 @@ async function revise() {
     if (document.querySelectorAll('.alumet > .flashcards-container > .flashcard').length < 1) return toast({ title: 'Error', message: 'You must add at least one card to review', type: 'error', duration: 2500 });
     let isSmartRevision = null;
     if (selectedOption === 'smart') {
-        await fetch(`/flashcards/${id}/isSmartRevision`, {
+        await fetch(`/api/flashcard-sets/${id}/review-availability`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         })
@@ -200,7 +200,7 @@ async function revise() {
     }
     let reversed = document.getElementById('reversed').checked;
     if (!isSmartRevision && selectedOption === 'smart') return toast({ title: 'Error', message: 'You have reviewed all your cards. Come back later.', type: 'error', duration: 2500 });
-    window.location.href = `/flashcards/revise/${selectedOption}/${id}` + (reversed ? '?reverse=true' : '');
+    window.location.href = `/flashcards/${id}/review/${selectedOption}` + (reversed ? '?reverse=true' : '');
 }
 async function createFlashcards(info, flashcards) {
     if (info == 'ia') {
@@ -212,8 +212,8 @@ async function createFlashcards(info, flashcards) {
     } else if (!Array.isArray(flashcards)) {
         flashcards = [flashcards];
     }
-    const response = await fetch(`/flashcards/${id}/check`, {
-        method: 'POST',
+    const response = await fetch(`/api/flashcard-sets/${id}/cards`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ flashcards, flashcardSetId: id }),
     });
@@ -335,7 +335,7 @@ async function generateWithIA() {
 
         data = [keywords.join(', ')];
     }
-    fetch('/openai/flashcards/generate-flashcards', {
+    fetch('/api/flashcard-generations', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -366,7 +366,7 @@ async function generateWithIA() {
         });
 }
 function importFlashcard() {
-    fetch('/flashcards/import/' + id, {
+    fetch('/api/flashcard-sets/' + id + '/imports', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
